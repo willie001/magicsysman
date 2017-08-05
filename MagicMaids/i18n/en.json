@@ -1,0 +1,44 @@
+﻿{
+	"dashboard": {
+		"WELCOME": "Welcome to {{appName}}"
+	},
+	"topbar": {
+		"messages": {
+			"UNREAD": "Unread messages",
+			"MORE": "More messages"
+		},
+		"search": {
+			"PLACEHOLDER": "Type and hit enter.."
+		},
+		"notification": {
+			"MORE": "More notifications"
+		}
+	},
+    "pageTitles" : {
+		"DASHBOARD": "{{appName}} Dashboard",
+		"clients": {
+			"CLIENTS": "Customers",	
+			"CLIENT_SEARCH": "Customer Search",
+			"CLIENT_DETAILS": "Customer"
+		},
+        "cleaners": {
+			"CLEANERS": "Cleaner",
+			"CLEANER_SEARCH": "Cleaner Search",
+			"CLEANER_DETAILS": "Cleaner"
+		},
+        "settings": {
+			"USER_ACCOUNTS": "User Accounts",
+			"USER_ACCOUNT_MANAGE":  "Manage User Account",
+			"MASTER_FRANCHISES": "Master Franchise",
+            "MASTER_FRANCHISE_REGISTER": "Master Franchise Details",
+            "POSTCODES": "Suburbs & Zones",
+        	"RATES": "Rates & Charges",
+            "RATE_MANAGE": "Manage Rates",
+			"TEMPLATES": "Templates",
+			"TEMPLATE_MANAGE": "Manage Template",
+			"MASTER_SETTINGS": "System Settings",
+			"LOG_ENTRIES": "Application Logs",
+			"LOG_ENTRY": "Application Log Details"
+        }
+    }
+}
