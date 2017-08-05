@@ -1,0 +1,103 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+<div class="content-heading">
+    {{ 'pageTitles.settings.TEMPLATE_MANAGE' | translate }}
+	<small>Manage document and email templates</small>
+</div>
+
+<div class="panel panel-default">
+ <div class="panel-body">
+    <form class="form-horizontal">
+       <div class="form-group">
+          <label class="col-lg-2 control-label">Template Name</label>
+          <div class="col-lg-10">
+             <input type="text" placeholder="Template name" class="form-control" />
+          </div>
+       </div>
+       <div class="form-group">
+          <label class="col-lg-2 control-label">Description</label>
+          <div class="col-lg-10">
+             <textarea class="form-control"></textarea>
+          </div>
+       </div>
+        <div class="form-group">
+          <label class="col-lg-2 control-label">Limit to Country</label>
+          <div class="col-lg-10">
+             <input type="text" placeholder="Apply to country" class="form-control" />
+          </div>
+       </div>
+	   <div class="form-group">
+          <label class="col-lg-2 control-label">Template Type</label>
+			<div class="col-lg-10">
+				<div class="radio c-radio">
+             		<label>
+                		<input type="radio" name="a" value="EMAIL" />
+                		<span class="fa fa-circle"></span>Email
+					</label>
+					<label>
+                		<input type="radio" name="a" value="SMS" />
+                		<span class="fa fa-circle"></span>SMS
+					</label>
+					<label>
+                		<input type="radio" name="a" value="DOCUMENT" />
+                		<span class="fa fa-circle"></span>Document / PDF
+					</label>	
+          		</div>
+			</div>		
+       	</div>	
+		<div class="form-group">
+          <label class="col-lg-2 control-label">Audience</label>
+          <div class="col-lg-10">
+			@foreach (var item in Enum.GetValues(typeof(MagicMaids.EntityModels.TemplateAudienceSetting)))
+			{
+				<div class="checkbox c-checkbox needsclick">
+             		<label class="needsclick">
+                		<input type="checkbox" value="@item"  class="needsclick"/>
+                		<span class="fa fa-check"></span>@item
+					</label>
+          		</div>
+          	}
+			</div>
+       	</div>	
+		<div class="form-group">
+          <label class="col-lg-2 control-label">Title</label>
+          <div class="col-lg-10">
+             <input type="text" placeholder="Document title / email subject" class="form-control" />
+          </div>
+       </div>
+       <div class="form-group">
+          <label class="col-lg-2 control-label">Message Content</label>
+          <div class="col-lg-10">
+			<textarea class="form-control"></textarea>		
+			<!--<summernote class="summernote" height="280">
+				<span>This is initial text.</span>
+            </summernote>-->
+          </div>
+       </div>
+	   	
+       	<div class="form-group">
+          <label class="col-lg-2 control-label">Active</label>
+          <div class="col-lg-10">
+             <label class="switch">
+             	<input type="checkbox" checked="true" />
+             	<span></span>
+          	</label>
+          </div>
+       </div>	
+			
+		<div class="form-group">
+            <div class="col-lg-offset-2 col-lg-6">
+            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.settings_templates')">Cancel</button>
+              	<button type="submit" class="btn btn-success">Save changes</button>
+            </div>
+		    <div class="text-right col-lg-4">
+				<button type="submit" class="btn btn-warning">Email Active Cleaners</button>
+				<button type="submit" class="btn btn-warning">Email Active Customers</button>
+			</div>		
+        </div>
+    </form>
+ </div>
+</div>

@@ -1,0 +1,21 @@
+﻿@if (Html.IsDebug())
+{
+	var date = DateTime.Now.ToString();
+	<div class="panel panel-flat " id="panelData" ng-show="userMessages && userMessageType[0] != 'alert alert-success'">
+        <div class="panel-heading">
+            <b>Debug Information: @date</b>
+        </div>
+		<div class="panel-body">
+			Main Message Type: {{ userMessageType[0] | json }}
+			<br/>
+			<pre>
+				{{userMessages | json}}
+			</pre>
+		</div>
+	</div><br/>
+}
+<div class="{{ userMessageType[0] }}" ng-show="userMessages" id="userMessagesDiv" >
+	<ul style="list-style: none;">
+    	<span ng-repeat="infoMsg in userMessages track by $index" ><li>{{ infoMsg }}</li></span>
+	</ul>
+</div>

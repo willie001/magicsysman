@@ -1,0 +1,72 @@
+[
+	{
+		"text": "Main Navigation",
+		"heading": "true",
+		"translate": "dashboard.WELCOME"
+	},
+	{
+		"text": "Dashboard",
+		"sref": "app.dashboard",
+		"icon": "icon-speedometer",
+		"alert": "0",
+		"label": "label label-info",
+		"translate": "pageTitles.DASHBOARD"
+	},
+	{
+		"text": "Manage Clients",
+		"sref": "app.client_details",
+		"icon": "fa fa-users",
+		"translate": "pageTitles.clients.CLIENT_DETAILS"
+	},
+	{
+		"text": "Manage Cleaners",
+		"sref": "app.cleaner_details",
+		"icon": "fa fa-address-book-o",
+		"translate": "pageTitles.cleaners.CLEANER_DETAILS"
+	},
+	{
+		"text": "Settings",
+		"sref": "#",
+		"icon": "fa fa-cogs",
+		"submenu": [
+			{
+				"text": "Master Franchises",
+				"sref": "app.settings_master_franchises",
+				"translate": "pageTitles.settings.MASTER_FRANCHISES"
+			},
+			{
+				"text": "User Accounts",
+				"sref": "app.settings_user_accounts",
+				"translate": "pageTitles.settings.USER_ACCOUNTS"
+			},
+			{
+				"text": "Postcodes",
+				"sref": "app.settings_postcodes",
+				"translate": "pageTitles.settings.POSTCODES"
+			},
+			{
+				"text": "Rates",
+				"sref": "app.settings_rates",
+				"translate": "pageTitles.settings.RATES"
+			},
+			{
+				"text": "Templates",
+				"sref": "app.settings_templates",
+				"translate": "pageTitles.settings.TEMPLATES"
+			},
+			{
+				"text": "Global Settings",
+				"sref": "app.settings_master_settings",
+				"translate": "pageTitles.settings.MASTER_SETTINGS"
+			},
+			{
+				"text": "Application Logs",
+				"sref": "app.settings_app_logsentries",
+				"translate": "pageTitles.settings.LOG_ENTRIES"
+			}
+		]
+	}
+]
+
+
+

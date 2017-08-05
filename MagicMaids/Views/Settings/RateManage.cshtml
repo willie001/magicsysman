@@ -1,0 +1,83 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+<div class="content-heading">
+    {{ 'pageTitles.settings.RATE_MANAGE' | translate }}<br/>
+	<small>Manage job rates</small>
+</div>
+
+
+<div class="panel panel-default">
+ 	<div class="panel-body">
+    	<form class="form-horizontal">
+       		<div class="form-group">
+          		<label class="col-lg-2 control-label">Rate Code</label>
+          		<div class="col-lg-10">
+             		<input type="text" placeholder="Rate Identifier Code" class="form-control" />
+          		</div>
+       		</div>
+       		<div class="form-group">
+          		<label class="col-lg-2 control-label">Rate</label>
+				<div class="col-lg-10">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+								<input type="text" placeholder="Rate" class="form-control" />
+							</div>
+						</div>
+					</div>
+				</div>
+       		</div>
+
+			<div class="form-group">
+	          	<label class="col-lg-2 control-label">Select Applications for Rate</label>
+	          	<div class="col-lg-10">
+					@foreach (var item in Enum.GetValues(typeof(MagicMaids.EntityModels.RateApplicationsSettings)))
+					{
+						<div class="checkbox c-checkbox needsclick">
+                     		<label class="needsclick">
+                        		<input type="checkbox" value="@item"  class="needsclick"/>
+                        		<span class="fa fa-check"></span>@item
+							</label>
+                  		</div>
+                  	}
+				</div>
+			</div>
+
+			<div class="form-group">
+	          	<label class="col-lg-2 control-label">Active now</label>
+	          	<div class="col-lg-1">
+	             	<label class="switch">
+	             		<input type="checkbox" checked="true" />
+	             		<span></span>
+	          		</label>
+	          	</div>
+				<label class="col-lg-2 text-center control-label">OR activate from</label>
+				<div class="col-lg-3">
+					<p class="input-group">
+					 	<input class="form-control" type="text" uib-datepicker-popup="{{dp.format}}" ng-model="dp.dt" is-open="dp.opened" min-date="dp.minDate" max-date="'2015-06-22'" datepicker-options="dp.dateOptions" date-disabled="dp.disabled(date, mode)"
+	                	ng-required="true" close-text="Close" />
+	                	<span class="input-group-btn">
+	                   		<button class="btn btn-default" type="button" ng-click="dp.open($event)">
+	                      		<em class="fa fa-calendar"></em>
+	                   		</button>
+	                	</span>
+	             	</p>	
+				</div>
+				<div class="col-lg-4">&nbsp;</div>
+	       	</div>	
+
+			<div class="form-group">
+	            <div class="col-lg-offset-2 col-lg-6">
+	            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.settings_rates')">Cancel</button>
+              		<button type="submit" class="btn btn-success">Save changes</button>
+	            </div>
+			    <div class="text-right col-lg-4">
+				</div>		
+	        </div>	
+    	</form>
+ 	</div>
+</div>

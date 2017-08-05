@@ -1,0 +1,55 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+<div class="content-heading">
+	{{ 'pageTitles.settings.LOG_ENTRIES' | translate }}
+	<small>View application logs</small>
+</div>
+
+<div class="container-fluid" ng-controller="LogEntriesController as table">
+
+	@Html.Partial("_InformationDetails")
+
+	<div class="panel panel-transparent" id="panelApplicationLogs">
+		<div class="panel-heading">
+			<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover bg-white ctable">
+			      	<tr style="font-weight: bold">
+			         	<td class="text-center">Level</td>
+						<td class="text-center">Date</td>
+			         	<td class="text-center">Message</td>
+						<td class="text-center">Addresses</td>
+						<td style="width:2%" class="text-center"></td>
+			      	</tr>
+					<tr ng-hide="table.listOfLogs.length">
+						<td colspan="8" class="EmptyResults">No application logs found.</td>
+					</tr>
+					<tr valign="top" ng-repeat="item in table.listOfLogs">
+						<td class="" ng-class="{'bg-warning': item.Level=='WARN',
+								'bg-danger': item.Level=='ERROR',
+								'bg-success': item.Level=='INFO'}">{{ item.Level }}</td>
+						<td>{{ moment(item.LoggedDate) }}</td>
+						<td>{{ item.Message.substr(0,120) }}</td>
+						<td style="white-space: nowrap; font-size: 11px;" ng-bind-html="item.FormattedAddresses"></td>
+						<td style="white-space: nowrap">
+				            <!-- form-->
+				            <div class="buttons">
+							    <a ui-sref="app.settings_app_logsentry({ Id: item.Id })">
+				               	<button title="View" class="btn btn-sm btn-warning">
+			                  		<em class="fa fa-file-text-o"></em>
+			               		</button>
+								</a>
+				            </div>
+				         </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>	
+

@@ -1,0 +1,62 @@
+﻿
+@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+<div class="content-heading">
+	<button type="button" class="btn btn-primary pull-right">
+      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Cleaner
+	</button>
+    {{ 'pageTitles.cleaners.CLEANER_DETAILS' | translate }}: @TempData["CleanerName"]
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-body">
+		<div class="col-xs-6">
+			<button  class="btn btn-info">View Diary</button>
+			<button ng-click="$state.go('app.clients')" class="btn btn-info">Find Vacancies</button>
+			<button ng-click="$state.go('app.clients')" class="btn btn-info">Current Customers</button>
+			<button  class="btn btn-info">Contact Cleaner</button>
+		</div>
+		<div class="text-right col-xs-6">
+			<button ng-click="$state.go('app.cleaners')" class="btn btn-warning">Find Different Cleaners</button>
+			<button ng-click="$state.go('app.client_details')" class="btn btn-warning">Return to Customers</button>
+		</div>
+	</div>
+</div>
+
+<uib-tabset justified="true">
+  	<uib-tab>
+     	<uib-tab-heading>Cleaner Details</uib-tab-heading>
+		@{
+        	Html.RenderPartial("_CleanerDetails");   
+    	}
+	</uib-tab>
+  	<uib-tab>
+        <uib-tab-heading>Availability</uib-tab-heading>
+        @{
+        	Html.RenderPartial("_CleanerAvailability");   
+    	}
+  	</uib-tab>
+  	<uib-tab>
+		<uib-tab-heading>Communication Log</uib-tab-heading>
+        @{
+        	Html.RenderPartial("_CleanerComms");   
+    	}
+  	</uib-tab>
+	<uib-tab>
+     	<uib-tab-heading>Documentation</uib-tab-heading>
+     	@{
+        	Html.RenderPartial("_CleanerDocumentation");   
+    	}
+  	</uib-tab>	
+	<uib-tab>
+     	<uib-tab-heading>Job History</uib-tab-heading>
+     	@{
+        	Html.RenderPartial("_CleanerHistory");   
+    	}
+  	</uib-tab>	
+</uib-tabset>
+
+

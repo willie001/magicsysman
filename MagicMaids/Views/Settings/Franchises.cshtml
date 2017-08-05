@@ -1,0 +1,89 @@
+﻿@using MagicMaids.ViewModels;
+@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+<div class="content-heading">
+	<button type="button" class="btn btn-primary pull-right" ng-click="$state.go('app.settings_master_franchise_register')">
+      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Franchise
+	</button>
+	
+    {{ 'pageTitles.settings.MASTER_FRANCHISES' | translate }}
+	<small>Add and manage master franchise details.</small>
+</div>
+
+<div class="container-fluid" ng-controller="FranchiseController as table">
+
+	@Html.Partial("_InformationDetails")
+	             	
+	<div class="panel panel-transparent" id="panelDataMasterSettings">
+		<div class="panel-heading">
+			<div class="form-group">
+				<div class="pull-right">
+					<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+					<toggle-switch id="checkActiveSearch"
+            			ng-model="switchStatus" 
+						ng-change="toggleActiveSearch()"
+            			knob-label="Show Inactive"
+						on-label="Yes"
+              			off-label="No">
+          			</toggle-switch>
+	          	</div>
+            </div>
+		</div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover bg-white ctable">
+			      	<tr style="font-weight: bold">
+			         	<td style="width:20%" class="text-center">Name</td>
+			         	<td style="width:10%" class="text-center">Franchise Code</td>
+			         	<td style="width:10%" class="text-center">Contact Numbers</td>
+			         	<td style="width:10%" class="text-center">Email</td>
+						<td style="width:20%" class="text-center">Physical Address</td>
+						<td style="width:20%" class="text-center">Postal Address</td>
+						<td style="width:5%" class="text-center">Active</td>
+						<td style="width:5%" class="text-center"></td>
+			      	</tr>
+					<tr ng-hide="table.listOfFranchises.length">
+						<td colspan="8" class="EmptyResults">No{{activeResult}}master franchises found.  <a href="" ng-click="$state.go('app.settings_master_franchise_register')">Please add</a> a new master franchise.</td>
+					</tr>
+					<tr valign="top" ng-repeat="franchise in table.listOfFranchises">
+						<td>{{ franchise.Name }}<br/>
+							<i>{{ franchise.TradingName }}</i>
+						</td>
+						<td>{{ franchise.MasterFranchiseCode }}<br/>
+							<strong>Code of conduct:</strong> <a href="{{ franchise.CodeOfConductURL }}" target="_blank">{{ franchise.CodeOfConductURL }}</a>
+						</td>
+						<td style="white-space: nowrap" ng-bind-html="franchise.FormattedContactNumbers"></td>
+						<td style="white-space: nowrap">
+							<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ franchise.EmailAddress }}">{{ franchise.EmailAddress }}</a>
+		               	</td>
+						<td>
+							<address ng-bind-html="franchise.PhysicalAddress.FormattedAddress"></address>
+		               	</td>
+						<td>
+							<address ng-bind-html="franchise.PostalAddress.FormattedAddress"></address>
+		               	</td>
+						<td class="text-center">
+							{{ franchise.IsActive ? 'Yes' : 'No' }}
+		               	</td>
+						<td style="white-space: nowrap">
+				            <!-- form-->
+				            <div class="buttons">
+							   <a ui-sref="app.settings_master_franchise_register({ Id: franchise.Id })">
+				               <button title="Edit" class="btn btn-sm btn-info">
+				                  <em class="fa fa-pencil"></em>
+				               </button></a>
+				               <button title="Delete" class="btn btn-sm btn-danger" onclick="alert('Not ready yet'); return false;">
+				                  <em class="fa fa-trash"></em>
+				               </button>
+				            </div>
+				         </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>	
+

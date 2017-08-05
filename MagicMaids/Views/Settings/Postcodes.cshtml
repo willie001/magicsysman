@@ -1,0 +1,75 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+<div class="content-heading">
+    {{ 'pageTitles.settings.POSTCODES' | translate }}
+</div>
+
+<div ng-controller="PostCodesController as table" class="container-fluid">
+   	<h4 class="page-header">Suburbs / Zones</h4>
+
+	<div class="panel panel-default" id="panelPostal">
+		<div class="panel-body">
+			<div class="form-group">
+		      	<label class="col-lg-2 control-label">Select Franchise:</label>
+		      	<div class="col-lg-10">
+					<select name="account" class="form-control">
+		                <option value="">Select Franchise</option>	
+						<option value="NM">North Metro</option>
+						<option value="SW">South West</option>
+						<option value="TA">Tasmania</option>
+		          	</select>	
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="table-responsive">
+		<table class="table table-bordered table-hover bg-white">
+	      	<tr style="font-weight: bold">
+	         	<td style="width:30%" class="text-center">Suburb Name</td>
+	         	<td style="width:10%" class="text-center">Post Code</td>
+	         	<td style="width:10%" class="text-center">Zone</td>
+	         	<td style="width:30%" class="text-center">Neighbour Zones</td>
+				<td style="width:20%" class="text-center"></td>
+	      	</tr>
+			<tr ng-repeat="item in table.listOfPostcodes">
+				<td>
+	            	<span editable-text="item.SuburbName" e-name="Suburb" e-form="rowform" onbeforesave="table.validateData($data, item.Id)" e-required="">{{ item.SuburbName || &apos;empty&apos; }}</span>
+	         	</td>
+				<td class="text-right"><span editable-text="item.PostCode" e-name="PostCode" e-form="rowform" onbeforesave="table.validateData($data, item.Id)" e-required="">{{ item.PostCode || &apos;empty&apos; }}</span></td>
+				<td class="text-center"><span editable-text="item.ZoneID" e-name="Zone" e-form="rowform" onbeforesave="table.validateData($data, item.Id)" e-required="">{{ item.ZoneID || &apos;empty&apos;}}</span></td>
+				<td><span editable-text="item.LinkedZones" e-name="LinkedZones" e-form="rowform">{{ item.LinkedZones }}</span></td>
+				<td style="white-space: nowrap">
+		            <!-- form-->
+		            <form editable-form="" name="rowform" onbeforesave="table.saveSuburb($data, item.Id)" ng-show="rowform.$visible" shown="table.inserted == item" class="form-buttons form-inline">
+		               <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
+		                  <em class="fa fa-save"></em>
+		               </button>
+		               <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+		                  <em class="fa fa-times"></em>
+		               </button>
+		            </form>
+		            <div ng-show="!rowform.$visible" class="buttons">
+		               <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+		                  <em class="fa fa-pencil"></em>
+		               </button>
+		               <button ng-click="table.removeSuburb($index)" title="Delete" class="btn btn-sm btn-danger">
+		                  <em class="fa fa-trash"></em>
+		               </button>
+		            </div>
+		         </td>
+			</tr>
+		</table>
+
+		<!-- buttons-->
+	    <button ng-click="table.addSuburb()" class="btn btn-primary">Add Suburb</button>
+	</div>	
+</div>
+
+
+
+
+

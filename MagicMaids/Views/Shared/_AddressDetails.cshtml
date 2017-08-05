@@ -1,0 +1,38 @@
+﻿
+<div class="panel panel-default" id="panelPhysical">
+	<div class="panel-heading">Physical</div>
+	<div class="panel-body">
+		<div class="col-xs-12">
+			<div class="form-group">
+				<input type="text"  placeholder="Address line 1" class="form-control" name="Phys_AddressLine1" ng-model="form.franchise.PhysicalAddress.AddressLine1"/>
+			</div>
+			<div class="form-group">
+				<input type="text"  placeholder="Address line 2" class="form-control" name="Phys_AddressLine2" ng-model="form.franchise.PhysicalAddress.AddressLine2"/>
+			</div>
+			<div class="form-group">
+				<input type="text"  placeholder="Suburb" class="form-control" name="Phys_Suburb" ng-model="form.franchise.PhysicalAddress.Suburb"/>
+			</div>
+			<div class="form-group">
+				<select class="form-control" name="Phys_State" ng-model="form.franchise.PhysicalAddress.State"  ng-init="State='WA'">
+                    <option value="">Select State</option>	
+        			<option value="ACT">ACT</option>
+					<option value="NT">NT</option>
+					<option value="QLD">QLD</option>
+					<option value="SA">SA</option>
+					<option value="TAS">TAS</option>
+					<option value="VIC">VIC</option>
+					<option value="WA">WA</option>
+              	</select>	
+			</div>
+			<div class="form-group">
+				<div class="col-xs-6 nopadding">
+					<input type="text" placeholder="Postcode" class="form-control" name="Phys_PostCode" ng-model="form.franchise.PhysicalAddress.PostCode"/>
+				</div>
+				<div class="col-xs-6"></div>
+			</div>
+			<div class="form-group">
+				<input type="text"  placeholder="Country" class="form-control" name="Phys_Country" required="" ng-model="form.franchise.PhysicalAddress.Country" disabled="true" ng-init="Phys_Country='Australia'"/>
+			</div>
+		</div>
+	</div>
+</div>
