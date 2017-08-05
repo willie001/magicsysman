@@ -91,7 +91,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Runtime.CompilerServices.Unsafe.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.csprojResolveAssemblyReference.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.pdb
