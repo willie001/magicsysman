@@ -33,7 +33,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.AppContext.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Collections.Immutable.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Console.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Diagnostics.DiagnosticSource.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Globalization.Calendars.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Interactive.Async.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.IO.Compression.dll
@@ -88,7 +87,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Extended.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Web.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Collections.Immutable.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Diagnostics.DiagnosticSource.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Interactive.Async.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Runtime.CompilerServices.Unsafe.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
