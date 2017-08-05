@@ -1,7 +1,7 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids Status">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="13" Column="197" />
+      <File FileName="MagicMaids/Web.config" Line="13" Column="5" />
       <File FileName="MagicMaids/Scripts/app/custom/settings/magiclogs.controller.js" Line="72" Column="1" />
       <File FileName="MagicMaids/Views/Settings/LogEntry.cshtml" Line="70" Column="295" />
       <File FileName="MagicMaids/Views/Settings/LogEntries.cshtml" Line="36" Column="37" />
@@ -11,8 +11,10 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="MagicMaids" expanded="True" selected="True">
-            <Node name="MagicMaids" expanded="True" />
+          <Node name="MagicMaids" expanded="True">
+            <Node name="MagicMaids" expanded="True">
+              <Node name="Web.config" selected="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
