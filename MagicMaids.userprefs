@@ -1,5 +1,9 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
   <MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+    <Files>
+      <File FileName="MagicMaids/Web.config" Line="120" Column="197" />
+    </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
