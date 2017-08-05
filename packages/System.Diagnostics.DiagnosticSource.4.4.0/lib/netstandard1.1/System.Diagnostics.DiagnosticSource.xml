@@ -56,37 +56,6 @@
             called pure IsEnabled(string) or producer passed all necessary context in arg1</param>
             <seealso cref="M:System.Diagnostics.DiagnosticSource.IsEnabled(System.String)"/>
         </member>
-        <member name="M:System.Diagnostics.DiagnosticSource.StartActivity(System.Diagnostics.Activity,System.Object)">
-            <summary>
-            Starts an Activity and writes start event.
-            
-            Activity describes logical operation, its context and parent relation; 
-            Current activity flows through the operation processing.
-            
-            This method starts given Activity (maintains global Current Activity 
-            and Parent for the given activity) and notifies consumers  that new Activity 
-            was started. Consumers could access <see cref="P:System.Diagnostics.Activity.Current"/>
-            to add context and/or augment telemetry.
-            
-            Producers may pass additional details to the consumer in the payload.
-            </summary>
-            <param name="activity">Activity to be started</param>
-            <param name="args">An object that represent the value being passed as a payload for the event.</param>
-            <returns>Started Activity for convenient chaining</returns>
-            <seealso cref="T:System.Diagnostics.Activity"/>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSource.StopActivity(System.Diagnostics.Activity,System.Object)">
-            <summary>
-            Stops given Activity: maintains global Current Activity and notifies consumers 
-            that Activity was stopped. Consumers could access <see cref="P:System.Diagnostics.Activity.Current"/>
-            to add context and/or augment telemetry.
-            
-            Producers may pass additional details to the consumer in the payload.
-            </summary>
-            <param name="activity">Activity to be stopped</param>
-            <param name="args">An object that represent the value being passed as a payload for the event.</param>
-            <seealso cref="T:System.Diagnostics.Activity"/>
-        </member>
         <member name="T:System.Diagnostics.DiagnosticListener">
             <summary>
             A DiagnosticListener is something that forwards on events written with DiagnosticSource.
@@ -361,45 +330,10 @@
             Used to send ad-hoc diagnostics to humans.   
             </summary>
         </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Event(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Events from DiagnosticSource can be forwarded to EventSource using this event.  
-            </summary>
-        </member>
         <member name="M:System.Diagnostics.DiagnosticSourceEventSource.EventJson(System.String,System.String,System.String)">
             <summary>
             This is only used on V4.5 systems that don't have the ability to log KeyValuePairs directly.
             It will eventually go away, but we should always reserve the ID for this.    
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity1Start(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the beginning of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity1Stop(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the end of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity2Start(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the beginning of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity2Stop(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the end of an activity that can be recursive.  
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.RecursiveActivity1Start(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the beginning of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.RecursiveActivity1Stop(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the end of an activity that can be recursive.  
             </summary>
         </member>
         <member name="M:System.Diagnostics.DiagnosticSourceEventSource.NewDiagnosticListener(System.String)">
@@ -408,10 +342,9 @@
             </summary>
             <param name="SourceName"></param>
         </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.#ctor">
+        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.ToJson(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
             <summary>
-            This constructor uses EventSourceSettings which is only available on V4.6 and above
-            systems.   We use the EventSourceSettings to turn on support for complex types. 
+            Converts a keyvalue bag to JSON.  Only used on V4.5 EventSources.  
             </summary>
         </member>
         <member name="M:System.Diagnostics.DiagnosticSourceEventSource.OnEventCommand(System.Diagnostics.Tracing.EventCommandEventArgs)">
@@ -544,281 +477,9 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="T:System.Diagnostics.Activity">
-            <summary>
-            Activity represents operation with context to be used for logging.
-            Activity has operation name, Id, start time and duration, tags and baggage.
-             
-            Current activity can be accessed with static AsyncLocal variable Activity.Current.
-            
-            Activities should be created with constructor, configured as necessary
-            and then started with Activity.Start method which maintains parent-child
-            relationships for the activities and sets Activity.Current.
-            
-            When activity is finished, it should be stopped with static Activity.Stop method.
-            
-            No methods on Activity allow exceptions to escape as a response to bad inputs.
-            They are thrown and caught (that allows Debuggers and Monitors to see the error)
-            but the exception is supressed, and the operation does something reasonable (typically
-            doing nothing).  
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.Activity.OperationName">
-            <summary>
-            An operation name is a COARSEST name that is useful grouping/filtering. 
-            The name is typically a compile-time constant.   Names of Rest APIs are
-            reasonable, but arguments (e.g. specific accounts etc), should not be in
-            the name but rather in the tags.  
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.Activity.Id">
-            <summary>
-            This is an ID that is specific to a particular request.   Filtering
-            to a particular ID insures that you get only one request that matches.  
-            Id has a hierarchical structure: '|root-id.id1_id2.id3_' Id is generated when 
-            <see cref="M:System.Diagnostics.Activity.Start"/> is called by appending suffix to Parent.Id
-            or ParentId; Activity has no Id until it started
-            <para/>
-            See <see href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.DiagnosticSource/src/ActivityUserGuide.md#id-format"/> for more details
-            </summary>
-            <example>
-            Id looks like '|a000b421-5d183ab6-Server1.1.8e2d4c28_1.':<para />
-             - '|a000b421-5d183ab6-Server1.' - Id of the first, top-most, Activity created<para />
-             - '|a000b421-5d183ab6-Server1.1.' - Id of a child activity. It was started in the same process as the first activity and ends with '.'<para />
-             - '|a000b421-5d183ab6-Server1.1.8e2d4c28_' - Id of the grand child activity. It was started in another process and ends with '_'<para />
-            'a000b421-5d183ab6-Server1' is a <see cref="P:System.Diagnostics.Activity.RootId"/> for the first Activity and all its children
-            </example>
-        </member>
-        <member name="P:System.Diagnostics.Activity.StartTimeUtc">
-            <summary>
-            The time that operation started.  It will typically be initialized when <see cref="M:System.Diagnostics.Activity.Start"/>
-            is called, but you can set at any time via <see cref="M:System.Diagnostics.Activity.SetStartTime(System.DateTime)"/>.
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.Activity.Parent">
-            <summary>
-            If the Activity that created this activity is from the same process you can get 
-            that Activity with Parent.  However, this can be null if the Activity has no
-            parent (a root activity) or if the Parent is from outside the process.
-            </summary>
-            <seealso cref="P:System.Diagnostics.Activity.ParentId"/>
-        </member>
-        <member name="P:System.Diagnostics.Activity.ParentId">
-            <summary>
-            If the parent for this activity comes from outside the process, the activity
-            does not have a Parent Activity but MAY have a ParentId (which was deserialized from
-            from the parent).   This accessor fetches the parent ID if it exists at all.  
-            Note this can be null if this is a root Activity (it has no parent)
-            <para/>
-            See <see href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.DiagnosticSource/src/ActivityUserGuide.md#id-format"/> for more details
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.Activity.RootId">
-            <summary>
-            Root Id is substring from Activity.Id (or ParentId) between '|' (or beginning) and first '.'.
-            Filtering by root Id allows to find all Activities involved in operation processing.
-            RootId may be null if Activity has neither ParentId nor Id.
-            See <see href="https://github.com/dotnet/corefx/blob/master/src/System.Diagnostics.DiagnosticSource/src/ActivityUserGuide.md#id-format"/> for more details
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.Activity.Tags">
-            <summary>
-            Tags are string-string key-value pairs that represent information that will
-            be logged along with the Activity to the logging system.   This information
-            however is NOT passed on to the children of this activity.
-            </summary>
-            <seealso cref="P:System.Diagnostics.Activity.Baggage"/>
-        </member>
-        <member name="P:System.Diagnostics.Activity.Baggage">
-            <summary>
-            Baggage is string-string key-value pairs that represent information that will
-            be passed along to children of this activity.   Baggage is serialized 
-            when requests leave the process (along with the ID).   Typically Baggage is
-            used to do fine-grained control over logging of the activity and any children.  
-            In general, if you are not using the data at runtime, you should be using Tags 
-            instead. 
-            </summary> 
-        </member>
-        <member name="M:System.Diagnostics.Activity.GetBaggageItem(System.String)">
-            <summary>
-            Returns the value of the key-value pair added to the activity with <see cref="M:System.Diagnostics.Activity.AddBaggage(System.String,System.String)"/>.
-            Returns null if that key does not exist.  
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.Activity.#ctor(System.String)">
-            <summary>
-            Note that Activity has a 'builder' pattern, where you call the constructor, a number of 'Set*' and 'Add*' APIs and then
-            call <see cref="M:System.Diagnostics.Activity.Start"/> to build the activity.  You MUST call <see cref="M:System.Diagnostics.Activity.Start"/> before using it.
-            </summary>
-            <param name="operationName">Operation's name <see cref="P:System.Diagnostics.Activity.OperationName"/></param>
-        </member>
-        <member name="M:System.Diagnostics.Activity.AddTag(System.String,System.String)">
-            <summary>
-            Update the Activity to have a tag with an additional 'key' and value 'value'.
-            This shows up in the <see cref="P:System.Diagnostics.Activity.Tags"/>  enumeration.   It is meant for information that
-            is useful to log but not needed for runtime control (for the latter, <see cref="P:System.Diagnostics.Activity.Baggage"/>)
-            </summary>
-            <returns>'this' for convenient chaining</returns>
-        </member>
-        <member name="M:System.Diagnostics.Activity.AddBaggage(System.String,System.String)">
-            <summary>
-            Update the Activity to have baggage with an additional 'key' and value 'value'.
-            This shows up in the <see cref="P:System.Diagnostics.Activity.Baggage"/> enumeration as well as the <see cref="M:System.Diagnostics.Activity.GetBaggageItem(System.String)"/>
-            method.
-            Baggage is meant for information that is needed for runtime control.   For information 
-            that is simply useful to show up in the log with the activity use <see cref="P:System.Diagnostics.Activity.Tags"/>.
-            Returns 'this' for convenient chaining.
-            </summary>
-            <returns>'this' for convenient chaining</returns>
-        </member>
-        <member name="M:System.Diagnostics.Activity.SetParentId(System.String)">
-            <summary>
-            Updates the Activity To indicate that the activity with ID <paramref name="parentId"/>
-            caused this activity.   This is intended to be used only at 'boundary' 
-            scenarios where an activity from another process logically started 
-            this activity. The Parent ID shows up the Tags (as well as the ParentID 
-            property), and can be used to reconstruct the causal tree.  
-            Returns 'this' for convenient chaining.
-            </summary>
-            <param name="parentId">The id of the parent operation.</param>
-        </member>
-        <member name="M:System.Diagnostics.Activity.SetStartTime(System.DateTime)">
-            <summary>
-            Update the Activity to set start time
-            </summary>
-            <param name="startTimeUtc">Activity start time in UTC (Greenwich Mean Time)</param>
-            <returns>'this' for convenient chaining</returns>
-        </member>
-        <member name="M:System.Diagnostics.Activity.SetEndTime(System.DateTime)">
-            <summary>
-            Update the Activity to set <see cref="P:System.Diagnostics.Activity.Duration"/>
-            as a difference between <see cref="P:System.Diagnostics.Activity.StartTimeUtc"/>
-            and <paramref name="endTimeUtc"/>.
-            </summary>
-            <param name="endTimeUtc">Activity stop time in UTC (Greenwich Mean Time)</param>
-            <returns>'this' for convenient chaining</returns>
-        </member>
-        <member name="P:System.Diagnostics.Activity.Duration">
-            <summary>
-            If the Activity has ended (<see cref="M:System.Diagnostics.Activity.Stop"/> or <see cref="M:System.Diagnostics.Activity.SetEndTime(System.DateTime)"/> was called) then this is the delta
-            between <see cref="P:System.Diagnostics.Activity.StartTimeUtc"/> and end.   If Activity is not ended and <see cref="M:System.Diagnostics.Activity.SetEndTime(System.DateTime)"/> was not called then this is 
-            <see cref="F:System.TimeSpan.Zero"/>.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.Activity.Start">
-            <summary>
-            Starts activity
-            <list type="bullet">
-            <item>Sets <see cref="P:System.Diagnostics.Activity.Parent"/> to hold <see cref="P:System.Diagnostics.Activity.Current"/>.</item>
-            <item>Sets <see cref="P:System.Diagnostics.Activity.Current"/> to this activity.</item>
-            <item>If <see cref="P:System.Diagnostics.Activity.StartTimeUtc"/> was not set previously, sets it to <see cref="P:System.DateTime.UtcNow"/>.</item>
-            <item>Generates a unique <see cref="P:System.Diagnostics.Activity.Id"/> for this activity.</item>
-            </list>
-            Use <see cref="M:System.Diagnostics.DiagnosticSource.StartActivity(System.Diagnostics.Activity,System.Object)"/> to start activity and write start event.
-            </summary>
-            <seealso cref="M:System.Diagnostics.DiagnosticSource.StartActivity(System.Diagnostics.Activity,System.Object)"/>
-            <seealso cref="M:System.Diagnostics.Activity.SetStartTime(System.DateTime)"/>
-        </member>
-        <member name="M:System.Diagnostics.Activity.Stop">
-            <summary>
-            Stops activity: sets <see cref="P:System.Diagnostics.Activity.Current"/> to <see cref="P:System.Diagnostics.Activity.Parent"/>.
-            If end time was not set previously, sets <see cref="P:System.Diagnostics.Activity.Duration"/> as a difference between <see cref="P:System.DateTime.UtcNow"/> and <see cref="P:System.Diagnostics.Activity.StartTimeUtc"/>
-            Use <see cref="M:System.Diagnostics.DiagnosticSource.StopActivity(System.Diagnostics.Activity,System.Object)"/>  to stop activity and write stop event.
-            </summary>
-            <seealso cref="M:System.Diagnostics.DiagnosticSource.StopActivity(System.Diagnostics.Activity,System.Object)"/>
-            <seealso cref="M:System.Diagnostics.Activity.SetEndTime(System.DateTime)"/>
-        </member>
-        <member name="T:System.Diagnostics.Activity.KeyValueListNode">
-            <summary>
-            Having our own key-value linked list allows us to be more efficient  
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.Activity.Current">
-            <summary>
-            Returns the current operation (Activity) for the current thread.  This flows 
-            across async calls.
-            </summary>
-        </member>
         <member name="M:System.Diagnostics.Activity.GetUtcNow">
             <summary>
-            Returns high resolution (1 DateTime tick) current UTC DateTime. 
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.HttpHandlerDiagnosticListener">
-            <summary>
-            A HttpHandlerDiagnosticListener is a DiagnosticListener for .NET 4.6 and above where
-            HttpClient doesn't have a DiagnosticListener built in. This class is not used for .NET Core
-            because HttpClient in .NET Core already emits DiagnosticSource events. This class compensates for
-            that in .NET 4.6 and above. HttpHandlerDiagnosticListener has no public constructor. To use this, 
-            the application just needs to call <see cref="P:System.Diagnostics.DiagnosticListener.AllListeners" /> and
-            <see cref="M:System.Diagnostics.DiagnosticListener.AllListenerObservable.Subscribe(System.IObserver{System.Diagnostics.DiagnosticListener})"/>,
-            then in the <see cref="M:System.IObserver`1.OnNext(`0)"/> method,
-            when it sees the System.Net.Http.Desktop source, subscribe to it. This will trigger the
-            initialization of this DiagnosticListener.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.HttpHandlerDiagnosticListener.Subscribe(System.IObserver{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Predicate{System.String})">
-            <summary>
-            Overriding base class implementation just to give us a chance to initialize.  
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.HttpHandlerDiagnosticListener.Subscribe(System.IObserver{System.Collections.Generic.KeyValuePair{System.String,System.Object}},System.Func{System.String,System.Object,System.Object,System.Boolean})">
-            <summary>
-            Overriding base class implementation just to give us a chance to initialize.  
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.HttpHandlerDiagnosticListener.Subscribe(System.IObserver{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
-            <summary>
-            Overriding base class implementation just to give us a chance to initialize.  
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.HttpHandlerDiagnosticListener.Initialize">
-            <summary>
-            Initializes all the reflection objects it will ever need. Reflection is costly, but it's better to take
-            this one time performance hit than to get it multiple times later, or do it lazily and have to worry about
-            threading issues. If Initialize has been called before, it will not doing anything.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.HttpHandlerDiagnosticListener.ServicePointHashtable">
-            <summary>
-            Helper class used for ServicePointManager.s_ServicePointTable. The goal here is to
-            intercept each new ServicePoint object being added to ServicePointManager.s_ServicePointTable
-            and replace its ConnectionGroupList hashtable field.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.HttpHandlerDiagnosticListener.ConnectionGroupHashtable">
-            <summary>
-            Helper class used for ServicePoint.m_ConnectionGroupList. The goal here is to
-            intercept each new ConnectionGroup object being added to ServicePoint.m_ConnectionGroupList
-            and replace its m_ConnectionList arraylist field.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.HttpHandlerDiagnosticListener.ArrayListWrapper">
-            <summary>
-            Helper class used to wrap the array list object. This class itself doesn't actually
-            have the array elements, but rather access another array list that's given at 
-            construction time.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.HttpHandlerDiagnosticListener.ConnectionArrayList">
-            <summary>
-            Helper class used for ConnectionGroup.m_ConnectionList. The goal here is to
-            intercept each new Connection object being added to ConnectionGroup.m_ConnectionList
-            and replace its m_WriteList arraylist field.
-            </summary>
-        </member>
-        <member name="T:System.Diagnostics.HttpHandlerDiagnosticListener.HttpWebRequestArrayList">
-            <summary>
-            Helper class used for Connection.m_WriteList. The goal here is to
-            intercept all new HttpWebRequest objects being added to Connection.m_WriteList
-            and notify the listener about the HttpWebRequest that's about to send a request.
-            It also intercepts all HttpWebRequest objects that are about to get removed from
-            Connection.m_WriteList as they have completed the request.
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.HttpHandlerDiagnosticListener.#ctor">
-            <summary>
-            Private constructor. This class implements a singleton pattern and only this class is allowed to create an instance.
+            Returns high resolution (~1 usec) current UTC DateTime.
             </summary>
         </member>
     </members>

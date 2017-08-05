@@ -361,45 +361,10 @@
             Used to send ad-hoc diagnostics to humans.   
             </summary>
         </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Event(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Events from DiagnosticSource can be forwarded to EventSource using this event.  
-            </summary>
-        </member>
         <member name="M:System.Diagnostics.DiagnosticSourceEventSource.EventJson(System.String,System.String,System.String)">
             <summary>
             This is only used on V4.5 systems that don't have the ability to log KeyValuePairs directly.
             It will eventually go away, but we should always reserve the ID for this.    
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity1Start(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the beginning of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity1Stop(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the end of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity2Start(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the beginning of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.Activity2Stop(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the end of an activity that can be recursive.  
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.RecursiveActivity1Start(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the beginning of an activity 
-            </summary>
-        </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.RecursiveActivity1Stop(System.String,System.String,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
-            <summary>
-            Used to mark the end of an activity that can be recursive.  
             </summary>
         </member>
         <member name="M:System.Diagnostics.DiagnosticSourceEventSource.NewDiagnosticListener(System.String)">
@@ -408,10 +373,9 @@
             </summary>
             <param name="SourceName"></param>
         </member>
-        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.#ctor">
+        <member name="M:System.Diagnostics.DiagnosticSourceEventSource.ToJson(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
             <summary>
-            This constructor uses EventSourceSettings which is only available on V4.6 and above
-            systems.   We use the EventSourceSettings to turn on support for complex types. 
+            Converts a keyvalue bag to JSON.  Only used on V4.5 EventSources.  
             </summary>
         </member>
         <member name="M:System.Diagnostics.DiagnosticSourceEventSource.OnEventCommand(System.Diagnostics.Tracing.EventCommandEventArgs)">
