@@ -10,7 +10,18 @@
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True" selected="True" />
+            <Node name="MagicMaids" expanded="True">
+              <Node name="Packages" expanded="True" />
+              <Node name="Scripts" expanded="True">
+                <Node name="app" expanded="True">
+                  <Node name="custom" expanded="True">
+                    <Node name="settings" expanded="True">
+                      <Node name="magiclogs.controller.js" selected="True" />
+                    </Node>
+                  </Node>
+                </Node>
+              </Node>
+            </Node>
           </Node>
         </State>
       </Pad>
