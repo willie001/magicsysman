@@ -1,5 +1,4 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.config
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.dll.config
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.dll
@@ -60,6 +59,8 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebActivatorEx.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebGrease.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/FluentValidation.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/FluentValidation.Mvc.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Google.Protobuf.xml
@@ -89,13 +90,10 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Extended.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Web.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Collections.Immutable.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Diagnostics.DiagnosticSource.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Interactive.Async.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Runtime.CompilerServices.Unsafe.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Diagnostics.DiagnosticSource.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.csprojResolveAssemblyReference.cache
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.csproj.MagicMaids.dll.config
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Release/MagicMaids.pdb
