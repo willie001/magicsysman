@@ -4,7 +4,9 @@
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True" />
+            <Node name="MagicMaids" expanded="True">
+              <Node name="Web.config" selected="True" />
+            </Node>
           </Node>
         </State>
       </Pad>
