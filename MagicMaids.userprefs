@@ -9,10 +9,8 @@
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True">
-              <Node name="Packages" selected="True" />
-            </Node>
+          <Node name="MagicMaids" expanded="True" selected="True">
+            <Node name="MagicMaids" expanded="True" />
           </Node>
         </State>
       </Pad>
