@@ -193,7 +193,6 @@
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="Controllers\FranchisesController.cs" />
     <Compile Include="ViewModels\SettingsViewModels.cs" />
-    <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="App_Start\IValidatorFactory.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\LogEntriesController.cs" />

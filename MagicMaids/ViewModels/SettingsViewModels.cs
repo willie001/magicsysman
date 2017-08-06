@@ -6,26 +6,38 @@ using MagicMaids.EntityModels;
 
 namespace MagicMaids.ViewModels
 {
-	public class UpdateSettingsViewModel: BaseViewModel 
+	public class UpdateSettingsViewModel
 	{
 		#region Fields
 
 		#endregion
 
 		#region Constructors
-		public UpdateSettingsViewModel(SystemSetting _model): base(_model)
+		public UpdateSettingsViewModel()
+		{
+			
+		}
+
+		public UpdateSettingsViewModel(SystemSetting _model)
 		{
 			if (_model == null)
 				return;
 
+			this.Id = _model.Id;
 			this.SettingName = _model.SettingName;
 			this.SettingValue = _model.SettingValue;
 			this.CodeIdentifier = _model.CodeIdentifier;
-
+			this.RowVersion = _model.RowVersion;
+			this.Metadata = _model.Metadata;
 		}
 		#endregion
 
 		#region Properties, Public
+		public Guid Id
+		{
+			get;
+			private set;
+		}
 		public String SettingName
 		{
 			get;
@@ -39,6 +51,18 @@ namespace MagicMaids.ViewModels
 		}
 
 		public String CodeIdentifier
+		{
+			get;
+			private set;
+		}
+
+		public DateTime RowVersion
+		{
+			get;
+		    set;
+		}
+
+		public string Metadata
 		{
 			get;
 			private set;
