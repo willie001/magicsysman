@@ -151,7 +151,7 @@ namespace MagicMaids.Controllers
 				setting.CreatedAt = DateTime.Now;
 			
 			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			log2.Log(LogLevel.Info, "<YYYY> 1 - " + setting.UpdatedAt.ToString(), nameof(SaveSettings), null, null);
+			log2.Log(LogLevel.Info, "<YYYY> 1.1 - " + setting.UpdatedAt.ToString(), nameof(SaveSettings), null, null);
 
 			if (ModelState.IsValid)
 			{
