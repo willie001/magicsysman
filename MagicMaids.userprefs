@@ -1,18 +1,23 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/SettingsController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/Helpers.cs">
     <Files>
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="151" Column="38" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="240" Column="21" />
       <File FileName="MagicMaids/Web.config" Line="12" Column="16" />
       <File FileName="MagicMaids/ViewModels/SettingsViewModels.cs" Line="19" Column="4" />
       <File FileName="MagicMaids/Views/Settings/MasterSettings.cshtml" Line="36" Column="110" />
+      <File FileName="MagicMaids/Helpers/Helpers.cs" Line="40" Column="18" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="SettingsController.cs" selected="True" />
+              <Node name="Controllers" expanded="True" />
+              <Node name="DataLayer" expanded="True">
+                <Node name="EntityModels" expanded="True" />
+              </Node>
+              <Node name="Helpers" expanded="True">
+                <Node name="Helpers.cs" selected="True" />
               </Node>
               <Node name="ViewModels" expanded="True" />
               <Node name="Views" expanded="True">
@@ -33,6 +38,7 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="204" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AddressController.cs" relfile="MagicMaids/Controllers/AddressController.cs" line="32" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="148" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="239" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

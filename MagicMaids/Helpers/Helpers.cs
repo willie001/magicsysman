@@ -10,6 +10,7 @@ using MagicMaids.ViewModels;
 using NLog;
 
 using Newtonsoft.Json;
+using System.Text;
 #endregion
 
 namespace MagicMaids
@@ -36,14 +37,22 @@ namespace MagicMaids
 						{
 							errorList.Add(new JsonFormValidationError()
 							{
-								Key = "",
+								Key = key,
 								Message = $"{error.ErrorMessage} [{key}]"
 							});
 						}
 					}
 
-					String _errors = JsonConvert.SerializeObject(errorList);
+					//String _errors = JsonConvert.SerializeObject(errorList);
+					StringBuilder _errors = new StringBuilder();
+					foreach (JsonFormValidationError _item in errorList)
+					{
+						if (_errors.Length > 0)
+							_errors.Append(", ");
 
+						_errors.Append($"{_item.Key}: {_item.Message}");
+
+					}
 					LogHelper _logger = new LogHelper(logger);
 					_logger.Log(NLog.LogLevel.Warn, "Form Validation Errors: " + _errors.ToString(), callingMethod, null, classInstance);
 				}
