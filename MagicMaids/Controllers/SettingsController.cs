@@ -183,7 +183,7 @@ namespace MagicMaids.Controllers
 						MMContext.Entry(_objToUpdate).OriginalValues["RowVersion"] = rowVersion;
 						MMContext.SaveChanges();
 
-						//log2.Log(LogLevel.Info, "<XXXXXX> 5", nameof(SaveSettings), null, null);
+						log2.Log(LogLevel.Info, "<XXXXXX> 5", nameof(SaveSettings), null, null);
 						return JsonSuccessResponse("Setting saved successfully");
 					}
                     catch (DbUpdateConcurrencyException ex)
