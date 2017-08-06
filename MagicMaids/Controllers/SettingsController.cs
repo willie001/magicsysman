@@ -125,7 +125,7 @@ namespace MagicMaids.Controllers
             }
 
 			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			log2.Log(LogLevel.Debug, "<XXXXXX> 1", nameof(GetSettings), null, null);
+			log2.Log(LogLevel.Info, "<XXXXXX> 1", nameof(GetSettings), null, null);
 
 
 			return Json(new { list = _settings }, JsonRequestBehavior.AllowGet);
@@ -143,11 +143,11 @@ namespace MagicMaids.Controllers
             }
 
 			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			log2.Log(LogLevel.Debug, "<XXXXXX> 1" , nameof(SaveSettings), null, null);
+			log2.Log(LogLevel.Info, "<XXXXXX> 1" , nameof(SaveSettings), null, null);
 
             if (ModelState.IsValid)
 			{
-				log2.Log(LogLevel.Debug, "<XXXXXX> 2", nameof(SaveSettings), null, null);
+				log2.Log(LogLevel.Info, "<XXXXXX> 2", nameof(SaveSettings), null, null);
 
 				Guid _id = setting.Id;
                 // get original rowversion before updating model
@@ -159,11 +159,11 @@ namespace MagicMaids.Controllers
 					ModelState.AddModelError(string.Empty, $"Setting [{_id.ToString()}] not found.  Please try again.");
 					return JsonFormResponse();
 				}
-				log2.Log(LogLevel.Debug, "<XXXXXX> 3", nameof(SaveSettings), null, null);
+				log2.Log(LogLevel.Info, "<XXXXXX> 3", nameof(SaveSettings), null, null);
                 
 				if (TryUpdateModel<SystemSetting>(_objToUpdate))
 				{
-					log2.Log(LogLevel.Debug, "<XXXXXX> 4", nameof(SaveSettings), null, null);
+					log2.Log(LogLevel.Info, "<XXXXXX> 4", nameof(SaveSettings), null, null);
 					//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
 					_objToUpdate.UpdatedAt = DateTime.Now;
 					_objToUpdate.UpdatedBy = HttpContext.User.Identity.Name;
@@ -175,7 +175,7 @@ namespace MagicMaids.Controllers
 						MMContext.Entry(_objToUpdate).OriginalValues["RowVersion"] = rowVersion;
 						MMContext.SaveChanges();
 
-						log2.Log(LogLevel.Debug, "<XXXXXX> 5", nameof(SaveSettings), null, null);
+						log2.Log(LogLevel.Info, "<XXXXXX> 5", nameof(SaveSettings), null, null);
 						return JsonSuccessResponse("Setting saved successfully");
 					}
                     catch (DbUpdateConcurrencyException ex)
@@ -228,10 +228,10 @@ namespace MagicMaids.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				log2.Log(LogLevel.Debug, "<XXXXXX> 7", nameof(SaveSettings), null, null);
+				log2.Log(LogLevel.Info, "<XXXXXX> 7", nameof(SaveSettings), null, null);
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveSettings), setting);
 			}
-			log2.Log(LogLevel.Debug, "<XXXXXX> 8", nameof(SaveSettings), null, null);
+			log2.Log(LogLevel.Info, "<XXXXXX> 8", nameof(SaveSettings), null, null);
             return JsonFormResponse();
         }
 		#endregion
