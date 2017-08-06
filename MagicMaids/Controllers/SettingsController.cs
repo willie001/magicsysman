@@ -124,6 +124,10 @@ namespace MagicMaids.Controllers
                      .ToList();
             }
 
+			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
+			log2.Log(LogLevel.Debug, "<XXXXXX> 1", nameof(GetSettings), null, null);
+
+
 			return Json(new { list = _settings }, JsonRequestBehavior.AllowGet);
 		}
 
