@@ -124,10 +124,6 @@ namespace MagicMaids.Controllers
                      .ToList();
             }
 
-			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			log2.Log(LogLevel.Info, "<XXXXXX> 1", nameof(GetSettings), null, null);
-
-
 			return Json(new { list = _settings }, JsonRequestBehavior.AllowGet);
 		}
 
@@ -143,7 +139,7 @@ namespace MagicMaids.Controllers
             }
 
 			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			log2.Log(LogLevel.Info, "<XXXXXX> 1" , nameof(SaveSettings), null, null);
+			log2.Log(LogLevel.Info, "<XXXXXX> 1 - " + setting.UpdatedAt.ToString() , nameof(SaveSettings), null, null);
 
             if (ModelState.IsValid)
 			{
