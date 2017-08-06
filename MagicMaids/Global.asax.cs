@@ -8,11 +8,17 @@ using System.Web.Routing;
 using NLog;
 using NLog.Common;
 using FluentValidation.Mvc;
+using System.Globalization;
+using System.Threading;
 
 namespace MagicMaids
 {
     public class Global : System.Web.HttpApplication
     {
+		protected void Application_BeginRequest()
+		{
+		}
+
         protected void Application_Start()
         {
 			AreaRegistration.RegisterAllAreas();

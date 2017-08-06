@@ -11,6 +11,7 @@ using NLog;
 
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Globalization;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -149,15 +150,15 @@ namespace MagicMaids.Controllers
 					ModelState.AddModelError(string.Empty, $"Setting [{_id.ToString()}] not found.  Please try again.");
 					return JsonFormResponse();
 				}
-
-                //https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
-				_objToUpdate.UpdatedAt = DateTime.Now; ;
-				_objToUpdate.UpdatedBy = HttpContext.User.Identity.Name;
-				_objToUpdate.RowVersion = DateTime.Now;
                 
 				if (TryUpdateModel<SystemSetting>(_objToUpdate))
 				{
-                    try
+					//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
+					_objToUpdate.UpdatedAt = DateTime.Now;
+					_objToUpdate.UpdatedBy = HttpContext.User.Identity.Name;
+					_objToUpdate.RowVersion = DateTime.Now;
+
+					try
                     {
                         MMContext.Entry(_objToUpdate).State = EntityState.Modified;
 						MMContext.Entry(_objToUpdate).OriginalValues["RowVersion"] = rowVersion;

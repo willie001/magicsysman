@@ -1,8 +1,8 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/SettingsController.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="44" Column="104" />
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="16" Column="33" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="154" Column="51" />
+      <File FileName="MagicMaids/Web.config" Line="14" Column="143" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,6 +12,11 @@
               <Node name="Controllers" expanded="True">
                 <Node name="SettingsController.cs" selected="True" />
               </Node>
+              <Node name="DataLayer" expanded="True">
+                <Node name="EntityModels" expanded="True" />
+              </Node>
+              <Node name="Helpers" expanded="True" />
+              <Node name="Global.asax" expanded="True" />
             </Node>
           </Node>
         </State>
@@ -21,7 +26,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="30" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="31" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicDAL/Helpers/CustomValidators.cs" relfile="MagicDAL/Helpers/CustomValidators.cs" line="58" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="199" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AddressController.cs" relfile="MagicMaids/Controllers/AddressController.cs" line="32" column="1" />

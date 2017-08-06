@@ -48,6 +48,8 @@ namespace MagicMaids.EntityModels
 			}
 		}
 
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString="{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime CreatedAt
 		{
 			get
@@ -64,6 +66,8 @@ namespace MagicMaids.EntityModels
 			}
 		}
 
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime UpdatedAt
 		{
 			get
@@ -100,8 +104,10 @@ namespace MagicMaids.EntityModels
 			}
 		}
 
-        //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/handling-concurrency-with-the-entity-framework-in-an-asp-net-mvc-application
-        public DateTime RowVersion
+		//https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/handling-concurrency-with-the-entity-framework-in-an-asp-net-mvc-application
+		[DataType(DataType.Date)]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
+		public DateTime RowVersion
         {
             get;
             set;
