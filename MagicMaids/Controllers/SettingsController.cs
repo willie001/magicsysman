@@ -145,8 +145,8 @@ namespace MagicMaids.Controllers
                 ModelState.AddModelError(string.Empty, "Valid setting not found.");
             }
 
-			//LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			//log2.Log(LogLevel.Info, "<XXXXXX> 1 - " + setting.UpdatedAt.ToString() , nameof(SaveSettings), null, null);
+			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
+			log2.Log(LogLevel.Info, "<XXXXXX> 1 - " + setting.UpdatedAt.ToString() , nameof(SaveSettings), null, null);
 
 			setting.UpdatedAt = DateTime.Now;
 			setting.RowVersion = DateTime.Now;
@@ -155,7 +155,7 @@ namespace MagicMaids.Controllers
 
             if (ModelState.IsValid)
 			{
-				//log2.Log(LogLevel.Info, "<XXXXXX> 2", nameof(SaveSettings), null, null);
+				log2.Log(LogLevel.Info, "<XXXXXX> 2", nameof(SaveSettings), null, null);
 
 				Guid _id = setting.Id;
                 // get original rowversion before updating model
@@ -236,10 +236,10 @@ namespace MagicMaids.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				//log2.Log(LogLevel.Info, "<XXXXXX> 7", nameof(SaveSettings), null, null);
+				log2.Log(LogLevel.Info, "<XXXXXX> 7", nameof(SaveSettings), null, null);
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveSettings), setting);
 			}
-			//log2.Log(LogLevel.Info, "<XXXXXX> 8", nameof(SaveSettings), null, null);
+			log2.Log(LogLevel.Info, "<XXXXXX> 8", nameof(SaveSettings), null, null);
             return JsonFormResponse();
         }
 		#endregion
