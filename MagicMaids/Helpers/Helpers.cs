@@ -38,12 +38,11 @@ namespace MagicMaids
 							errorList.Add(new JsonFormValidationError()
 							{
 								Key = key,
-								Message = $"{error.ErrorMessage} [{key}]"
+								Message = $"{error.ErrorMessage}"
 							});
 						}
 					}
 
-					//String _errors = JsonConvert.SerializeObject(errorList);
 					StringBuilder _errors = new StringBuilder();
 					foreach (JsonFormValidationError _item in errorList)
 					{
