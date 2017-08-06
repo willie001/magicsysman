@@ -145,15 +145,15 @@ namespace MagicMaids.Controllers
                 ModelState.AddModelError(string.Empty, "Valid setting not found.");
             }
 
-			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			log2.Log(LogLevel.Info, "<XXXXXX> 1 - " + setting.UpdatedAt.ToString() , nameof(SaveSettings), null, null);
-
 			setting.UpdatedAt = DateTime.Now;
 			setting.RowVersion = DateTime.Now;
 			if (setting.CreatedAt.Year < 1950)
 				setting.CreatedAt = DateTime.Now;
+			
+			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
+			log2.Log(LogLevel.Info, "<XXXXXX> 1 - " + setting.UpdatedAt.ToString(), nameof(SaveSettings), null, null);
 
-            if (ModelState.IsValid)
+			if (ModelState.IsValid)
 			{
 				log2.Log(LogLevel.Info, "<XXXXXX> 2", nameof(SaveSettings), null, null);
 
