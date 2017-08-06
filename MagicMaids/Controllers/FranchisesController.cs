@@ -99,6 +99,11 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, "Valid franchise data not found.");
 			}
 
+			dataItem.UpdatedAt = DateTime.Now;
+			dataItem.RowVersion = DateTime.Now;
+			if (dataItem.CreatedAt.Year < 1950)
+				dataItem.CreatedAt = DateTime.Now;
+
 			if (!dataItem.HasAnyValidAddress)
 			{
 				ModelState.AddModelError(string.Empty, "Please ensure at least a valid postal or physical address is supplied.");

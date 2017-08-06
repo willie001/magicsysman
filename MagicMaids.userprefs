@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/ViewModels/SettingsViewModels.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/SettingsController.cs">
     <Files>
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="139" Column="67" />
-      <File FileName="MagicMaids/Web.config" Line="14" Column="5" />
-      <File FileName="MagicMaids/ViewModels/SettingsViewModels.cs" Line="27" Column="20" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="151" Column="38" />
+      <File FileName="MagicMaids/Web.config" Line="12" Column="16" />
+      <File FileName="MagicMaids/ViewModels/SettingsViewModels.cs" Line="19" Column="4" />
       <File FileName="MagicMaids/Views/Settings/MasterSettings.cshtml" Line="36" Column="110" />
     </Files>
     <Pads>
@@ -11,23 +11,10 @@
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="DataLayer" expanded="True">
-                <Node name="EntityModels" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="SettingsController.cs" selected="True" />
               </Node>
-              <Node name="Scripts" expanded="True">
-                <Node name="app" expanded="True">
-                  <Node name="custom" expanded="True">
-                    <Node name="settings" expanded="True" />
-                  </Node>
-                  <Node name="modules" expanded="True">
-                    <Node name="routes" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
-              <Node name="ViewModels" expanded="True">
-                <Node name="SettingsViewModels.cs" selected="True" />
-              </Node>
+              <Node name="ViewModels" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Settings" expanded="True" />
               </Node>
@@ -38,14 +25,14 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="32" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicDAL/Helpers/CustomValidators.cs" relfile="MagicDAL/Helpers/CustomValidators.cs" line="58" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="199" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="204" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AddressController.cs" relfile="MagicMaids/Controllers/AddressController.cs" line="32" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="143" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="148" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
