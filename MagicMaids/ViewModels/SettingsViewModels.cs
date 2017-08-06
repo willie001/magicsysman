@@ -15,7 +15,8 @@ namespace MagicMaids.ViewModels
 		#region Constructors
 		public UpdateSettingsViewModel()
 		{
-			
+			  
+
 		}
 
 		public UpdateSettingsViewModel(SystemSetting _model)
