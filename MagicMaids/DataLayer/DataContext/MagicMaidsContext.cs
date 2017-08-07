@@ -2,7 +2,7 @@
 using System;
 using System.Data.Entity;
 using System.Diagnostics;
-
+using System.Web;
 using MagicMaids.EntityModels;
 
 using NLog;
@@ -61,6 +61,30 @@ namespace MagicMaids.DataAccess
         #region Methods, Protected
 		public override int SaveChanges()
 		{
+			foreach (var auditableEntity in ChangeTracker.Entries<IDataModel>())
+			{
+				if (auditableEntity.State == EntityState.Added || auditableEntity.State == EntityState.Modified)
+				{
+					string currentUser = HttpContext.Current.User.Identity.Name;
+					if (String.IsNullOrWhiteSpace(currentUser))
+						currentUser = "TODO";
+					
+					auditableEntity.Entity.UpdatedAt = DateTime.Now;
+					auditableEntity.Entity.UpdatedBy = currentUser;
+
+					if (auditableEntity.State == EntityState.Added)
+					{
+						auditableEntity.Entity.CreatedAt = DateTime.Now;
+					}
+					else
+					{
+						// we also want to make sure that code is not inadvertly
+						// modifying created date and created by columns 
+						auditableEntity.Property(p => p.CreatedAt).IsModified = false;
+					}
+				}
+			}
+
 			this.Database.Log = s =>
 			{
 				// You can put a breakpoint here and examine s with the TextVisualizer

@@ -31,7 +31,7 @@ namespace MagicMaids.Controllers
 
 		#region Service Functions
 		[HttpGet]
-		public JsonResult GetAddressTypesJson()
+		public JsonNetResult GetAddressTypesJson()
 		{
 			var enumVals = new List<object>();
 
@@ -45,7 +45,7 @@ namespace MagicMaids.Controllers
 				});
 			}
 
-			return Json(new { item = enumVals }, JsonRequestBehavior.AllowGet);
+			return new JsonNetResult() { Data = new { item = enumVals }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 		#endregion
 	}

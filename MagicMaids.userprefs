@@ -1,22 +1,45 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs">
     <Files>
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="1" Column="1" />
-      <File FileName="MagicMaids/ViewModels/SettingsViewModels.cs" Line="19" Column="4" />
-      <File FileName="MagicMaids/Views/Settings/MasterSettings.cshtml" Line="36" Column="110" />
-      <File FileName="MagicMaids/Helpers/Helpers.cs" Line="1" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="1" Column="1" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="246" Column="52" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magiclogs.controller.js" Line="1" Column="1" />
+      <File FileName="MagicMaids/Views/Settings/LogEntries.cshtml" Line="36" Column="30" />
+      <File FileName="MagicMaids/DataLayer/EntityModels/IDataModel.cs" Line="15" Column="4" />
+      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="69" Column="21" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="148" Column="1" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="150" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MagicMaids" expanded="True">
+            <Node name="MagicMaids" expanded="True">
+              <Node name="Packages" expanded="True" />
+              <Node name="Controllers" expanded="True" />
+              <Node name="DataLayer" expanded="True">
+                <Node name="DataContext" expanded="True">
+                  <Node name="MagicMaidsContext.cs" selected="True" />
+                </Node>
+                <Node name="EntityModels" expanded="True" />
+              </Node>
+              <Node name="Views" expanded="True">
+                <Node name="Settings" expanded="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="32" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicDAL/Helpers/CustomValidators.cs" relfile="MagicDAL/Helpers/CustomValidators.cs" line="58" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="204" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AddressController.cs" relfile="MagicMaids/Controllers/AddressController.cs" line="32" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" relfile="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" line="64" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="148" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="153" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="103" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

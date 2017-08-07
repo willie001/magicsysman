@@ -131,7 +131,7 @@ namespace MagicMaids.Controllers
 			//	_editSettings.Add(new UpdateSettingsViewModel(_item));
 			//}
 
-			return Json(new { list = _settings }, JsonRequestBehavior.AllowGet);
+			return new JsonNetResult() { Data = new { list = _settings }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		//[Bind(Include = "SettingValue")] 
@@ -145,18 +145,8 @@ namespace MagicMaids.Controllers
                 ModelState.AddModelError(string.Empty, "Valid setting not found.");
             }
 
-			setting.UpdatedAt = DateTime.Now;
-			setting.RowVersion = DateTime.Now;
-			if (setting.CreatedAt.Year < 1950)
-				setting.CreatedAt = DateTime.Now;
-			
-			LogHelper log2 = new LogHelper(LogManager.GetCurrentClassLogger());
-			log2.Log(LogLevel.Info, "<YYYY> 1.4 - " + setting.UpdatedAt.ToString(), nameof(SaveSettings), null, null);
-
 			if (ModelState.IsValid)
 			{
-				log2.Log(LogLevel.Info, "<XXXXXX> 2", nameof(SaveSettings), null, null);
-
 				Guid _id = setting.Id;
                 // get original rowversion before updating model
                 var rowVersion = setting.RowVersion;
@@ -171,10 +161,6 @@ namespace MagicMaids.Controllers
                 
 				if (TryUpdateModel<SystemSetting>(_objToUpdate))
 				{
-					//log2.Log(LogLevel.Info, "<XXXXXX> 4", nameof(SaveSettings), null, null);
-					//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
-					_objToUpdate.UpdatedAt = DateTime.Now;
-					_objToUpdate.UpdatedBy = HttpContext.User.Identity.Name;
 					_objToUpdate.RowVersion = DateTime.Now;
 
 					try
@@ -183,7 +169,6 @@ namespace MagicMaids.Controllers
 						MMContext.Entry(_objToUpdate).OriginalValues["RowVersion"] = rowVersion;
 						MMContext.SaveChanges();
 
-						log2.Log(LogLevel.Info, "<XXXXXX> 5", nameof(SaveSettings), null, null);
 						return JsonSuccessResponse("Setting saved successfully");
 					}
                     catch (DbUpdateConcurrencyException ex)
@@ -236,10 +221,9 @@ namespace MagicMaids.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				log2.Log(LogLevel.Info, "<XXXXXX> 7", nameof(SaveSettings), null, null);
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveSettings), setting);
 			}
-			log2.Log(LogLevel.Info, "<XXXXXX> 8", nameof(SaveSettings), null, null);
+
             return JsonFormResponse();
         }
 		#endregion

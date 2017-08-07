@@ -88,10 +88,6 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				if (String.IsNullOrWhiteSpace(_updatedBy))
-				{
-					return "TODO";
-				}
 				return _updatedBy;
 			}
 			set

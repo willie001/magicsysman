@@ -11,6 +11,12 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		string UpdatedBy
+		{
+			get;
+			set;
+		}
+
 		DateTime CreatedAt
 		{
 			get;

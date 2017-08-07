@@ -60,7 +60,7 @@ namespace MagicMaids.Controllers
                  .ThenBy(x => x.Id)
 				 .ToList();
 
-			return Json(new { list = _data }, JsonRequestBehavior.AllowGet);
+			return new JsonNetResult() { Data = new { list = _data }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpGet]
@@ -86,7 +86,7 @@ namespace MagicMaids.Controllers
 				}
 			}
 
-			return Json(new { item = _entry }, JsonRequestBehavior.AllowGet);
+			return new JsonNetResult() { Data = new { item = _entry }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		#endregion

@@ -231,7 +231,7 @@
         {
             $http.get('/settings/getfranchise/?Id=' + Id)
                 .success(function (data) {
-                	console.log("<FRANCHISE> - " + angular.toJson(data.item));
+                	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
                 	vm.franchise = data.item;
                 	$scope.Id = vm.franchise.Id;
 
@@ -243,16 +243,14 @@
                
 			$http.get('/addresses/getaddresstypesjson')
                 .success(function (data) {
+                	console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
                 	vm.addressTypes = data.item;
+
                 	var result = $filter('filter')(vm.addressTypes, {name:'Postal'})[0];
                 	_postalType = result.id;
 
                 	result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
                 	_physicalType = result.id;
-
-                	//console.log('<X> ' + angular.toJson(vm.addressTypes));
-                	//alert(_postalType);
-                	//alert(_physicalType);
 
                 }).error(function(err) {
                 	

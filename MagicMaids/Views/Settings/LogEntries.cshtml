@@ -33,7 +33,7 @@
 						<td class="" ng-class="{'bg-warning': item.Level=='WARN',
 								'bg-danger': item.Level=='ERROR',
 								'bg-success': item.Level=='INFO'}">{{ item.Level }}</td>
-						<td>{{ moment(item.LoggedDate) }}</td>
+						<td>{{ item.LoggedDate }}</td>
 						<td>{{ item.Message.substr(0,120) }}</td>
 						<td style="white-space: nowrap; font-size: 11px;" ng-bind-html="item.FormattedAddresses"></td>
 						<td style="white-space: nowrap">

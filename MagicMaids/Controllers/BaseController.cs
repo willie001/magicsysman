@@ -75,7 +75,7 @@ namespace MagicMaids.Controllers
             };
 
             Response.StatusCode = 400;
-            return Json(response, jsonRequestBehaviour);
+			return new JsonNetResult() { Data = response, JsonRequestBehavior  = jsonRequestBehaviour };
         }
 
 		protected ActionResult JsonSuccessResponse(string message, Object dataItem= null)
@@ -95,7 +95,7 @@ namespace MagicMaids.Controllers
 				}
 
 				Response.StatusCode = 200;
-				return Json(response, jsonRequestBehaviour);
+				return new JsonNetResult() { Data = response, JsonRequestBehavior = jsonRequestBehaviour };
 			}
 			else
 				return JsonFormResponse();

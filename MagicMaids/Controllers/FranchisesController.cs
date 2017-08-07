@@ -34,7 +34,7 @@ namespace MagicMaids.Controllers
 
 		#region Service Functions
 		[HttpGet]
-		public JsonResult GetFranchises(int? incDisabled)
+		public JsonNetResult  GetFranchises(int? incDisabled)
 		{
 			List<Franchise> _data = new List<Franchise>();
 
@@ -54,7 +54,8 @@ namespace MagicMaids.Controllers
 					 .ToList();
 			}
 
-			return Json(new { list = _data }, JsonRequestBehavior.AllowGet);
+			return new JsonNetResult() { Data = new { list = _data }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
 		}
 
 		[HttpGet]
@@ -86,7 +87,7 @@ namespace MagicMaids.Controllers
 				}
 			}
 
-			return Json(new { item = _franchise }, JsonRequestBehavior.AllowGet);
+			return new JsonNetResult() { Data = new { item = _franchise }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpPost]
@@ -98,11 +99,6 @@ namespace MagicMaids.Controllers
 			{
 				ModelState.AddModelError(string.Empty, "Valid franchise data not found.");
 			}
-
-			dataItem.UpdatedAt = DateTime.Now;
-			dataItem.RowVersion = DateTime.Now;
-			if (dataItem.CreatedAt.Year < 1950)
-				dataItem.CreatedAt = DateTime.Now;
 
 			if (!dataItem.HasAnyValidAddress)
 			{
@@ -141,34 +137,16 @@ namespace MagicMaids.Controllers
 					//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
 					//https://stackoverflow.com/questions/21286538/asp-net-mvc-5-model-binding-edit-view
 					//https://www.mikesdotnetting.com/article/248/mvc-5-with-ef-6-in-visual-basic-updating-related-data
-					dataItem.UpdatedAt = DateTime.Now;
-					dataItem.UpdatedBy = HttpContext.User.Identity.Name;
 					dataItem.RowVersion = DateTime.Now;
-					if (bIsNew)
-					{
-						dataItem.CreatedAt = dataItem.UpdatedAt;
-					}
 
 					if (dataItem.PhysicalAddress != null)
 					{
-						dataItem.PhysicalAddress.UpdatedAt = dataItem.UpdatedAt;
-						dataItem.PhysicalAddress.UpdatedBy = dataItem.UpdatedBy;
 						dataItem.PhysicalAddress.RowVersion = dataItem.RowVersion;
-						if (bIsNew)
-						{
-							dataItem.PhysicalAddress.CreatedAt = dataItem.UpdatedAt;
-						}
 					}
 
 					if (dataItem.PostalAddress != null)
 					{
-						dataItem.PostalAddress.UpdatedAt = dataItem.UpdatedAt;
-						dataItem.PostalAddress.UpdatedBy = dataItem.UpdatedBy;
 						dataItem.PostalAddress.RowVersion = dataItem.RowVersion;
-						if (bIsNew)
-						{
-							dataItem.PostalAddress.CreatedAt = dataItem.UpdatedAt;
-						}
 					}
 
 					try
