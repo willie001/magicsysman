@@ -12,9 +12,6 @@
     /***************************/
 	/*** LOG ENTRIES SUMMARY ***/
 	/***************************/
-
-
-
 	function LogEntriesController($scope, $filter, $http, $q, $timeout)
 	{
 		var vm = this;
@@ -59,15 +56,6 @@
 		vm.logEntry = null;
 
 		activate();
-
-		$scope.parseJsonDate = function(dateString)
-		{
-			return new Date(parseInt(dateString.substr(6)));
-		};
-
-		$scope.parseJson = function(val) {
-			return JSON.parse(val);
-		};
 
 		function activate()
         {
