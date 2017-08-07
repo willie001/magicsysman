@@ -75,12 +75,14 @@
 			vm.listOfSettings = null;
 
     		$timeout(function(){
+    			$scope.isLoadingResults = true;
    				$scope.$parent.$broadcast('triggerPanelRefresh', document.getElementById('panelDataMasterSettings'),'traditional');
 			},150);
 
             $http.get('/settings/getsettings/?incDisabled=1')
                 .success(function (data) {
                     vm.listOfSettings = data.list;
+                    $scope.isLoadingResults = false;
 
                 }).error(function(err) {
                 	

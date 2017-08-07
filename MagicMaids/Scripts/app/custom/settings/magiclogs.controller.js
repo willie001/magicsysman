@@ -23,7 +23,6 @@
 			$scope.isLoadingResults = false;
 			var _incDisabled = 0;
 
-
     		$timeout(function(){
     			$scope.isLoadingResults = true;
    				$scope.$parent.$broadcast('triggerPanelRefresh', document.getElementById('panelApplicationLogs'),'traditional');
@@ -40,7 +39,6 @@
                 	$timeout(function () {
                   		$scope.$broadcast('removeSpinner', 'panelApplicationLogs');
               		}, 500);
-
                 });
 		}
 	}
@@ -50,9 +48,11 @@
 	/*************************/
 	function LogEntryController($scope, $filter, $http, $q)
 	{
+		    		
 		var vm = this;
 		var Id = $scope.Id;
-
+		console.log("<LOGENTRY> - " + angular.toJson(vm));
+        
 		vm.logEntry = null;
 
 		activate();

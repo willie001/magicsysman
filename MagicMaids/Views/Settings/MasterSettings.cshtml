@@ -13,9 +13,9 @@
 	@Html.Partial("_InformationDetails")
 	
     <div class="panel panel-transparent" id="panelDataMasterSettings">
-       <!-- <div class="panel-heading">
-            <paneltool tool-refresh="traditional"></paneltool>
-        </div>-->
+        <div class="panel-heading">
+            <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+        </div>
         <div class="panel-body">
             <div class="table-responsive">
                 <table class="table table-bordered table-hover bg-white">
