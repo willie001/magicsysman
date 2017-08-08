@@ -65,9 +65,10 @@ namespace MagicMaids
                 .IncludeDirectory("~/Scripts/app/modules/tables", "*.js", true)
                 .Include("~/Scripts/app/modules/forms/forms.module.js")
                 .IncludeDirectory("~/Scripts/app/modules/forms", "*.js", true)
-                // Custom scripts
-                .Include("~/Scripts/app/custom/custom.module.js")
-                .IncludeDirectory("~/Scripts/app/custom", "*.js", true));
+				// Custom scripts
+	            .Include("~/Scripts/app/custom/custom.module.js")
+                .IncludeDirectory("~/Scripts/app/custom", "*.js", true)
+				);
 
 
 			 // Base Scripts (not lazyloaded)

@@ -21,6 +21,12 @@ namespace MagicMaids
 
         protected void Application_Start()
         {
+			// Removing all the view engines
+			ViewEngines.Engines.Clear();
+
+			//Add Razor Engine (which we are using)
+			ViewEngines.Engines.Add(new CustomViewEngine());
+
 			AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

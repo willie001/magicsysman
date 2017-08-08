@@ -241,6 +241,7 @@
     <Compile Include="DataLayer\DataAccess\UserAccountRepository.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
+    <Compile Include="Helpers\CustomViewEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

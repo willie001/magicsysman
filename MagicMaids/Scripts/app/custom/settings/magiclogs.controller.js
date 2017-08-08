@@ -1,19 +1,20 @@
 ﻿(function() {
     'use strict';
 
-    angular
-        .module('magiclogs',[])
-        .controller('LogEntriesController', LogEntriesController)
-		.controller('LogEntryController', LogEntryController);
+    var app = angular.module('magiclogs',[]);
 
-    LogEntriesController.$inject = ['$scope','$filter', '$http','$q', '$timeout'];
-    LogEntryController.$inject = ['$scope','$filter', '$http','$q'];
+    app.controller('LogEntriesController', LogEntriesController);
+    app.controller('LogEntryController', LogEntryController);
+
+    LogEntriesController.$inject = ['$scope','$filter','$http','$q','$timeout'];
+    LogEntryController.$inject = ['$scope','$filter','$http','$q'];
 
     /***************************/
 	/*** LOG ENTRIES SUMMARY ***/
 	/***************************/
 	function LogEntriesController($scope, $filter, $http, $q, $timeout)
 	{
+	alert('4');
 		var vm = this;
 		activate();
 
@@ -48,7 +49,7 @@
 	/*************************/
 	function LogEntryController($scope, $filter, $http, $q)
 	{
-		    		
+		    		alert('3');
 		var vm = this;
 		var Id = $scope.Id;
 		console.log("<LOGENTRY> - " + angular.toJson(vm));
@@ -73,4 +74,6 @@
 		}
 
 	}
+
 })();
+
