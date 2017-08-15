@@ -31,72 +31,84 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string Level
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string Message
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string Exception
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string InnerErrorMessage
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string EventContext
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string ObjectContext
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string UserName
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string URL
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string RequestURL
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string ServerAddress
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string RemoteAddress
 		{
 			get;
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string Logger
 		{
 			get;
@@ -109,92 +121,13 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		[DataType(DataType.Text)]
 		public string MvcAction
 		{
 			get;
 			set;
 		}
+		#endregion 
 
-		private string _formattedAddress;
-		public string FormattedAddresses
-		{
-			get
-			{
-				if (!String.IsNullOrWhiteSpace(_formattedAddress))
-				{
-					return _formattedAddress;
-				}
-
-				System.Text.StringBuilder _output = new System.Text.StringBuilder();
-
-				if (!String.IsNullOrWhiteSpace(URL))
-				{
-					if (_output.Length > 0) _output.Append("<br/>");
-					_output.Append("<b>"); 
-					_output.Append(nameof(URL));
-					_output.Append(":</b> ");
-					_output.Append(URL);
-				}
-
-				if (!String.IsNullOrWhiteSpace(ServerAddress))
-				{
-					if (_output.Length > 0) _output.Append("<br/>");
-					_output.Append("<b>");
-					_output.Append(nameof(ServerAddress));
-					_output.Append(":</b> ");
-					_output.Append(ServerAddress);
-				}
-
-				if (!String.IsNullOrWhiteSpace(RemoteAddress))
-				{
-					if (_output.Length > 0) _output.Append("<br/>");
-					_output.Append("<b>");
-					_output.Append(nameof(RemoteAddress));
-					_output.Append(":</b> ");
-					_output.Append(RemoteAddress);
-				}
-
-				if (!String.IsNullOrWhiteSpace(RequestURL))
-				{
-					if (_output.Length > 0) _output.Append("<br/>");
-					_output.Append("<b>");
-					_output.Append(nameof(RequestURL));
-					_output.Append(":</b> ");
-					_output.Append(RequestURL);
-				}
-
-				if (!String.IsNullOrWhiteSpace(Logger))
-				{
-					if (_output.Length > 0) _output.Append("<br/>");
-					_output.Append("<b>");
-					_output.Append(nameof(Logger));
-					_output.Append(":</b> ");
-					_output.Append(Logger);
-				}
-
-				if (!String.IsNullOrWhiteSpace(CallSite))
-				{
-					if (_output.Length > 0) _output.Append("<br/>");
-					_output.Append("<b>");
-					_output.Append(nameof(CallSite));
-					_output.Append(":</b> ");
-					_output.Append(CallSite);
-				}
-
-				if (!String.IsNullOrWhiteSpace(MvcAction))
-				{
-					if (_output.Length > 0) _output.Append("<br/>");
-					_output.Append("<b>");
-					_output.Append(nameof(MvcAction));
-					_output.Append(":</b> ");
-					_output.Append(MvcAction);
-				}
-
-				_formattedAddress = _output.ToString();
-				return _formattedAddress;
-			}
-		}
-
-		#endregion
 	}
 }

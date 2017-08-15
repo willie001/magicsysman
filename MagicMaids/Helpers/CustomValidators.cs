@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using FluentValidation.Validators;
 #endregion
 
-namespace MagicMaids.EntityModels 
+namespace MagicMaids.Validators 
 {
 	public class PhoneNumberValidator: PropertyValidator 
 	{

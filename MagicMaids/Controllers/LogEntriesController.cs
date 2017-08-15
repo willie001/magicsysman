@@ -60,7 +60,13 @@ namespace MagicMaids.Controllers
                  .ThenBy(x => x.Id)
 				 .ToList();
 
-			return new JsonNetResult() { Data = new { list = _data }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			List<LogEntryViewModel> _vmList = new List<LogEntryViewModel>();
+			foreach(LogEntry _item in _data)
+			{
+				_vmList.Add(new LogEntryViewModel(_item)); 
+			}
+
+			return new JsonNetResult() { Data = new { list = _vmList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpGet]
@@ -68,7 +74,7 @@ namespace MagicMaids.Controllers
 		{
 			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
 			LogEntry  _entry = null;
-
+			LogEntryViewModel _dataItem = null;
 			if (Id == null)
 			{
 				ModelState.AddModelError(string.Empty, $"No specific Log ID provided.");
@@ -84,9 +90,11 @@ namespace MagicMaids.Controllers
 					ModelState.AddModelError(string.Empty, $"Log Entry [{Id.ToString()}] not found.  Please try again.");
 					return JsonFormResponse();
 				}
+
+				_dataItem = new LogEntryViewModel(_entry);
 			}
 
-			return new JsonNetResult() { Data = new { item = _entry }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return new JsonNetResult() { Data = new { item = _dataItem }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		#endregion

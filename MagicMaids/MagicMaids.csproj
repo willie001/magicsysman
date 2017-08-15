@@ -182,6 +182,21 @@
     <Reference Include="Glimpse.Mvc5">
       <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Reflection">
+      <HintPath>..\packages\Mono.Reflection.1.1.0.0\lib\Mono.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="DelegateDecompiler">
+      <HintPath>..\packages\DelegateDecompiler.0.23.0\lib\net40-client\DelegateDecompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="DelegateDecompiler.EntityFramework">
+      <HintPath>..\packages\DelegateDecompiler.EntityFramework.0.23.0\lib\net45\DelegateDecompiler.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.EF6">
+      <HintPath>..\packages\AutoMapper.EF6.1.0.0\lib\net45\AutoMapper.EF6.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -207,7 +222,7 @@
     <Compile Include="Helpers\Helpers.cs" />
     <Compile Include="ViewModels\InfoViewModel.cs" />
     <Compile Include="Controllers\FranchisesController.cs" />
-    <Compile Include="ViewModels\SettingsViewModels.cs" />
+    <Compile Include="ViewModels\SettingsVM.cs" />
     <Compile Include="App_Start\IValidatorFactory.cs" />
     <Compile Include="Controllers\AddressesController.cs" />
     <Compile Include="Controllers\LogEntriesController.cs" />
@@ -242,6 +257,10 @@
     <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Helpers\CustomViewEngine.cs" />
+    <Compile Include="Helpers\ModelValidators.cs" />
+    <Compile Include="ViewModels\LogEntryVM.cs" />
+    <Compile Include="ViewModels\FranchisesVM.cs" />
+    <Compile Include="ViewModels\AddressesVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

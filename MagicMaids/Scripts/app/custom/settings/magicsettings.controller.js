@@ -104,11 +104,15 @@
 	        }
       	};
 
-		vm.saveData = function(data, id, item) {
+		vm.saveData = function(data, item) {
+            //console.log("<SETTING Data> - " + angular.toJson(data));
+			//console.log("<SETTING item> - " + angular.toJson(item));
+               	
 			angular.extend(item, {
 				SettingValue: data.SettingValue
 			});
-
+			//console.log("<SETTING item post> - " + angular.toJson(item));
+            
 			$scope.userMessages = [];
 			$scope.userMessageType = [];
 
@@ -233,7 +237,7 @@
         {
             $http.get('/settings/getfranchise/?Id=' + Id)
                 .success(function (data) {
-                	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
+                	console.log("<FRANCHISE> - " + angular.toJson(data.item));
                 	vm.franchise = data.item;
                 	$scope.Id = vm.franchise.Id;
 
@@ -245,7 +249,7 @@
                
 			$http.get('/addresses/getaddresstypesjson')
                 .success(function (data) {
-                	console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
+                	//console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
                 	vm.addressTypes = data.item;
 
                 	var result = $filter('filter')(vm.addressTypes, {name:'Postal'})[0];

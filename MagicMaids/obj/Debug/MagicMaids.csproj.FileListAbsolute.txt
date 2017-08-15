@@ -168,6 +168,10 @@ C:/DevSandbox/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.EF6.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/DelegateDecompiler.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/DelegateDecompiler.EntityFramework.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/FluentValidation.dll
@@ -179,6 +183,7 @@ C:/DevSandbox/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Glimpse.Mvc5.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.Owin.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.Web.Infrastructure.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Mono.Reflection.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.Entity.EF6.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Newtonsoft.Json.dll
@@ -224,6 +229,7 @@ C:/DevSandbox/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.Mvc.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

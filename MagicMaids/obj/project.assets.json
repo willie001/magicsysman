@@ -1,0 +1,98 @@
+{
+  "version": 2,
+  "targets": {
+    ".NETFramework,Version=v4.5.2": {
+      "Legacy2CPSWorkaround/1.0.0": {
+        "type": "package",
+        "build": {
+          "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win": {
+      "Legacy2CPSWorkaround/1.0.0": {
+        "type": "package",
+        "build": {
+          "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win-x64": {
+      "Legacy2CPSWorkaround/1.0.0": {
+        "type": "package",
+        "build": {
+          "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
+        }
+      }
+    },
+    ".NETFramework,Version=v4.5.2/win-x86": {
+      "Legacy2CPSWorkaround/1.0.0": {
+        "type": "package",
+        "build": {
+          "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Legacy2CPSWorkaround/1.0.0": {
+      "sha512": "GU/g1RQyByRq2wOXvIIK28VZWHHHWoKRw+udnY9hhkqUSvsnbqfI9ecPd5MnQdO+oE02I9To2lABDEQ2CnlmJw==",
+      "type": "package",
+      "path": "legacy2cpsworkaround/1.0.0",
+      "files": [
+        "build/netstandard1.0/Legacy2CPSWorkaround.props",
+        "build/portable-net4+sl4+wp7+win8/Legacy2CPSWorkaround.props",
+        "legacy2cpsworkaround.1.0.0.nupkg.sha512",
+        "legacy2cpsworkaround.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    ".NETFramework,Version=v4.5.2": [
+      "Legacy2CPSWorkaround >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/ebenventer/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/ebenventer/Projects/MagicMaids/MagicMaids/MagicMaids.csproj",
+      "projectName": "MagicMaids",
+      "projectPath": "/Users/ebenventer/Projects/MagicMaids/MagicMaids/MagicMaids.csproj",
+      "outputPath": "/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj",
+      "projectStyle": "PackageReference",
+      "originalTargetFrameworks": [
+        "net452"
+      ],
+      "frameworks": {
+        "net452": {
+          "projectReferences": {}
+        }
+      }
+    },
+    "frameworks": {
+      "net452": {
+        "dependencies": {
+          "Legacy2CPSWorkaround": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "1.0.0"
+          }
+        }
+      }
+    },
+    "runtimes": {
+      "win": {
+        "#import": []
+      },
+      "win-x64": {
+        "#import": []
+      },
+      "win-x86": {
+        "#import": []
+      }
+    }
+  }
+}

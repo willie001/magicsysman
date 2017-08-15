@@ -1,10 +1,10 @@
 ﻿(function() {
     'use strict';
 
-    var app = angular.module('magiclogs',[]);
-
-    app.controller('LogEntriesController', LogEntriesController);
-    app.controller('LogEntryController', LogEntryController);
+    angular
+    	.module("magiclogs",[])
+    	.controller("LogEntriesController", LogEntriesController)
+    	.controller("LogEntryController", LogEntryController);
 
     LogEntriesController.$inject = ['$scope','$filter','$http','$q','$timeout'];
     LogEntryController.$inject = ['$scope','$filter','$http','$q'];
@@ -12,9 +12,8 @@
     /***************************/
 	/*** LOG ENTRIES SUMMARY ***/
 	/***************************/
-	function LogEntriesController($scope, $filter, $http, $q, $timeout)
+	function LogEntriesController($scope, $filter, $http, $q,$timeout)
 	{
-	alert('4');
 		var vm = this;
 		activate();
 
@@ -35,7 +34,7 @@
                 	$scope.isLoadingResults = false;
 
                 }).error(function(err) {
-                	
+                	//no action
                 }).finally(function() {
                 	$timeout(function () {
                   		$scope.$broadcast('removeSpinner', 'panelApplicationLogs');
@@ -44,15 +43,15 @@
 		}
 	}
 
-	/*************************/
+    /*************************/
 	/*** LOG ENTRY DETAILS ***/
 	/*************************/
 	function LogEntryController($scope, $filter, $http, $q)
 	{
-		    		alert('3');
+		//alert('3');
 		var vm = this;
 		var Id = $scope.Id;
-		console.log("<LOGENTRY> - " + angular.toJson(vm));
+		//console.log("<LOGENTRY> - " + angular.toJson(vm));
         
 		vm.logEntry = null;
 

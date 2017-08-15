@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
-using MagicMaids.EntityModels;
+using MagicMaids.EntityModels ;
+using MagicMaids.ViewModels; 
+using MagicMaids.Validators;
 
 using NLog;
 
@@ -54,7 +56,14 @@ namespace MagicMaids.Controllers
 					 .ToList();
 			}
 
-			return new JsonNetResult() { Data = new { list = _data }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			List<UpdateFranchisesViewModel> _editFranchises = new List<UpdateFranchisesViewModel>();
+			foreach (Franchise _item in _data)
+			{
+				var _vm = new UpdateFranchisesViewModel();
+				_vm.PopulateVM(_item);
+				_editFranchises.Add(_vm);
+			}
+			return new JsonNetResult() { Data = new { list = _editFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
 		}
 
@@ -63,14 +72,15 @@ namespace MagicMaids.Controllers
 		{
 			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
 			Franchise _franchise = null;
+			UpdateFranchisesViewModel _dataItem = null;
+
 			if (Id == null)
 			{
 				// create new item
-				_franchise = new Franchise();
-				_franchise.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-				_franchise.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-				_franchise.PostalAddressRefId = _franchise.PostalAddress.Id;
-				_franchise.PhysicalAddressRefId = _franchise.PhysicalAddress.Id;
+				_dataItem = new UpdateFranchisesViewModel();
+				_dataItem.IsNewItem = true;
+				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Physical };
+				_dataItem.PostalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Postal };
 			}
 			else
 			{
@@ -79,19 +89,22 @@ namespace MagicMaids.Controllers
 									  .Include(nameof(Franchise.PhysicalAddress))
 									  .Include(nameof(Franchise.PostalAddress))
 				                      .FirstOrDefault();
-				                      //.Find(Id);
 				if (_franchise == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Franchise [{Id.ToString()}] not found.  Please try again.");
 					return JsonFormResponse();
 				}
+
+				_dataItem = new UpdateFranchisesViewModel();
+				_dataItem.PopulateVM(_franchise);
+				_dataItem.IsNewItem = false;
 			}
 
-			return new JsonNetResult() { Data = new { item = _franchise }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return new JsonNetResult() { Data = new { item = _dataItem }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpPost]
-		public ActionResult SaveFranchise(Franchise dataItem)
+		public ActionResult SaveFranchise(UpdateFranchisesViewModel dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
 
@@ -128,98 +141,147 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
+				Guid _id = dataItem.Id;
+
 				// get original rowversion before updating model
 				var rowVersion = dataItem.RowVersion;
-				var bIsNew = (rowVersion.Year < 1990 || dataItem.CreatedAt.Year < 1990);
+				var bIsNew = (rowVersion.Year < 1990 || dataItem.IsNewItem );
 
-				if (TryUpdateModel<Franchise>(dataItem))
+				//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
+				//https://stackoverflow.com/questions/21286538/asp-net-mvc-5-model-binding-edit-view
+				//https://www.mikesdotnetting.com/article/248/mvc-5-with-ef-6-in-visual-basic-updating-related-data
+
+				try
 				{
-					//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
-					//https://stackoverflow.com/questions/21286538/asp-net-mvc-5-model-binding-edit-view
-					//https://www.mikesdotnetting.com/article/248/mvc-5-with-ef-6-in-visual-basic-updating-related-data
-					dataItem.RowVersion = DateTime.Now;
+					Franchise _objToUpdate = null;
 
-					if (dataItem.PhysicalAddress != null)
+					if (bIsNew)
 					{
-						dataItem.PhysicalAddress.RowVersion = dataItem.RowVersion;
-					}
+						_objToUpdate = new Franchise();
+						_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+						_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+						_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+						_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
 
-					if (dataItem.PostalAddress != null)
-					{
-						dataItem.PostalAddress.RowVersion = dataItem.RowVersion;
-					}
+						_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
+						_objToUpdate.CodeOfConductURL = dataItem.CodeOfConductURL;
+						_objToUpdate.EmailAddress = dataItem.EmailAddress;
+						_objToUpdate.IsActive = dataItem.IsActive;
+						_objToUpdate.ManagementFeePercentage = dataItem.ManagementFeePercentage;
+						_objToUpdate.MasterFranchiseCode = dataItem.MasterFranchiseCode;
+						_objToUpdate.MetroRegion = dataItem.MetroRegion;
+						_objToUpdate.MobileNumber = dataItem.MobileNumber;
+						_objToUpdate.Name = dataItem.Name;
+						_objToUpdate.OtherNumber = dataItem.OtherNumber;
+						_objToUpdate.TradingName = dataItem.TradingName;
+						_objToUpdate.Name = dataItem.Name;
+						_objToUpdate.RowVersion = DateTime.Now;
 
-					try
-					{
-						if (bIsNew)
+
+						if (dataItem.PhysicalAddress != null)
 						{
-							MMContext.Franchises.Add(dataItem);
+							_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+							_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+							_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+							_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+							_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country ;
+							_objToUpdate.PhysicalAddress.IsActive = true;
+							_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+							_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							_objToUpdate.PhysicalAddress.RowVersion = _objToUpdate.RowVersion;
 						}
-						else
+
+						if (dataItem.PostalAddress != null)
 						{
-							MMContext.Entry(dataItem).State = EntityState.Modified;
-							MMContext.Entry(dataItem).OriginalValues["RowVersion"] = rowVersion;
-
-							if (dataItem.PhysicalAddress != null)
-							{
-								MMContext.Entry(dataItem.PhysicalAddress).State = EntityState.Modified;
-								MMContext.Entry(dataItem.PhysicalAddress).OriginalValues["RowVersion"] = rowVersion;
-							}
-
-							if (dataItem.PostalAddress  != null)
-							{
-								MMContext.Entry(dataItem.PostalAddress).State = EntityState.Modified;
-								MMContext.Entry(dataItem.PostalAddress).OriginalValues["RowVersion"] = rowVersion;
-							}
+							_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+							_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+							_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+							_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+							_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+							_objToUpdate.PostalAddress.IsActive = true;
+							_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+							_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+							_objToUpdate.PostalAddress.RowVersion = _objToUpdate.RowVersion;
 						}
 
-						MMContext.SaveChanges();
-
-						return JsonSuccessResponse("Franchise saved successfully", dataItem);
+						MMContext.Entry(_objToUpdate).State = EntityState.Added;
 					}
-					catch (DbUpdateConcurrencyException ex)
+					else
 					{
-						var entry = ex.Entries.Single();
-						var clientValues = (Franchise)entry.Entity;
-						var databaseEntry = entry.GetDatabaseValues();
-						if (databaseEntry == null)
+						_objToUpdate = MMContext.Franchises
+								 .Where(f => f.Id == _id)
+										  .Include(nameof(Franchise.PhysicalAddress))
+										  .Include(nameof(Franchise.PostalAddress))
+										  .FirstOrDefault();
+
+						if (_objToUpdate == null)
 						{
-							ModelState.AddModelError(string.Empty, "Unable to save changes. The franchise was deleted by another user.");
+							ModelState.AddModelError(string.Empty, $"Franchise [{_id.ToString()}] not found.  Please try again.");
+							return JsonFormResponse();
 						}
-						else
+
+						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
+						MMContext.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
+						MMContext.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
+
+						_objToUpdate.RowVersion = DateTime.Now;
+
+						if (dataItem.PhysicalAddress != null)
 						{
-							var databaseValues = (Franchise)databaseEntry.ToObject();
+							_objToUpdate.PhysicalAddress.RowVersion = dataItem.RowVersion;
+						}
 
-							if (databaseValues.Name  != clientValues.Name)
-								ModelState.AddModelError("Name", "Current value: " + databaseValues.Name);
-
-							if (databaseValues.TradingName != clientValues.TradingName)
-								ModelState.AddModelError("TradingName", "Current value: " + databaseValues.TradingName);
-
-							ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-								+ "was modified by another user after you got the original value. The "
-								+ "edit operation was canceled and the current values in the database "
-								+ "have been displayed. If you still want to edit this record, click "
-								+ "the Save button again.");
-
-							dataItem.RowVersion = databaseValues.RowVersion;
+						if (dataItem.PostalAddress != null)
+						{
+							_objToUpdate.PostalAddress.RowVersion = dataItem.RowVersion;
 						}
 					}
-					catch (RetryLimitExceededException /* dex */)
-					{
-						//Log the error (uncomment dex variable name and add a line here to write a log.
-						ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-					}
-					catch (Exception ex)
-					{
-						//_msg = new InfoViewModel("Error saving settings", ex);
-						ModelState.AddModelError(string.Empty, $"Error saving franchise ({ex.Message})");
 
-						LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-						log.Log(LogLevel.Error, "Error saving franchise", nameof(SaveFranchise), ex, dataItem);
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse("Franchise saved successfully", _objToUpdate);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (Franchise)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, "Unable to save changes. The franchise was deleted by another user.");
+					}
+					else
+					{
+						var databaseValues = (Franchise)databaseEntry.ToObject();
+
+						if (databaseValues.Name  != clientValues.Name)
+							ModelState.AddModelError("Name", "Current value: " + databaseValues.Name);
+
+						if (databaseValues.TradingName != clientValues.TradingName)
+							ModelState.AddModelError("TradingName", "Current value: " + databaseValues.TradingName);
+
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The "
+							+ "edit operation was canceled and the current values in the database "
+							+ "have been displayed. If you still want to edit this record, click "
+							+ "the Save button again.");
+
+						dataItem.RowVersion = databaseValues.RowVersion;
 					}
 				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					//_msg = new InfoViewModel("Error saving franchises", ex);
+					ModelState.AddModelError(string.Empty, $"Error saving franchise ({ex.Message})");
 
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, "Error saving franchise", nameof(SaveFranchise), ex, dataItem);
+				}
 			}
 
 			if (!ModelState.IsValid)

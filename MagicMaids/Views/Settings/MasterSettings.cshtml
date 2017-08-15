@@ -1,5 +1,4 @@
-﻿@using MagicMaids.ViewModels;
-@{
+﻿@{
     // This is requried for AngularJS because we have to send only the view markup (not within the layout)
     Layout = null;
 }
@@ -33,7 +32,7 @@
                         <td ng-bind-html="item.Metadata"></td>
                         <td>
                             <!-- form-->
-                            <form editable-form="" name="rowform" onbeforesave="table.saveData($data, item.Id, item)" ng-show="rowform.$visible" shown="table.inserted == item" class="form-buttons form-inline">
+                            <form editable-form="" name="rowform" onbeforesave="table.saveData($data, item)" ng-show="rowform.$visible" shown="table.inserted == item" class="form-buttons form-inline">
                                 <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
                                     <em class="fa fa-save"></em>
                                 </button>

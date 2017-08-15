@@ -125,21 +125,22 @@ namespace MagicMaids.Controllers
                      .ToList();
             }
 
-			//List<UpdateSettingsViewModel> _editSettings = new List<UpdateSettingsViewModel>();
-			//foreach(SystemSetting _item in _settings)
-			//{
-			//	_editSettings.Add(new UpdateSettingsViewModel(_item));
-			//}
+			List<UpdateSettingsViewModel> _editSettings = new List<UpdateSettingsViewModel>();
+			foreach(SystemSetting _item in _settings)
+			{
+				var _vm = new UpdateSettingsViewModel();
+				_vm.PopulateVM(_item); 
+				_editSettings.Add(_vm);
+			}
 
-			return new JsonNetResult() { Data = new { list = _settings }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return new JsonNetResult() { Data = new { list = _editSettings }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
-		//[Bind(Include = "SettingValue")] 
 		[HttpPost]
-		public ActionResult SaveSettings(SystemSetting setting)
+		public ActionResult SaveSettings(UpdateSettingsViewModel setting)
 		{
-            //https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
-           
+			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
+
             if (setting == null)
             {
                 ModelState.AddModelError(string.Empty, "Valid setting not found.");
@@ -169,7 +170,7 @@ namespace MagicMaids.Controllers
 						MMContext.Entry(_objToUpdate).OriginalValues["RowVersion"] = rowVersion;
 						MMContext.SaveChanges();
 
-						return JsonSuccessResponse("Setting saved successfully");
+						return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
 					}
                     catch (DbUpdateConcurrencyException ex)
                     {

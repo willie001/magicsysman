@@ -13,3 +13,5 @@ Navigate away from current instance without state retaining:	btn btn-warning
 
 
 
+** Parent / Child management
+https://stackoverflow.com/questions/27176014/how-to-add-update-child-entities-when-updating-a-parent-entity-in-ef

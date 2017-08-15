@@ -31,6 +31,8 @@ namespace MagicMaids.EntityModels
 
         #region Properties, Public
         [Key]
+		[Required]
+		[DatabaseGenerated(DatabaseGeneratedOption.None)]
 		[Column("Id")]
 		public Guid Id
 		{
@@ -49,6 +51,7 @@ namespace MagicMaids.EntityModels
 		}
 
 		[DataType(DataType.Date)]
+		[Required]
 		[DisplayFormat(DataFormatString="{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime CreatedAt
 		{
@@ -84,6 +87,8 @@ namespace MagicMaids.EntityModels
 			}
 		}
 
+		[Required]
+		[DataType(DataType.Text)]
 		public string UpdatedBy
 		{
 			get
@@ -102,6 +107,7 @@ namespace MagicMaids.EntityModels
 
 		//https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/handling-concurrency-with-the-entity-framework-in-an-asp-net-mvc-application
 		[DataType(DataType.Date)]
+		[Required]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime RowVersion
         {
@@ -124,43 +130,6 @@ namespace MagicMaids.EntityModels
 				}
 			}
 		}
-
-		private string _formattedMetadata;
-		public string Metadata
-		{
-			get
-			{
-				if (!String.IsNullOrWhiteSpace(_formattedMetadata))
-				{
-					return _formattedMetadata;
-				}
-
-				System.Text.StringBuilder _output = new System.Text.StringBuilder();
-
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span>Guid:</span>&nbsp;");
-				_output.Append(this.Id.ToString());
-
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span>Update By:</span>&nbsp;");
-				_output.Append(this.UpdatedBy);
-
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span>Created:</span>&nbsp;");
-				_output.Append(this.CreatedAt.ToString());
-
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span>Updated:</span>&nbsp;");
-				_output.Append(this.UpdatedAt.ToString());
-
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span>Active:</span>&nbsp;");
-				_output.Append(this.IsActive.ToString());
-
-				_formattedMetadata = "<small>" + _output.ToString() + "</small>";
-				return _formattedMetadata;
-			}
-		}
 		#endregion
 
 		#region Methods, Private
@@ -168,7 +137,6 @@ namespace MagicMaids.EntityModels
 		{
 			if (PropertyChanged != null)
 			{
-				_formattedMetadata = string.Empty;
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
