@@ -3,42 +3,35 @@
 
     angular
     	.module("magiclogs",[])
-    	.controller("LogEntriesController", LogEntriesController)
-    	.controller("LogEntryController", LogEntryController);
+    	.controller('LogEntriesController', LogEntriesController)
+    	.controller('LogEntryController', LogEntryController);
 
-    LogEntriesController.$inject = ['$scope','$filter','$http','$q','$timeout'];
+    LogEntriesController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner'];
     LogEntryController.$inject = ['$scope','$filter','$http','$q'];
 
     /***************************/
 	/*** LOG ENTRIES SUMMARY ***/
 	/***************************/
-	function LogEntriesController($scope, $filter, $http, $q,$timeout)
+	function LogEntriesController($scope, $filter, $http, $q, HandleBusySpinner)
 	{
 		var vm = this;
 		activate();
 
 		function activate()
 		{
-			vm.listOfLogs = null;
-			$scope.isLoadingResults = false;
+        	vm.listOfLogs = null;
 			var _incDisabled = 0;
 
-    		$timeout(function(){
-    			$scope.isLoadingResults = true;
-   				$scope.$parent.$broadcast('triggerPanelRefresh', document.getElementById('panelApplicationLogs'),'traditional');
-			},500);
-
+			HandleBusySpinner.start($scope, 'panelApplicationLogs');
+        
 			$http.get('/logentries/getlogentries/')
                 .success(function (data) {
                 	vm.listOfLogs = data.list;
-                	$scope.isLoadingResults = false;
 
                 }).error(function(err) {
                 	//no action
                 }).finally(function() {
-                	$timeout(function () {
-                  		$scope.$broadcast('removeSpinner', 'panelApplicationLogs');
-              		}, 500);
+                	HandleBusySpinner.stop($scope, 'panelApplicationLogs');
                 });
 		}
 	}

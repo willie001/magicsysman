@@ -5,67 +5,139 @@
         .module('magicsettings',[])
         .controller('DefaultSettingsController', DefaultSettingsController)
 		.controller('FranchiseController', FranchiseController)
-		.controller('FranchiseDetailController', FranchiseDetailController);
+		.controller('FranchiseDetailController', FranchiseDetailController)
+		.controller('PostCodesController', PostCodesController);
 
-	//PostCodesController.$inject = ['$filter', '$http', 'editableOptions', 'editableThemes','$q'];
-    DefaultSettingsController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q', '$timeout'];
-    FranchiseController.$inject = ['$scope','$filter', '$http','$q', '$timeout'];
-    FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q'];
+	DefaultSettingsController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q', 'HandleBusySpinner','ShowUserMessages'];
+    FranchiseController.$inject = ['$scope','$filter', '$http','$q', 'HandleBusySpinner'];
+    FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','ShowUserMessages'];
+    PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','HandleBusySpinner','ShowUserMessages'];
 
-    function PostCodesController($filter, $http, editableOptions, editableThemes, $q)
+    /*****************************/
+	/*** SUBURB / ZONE MAPPING ***/
+	/*****************************/
+    function PostCodesController($scope, $filter, $http, editableOptions, editableThemes, $q, HandleBusySpinner, ShowUserMessages)
 	{
 		var vm = this;
+		var panelName = 'panelPostalDataSettings';
+		vm.selectedFranchise = null;
+
+
 		activate();
 
 		function activate()
 		{
 			vm.listOfPostcodes = null;
-			$http.get('/settings/getpostcodes')
-				.success(function (data) {
-					vm.listOfPostcodes = data.list;
-				});
-			
-		}
+			vm.franchises = null;
 
-		vm.validateData = function(data, id) {
-            if (id.length == 0 ) {
-              return 'Primary key is not set';
-            }
+			HandleBusySpinner.start($scope, panelName);
+           		
+			$http.get('/settings/getactivefranchises')
+                .success(function (data) {
+                	vm.franchises = data.list;
 
-            if (data.SuburbName.length == 0) {
-              return 'Suburb name is mandatory';
-            }
+                }).error(function(err) {
 
-            if (data.PostCode.length == 0) {
-              return 'Post code is mandatory';
-            }
-            
-            if (data.ZoneID.length == 0) {
-              return 'Zone Id is mandatory';
+                }).finally(function() {
+
+                });
+
+			loadPostCodes("");
+
+			HandleBusySpinner.stop($scope, panelName);
+		};
+
+		function loadPostCodes(franchiseId)
+		{
+			$http.get('/settings/getpostcodes?FranchiseId=' + franchiseId)
+                .success(function (data) {
+                	vm.listOfPostcodes = data.list;
+                	vm.nextNewGuid = data.nextGuid;
+                	//console.log("<POSTCODE nextNewGuid> - " + angular.toJson(vm.nextNewGuid));
+
+                }).error(function(err) {
+
+                }).finally(function() {
+
+                });
+		};
+
+		vm.loadMapping = function() {
+			//console.log("<SELECTED FRANCHISE> - " + angular.toJson(vm.selectedFranchise));
+
+			var franId = '';
+			if (vm.selectedFranchise != null )
+				franId = vm.selectedFranchise.Id;
+
+			HandleBusySpinner.start($scope, panelName);
+			loadPostCodes(franId);
+			HandleBusySpinner.stop($scope, panelName);
+		};
+
+		vm.validateData = function(data, colName) {
+            if (data.length == 0) {
+              return colName + ' is mandatory';
             }
           };
 
-          vm.addSuburb = function() {
-	          vm.inserted = {
-	              SuburbName: '',
-	              PostCode: '',
-	              ZoneID: 0
-	            };
-	            vm.listOfPostcodes.push(vm.inserted);
-          }
+          vm.addData = function() {
+          	HandleBusySpinner.start($scope, panelName);
+            vm.inserted = {
+              Id: vm.nextNewGuid,
+              SuburbName: '',
+              PostCode: '',
+              ZoneID: '',
+              LinkedZones: '',
+              IsNewItem: true
+            };
 
-          vm.saveSuburb = function(data, id) {
-          }
+            //console.log("<POSTCODE inserted> - " + angular.toJson(vm.inserted));
+
+            vm.listOfPostcodes.push(vm.inserted);
+            HandleBusySpinner.stop($scope, panelName);
+          };
 
           vm.removeSuburb = function(index) {
-            //vm.users.splice(index, 1);
+          	alert('Not ready yet!'); 
+          	return false;
+          	vm.listOfPostcodes.splice(index, 1);
           };
+
+          vm.saveData = function(data, id, isNew) {
+            var franId = '';
+
+			if (vm.selectedFranchise != null)
+			{
+				franId = vm.selectedFranchise.Id;
+			}
+
+			angular.extend(data, {
+					FranchiseId: franId,
+					Id: id,
+					IsNewItem: isNew
+				});
+
+      		$scope.userMessages = [];
+			$scope.userMessageType = [];
+
+            //console.log("<SETTING item post> - " + angular.toJson(data));
+       		return $http.post('/settings/savepostcodes', data).success(function (response) {
+                // Add your success stuff here
+                ShowUserMessages.show($scope, response, "Error updating suburb/zone.");
+           		loadPostCodes(franId);
+
+            }).error(function (error) {
+
+                ShowUserMessages.show($scope, error, "Error updating suburb/zone.");
+
+            });
+        }
 	}
 
 	/****************/
 	/*** SETTINGS ***/
 	/****************/
-    function DefaultSettingsController($scope, $filter, $http, editableOptions, editableThemes, $q, $timeout)
+    function DefaultSettingsController($scope, $filter, $http, editableOptions, editableThemes, $q, HandleBusySpinner, ShowUserMessages)
 	{
 		var vm = this;
 		activate();
@@ -74,23 +146,17 @@
         {
 			vm.listOfSettings = null;
 
-    		$timeout(function(){
-    			$scope.isLoadingResults = true;
-   				$scope.$parent.$broadcast('triggerPanelRefresh', document.getElementById('panelDataMasterSettings'),'traditional');
-			},150);
+			HandleBusySpinner.start($scope, 'panelDataMasterSettings');
 
             $http.get('/settings/getsettings/?incDisabled=1')
                 .success(function (data) {
                     vm.listOfSettings = data.list;
-                    $scope.isLoadingResults = false;
 
                 }).error(function(err) {
-                	
                 }).finally(function() {
-                	$timeout(function () {
-                  		$scope.$broadcast('removeSpinner', 'panelDataMasterSettings');
-              		}, 100);
+          			HandleBusySpinner.stop($scope, 'panelDataMasterSettings');
                 });
+
 		}
 
 		vm.validateSettingValue = function(data) {
@@ -118,42 +184,22 @@
 
             return $http.post('/settings/savesettings', item).success(function (response) {
                 // Add your success stuff here
-                _showUserMessages($scope, response);
+                //console.log("<SETTING item post> - " + angular.toJson(item));
+           		ShowUserMessages.show($scope, response, "Error updating default settings.");
+           		activate();
 
             }).error(function (error) {
 
-                _showUserMessages($scope, error);
+                ShowUserMessages.show($scope, error, "Error updating default settings.");
 
             });
-
-            function _showUserMessages($scope, msgs) {
-            	$scope.userMessageType.push(msgs.MsgCssClass);
-
-            	var _bHasErrors = false;
-            	if (msgs.Errors && angular.isObject(msgs.Errors)) {
-                	for (var i = 0; i < msgs.Errors.length; i++) {
-                		var message = msgs.Errors[i].Message;
-                		_bHasErrors = true;	
-            			$scope.userMessages.push(message) ;
-        			}
-                };
-
-                if (!_bHasErrors)
-                {
-	                if (msgs.Message != null) {
-	                    $scope.userMessages.push(msgs.Message);
-	                } else {
-	                	$scope.userMessages.push("Error updating default settings.");
-	                }
-                };
-            }
       	}
 	}
 
 	/*************************/
 	/*** FRANCHISE SUMMARY ***/
 	/*************************/
-	function FranchiseController($scope, $filter, $http, $q, $timeout)
+	function FranchiseController($scope, $filter, $http, $q, HandleBusySpinner)
 	{
 		var vm = this;
 
@@ -180,13 +226,9 @@
 		function activate()
         {
 			vm.listOfFranchises = null;
-			$scope.isLoadingResults = false;
 			var _incDisabled = 0;
 
-    		$timeout(function(){
-    			$scope.isLoadingResults = true;
-   				$scope.$parent.$broadcast('triggerPanelRefresh', document.getElementById('panelDataMasterSettings'),'traditional');
-			},500);
+			HandleBusySpinner.start($scope, 'panelDataMasterSettings');
 
 			var checkBox = document.getElementById('checkActiveSearch');
 			if (checkBox )
@@ -203,17 +245,12 @@
 
             $http.get('/settings/getfranchises/?incDisabled=' + _incDisabled)
                 .success(function (data) {
-                	$scope.isLoadingResults = false;
 					vm.listOfFranchises = data.list;
 
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	$scope.isLoadingResults = false;
-                	$timeout(function () {
-                  		$scope.$broadcast('removeSpinner', 'panelDataMasterSettings');
-              		}, 500);
-
+                	HandleBusySpinner.stop($scope, 'panelDataMasterSettings');
                 });
 		}
 	}
@@ -221,7 +258,7 @@
 	/*************************/
 	/*** FRANCHISE DETAILS ***/
 	/*************************/
-	function FranchiseDetailController($scope, $filter, $http, $q)
+	function FranchiseDetailController($scope, $filter, $http, $q, ShowUserMessages)
 	{
 		var vm = this;
 		var Id = $scope.Id;
@@ -237,7 +274,7 @@
         {
             $http.get('/settings/getfranchise/?Id=' + Id)
                 .success(function (data) {
-                	console.log("<FRANCHISE> - " + angular.toJson(data.item));
+                	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
                 	vm.franchise = data.item;
                 	$scope.Id = vm.franchise.Id;
 
@@ -272,7 +309,8 @@
       	};
 
       	vm.saveData = function(data) {
-      		//alert('saving data');
+      		//console.log("<FRANCHISE Data> - " + angular.toJson(data));
+            
 		 	$scope.submitted = true;
 
 		 	var chkCopy = document.getElementById('CopyToPostal').checked;
@@ -292,12 +330,12 @@
             	return $http.post('/settings/savefranchise', vm.franchise).success(function (response) {
                 	// Add your success stuff here
                 	$scope.submitted = false;
-                	_showUserMessages($scope, response);
+                	ShowUserMessages.show($scope, response, "Error updating details.");
                 	vm.franchise = response.DataItem;
 
             	}).error(function (error) {
             		$scope.submitted = false;
-                	_showUserMessages($scope, error);
+                	ShowUserMessages.show($scope, error, "Error updating details.");
 
             	});
         	}
@@ -305,47 +343,9 @@
         	{
         		//console.log("<XX> - " + angular.toJson(vm.franchiseForm.$error));
             	$scope.submitted = false;
-            	_showUserMessages($scope, "Error updating franchise details - please review validation errors");
+            	ShowUserMessages.show($scope, "Error updating franchise details - please review validation errors", "Error updating details.");
         		return false;
         	}
-
-
-            function _showUserMessages($scope, msgs) {
-            	//console.log("<X2> - " + angular.toJson(msgs));
-            	if (msgs.MsgCssClass != null)
-            		$scope.userMessageType.push(msgs.MsgCssClass);
-				else
-					$scope.userMessageType.push('alert bg-warning-light');
-
-            	var _bHasErrors = false;
-            	var prevMsg = "";
-            	if (msgs.Errors && angular.isObject(msgs.Errors)) {
-                	for (var i = 0; i < msgs.Errors.length; i++) {
-                		var message = msgs.Errors[i].Message;
-                		_bHasErrors = true;	
-                		if (prevMsg != message)
-                		{
-            				$scope.userMessages.push(message) ;
-            			}
-            			prevMsg = message;
-        			}
-                };
-
-                if (!_bHasErrors)
-                {
-	                if (msgs.Message != null) {
-	                    $scope.userMessages.push(msgs.Message);
-					} else if (msgs != null) {
-						$scope.userMessages.push(msgs);
-	                } else {
-	                	$scope.userMessages.push("Error updating details");
-	                }
-                };
-                //console.log("<X3> - " + angular.toJson($scope.userMessages));
-				window.scrollTo(0,0);
-            };
-
-
       	}
 	}
 })();

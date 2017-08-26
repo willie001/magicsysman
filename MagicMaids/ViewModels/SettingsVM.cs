@@ -63,6 +63,7 @@ namespace MagicMaids.ViewModels
 
 			FormatMetadata(entityModel);
 		}
+
 		#endregion
 
 		#region Methods, Private
@@ -86,11 +87,11 @@ namespace MagicMaids.ViewModels
 
 			if (_output.Length > 0) _output.Append("<br/>");
 			_output.Append("<span>Created:</span>&nbsp;");
-			_output.Append(entityModel.CreatedAt.ToString());
+			_output.Append(entityModel.CreatedAt.ToLocalTime().ToString());
 
 			if (_output.Length > 0) _output.Append("<br/>");
 			_output.Append("<span>Updated:</span>&nbsp;");
-			_output.Append(entityModel.UpdatedAt.ToString());
+			_output.Append(entityModel.UpdatedAt.ToLocalTime().ToString());
 
 			if (_output.Length > 0) _output.Append("<br/>");
 			_output.Append("<span>Active:</span>&nbsp;");

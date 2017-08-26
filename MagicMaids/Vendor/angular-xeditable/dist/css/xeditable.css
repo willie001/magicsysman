@@ -6,6 +6,7 @@
   display: inline-block;
   white-space: pre;
   margin: 0;
+  width: 100%;
 }
 
 /* remove bottom-margin for bootstrap */

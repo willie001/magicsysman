@@ -27,15 +27,13 @@
 			<div class="form-group">
 	          	<label class="col-lg-2 control-label">Select User Account</label>
 	          	<div class="col-lg-10">
-					@foreach (var item in Enum.GetValues(typeof(MagicDAL.Models.UserAccountTypes)))
-					{
+					<!--loop through user accounts-->
 						<div class="checkbox c-checkbox needsclick">
                      		<label class="needsclick">
                         		<input type="checkbox" value="@item"  class="needsclick"/>
                         		<span class="fa fa-check"></span>@item
 							</label>
                   		</div>
-                  	}
 				</div>
 			</div>
 

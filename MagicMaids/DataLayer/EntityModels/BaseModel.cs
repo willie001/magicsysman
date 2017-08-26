@@ -109,6 +109,7 @@ namespace MagicMaids.EntityModels
 		[DataType(DataType.Date)]
 		[Required]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
+		[ConcurrencyCheck]
 		public DateTime RowVersion
         {
             get;

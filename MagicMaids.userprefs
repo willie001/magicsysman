@@ -1,5 +1,12 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+    <Files>
+      <File FileName="MagicMaids/Views/Settings/Postcodes.cshtml" Line="35" Column="18" />
+      <File FileName="MagicMaids/Views/Settings/LogEntries.cshtml" Line="15" Column="37" />
+      <File FileName="MagicMaids/Scripts/app/app.module.js" Line="61" Column="57" />
+      <File FileName="MagicMaids/Web.config" Line="15" Column="9" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

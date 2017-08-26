@@ -4,69 +4,86 @@
 }
 
 <div class="content-heading">
-    {{ 'pageTitles.settings.POSTCODES' | translate }}
+	{{ 'pageTitles.settings.POSTCODES' | translate }}
+	<small>Configure suburb / zone mapping.</small>
 </div>
 
-<div ng-controller="PostCodesController as table" class="container-fluid">
-   	<h4 class="page-header">Suburbs / Zones</h4>
+<div ng-controller="PostCodesController as vmPost" class="container-fluid">
+	
+    @Html.Partial("_InformationDetails")
 
-	<div class="panel panel-default" id="panelPostal">
+	<div class="panel panel-default" id="panelFranciseList">
 		<div class="panel-body">
+			<p>Select franchise to filter the suburb/zone mapping by franchise, or unselect to view common suburb/zones. To customise 
+			suburbs and zones for a specific franchise, select the required franchise before adding suburbs.</p>
 			<div class="form-group">
 		      	<label class="col-lg-2 control-label">Select Franchise:</label>
 		      	<div class="col-lg-10">
-					<select name="account" class="form-control">
-		                <option value="">Select Franchise</option>	
-						<option value="NM">North Metro</option>
-						<option value="SW">South West</option>
-						<option value="TA">Tasmania</option>
+					<select ng-options="franchise.Name for franchise in vmPost.franchises track by franchise.Id" ng-model="vmPost.selectedFranchise" ng-change="vmPost.loadMapping()" class="form-control">
+		                <option value="">--- View common suburbs and zones ---</option>	
 		          	</select>	
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="table-responsive">
-		<table class="table table-bordered table-hover bg-white">
-	      	<tr style="font-weight: bold">
-	         	<td style="width:30%" class="text-center">Suburb Name</td>
-	         	<td style="width:10%" class="text-center">Post Code</td>
-	         	<td style="width:10%" class="text-center">Zone</td>
-	         	<td style="width:30%" class="text-center">Neighbour Zones</td>
-				<td style="width:20%" class="text-center"></td>
-	      	</tr>
-			<tr ng-repeat="item in table.listOfPostcodes">
-				<td>
-	            	<span editable-text="item.SuburbName" e-name="Suburb" e-form="rowform" onbeforesave="table.validateData($data, item.Id)" e-required="">{{ item.SuburbName || &apos;empty&apos; }}</span>
-	         	</td>
-				<td class="text-right"><span editable-text="item.PostCode" e-name="PostCode" e-form="rowform" onbeforesave="table.validateData($data, item.Id)" e-required="">{{ item.PostCode || &apos;empty&apos; }}</span></td>
-				<td class="text-center"><span editable-text="item.ZoneID" e-name="Zone" e-form="rowform" onbeforesave="table.validateData($data, item.Id)" e-required="">{{ item.ZoneID || &apos;empty&apos;}}</span></td>
-				<td><span editable-text="item.LinkedZones" e-name="LinkedZones" e-form="rowform">{{ item.LinkedZones }}</span></td>
-				<td style="white-space: nowrap">
-		            <!-- form-->
-		            <form editable-form="" name="rowform" onbeforesave="table.saveSuburb($data, item.Id)" ng-show="rowform.$visible" shown="table.inserted == item" class="form-buttons form-inline">
-		               <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
-		                  <em class="fa fa-save"></em>
-		               </button>
-		               <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
-		                  <em class="fa fa-times"></em>
-		               </button>
-		            </form>
-		            <div ng-show="!rowform.$visible" class="buttons">
-		               <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
-		                  <em class="fa fa-pencil"></em>
-		               </button>
-		               <button ng-click="table.removeSuburb($index)" title="Delete" class="btn btn-sm btn-danger">
-		                  <em class="fa fa-trash"></em>
-		               </button>
-		            </div>
-		         </td>
-			</tr>
-		</table>
-
-		<!-- buttons-->
-	    <button ng-click="table.addSuburb()" class="btn btn-primary">Add Suburb</button>
-	</div>	
+	<div class="panel panel-transparent" id="panelPostalDataSettings">
+		<div class="panel-heading">
+            <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+			<button type="button" class="btn btn-primary pull-right" ng-click="vmPost.addData()">
+  				<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Suburb Zone
+			</button><br/>
+        </div>
+		<div class="panel-body">
+			<div class="table-responsive">
+				<table class="table table-bordered table-hover bg-white">
+			      	<tr style="font-weight: bold">
+			         	<td class="text-center">Suburb Name</td>
+			         	<td class="text-center">Post Code</td>
+			         	<td class="text-center">Zone</td>
+			         	<td class="text-center">Neighbour Zones</td>
+						<td style="width:10%" class="text-center"></td>
+			      	</tr>
+					<tr ng-hide="vmPost.listOfPostcodes.length">
+						<td colspan="8" class="EmptyResults">No suburb/zone found.  <a href="" ng-click="vmPost.addData()">Please add</a> a new suburb/zone.</td>
+					</tr>
+					<tr ng-repeat="item in vmPost.listOfPostcodes">
+						<td>
+			            	<span editable-text="item.SuburbName" e-name="SuburbName" e-form="rowform" onbeforesave="vmPost.validateData($data, 'Suburb name')" e-required="">{{ item.SuburbName || &apos;Not set&apos; }}</span>
+			         	</td>
+						<td>
+							<span editable-text="item.PostCode" e-name="PostCode" e-form="rowform" onbeforesave="vmPost.validateData($data, 'Post code')" e-required="">{{ item.PostCode || &apos;Not set&apos; }}</span>
+						</td>
+						<td>
+							<span editable-text="item.ZoneID" e-name="ZoneID" e-form="rowform" onbeforesave="vmPost.validateData($data, 'Zone Id')" e-required="">{{ item.ZoneID || &apos;Not set&apos; }}</span>
+						</td>
+						<td>
+							<span editable-text="item.LinkedZones" e-name="LinkedZones" e-form="rowform" onbeforesave="vmPost.validateData($data, 'Linked zones')" e-required="">{{ item.LinkedZones || &apos;Not set&apos; }}</span>
+						</td>
+						<td style="white-space: nowrap">
+							 <!-- form-->
+				            <form editable-form="" name="rowform" onbeforesave="vmPost.saveData($data, item.Id, item.IsNewItem)" ng-show="rowform.$visible" shown="vmPost.inserted == item" class="form-buttons form-inline">
+				               <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
+				                  <em class="fa fa-save"></em>
+				               </button>
+				               <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+				                  <em class="fa fa-times"></em>
+				               </button>
+				            </form>
+				            <div ng-show="!rowform.$visible" class="buttons">
+				               <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
+				                  <em class="fa fa-pencil"></em>
+				               </button>
+				               <button  title="Delete" class="btn btn-sm btn-danger" ng-click="vmPost.removeSuburb($index)">
+				                  <em class="fa fa-trash"></em>
+				               </button>
+				            </div>
+				         </td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
 </div>
 
 

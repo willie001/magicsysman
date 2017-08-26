@@ -19,7 +19,7 @@ namespace MagicMaids.DataAccess
 			//this.Configuration.LazyLoadingEnabled = false;
 
             DefaultSettings = Set<SystemSetting>();
-            PostCodeZones = Set<Suburb>();
+            SuburbZones = Set<SuburbZone>();
 			Franchises = Set<Franchise>();
 			Addresses = Set<Address>();
 
@@ -50,7 +50,7 @@ namespace MagicMaids.DataAccess
 			set;
 		}
 
-        public DbSet<Suburb> PostCodeZones
+        public DbSet<SuburbZone> SuburbZones
         {
             get;
             set;
@@ -69,12 +69,12 @@ namespace MagicMaids.DataAccess
 					if (String.IsNullOrWhiteSpace(currentUser))
 						currentUser = "TODO";
 					
-					auditableEntity.Entity.UpdatedAt = DateTime.Now;
+					auditableEntity.Entity.UpdatedAt = DateTime.UtcNow;
 					auditableEntity.Entity.UpdatedBy = currentUser;
 
 					if (auditableEntity.State == EntityState.Added)
 					{
-						auditableEntity.Entity.CreatedAt = DateTime.Now;
+						auditableEntity.Entity.CreatedAt = DateTime.UtcNow ;
 					}
 					else
 					{

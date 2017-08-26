@@ -37,8 +37,4 @@ namespace MagicMaids.EntityModels
 		}
 		#endregion
 	}
-
-    
 }
-
-

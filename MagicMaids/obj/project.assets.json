@@ -2,39 +2,2046 @@
   "version": 2,
   "targets": {
     ".NETFramework,Version=v4.5.2": {
+      "Antlr/3.5.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/Antlr3.Runtime.dll": {}
+        },
+        "runtime": {
+          "lib/Antlr3.Runtime.dll": {}
+        }
+      },
+      "DelegateDecompiler/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "Mono.Reflection": "1.1.0"
+        },
+        "compile": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        },
+        "runtime": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        }
+      },
+      "DelegateDecompiler.EntityFramework/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "DelegateDecompiler": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "compile": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        }
+      },
+      "EntityFramework/6.1.3": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
+      "FluentValidation/7.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/FluentValidation.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.dll": {}
+        }
+      },
+      "FluentValidation.Mvc5/7.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation": "7.1.1",
+          "Microsoft.AspNet.Mvc": "5.2.0"
+        },
+        "compile": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        }
+      },
+      "FluentValidation.MVC5-Signed/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation.MVC5": "7.0.0"
+        }
+      },
+      "Glimpse/1.8.6": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Glimpse.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Core.dll": {}
+        }
+      },
+      "Glimpse.Ado/1.7.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        }
+      },
+      "Glimpse.AspNet/1.9.2": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        }
+      },
+      "Glimpse.EF6/1.6.5": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.Ado": "1.7.3"
+        },
+        "compile": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        }
+      },
+      "Glimpse.Mvc5/1.5.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.AspNet": "1.8.0"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        }
+      },
       "Legacy2CPSWorkaround/1.0.0": {
         "type": "package",
         "build": {
           "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
+        }
+      },
+      "Microsoft.AspNet.Mvc/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.AspNet.WebPages": "[3.2.3, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Razor/3.2.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Web.Razor.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Razor.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Web.Optimization/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0",
+          "WebGrease": "1.5.2"
+        },
+        "compile": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        },
+        "runtime": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.WebHost": "[5.2.3, 5.3.0)"
+        }
+      },
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Core/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Client": "5.2.3"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.WebHost/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Core": "[5.2.3, 5.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebPages/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        }
+      },
+      "Microsoft.Owin/3.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        }
+      },
+      "Microsoft.Web.Infrastructure/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        }
+      },
+      "Mono.Reflection/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/Mono.Reflection.dll": {}
+        },
+        "runtime": {
+          "lib/Mono.Reflection.dll": {}
+        }
+      },
+      "MySql.Data/6.9.9": {
+        "type": "package",
+        "compile": {
+          "lib/net45/MySql.Data.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.dll": {}
+        }
+      },
+      "MySql.Data.Entity/6.9.9": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.9"
+        },
+        "compile": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        }
+      },
+      "Newtonsoft.Json/10.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Ninject/3.2.2": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/Ninject.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.dll": {}
+        }
+      },
+      "Ninject.MVC5/3.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ],
+        "compile": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
+      },
+      "NLog/4.4.12": {
+        "type": "package",
+        "compile": {
+          "lib/net45/NLog.dll": {}
+        },
+        "runtime": {
+          "lib/net45/NLog.dll": {}
+        }
+      },
+      "NLog.Config/4.4.12": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.12",
+          "NLog.Schema": "4.4.12"
+        }
+      },
+      "NLog.Extended/4.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.0"
+        },
+        "compile": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        }
+      },
+      "NLog.Schema/4.4.12": {
+        "type": "package"
+      },
+      "NLog.Web/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.2"
+        },
+        "compile": {
+          "lib/net35/NLog.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NLog.Web.dll": {}
+        }
+      },
+      "Owin/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Owin.dll": {}
+        }
+      },
+      "Respond/1.4.2": {
+        "type": "package"
+      },
+      "System.Linq/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.ComponentModel.Composition",
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Version/3.0.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.Configuration",
+          "System.Web",
+          "System.Web.Mvc"
+        ],
+        "compile": {
+          "lib/Version.dll": {}
+        },
+        "runtime": {
+          "lib/Version.dll": {}
+        }
+      },
+      "WebActivatorEx/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/WebActivatorEx.dll": {}
+        },
+        "runtime": {
+          "lib/net40/WebActivatorEx.dll": {}
+        }
+      },
+      "WebGrease/1.6.0": {
+        "type": "package",
+        "dependencies": {
+          "Antlr": "3.4.1.9004",
+          "Newtonsoft.Json": "5.0.4"
+        },
+        "compile": {
+          "lib/WebGrease.dll": {}
+        },
+        "runtime": {
+          "lib/WebGrease.dll": {}
         }
       }
     },
     ".NETFramework,Version=v4.5.2/win": {
+      "Antlr/3.5.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/Antlr3.Runtime.dll": {}
+        },
+        "runtime": {
+          "lib/Antlr3.Runtime.dll": {}
+        }
+      },
+      "DelegateDecompiler/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "Mono.Reflection": "1.1.0"
+        },
+        "compile": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        },
+        "runtime": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        }
+      },
+      "DelegateDecompiler.EntityFramework/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "DelegateDecompiler": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "compile": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        }
+      },
+      "EntityFramework/6.1.3": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
+      "FluentValidation/7.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/FluentValidation.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.dll": {}
+        }
+      },
+      "FluentValidation.Mvc5/7.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation": "7.1.1",
+          "Microsoft.AspNet.Mvc": "5.2.0"
+        },
+        "compile": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        }
+      },
+      "FluentValidation.MVC5-Signed/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation.MVC5": "7.0.0"
+        }
+      },
+      "Glimpse/1.8.6": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Glimpse.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Core.dll": {}
+        }
+      },
+      "Glimpse.Ado/1.7.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        }
+      },
+      "Glimpse.AspNet/1.9.2": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        }
+      },
+      "Glimpse.EF6/1.6.5": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.Ado": "1.7.3"
+        },
+        "compile": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        }
+      },
+      "Glimpse.Mvc5/1.5.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.AspNet": "1.8.0"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        }
+      },
       "Legacy2CPSWorkaround/1.0.0": {
         "type": "package",
         "build": {
           "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
+        }
+      },
+      "Microsoft.AspNet.Mvc/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.AspNet.WebPages": "[3.2.3, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Razor/3.2.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Web.Razor.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Razor.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Web.Optimization/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0",
+          "WebGrease": "1.5.2"
+        },
+        "compile": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        },
+        "runtime": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.WebHost": "[5.2.3, 5.3.0)"
+        }
+      },
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Core/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Client": "5.2.3"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.WebHost/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Core": "[5.2.3, 5.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebPages/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        }
+      },
+      "Microsoft.Owin/3.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        }
+      },
+      "Microsoft.Web.Infrastructure/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        }
+      },
+      "Mono.Reflection/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/Mono.Reflection.dll": {}
+        },
+        "runtime": {
+          "lib/Mono.Reflection.dll": {}
+        }
+      },
+      "MySql.Data/6.9.9": {
+        "type": "package",
+        "compile": {
+          "lib/net45/MySql.Data.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.dll": {}
+        }
+      },
+      "MySql.Data.Entity/6.9.9": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.9"
+        },
+        "compile": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        }
+      },
+      "Newtonsoft.Json/10.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Ninject/3.2.2": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/Ninject.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.dll": {}
+        }
+      },
+      "Ninject.MVC5/3.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ],
+        "compile": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
+      },
+      "NLog/4.4.12": {
+        "type": "package",
+        "compile": {
+          "lib/net45/NLog.dll": {}
+        },
+        "runtime": {
+          "lib/net45/NLog.dll": {}
+        }
+      },
+      "NLog.Config/4.4.12": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.12",
+          "NLog.Schema": "4.4.12"
+        }
+      },
+      "NLog.Extended/4.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.0"
+        },
+        "compile": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        }
+      },
+      "NLog.Schema/4.4.12": {
+        "type": "package"
+      },
+      "NLog.Web/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.2"
+        },
+        "compile": {
+          "lib/net35/NLog.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NLog.Web.dll": {}
+        }
+      },
+      "Owin/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Owin.dll": {}
+        }
+      },
+      "Respond/1.4.2": {
+        "type": "package"
+      },
+      "System.Linq/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.ComponentModel.Composition",
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Version/3.0.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.Configuration",
+          "System.Web",
+          "System.Web.Mvc"
+        ],
+        "compile": {
+          "lib/Version.dll": {}
+        },
+        "runtime": {
+          "lib/Version.dll": {}
+        }
+      },
+      "WebActivatorEx/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/WebActivatorEx.dll": {}
+        },
+        "runtime": {
+          "lib/net40/WebActivatorEx.dll": {}
+        }
+      },
+      "WebGrease/1.6.0": {
+        "type": "package",
+        "dependencies": {
+          "Antlr": "3.4.1.9004",
+          "Newtonsoft.Json": "5.0.4"
+        },
+        "compile": {
+          "lib/WebGrease.dll": {}
+        },
+        "runtime": {
+          "lib/WebGrease.dll": {}
         }
       }
     },
     ".NETFramework,Version=v4.5.2/win-x64": {
+      "Antlr/3.5.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/Antlr3.Runtime.dll": {}
+        },
+        "runtime": {
+          "lib/Antlr3.Runtime.dll": {}
+        }
+      },
+      "DelegateDecompiler/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "Mono.Reflection": "1.1.0"
+        },
+        "compile": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        },
+        "runtime": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        }
+      },
+      "DelegateDecompiler.EntityFramework/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "DelegateDecompiler": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "compile": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        }
+      },
+      "EntityFramework/6.1.3": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
+      "FluentValidation/7.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/FluentValidation.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.dll": {}
+        }
+      },
+      "FluentValidation.Mvc5/7.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation": "7.1.1",
+          "Microsoft.AspNet.Mvc": "5.2.0"
+        },
+        "compile": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        }
+      },
+      "FluentValidation.MVC5-Signed/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation.MVC5": "7.0.0"
+        }
+      },
+      "Glimpse/1.8.6": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Glimpse.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Core.dll": {}
+        }
+      },
+      "Glimpse.Ado/1.7.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        }
+      },
+      "Glimpse.AspNet/1.9.2": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        }
+      },
+      "Glimpse.EF6/1.6.5": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.Ado": "1.7.3"
+        },
+        "compile": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        }
+      },
+      "Glimpse.Mvc5/1.5.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.AspNet": "1.8.0"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        }
+      },
       "Legacy2CPSWorkaround/1.0.0": {
         "type": "package",
         "build": {
           "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
         }
+      },
+      "Microsoft.AspNet.Mvc/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.AspNet.WebPages": "[3.2.3, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Razor/3.2.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Web.Razor.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Razor.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Web.Optimization/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0",
+          "WebGrease": "1.5.2"
+        },
+        "compile": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        },
+        "runtime": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.WebHost": "[5.2.3, 5.3.0)"
+        }
+      },
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Core/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Client": "5.2.3"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.WebHost/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Core": "[5.2.3, 5.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebPages/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        }
+      },
+      "Microsoft.Owin/3.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        }
+      },
+      "Microsoft.Web.Infrastructure/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        }
+      },
+      "Mono.Reflection/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/Mono.Reflection.dll": {}
+        },
+        "runtime": {
+          "lib/Mono.Reflection.dll": {}
+        }
+      },
+      "MySql.Data/6.9.9": {
+        "type": "package",
+        "compile": {
+          "lib/net45/MySql.Data.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.dll": {}
+        }
+      },
+      "MySql.Data.Entity/6.9.9": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.9"
+        },
+        "compile": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        }
+      },
+      "Newtonsoft.Json/10.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Ninject/3.2.2": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/Ninject.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.dll": {}
+        }
+      },
+      "Ninject.MVC5/3.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ],
+        "compile": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
+      },
+      "NLog/4.4.12": {
+        "type": "package",
+        "compile": {
+          "lib/net45/NLog.dll": {}
+        },
+        "runtime": {
+          "lib/net45/NLog.dll": {}
+        }
+      },
+      "NLog.Config/4.4.12": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.12",
+          "NLog.Schema": "4.4.12"
+        }
+      },
+      "NLog.Extended/4.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.0"
+        },
+        "compile": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        }
+      },
+      "NLog.Schema/4.4.12": {
+        "type": "package"
+      },
+      "NLog.Web/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.2"
+        },
+        "compile": {
+          "lib/net35/NLog.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NLog.Web.dll": {}
+        }
+      },
+      "Owin/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Owin.dll": {}
+        }
+      },
+      "Respond/1.4.2": {
+        "type": "package"
+      },
+      "System.Linq/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.ComponentModel.Composition",
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Version/3.0.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.Configuration",
+          "System.Web",
+          "System.Web.Mvc"
+        ],
+        "compile": {
+          "lib/Version.dll": {}
+        },
+        "runtime": {
+          "lib/Version.dll": {}
+        }
+      },
+      "WebActivatorEx/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/WebActivatorEx.dll": {}
+        },
+        "runtime": {
+          "lib/net40/WebActivatorEx.dll": {}
+        }
+      },
+      "WebGrease/1.6.0": {
+        "type": "package",
+        "dependencies": {
+          "Antlr": "3.4.1.9004",
+          "Newtonsoft.Json": "5.0.4"
+        },
+        "compile": {
+          "lib/WebGrease.dll": {}
+        },
+        "runtime": {
+          "lib/WebGrease.dll": {}
+        }
       }
     },
     ".NETFramework,Version=v4.5.2/win-x86": {
+      "Antlr/3.5.0.2": {
+        "type": "package",
+        "compile": {
+          "lib/Antlr3.Runtime.dll": {}
+        },
+        "runtime": {
+          "lib/Antlr3.Runtime.dll": {}
+        }
+      },
+      "DelegateDecompiler/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "Mono.Reflection": "1.1.0"
+        },
+        "compile": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        },
+        "runtime": {
+          "lib/net40-client/DelegateDecompiler.dll": {}
+        }
+      },
+      "DelegateDecompiler.EntityFramework/0.23.0": {
+        "type": "package",
+        "dependencies": {
+          "DelegateDecompiler": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "compile": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
+        }
+      },
+      "EntityFramework/6.1.3": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations"
+        ],
+        "compile": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        },
+        "runtime": {
+          "lib/net45/EntityFramework.SqlServer.dll": {},
+          "lib/net45/EntityFramework.dll": {}
+        }
+      },
+      "FluentValidation/7.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/FluentValidation.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.dll": {}
+        }
+      },
+      "FluentValidation.Mvc5/7.1.1": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation": "7.1.1",
+          "Microsoft.AspNet.Mvc": "5.2.0"
+        },
+        "compile": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/FluentValidation.Mvc.dll": {}
+        }
+      },
+      "FluentValidation.MVC5-Signed/7.0.0": {
+        "type": "package",
+        "dependencies": {
+          "FluentValidation.MVC5": "7.0.0"
+        }
+      },
+      "Glimpse/1.8.6": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Glimpse.Core.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Core.dll": {}
+        }
+      },
+      "Glimpse.Ado/1.7.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Ado.dll": {}
+        }
+      },
+      "Glimpse.AspNet/1.9.2": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse": "1.8.6"
+        },
+        "compile": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.AspNet.dll": {}
+        }
+      },
+      "Glimpse.EF6/1.6.5": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.Ado": "1.7.3"
+        },
+        "compile": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.EF6.dll": {}
+        }
+      },
+      "Glimpse.Mvc5/1.5.3": {
+        "type": "package",
+        "dependencies": {
+          "Glimpse.AspNet": "1.8.0"
+        },
+        "compile": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Glimpse.Mvc5.dll": {}
+        }
+      },
       "Legacy2CPSWorkaround/1.0.0": {
         "type": "package",
         "build": {
           "build/netstandard1.0/Legacy2CPSWorkaround.props": {}
+        }
+      },
+      "Microsoft.AspNet.Mvc/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.AspNet.WebPages": "[3.2.3, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Mvc.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Razor/3.2.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/System.Web.Razor.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Razor.dll": {}
+        }
+      },
+      "Microsoft.AspNet.Web.Optimization/1.1.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0",
+          "WebGrease": "1.5.2"
+        },
+        "compile": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        },
+        "runtime": {
+          "lib/net40/System.Web.Optimization.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.WebHost": "[5.2.3, 5.3.0)"
+        }
+      },
+      "Microsoft.AspNet.WebApi.Client/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "frameworkAssemblies": [
+          "System.Net.Http"
+        ],
+        "compile": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Net.Http.Formatting.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.Core/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Client": "5.2.3"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebApi.WebHost/5.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.WebApi.Core": "[5.2.3, 5.3.0)"
+        },
+        "compile": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Http.WebHost.dll": {}
+        }
+      },
+      "Microsoft.AspNet.WebPages/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AspNet.Razor": "[3.2.3, 3.3.0)",
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        },
+        "runtime": {
+          "lib/net45/System.Web.Helpers.dll": {},
+          "lib/net45/System.Web.WebPages.Deployment.dll": {},
+          "lib/net45/System.Web.WebPages.Razor.dll": {},
+          "lib/net45/System.Web.WebPages.dll": {}
+        }
+      },
+      "Microsoft.Owin/3.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Owin": "1.0.0"
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.dll": {}
+        }
+      },
+      "Microsoft.Web.Infrastructure/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Web.Infrastructure.dll": {}
+        }
+      },
+      "Mono.Reflection/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/Mono.Reflection.dll": {}
+        },
+        "runtime": {
+          "lib/Mono.Reflection.dll": {}
+        }
+      },
+      "MySql.Data/6.9.9": {
+        "type": "package",
+        "compile": {
+          "lib/net45/MySql.Data.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.dll": {}
+        }
+      },
+      "MySql.Data.Entity/6.9.9": {
+        "type": "package",
+        "dependencies": {
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.9"
+        },
+        "compile": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+        }
+      },
+      "Newtonsoft.Json/10.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {}
+        }
+      },
+      "Ninject/3.2.2": {
+        "type": "package",
+        "compile": {
+          "lib/net45-full/Ninject.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.dll": {}
+        }
+      },
+      "Ninject.MVC5/3.2.1": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ],
+        "compile": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
+      },
+      "NLog/4.4.12": {
+        "type": "package",
+        "compile": {
+          "lib/net45/NLog.dll": {}
+        },
+        "runtime": {
+          "lib/net45/NLog.dll": {}
+        }
+      },
+      "NLog.Config/4.4.12": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.12",
+          "NLog.Schema": "4.4.12"
+        }
+      },
+      "NLog.Extended/4.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.0.0"
+        },
+        "compile": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/NLog.Extended.dll": {}
+        }
+      },
+      "NLog.Schema/4.4.12": {
+        "type": "package"
+      },
+      "NLog.Web/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "NLog": "4.4.2"
+        },
+        "compile": {
+          "lib/net35/NLog.Web.dll": {}
+        },
+        "runtime": {
+          "lib/net35/NLog.Web.dll": {}
+        }
+      },
+      "Owin/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net40/Owin.dll": {}
+        },
+        "runtime": {
+          "lib/net40/Owin.dll": {}
+        }
+      },
+      "Respond/1.4.2": {
+        "type": "package"
+      },
+      "System.Linq/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.ComponentModel.Composition",
+          "System.Core"
+        ],
+        "compile": {
+          "ref/net45/_._": {}
+        },
+        "runtime": {
+          "lib/net45/_._": {}
+        }
+      },
+      "Version/3.0.0": {
+        "type": "package",
+        "frameworkAssemblies": [
+          "System",
+          "System.Configuration",
+          "System.Web",
+          "System.Web.Mvc"
+        ],
+        "compile": {
+          "lib/Version.dll": {}
+        },
+        "runtime": {
+          "lib/Version.dll": {}
+        }
+      },
+      "WebActivatorEx/2.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/WebActivatorEx.dll": {}
+        },
+        "runtime": {
+          "lib/net40/WebActivatorEx.dll": {}
+        }
+      },
+      "WebGrease/1.6.0": {
+        "type": "package",
+        "dependencies": {
+          "Antlr": "3.4.1.9004",
+          "Newtonsoft.Json": "5.0.4"
+        },
+        "compile": {
+          "lib/WebGrease.dll": {}
+        },
+        "runtime": {
+          "lib/WebGrease.dll": {}
         }
       }
     }
   },
   "libraries": {
+    "Antlr/3.5.0.2": {
+      "sha512": "CSfrVuDVMx3OrQhT84zed+tOdM1clljyRLWWlQM22fJsmG836RVDGQlE6tzysXh8X8p9UjkHbLr6OqEIVhtdEA==",
+      "type": "package",
+      "path": "antlr/3.5.0.2",
+      "files": [
+        "antlr.3.5.0.2.nupkg.sha512",
+        "antlr.nuspec",
+        "lib/Antlr3.Runtime.dll",
+        "lib/Antlr3.Runtime.pdb"
+      ]
+    },
+    "DelegateDecompiler/0.23.0": {
+      "sha512": "pGpsj13Mv3TQE0EQh9E1jg1iDl1rFsyZBv/UEsl+geGUIpGoTqJk8C2EwT4p4ZpHAnxQhT1zmpm5F1nKt09XkA==",
+      "type": "package",
+      "path": "delegatedecompiler/0.23.0",
+      "files": [
+        "delegatedecompiler.0.23.0.nupkg.sha512",
+        "delegatedecompiler.nuspec",
+        "lib/net40-client/DelegateDecompiler.dll"
+      ]
+    },
+    "DelegateDecompiler.EntityFramework/0.23.0": {
+      "sha512": "UCXtED2fzBKSH4TlTIxZ1kan47/b2ZyhmFGlb3uE626EOyaHgk8t3nfklH3g+JHkCbMzwRii9jOut7xfcSnRgA==",
+      "type": "package",
+      "path": "delegatedecompiler.entityframework/0.23.0",
+      "files": [
+        "delegatedecompiler.entityframework.0.23.0.nupkg.sha512",
+        "delegatedecompiler.entityframework.nuspec",
+        "lib/net45/DelegateDecompiler.EntityFramework.dll"
+      ]
+    },
+    "EntityFramework/6.1.3": {
+      "sha512": "2xzFHAF3VVdmTR3//MygtQpwfbDjeaq+nQwCcokLzen7MKHOojPaxNPQPa4diHY1QtcR7zlHAJHNRqPB7W2Syw==",
+      "type": "package",
+      "path": "entityframework/6.1.3",
+      "files": [
+        "EntityFramework.6.1.3.nupkg.sha512",
+        "EntityFramework.nuspec",
+        "content/App.config.transform",
+        "content/Web.config.transform",
+        "lib/net40/EntityFramework.SqlServer.dll",
+        "lib/net40/EntityFramework.SqlServer.xml",
+        "lib/net40/EntityFramework.dll",
+        "lib/net40/EntityFramework.xml",
+        "lib/net45/EntityFramework.SqlServer.dll",
+        "lib/net45/EntityFramework.SqlServer.xml",
+        "lib/net45/EntityFramework.dll",
+        "lib/net45/EntityFramework.xml",
+        "tools/EntityFramework.PowerShell.Utility.dll",
+        "tools/EntityFramework.PowerShell.dll",
+        "tools/EntityFramework.psd1",
+        "tools/EntityFramework.psm1",
+        "tools/about_EntityFramework.help.txt",
+        "tools/init.ps1",
+        "tools/install.ps1",
+        "tools/migrate.exe"
+      ]
+    },
+    "FluentValidation/7.1.1": {
+      "sha512": "+EOmm3XjvgSuPWqVDqCT807cPwerhJTK2qNi2+CfCvbSn5Jq4+3aRcB6buUJeeOwRLJxFAvYpTZyJTx6w6RAoQ==",
+      "type": "package",
+      "path": "fluentvalidation/7.1.1",
+      "files": [
+        "fluentvalidation.7.1.1.nupkg.sha512",
+        "fluentvalidation.nuspec",
+        "lib/net45/FluentValidation.dll",
+        "lib/net45/FluentValidation.xml",
+        "lib/netstandard1.0/FluentValidation.dll",
+        "lib/netstandard1.0/FluentValidation.xml"
+      ]
+    },
+    "FluentValidation.Mvc5/7.1.1": {
+      "sha512": "Qy+12IXRQ0COEZPhSjNmVqO/GfOy8Qpe+j47vdkEPh6XarD4vpZQILvgzCaAjTmg2zkZildzAdGNDfZmwRzKuw==",
+      "type": "package",
+      "path": "fluentvalidation.mvc5/7.1.1",
+      "files": [
+        "fluentvalidation.mvc5.7.1.1.nupkg.sha512",
+        "fluentvalidation.mvc5.nuspec",
+        "lib/net45/FluentValidation.Mvc.dll",
+        "lib/net45/FluentValidation.Mvc.xml"
+      ]
+    },
+    "FluentValidation.MVC5-Signed/7.0.0": {
+      "sha512": "L+mFJIdMRDzFH9nBhGSpmuOsJpIuDqb6EixOf7a7Z1YL4Vu79yASsi61X4zPGNxgPNVfJmoTA2jX5CtKGxfwuA==",
+      "type": "package",
+      "path": "fluentvalidation.mvc5-signed/7.0.0",
+      "files": [
+        "fluentvalidation.mvc5-signed.7.0.0.nupkg.sha512",
+        "fluentvalidation.mvc5-signed.nuspec"
+      ]
+    },
+    "Glimpse/1.8.6": {
+      "sha512": "jubTSNDTgjCcCLibXAB28hnC2MPRjjG5PIrx4Wc5ZILsx8qt3bdEGGIS2LRMQk8mcGHWhEFFPLWFaJQJyWtS9Q==",
+      "type": "package",
+      "path": "glimpse/1.8.6",
+      "files": [
+        "docs/Glimpse.Core.Documentation.chm",
+        "glimpse.1.8.6.nupkg.sha512",
+        "glimpse.nuspec",
+        "lib/net35/Glimpse.Core.dll",
+        "lib/net40/Glimpse.Core.dll",
+        "lib/net45/Glimpse.Core.dll",
+        "tools/glimpse.psm1",
+        "tools/init.ps1",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
+    "Glimpse.Ado/1.7.3": {
+      "sha512": "q3Cio5ueEjGhcRBtMeCALm2kaVkDDKn7w4OPHGnP+k3ISD0+q05gF5x3RMwVlCUGh6qJbQUXkUsK9+ihj6HQ1A==",
+      "type": "package",
+      "path": "glimpse.ado/1.7.3",
+      "files": [
+        "glimpse.ado.1.7.3.nupkg.sha512",
+        "glimpse.ado.nuspec",
+        "lib/net35/Glimpse.Ado.dll",
+        "lib/net40/Glimpse.Ado.dll",
+        "lib/net45/Glimpse.Ado.dll",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
+    "Glimpse.AspNet/1.9.2": {
+      "sha512": "nqELu3G99CWZIEpdi7Hp7SdBU+8Dl0Y9+CluVRa4HEIGziWmFQ1lJ5Hlyk/U9IRmJ5nolVbJngeWxO4Jz2jqpQ==",
+      "type": "package",
+      "path": "glimpse.aspnet/1.9.2",
+      "files": [
+        "content/GlimpseSecurityPolicy.cs.pp",
+        "content/web.config.transform",
+        "glimpse.aspnet.1.9.2.nupkg.sha512",
+        "glimpse.aspnet.nuspec",
+        "lib/net35/Glimpse.AspNet.dll",
+        "lib/net40/Glimpse.AspNet.dll",
+        "lib/net45/Glimpse.AspNet.dll",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
+    "Glimpse.EF6/1.6.5": {
+      "sha512": "rS8lcyXbjPUkaRY1Oh3LjoeOTHZtZ0j2w8QUW/PEj9ANC/hCUzPgApXjAJ3hi5XEYvFycmVoTYJBRoQ7El5ROQ==",
+      "type": "package",
+      "path": "glimpse.ef6/1.6.5",
+      "files": [
+        "glimpse.ef6.1.6.5.nupkg.sha512",
+        "glimpse.ef6.nuspec",
+        "lib/net40/Glimpse.EF6.dll",
+        "lib/net45/Glimpse.EF6.dll",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
+    "Glimpse.Mvc5/1.5.3": {
+      "sha512": "CRSTu7iqsZy5sw4z65SrJVq5YjDlGsdaAiDvMx4/iCYnCA4+HLttiF4A0/xAVWtJFcLMsKPgOMxu1PKNJzjezw==",
+      "type": "package",
+      "path": "glimpse.mvc5/1.5.3",
+      "files": [
+        "glimpse.mvc5.1.5.3.nupkg.sha512",
+        "glimpse.mvc5.nuspec",
+        "lib/net45/Glimpse.Mvc5.dll",
+        "tools/install.ps1",
+        "tools/uninstall.ps1"
+      ]
+    },
     "Legacy2CPSWorkaround/1.0.0": {
       "sha512": "GU/g1RQyByRq2wOXvIIK28VZWHHHWoKRw+udnY9hhkqUSvsnbqfI9ecPd5MnQdO+oE02I9To2lABDEQ2CnlmJw==",
       "type": "package",
@@ -45,11 +2052,592 @@
         "legacy2cpsworkaround.1.0.0.nupkg.sha512",
         "legacy2cpsworkaround.nuspec"
       ]
+    },
+    "Microsoft.AspNet.Mvc/5.2.3": {
+      "sha512": "i8jZf5QrbcFmjiYWRD7o7qTak/oXKxV80MgP4cZ33A8GC0RBtBIdZ1VHaloGUg+qsHUz5rVkGpwenM+ugDz5PA==",
+      "type": "package",
+      "path": "microsoft.aspnet.mvc/5.2.3",
+      "files": [
+        "Content/Web.config.install.xdt",
+        "Content/Web.config.uninstall.xdt",
+        "Microsoft.AspNet.Mvc.5.2.3.nupkg.sha512",
+        "Microsoft.AspNet.Mvc.nuspec",
+        "lib/net45/System.Web.Mvc.dll",
+        "lib/net45/System.Web.Mvc.xml"
+      ]
+    },
+    "Microsoft.AspNet.Razor/3.2.3": {
+      "sha512": "leta+Q73O7+pR8ThTqXmwaNMSqwZQQ3BHfpUHd8S1XaUWe1jRVLitMHqo1AmY7wPNLyankPA1beiUKEGj8Q3Dw==",
+      "type": "package",
+      "path": "microsoft.aspnet.razor/3.2.3",
+      "files": [
+        "Microsoft.AspNet.Razor.3.2.3.nupkg.sha512",
+        "Microsoft.AspNet.Razor.nuspec",
+        "lib/net45/System.Web.Razor.dll",
+        "lib/net45/System.Web.Razor.xml"
+      ]
+    },
+    "Microsoft.AspNet.Web.Optimization/1.1.3": {
+      "sha512": "TWKKpTWEdB8jXp2Vl2TXNKW30GBQg6nnh0y8iZWmGY5c1XY4f649vfDslNHsCsvk9JZxc1Rkm/UGDdfq4gjWRQ==",
+      "type": "package",
+      "path": "microsoft.aspnet.web.optimization/1.1.3",
+      "files": [
+        "lib/net40/System.Web.Optimization.dll",
+        "lib/net40/system.web.optimization.xml",
+        "microsoft.aspnet.web.optimization.1.1.3.nupkg.sha512",
+        "microsoft.aspnet.web.optimization.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebApi/5.2.3": {
+      "sha512": "mGBfSy61+2dIdPwgguW8EaCVsbYTwwVHeCc/pVq1PhlZS87ColgJ++Hve40TrX6Dtqde0fo9M1Tt19rXlHC5GA==",
+      "type": "package",
+      "path": "microsoft.aspnet.webapi/5.2.3",
+      "files": [
+        "microsoft.aspnet.webapi.5.2.3.nupkg.sha512",
+        "microsoft.aspnet.webapi.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.Client/5.2.3": {
+      "sha512": "3kiI8peSXbXHDDrRuo+QaX0iCEVRe0nvn2dBDRw656uPX32UalbBlSIDUDlJxu05eau4tnuhsikiUuugvvoUoQ==",
+      "type": "package",
+      "path": "microsoft.aspnet.webapi.client/5.2.3",
+      "files": [
+        "Microsoft.AspNet.WebApi.Client.5.2.3.nupkg.sha512",
+        "Microsoft.AspNet.WebApi.Client.nuspec",
+        "lib/net45/System.Net.Http.Formatting.dll",
+        "lib/net45/System.Net.Http.Formatting.xml",
+        "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.dll",
+        "lib/portable-wp8+netcore45+net45+wp81+wpa81/System.Net.Http.Formatting.xml"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.Core/5.2.3": {
+      "sha512": "o90QYlRV8VKR1S7+EcJw9w8WSyVFLl+IIzN8ILZ+n2t6rsc/KS8kBxRzA7wCFPRUHhebCfLqilBk39phvanx3g==",
+      "type": "package",
+      "path": "microsoft.aspnet.webapi.core/5.2.3",
+      "files": [
+        "Content/web.config.transform",
+        "Microsoft.AspNet.WebApi.Core.5.2.3.nupkg.sha512",
+        "Microsoft.AspNet.WebApi.Core.nuspec",
+        "lib/net45/System.Web.Http.dll",
+        "lib/net45/System.Web.Http.xml"
+      ]
+    },
+    "Microsoft.AspNet.WebApi.WebHost/5.2.3": {
+      "sha512": "bhm4/BKdS3t6nK2R3NjCpxulcwtMFiHqVBDLuN3W5So1PhZfE+RBs7eVazGOhsEKCk7PoSmiSnl9DG0cpyfHtA==",
+      "type": "package",
+      "path": "microsoft.aspnet.webapi.webhost/5.2.3",
+      "files": [
+        "lib/net45/System.Web.Http.WebHost.dll",
+        "lib/net45/System.Web.Http.WebHost.xml",
+        "microsoft.aspnet.webapi.webhost.5.2.3.nupkg.sha512",
+        "microsoft.aspnet.webapi.webhost.nuspec"
+      ]
+    },
+    "Microsoft.AspNet.WebPages/3.2.3": {
+      "sha512": "zbtxBERla5RE/mhftwbrXOzc0r6lh8WcnjpGW7QQe+PvSDDx1BgsTUGzfCXO/vJznHNpY5oCSYLt8Q5vUu7F0g==",
+      "type": "package",
+      "path": "microsoft.aspnet.webpages/3.2.3",
+      "files": [
+        "Content/Web.config.install.xdt",
+        "Content/Web.config.uninstall.xdt",
+        "Microsoft.AspNet.WebPages.3.2.3.nupkg.sha512",
+        "Microsoft.AspNet.WebPages.nuspec",
+        "lib/net45/System.Web.Helpers.dll",
+        "lib/net45/System.Web.Helpers.xml",
+        "lib/net45/System.Web.WebPages.Deployment.dll",
+        "lib/net45/System.Web.WebPages.Deployment.xml",
+        "lib/net45/System.Web.WebPages.Razor.dll",
+        "lib/net45/System.Web.WebPages.Razor.xml",
+        "lib/net45/System.Web.WebPages.dll",
+        "lib/net45/System.Web.WebPages.xml"
+      ]
+    },
+    "Microsoft.Owin/3.1.0": {
+      "sha512": "dtDln3a84XlfPRyFNLfbqAxfoK5dFC7sH9E78KNZnRHXOEdelEBOczrUFkYG0h/+qfM7NlwBKEul5dZeVTY2gA==",
+      "type": "package",
+      "path": "microsoft.owin/3.1.0",
+      "files": [
+        "lib/net45/Microsoft.Owin.XML",
+        "lib/net45/Microsoft.Owin.dll",
+        "microsoft.owin.3.1.0.nupkg.sha512",
+        "microsoft.owin.nuspec"
+      ]
+    },
+    "Microsoft.Web.Infrastructure/1.0.0": {
+      "sha512": "FNmvLn5m2LTU/Rs2KWVo0SIIh9Ek+U0ojex7xeDaSHw/zgEP77A8vY5cVWgUtBGS8MJfDGNn8rpXJWEIQaPwTg==",
+      "type": "package",
+      "path": "microsoft.web.infrastructure/1.0.0",
+      "files": [
+        "Microsoft.Web.Infrastructure.1.0.0.nupkg.sha512",
+        "Microsoft.Web.Infrastructure.nuspec",
+        "lib/net40/Microsoft.Web.Infrastructure.dll"
+      ]
+    },
+    "Mono.Reflection/1.1.0": {
+      "sha512": "o3AQIRxCMAVhA0hezVgxUxZbIWjLE3TPD056SPb7yqGINQuA9kEZN9NEQ8F4cCu9CCjNufhXbboqRL9+iBvikA==",
+      "type": "package",
+      "path": "mono.reflection/1.1.0",
+      "files": [
+        "lib/Mono.Reflection.dll",
+        "mono.reflection.1.1.0.nupkg.sha512",
+        "mono.reflection.nuspec"
+      ]
+    },
+    "MySql.Data/6.9.9": {
+      "sha512": "rhpv2iJBqvvHU9gkhn/OZfhanQT/jZpfovyO9TEbJl5jLKMvABgxSkIPQbubrvR04M2/ZtdTeI9fC9WSkBe2wA==",
+      "type": "package",
+      "path": "mysql.data/6.9.9",
+      "files": [
+        "CHANGES",
+        "Readme.txt",
+        "content/app.config.transform",
+        "content/web.config.transform",
+        "lib/net40/MySql.Data.dll",
+        "lib/net45/MySql.Data.dll",
+        "mysql.data.6.9.9.nupkg.sha512",
+        "mysql.data.nuspec"
+      ]
+    },
+    "MySql.Data.Entity/6.9.9": {
+      "sha512": "U2WX/TzaLGYk5tN4zYOVLBpRgYIx7iJmjJamPcy4eDlaYrBBEymc9WI4R6hKSFdnSfhEOAPtUlsFn8l1ZB67Dg==",
+      "type": "package",
+      "path": "mysql.data.entity/6.9.9",
+      "files": [
+        "CHANGES",
+        "Readme.txt",
+        "content/app.config.transform",
+        "content/web.config.transform",
+        "lib/net40/MySql.Data.Entity.EF6.dll",
+        "lib/net45/MySql.Data.Entity.EF6.dll",
+        "mysql.data.entity.6.9.9.nupkg.sha512",
+        "mysql.data.entity.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/10.0.3": {
+      "sha512": "wBM7i7i3U2WX0ecor4zdVGvgrwFUjuigBoHKiL+nH39fCOpCPjBY3RDqJM32edvdyTAVdjzlccHsg41+/+zpSA==",
+      "type": "package",
+      "path": "newtonsoft.json/10.0.3",
+      "files": [
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.10.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "tools/install.ps1"
+      ]
+    },
+    "Ninject/3.2.2": {
+      "sha512": "vDyKaDZ1RgmPxD87u3om3La34r4RHBZfap3tCsJtUbSGkIWjQJ8La1s61BR/C0LgO1+3xGEC6UfI7D594MNl5Q==",
+      "type": "package",
+      "path": "ninject/3.2.2",
+      "files": [
+        "lib/net35/Ninject.dll",
+        "lib/net35/Ninject.xml",
+        "lib/net40/Ninject.dll",
+        "lib/net40/Ninject.xml",
+        "lib/net45-full/Ninject.dll",
+        "lib/net45-full/Ninject.xml",
+        "lib/sl2/Ninject.dll",
+        "lib/sl2/Ninject.xml",
+        "lib/sl3-wp/Ninject.dll",
+        "lib/sl3-wp/Ninject.xml",
+        "lib/sl3/Ninject.dll",
+        "lib/sl3/Ninject.xml",
+        "lib/sl4-windowsphone71/Ninject.dll",
+        "lib/sl4-windowsphone71/Ninject.xml",
+        "lib/sl4/Ninject.dll",
+        "lib/sl4/Ninject.xml",
+        "lib/sl5/Ninject.dll",
+        "lib/sl5/Ninject.xml",
+        "ninject.3.2.2.nupkg.sha512",
+        "ninject.nuspec"
+      ]
+    },
+    "Ninject.MVC5/3.2.1": {
+      "sha512": "MfnnUF6vUzg25r8vi182dQNjkAYYWradcYs+an0iKdB+Q3uYzV0tno13K7yMXhbWBaQoUFPX8fyxYy3G6Kpp0w==",
+      "type": "package",
+      "path": "ninject.mvc5/3.2.1",
+      "files": [
+        "lib/net40-full/Ninject.Web.Mvc.dll",
+        "lib/net40-full/Ninject.Web.Mvc.xml",
+        "lib/net45-full/Ninject.Web.Mvc.dll",
+        "lib/net45-full/Ninject.Web.Mvc.xml",
+        "ninject.mvc5.3.2.1.nupkg.sha512",
+        "ninject.mvc5.nuspec"
+      ]
+    },
+    "Ninject.Web.Common/3.2.3": {
+      "sha512": "q3W9ioPj+SLXk0z5qFRyeXpom/WTq+ZToSVxNOomt4TMyKdP0z0BzyMoH1ig8YWs6yOVN3g89De1VXIEqZ989Q==",
+      "type": "package",
+      "path": "ninject.web.common/3.2.3",
+      "files": [
+        "lib/net35-full/Ninject.Web.Common.dll",
+        "lib/net35-full/Ninject.Web.Common.xml",
+        "lib/net40-full/Ninject.Web.Common.dll",
+        "lib/net40-full/Ninject.Web.Common.xml",
+        "lib/net45-full/Ninject.Web.Common.dll",
+        "lib/net45-full/Ninject.Web.Common.xml",
+        "ninject.web.common.3.2.3.nupkg.sha512",
+        "ninject.web.common.nuspec"
+      ]
+    },
+    "Ninject.Web.Common.WebHost/3.2.3": {
+      "sha512": "PmGJp5iXro0Rb2pkZUves+xGPhT9WsvjM9Yy7uuMRVa7etpAODANqHHzBCQy51zRmpQ4c8T+oPZ7PdGrhgYuvw==",
+      "type": "package",
+      "path": "ninject.web.common.webhost/3.2.3",
+      "files": [
+        "Content/App_Start/NinjectWebCommon.cs.pp",
+        "ninject.web.common.webhost.3.2.3.nupkg.sha512",
+        "ninject.web.common.webhost.nuspec"
+      ]
+    },
+    "NLog/4.4.12": {
+      "sha512": "fODew3BFT2XhAuqhGo2ZYT9OJE0ciGEBfvKXOmAAvaDsP/3ROIf083p8QUnmwKKw4jCkVW06ObX6gn/eFi2Skg==",
+      "type": "package",
+      "path": "nlog/4.4.12",
+      "files": [
+        "lib/MonoAndroid10/NLog.dll",
+        "lib/MonoAndroid10/NLog.xml",
+        "lib/Xamarin.iOS10/NLog.dll",
+        "lib/Xamarin.iOS10/NLog.xml",
+        "lib/net35/NLog.dll",
+        "lib/net35/NLog.xml",
+        "lib/net40/NLog.dll",
+        "lib/net40/NLog.xml",
+        "lib/net45/NLog.dll",
+        "lib/net45/NLog.xml",
+        "lib/sl4/NLog.dll",
+        "lib/sl4/NLog.xml",
+        "lib/sl5/NLog.dll",
+        "lib/sl5/NLog.xml",
+        "lib/wp8/NLog.dll",
+        "lib/wp8/NLog.xml",
+        "nlog.4.4.12.nupkg.sha512",
+        "nlog.nuspec"
+      ]
+    },
+    "NLog.Config/4.4.12": {
+      "sha512": "vYSQM03xj8khIteB7ccE7tJFx7rxvpupykhDuDKsvq0W9sYr0Kewgm610GqjHyzd3O7qhiH2uN1VrP9l8hsAEQ==",
+      "type": "package",
+      "path": "nlog.config/4.4.12",
+      "files": [
+        "content/NLog.config",
+        "nlog.config.4.4.12.nupkg.sha512",
+        "nlog.config.nuspec",
+        "tools/Install.ps1"
+      ]
+    },
+    "NLog.Extended/4.0.0.1": {
+      "sha512": "cSPuHLrVw9K9XgCC/af+ky1jD5anA3iDOVfrhXES84GQjMmBWakZf8y2Ip4Fux+Kq5puAEhKwytyOlixtgTDzQ==",
+      "type": "package",
+      "path": "nlog.extended/4.0.0.1",
+      "files": [
+        "lib/net35-full/NLog.Extended.dll",
+        "lib/net35-full/NLog.Extended.xml",
+        "lib/net40-full/NLog.Extended.dll",
+        "lib/net40-full/NLog.Extended.xml",
+        "lib/net45-full/NLog.Extended.dll",
+        "lib/net45-full/NLog.Extended.xml",
+        "nlog.extended.4.0.0.1.nupkg.sha512",
+        "nlog.extended.nuspec"
+      ]
+    },
+    "NLog.Schema/4.4.12": {
+      "sha512": "09WGJZLsKYPOc7tULMCGOlrzsZGaMHDMRbf/TcfHfn4xS0ZT1+ADJjsss+9Xg/SzreiwEWgPaPSdkp2xpaktGQ==",
+      "type": "package",
+      "path": "nlog.schema/4.4.12",
+      "files": [
+        "content/NLog.xsd",
+        "nlog.schema.4.4.12.nupkg.sha512",
+        "nlog.schema.nuspec"
+      ]
+    },
+    "NLog.Web/4.5.0": {
+      "sha512": "IEzyJGcDb0hHPo0/gzad8BuoO87djUbWW1ItkNPM5pjf5tj32MwDvsM6H0wZ0LXdf5V/RaMc/tyV1Rnx4dI6lQ==",
+      "type": "package",
+      "path": "nlog.web/4.5.0",
+      "files": [
+        "lib/net35/NLog.Web.XML",
+        "lib/net35/NLog.Web.dll",
+        "nlog.web.4.5.0.nupkg.sha512",
+        "nlog.web.nuspec"
+      ]
+    },
+    "Owin/1.0.0": {
+      "sha512": "OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
+      "type": "package",
+      "path": "owin/1.0.0",
+      "files": [
+        "lib/net40/Owin.dll",
+        "owin.1.0.0.nupkg.sha512",
+        "owin.nuspec"
+      ]
+    },
+    "Respond/1.4.2": {
+      "sha512": "Kl3XdFJIS71i+l7M6jDVOXkIaLyQCkjkugeAUz6Zwlh1BBZBw/SUhFaSQcpq81Nxk9W9knilSuGqdMHsTThumQ==",
+      "type": "package",
+      "path": "respond/1.4.2",
+      "files": [
+        "content/Scripts/respond.js",
+        "content/Scripts/respond.matchmedia.addListener.js",
+        "content/Scripts/respond.matchmedia.addListener.min.js",
+        "content/Scripts/respond.min.js",
+        "respond.1.4.2.nupkg.sha512",
+        "respond.nuspec"
+      ]
+    },
+    "System.Linq/4.3.0": {
+      "sha512": "raquyBBGK3sflGNeyB6o+bxiIu9+3WLkSKaCLiTDFUDSwybSIvNS/Lfu9zKQtU5q1iDeNg7CNx6AZ94RQf4TpA==",
+      "type": "package",
+      "path": "system.linq/4.3.0",
+      "files": [
+        "System.Linq.4.3.0.nupkg.sha512",
+        "System.Linq.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/net463/System.Linq.dll",
+        "lib/netcore50/System.Linq.dll",
+        "lib/netstandard1.6/System.Linq.dll",
+        "lib/portable-net45+win8+wp8+wpa81/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/net463/System.Linq.dll",
+        "ref/netcore50/System.Linq.dll",
+        "ref/netcore50/System.Linq.xml",
+        "ref/netcore50/de/System.Linq.xml",
+        "ref/netcore50/es/System.Linq.xml",
+        "ref/netcore50/fr/System.Linq.xml",
+        "ref/netcore50/it/System.Linq.xml",
+        "ref/netcore50/ja/System.Linq.xml",
+        "ref/netcore50/ko/System.Linq.xml",
+        "ref/netcore50/ru/System.Linq.xml",
+        "ref/netcore50/zh-hans/System.Linq.xml",
+        "ref/netcore50/zh-hant/System.Linq.xml",
+        "ref/netstandard1.0/System.Linq.dll",
+        "ref/netstandard1.0/System.Linq.xml",
+        "ref/netstandard1.0/de/System.Linq.xml",
+        "ref/netstandard1.0/es/System.Linq.xml",
+        "ref/netstandard1.0/fr/System.Linq.xml",
+        "ref/netstandard1.0/it/System.Linq.xml",
+        "ref/netstandard1.0/ja/System.Linq.xml",
+        "ref/netstandard1.0/ko/System.Linq.xml",
+        "ref/netstandard1.0/ru/System.Linq.xml",
+        "ref/netstandard1.0/zh-hans/System.Linq.xml",
+        "ref/netstandard1.0/zh-hant/System.Linq.xml",
+        "ref/netstandard1.6/System.Linq.dll",
+        "ref/netstandard1.6/System.Linq.xml",
+        "ref/netstandard1.6/de/System.Linq.xml",
+        "ref/netstandard1.6/es/System.Linq.xml",
+        "ref/netstandard1.6/fr/System.Linq.xml",
+        "ref/netstandard1.6/it/System.Linq.xml",
+        "ref/netstandard1.6/ja/System.Linq.xml",
+        "ref/netstandard1.6/ko/System.Linq.xml",
+        "ref/netstandard1.6/ru/System.Linq.xml",
+        "ref/netstandard1.6/zh-hans/System.Linq.xml",
+        "ref/netstandard1.6/zh-hant/System.Linq.xml",
+        "ref/portable-net45+win8+wp8+wpa81/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._"
+      ]
+    },
+    "System.Runtime/4.3.0": {
+      "sha512": "1g83Pk2wOlPQxGZoLYWantJGI897DOWMSoI+RibdY/d6mbkFwckmVXFhJGleyWilFy5lr/W19KflayUYmn2enA==",
+      "type": "package",
+      "path": "system.runtime/4.3.0",
+      "files": [
+        "System.Runtime.4.3.0.nupkg.sha512",
+        "System.Runtime.nuspec",
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net45/_._",
+        "lib/net462/System.Runtime.dll",
+        "lib/portable-net45+win8+wp80+wpa81/_._",
+        "lib/win8/_._",
+        "lib/wp80/_._",
+        "lib/wpa81/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net45/_._",
+        "ref/net462/System.Runtime.dll",
+        "ref/netcore50/System.Runtime.dll",
+        "ref/netcore50/System.Runtime.xml",
+        "ref/netcore50/de/System.Runtime.xml",
+        "ref/netcore50/es/System.Runtime.xml",
+        "ref/netcore50/fr/System.Runtime.xml",
+        "ref/netcore50/it/System.Runtime.xml",
+        "ref/netcore50/ja/System.Runtime.xml",
+        "ref/netcore50/ko/System.Runtime.xml",
+        "ref/netcore50/ru/System.Runtime.xml",
+        "ref/netcore50/zh-hans/System.Runtime.xml",
+        "ref/netcore50/zh-hant/System.Runtime.xml",
+        "ref/netstandard1.0/System.Runtime.dll",
+        "ref/netstandard1.0/System.Runtime.xml",
+        "ref/netstandard1.0/de/System.Runtime.xml",
+        "ref/netstandard1.0/es/System.Runtime.xml",
+        "ref/netstandard1.0/fr/System.Runtime.xml",
+        "ref/netstandard1.0/it/System.Runtime.xml",
+        "ref/netstandard1.0/ja/System.Runtime.xml",
+        "ref/netstandard1.0/ko/System.Runtime.xml",
+        "ref/netstandard1.0/ru/System.Runtime.xml",
+        "ref/netstandard1.0/zh-hans/System.Runtime.xml",
+        "ref/netstandard1.0/zh-hant/System.Runtime.xml",
+        "ref/netstandard1.2/System.Runtime.dll",
+        "ref/netstandard1.2/System.Runtime.xml",
+        "ref/netstandard1.2/de/System.Runtime.xml",
+        "ref/netstandard1.2/es/System.Runtime.xml",
+        "ref/netstandard1.2/fr/System.Runtime.xml",
+        "ref/netstandard1.2/it/System.Runtime.xml",
+        "ref/netstandard1.2/ja/System.Runtime.xml",
+        "ref/netstandard1.2/ko/System.Runtime.xml",
+        "ref/netstandard1.2/ru/System.Runtime.xml",
+        "ref/netstandard1.2/zh-hans/System.Runtime.xml",
+        "ref/netstandard1.2/zh-hant/System.Runtime.xml",
+        "ref/netstandard1.3/System.Runtime.dll",
+        "ref/netstandard1.3/System.Runtime.xml",
+        "ref/netstandard1.3/de/System.Runtime.xml",
+        "ref/netstandard1.3/es/System.Runtime.xml",
+        "ref/netstandard1.3/fr/System.Runtime.xml",
+        "ref/netstandard1.3/it/System.Runtime.xml",
+        "ref/netstandard1.3/ja/System.Runtime.xml",
+        "ref/netstandard1.3/ko/System.Runtime.xml",
+        "ref/netstandard1.3/ru/System.Runtime.xml",
+        "ref/netstandard1.3/zh-hans/System.Runtime.xml",
+        "ref/netstandard1.3/zh-hant/System.Runtime.xml",
+        "ref/netstandard1.5/System.Runtime.dll",
+        "ref/netstandard1.5/System.Runtime.xml",
+        "ref/netstandard1.5/de/System.Runtime.xml",
+        "ref/netstandard1.5/es/System.Runtime.xml",
+        "ref/netstandard1.5/fr/System.Runtime.xml",
+        "ref/netstandard1.5/it/System.Runtime.xml",
+        "ref/netstandard1.5/ja/System.Runtime.xml",
+        "ref/netstandard1.5/ko/System.Runtime.xml",
+        "ref/netstandard1.5/ru/System.Runtime.xml",
+        "ref/netstandard1.5/zh-hans/System.Runtime.xml",
+        "ref/netstandard1.5/zh-hant/System.Runtime.xml",
+        "ref/portable-net45+win8+wp80+wpa81/_._",
+        "ref/win8/_._",
+        "ref/wp80/_._",
+        "ref/wpa81/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._"
+      ]
+    },
+    "Version/3.0.0": {
+      "sha512": "QsS8G49x8FBSbelg1LZBiLcukFTXOrykWiUl6UvT3YgwO7vGGnp80B8rwGCpFvWex5UlIUSPxJV9mGRozSXGFw==",
+      "type": "package",
+      "path": "version/3.0.0",
+      "files": [
+        "lib/Version.dll",
+        "lib/Version.pdb",
+        "lib/Version.xml",
+        "version.3.0.0.nupkg.sha512",
+        "version.nuspec"
+      ]
+    },
+    "WebActivatorEx/2.2.0": {
+      "sha512": "LpTC82DGzFeqHjRGLvynZKRjjELcsED5f784N4IWEPZhPlJsVYQKVpxNUjNdcMV6YHMqRhEiqolr69UVaT4ciw==",
+      "type": "package",
+      "path": "webactivatorex/2.2.0",
+      "files": [
+        "lib/net40/WebActivatorEx.dll",
+        "webactivatorex.2.2.0.nupkg.sha512",
+        "webactivatorex.nuspec"
+      ]
+    },
+    "WebGrease/1.6.0": {
+      "sha512": "1d29edoh4IZPLig82coowiPBS1ltxT97PwEIkOk0dHqtJwD9v5C7gPm6Ot1hKHT86otKm04oDQ00x5c+PyVyxw==",
+      "type": "package",
+      "path": "webgrease/1.6.0",
+      "files": [
+        "lib/WebGrease.dll",
+        "tools/WG.EXE",
+        "webgrease.1.6.0.nupkg.sha512",
+        "webgrease.nuspec"
+      ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.5.2": [
-      "Legacy2CPSWorkaround >= 1.0.0"
+      "Antlr >= 3.5.0.2",
+      "DelegateDecompiler >= 0.23.0",
+      "DelegateDecompiler.EntityFramework >= 0.23.0",
+      "EntityFramework >= 6.1.3",
+      "FluentValidation >= 7.1.1",
+      "FluentValidation.MVC5 >= 7.1.1",
+      "FluentValidation.MVC5-Signed >= 7.0.0",
+      "Glimpse >= 1.8.6",
+      "Glimpse.Ado >= 1.7.3",
+      "Glimpse.AspNet >= 1.9.2",
+      "Glimpse.EF6 >= 1.6.5",
+      "Glimpse.Mvc5 >= 1.5.3",
+      "Legacy2CPSWorkaround >= 1.0.0",
+      "Microsoft.AspNet.Mvc >= 5.2.3",
+      "Microsoft.AspNet.Razor >= 3.2.3",
+      "Microsoft.AspNet.Web.Optimization >= 1.1.3",
+      "Microsoft.AspNet.WebApi >= 5.2.3",
+      "Microsoft.AspNet.WebApi.Client >= 5.2.3",
+      "Microsoft.AspNet.WebApi.Core >= 5.2.3",
+      "Microsoft.AspNet.WebApi.WebHost >= 5.2.3",
+      "Microsoft.AspNet.WebPages >= 3.2.3",
+      "Microsoft.Owin >= 3.1.0",
+      "Microsoft.Web.Infrastructure >= 1.0.0",
+      "Mono.Reflection >= 1.1.0",
+      "MySql.Data >= 6.9.9",
+      "MySql.Data.Entity >= 6.9.9",
+      "NLog >= 4.4.12",
+      "NLog.Config >= 4.4.12",
+      "NLog.Extended >= 4.0.0.1",
+      "NLog.Schema >= 4.4.12",
+      "NLog.Web >= 4.5.0",
+      "Newtonsoft.Json >= 10.0.3",
+      "Ninject >= 3.2.2",
+      "Ninject.MVC5 >= 3.2.1",
+      "Ninject.Web.Common >= 3.2.3",
+      "Ninject.Web.Common.WebHost >= 3.2.3",
+      "Respond >= 1.4.2",
+      "System.Linq >= 4.3.0",
+      "System.Runtime >= 4.3.0",
+      "Version >= 3.0.0",
+      "WebActivatorEx >= 2.2.0",
+      "WebGrease >= 1.6.0"
     ]
   },
   "packageFolders": {
@@ -79,6 +2667,170 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "1.0.0"
+          },
+          "Version": {
+            "target": "Package",
+            "version": "3.0.0"
+          },
+          "Antlr": {
+            "target": "Package",
+            "version": "3.5.0.2"
+          },
+          "EntityFramework": {
+            "target": "Package",
+            "version": "6.1.3"
+          },
+          "FluentValidation.MVC5-Signed": {
+            "target": "Package",
+            "version": "7.0.0"
+          },
+          "FluentValidation.MVC5": {
+            "target": "Package",
+            "version": "7.1.1"
+          },
+          "Glimpse.Mvc5": {
+            "target": "Package",
+            "version": "1.5.3"
+          },
+          "FluentValidation": {
+            "target": "Package",
+            "version": "7.1.1"
+          },
+          "WebGrease": {
+            "target": "Package",
+            "version": "1.6.0"
+          },
+          "WebActivatorEx": {
+            "target": "Package",
+            "version": "2.2.0"
+          },
+          "System.Linq": {
+            "target": "Package",
+            "version": "4.3.0"
+          },
+          "Respond": {
+            "target": "Package",
+            "version": "1.4.2"
+          },
+          "Microsoft.Owin": {
+            "target": "Package",
+            "version": "3.1.0"
+          },
+          "NLog": {
+            "target": "Package",
+            "version": "4.4.12"
+          },
+          "NLog.Config": {
+            "target": "Package",
+            "version": "4.4.12"
+          },
+          "NLog.Web": {
+            "target": "Package",
+            "version": "4.5.0"
+          },
+          "Microsoft.AspNet.Mvc": {
+            "target": "Package",
+            "version": "5.2.3"
+          },
+          "Microsoft.AspNet.WebPages": {
+            "target": "Package",
+            "version": "3.2.3"
+          },
+          "Microsoft.AspNet.WebApi.WebHost": {
+            "target": "Package",
+            "version": "5.2.3"
+          },
+          "Microsoft.AspNet.Razor": {
+            "target": "Package",
+            "version": "3.2.3"
+          },
+          "System.Runtime": {
+            "target": "Package",
+            "version": "4.3.0"
+          },
+          "NLog.Extended": {
+            "target": "Package",
+            "version": "4.0.0.1"
+          },
+          "NLog.Schema": {
+            "target": "Package",
+            "version": "4.4.12"
+          },
+          "Ninject": {
+            "target": "Package",
+            "version": "3.2.2"
+          },
+          "Ninject.MVC5": {
+            "target": "Package",
+            "version": "3.2.1"
+          },
+          "Ninject.Web.Common": {
+            "target": "Package",
+            "version": "3.2.3"
+          },
+          "Ninject.Web.Common.WebHost": {
+            "target": "Package",
+            "version": "3.2.3"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "10.0.3"
+          },
+          "MySql.Data.Entity": {
+            "target": "Package",
+            "version": "6.9.9"
+          },
+          "MySql.Data": {
+            "target": "Package",
+            "version": "6.9.9"
+          },
+          "Mono.Reflection": {
+            "target": "Package",
+            "version": "1.1.0"
+          },
+          "Microsoft.Web.Infrastructure": {
+            "target": "Package",
+            "version": "1.0.0"
+          },
+          "Microsoft.AspNet.WebApi": {
+            "target": "Package",
+            "version": "5.2.3"
+          },
+          "Microsoft.AspNet.WebApi.Core": {
+            "target": "Package",
+            "version": "5.2.3"
+          },
+          "Microsoft.AspNet.WebApi.Client": {
+            "target": "Package",
+            "version": "5.2.3"
+          },
+          "Microsoft.AspNet.Web.Optimization": {
+            "target": "Package",
+            "version": "1.1.3"
+          },
+          "Glimpse": {
+            "target": "Package",
+            "version": "1.8.6"
+          },
+          "Glimpse.Ado": {
+            "target": "Package",
+            "version": "1.7.3"
+          },
+          "Glimpse.EF6": {
+            "target": "Package",
+            "version": "1.6.5"
+          },
+          "Glimpse.AspNet": {
+            "target": "Package",
+            "version": "1.9.2"
+          },
+          "DelegateDecompiler": {
+            "target": "Package",
+            "version": "0.23.0"
+          },
+          "DelegateDecompiler.EntityFramework": {
+            "target": "Package",
+            "version": "0.23.0"
           }
         }
       }

@@ -68,6 +68,26 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpGet]
+		public JsonNetResult GetActiveFranchises()
+		{
+			List<Franchise> _data = new List<Franchise>();
+
+		 	_data = MMContext.Franchises
+			 	.Where(p => p.IsActive == true)
+				.OrderBy(x => x.Name)
+				.ToList();
+
+			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
+			foreach (Franchise _item in _data)
+			{
+				var _vm = new FranchiseSelectViewModel();
+				_vm.PopulateVM(_item);
+				_listFranchises.Add(_vm);
+			}
+			return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		[HttpGet]
 		public ActionResult GetFranchise(Guid? Id)
 		{
 			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
@@ -175,7 +195,7 @@ namespace MagicMaids.Controllers
 						_objToUpdate.OtherNumber = dataItem.OtherNumber;
 						_objToUpdate.TradingName = dataItem.TradingName;
 						_objToUpdate.Name = dataItem.Name;
-						_objToUpdate.RowVersion = DateTime.Now;
+						_objToUpdate.RowVersion = DateTime.UtcNow;
 
 
 						if (dataItem.PhysicalAddress != null)
@@ -224,7 +244,7 @@ namespace MagicMaids.Controllers
 						MMContext.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
 						MMContext.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
 
-						_objToUpdate.RowVersion = DateTime.Now;
+						_objToUpdate.RowVersion = DateTime.UtcNow;
 
 						if (dataItem.PhysicalAddress != null)
 						{

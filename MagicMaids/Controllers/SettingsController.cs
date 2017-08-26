@@ -97,7 +97,6 @@ namespace MagicMaids.Controllers
 			return View();
 		}
 
-		[OutputCache(CacheProfile = "CacheForDemo")]
 		public ActionResult Postcodes()
 		{
 			return View();
@@ -162,7 +161,7 @@ namespace MagicMaids.Controllers
                 
 				if (TryUpdateModel<SystemSetting>(_objToUpdate))
 				{
-					_objToUpdate.RowVersion = DateTime.Now;
+					_objToUpdate.RowVersion = DateTime.UtcNow;
 
 					try
                     {
@@ -227,6 +226,128 @@ namespace MagicMaids.Controllers
 
             return JsonFormResponse();
         }
+
+		public JsonResult GetPostcodes(Guid? FranchiseId)
+		{
+			List<SuburbZone> _entityList = new List<SuburbZone>();
+
+			_entityList = MMContext.SuburbZones
+				   .Where(p => p.FranchiseId == FranchiseId)
+				   .ToList();
+
+			List<UpdateSuburbZonesVM> _editList = new List<UpdateSuburbZonesVM>();
+			foreach (SuburbZone _item in _entityList)
+			{
+				var _vm = new UpdateSuburbZonesVM();
+				_vm.PopulateVM(_item);
+				_editList.Add(_vm);
+			}
+
+			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		[HttpPost]
+		public ActionResult SavePostCodes(UpdateSuburbZonesVM formValues)
+		{
+			string _objDesc = "Suburb/zone";
+
+			if (formValues == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				Guid _id = formValues.Id;
+
+				// get original rowversion before updating model
+				var rowVersion = formValues.RowVersion;
+				var bIsNew = formValues.IsNewItem;
+
+				try
+				{
+					SuburbZone _objToUpdate = null;
+
+					if (bIsNew)
+					{
+						_objToUpdate = new SuburbZone();
+						_objToUpdate.SuburbName = formValues.SuburbName;
+						_objToUpdate.PostCode = formValues.PostCode;
+						_objToUpdate.Zone = formValues.ZoneID;
+						_objToUpdate.LinkedZones = formValues.LinkedZones;
+						_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
+						_objToUpdate.RowVersion = DateTime.UtcNow;
+
+						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+					}
+					else
+					{
+						_objToUpdate = MMContext.SuburbZones
+								 .Where(f => f.Id == _id)
+										  .FirstOrDefault();
+
+						if (_objToUpdate == null)
+						{
+							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+							return JsonFormResponse();
+						}
+
+						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+
+						_objToUpdate.RowVersion = DateTime.UtcNow;
+					}
+
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (SuburbZone)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty,$"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+					}
+					else
+					{
+						var databaseValues = (SuburbZone)databaseEntry.ToObject();
+
+						if (databaseValues.SuburbName  != clientValues.SuburbName)
+							ModelState.AddModelError("SuburbName", "Current value: " + databaseValues.SuburbName);
+
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The "
+							+ "edit operation was canceled and the current values in the database "
+							+ "have been displayed. If you still want to edit this record, click "
+							+ "the Save button again.");
+
+						formValues.RowVersion = databaseValues.RowVersion;
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					//_msg = new InfoViewModel("Error saving franchises", ex);
+					ModelState.AddModelError(string.Empty, $"Error saving {_objDesc.ToLower()} ({ex.Message})");
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(SavePostCodes), ex, formValues);
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SavePostCodes), formValues);
+			}
+
+			return JsonFormResponse();
+		}
 		#endregion
 	}
 }

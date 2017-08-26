@@ -9,6 +9,34 @@ using MagicMaids.Validators;
 
 namespace MagicMaids.ViewModels
 {
+	public class FranchiseSelectViewModel
+	{
+		#region Properties, Public
+		public String Id
+		{
+			get;
+			set;
+		}
+
+		public string Name
+		{
+			get;
+			set;
+		}
+		#endregion
+
+		#region Methods, Public
+		public void PopulateVM(Franchise entityModel)
+		{
+			if (entityModel == null)
+				return;
+
+			this.Id = entityModel.Id.ToString();
+			this.Name = entityModel.Name;
+		}
+		#endregion
+	}
+
 	[Validator(typeof(FranchiseValidator))]
 	public class UpdateFranchisesViewModel
 	{

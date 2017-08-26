@@ -69,6 +69,21 @@ namespace MagicMaids.Validators
 
 			RuleFor(x => x.AddressLine2).MaximumLength(250).WithName("2nd address line");
 			RuleFor(x => x.AddressLine3).MaximumLength(250).WithName("3rd address line");
-			}
 		}
+	}
+
+	public class SuburbZoneValidator : AbstractValidator<UpdateSuburbZonesVM>
+	{
+		public SuburbZoneValidator()
+		{
+			RuleFor(x => x.SuburbName).NotEmpty().WithMessage("Suburb name is required.");
+			RuleFor(x => x.PostCode).NotEmpty().WithMessage("Post code is required.");
+			RuleFor(x => x.LinkedZones).NotEmpty().WithMessage("At least one linked zone must be provided.");
+
+			RuleFor(x => x.SuburbName).Length(5, 250).WithName("Suburb name");
+			RuleFor(x => x.PostCode).Length(2, 5).WithName("Post code");
+			RuleFor(x => x.ZoneID).Length(1, 10).WithName("Zone Id");
+			RuleFor(x => x.LinkedZones).Length(1, 500).WithName("Linked zone list");
+		}
+	}
 }
