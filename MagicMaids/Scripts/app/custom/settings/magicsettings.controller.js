@@ -22,7 +22,6 @@
 		var panelName = 'panelPostalDataSettings';
 		vm.selectedFranchise = null;
 
-
 		activate();
 
 		function activate()

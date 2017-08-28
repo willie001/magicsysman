@@ -58,7 +58,7 @@
         			var _panel = document.getElementById(panelName);
         			if (_panel)
         			{
-    					$scope.$broadcast('triggerPanelRefresh', _panel,'traditional');
+    					$scope.$broadcast('triggerPanelRefresh', _panel, 'traditional');
    					}
 				},spinTime);
     		}

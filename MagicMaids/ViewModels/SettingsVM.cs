@@ -36,12 +36,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public DateTime RowVersion
-		{
-			get;
-			set;
-		}
-
 		public string Metadata
 		{
 			get;
@@ -59,7 +53,6 @@ namespace MagicMaids.ViewModels
 			this.SettingName = entityModel.SettingName;
 			this.SettingValue = entityModel.SettingValue;
 			this.CodeIdentifier = entityModel.CodeIdentifier;
-			this.RowVersion = entityModel.RowVersion;
 
 			FormatMetadata(entityModel);
 		}

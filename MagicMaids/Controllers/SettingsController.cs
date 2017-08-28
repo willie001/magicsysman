@@ -148,8 +148,6 @@ namespace MagicMaids.Controllers
 			if (ModelState.IsValid)
 			{
 				Guid _id = setting.Id;
-                // get original rowversion before updating model
-                var rowVersion = setting.RowVersion;
 
 				SystemSetting _objToUpdate = MMContext.DefaultSettings.Find(_id);
 				if (_objToUpdate == null)
@@ -161,12 +159,9 @@ namespace MagicMaids.Controllers
                 
 				if (TryUpdateModel<SystemSetting>(_objToUpdate))
 				{
-					_objToUpdate.RowVersion = DateTime.UtcNow;
-
 					try
                     {
                         MMContext.Entry(_objToUpdate).State = EntityState.Modified;
-						MMContext.Entry(_objToUpdate).OriginalValues["RowVersion"] = rowVersion;
 						MMContext.SaveChanges();
 
 						return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
@@ -184,23 +179,21 @@ namespace MagicMaids.Controllers
                         {
                             var databaseValues = (SystemSetting)databaseEntry.ToObject();
 
-                            if (databaseValues.SettingName != clientValues.SettingName)
-                                ModelState.AddModelError("SettingName", "Current value: " + databaseValues.SettingName);
-
-                            if (databaseValues.SettingValue != clientValues.SettingValue)
-                                ModelState.AddModelError("SettingValue", "Current value: " + databaseValues.SettingValue);
-
-                            if (databaseValues.CodeIdentifier != clientValues.CodeIdentifier)
-                                ModelState.AddModelError("CodeIdentifier", "Current value: " + databaseValues.CodeIdentifier);
-
                             ModelState.AddModelError(string.Empty, "The record you attempted to edit "
                                 + "was modified by another user after you got the original value. The "
                                 + "edit operation was canceled and the current values in the database "
                                 + "have been displayed. If you still want to edit this record, click "
                                 + "the Save button again.");
 
-                            setting.RowVersion = databaseValues.RowVersion;
-                        }
+							if (databaseValues.SettingName != clientValues.SettingName)
+								ModelState.AddModelError("SettingName", "Current database value for setting name: " + databaseValues.SettingName);
+
+							if (databaseValues.SettingValue != clientValues.SettingValue)
+								ModelState.AddModelError("SettingValue", "Current database value for setting value: " + databaseValues.SettingValue);
+
+							if (databaseValues.CodeIdentifier != clientValues.CodeIdentifier)
+								ModelState.AddModelError("CodeIdentifier", "Current database value for code identifier: " + databaseValues.CodeIdentifier);
+						}
                     }
                     catch (RetryLimitExceededException /* dex */)
                     {
@@ -259,9 +252,6 @@ namespace MagicMaids.Controllers
 			if (ModelState.IsValid)
 			{
 				Guid _id = formValues.Id;
-
-				// get original rowversion before updating model
-				var rowVersion = formValues.RowVersion;
 				var bIsNew = formValues.IsNewItem;
 
 				try
@@ -276,7 +266,6 @@ namespace MagicMaids.Controllers
 						_objToUpdate.Zone = formValues.ZoneID;
 						_objToUpdate.LinkedZones = formValues.LinkedZones;
 						_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
-						_objToUpdate.RowVersion = DateTime.UtcNow;
 
 						MMContext.Entry(_objToUpdate).State = EntityState.Added;
 					}
@@ -293,8 +282,6 @@ namespace MagicMaids.Controllers
 						}
 
 						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
-
-						_objToUpdate.RowVersion = DateTime.UtcNow;
 					}
 
 					MMContext.SaveChanges();
@@ -315,15 +302,18 @@ namespace MagicMaids.Controllers
 						var databaseValues = (SuburbZone)databaseEntry.ToObject();
 
 						if (databaseValues.SuburbName  != clientValues.SuburbName)
-							ModelState.AddModelError("SuburbName", "Current value: " + databaseValues.SuburbName);
+						{
+							ModelState.AddModelError("SuburbName", "Current database value for suburb name: " + databaseValues.SuburbName);
+						}
+
+						if (databaseValues.PostCode != clientValues.PostCode)
+						{
+							ModelState.AddModelError("PostCode", "Current database value for post code: " + databaseValues.PostCode);
+						}
 
 						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The "
-							+ "edit operation was canceled and the current values in the database "
-							+ "have been displayed. If you still want to edit this record, click "
-							+ "the Save button again.");
-
-						formValues.RowVersion = databaseValues.RowVersion;
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
 					}
 				}
 				catch (RetryLimitExceededException /* dex */)

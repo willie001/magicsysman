@@ -70,6 +70,7 @@ namespace MagicMaids.DataAccess
 						currentUser = "TODO";
 					
 					auditableEntity.Entity.UpdatedAt = DateTime.UtcNow;
+					auditableEntity.Entity.RowVersion = DateTime.UtcNow;
 					auditableEntity.Entity.UpdatedBy = currentUser;
 
 					if (auditableEntity.State == EntityState.Added)
@@ -100,7 +101,6 @@ namespace MagicMaids.DataAccess
             //	modelBuilder.Entity<Course>().ToTable("Course");
 
             base.OnModelCreating(modelBuilder);
-
         }
         #endregion
 

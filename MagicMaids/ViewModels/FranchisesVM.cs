@@ -59,12 +59,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public DateTime RowVersion
-		{
-			get;
-			set;
-		}
-
 		public string MasterFranchiseCode
 		{
 			get;
@@ -247,7 +241,6 @@ namespace MagicMaids.ViewModels
 				this.PostalAddress = _vm;
 			}
 			this.PostalAddressRefId = entityModel.PostalAddressRefId;
-			this.RowVersion = entityModel.RowVersion;
 
 			FormatContactNumbers(entityModel);
 		}

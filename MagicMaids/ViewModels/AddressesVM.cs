@@ -29,12 +29,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public DateTime RowVersion
-		{
-			get;
-			set;
-		}
-
 		public AddressTypeSetting AddressType
 		{
 			get;
@@ -160,7 +154,6 @@ namespace MagicMaids.ViewModels
 			this.State = entityModel.State;
 			this.Country = entityModel.Country;
 			this.PostCode = entityModel.PostCode;
-			this.RowVersion = entityModel.RowVersion;
 
 			FormatAddress(entityModel);
 		}

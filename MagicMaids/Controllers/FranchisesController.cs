@@ -162,10 +162,7 @@ namespace MagicMaids.Controllers
 			if (ModelState.IsValid)
 			{
 				Guid _id = dataItem.Id;
-
-				// get original rowversion before updating model
-				var rowVersion = dataItem.RowVersion;
-				var bIsNew = (rowVersion.Year < 1990 || dataItem.IsNewItem );
+				var bIsNew = (dataItem.IsNewItem );
 
 				//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
 				//https://stackoverflow.com/questions/21286538/asp-net-mvc-5-model-binding-edit-view
@@ -195,7 +192,6 @@ namespace MagicMaids.Controllers
 						_objToUpdate.OtherNumber = dataItem.OtherNumber;
 						_objToUpdate.TradingName = dataItem.TradingName;
 						_objToUpdate.Name = dataItem.Name;
-						_objToUpdate.RowVersion = DateTime.UtcNow;
 
 
 						if (dataItem.PhysicalAddress != null)
@@ -208,7 +204,6 @@ namespace MagicMaids.Controllers
 							_objToUpdate.PhysicalAddress.IsActive = true;
 							_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
 							_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
-							_objToUpdate.PhysicalAddress.RowVersion = _objToUpdate.RowVersion;
 						}
 
 						if (dataItem.PostalAddress != null)
@@ -221,7 +216,6 @@ namespace MagicMaids.Controllers
 							_objToUpdate.PostalAddress.IsActive = true;
 							_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
 							_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-							_objToUpdate.PostalAddress.RowVersion = _objToUpdate.RowVersion;
 						}
 
 						MMContext.Entry(_objToUpdate).State = EntityState.Added;
@@ -243,18 +237,6 @@ namespace MagicMaids.Controllers
 						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
 						MMContext.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
 						MMContext.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
-
-						_objToUpdate.RowVersion = DateTime.UtcNow;
-
-						if (dataItem.PhysicalAddress != null)
-						{
-							_objToUpdate.PhysicalAddress.RowVersion = dataItem.RowVersion;
-						}
-
-						if (dataItem.PostalAddress != null)
-						{
-							_objToUpdate.PostalAddress.RowVersion = dataItem.RowVersion;
-						}
 					}
 
 					MMContext.SaveChanges();
@@ -275,18 +257,14 @@ namespace MagicMaids.Controllers
 						var databaseValues = (Franchise)databaseEntry.ToObject();
 
 						if (databaseValues.Name  != clientValues.Name)
-							ModelState.AddModelError("Name", "Current value: " + databaseValues.Name);
+							ModelState.AddModelError("Name", "Current database value for franchise name: " + databaseValues.Name);
 
 						if (databaseValues.TradingName != clientValues.TradingName)
-							ModelState.AddModelError("TradingName", "Current value: " + databaseValues.TradingName);
+							ModelState.AddModelError("TradingName", "Current database value for trading name: " + databaseValues.TradingName);
 
 						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The "
-							+ "edit operation was canceled and the current values in the database "
-							+ "have been displayed. If you still want to edit this record, click "
-							+ "the Save button again.");
-
-						dataItem.RowVersion = databaseValues.RowVersion;
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
 					}
 				}
 				catch (RetryLimitExceededException /* dex */)

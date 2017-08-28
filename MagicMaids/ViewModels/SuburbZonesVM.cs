@@ -26,12 +26,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public DateTime RowVersion
-		{
-			get;
-			set;
-		}
-
 		public string SuburbName
 		{
 			get;
@@ -89,7 +83,6 @@ namespace MagicMaids.ViewModels
 			this.PostCode = entityModel.PostCode;
 			this.ZoneID = entityModel.Zone;
 			this.LinkedZones = entityModel.LinkedZones;
-			this.RowVersion = entityModel.RowVersion;
 			this.FranchiseId = entityModel.FranchiseId.HasValue ? entityModel.FranchiseId : null;
 		}
 		#endregion
