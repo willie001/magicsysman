@@ -60,7 +60,7 @@
         			{
     					$scope.$broadcast('triggerPanelRefresh', _panel, 'traditional');
    					}
-				},spinTime);
+				},spinTime);  
     		}
 
 		    //method that returns an object from given array

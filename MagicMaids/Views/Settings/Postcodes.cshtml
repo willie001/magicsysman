@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-
+	
 	<div class="panel panel-transparent" id="panelPostalDataSettings">
 		<div class="panel-heading">
             <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
@@ -59,7 +59,7 @@
 						</td>
 						<td>
 							<span editable-text="item.LinkedZones" e-name="LinkedZones" e-form="rowform" onbeforesave="vmPost.validateData($data, 'Linked zones')" e-required="">{{ item.LinkedZones || &apos;Not set&apos; }}</span>
-						</td>
+						</td>  
 						<td style="white-space: nowrap">
 							 <!-- form-->
 				            <form editable-form="" name="rowform" onbeforesave="vmPost.saveData($data, item.Id, item.IsNewItem)" ng-show="rowform.$visible" shown="vmPost.inserted == item" class="form-buttons form-inline">
