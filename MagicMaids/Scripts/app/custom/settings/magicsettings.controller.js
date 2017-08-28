@@ -36,7 +36,9 @@
                 	vm.franchises = data.list;
 
                 }).error(function(err) {
+
                 }).finally(function() {
+
                 });
 
 			loadPostCodes("");
