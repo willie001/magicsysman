@@ -3,15 +3,28 @@
 
     angular
         .module('magicsettings',[])
-        .controller('DefaultSettingsController', DefaultSettingsController)
+        .controller('MasterSettingsController', MasterSettingsController)
+		.controller('DefaultSettingsController', DefaultSettingsController)
 		.controller('FranchiseController', FranchiseController)
 		.controller('FranchiseDetailController', FranchiseDetailController)
+		.controller('FranchiseSettingsController', FranchiseSettingsController)
 		.controller('PostCodesController', PostCodesController);
 
+	MasterSettingsController.$inject = ['$scope'];
 	DefaultSettingsController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q', 'HandleBusySpinner','ShowUserMessages'];
     FranchiseController.$inject = ['$scope','$filter', '$http','$q', 'HandleBusySpinner'];
     FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','ShowUserMessages'];
+    FranchiseSettingsController.$inject = ['$scope','$http','ShowUserMessages'];
     PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','HandleBusySpinner','ShowUserMessages'];
+
+    function MasterSettingsController($scope)
+    {
+    	// A parent controller is required where we use tabbing with messaging being sent from the child.
+    	$scope.userMessages = [];
+		$scope.userMessageType = [];
+
+		$scope.isLoadingResults
+    }
 
     /*****************************/
 	/*** SUBURB / ZONE MAPPING ***/
@@ -27,28 +40,19 @@
 		function activate()
 		{
 			vm.listOfPostcodes = null;
-			vm.franchises = null;
 
 			HandleBusySpinner.start($scope, panelName);
-           		
-			$http.get('/settings/getactivefranchises')
-                .success(function (data) {
-                	vm.franchises = data.list;
 
-                }).error(function(err) {
-
-                }).finally(function() {
-
-                });
-
-			loadPostCodes("");
+           	//console.log("<POSTCODE FranchiseId> - " + angular.toJson($scope.FranchiseId));
+           	vm.selectedFranchise = ($scope.FranchiseId) ? $scope.FranchiseId : null;
+			loadPostCodes();
 
 			HandleBusySpinner.stop($scope, panelName);
 		};
 
-		function loadPostCodes(franchiseId)
+		function loadPostCodes()
 		{
-			$http.get('/settings/getpostcodes?FranchiseId=' + franchiseId)
+			$http.get('/settings/getpostcodes?FranchiseId=' + vm.selectedFranchise)
                 .success(function (data) {
                 	vm.listOfPostcodes = data.list;
                 	vm.nextNewGuid = data.nextGuid;
@@ -59,18 +63,6 @@
                 }).finally(function() {
 
                 });
-		};
-
-		vm.loadMapping = function() {
-			//console.log("<SELECTED FRANCHISE> - " + angular.toJson(vm.selectedFranchise));
-
-			var franId = '';
-			if (vm.selectedFranchise != null )
-				franId = vm.selectedFranchise.Id;
-
-			HandleBusySpinner.start($scope, panelName);
-			loadPostCodes(franId);
-			HandleBusySpinner.stop($scope, panelName);
 		};
 
 		vm.validateData = function(data, colName) {
@@ -85,7 +77,7 @@
               Id: vm.nextNewGuid,
               SuburbName: '',
               PostCode: '',
-              ZoneID: '',
+              Zone: '',
               LinkedZones: '',
               IsNewItem: true
             };
@@ -103,27 +95,17 @@
           };
 
           vm.saveData = function(data, id, isNew) {
-            var franId = '';
-
-			if (vm.selectedFranchise != null)
-			{
-				franId = vm.selectedFranchise.Id;
-			}
-
 			angular.extend(data, {
-					FranchiseId: franId,
+					FranchiseId: vm.selectedFranchise,
 					Id: id,
 					IsNewItem: isNew
 				});
-
-      		$scope.userMessages = [];
-			$scope.userMessageType = [];
 
             //console.log("<SETTING item post> - " + angular.toJson(data));
        		return $http.post('/settings/savepostcodes', data).success(function (response) {
                 // Add your success stuff here
                 ShowUserMessages.show($scope, response, "Error updating suburb/zone.");
-           		loadPostCodes(franId);
+           		loadPostCodes();
 
             }).error(function (error) {
 
@@ -178,9 +160,6 @@
 			});
 			//console.log("<SETTING item post> - " + angular.toJson(item));
             
-			$scope.userMessages = [];
-			$scope.userMessageType = [];
-
             return $http.post('/settings/savesettings', item).success(function (response) {
                 // Add your success stuff here
                 //console.log("<SETTING item post> - " + angular.toJson(item));
@@ -201,6 +180,7 @@
 	function FranchiseController($scope, $filter, $http, $q, HandleBusySpinner)
 	{
 		var vm = this;
+		var panelName = 'panelDataMasterSettings';
 
 		$scope.activeResult = " active ";
 		$scope.toggleActiveSearch = function() {
@@ -260,7 +240,7 @@
 	function FranchiseDetailController($scope, $filter, $http, $q, ShowUserMessages)
 	{
 		var vm = this;
-		var Id = $scope.Id;
+		var Id = $scope.FranchiseId;
 		var _postalType = 1;
 		var _physicalType = 0;
 
@@ -271,11 +251,11 @@
 
 		function activate()
         {
-            $http.get('/settings/getfranchise/?Id=' + Id)
+            $http.get('/settings/getfranchise/?FranchiseId=' + Id)
                 .success(function (data) {
                 	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
                 	vm.franchise = data.item;
-                	$scope.Id = vm.franchise.Id;
+                	$scope.FranchiseId = vm.franchise.Id;
 
                 }).error(function(err) {
                 	
@@ -321,9 +301,6 @@
 		 		vm.franchise.PostalAddress.Id = guid;
 		 	}
 
-			$scope.userMessages = [];
-			$scope.userMessageType = [];
-
 			if (vm.franchiseForm.$valid) {
                 	
             	return $http.post('/settings/savefranchise', vm.franchise).success(function (response) {
@@ -343,6 +320,65 @@
         		//console.log("<XX> - " + angular.toJson(vm.franchiseForm.$error));
             	$scope.submitted = false;
             	ShowUserMessages.show($scope, "Error updating franchise details - please review validation errors", "Error updating details.");
+        		return false;
+        	}
+      	}
+	}
+
+	/***************************/
+	/*** FRANCHISE SETTINGS ***/
+	/**************************/
+	function FranchiseSettingsController($scope,$http, ShowUserMessages)
+	{
+		var vm = this;
+		var Id = $scope.FranchiseId;
+
+		vm.franchiseSettings = null;
+
+		activate();
+
+		function activate()
+        {
+            $http.get('/settings/getfranchisesettings/?FranchiseId=' + Id)
+                .success(function (data) {
+                	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
+                	vm.franchiseSettings = data.item;
+                	$scope.FranchiseId = vm.franchiseSettings.Id;
+
+                }).error(function(err) {
+                	
+                }).finally(function() {
+
+                });
+		}
+
+		vm.submitted = false;
+
+      	vm.saveData = function() {
+		 	$scope.submitted = true;
+
+			//console.log("<FRANCHISE SETTINGS Data> - " + angular.toJson(vm.franchiseSettingForm));		
+        	if (vm.franchiseSettingForm.$valid) {
+
+                return $http.post('/settings/savefranchisesettings', vm.franchiseSettings).success(function (response) {
+                	// Add your success stuff here
+                	$scope.submitted = false;
+                	ShowUserMessages.show($scope, response, "Error updating franchise settings.");
+                	vm.franchiseSettings = response.DataItem;
+                	//console.log("<XX Franchise Settings> - " + angular.toJson(vm.franchiseSettings));
+                	activate();
+            	
+            	}).error(function (error) {
+            		$scope.submitted = false;
+                	ShowUserMessages.show($scope, error, "Error updating franchise settings.");
+
+            	});
+        	}
+        	else
+        	{
+        		//console.log("<XX> - " + angular.toJson(vm.franchiseSettingForm.$error));
+            	$scope.submitted = false;
+            	ShowUserMessages.show($scope, "Error updating franchise settings - please review validation errors", "Error updating franchise settings.");
         		return false;
         	}
       	}

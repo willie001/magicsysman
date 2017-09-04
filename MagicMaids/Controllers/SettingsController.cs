@@ -263,7 +263,7 @@ namespace MagicMaids.Controllers
 						_objToUpdate = new SuburbZone();
 						_objToUpdate.SuburbName = formValues.SuburbName;
 						_objToUpdate.PostCode = formValues.PostCode;
-						_objToUpdate.Zone = formValues.ZoneID;
+						_objToUpdate.Zone = formValues.Zone;
 						_objToUpdate.LinkedZones = formValues.LinkedZones;
 						_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
 

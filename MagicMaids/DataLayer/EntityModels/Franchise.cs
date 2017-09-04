@@ -77,6 +77,12 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		public decimal? RoyaltyFeePercentage
+		{
+			get;
+			set;
+		}
+
 		[Required]
 		[DataType(DataType.Text)]
 		public string MetroRegion

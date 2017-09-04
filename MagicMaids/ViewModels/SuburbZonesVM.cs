@@ -38,7 +38,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public string ZoneID
+		public string Zone
 		{
 			get;
 			set;
@@ -81,7 +81,7 @@ namespace MagicMaids.ViewModels
 			this.Id = entityModel.Id;
 			this.SuburbName = entityModel.SuburbName;
 			this.PostCode = entityModel.PostCode;
-			this.ZoneID = entityModel.Zone;
+			this.Zone = entityModel.Zone;
 			this.LinkedZones = entityModel.LinkedZones;
 			this.FranchiseId = entityModel.FranchiseId.HasValue ? entityModel.FranchiseId : null;
 		}

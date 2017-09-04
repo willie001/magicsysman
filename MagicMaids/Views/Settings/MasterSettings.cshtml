@@ -5,52 +5,39 @@
 
 <div class="content-heading">
     {{ 'pageTitles.settings.MASTER_SETTINGS' | translate }}
-	<small>Default system settings and default global values.  Where applicable values support customisation at the Franschise level.</small>
+	<small>Customise the Franchisor default values and settings. Where applicable the values can be customised for individual Master Franchises under the franchise's settings.'.</small>
 </div>
-<div ng-controller="DefaultSettingsController as table" class="container-fluid">
 
+<div ng-controller="MasterSettingsController">
 	@Html.Partial("_InformationDetails")
-	
-    <div class="panel panel-transparent" id="panelDataMasterSettings">
-        <div class="panel-heading">
-            <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
-        </div>
-        <div class="panel-body">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover bg-white">
-                    <tr style="font-weight: bold">
-                        <td class="text-center">Name</td>
-                        <td class="text-center">Value</td>
-                        <td style="width:25%" class="text-center">Metadata</td>
-                        <td style="width:10%" class="text-center"></td>
-                    </tr>
-                    <tr ng-repeat="item in table.listOfSettings">
-                        <td>{{ item.SettingName }}<br />[<small><b>System Use</b>:&nbsp;<i>{{ item.CodeIdentifier }}</i></small>]</td>
-                        <td>
-                            <span editable-text="item.SettingValue" e-name="SettingValue" e-form="rowform" onbeforesave="table.validateSettingValue($data)" e-required="">{{ item.SettingValue || 'empty' }}</span>
-                        </td>
-                        <td ng-bind-html="item.Metadata"></td>
-                        <td>
-                            <!-- form-->
-                            <form editable-form="" name="rowform" onbeforesave="table.saveData($data, item)" ng-show="rowform.$visible" shown="table.inserted == item" class="form-buttons form-inline">
-                                <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
-                                    <em class="fa fa-save"></em>
-                                </button>
-                                <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
-                                    <em class="fa fa-times"></em>
-                                </button>
-								<input type="hidden" value="{{ item.Id }}" id="rowID"/>
-                            </form>
-                            <div ng-show="!rowform.$visible" class="buttons">
-                                <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
-                                    <em class="fa fa-pencil"></em>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </table>
-            </div>            
-        </div>
-    </div>
+
+	<div class="panel panel-transparent" id="panelDataMasterSettings">
+	    <div class="panel-heading">
+	        <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+	    </div>
+	    <div class="panel-body">
+	        <uib-tabset justified="true">
+			  	<uib-tab>
+			     	<uib-tab-heading>Default Values</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_SettingsMainValues");   
+			    	}
+				</uib-tab>
+			  	<uib-tab>
+			     	<uib-tab-heading>Suburb/Zone Mappings</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_SettingsPostcodes");   
+			    	}
+				</uib-tab>
+				<uib-tab>
+			     	<uib-tab-heading>Rates</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_SettingsRates");   
+			    	}
+				</uib-tab>
+			</uib-tabset>
+	          
+	    </div>
+	</div>
 </div>
 

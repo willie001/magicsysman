@@ -62,6 +62,12 @@ namespace MagicMaids.Validators
 					{
 						return true;
 					}
+
+					// check for 1300 / 1800 numbers (need more validation)
+					if (_phone.StartsWith("1", StringComparison.InvariantCulture))
+					{
+						return true;
+					}
 				}
 			}
 			else  //mobile number has to be 10

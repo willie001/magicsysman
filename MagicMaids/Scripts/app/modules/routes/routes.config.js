@@ -102,30 +102,15 @@
           })
 
           .state('app.settings_master_franchise_register', {
-              url: '/franchiseregister/:Id',
+              url: '/franchiseregister/:FranchiseId',
               controller: function($scope, $stateParams) {
-            		$scope.Id = $stateParams.Id;
+            		$scope.FranchiseId = $stateParams.FranchiseId;
             	},
               title: 'Settings - Master Franchises - Register', 
-              templateUrl: helper.basepath('Settings/FranchiseRegister')
-          })
-
-          .state('app.settings_postcodes', {
-              url: '/postcodes',
-              title: 'Settings - Suburb/Postcode Zones',
-              templateUrl: helper.basepath('Settings/Postcodes'),
+              templateUrl: helper.basepath('Settings/FranchiseRegister'),
               resolve: helper.resolveFor('xeditable')
           })
-          .state('app.settings_rates', {
-              url: '/rates',
-              title: 'Settings - Rates',
-              templateUrl: helper.basepath('Settings/Rates'),
-          })
-          .state('app.settings_rate_manage', {
-              url: '/ratemanage',
-              title: 'Settings - Rates - Manage',
-              templateUrl: helper.basepath('Settings/RateManage')
-          })
+
           .state('app.settings_templates', {
               url: '/templates',
               title: 'Settings - Templates',

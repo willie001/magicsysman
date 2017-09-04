@@ -64,7 +64,6 @@ namespace MagicMaids.Controllers
 				_editFranchises.Add(_vm);
 			}
 			return new JsonNetResult() { Data = new { list = _editFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-
 		}
 
 		[HttpGet]
@@ -88,13 +87,13 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult GetFranchise(Guid? Id)
+		public ActionResult GetFranchise(Guid? FranchiseId)
 		{
 			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
 			Franchise _franchise = null;
 			UpdateFranchisesViewModel _dataItem = null;
 
-			if (Id == null)
+			if (FranchiseId == null)
 			{
 				// create new item
 				_dataItem = new UpdateFranchisesViewModel();
@@ -105,13 +104,13 @@ namespace MagicMaids.Controllers
 			else
 			{
 				_franchise = MMContext.Franchises
-									  .Where(f => f.Id == Id)
+									  .Where(f => f.Id == FranchiseId)
 									  .Include(nameof(Franchise.PhysicalAddress))
 									  .Include(nameof(Franchise.PostalAddress))
 				                      .FirstOrDefault();
 				if (_franchise == null)
 				{
-					ModelState.AddModelError(string.Empty, $"Franchise [{Id.ToString()}] not found.  Please try again.");
+					ModelState.AddModelError(string.Empty, $"Franchise [{FranchiseId.ToString()}] not found.  Please try again.");
 					return JsonFormResponse();
 				}
 
@@ -119,6 +118,38 @@ namespace MagicMaids.Controllers
 				_dataItem.PopulateVM(_franchise);
 				_dataItem.IsNewItem = false;
 			}
+
+			return new JsonNetResult() { Data = new { item = _dataItem }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		[HttpGet]
+		public ActionResult GetFranchiseSettings(Guid? FranchiseId)
+		{
+			if (FranchiseId == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Franchise ID not provided.  Unable to load franchise settings.");
+				return JsonFormResponse();
+			}
+
+			Franchise _franchise = null;
+			FranchiseSettingsVM _dataItem = null;
+
+			List<SystemSetting> _settings = new List<SystemSetting>();
+			_settings = MMContext.DefaultSettings
+					 .Where(p => p.IsActive == true)
+					 .ToList();
+
+			_franchise = MMContext.Franchises
+								  .Where(f => f.Id == FranchiseId)
+								  .FirstOrDefault();
+			if (_franchise == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Franchise [{FranchiseId.ToString()}] not found.  Please try again.");
+				return JsonFormResponse();
+			}
+
+			_dataItem = new FranchiseSettingsVM();
+			_dataItem.PopulateVM(_franchise, _settings);
 
 			return new JsonNetResult() { Data = new { item = _dataItem }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
@@ -184,7 +215,6 @@ namespace MagicMaids.Controllers
 						_objToUpdate.CodeOfConductURL = dataItem.CodeOfConductURL;
 						_objToUpdate.EmailAddress = dataItem.EmailAddress;
 						_objToUpdate.IsActive = dataItem.IsActive;
-						_objToUpdate.ManagementFeePercentage = dataItem.ManagementFeePercentage;
 						_objToUpdate.MasterFranchiseCode = dataItem.MasterFranchiseCode;
 						_objToUpdate.MetroRegion = dataItem.MetroRegion;
 						_objToUpdate.MobileNumber = dataItem.MobileNumber;
@@ -290,6 +320,87 @@ namespace MagicMaids.Controllers
 			return JsonFormResponse();
 		}
 
+		[HttpPost]
+		public ActionResult SaveFranchiseSettings(FranchiseSettingsVM dataItem)
+		{
+			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
+
+			if (dataItem == null)
+			{
+				ModelState.AddModelError(string.Empty, "Valid franchise settings not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				Guid _id = dataItem.Id;
+
+				try
+				{
+					Franchise _objToUpdate = null;
+
+					_objToUpdate = MMContext.Franchises
+							 .Where(f => f.Id == _id)
+									  .FirstOrDefault();
+
+					if (_objToUpdate == null)
+					{
+						ModelState.AddModelError(string.Empty, $"Franchise [{_id.ToString()}] not found.  Please try again.");
+						return JsonFormResponse();
+					}
+
+					MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
+					MMContext.Entry(_objToUpdate).Property("Name").IsModified = false;
+
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse("Franchise settings saved successfully", _objToUpdate);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (Franchise)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, "Unable to save changes. The franchise was deleted by another user.");
+					}
+					else
+					{
+						var databaseValues = (Franchise)databaseEntry.ToObject();
+
+						if (databaseValues.RoyaltyFeePercentage != clientValues.RoyaltyFeePercentage)
+							ModelState.AddModelError("RoyaltyFeePercentage", "Current database value for franchise royalty fee: " + databaseValues.RoyaltyFeePercentage);
+
+						if (databaseValues.ManagementFeePercentage != clientValues.ManagementFeePercentage)
+							ModelState.AddModelError("TradingName", "Current database value for franchise management fee: " + databaseValues.ManagementFeePercentage);
+
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					//_msg = new InfoViewModel("Error saving franchises", ex);
+					ModelState.AddModelError(string.Empty, $"Error saving franchise settings ({ex.Message})");
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, "Error saving franchise settings", nameof(SaveFranchise), ex, dataItem);
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveFranchiseSettings), dataItem);
+			}
+
+			return JsonFormResponse();
+		}
 
 		#endregion
 	}

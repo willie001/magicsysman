@@ -31,12 +31,9 @@
 			"USER_ACCOUNT_MANAGE":  "Manage User Account",
 			"MASTER_FRANCHISES": "Master Franchise",
             "MASTER_FRANCHISE_REGISTER": "Master Franchise Details",
-            "POSTCODES": "Suburbs & Zones",
-        	"RATES": "Rates & Charges",
-            "RATE_MANAGE": "Manage Rates",
 			"TEMPLATES": "Templates",
 			"TEMPLATE_MANAGE": "Manage Template",
-			"MASTER_SETTINGS": "System Settings",
+			"MASTER_SETTINGS": "Franchisor Defaults",
 			"LOG_ENTRIES": "Application Logs",
 			"LOG_ENTRY": "Application Log Details"
         }

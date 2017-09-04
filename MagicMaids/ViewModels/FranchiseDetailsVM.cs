@@ -37,7 +37,7 @@ namespace MagicMaids.ViewModels
 		#endregion
 	}
 
-	[Validator(typeof(FranchiseValidator))]
+	[Validator(typeof(FranchiseDetailsValidator))]
 	public class UpdateFranchisesViewModel
 	{
 		#region Properties, Public
@@ -102,12 +102,6 @@ namespace MagicMaids.ViewModels
 		}
 
 		public string CodeOfConductURL
-		{
-			get;
-			set;
-		}
-
-		public decimal? ManagementFeePercentage
 		{
 			get;
 			set;
@@ -222,7 +216,6 @@ namespace MagicMaids.ViewModels
 			this.OtherNumber = entityModel.OtherNumber ;
 			this.MobileNumber = entityModel.MobileNumber ;
 			this.CodeOfConductURL  = entityModel.CodeOfConductURL;
-			this.ManagementFeePercentage = entityModel.ManagementFeePercentage;
 			this.MetroRegion  = entityModel.MetroRegion ;
 			this.PhysicalAddressRefId  = entityModel.PhysicalAddressRefId ;
 			this.IsActive = entityModel.IsActive;

@@ -16,14 +16,14 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.SettingValue).NotEmpty().WithMessage("Default value is required.");
 			RuleFor(x => x.CodeIdentifier).NotEmpty().WithMessage("The Code Identifier is required.");
 
-			RuleFor(x => x.SettingName).Length(5, 25).WithName("Default name");
+			RuleFor(x => x.SettingName).Length(5, 40).WithName("Default name");
 			RuleFor(x => x.SettingValue).Length(1, 50).WithName("Default value");
 		}
 	}
 
-	public class FranchiseValidator : AbstractValidator<UpdateFranchisesViewModel>
+	public class FranchiseDetailsValidator : AbstractValidator<UpdateFranchisesViewModel>
 	{
-		public FranchiseValidator()
+		public FranchiseDetailsValidator()
 		{
 			RuleFor(x => x.Name).NotEmpty().WithMessage("Franchise name is required.");
 			RuleFor(x => x.TradingName).NotEmpty().WithMessage("Trading name is required.");
@@ -38,14 +38,22 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.CodeOfConductURL).Length(0, 500).WithName("Code of conduct");
 			RuleFor(x => x.MetroRegion).Length(5, 100).WithName("Metro region");
 
-			RuleFor(x => x.ManagementFeePercentage).GreaterThan(0).WithName("Management fee");
-			RuleFor(x => x.ManagementFeePercentage).LessThanOrEqualTo(100).WithName("Management fee");
-
 			RuleFor(x => x.BusinessPhoneNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Primary business number is not a valid phone number.");
 			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");
 			RuleFor(x => x.OtherNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Alternative contact number is not a valid number.");
 
 			RuleFor(x => x.EmailAddress).EmailAddress().WithMessage("Email address is not a valid email address.");
+		}
+	}
+
+	public class FranchiseSettingsValidator : AbstractValidator<FranchiseSettingsVM>
+	{
+		public FranchiseSettingsValidator()
+		{
+			RuleFor(x => x.ManagementFeePercentage).GreaterThan(0).WithName("Management fee");
+			RuleFor(x => x.ManagementFeePercentage).LessThanOrEqualTo(100).WithName("Management fee");
+			RuleFor(x => x.RoyaltyFeePercentage).GreaterThan(0).WithName("Royalty fee");
+			RuleFor(x => x.RoyaltyFeePercentage).LessThanOrEqualTo(100).WithName("Royalty fee");
 		}
 	}
 
@@ -82,7 +90,7 @@ namespace MagicMaids.Validators
 
 			RuleFor(x => x.SuburbName).Length(5, 250).WithName("Suburb name");
 			RuleFor(x => x.PostCode).Length(2, 5).WithName("Post code");
-			RuleFor(x => x.ZoneID).Length(1, 10).WithName("Zone Id");
+			RuleFor(x => x.Zone).Length(1, 10).WithName("Zone Id");
 			RuleFor(x => x.LinkedZones).Length(1, 500).WithName("Linked zone list");
 		}
 	}

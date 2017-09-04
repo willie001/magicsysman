@@ -6,7 +6,7 @@
 
 <div class="content-heading">
 	<button type="button" class="btn btn-primary pull-right" ng-click="$state.go('app.settings_master_franchise_register')">
-      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Franchise
+      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Master Franchise
 	</button>
 	
     {{ 'pageTitles.settings.MASTER_FRANCHISES' | translate }}
@@ -71,7 +71,7 @@
 						<td style="white-space: nowrap">
 				            <!-- form-->
 				            <div class="buttons">
-							   <a ui-sref="app.settings_master_franchise_register({ Id: franchise.Id })">
+							   <a ui-sref="app.settings_master_franchise_register({ FranchiseId: franchise.Id })">
 				               <button title="Edit" class="btn btn-sm btn-info">
 				                  <em class="fa fa-pencil"></em>
 				               </button></a>

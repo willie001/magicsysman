@@ -382,9 +382,10 @@
     <Compile Include="Helpers\CustomViewEngine.cs" />
     <Compile Include="Helpers\ModelValidators.cs" />
     <Compile Include="ViewModels\LogEntryVM.cs" />
-    <Compile Include="ViewModels\FranchisesVM.cs" />
+    <Compile Include="ViewModels\FranchiseDetailsVM.cs" />
     <Compile Include="ViewModels\AddressesVM.cs" />
     <Compile Include="ViewModels\SuburbZonesVM.cs" />
+    <Compile Include="ViewModels\FranchiseSettingsVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -530,7 +531,6 @@
     <Content Include="Views\Settings\Rates.cshtml" />
     <Content Include="Views\Settings\Templates.cshtml" />
     <Content Include="Views\Settings\Franchises.cshtml" />
-    <Content Include="Views\Settings\Postcodes.cshtml" />
     <Content Include="Scripts\app\modules\tables\table-xeditable.controller.js" />
     <Content Include="Vendor\angular-xeditable\dist\css\xeditable.css" />
     <Content Include="Vendor\angular-xeditable\dist\js\xeditable.js" />
@@ -1199,6 +1199,11 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.js" />
+    <Content Include="Views\Settings\_SettingsMainValues.cshtml" />
+    <Content Include="Views\Settings\_SettingsPostcodes.cshtml" />
+    <Content Include="Views\Settings\_SettingsRates.cshtml" />
+    <Content Include="Views\Settings\_FranchiseDetails.cshtml" />
+    <Content Include="Views\Settings\_FranchiseSettings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />

@@ -40,16 +40,6 @@
 				"translate": "pageTitles.settings.USER_ACCOUNTS"
 			},
 			{
-				"text": "Postcodes",
-				"sref": "app.settings_postcodes",
-				"translate": "pageTitles.settings.POSTCODES"
-			},
-			{
-				"text": "Rates",
-				"sref": "app.settings_rates",
-				"translate": "pageTitles.settings.RATES"
-			},
-			{
 				"text": "Templates",
 				"sref": "app.settings_templates",
 				"translate": "pageTitles.settings.TEMPLATES"
