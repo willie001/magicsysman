@@ -28,6 +28,19 @@ namespace MagicMaids.ViewModels
 		}
 		private String franchiseName;
 
+		public Boolean HasCustomRoyaltyValues
+		{
+			get;
+			set;
+		}
+
+		public Boolean HasCustomManagementValues
+		{
+			get;
+			set;
+		}
+
+
 		public decimal CurrentManagementFeePercentage
 		{
 			get
@@ -98,6 +111,9 @@ namespace MagicMaids.ViewModels
 			this.franchiseName = entityModel.Name;
 			this.ManagementFeePercentage = entityModel.ManagementFeePercentage;
 			this.RoyaltyFeePercentage = entityModel.RoyaltyFeePercentage;
+
+			this.HasCustomRoyaltyValues = this.RoyaltyFeePercentage.HasValue;
+			this.HasCustomManagementValues = this.ManagementFeePercentage.HasValue;
 
 			foreach (SystemSetting item in defaultSettings)
 			{

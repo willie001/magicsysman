@@ -325,9 +325,9 @@ namespace MagicMaids.Controllers
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
 
-			if (dataItem == null)
+			if (dataItem == null || dataItem.Id.ToString().Contains("00000000-0000-0000-0000-000000000000"))
 			{
-				ModelState.AddModelError(string.Empty, "Valid franchise settings not found.");
+				ModelState.AddModelError(string.Empty, "Valid franchise settings not found. Ensure a valid franchise is selected.");
 			}
 
 			if (ModelState.IsValid)

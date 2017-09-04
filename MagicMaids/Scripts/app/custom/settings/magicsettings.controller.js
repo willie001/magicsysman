@@ -23,7 +23,8 @@
     	$scope.userMessages = [];
 		$scope.userMessageType = [];
 
-		$scope.isLoadingResults
+		$scope.isLoadingResults;
+		$scope.DataRecordStatus = { IsNewDataRecord: false};
     }
 
     /*****************************/
@@ -32,7 +33,6 @@
     function PostCodesController($scope, $filter, $http, editableOptions, editableThemes, $q, HandleBusySpinner, ShowUserMessages)
 	{
 		var vm = this;
-		var panelName = 'panelPostalDataSettings';
 		vm.selectedFranchise = null;
 
 		activate();
@@ -41,13 +41,9 @@
 		{
 			vm.listOfPostcodes = null;
 
-			HandleBusySpinner.start($scope, panelName);
-
            	//console.log("<POSTCODE FranchiseId> - " + angular.toJson($scope.FranchiseId));
            	vm.selectedFranchise = ($scope.FranchiseId) ? $scope.FranchiseId : null;
 			loadPostCodes();
-
-			HandleBusySpinner.stop($scope, panelName);
 		};
 
 		function loadPostCodes()
@@ -121,13 +117,14 @@
     function DefaultSettingsController($scope, $filter, $http, editableOptions, editableThemes, $q, HandleBusySpinner, ShowUserMessages)
 	{
 		var vm = this;
+		var panelName = 'panelDataMasterSettings';
 		activate();
 
 		function activate()
         {
 			vm.listOfSettings = null;
 
-			HandleBusySpinner.start($scope, 'panelDataMasterSettings');
+			HandleBusySpinner.start($scope, panelName);
 
             $http.get('/settings/getsettings/?incDisabled=1')
                 .success(function (data) {
@@ -135,7 +132,7 @@
 
                 }).error(function(err) {
                 }).finally(function() {
-          			HandleBusySpinner.stop($scope, 'panelDataMasterSettings');
+          			HandleBusySpinner.stop($scope, panelName);
                 });
 
 		}
@@ -207,7 +204,7 @@
 			vm.listOfFranchises = null;
 			var _incDisabled = 0;
 
-			HandleBusySpinner.start($scope, 'panelDataMasterSettings');
+			HandleBusySpinner.start($scope, panelName);
 
 			var checkBox = document.getElementById('checkActiveSearch');
 			if (checkBox )
@@ -229,7 +226,7 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	HandleBusySpinner.stop($scope, 'panelDataMasterSettings');
+                	HandleBusySpinner.stop($scope, panelName);
                 });
 		}
 	}
@@ -256,6 +253,7 @@
                 	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
                 	vm.franchise = data.item;
                 	$scope.FranchiseId = vm.franchise.Id;
+                	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
 
                 }).error(function(err) {
                 	
@@ -288,8 +286,7 @@
       	};
 
       	vm.saveData = function(data) {
-      		//console.log("<FRANCHISE Data> - " + angular.toJson(data));
-            
+      		//console.log("<FRANCHISE Data> - " + angular.toJson(vm.franchise));
 		 	$scope.submitted = true;
 
 		 	var chkCopy = document.getElementById('CopyToPostal').checked;
@@ -308,6 +305,8 @@
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating details.");
                 	vm.franchise = response.DataItem;
+
+                	$scope.DataRecordStatus.IsNewDataRecord = false;
 
             	}).error(function (error) {
             		$scope.submitted = false;

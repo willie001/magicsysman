@@ -16,26 +16,29 @@
 	        <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
 	    </div>
 	    <div class="panel-body">
-	        <uib-tabset justified="true">
-			  	<uib-tab>
-			     	<uib-tab-heading>Franchise Details</uib-tab-heading>
+			<div class="alert bg-info" ng-show="DataRecordStatus.IsNewDataRecord">
+				The disabled tabs will be activated once the new Master Franchise has been created.
+            </div>
+	        <uib-tabset justified="true" active="0">
+			  	<uib-tab index="0">
+			     	<uib-tab-heading>Franchise Details {{IsNewDataRecord}}</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_FranchiseDetails");   
 			    	}
 				</uib-tab>
-			  	<uib-tab>
+			  	<uib-tab index="1" disable="DataRecordStatus.IsNewDataRecord">
 			     	<uib-tab-heading>Custom Values</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_FranchiseSettings");   
 			    	}
 				</uib-tab>
-				<uib-tab>
+				<uib-tab index="2" disable="DataRecordStatus.IsNewDataRecord">
 			     	<uib-tab-heading>Suburb/Zone Mappings</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_SettingsPostcodes");   
 			    	}
 				</uib-tab>
-				<uib-tab>
+				<uib-tab index="3" disable="DataRecordStatus.IsNewDataRecord">
 			     	<uib-tab-heading>Rates</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_SettingsRates");   

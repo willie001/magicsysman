@@ -58,7 +58,7 @@
         			var _panel = document.getElementById(panelName);
         			if (_panel)
         			{
-    					$scope.$broadcast('triggerPanelRefresh', _panel, 'traditional');
+    					$scope.$emit('triggerPanelRefresh', _panel, 'traditional');
    					}
 				},spinTime);  
     		}
@@ -70,7 +70,7 @@
     			if (_panel)
     			{
     				return $timeout(function () {
-	              		$scope.$broadcast('removeSpinner', panelName);
+	              		$scope.$emit('removeSpinner', panelName);
 	          		}, spinTime);
     			}
 		    }

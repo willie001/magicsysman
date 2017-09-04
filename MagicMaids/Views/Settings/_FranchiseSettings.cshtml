@@ -9,13 +9,17 @@
 		
 		<fieldset>
 			<div class="form-group">
-				<p>
-					The current Master Franchise Royalty for <b>{{form.franchiseSettings.Name}}</b> is <b>{{form.franchiseSettings.CurrentRoyaltyFeePercentage}}%</b>.
-					The system default is <b>{{form.franchiseSettings.DefaultRoyaltyFeePercentage}}%</b>.
+				<p ng-show="form.franchiseSettings.HasCustomRoyaltyValues">
+					The current Master Franchise Royalty for <b>{{form.franchiseSettings.Name}}</b> is <b>{{form.franchiseSettings.CurrentRoyaltyFeePercentage}}%</b> (Default: {{form.franchiseSettings.DefaultRoyaltyFeePercentage}}%).
 				</p>
-				<p>
-					The current Master Franchise Management Fee for <b>{{form.franchiseSettings.Name}}</b> is <b>{{form.franchiseSettings.CurrentManagementFeePercentage}}%</b>.
-					The system default is <b>{{form.franchiseSettings.DefaultManagementFeePercentage}}%</b>.
+				<p ng-show="!form.franchiseSettings.HasCustomRoyaltyValues">
+					<b>{{form.franchiseSettings.Name}}</b> uses the default Master Franchise Royalty: <b>{{form.franchiseSettings.DefaultRoyaltyFeePercentage}}%</b>.
+				</p>
+				<p ng-show="form.franchiseSettings.HasCustomManagementValues">
+					The current Master Franchise Management Fee for <b>{{form.franchiseSettings.Name}}</b> is <b>{{form.franchiseSettings.CurrentManagementFeePercentage}}%</b> (Default: {{form.franchiseSettings.DefaultManagementFeePercentage}}%).
+				</p>
+				<p ng-show="!form.franchiseSettings.HasCustomManagementValues">
+					<b>{{form.franchiseSettings.Name}}</b> uses the default Master Franchise Management Fee: <b>{{form.franchiseSettings.DefaultManagementFeePercentage}}%</b>.
 				</p>
 				<p>
 					The values can be customised below specifically for the current Master Franchise. To revert to default values, simply clear the custom values and save.
@@ -44,13 +48,12 @@
        	
 		<div class="form-group">
             <div class="col-lg-offset-2 col-lg-6">
-            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.settings_master_franchises')" ng-disabled="{{ form.franchiseSettings.submitted }}">Cancel</button>
+            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.settings_master_franchises')" ng-disabled="{{ form.franchiseSettings.submitted }}">Close</button>
           		<button type="submit" class="btn btn-success" ng-disabled="form.franchiseSettings.$invalid || form.franchiseSettings.submitted == true">Save Settings</button>
             </div>
 		    <div class="text-right col-lg-4">
 			
 			</div>		
         </div>	
-		<input type="hidden" ng-model="form.franchiseSettings.Id" id="rowID"/>
 	</form>
 </div>
