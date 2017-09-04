@@ -13,7 +13,7 @@
 	MasterSettingsController.$inject = ['$scope'];
 	DefaultSettingsController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q', 'HandleBusySpinner','ShowUserMessages'];
     FranchiseController.$inject = ['$scope','$filter', '$http','$q', 'HandleBusySpinner'];
-    FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','ShowUserMessages'];
+    FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', 'ShowUserMessages'];
     FranchiseSettingsController.$inject = ['$scope','$http','ShowUserMessages'];
     PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','HandleBusySpinner','ShowUserMessages'];
 
@@ -234,12 +234,18 @@
 	/*************************/
 	/*** FRANCHISE DETAILS ***/
 	/*************************/
-	function FranchiseDetailController($scope, $filter, $http, $q, ShowUserMessages)
+	function FranchiseDetailController($scope, $filter, $http, $q, $location, $rootScope, ShowUserMessages)
 	{
 		var vm = this;
-		var Id = $scope.FranchiseId;
 		var _postalType = 1;
 		var _physicalType = 0;
+		var Id = $scope.FranchiseId;
+		
+		if ($rootScope.childMessage)
+		{
+			ShowUserMessages.show($scope, $rootScope.childMessage, "Error updating details.");
+            $rootScope.childMessage = null; 	
+		}
 
 		vm.franchise = null;
 		vm.addressTypes = null;
@@ -305,8 +311,14 @@
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating details.");
                 	vm.franchise = response.DataItem;
+                	$scope.FranchiseId = vm.franchise.Id;
 
-                	$scope.DataRecordStatus.IsNewDataRecord = false;
+        			if ($scope.DataRecordStatus.IsNewDataRecord)
+                	{
+            			$scope.DataRecordStatus.IsNewDataRecord = false;
+            			$rootScope.childMessage = response;
+                		$location.path('/franchiseregister/'+$scope.FranchiseId);
+                	}
 
             	}).error(function (error) {
             		$scope.submitted = false;
