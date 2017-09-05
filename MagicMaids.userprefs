@@ -1,7 +1,8 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js">
     <Files>
-      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="244" Column="19" />
+      <File FileName="MagicMaids/Views/Settings/_SettingsPostcodes.cshtml" Line="56" Column="92" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="79" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

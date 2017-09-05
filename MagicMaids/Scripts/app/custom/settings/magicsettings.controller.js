@@ -15,7 +15,7 @@
     FranchiseController.$inject = ['$scope','$filter', '$http','$q', 'HandleBusySpinner'];
     FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', 'ShowUserMessages'];
     FranchiseSettingsController.$inject = ['$scope','$http','ShowUserMessages'];
-    PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','HandleBusySpinner','ShowUserMessages'];
+    PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','ShowUserMessages'];
 
     function MasterSettingsController($scope)
     {
@@ -30,7 +30,7 @@
     /*****************************/
 	/*** SUBURB / ZONE MAPPING ***/
 	/*****************************/
-    function PostCodesController($scope, $filter, $http, editableOptions, editableThemes, $q, HandleBusySpinner, ShowUserMessages)
+    function PostCodesController($scope, $filter, $http, editableOptions, editableThemes, $q, ShowUserMessages)
 	{
 		var vm = this;
 		vm.selectedFranchise = null;
@@ -52,7 +52,7 @@
                 .success(function (data) {
                 	vm.listOfPostcodes = data.list;
                 	vm.nextNewGuid = data.nextGuid;
-                	//console.log("<POSTCODE nextNewGuid> - " + angular.toJson(vm.nextNewGuid));
+                	//console.log("<POSTCODES loaded> - " + angular.toJson(vm.listOfPostcodes));
 
                 }).error(function(err) {
 
@@ -95,10 +95,11 @@
 					IsNewItem: isNew
 				});
 
-            //console.log("<SETTING item post> - " + angular.toJson(data));
+            //console.log("<POSTCODE data post> - " + angular.toJson(data));
        		return $http.post('/settings/savepostcodes', data).success(function (response) {
                 // Add your success stuff here
-                ShowUserMessages.show($scope, response, "Error updating suburb/zone.");
+            	//console.log("<POSTCODE response post> - " + angular.toJson(response));
+       			ShowUserMessages.show($scope, response, "Error updating suburb/zone.");
            		loadPostCodes();
 
             }).error(function (error) {

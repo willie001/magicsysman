@@ -53,7 +53,7 @@
 	</div>
 	<div class="form-group">
         <div class="col-lg-8"  style="padding-top: 10px">
-        	<button type="submit" class="btn btn-default" ng-click="$state.go('app.settings_master_franchises')" ng-disabled="{{ form.franchiseSettings.submitted }}">Close</button>
+        	<button type="submit" class="btn btn-default" ng-show="vmPost.selectedFranchise != null" ng-click="$state.go('app.settings_master_franchises')" ng-disabled="{{ form.franchiseSettings.submitted }}">Close</button>
         </div>
 	    <div class="text-right col-lg-4">
 		
