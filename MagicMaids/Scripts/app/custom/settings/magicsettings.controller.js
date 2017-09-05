@@ -68,7 +68,6 @@
           };
 
           vm.addData = function() {
-          	HandleBusySpinner.start($scope, panelName);
             vm.inserted = {
               Id: vm.nextNewGuid,
               SuburbName: '',
@@ -81,7 +80,6 @@
             //console.log("<POSTCODE inserted> - " + angular.toJson(vm.inserted));
 
             vm.listOfPostcodes.push(vm.inserted);
-            HandleBusySpinner.stop($scope, panelName);
           };
 
           vm.removeSuburb = function(index) {
