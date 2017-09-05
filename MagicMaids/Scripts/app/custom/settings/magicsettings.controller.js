@@ -13,7 +13,7 @@
 	MasterSettingsController.$inject = ['$scope'];
 	DefaultSettingsController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q', 'HandleBusySpinner','ShowUserMessages'];
     FranchiseController.$inject = ['$scope','$filter', '$http','$q', 'HandleBusySpinner'];
-    FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', 'ShowUserMessages'];
+    FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', 'HandleBusySpinner', 'ShowUserMessages'];
     FranchiseSettingsController.$inject = ['$scope','$http','ShowUserMessages'];
     PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','ShowUserMessages'];
 
@@ -233,11 +233,12 @@
 	/*************************/
 	/*** FRANCHISE DETAILS ***/
 	/*************************/
-	function FranchiseDetailController($scope, $filter, $http, $q, $location, $rootScope, ShowUserMessages)
+	function FranchiseDetailController($scope, $filter, $http, $q, $location, $rootScope, HandleBusySpinner, ShowUserMessages)
 	{
 		var vm = this;
 		var _postalType = 1;
 		var _physicalType = 0;
+		var panelName = "panelDataMasterSettings";
 		var Id = $scope.FranchiseId;
 		
 		if ($rootScope.childMessage)
@@ -253,6 +254,8 @@
 
 		function activate()
         {
+        	HandleBusySpinner.start($scope, panelName);
+
             $http.get('/settings/getfranchise/?FranchiseId=' + Id)
                 .success(function (data) {
                 	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
@@ -263,7 +266,7 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-
+                	
                 });
                
 			$http.get('/addresses/getaddresstypesjson')
@@ -280,7 +283,7 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-
+                	HandleBusySpinner.stop($scope, panelName);
                 });
 		}
 
@@ -304,9 +307,12 @@
 		 	}
 
 			if (vm.franchiseForm.$valid) {
-                	
+
+                HandleBusySpinner.start($scope, panelName);
+	
             	return $http.post('/settings/savefranchise', vm.franchise).success(function (response) {
                 	// Add your success stuff here
+                	HandleBusySpinner.stop($scope, panelName);
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating details.");
                 	vm.franchise = response.DataItem;
@@ -320,10 +326,13 @@
                 	}
 
             	}).error(function (error) {
+            		HandleBusySpinner.stop($scope, panelName);
             		$scope.submitted = false;
                 	ShowUserMessages.show($scope, error, "Error updating details.");
 
             	});
+
+
         	}
         	else
         	{

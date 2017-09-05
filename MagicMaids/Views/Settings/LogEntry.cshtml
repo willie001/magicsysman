@@ -11,8 +11,11 @@
 
 <div class="container-fluid" ng-controller="LogEntryController as form">
 
-	<div class="panel panel-default">
-		 <div class="panel-body">
+	<div class="panel panel-default" id="panelApplicationLogs">
+		<div class="panel-heading">
+			<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+		</div> 
+		<div class="panel-body">
 			
 		 	 <form class="form-horizontal">
 				<div class="form-group">

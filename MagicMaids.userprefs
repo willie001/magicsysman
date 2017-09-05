@@ -1,8 +1,9 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Settings/Franchises.cshtml">
     <Files>
-      <File FileName="MagicMaids/Views/Settings/_SettingsPostcodes.cshtml" Line="56" Column="92" />
-      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="79" Column="13" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="15" Column="80" />
+      <File FileName="MagicMaids/Views/Settings/Franchises.cshtml" Line="13" Column="57" />
+      <File FileName="MagicMaids/Views/Settings/FranchiseRegister.cshtml" Line="14" Column="62" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

@@ -7,7 +7,7 @@
     	.controller('LogEntryController', LogEntryController);
 
     LogEntriesController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner'];
-    LogEntryController.$inject = ['$scope','$filter','$http','$q'];
+    LogEntryController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner'];
 
     /***************************/
 	/*** LOG ENTRIES SUMMARY ***/
@@ -39,7 +39,7 @@
     /*************************/
 	/*** LOG ENTRY DETAILS ***/
 	/*************************/
-	function LogEntryController($scope, $filter, $http, $q)
+	function LogEntryController($scope, $filter, $http, $q, HandleBusySpinner)
 	{
 		//alert('3');
 		var vm = this;
@@ -52,6 +52,8 @@
 
 		function activate()
         {
+        	HandleBusySpinner.start($scope, 'panelApplicationLogs');
+        
             $http.get('/logentries/getLogEntry/?Id=' + Id)
                 .success(function (data) {
                 	//console.log("<LOGENTRY> - " + angular.toJson(data.item));
@@ -61,7 +63,7 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-
+                	HandleBusySpinner.stop($scope, 'panelApplicationLogs');
                 });
 		}
 
