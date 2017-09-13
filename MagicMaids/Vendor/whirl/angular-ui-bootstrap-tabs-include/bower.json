@@ -1,0 +1,32 @@
+{
+  "name": "angular-ui-bootstrap-tabs-include",
+  "version": "0.1.0",
+  "authors": [
+    "Amarnath Ravikumar <amarnus@gmail.com>"
+  ],
+  "description": "Angular directive that allows Bootstrap tabs to lazily load HTML fragments for their content.",
+  "main": "lib/angular-ui-bootstrap-tabs-include.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "angular",
+    "bootstrap",
+    "tabs",
+    "lazy load"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "demo",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-bootstrap-bower": "~0.12.0"
+  },
+  "devDependencies": {
+    "bootstrap-css-only": "~3.3.0"
+  }
+}

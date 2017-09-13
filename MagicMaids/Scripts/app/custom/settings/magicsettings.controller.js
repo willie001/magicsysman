@@ -8,7 +8,8 @@
 		.controller('FranchiseController', FranchiseController)
 		.controller('FranchiseDetailController', FranchiseDetailController)
 		.controller('FranchiseSettingsController', FranchiseSettingsController)
-		.controller('PostCodesController', PostCodesController);
+		.controller('PostCodesController', PostCodesController)
+		.controller('RatesController', RatesController);
 
 	MasterSettingsController.$inject = ['$scope'];
 	DefaultSettingsController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q', 'HandleBusySpinner','ShowUserMessages'];
@@ -16,16 +17,133 @@
     FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', 'HandleBusySpinner', 'ShowUserMessages'];
     FranchiseSettingsController.$inject = ['$scope','$http','ShowUserMessages'];
     PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','ShowUserMessages'];
+    RatesController.$inject = ['$scope', '$http', 'ngDialog', 'ShowUserMessages'];
 
     function MasterSettingsController($scope)
     {
+   		var vm = this;
+
     	// A parent controller is required where we use tabbing with messaging being sent from the child.
     	$scope.userMessages = [];
 		$scope.userMessageType = [];
 
 		$scope.isLoadingResults;
 		$scope.DataRecordStatus = { IsNewDataRecord: false};
+
+		$scope.loadPostcodeData = function() {
+			$scope.$broadcast('loadPostcode');
+		}
+
+		$scope.loadRatesData = function() {
+			$scope.$broadcast('loadRates');
+		}
     }
+
+    /**************/
+	/*** RATES ***/
+	/*************/
+    function RatesController($scope, $http, ngDialog, ShowUserMessages)
+	{
+		var vm = this;
+		vm.selectedFranchise = null;
+		$scope.rateTypes = {};
+		$scope.rateTypes.availableRateTypes = [];	
+		$scope.rateTypes.selectedRateTypes = [];	
+
+		$scope.$on('loadRates', loadRates);
+
+		activate();
+
+		function activate()
+		{
+			vm.disabled = false;
+			vm.listOfRates = null;
+           	vm.selectedFranchise = ($scope.FranchiseId) ? $scope.FranchiseId : null;
+
+           	$http.get('/settings/getratetypesjson')
+                .success(function (data) {
+                	//console.log('<RATE TYPES> ' + angular.toJson(data.item));
+                	$scope.rateTypes.availableRateTypes = data.item;
+                }).error(function(err) {
+                	
+                }).finally(function() {
+                });
+		};
+
+		function loadRates()
+		{
+			//console.log("<RATES property> - " + angular.toJson(someProp));
+			$http.get('/settings/getrates?FranchiseId=' + vm.selectedFranchise)
+                .success(function (data) {
+                	vm.listOfRates = data.list;
+                	vm.nextNewGuid = data.nextGuid;
+                	//console.log("<RATES loaded> - " + angular.toJson(vm.listOfPostcodes));
+
+                }).error(function(err) {
+
+                }).finally(function() {
+
+                });
+		}
+
+		$scope.openRatesPopupForm = function () {
+            ngDialog.open({
+              template: '/views/settings/RatesEditor.html',
+              className: 'ngdialog-theme-default',
+              width: '40%',
+              controller: 'RatesController',
+              scope: $scope
+            });
+          };
+
+		vm.validateData = function(data, colName) {
+            if (data.length == 0) {
+              return colName + ' is mandatory';
+            }
+        };
+
+	    vm.addData = function() {
+	        vm.inserted = {
+	          Id: vm.nextNewGuid,
+	          RateAmount: '',
+	          RateApplications: '',
+	          IsActive: true,
+	          IsNewItem: true	
+	    	};
+
+            //console.log("<RATES inserted> - " + angular.toJson(vm.inserted));
+
+            vm.listOfRates.push(vm.inserted);
+        };
+
+        vm.removeRate = function(index) {
+          	alert('Not ready yet!'); 
+          	return false;
+          	vm.listOfRates.splice(index, 1);
+        };
+
+        vm.saveData = function(data, id, isNew) {
+			angular.extend(data, {
+				FranchiseId: vm.selectedFranchise,
+				Id: id,
+				IsNewItem: isNew
+			});
+
+	        //console.log("<RATES data post> - " + angular.toJson(data));
+	   		return $http.post('/settings/saverates', data).success(function (response) {
+	            // Add your success stuff here
+	        	//console.log("<RATES response post> - " + angular.toJson(response));
+	   			ShowUserMessages.show($scope, response, "Error updating rate.");
+	       		loadRates();
+
+	        }).error(function (error) {
+
+	            ShowUserMessages.show($scope, error, "Error updating rate.");
+
+	        });
+		}
+
+	}
 
     /*****************************/
 	/*** SUBURB / ZONE MAPPING ***/
@@ -35,6 +153,8 @@
 		var vm = this;
 		vm.selectedFranchise = null;
 
+		$scope.$on('loadPostcode', loadPostCodes);
+
 		activate();
 
 		function activate()
@@ -43,7 +163,6 @@
 
            	//console.log("<POSTCODE FranchiseId> - " + angular.toJson($scope.FranchiseId));
            	vm.selectedFranchise = ($scope.FranchiseId) ? $scope.FranchiseId : null;
-			loadPostCodes();
 		};
 
 		function loadPostCodes()
@@ -67,15 +186,15 @@
             }
           };
 
-          vm.addData = function() {
-            vm.inserted = {
-              Id: vm.nextNewGuid,
-              SuburbName: '',
-              PostCode: '',
-              Zone: '',
-              LinkedZones: '',
-              IsNewItem: true
-            };
+	      vm.addData = function() {
+	        vm.inserted = {
+	          Id: vm.nextNewGuid,
+	          SuburbName: '',
+	          PostCode: '',
+	          Zone: '',
+	          LinkedZones: '',
+	          IsNewItem: true
+	        };
 
             //console.log("<POSTCODE inserted> - " + angular.toJson(vm.inserted));
 

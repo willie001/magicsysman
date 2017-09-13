@@ -23,13 +23,13 @@
 			        	Html.RenderPartial("_SettingsMainValues");   
 			    	}
 				</uib-tab>
-			  	<uib-tab>
+			  	<uib-tab select="loadPostcodeData()">
 			     	<uib-tab-heading>Suburb/Zone Mappings</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_SettingsPostcodes");   
 			    	}
 				</uib-tab>
-				<uib-tab>
+				<uib-tab  select="loadRatesData()">
 			     	<uib-tab-heading>Rates</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_SettingsRates");   

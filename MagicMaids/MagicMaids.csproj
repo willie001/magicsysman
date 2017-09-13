@@ -374,7 +374,6 @@
     <Compile Include="DataLayer\DataAccess\CleanerRepository.cs" />
     <Compile Include="DataLayer\DataAccess\ClientRepository.cs" />
     <Compile Include="DataLayer\DataAccess\IRepository.cs" />
-    <Compile Include="DataLayer\DataAccess\RatesRepository.cs" />
     <Compile Include="DataLayer\DataAccess\TemplateRepository.cs" />
     <Compile Include="DataLayer\DataAccess\UserAccountRepository.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
@@ -386,6 +385,7 @@
     <Compile Include="ViewModels\AddressesVM.cs" />
     <Compile Include="ViewModels\SuburbZonesVM.cs" />
     <Compile Include="ViewModels\FranchiseSettingsVM.cs" />
+    <Compile Include="ViewModels\RateDetailsVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -1121,7 +1121,6 @@
     <Content Include="Server\editor\source\js\script.js" />
     <Content Include="Scripts\app\custom\settings\magicsettings.controller.js" />
     <Content Include="Views\Settings\FranchiseRegister.cshtml" />
-    <Content Include="Views\Settings\RateManage.cshtml" />
     <Content Include="Views\Settings\TemplateManage.cshtml" />
     <Content Include="Views\Clients\ClientDetails.cshtml" />
     <Content Include="Scripts\app\custom\clients\magicclients.controller.js" />
@@ -1201,9 +1200,12 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Views\Settings\_SettingsMainValues.cshtml" />
     <Content Include="Views\Settings\_SettingsPostcodes.cshtml" />
-    <Content Include="Views\Settings\_SettingsRates.cshtml" />
+    <Content Include="Views\Settings\_SettingsRates2.cshtml" />
     <Content Include="Views\Settings\_FranchiseDetails.cshtml" />
     <Content Include="Views\Settings\_FranchiseSettings.cshtml" />
+    <Content Include="Views\Settings\_SettingsRates.cshtml" />
+    <Content Include="Views\Settings\RateManage.cshtml" />
+    <Content Include="Views\Settings\RatesEditor.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />

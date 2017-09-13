@@ -108,7 +108,7 @@
             	},
               title: 'Settings - Master Franchises - Register', 
               templateUrl: helper.basepath('Settings/FranchiseRegister'),
-              resolve: helper.resolveFor('xeditable')
+              resolve: helper.resolveFor('xeditable','ui.select')
           })
 
           .state('app.settings_templates', {
@@ -121,11 +121,12 @@
               title: 'Settings - Manage Template',
               templateUrl: helper.basepath('Settings/TemplateManage'),
           })
+
           .state('app.settings_master_settings', {
               url: '/mastersettings',
               title: 'Global Settings',
               templateUrl: helper.basepath('Settings/MasterSettings'),
-              resolve: helper.resolveFor('xeditable')
+              resolve: helper.resolveFor('xeditable','ngDialog','ui.select')
           })
           .state('app.settings_app_logsentries', {
               url: '/logentries',

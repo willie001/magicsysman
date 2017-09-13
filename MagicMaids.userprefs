@@ -1,9 +1,10 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Settings/Franchises.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Settings/RatesEditor.html">
     <Files>
-      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="15" Column="80" />
-      <File FileName="MagicMaids/Views/Settings/Franchises.cshtml" Line="13" Column="57" />
-      <File FileName="MagicMaids/Views/Settings/FranchiseRegister.cshtml" Line="14" Column="62" />
+      <File FileName="MagicMaids/Views/Settings/_SettingsRates.cshtml" Line="7" Column="42" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="87" Column="41" />
+      <File FileName="MagicMaids/Views/Settings/RatesEditor.html" Line="16" Column="51" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="347" Column="61" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -13,6 +14,9 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicDAL/Helpers/CustomValidators.cs" relfile="MagicDAL/Helpers/CustomValidators.cs" line="58" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AddressController.cs" relfile="MagicMaids/Controllers/AddressController.cs" line="32" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/DashboardController.cs" relfile="MagicMaids/Controllers/DashboardController.cs" line="31" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="372" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="361" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/RateDetailsVM.cs" relfile="MagicMaids/ViewModels/RateDetailsVM.cs" line="99" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

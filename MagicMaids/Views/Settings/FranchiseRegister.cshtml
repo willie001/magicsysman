@@ -21,7 +21,7 @@
             </div>
 	        <uib-tabset justified="true" active="0">
 			  	<uib-tab index="0">
-			     	<uib-tab-heading>Franchise Details {{IsNewDataRecord}}</uib-tab-heading>
+			     	<uib-tab-heading>Franchise Details</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_FranchiseDetails");   
 			    	}
@@ -32,20 +32,19 @@
 			        	Html.RenderPartial("_FranchiseSettings");   
 			    	}
 				</uib-tab>
-				<uib-tab index="2" disable="DataRecordStatus.IsNewDataRecord">
+				<uib-tab index="2" disable="DataRecordStatus.IsNewDataRecord" select="loadPostcodeData()">
 			     	<uib-tab-heading>Suburb/Zone Mappings</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_SettingsPostcodes");   
 			    	}
 				</uib-tab>
-				<uib-tab index="3" disable="DataRecordStatus.IsNewDataRecord">
+				<uib-tab index="3" disable="DataRecordStatus.IsNewDataRecord" select="loadRatesData()">
 			     	<uib-tab-heading>Rates</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_SettingsRates");   
 			    	}
 				</uib-tab>
 			</uib-tabset>
-	          
 	    </div>
 	</div>
 </div>

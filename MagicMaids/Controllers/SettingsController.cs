@@ -47,11 +47,6 @@ namespace MagicMaids.Controllers
 			return View();
 		}
 
-		[OutputCache(CacheProfile = "CacheForDemo")]
-		public ActionResult RateManage()
-		{
-			return View();
-		}
 
 		[OutputCache(CacheProfile = "CacheForDemo")]
 		public ActionResult Templates()
@@ -93,11 +88,6 @@ namespace MagicMaids.Controllers
 
 		[OutputCache(CacheProfile = "CacheForDemo")]
 		public ActionResult UserAccountDetails()
-		{
-			return View();
-		}
-
-		public ActionResult Postcodes()
 		{
 			return View();
 		}
@@ -334,6 +324,143 @@ namespace MagicMaids.Controllers
 			if (!ModelState.IsValid)
 			{
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SavePostCodes), formValues);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpGet]
+		public JsonNetResult GetRateTypesJson()
+		{
+			var enumVals = new List<object>();
+
+			foreach (var item in Enum.GetValues(typeof(RateApplicationsSettings)))
+			{
+
+				enumVals.Add(new
+				{
+					id = (int)item,
+					name = item.ToString()
+				});
+			}
+
+			return new JsonNetResult() { Data = new { item = enumVals }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		public JsonResult GetRates(Guid? FranchiseId)
+		{
+			List<Rate> _entityList = new List<Rate>();
+
+			_entityList = MMContext.Rates 
+				   .Where(p => p.FranchiseId == FranchiseId)
+				   .ToList();
+
+			List<RateDetailsVM> _editList = new List<RateDetailsVM>();
+			foreach (Rate _item in _entityList)
+			{
+				var _vm = new RateDetailsVM();
+				_vm.PopulateVM(_item);
+				_editList.Add(_vm);
+			}
+
+			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		[HttpPost]
+		public ActionResult SaveRates(RateDetailsVM formValues)
+		{
+			string _objDesc = "Rate";
+
+			if (formValues == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				Guid _id = formValues.Id;
+				var bIsNew = formValues.IsNewItem;
+
+				try
+				{
+					Rate _objToUpdate = null;
+
+					if (bIsNew)
+					{
+						_objToUpdate = new Rate();
+						_objToUpdate.RateCode = formValues.RateCode;
+						_objToUpdate.RateAmount = formValues.RateAmount;
+						_objToUpdate.RateApplications  = formValues.SelectedRateApplications;
+						_objToUpdate.IsActive = formValues.IsActive;
+						_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
+
+						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+					}
+					else
+					{
+						_objToUpdate = MMContext.Rates
+								 .Where(f => f.Id == _id)
+										  .FirstOrDefault();
+
+						if (_objToUpdate == null)
+						{
+							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+							return JsonFormResponse();
+						}
+
+						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+					}
+
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (Rate)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+					}
+					else
+					{
+						var databaseValues = (Rate)databaseEntry.ToObject();
+
+						if (databaseValues.RateCode != clientValues.RateCode)
+						{
+							ModelState.AddModelError("RateCode", "Current database value for rate code: " + databaseValues.RateCode);
+						}
+
+						if (databaseValues.RateAmount != clientValues.RateAmount)
+						{
+							ModelState.AddModelError("RateAmount", "Current database value for rate amount: " + databaseValues.RateAmount);
+						}
+
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					//_msg = new InfoViewModel("Error saving franchises", ex);
+					ModelState.AddModelError(string.Empty, $"Error saving {_objDesc.ToLower()} ({ex.Message})");
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(Rate), ex, formValues);
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(Rate), formValues);
 			}
 
 			return JsonFormResponse();

@@ -11,6 +11,7 @@ using NLog;
 
 namespace MagicMaids.DataAccess
 {
+	// Not currently up to spec
     class MagicMaidsInitialiser : CreateDatabaseIfNotExists<MagicMaidsContext>
     {
         protected override void Seed(MagicMaidsContext context)

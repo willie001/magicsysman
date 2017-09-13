@@ -22,6 +22,7 @@ namespace MagicMaids.DataAccess
             SuburbZones = Set<SuburbZone>();
 			Franchises = Set<Franchise>();
 			Addresses = Set<Address>();
+			Rates = Set<Rate>();
 
             Log = LogManager.GetLogger(GetType().FullName);
 
@@ -56,6 +57,11 @@ namespace MagicMaids.DataAccess
             set;
         }
 
+		public DbSet<Rate> Rates
+		{
+			get;
+			set;
+		}
         #endregion
 
         #region Methods, Protected

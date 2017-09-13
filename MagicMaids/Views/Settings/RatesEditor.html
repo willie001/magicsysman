@@ -1,0 +1,35 @@
+﻿<div class="ngdialog-content" ng-controller="RatesController as vmEditRates">
+		<form class="form-horizontal">
+			<div class="row">
+				<label class="control-label">Rate Code</label>
+				<input type="text" placeholder="Rate Identifier Code" class="form-control" ng-model="RateCode" />
+			</div>
+			<div class="row">
+				<label class="control-label">Rate Amount</label>
+				<div class="input-group">
+					<span class="input-group-addon">$</span>
+					<input type="text" placeholder="Rate" class="form-control" ng-model="RateAmount" />
+				</div>
+			</div>
+			<div class="row">
+				<label class="control-label">Apply Rate Categories</label>
+				<ui-select multiple="" ng-model="rateTypes.selectedRateTypes" ng-disabled="vmEditRates.disabled" theme="bootstrap" >
+					<ui-select-match placeholder="Select rate categories.....">{{$item.name}}</ui-select-match>
+					<ui-select-choices repeat="item in rateTypes.availableRateTypes | filter: {name: $select.search}">
+						<div ng-bind-html="item.name | highlight: $select.search""></div>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<div class="row">
+				<label class="control-label">Activate</label>&nbsp;&nbsp;
+				<label class="switch">
+					<input type="checkbox" checked="on" ng-model="IsActive"/>
+					<span></span>
+				</label>
+			</div>
+			<div class="ngdialog-buttons">
+				<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm('OK')">Save</button>
+				<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('Cancel')">Cancel</button>
+			</div>
+		</form>
+</div>

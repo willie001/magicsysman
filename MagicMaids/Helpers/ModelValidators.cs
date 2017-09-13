@@ -94,4 +94,17 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.LinkedZones).Length(1, 500).WithName("Linked zone list");
 		}
 	}
+
+	public class RateValidator : AbstractValidator<RateDetailsVM>
+	{
+		public RateValidator()
+		{
+			RuleFor(x => x.RateCode).NotEmpty().WithMessage("Rate Identifier is required.");
+			RuleFor(x => x.RateAmount).NotEmpty().WithMessage("Rate Amount is required.");
+
+			RuleFor(x => x.RateCode).Length(1, 5).WithName("Rate Identifier");
+			RuleFor(x => x.RateAmount).GreaterThan(0).WithMessage("Rate Amount");
+
+		}
+	}
 }

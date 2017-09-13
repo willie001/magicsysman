@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations.Schema;
 #endregion
 
 namespace MagicMaids.EntityModels
@@ -20,101 +21,47 @@ namespace MagicMaids.EntityModels
 		OneHour = 64	
 	}
 
+	[Table("Rates")]
 	public class Rate : BaseModel
 	{
 		#region Properties, Public
+		[Required]
+		[DataType(DataType.Text)]
 		public string RateCode
 		{
 			get;
 			set;
 		}
 
-		public string ApplicationDescription
+		[DataType(DataType.DateTime)]
+		public DateTime? ActivationDate
 		{
 			get;
 			set;
 		}
 
 		[DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
+		[Required]
+		[DataType(DataType.Currency)]
 		public decimal RateAmount
 		{
 			get;
 			set;
 		}
 
+		[Required]
 		public RateApplicationsSettings RateApplications
 		{
 			get;
 			set;
 		}
+		#endregion
 
-		private string _rateApplicationFormat;
-		public string RateApplicationHtml
+		#region Properties, Foreign Key
+		public Guid? FranchiseId
 		{
-			get
-			{
-				if (!String.IsNullOrWhiteSpace(_rateApplicationFormat))
-				{
-					return _rateApplicationFormat;
-				}
-
-				System.Text.StringBuilder _output = new System.Text.StringBuilder();
-
-				if (RateApplications.Equals(RateApplicationsSettings.None))
-				{
-					_rateApplicationFormat = string.Empty;
-					return "<div class=\"label bg-danger-light\">Not set</div>";
-				}
-				else
-				{
-					if (RateApplications.HasFlag(RateApplicationsSettings.Residential))
-					{
-						if (_output.Length > 0) _output.Append("&nbsp;");
-						_output.Append("<div class=\"label bg-success\">Residential</div>");	
-					}
-
-					if (RateApplications.HasFlag(RateApplicationsSettings.Commercial))
-					{
-						if (_output.Length > 0) _output.Append("&nbsp;");
-						_output.Append("<div class=\"label bg-primary\">Commercial</div>");
-					}
-
-					if (RateApplications.HasFlag(RateApplicationsSettings.FirstVisit))
-					{
-						if (_output.Length > 0) _output.Append("&nbsp;");
-						_output.Append("<div class=\"label bg-inverse-light\">Initial</div>");
-					}
-
-					if (RateApplications.HasFlag(RateApplicationsSettings.NormalVisit))
-					{
-						if (_output.Length > 0) _output.Append("&nbsp;");
-						_output.Append("<div class=\"label bg-warning\">Standard</div>");
-					}
-
-					if (RateApplications.HasFlag(RateApplicationsSettings.OneHour))
-					{
-						if (_output.Length > 0) _output.Append("&nbsp;");
-						_output.Append("<div class=\"label bg-yellow\">One Hour</div>");
-					}
-
-					if (RateApplications.HasFlag(RateApplicationsSettings.OneOff))
-					{
-						if (_output.Length > 0) _output.Append("&nbsp;");
-						_output.Append("<div class=\"label bg-purple\">One-Off</div>");
-					}
-
-					if (RateApplications.HasFlag(RateApplicationsSettings.Vacancy))
-					{
-						if (_output.Length > 0) _output.Append("&nbsp;");
-						_output.Append("<div class=\"label bg-pink\">Vacancy</div>");
-					}
-
-					if (_output.Length == 0) _output.Append("<div class=\"label bg-danger-dark\">Invalid</div>");
-				}
-	
-			    _rateApplicationFormat = _output.ToString();
-				return _rateApplicationFormat;
-			}
+			get;
+			set;
 		}
 		#endregion
 	}
