@@ -13,6 +13,7 @@ using NLog;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
+using Newtonsoft.Json;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -355,25 +356,39 @@ namespace MagicMaids.Controllers
 				   .Where(p => p.FranchiseId == FranchiseId)
 				   .ToList();
 
-			List<RateDetailsVM> _editList = new List<RateDetailsVM>();
+			List<RateListVM> _showList = new List<RateListVM>();
 			foreach (Rate _item in _entityList)
 			{
-				var _vm = new RateDetailsVM();
+				var _vm = new RateListVM();
 				_vm.PopulateVM(_item);
-				_editList.Add(_vm);
+				_showList.Add(_vm);
 			}
 
-			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return new JsonNetResult() { Data = new { list = _showList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpPost]
-		public ActionResult SaveRates(RateDetailsVM formValues)
+		public ActionResult SaveRate(RateDetailsVM formValues)
 		{
 			string _objDesc = "Rate";
+			int _selection = 0;
 
 			if (formValues == null)
 			{
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
+			}
+
+			if (String.IsNullOrWhiteSpace(formValues.SelectedRatesJson))
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} selections not found.");
+			} 
+			else
+			{
+				List<SelectedRateItem> _selectionList = JsonConvert.DeserializeObject<List<SelectedRateItem>>(formValues.SelectedRatesJson);
+				foreach(SelectedRateItem _item in _selectionList)
+				{
+					_selection += _item.Id;
+				}
 			}
 
 			if (ModelState.IsValid)
@@ -390,7 +405,7 @@ namespace MagicMaids.Controllers
 						_objToUpdate = new Rate();
 						_objToUpdate.RateCode = formValues.RateCode;
 						_objToUpdate.RateAmount = formValues.RateAmount;
-						_objToUpdate.RateApplications  = formValues.SelectedRateApplications;
+						_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
 						_objToUpdate.IsActive = formValues.IsActive;
 						_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
 

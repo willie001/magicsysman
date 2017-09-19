@@ -528,7 +528,6 @@
     <Content Include="Vendor\slimScroll\jquery.slimscroll.min.js" />
     <Content Include="Views\Clients\Clients.cshtml" />
     <Content Include="Views\Cleaners\Cleaners.cshtml" />
-    <Content Include="Views\Settings\Rates.cshtml" />
     <Content Include="Views\Settings\Templates.cshtml" />
     <Content Include="Views\Settings\Franchises.cshtml" />
     <Content Include="Scripts\app\modules\tables\table-xeditable.controller.js" />
@@ -1204,7 +1203,6 @@
     <Content Include="Views\Settings\_FranchiseDetails.cshtml" />
     <Content Include="Views\Settings\_FranchiseSettings.cshtml" />
     <Content Include="Views\Settings\_SettingsRates.cshtml" />
-    <Content Include="Views\Settings\RateManage.cshtml" />
     <Content Include="Views\Settings\RatesEditor.html" />
   </ItemGroup>
   <ItemGroup>

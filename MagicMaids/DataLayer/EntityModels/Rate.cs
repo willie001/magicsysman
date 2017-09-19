@@ -8,8 +8,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MagicMaids.EntityModels
 {
+	//https://stackoverflow.com/questions/21021138/save-flag-enums-in-sql-database-and-ef6-is-this-possible
 	[Flags]
-	public enum RateApplicationsSettings
+	public enum RateApplicationsSettings : int
 	{
 		None = 0,
 		Residential = 1,
@@ -18,8 +19,9 @@ namespace MagicMaids.EntityModels
 		NormalVisit = 8,
 		OneOff = 16,
 		Vacancy = 32,
-		OneHour = 64	
+		OneHour = 64
 	}
+
 
 	[Table("Rates")]
 	public class Rate : BaseModel

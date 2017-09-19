@@ -18,43 +18,27 @@
 			</tr>
 			<tr ng-repeat="item in vmRates.listOfRates">
 				<td>
-	            	{{ item.RateCode || &apos;Not set&apos; }}
+	            	{{ item.RateCode }}
 	         	</td>
 				<td>
-					{{ item.RateAmount || &apos;Not set&apos; }}
+					{{ item.RateAmount | currency }}
 				</td>
 				<td>
-					<!--<a href="#" editable-checklist="item.RateApplicationHtml" e-ng-options="s.value as s.text for s in statuses">
-    					{{ showStatus() }}
-  					</a>-->
+					<div ng-bind-html="item.RateApplicationHtml | trustAsHtml"></div>
 				</td>
 				<td align="center">
 					<label class="switch">
-	                 	<input type="checkbox" checked="{{item.IsActive}}" />
+	                 	<input type="checkbox" ng-model="item.IsActive" ng-false-value="'Inactive'" ng-true-value="'Active'"/>
 	                 	<span></span>
 	              	</label>
 				</td>  
 				<td style="white-space: nowrap">
-					<button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success" ng-click="openRatesPopupForm()">
-	                  <em class="fa fa-save"></em>
+					<button type="submit" ng-disabled="rowform.$waiting" title="Edit" class="btn btn-sm btn-info" ng-click="openRatesPopupForm()">
+	                  <em class="fa fa-pencil"></em>
 	               </button>
-					 <!-- form-->
-		            <!--<form editable-form="" name="rowform" onbeforesave="vmRates.saveData($data, item.Id, item.IsNewItem)" ng-show="rowform.$visible" shown="vmRates.inserted == item" class="form-buttons form-inline">
-		               <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
-		                  <em class="fa fa-save"></em>
-		               </button>
-		               <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
-		                  <em class="fa fa-times"></em>
-		               </button>
-		            </form>
-		            <div ng-show="!rowform.$visible" class="buttons">
-		               <button ng-click="rowform.$show()" title="Edit" class="btn btn-sm btn-info">
-		                  <em class="fa fa-pencil"></em>
-		               </button>
-		               <button  title="Delete" class="btn btn-sm btn-danger" ng-click="vmRates.removeRate($index)">
+					<button  title="Delete" class="btn btn-sm btn-danger" ng-click="removeRate($index)">
 		                  <em class="fa fa-trash"></em>
-		               </button>
-		            </div>-->
+	               </button>
 		         </td>
 			</tr>
 		</table>

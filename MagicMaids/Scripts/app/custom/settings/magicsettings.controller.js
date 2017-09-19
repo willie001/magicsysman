@@ -46,24 +46,27 @@
 	{
 		var vm = this;
 		vm.selectedFranchise = null;
-		$scope.rateTypes = {};
-		$scope.rateTypes.availableRateTypes = [];	
-		$scope.rateTypes.selectedRateTypes = [];	
+
+		$scope.rateData = {};
+		$scope.rateData.AvailableRateApplications = [];	
+		$scope.rateData.SelectedRates = {};	
+		$scope.rateData.IsNewItem = true;
 
 		$scope.$on('loadRates', loadRates);
 
 		activate();
-
+		$scope.rateData.FranchiseId = vm.selectedFranchise;
+        
 		function activate()
 		{
-			vm.disabled = false;
+			$scope.rateData.disabled = false;
 			vm.listOfRates = null;
            	vm.selectedFranchise = ($scope.FranchiseId) ? $scope.FranchiseId : null;
 
            	$http.get('/settings/getratetypesjson')
                 .success(function (data) {
                 	//console.log('<RATE TYPES> ' + angular.toJson(data.item));
-                	$scope.rateTypes.availableRateTypes = data.item;
+                	$scope.rateData.AvailableRateApplications = data.item;
                 }).error(function(err) {
                 	
                 }).finally(function() {
@@ -86,62 +89,57 @@
                 });
 		}
 
-		$scope.openRatesPopupForm = function () {
-            ngDialog.open({
+		$scope.openRatesPopupForm = function (id) {
+			if (id)
+			{
+				$scope.rateData.IsNewItem = false;
+			}
+
+			ngDialog.open({
               template: '/views/settings/RatesEditor.html',
               className: 'ngdialog-theme-default',
               width: '40%',
               controller: 'RatesController',
-              scope: $scope
+              scope: $scope,
+              preCloseCallback: function(value) {
+              	if (value=='confirm')
+                {
+		       		if (confirm('Are you sure you want to cancel?')) {
+		            	return true;
+		        	}
+		        	else
+		        	{
+		        		return false;
+		        	}
+        		}
+		        return true;
+		    	}
             });
           };
 
-		vm.validateData = function(data, colName) {
-            if (data.length == 0) {
-              return colName + ' is mandatory';
-            }
-        };
-
-	    vm.addData = function() {
-	        vm.inserted = {
-	          Id: vm.nextNewGuid,
-	          RateAmount: '',
-	          RateApplications: '',
-	          IsActive: true,
-	          IsNewItem: true	
-	    	};
-
-            //console.log("<RATES inserted> - " + angular.toJson(vm.inserted));
-
-            vm.listOfRates.push(vm.inserted);
-        };
-
-        vm.removeRate = function(index) {
-          	alert('Not ready yet!'); 
-          	return false;
-          	vm.listOfRates.splice(index, 1);
-        };
-
-        vm.saveData = function(data, id, isNew) {
-			angular.extend(data, {
-				FranchiseId: vm.selectedFranchise,
-				Id: id,
-				IsNewItem: isNew
-			});
-
-	        //console.log("<RATES data post> - " + angular.toJson(data));
-	   		return $http.post('/settings/saverates', data).success(function (response) {
+		$scope.saveRatesPopupForm = function () {
+			$scope.rateData.SelectedRatesJson = angular.toJson($scope.rateData.SelectedRates.selected);
+			//console.log('<RATE SAVE> ' + angular.toJson($scope.rateData));
+			return $http.post('/settings/saverate', $scope.rateData).success(function (response) {
 	            // Add your success stuff here
-	        	//console.log("<RATES response post> - " + angular.toJson(response));
+	        	//console.log("<RATE SAVE response post> - " + angular.toJson(response));
 	   			ShowUserMessages.show($scope, response, "Error updating rate.");
 	       		loadRates();
+	       		ngDialog.close(); 
 
 	        }).error(function (error) {
 
+	        	//console.log("<RATE SAVE error post> - " + angular.toJson(error));
 	            ShowUserMessages.show($scope, error, "Error updating rate.");
 
 	        });
-		}
+		};
+
+        $scope.removeRate = function(index) {
+          	alert('Not ready yet (' + index + ') !'); 
+          	return false;
+          	vm.listOfRates.splice(index, 1);
+        };
 
 	}
 
