@@ -102,7 +102,7 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.RateCode).NotEmpty().WithMessage("Rate Identifier is required.");
 			RuleFor(x => x.RateAmount).NotEmpty().WithMessage("Rate Amount is required.");
 
-			RuleFor(x => x.RateCode).Length(1, 5).WithName("Rate Identifier");
+			RuleFor(x => x.RateCode).Length(3, 15).WithName("Rate Identifier");
 			RuleFor(x => x.RateAmount).GreaterThan(0).WithMessage("Rate Amount");
 
 		}
