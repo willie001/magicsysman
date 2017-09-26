@@ -99,7 +99,7 @@ namespace MagicMaids.Controllers
 		}
         #endregion
 
-        #region Service Functions
+        #region Service Functions, Settings
         public JsonResult GetSettings(int? incDisabled)
 		{
 			 List<SystemSetting> _settings = new List<SystemSetting>();
@@ -210,7 +210,9 @@ namespace MagicMaids.Controllers
 
             return JsonFormResponse();
         }
+		#endregion
 
+		#region Service Functions, Postcodes
 		public JsonResult GetPostcodes(Guid? FranchiseId)
 		{
 			List<SuburbZone> _entityList = new List<SuburbZone>();
@@ -329,20 +331,25 @@ namespace MagicMaids.Controllers
 
 			return JsonFormResponse();
 		}
+		#endregion
 
+		#region Service Functions, Rates
 		[HttpGet]
-		public JsonNetResult GetRateTypesJson()
+		public JsonResult GetRateTypesJson(RateApplicationsSettings contextSelection = RateApplicationsSettings.None )
 		{
 			var enumVals = new List<object>();
-
 			foreach (var item in Enum.GetValues(typeof(RateApplicationsSettings)))
 			{
+				var _val = Enum.Parse(typeof(RateApplicationsSettings), item.ToString());
 
-				enumVals.Add(new
+				if (contextSelection == RateApplicationsSettings.None || (((int)item & (int)contextSelection) != (int)item))
 				{
-					id = (int)item,
-					name = item.ToString()
-				});
+					enumVals.Add(new
+					{
+						id = (int)item,
+						name = item.ToString()
+					});	
+				}
 			}
 
 			return new JsonNetResult() { Data = new { item = enumVals }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -350,9 +357,28 @@ namespace MagicMaids.Controllers
 
 		public JsonResult GetRates(Guid? FranchiseId)
 		{
+			List<RateListVM> currentRates = GetRatesFromContext(FranchiseId);
+			RateApplicationsSettings allSelections = RateApplicationsSettings.None;
+			foreach(RateListVM _item in currentRates)
+			{
+				allSelections |= _item.SelectedRatesValue;
+			}
+
+			// remove flag if not ONLY none is set
+			// ** NOT needed because None is automatically removed.
+			// ** I'm leaving this here to document removal step :)
+			if (allSelections != RateApplicationsSettings.None)
+			{
+				allSelections &= ~RateApplicationsSettings.None;
+			}
+			return new JsonNetResult() { Data = new { list = currentRates, nextGuid = Guid.NewGuid() , contextSelections = allSelections }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		private List<RateListVM> GetRatesFromContext(Guid? FranchiseId)
+		{
 			List<Rate> _entityList = new List<Rate>();
 
-			_entityList = MMContext.Rates 
+			_entityList = MMContext.Rates
 				   .Where(p => p.FranchiseId == FranchiseId)
 				   .ToList();
 
@@ -364,7 +390,7 @@ namespace MagicMaids.Controllers
 				_showList.Add(_vm);
 			}
 
-			return new JsonNetResult() { Data = new { list = _showList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return _showList;
 		}
 
 		[HttpPost]
@@ -424,6 +450,7 @@ namespace MagicMaids.Controllers
 						}
 
 						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+						_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
 					}
 
 					MMContext.SaveChanges();

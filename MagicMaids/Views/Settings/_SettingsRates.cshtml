@@ -1,6 +1,6 @@
 ﻿<div ng-controller="RatesController as vmRates" class="container-fluid">
 	<div class="col-md-12" style="padding-bottom: 5px">
-		<button type="button" class="btn btn-primary pull-right" ng-click="openRatesPopupForm()">
+		<button type="button" class="btn btn-primary pull-right" ng-click="openRatesPopupForm()" ng-disabled="vmRates.enableAdd">
 			<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Rate
 		</button>
 	</div>
@@ -28,12 +28,12 @@
 				</td>
 				<td align="center">
 					<label class="switch">
-	                 	<input type="checkbox" ng-model="item.IsActive" ng-false-value="'Inactive'" ng-true-value="'Active'"/>
+	                 	<input type="checkbox" ng-model="item.IsActive" checked="{{item.IsActive}}" ng-click="toggleRateState(item)"/>
 	                 	<span></span>
 	              	</label>
 				</td>  
 				<td style="white-space: nowrap">
-					<button type="submit" ng-disabled="rowform.$waiting" title="Edit" class="btn btn-sm btn-info" ng-click="openRatesPopupForm()">
+					<button type="submit" ng-disabled="rowform.$waiting" title="Edit" class="btn btn-sm btn-info" ng-click="openRatesPopupForm(item)">
 	                  <em class="fa fa-pencil"></em>
 	               </button>
 					<button  title="Delete" class="btn btn-sm btn-danger" ng-click="removeRate($index)">

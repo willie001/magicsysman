@@ -108,7 +108,7 @@
             	},
               title: 'Settings - Master Franchises - Register', 
               templateUrl: helper.basepath('Settings/FranchiseRegister'),
-              resolve: helper.resolveFor('xeditable','ui.select')
+              resolve: helper.resolveFor('xeditable','ngDialog','ui.select')
           })
 
           .state('app.settings_templates', {

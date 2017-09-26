@@ -1199,7 +1199,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Views\Settings\_SettingsMainValues.cshtml" />
     <Content Include="Views\Settings\_SettingsPostcodes.cshtml" />
-    <Content Include="Views\Settings\_SettingsRates2.cshtml" />
     <Content Include="Views\Settings\_FranchiseDetails.cshtml" />
     <Content Include="Views\Settings\_FranchiseSettings.cshtml" />
     <Content Include="Views\Settings\_SettingsRates.cshtml" />

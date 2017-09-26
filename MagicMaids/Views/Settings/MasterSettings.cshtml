@@ -5,7 +5,7 @@
 
 <div class="content-heading">
     {{ 'pageTitles.settings.MASTER_SETTINGS' | translate }}
-	<small>Customise the Franchisor default values and settings. Where applicable the values can be customised for individual Master Franchises under the franchise's settings.'.</small>
+	<small>Customise the Franchisor default values and settings. Where applicable the values can be customised for individual Master Franchises under the franchise's settings.</small>
 </div>
 
 <div ng-controller="MasterSettingsController">
@@ -29,7 +29,8 @@
 			        	Html.RenderPartial("_SettingsPostcodes");   
 			    	}
 				</uib-tab>
-				<!--<uib-tab  select="loadRatesData()">
+				<!--
+				<uib-tab  select="loadRatesData()">
 			     	<uib-tab-heading>Rates</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_SettingsRates");   

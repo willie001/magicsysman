@@ -15,10 +15,10 @@ namespace MagicMaids.EntityModels
 		None = 0,
 		Residential = 1,
 		Commercial = 2,
-		FirstVisit = 4,
-		NormalVisit = 8,
+		InitialVisit = 4,
+		StandardVisit = 8,
 		OneOff = 16,
-		Vacancy = 32,
+		Vacate = 32,
 		OneHour = 64
 	}
 

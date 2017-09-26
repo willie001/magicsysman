@@ -1,36 +1,5 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Settings/MasterSettings.cshtml">
-    <Files>
-      <File FileName="MagicMaids/Views/Settings/_SettingsRates.cshtml" Line="31" Column="120" />
-      <File FileName="MagicMaids/Views/Settings/RatesEditor.html" Line="26" Column="56" />
-      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="12" Column="50" />
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="394" Column="1" />
-      <File FileName="MagicMaids/ViewModels/RateDetailsVM.cs" Line="60" Column="36" />
-      <File FileName="MagicMaids/DataLayer/EntityModels/Rate.cs" Line="58" Column="8" />
-      <File FileName="MagicMaids/Views/Settings/MasterSettings.cshtml" Line="32" Column="6" />
-    </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="DataLayer" expanded="True">
-                <Node name="EntityModels" expanded="True" />
-              </Node>
-              <Node name="Helpers" expanded="True" />
-              <Node name="ViewModels" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="Settings" expanded="True">
-                  <Node name="MasterSettings.cshtml" selected="True" />
-                </Node>
-              </Node>
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
-  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workbench />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>

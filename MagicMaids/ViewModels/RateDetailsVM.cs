@@ -51,7 +51,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public RateApplicationsSettings SelectedRates
+		public List<object> SelectedRates
+		{
+			get;
+			private set;
+		}
+
+		public RateApplicationsSettings SelectedRatesValue
 		{
 			get;
 			set;
@@ -79,10 +85,60 @@ namespace MagicMaids.ViewModels
 			this.Id = entityModel.Id;
 			this.RateCode = entityModel.RateCode;
 			this.RateAmount = entityModel.RateAmount;
-			this.SelectedRates = entityModel.RateApplications;
 			this.IsActive = entityModel.IsActive;
 			this.ActivationDate = entityModel.ActivationDate;
 			this.FranchiseId = entityModel.FranchiseId.HasValue ? entityModel.FranchiseId : null;
+
+			this.SelectedRatesValue = entityModel.RateApplications;
+
+			SelectedRates = new List<object>();
+			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.Commercial))
+				SelectedRates.Add(new { 
+					id = (int)RateApplicationsSettings.Commercial,
+					name = RateApplicationsSettings.Commercial.ToString()
+				});
+
+			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.InitialVisit))
+				SelectedRates.Add(new
+				{
+					id = (int)RateApplicationsSettings.InitialVisit,
+					name = RateApplicationsSettings.InitialVisit.ToString()
+				});
+
+			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.StandardVisit))
+				SelectedRates.Add(new
+				{
+					id = (int)RateApplicationsSettings.StandardVisit,
+					name = RateApplicationsSettings.StandardVisit.ToString()
+				});
+
+			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.OneHour))
+				SelectedRates.Add(new
+				{
+					id = (int)RateApplicationsSettings.OneHour,
+					name = RateApplicationsSettings.OneHour.ToString()
+				});
+
+			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.OneOff))
+				SelectedRates.Add(new
+				{
+					id = (int)RateApplicationsSettings.OneOff,
+					name = RateApplicationsSettings.OneOff.ToString()
+				});
+
+			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.Residential))
+				SelectedRates.Add(new
+				{
+					id = (int)RateApplicationsSettings.Residential,
+					name = RateApplicationsSettings.Residential.ToString()
+				});
+
+			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.Vacate))
+				SelectedRates.Add(new
+				{
+					id = (int)RateApplicationsSettings.Vacate,
+					name = RateApplicationsSettings.Vacate.ToString()
+				});
 
 			FormatApplicationHtml(entityModel);
 		}
@@ -99,52 +155,52 @@ namespace MagicMaids.ViewModels
 
 			System.Text.StringBuilder _output = new System.Text.StringBuilder();
 
-			if (SelectedRates.Equals(RateApplicationsSettings.None))
+			if (entityModel.RateApplications.Equals(RateApplicationsSettings.None))
 			{
 				RateApplicationHtml =  "<div class=\"label bg-danger-light\">Not set</div>";
 			}
 			else
 			{
-				if (SelectedRates.HasFlag(RateApplicationsSettings.Residential))
+				if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.Residential))
 				{
 					if (_output.Length > 0) _output.Append("&nbsp;");
 					_output.Append("<div class=\"label bg-success\">Residential</div>");
 				}
 
-				if (SelectedRates.HasFlag(RateApplicationsSettings.Commercial))
+				if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.Commercial))
 				{
 					if (_output.Length > 0) _output.Append("&nbsp;");
 					_output.Append("<div class=\"label bg-primary\">Commercial</div>");
 				}
 
-				if (SelectedRates.HasFlag(RateApplicationsSettings.FirstVisit))
+				if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.InitialVisit))
 				{
 					if (_output.Length > 0) _output.Append("&nbsp;");
 					_output.Append("<div class=\"label bg-inverse-light\">Initial</div>");
 				}
 
-				if (SelectedRates.HasFlag(RateApplicationsSettings.NormalVisit))
+				if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.StandardVisit))
 				{
 					if (_output.Length > 0) _output.Append("&nbsp;");
 					_output.Append("<div class=\"label bg-warning\">Standard</div>");
 				}
 
-				if (SelectedRates.HasFlag(RateApplicationsSettings.OneHour))
+				if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.OneHour))
 				{
 					if (_output.Length > 0) _output.Append("&nbsp;");
 					_output.Append("<div class=\"label bg-yellow\">One Hour</div>");
 				}
 
-				if (SelectedRates.HasFlag(RateApplicationsSettings.OneOff))
+				if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.OneOff))
 				{
 					if (_output.Length > 0) _output.Append("&nbsp;");
 					_output.Append("<div class=\"label bg-purple\">One-Off</div>");
 				}
 
-				if (SelectedRates.HasFlag(RateApplicationsSettings.Vacancy))
+				if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.Vacate))
 				{
 					if (_output.Length > 0) _output.Append("&nbsp;");
-					_output.Append("<div class=\"label bg-pink\">Vacancy</div>");
+					_output.Append("<div class=\"label bg-pink\">Vacate</div>");
 				}
 
 				if (_output.Length == 0) _output.Append("<div class=\"label bg-danger-dark\">Invalid</div>");
