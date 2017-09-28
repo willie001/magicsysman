@@ -4,6 +4,8 @@ using System;
 using MagicMaids.ViewModels;
 
 using FluentValidation;
+using System.Collections.Generic;
+using System.Linq;
 #endregion
 namespace MagicMaids.Validators
 {
@@ -82,6 +84,8 @@ namespace MagicMaids.Validators
 
 	public class SuburbZoneValidator : AbstractValidator<UpdateSuburbZonesVM>
 	{
+		private readonly IEnumerable<UpdateSuburbZonesVM> _zones;
+
 		public SuburbZoneValidator()
 		{
 			RuleFor(x => x.SuburbName).NotEmpty().WithMessage("Suburb name is required.");
@@ -93,6 +97,33 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.Zone).Length(1, 10).WithName("Zone Id");
 			RuleFor(x => x.LinkedZones).Length(1, 500).WithName("Linked zone list");
 		}
+
+		//public SuburbZoneValidator(List<UpdateSuburbZonesVM> zones)
+		//{
+		//	_zones = zones;
+
+		//	RuleFor(x => x.SuburbName).Must(UniqueEntity).WithMessage("Zone name and postcode must be unique per franchise.");
+		//	//RuleFor(x => x.SuburbName).SetValidator(new UniqueZoneValidator(_zones)).WithMessage("Zone name and postcode must be unique per franchise.");
+		//}
+
+		//private bool UniqueEntity(UpdateSuburbZonesVM selectedItem, string name)
+		//{
+		//	var selectedItems = _zones.SingleOrDefault(x => 
+		//	                                           !x.Equals(selectedItem) ||
+		//	                                           (x.FranchiseId.Equals(selectedItem.FranchiseId) && 
+		//	                                            	(x.PostCode.Equals(selectedItem.PostCode, StringComparison.InvariantCultureIgnoreCase) || 
+		//	                                             	x.SuburbName.Equals(selectedItem.SuburbName, StringComparison.InvariantCultureIgnoreCase) )
+  //                                                     ));
+		//	//ProjecteDataContext _db = new ProjecteDataContext();
+		//	//var dbCategory = _db.Categories
+		//	//					.Where(x => x.Name.ToLower() == name.ToLower())
+		//	//					.SingleOrDefault();
+
+		//	if (selectedItems == null)
+		//		return true;
+		//	else
+		//		return false;
+		//}
 	}
 
 	public class RateValidator : AbstractValidator<RateDetailsVM>

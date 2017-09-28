@@ -98,7 +98,8 @@
           .state('app.settings_master_franchises', {
               url: '/settings',
               title: 'Settings - Master Franchises',
-              templateUrl: helper.basepath('Settings/Franchises')
+              templateUrl: helper.basepath('Settings/Franchises'),
+              resolve: helper.resolveFor('datatables')
           })
 
           .state('app.settings_master_franchise_register', {
@@ -131,7 +132,8 @@
           .state('app.settings_app_logsentries', {
               url: '/logentries',
               title: 'Application Logs',
-              templateUrl: helper.basepath('LogEntries/LogEntries')
+              templateUrl: helper.basepath('LogEntries/LogEntries'),
+              resolve: helper.resolveFor('datatables')
           })
           .state('app.settings_app_logsentry', {
               url: '/logentry/:Id',

@@ -50,6 +50,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+
 		public List<string> LinkedZoneList
 		{
 			get

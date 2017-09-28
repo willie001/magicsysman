@@ -14,38 +14,46 @@
 	<div class="panel panel-transparent" id="panelApplicationLogs">
 		<div class="panel-heading">
 			<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+			<div style="padding-bottom: 5px">
+				<button type="submit" class="btn btn-danger pull-right" ng-click="clearLogEntries()" ng-disabled="table.disableButtons" >Clear Logs</button>
+			</div><br/>
 		</div>
 		<div class="panel-body">
 			<div class="table-responsive">
-				<table class="table table-bordered table-hover bg-white ctable">
-			      	<tr style="font-weight: bold">
-			         	<td class="text-center">Level</td>
-						<td class="text-center">Date</td>
-			         	<td class="text-center">Message</td>
-						<td class="text-center">Addresses</td>
-						<td style="width:2%" class="text-center"></td>
-			      	</tr>
-					<tr ng-hide="table.listOfLogs.length">
-						<td colspan="8" class="EmptyResults">No application logs found.</td>
-					</tr>
-					<tr valign="top" ng-repeat="item in table.listOfLogs">
-						<td class="" ng-class="{'bg-warning': item.Level=='WARN',
-								'bg-danger': item.Level=='ERROR',
-								'bg-success': item.Level=='INFO'}">{{ item.Level }}</td>
-						<td>{{ item.LoggedDate }}</td>
-						<td>{{ item.Message.substr(0,120) }}</td>
-						<td style="white-space: nowrap; font-size: 11px;" ng-bind-html="item.FormattedAddresses"></td>
-						<td style="white-space: nowrap">
-				            <!-- form-->
-				            <div class="buttons">
-							    <a ui-sref="app.settings_app_logsentry({ Id: item.Id })">
-				               	<button title="View" class="btn btn-sm btn-warning">
-			                  		<em class="fa fa-file-text-o"></em>
-			               		</button>
-								</a>
-				            </div>
-				         </td>
-					</tr>
+				<table datatable="ng" class="table table-bordered table-hover bg-white ctable">
+			      	<thead style="font-weight: bold">
+			         	<th class="text-center">Level</th>
+						<th class="text-center">Date</th>
+			         	<th class="text-center">Message</th>
+						<th class="text-center">Addresses</th>
+						<th style="width:2%" class="text-center"></th>
+			      	</thead>
+					<tbody>
+						<!--<tr ng-hide="table.listOfLogs.length">
+							<td colspan="8" class="EmptyResults">No application logs found.</td>
+						</tr>-->
+						<tr valign="top" ng-repeat="item in table.listOfLogs">
+							<td class="" ng-class="{'bg-warning': item.Level=='WARN',
+									'bg-danger': item.Level=='ERROR',
+									'bg-success': item.Level=='INFO'}">{{ item.Level }}</td>
+							<td>{{ item.LoggedDate }}</td>
+							<td>{{ item.Message.substr(0,120) }}</td>
+							<td style="white-space: nowrap; font-size: 11px;" ng-bind-html="item.FormattedAddresses"></td>
+							<td style="white-space: nowrap">
+					            <!-- form-->
+					            <div class="buttons">
+								    <a ui-sref="app.settings_app_logsentry({ Id: item.Id })">
+					               	<button title="View" class="btn btn-sm btn-warning">
+				                  		<em class="fa fa-file-text-o"></em>
+				               		</button>
+									</a>
+									<button  title="Delete" class="btn btn-sm btn-danger" ng-click="deleteEntry(item.Id)">
+			                  			<em class="fa fa-trash"></em>
+		               				</button>
+					            </div>
+					         </td>
+						</tr>
+					</tbody>
 				</table>
 			</div>
 		</div>

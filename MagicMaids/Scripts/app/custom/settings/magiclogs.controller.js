@@ -4,15 +4,45 @@
     angular
     	.module("magiclogs",[])
     	.controller('LogEntriesController', LogEntriesController)
-    	.controller('LogEntryController', LogEntryController);
+    	.controller('LogEntryController', LogEntryController)
+    	.factory('DeleteLogEntries', [function () {
+			var LogEntriesFactory = {};
 
-    LogEntriesController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner'];
-    LogEntryController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner'];
+			LogEntriesFactory.deleteLogEntry = function ($scope,$http, ShowUserMessages, id) {
+
+            	return $http.post('/logentries/deletelogentry/?id=' + id).success(function (response) {
+                	// Add your success stuff here
+        			ShowUserMessages.show($scope, response, "Error deleting log entry.");
+                	
+            	}).error(function (error) {
+        			ShowUserMessages.show($scope, error, "Error deleting log entry.");
+
+            	});
+            }
+
+            LogEntriesFactory.clearLogEntries = function($scope,$http, ShowUserMessages) {
+            	if (confirm('Are you sure you want to deleta ALL log entries?')) {
+	       			return $http.post('/logentries/deletealllogentries/').success(function (response) {
+                		// Add your success stuff here
+        				ShowUserMessages.show($scope, response, "Error clearing log entries.");
+                	
+        			}).error(function (error) {
+        				ShowUserMessages.show($scope, error, "Error clearing log entries.");
+
+        			});
+	        	}
+            }
+
+            return LogEntriesFactory;
+		}]);
+
+    LogEntriesController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner','ShowUserMessages','DeleteLogEntries'];
+    LogEntryController.$inject = ['$scope','$filter','$http','$q','$location','HandleBusySpinner','ShowUserMessages','DeleteLogEntries'];
 
     /***************************/
 	/*** LOG ENTRIES SUMMARY ***/
 	/***************************/
-	function LogEntriesController($scope, $filter, $http, $q, HandleBusySpinner)
+	function LogEntriesController($scope, $filter, $http, $q, HandleBusySpinner, ShowUserMessages, DeleteLogEntries)
 	{
 		var vm = this;
 		activate();
@@ -20,13 +50,14 @@
 		function activate()
 		{
         	vm.listOfLogs = null;
-			var _incDisabled = 0;
+			vm.disableButtons = false;
 
 			HandleBusySpinner.start($scope, 'panelApplicationLogs');
         
 			$http.get('/logentries/getlogentries/')
                 .success(function (data) {
                 	vm.listOfLogs = data.list;
+                	vm.disableButtons = (vm.listOfLogs.length == 0);
 
                 }).error(function(err) {
                 	//no action
@@ -34,14 +65,29 @@
                 	HandleBusySpinner.stop($scope, 'panelApplicationLogs');
                 });
 		}
+
+		$scope.deleteEntry = function(id) {
+			HandleBusySpinner.start($scope, 'panelApplicationLogs');
+			DeleteLogEntries.deleteLogEntry($scope, $http, ShowUserMessages, id);
+			HandleBusySpinner.stop($scope, 'panelApplicationLogs');
+
+			activate();
+		}
+
+		$scope.clearLogEntries = function() {
+			HandleBusySpinner.start($scope, 'panelApplicationLogs');
+			DeleteLogEntries.clearLogEntries($scope, $http, ShowUserMessages);
+			HandleBusySpinner.stop($scope, 'panelApplicationLogs');
+
+			activate();
+		}
 	}
 
     /*************************/
 	/*** LOG ENTRY DETAILS ***/
 	/*************************/
-	function LogEntryController($scope, $filter, $http, $q, HandleBusySpinner)
+	function LogEntryController($scope, $filter, $http, $q, $location, HandleBusySpinner, ShowUserMessages, DeleteLogEntries)
 	{
-		//alert('3');
 		var vm = this;
 		var Id = $scope.Id;
 		//console.log("<LOGENTRY> - " + angular.toJson(vm));
@@ -67,6 +113,14 @@
                 });
 		}
 
+		$scope.deleteEntry = function() {
+			HandleBusySpinner.start($scope, 'panelApplicationLogs');
+			DeleteLogEntries.deleteLogEntry($scope, $http, ShowUserMessages, $scope.Id);
+			HandleBusySpinner.stop($scope, 'panelApplicationLogs');
+
+			$location.path('/logentries');
+		}
+			
 	}
 
 })();

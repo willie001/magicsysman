@@ -97,6 +97,67 @@ namespace MagicMaids.Controllers
 			return new JsonNetResult() { Data = new { item = _dataItem }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
+		[HttpPost]
+		public ActionResult DeleteLogEntry(Int32? id)
+		{
+			string _objDesc = "Log Entry";
+
+			if (!id.HasValue)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
+			}
+
+			try
+			{
+				LogEntry _entry = new LogEntry() { Id = id ?? 0 };
+				LogContext.Entry(_entry).State = EntityState.Deleted;
+				LogContext.SaveChanges();
+
+				return JsonSuccessResponse($"{_objDesc} deleted successfully", _entry);
+			}
+			catch(Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
+
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(LogEntry), null);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpPost]
+		public ActionResult DeleteAllLogEntries()
+		{
+			string _objDesc = "Log Entries";
+
+			try
+			{
+				LogContext.LogEntries.RemoveRange(LogContext.LogEntries);
+				LogContext.SaveChanges();
+
+				return JsonSuccessResponse($"{_objDesc} deleted successfully");
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
+
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(LogEntry), null);
+			}
+
+			return JsonFormResponse();
+		}
 		#endregion
 	}
 }

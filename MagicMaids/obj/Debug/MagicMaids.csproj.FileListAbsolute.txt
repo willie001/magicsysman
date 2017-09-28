@@ -213,3 +213,4 @@ C:/DevSandbox/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojResolveAssemblyReference.cache

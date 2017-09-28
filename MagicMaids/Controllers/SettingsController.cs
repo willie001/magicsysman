@@ -14,6 +14,8 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using Newtonsoft.Json;
+using MagicMaids.Validators;
+using FluentValidation.Results;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -232,6 +234,7 @@ namespace MagicMaids.Controllers
 			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
+
 		[HttpPost]
 		public ActionResult SavePostCodes(UpdateSuburbZonesVM formValues)
 		{
@@ -240,6 +243,18 @@ namespace MagicMaids.Controllers
 			if (formValues == null)
 			{
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				// validate for unique suburb / zone for 
+				//SuburbZoneValidator validator = new SuburbZoneValidator(formValues.OtherZones);
+				//ValidationResult results = validator.Validate(formValues);
+				//if (!results.IsValid)
+				//{
+				//	ModelState.AddModelError(string.Empty, results.Errors.FirstOrDefault().ErrorMessage);
+				//}
+
 			}
 
 			if (ModelState.IsValid)

@@ -2756,10 +2756,6 @@
             "target": "Package",
             "version": "4.4.12"
           },
-          "Ninject": {
-            "target": "Package",
-            "version": "3.2.2"
-          },
           "Ninject.MVC5": {
             "target": "Package",
             "version": "3.2.1"
@@ -2831,6 +2827,10 @@
           "DelegateDecompiler.EntityFramework": {
             "target": "Package",
             "version": "0.23.0"
+          },
+          "Ninject": {
+            "target": "Package",
+            "version": "3.2.2"
           }
         }
       }
