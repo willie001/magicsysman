@@ -32,7 +32,10 @@
             </div>
 		</div>
 		<div class="panel-body">
-			<div class="table-responsive">
+			<div ng-hide="table.listOfFranchises.length" class="EmptyResults p-lg text-center">
+				No{{activeResult}}master franchises found.  <a href="" ng-click="$state.go('app.settings_master_franchise_register')">Please add</a> a new master franchise.
+			</div>
+			<div class="table-responsive" ng-show="table.listOfFranchises.length" >
 				<table datatable="ng" class="table table-bordered table-hover bg-white ctable">
 					<thead>
 						<tr style="font-weight: bold">
@@ -47,9 +50,6 @@
 				      	</tr>
 					</thead>
 			      	<tbody>
-						<tr ng-hide="table.listOfFranchises.length">
-							<td colspan="8" class="EmptyResults">No{{activeResult}}master franchises found.  <a href="" ng-click="$state.go('app.settings_master_franchise_register')">Please add</a> a new master franchise.</td>
-						</tr>
 						<tr valign="top" ng-repeat="franchise in table.listOfFranchises">
 							<td>{{ franchise.Name }}<br/>
 								<i>{{ franchise.TradingName }}</i>

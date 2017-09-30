@@ -19,8 +19,11 @@
 			</div><br/>
 		</div>
 		<div class="panel-body">
-			<div class="table-responsive">
-				<table datatable="ng" class="table table-bordered table-hover bg-white ctable">
+			<div ng-hide="table.listOfLogs.length" class="EmptyResults p-lg text-center">
+				No application logs found.
+			</div>
+			<div class="table-responsive" ng-show="table.listOfLogs.length">
+				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
 			      	<thead style="font-weight: bold">
 			         	<th class="text-center">Level</th>
 						<th class="text-center">Date</th>
@@ -29,9 +32,6 @@
 						<th style="width:2%" class="text-center"></th>
 			      	</thead>
 					<tbody>
-						<!--<tr ng-hide="table.listOfLogs.length">
-							<td colspan="8" class="EmptyResults">No application logs found.</td>
-						</tr>-->
 						<tr valign="top" ng-repeat="item in table.listOfLogs">
 							<td class="" ng-class="{'bg-warning': item.Level=='WARN',
 									'bg-danger': item.Level=='ERROR',

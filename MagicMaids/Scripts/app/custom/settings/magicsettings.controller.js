@@ -358,7 +358,9 @@
 	{
 		var vm = this;
 		var panelName = 'panelDataMasterSettings';
-
+		vm.listOfFranchises = null;
+		var _incDisabled = 0;
+			
 		$scope.activeResult = " active ";
 		$scope.toggleActiveSearch = function() {
 			var checkBox = document.getElementById('checkActiveSearch');
@@ -374,6 +376,7 @@
 					$scope.activeResult = " active ";
 				}
 				activate();
+				
 			}
 		};
 
@@ -381,9 +384,6 @@
 
 		function activate()
         {
-			vm.listOfFranchises = null;
-			var _incDisabled = 0;
-
 			HandleBusySpinner.start($scope, panelName);
 
 			var checkBox = document.getElementById('checkActiveSearch');
@@ -402,7 +402,8 @@
             $http.get('/settings/getfranchises/?incDisabled=' + _incDisabled)
                 .success(function (data) {
 					vm.listOfFranchises = data.list;
-
+					console.log("<FRANCHISE LIST> - " + angular.toJson(data.list));
+                	
                 }).error(function(err) {
                 	
                 }).finally(function() {

@@ -36,16 +36,22 @@
             return LogEntriesFactory;
 		}]);
 
-    LogEntriesController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner','ShowUserMessages','DeleteLogEntries'];
+    LogEntriesController.$inject = ['$scope','$filter','$http','$q','HandleBusySpinner','ShowUserMessages','DeleteLogEntries','DTOptionsBuilder'];
     LogEntryController.$inject = ['$scope','$filter','$http','$q','$location','HandleBusySpinner','ShowUserMessages','DeleteLogEntries'];
 
     /***************************/
 	/*** LOG ENTRIES SUMMARY ***/
 	/***************************/
-	function LogEntriesController($scope, $filter, $http, $q, HandleBusySpinner, ShowUserMessages, DeleteLogEntries)
+	function LogEntriesController($scope, $filter, $http, $q, HandleBusySpinner, ShowUserMessages, DeleteLogEntries,DTOptionsBuilder)
 	{
 		var vm = this;
 		activate();
+
+		//alert($scope.pageCount);
+		/*$scope.dtOptions = DTOptionsBuilder.newOptions()
+      	.withOption('serverSide', true)
+      	.withOption('processing', true)
+      	.withPaginationType('full_numbers');*/
 
 		function activate()
 		{
