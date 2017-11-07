@@ -572,7 +572,7 @@ namespace MagicMaids.Controllers
 			}
 
 			try
-			{
+			{  
 				var _results = MMContext.Cleaners
                         .Include(nameof(Cleaner.PhysicalAddress))
                     .Where(f => searchCriteria.SelectedFranchiseId.Equals(Guid.Empty) || f.MasterFranchiseRefId == searchCriteria.SelectedFranchiseId)
