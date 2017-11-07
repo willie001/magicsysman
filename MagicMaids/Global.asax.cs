@@ -10,6 +10,10 @@ using NLog.Common;
 using FluentValidation.Mvc;
 using System.Globalization;
 using System.Threading;
+using FluentValidation;
+using AutoMapper;
+using MagicMaids.EntityModels;
+using MagicMaids.ViewModels;
 
 namespace MagicMaids
 {
@@ -32,6 +36,14 @@ namespace MagicMaids
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
+
+			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
+
+			Mapper.Initialize(cfg =>  
+			{  
+			    cfg.CreateMap<Cleaner, CleanerDetailsVM>();  
+				cfg.CreateMap<Address, UpdateAddressViewModel>();  
+			});  
         }
 
 		protected void Application_Error(object sender, EventArgs e)

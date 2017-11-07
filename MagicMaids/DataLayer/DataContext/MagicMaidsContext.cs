@@ -23,6 +23,8 @@ namespace MagicMaids.DataAccess
 			Franchises = Set<Franchise>();
 			Addresses = Set<Address>();
 			Rates = Set<Rate>();
+			Cleaners = Set<Cleaner>();
+			CleanerTeam = Set<CleanerTeam>();
 
             Log = LogManager.GetLogger(GetType().FullName);
 
@@ -58,6 +60,18 @@ namespace MagicMaids.DataAccess
         }
 
 		public DbSet<Rate> Rates
+		{
+			get;
+			set;
+		}
+
+		public DbSet<Cleaner> Cleaners
+		{
+			get;
+			set;
+		}
+
+		public DbSet<CleanerTeam> CleanerTeam
 		{
 			get;
 			set;

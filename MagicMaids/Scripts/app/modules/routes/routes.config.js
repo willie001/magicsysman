@@ -75,13 +75,17 @@
           .state('app.cleaners', {
               url: '/cleaners',
               title: 'Cleaners',
-              templateUrl: helper.basepath('Cleaners/Cleaners')
+              templateUrl: helper.basepath('Cleaners/Cleaners'),
+              resolve: helper.resolveFor('datatables')
           })
           .state('app.cleaner_details', {
-              url: '/cleanerdetails',
+              url: '/cleanerdetails/:CleanerId?',
+              controller: function($scope, $stateParams) {
+            		$scope.CleanerId = $stateParams.CleanerId;
+            	},
               title: 'Cleaner Details',
               templateUrl: helper.basepath('Cleaners/CleanerDetails'),
-              resolve: helper.resolveFor('angularFileUpload', 'filestyle')
+              resolve: helper.resolveFor('ngDialog')
           })
 
           .state('app.settings_user_accounts', {
@@ -146,30 +150,31 @@
           //
           // Single Page Routes
           // -----------------------------------
-          //.state('page', {
-          //    url: '/page',
-          //    abstract: true,
-          //    views: {
-          //        'main': {
-          //            templateUrl: helper.basepath('Pages/Page'),
-          //            controller: ['$rootScope', function ($rootScope) {
-          //                $rootScope.app.layout.isBoxed = false;
-          //            }]
-          //        }
-          //    },
-          //    resolve: helper.resolveFor('modernizr', 'icons')
+          .state('page', {
+              url: '/page',
+              abstract: true,
+              views: {
+                  'main': {
+                      templateUrl: helper.basepath('Pages/Page'),
+                      controller: ['$rootScope', function ($rootScope) {
+                          $rootScope.app.layout.isBoxed = false;
+                      }]
+                  }
+              },
+              resolve: helper.resolveFor('modernizr', 'icons')
 
-          //})
-          //.state('page.404', {
-          //    url: '/404',
-          //    title: 'Not Found',
-          //    templateUrl: helper.basepath('Pages/Error404')
-          //})
-          //.state('page.500', {
-          //    url: '/500',
-          //    title: 'Server error',
-          //    templateUrl: helper.basepath('Pages/Error500')
-          //})
+          })
+
+          .state('page.404', {
+              url: '/404',
+              title: 'Not Found',
+              templateUrl: helper.basepath('Pages/Error404')
+          })
+          .state('page.500', {
+              url: '/500',
+              title: 'Server error',
+              templateUrl: helper.basepath('Pages/Error500')
+          })
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties

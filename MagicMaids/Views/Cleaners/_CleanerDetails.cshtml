@@ -1,184 +1,262 @@
-﻿<form class="form-horizontal">
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Cleaner Code:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="1002" class="form-control" ng-readonly="true" />
-      	</div>
-  	</div>
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Initials:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Cleaner Initials" class="form-control"  />
-      	</div>
-   	</div>
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Cleaner Name:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Cleaner name" class="form-control" />
-      	</div>
-   	</div>
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Region:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Metropolitan region" class="form-control" />
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-lg-2 control-label">Master Franchise</label>
-      	<div class="col-lg-10">
-         	<select name="account" class="form-control">
-            	<option value="">Select Master Franchise</option>	
-				<option value="NM">North Metro</option>
-				<option value="SW">South West</option>
-				<option value="TA">Tasmania</option>
-      		</select>	
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-lg-2 control-label">Management Fee (%)</label>
-      	<div class="col-lg-10">
-         	<input type="text" placeholder="Management Fee" class="form-control" ng-ReadOnly="true"/>
-      	</div>
-   	</div>	
-    <div class="form-group">
-       	<div ng-controller="RatingController as rating">
-          	<label class="col-md-2 control-label">Rating:</label>
+﻿<div class="container-fluid" ng-controller="CleanerDetailsController as form">
+	<form class="form-validate form-horizontal" name="form.cleanerForm" ng-submit="form.saveData()" novalidate="">
+		<!--		
+		<pre>
+			form.cleanerForm.$error = {{form.cleanerForm.$error | json}}
+		</pre>
+		-->
+	   	<div class="form-group">
+	      	<label class="col-md-2 control-label">Cleaner Code</label>
+	      	<div class="col-md-10">
+	         	<input type="text" placeholder="####" class="form-control" ng-readonly="true" name="CleanerCode" ng-model="form.cleaner.CleanerCode" />
+	      	</div>
+	  	</div>
+	   	<div class="form-group">
+	      	<label class="col-md-2 control-label">Cleaner Name</label>
+	      	<div class="col-md-2">
+	         	<input type="text" placeholder="Cleaner Initials" class="form-control" name="Initials" ng-model="form.cleaner.Initials" />
+	      	</div>
+			<div class="col-md-4">
+	         	<input type="text" placeholder="First name" class="form-control" name="FirstName" ng-model="form.cleaner.FirstName"/>
+	      	</div>
+			<div class="col-md-4">
+	         	<input type="text" placeholder="Last name" class="form-control" name="LastName" ng-model="form.cleaner.LastName"/>
+	      	</div>
+	   	</div>
+		<div class="form-group">
+          	<label class="col-md-2 control-label">Email</label>
           	<div class="col-md-10">
-				<div class="stars">
-		      		<input class="star star-5" id="star-5" type="radio" name="star"/>
-			      	<label class="star star-5" for="star-5"></label>
-			      	<input class="star star-4" id="star-4" type="radio" name="star"/>
-			      	<label class="star star-4" for="star-4"></label>
-			      	<input class="star star-3" id="star-3" type="radio" name="star"/>
-			      	<label class="star star-3" for="star-3"></label>
-			      	<input class="star star-2" id="star-2" type="radio" name="star"/>
-			      	<label class="star star-2" for="star-2"></label>
-			      	<input class="star star-1" id="star-1" type="radio" name="star"/>
-			      	<label class="star star-1" for="star-1"></label>
-			  	</div>
+             	<input type="email" placeholder="Email" class="form-control" name="emailaddress" ng-model="form.cleaner.EmailAddress" />
+			 	<span class="text-danger" ng-show="form.validateInput('emailaddress', 'email')">This field must be a valid email address</span>
           	</div>
        	</div>
-    </div>
-	<div class="form-group">
-		<label class="col-md-2 control-label">Leave dates:</label>
-		<div class="col-md-10" ng-controller="DatepickerDemoCtrl as dp">
-			<div class="col-md-1">From: </div>
-			<div class="col-md-3">
-				<p class="input-group">
-				 	<input class="form-control" type="text" uib-datepicker-popup="{{dp.format}}" ng-model="dp.dt" is-open="dp.opened" min-date="dp.minDate" max-date="'2015-06-22'" datepicker-options="dp.dateOptions" date-disabled="dp.disabled(date, mode)"
-                	ng-required="true" close-text="Close" />
-                	<span class="input-group-btn">
-                   		<button class="btn btn-default" type="button" ng-click="dp.open($event)">
-                      		<em class="fa fa-calendar"></em>
-                   		</button>
-                	</span>
-             	</p>
+		<div class="form-group">
+		  	<label class="col-md-2 control-label">Contact Numbers</label>
+		  	<div class="col-md-10">
+		    	<div class="row">
+					<div class="col-sm-4">
+						<input type="text"  placeholder="Office" class="form-control"  name="BusinessPhoneNumber" ng-model="form.cleaner.BusinessPhoneNumber"/>
+					</div>		
+					<div class="col-sm-4">
+						<input type="text"  placeholder="Mobile" class="form-control"  name="MobileNumber"  ng-model="form.cleaner.MobileNumber"/>
+					</div>
+					<div class="col-sm-4">
+						<input type="text"  placeholder="Other" class="form-control"  name="OtherNumber"  ng-model="form.cleaner.OtherNumber"/>
+					</div>	
+				</div>
+		  	</div>
+		</div>
+	   	<div class="form-group">
+	      	<label class="col-md-2 control-label">Region</label>
+	      	<div class="col-md-10">
+	         	<input type="text" placeholder="Region" class="form-control" name="Region" ng-model="form.cleaner.Region"/>
+	      	</div>
+	   	</div>
+		<div class="form-group">
+	      	<label class="col-md-2 control-label">Master Franchise</label>
+	      	<div class="col-md-6">
+	         	<select name="MasterFranchise" class="form-control" ng-model="form.cleaner.SelectedFranchise" 
+							ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
+	            	<option value="">Select Master Franchise</option>	
+	      		</select>	
+	      	</div>
+			<label class="col-md-2 control-label">Management Fee (%)</label>
+	      	<div class="col-md-2">
+	         	<input type="text" placeholder="Management Fee" class="form-control" ng-ReadOnly="true" name="ManagementFee" ng-model="form.cleaner.SelectedFranchise.ManagementFeePercentage"/>
+	      	</div>
+	   	</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">Active</label>
+	  		<div class="col-md-2">
+	         	<label class="switch">
+	         		<input type="checkbox" checked="true" name="IsActive" ng-model="form.cleaner.IsActive" />
+	         		<span></span>
+	          	</label>
+	      	</div>
+			<label class="col-md-2 control-label">Does Ironing?</label>
+	  		<div class="col-md-2">
+	         	<select name="Ironing" class="form-control" ng-model="form.cleaner.Ironing">
+					<option value="true" ng-selected="form.cleaner.Ironing === true">Yes</option>
+					<option value="false" ng-selected="form.cleaner.Ironing === false">No</option>
+				</select>
+	      	</div>
+			<label class="col-md-2 control-label">Gender</label>
+	  		<div class="col-md-2">
+				<select name="GenderFlag" class="form-control" ng-model="form.cleaner.GenderFlag">
+                     <option value="">Unspecified</option>
+                     <option value="F">Female</option>
+                     <option value="M">Male</option>
+                  </select>
+	      	</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">Rating</label>
+	        <div class="col-md-10">
+				<div class="stars">
+		      		<input class="star star-5" id="star-5" type="radio" name="star" value="5" ng-model="form.cleaner.Rating"/>
+			      	<label class="star star-5" for="star-5"></label>
+			      	<input class="star star-4" id="star-4" type="radio" name="star" value="4" ng-model="form.cleaner.Rating"/>
+			      	<label class="star star-4" for="star-4"></label>
+			      	<input class="star star-3" id="star-3" type="radio" name="star" value="3" ng-model="form.cleaner.Rating"/>
+			      	<label class="star star-3" for="star-3"></label>
+			      	<input class="star star-2" id="star-2" type="radio" name="star" value="2" ng-model="form.cleaner.Rating"/>
+			      	<label class="star star-2" for="star-2"></label>
+			      	<input class="star star-1" id="star-1" type="radio" name="star" value="1" ng-model="form.cleaner.Rating"/>
+			      	<label class="star star-1" for="star-1"></label>
+			  	</div>
+          	</div>  
+	   	</div>	
+		<div class="form-group">
+     		<div class="col-sm-6">
+				<div class="panel panel-primary" id="panelPhysical">
+					<div class="panel-heading">Physical Address</div>
+ 					<div class="panel-body">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 1" class="form-control" name="Phys_AddressLine1" ng-model="form.cleaner.PhysicalAddress.AddressLine1"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 2" class="form-control" name="Phys_AddressLine2" ng-model="form.cleaner.PhysicalAddress.AddressLine2"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Suburb" class="form-control" name="Phys_Suburb" ng-model="form.cleaner.PhysicalAddress.Suburb"/>
+							</div>
+							<div class="form-group">
+								<select class="form-control" name="Phys_State" ng-model="form.cleaner.PhysicalAddress.State"  ng-init="Phys_State='WA'">
+				                    <option value="">Select State</option>	
+		                			<option value="ACT">ACT</option>
+									<option value="NT">NT</option>
+									<option value="QLD">QLD</option>
+									<option value="SA">SA</option>
+									<option value="TAS">TAS</option>
+									<option value="VIC">VIC</option>
+									<option value="WA">WA</option>
+			                  	</select>	
+							</div>
+							<div class="form-group">
+								<div class="col-xs-6 nopadding">
+									<input type="text" placeholder="Postcode" class="form-control" name="Phys_PostCode" ng-model="form.cleaner.PhysicalAddress.PostCode"/>
+								</div>
+								<div class="col-xs-6"></div>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Country" class="form-control" name="Phys_Country"  ng-model="form.cleaner.PhysicalAddress.Country" disabled="true" ng-init="Phys_Country='Australia'"/>
+							</div>
+							<div class="checkbox c-checkbox">
+		                  		<label>
+		                     		<input type="checkbox" checked="false" name="CopyToPostal" id="CopyToPostal" ng-model="CopyToPostal"/>
+		                     		<span class="fa fa-check"></span>Use same address for postal address
+								</label>
+		               		</div>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-1"> to </div>
-			<div class="col-md-3">
-				<p class="input-group">
-				 	<input class="form-control" type="text" uib-datepicker-popup="{{dp.format}}" ng-model="dp.dt" is-open="dp.opened" min-date="dp.minDate" max-date="'2015-06-22'" datepicker-options="dp.dateOptions" date-disabled="dp.disabled(date, mode)"
-                	ng-required="true" close-text="Close" />
-                	<span class="input-group-btn">
-                   		<button class="btn btn-default" type="button" ng-click="dp.open($event)">
-                      		<em class="fa fa-calendar"></em>
-                   		</button>
-                	</span>
-             	</p>	
-			</div>
-			<div class="col-md-4">
-				<button ng-click="$state.go('app.clients')" class="btn btn-primary">Find affected customers</button>
+				
+			<div class="col-sm-6">
+				<div class="panel panel-green" id="panelPostal" ng-show="!CopyToPostal">
+					<div class="panel-heading">Postal Address</div>
+ 					<div class="panel-body">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 1" class="form-control" name="Post_AddressLine1" ng-model="form.cleaner.PostalAddress.AddressLine1"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 2" class="form-control" name="Post_AddressLine2" ng-model="form.cleaner.PostalAddress.AddressLine2"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Suburb" class="form-control" name="Post_Suburb" ng-model="form.cleaner.PostalAddress.Suburb"/>
+							</div>
+							<div class="form-group">
+								<select  class="form-control" name="Post_State" ng-model="form.cleaner.PostalAddress.State" ng-init="Post_State='WA'">
+				                    <option value="">Select State</option>	
+		                			<option value="ACT">ACT</option>
+									<option value="NT">NT</option>
+									<option value="QLD">QLD</option>
+									<option value="SA">SA</option>
+									<option value="TAS">TAS</option>
+									<option value="VIC">VIC</option>
+									<option value="WA">WA</option>
+			                  	</select>	
+							</div>
+							<div class="form-group">
+								<div class="col-xs-6 nopadding">
+									<input type="text" placeholder="Postcode" class="form-control" name="Post_PostCode" ng-model="form.cleaner.PostalAddress.PostCode"/>
+								</div>
+								<div class="col-xs-6"></div>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Country" class="form-control" name="Post_Country" ng-model="form.cleaner.PostalAddress.Country" ng-init="Post_Country='Australia'" disabled="true"/>
+							</div>
+							<div class="checkbox c-checkbox"></div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-	</div>
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Active:</label>
-  		<div class="col-md-10">
-         	<label class="switch">
-         		<input type="checkbox" checked="true" />
-         		<span></span>
-          	</label>
-      	</div>
-   	</div>
-	<div class="panel panel-default">
-		<div class="panel-heading">Team Details</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table class="table table-bordered table-hover bg-white">
-			      	<tr style="font-weight: bold">
-			         	<td  class="text-center">Given Name</td>
-			         	<td  class="text-center">Surname</td>
-			         	<td  class="text-center">Address</td>
-			         	<td  class="text-center">Mobile</td>
-						<td  class="text-center">Email</td>
-						<td  class="text-center">Gender</td>
-						<td  class="text-center">Ironing</td>
-						<td  class="text-center"></td>
-			      	</tr>
-					<tr>  
-						<td>Alex</td>
-						<td>Perry</td>
-						<td>
-							15 Somestreet,
-							SomePlace
-							WA, 6031
-						</td>
-						<td>0402 222 222</td>
-						<td><span class="fa fa-envelope"></span>&nbsp;<a href="mailto:alex@tester.com">alex@tester.com</a></td>
-						<td>
-							<div class="radio c-radio c-radio-nofont">
-                     			<label>
-                        			<input type="radio" name="sex" value="M" checked="" />
-                       				<span></span>Male
-								</label>
-                  			</div>
-                  			<div class="radio c-radio c-radio-nofont">
-                     			<label>
-                        			<input type="radio" name="sex" value="F" />
-                        			<span></span>Female
-								</label>
-                  			</div>
-						</td>
-						<td>
-							<div class="radio c-radio c-radio-nofont">
-                     			<label>
-                        			<input type="radio" name="ironing" value="Y" checked="" />
-                       				<span></span>Yes
-								</label>
-                  			</div>
-                  			<div class="radio c-radio c-radio-nofont">
-                     			<label>
-                        			<input type="radio" name="ironing" value="N" />
-                        			<span></span>No
-								</label>
-                  			</div>
-						</td>
-						<td>
-							 <!-- form-->
-				            <div ng-show="!rowform.$visible" class="buttons">
-				               <button  title="Edit" class="btn btn-sm btn-info">
-				                  <em class="fa fa-pencil"></em>
-				               </button>
-				               <button  title="Delete" class="btn btn-sm btn-danger">
-				                  <em class="fa fa-trash"></em>
-				               </button>
-				            </div>
-						</td>
-					</tr>
-				</table>
-			</div>	<br/>
-			<!-- buttons-->
-	    	<button class="btn btn-primary">Add Team Member</button>
+		
+		<div class="panel panel-default" ng-if="!form.cleaner.IsNewItem" >
+			<div class="panel-heading">Team Details</div>
+			<div class="panel-body">
+				<div ng-hide="form.cleanerTeam.length" class="EmptyResults p-lg text-center">
+					No team members found.  <a href="" ng-click="openTeamPopupForm()">Click here</a>
+					to add team member details.
+				</div>
+				<div class="table-responsive" ng-show="form.cleanerTeam.length"> 
+					<table class="table table-bordered table-hover bg-white">
+				      	<tr style="font-weight: bold">
+				         	<td  class="text-center">Given Name</td>
+				         	<td  class="text-center">Surname</td>
+				         	<td  class="text-center">Address</td>
+				         	<td  class="text-center">Mobile</td>
+							<td  class="text-center">Email</td>
+							<td  class="text-center">Gender</td>
+							<td  class="text-center">Ironing</td>
+							<td  class="text-center"></td>
+				      	</tr>
+						<tr ng-repeat="teamMember in form.cleanerTeam">  
+							<td>{{teamMember.FirstName}}</td>
+							<td>{{teamMember.LastName}}</td>
+							<td>
+								<address ng-bind-html="teamMember.PhysicalAddress.FormattedAddress"></address>
+			               	</td>
+							<td style="white-space: nowrap" ng-bind-html="teamMember.FormattedContactNumbers"></td>
+							<td><span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{teamMember.EmailAddress}}">{{teamMember.EmailAddress}}</a></td>
+							<td>
+								<span ng-if="!teamMember.GenderFlag">Not specified</span>
+								<span ng-if="teamMember.GenderFlag=='M'">Male</span>
+								<span ng-if="teamMember.GenderFlag=='F'">Female</span>
+							</td>
+							<td>
+								<span ng-if="teamMember.Ironing === false">No</span>
+								<span ng-if="teamMember.Ironing === true">Yes</span>
+							</td>
+							<td>
+								 <!-- form-->
+					            <div ng-show="!rowform.$visible" class="buttons">
+					               <button type="button" title="Edit" class="btn btn-sm btn-info" ng-click="openTeamPopupForm(teamMember)" >
+					                  <em class="fa fa-pencil"></em>
+					               </button>
+					               <button  type="button" title="Delete" class="btn btn-sm btn-danger" ng-click="deleteTeamMember(teamMember.Id, $index, teamMember.FirstName)" >
+					                  <em class="fa fa-trash"></em>
+					               </button>
+					            </div>
+							</td>
+						</tr>
+					</table>
+				</div>	<br/>
+				<!-- buttons-->
+		    	<button ng-click="openTeamPopupForm()" ng-disabled="form.cleaner.IsNewItem" class="btn btn-primary" type="button">Add Team Member</button>
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-	    <div class="col-lg-offset-2 col-lg-6">
-	    	
-	    </div>
-	    <div class="text-right col-lg-4">
-			<button type="button" class="btn btn-default">Cancel</button>
-			<button type="button" class="btn btn-success">Save</button>
-		</div>
-	</div>
-</form>
+		<div class="form-group">
+            <div class="col-md-6">
+            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.dashboard')">Close</button>
+				<button type="submit" class="btn btn-success" ng-disabled="form.cleaner.$invalid || form.submitted == true">Save Cleaner Details</button>
+            </div>
+		    <div class="text-right col-md-6">
+			</div>		
+        </div>	
+	</form>
+</div>

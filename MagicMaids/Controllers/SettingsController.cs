@@ -195,11 +195,10 @@ namespace MagicMaids.Controllers
                     }
                     catch (Exception ex)
                     {
-                        //_msg = new InfoViewModel("Error saving settings", ex);
-                        ModelState.AddModelError(string.Empty, $"Error saving setting ({ex.Message})");
+						ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving setting", ex));
 
-                        LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-                        log.Log(LogLevel.Error, "Error saving setting", nameof(SaveSettings), ex, setting);
+						LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+						log.Log(LogLevel.Error, "Error saving setting", nameof(SaveSettings), ex, setting, Helpers.ParseValidationErrors(ex));
                     }
 				}
                 
@@ -331,11 +330,10 @@ namespace MagicMaids.Controllers
 				}
 				catch (Exception ex)
 				{
-					//_msg = new InfoViewModel("Error saving franchises", ex);
-					ModelState.AddModelError(string.Empty, $"Error saving {_objDesc.ToLower()} ({ex.Message})");
+					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
 
 					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(SavePostCodes), ex, formValues);
+					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(SavePostCodes), ex, formValues, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
@@ -507,11 +505,10 @@ namespace MagicMaids.Controllers
 				}
 				catch (Exception ex)
 				{
-					//_msg = new InfoViewModel("Error saving franchises", ex);
-					ModelState.AddModelError(string.Empty, $"Error saving {_objDesc.ToLower()} ({ex.Message})");
+					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
 
 					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(Rate), ex, formValues);
+					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(Rate), ex, formValues, Helpers.ParseValidationErrors(ex));
 				}
 			}
 

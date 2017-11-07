@@ -44,6 +44,7 @@
             'magicsettings',
             'magicclients',
             'magiclogs',
+            'magiccleaners',
             'toggle-switch',
           	'angular.filter'
         ])
@@ -86,28 +87,46 @@
 			var factory = {};
 
 			factory.show = function($scope, msgs, titleMsg) {
-				//console.log("<X2 scope> - " + angular.toJson(msgs));
-				$scope.userMessages.splice(0, $scope.userMessages.length); // clear message array
-				if (msgs.MsgCssClass)
-            		$scope.userMessageType.push(msgs.MsgCssClass);
-				else
-					$scope.userMessageType.push('alert bg-warning-light');
+				/*
+				console.log("<X1 usermsg> - " + angular.toJson($scope.userMessages));
+				console.log("<X2 msg type> - " + angular.toJson($scope.userMessageType));
+				console.log("<X3 msgs> - " + angular.toJson(msgs));
+				*/
+				if ($scope.userMessages && $scope.userMessageType)
+				{
+					$scope.userMessages.splice(0, $scope.userMessages.length); // clear message array
 
+					if (msgs.MsgCssClass)
+	            		$scope.userMessageType.push(msgs.MsgCssClass);
+					else
+						$scope.userMessageType.push('alert bg-warning-light');
+				}
+				
             	var _bHasErrors = false;
             	var prevMsg = "";
+            	//console.log("<X4 errors> - " + angular.toJson(msgs.Errors));
             	if (msgs.Errors && angular.isObject(msgs.Errors)) {
                 	for (var i = 0; i < msgs.Errors.length; i++) {
                 		var message = msgs.Errors[i].Message;
+                		var key = msgs.Errors[i].Key;
                 		_bHasErrors = true;	
-                		if (prevMsg != message)
+                		if (prevMsg != message && $scope.userMessages)
                 		{
-            				$scope.userMessages.push(message) ;
+                			if (message == "A value is required." && key.length > 0)
+                			{
+                				$scope.userMessages.push('A value is required for ' + key) ;
+                			}
+                			else
+                			{
+                				$scope.userMessages.push(message) ;
+                			}
+            				
             			}
             			prevMsg = message;
         			}
                 };
 
-                if (!_bHasErrors)
+                if (!_bHasErrors && $scope.userMessages)
                 {
 	                if (msgs.Message != null) {
 	                    $scope.userMessages.push(msgs.Message);
@@ -117,7 +136,7 @@
 	                	$scope.userMessages.push(titleMsg);
 	                }
                 };
-                //console.log("<X3> - " + angular.toJson($scope.userMessages));
+                //console.log("<X5> - " + angular.toJson($scope.userMessages));
 				
                 window.scrollTo(0,0);
 			}

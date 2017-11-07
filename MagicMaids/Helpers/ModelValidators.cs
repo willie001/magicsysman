@@ -10,6 +10,7 @@ using System.Linq;
 namespace MagicMaids.Validators
 {
 	//https://github.com/JeremySkinner/FluentValidation/wiki/c.-Built-In-Validators
+	//http://nodogmablog.bryanhogan.net/2015/04/complex-model-validation-using-fluent-validation/
 	public class SettingsValidator : AbstractValidator<UpdateSettingsViewModel>
 	{
 		public SettingsValidator()
@@ -38,7 +39,7 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.TradingName).Length(5, 50).WithName("Trading name");
 			RuleFor(x => x.MasterFranchiseCode).Length(5, 20).WithName("Franchise code");
 			RuleFor(x => x.CodeOfConductURL).Length(0, 500).WithName("Code of conduct");
-			RuleFor(x => x.MetroRegion).Length(5, 100).WithName("Metro region");
+			RuleFor(x => x.MetroRegion).Length(3, 100).WithName("Metro region");
 
 			RuleFor(x => x.BusinessPhoneNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Primary business number is not a valid phone number.");
 			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");
@@ -130,12 +131,69 @@ namespace MagicMaids.Validators
 	{
 		public RateValidator()
 		{
-			RuleFor(x => x.RateCode).NotEmpty().WithMessage("Rate Identifier is required.");
+			RuleFor(x => x.RateCode).NotEmpty().WithMessage("Rate Description is required.");
 			RuleFor(x => x.RateAmount).NotEmpty().WithMessage("Rate Amount is required.");
 
-			RuleFor(x => x.RateCode).Length(3, 15).WithName("Rate Identifier");
+			RuleFor(x => x.RateCode).Length(3, 50).WithName("Rate Description");
 			RuleFor(x => x.RateAmount).GreaterThan(0).WithMessage("Rate Amount");
+		}
+	}
 
+	public class CleanerDetailsValidator : AbstractValidator<CleanerDetailsVM>
+	{
+		public CleanerDetailsValidator()
+		{
+			RuleFor(x => x.CleanerCode).NotEmpty().GreaterThanOrEqualTo(1000).WithMessage("Cleaner code is required and must start from 1000.");
+
+			RuleFor(x => x.Initials).NotEmpty().WithMessage("Initials are required.");
+			RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name is required.");
+			RuleFor(x => x.LastName).NotEmpty().WithMessage("Surname is required.");
+			RuleFor(x => x.Region).NotEmpty().WithMessage("Region is required.");
+			RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Valid email address is required.");
+
+			RuleFor(x => x.Initials).Length(1, 5).WithName("Initials");
+			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
+			RuleFor(x => x.LastName).Length(3, 100).WithName("Last name");
+
+			RuleFor(x => x.Region).Length(3, 100).WithName("Region");
+
+			RuleFor(x => x.BusinessPhoneNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Primary business number is not a valid phone number.");
+			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");
+			RuleFor(x => x.OtherNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Alternative contact number is not a valid number.");
+
+			RuleFor(x => x.EmailAddress).EmailAddress().WithMessage("Email address is not a valid email address.");
+
+			When(x => x.Rating.HasValue, () =>
+			{
+				RuleFor(x => x.Rating).InclusiveBetween(1, 5).WithMessage("Rating must be between 1 and 5.");
+			});
+
+			//When(x => x.LeaveStartDate.HasValue, () =>
+			//{
+			//	RuleFor(x => x.LeaveStartDate).GreaterThan(DateTime.Now).WithMessage("Leave start date must be in the future.");
+			//	RuleFor(x => x.LeaveEndDate)
+			//		.NotEmpty()
+			//		.Must((x, LeaveEndDate) => LeaveEndDate >= x.LeaveStartDate)
+			//		.WithMessage("Leave end date must be after the start date.");
+			//});
+
+		}
+	}
+
+	public class TeamMemberDetailsValidator : AbstractValidator<TeamMemberDetailsVM>
+	{
+		public TeamMemberDetailsValidator()
+		{
+			RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name is required.");
+			RuleFor(x => x.LastName).NotEmpty().WithMessage("Surname is required.");
+			RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Valid email address is required.");
+
+			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
+			RuleFor(x => x.LastName).Length(3, 100).WithName("Last name");
+
+			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");
+
+			RuleFor(x => x.EmailAddress).EmailAddress().WithMessage("Email address is not a valid email address.");
 		}
 	}
 }

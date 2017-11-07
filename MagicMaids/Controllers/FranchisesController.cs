@@ -76,11 +76,16 @@ namespace MagicMaids.Controllers
 				.OrderBy(x => x.Name)
 				.ToList();
 
+			List<SystemSetting> _settings = new List<SystemSetting>();
+			_settings = MMContext.DefaultSettings
+					 .Where(p => p.IsActive == true)
+					 .ToList();
+
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 			foreach (Franchise _item in _data)
 			{
 				var _vm = new FranchiseSelectViewModel();
-				_vm.PopulateVM(_item);
+				_vm.PopulateVM(_item, _settings);
 				_listFranchises.Add(_vm);
 			}
 			return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -108,6 +113,7 @@ namespace MagicMaids.Controllers
 									  .Include(nameof(Franchise.PhysicalAddress))
 									  .Include(nameof(Franchise.PostalAddress))
 				                      .FirstOrDefault();
+				
 				if (_franchise == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Franchise [{FranchiseId.ToString()}] not found.  Please try again.");
@@ -223,7 +229,6 @@ namespace MagicMaids.Controllers
 						_objToUpdate.TradingName = dataItem.TradingName;
 						_objToUpdate.Name = dataItem.Name;
 
-
 						if (dataItem.PhysicalAddress != null)
 						{
 							_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
@@ -304,11 +309,10 @@ namespace MagicMaids.Controllers
 				}
 				catch (Exception ex)
 				{
-					//_msg = new InfoViewModel("Error saving franchises", ex);
-					ModelState.AddModelError(string.Empty, $"Error saving franchise ({ex.Message})");
+					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving franchise", ex));
 
 					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving franchise", nameof(SaveFranchise), ex, dataItem);
+					log.Log(LogLevel.Error, "Error saving franchise", nameof(SaveFranchise), ex, dataItem, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
@@ -386,11 +390,10 @@ namespace MagicMaids.Controllers
 				}
 				catch (Exception ex)
 				{
-					//_msg = new InfoViewModel("Error saving franchises", ex);
-					ModelState.AddModelError(string.Empty, $"Error saving franchise settings ({ex.Message})");
+					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving franchise settings", ex));
 
 					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving franchise settings", nameof(SaveFranchise), ex, dataItem);
+					log.Log(LogLevel.Error, "Error saving franchise settings", nameof(SaveFranchise), ex, dataItem, Helpers.ParseValidationErrors(ex));
 				}
 			}
 

@@ -2,141 +2,112 @@
     // This is requried for AngularJS because we have to send only the view markup (not within the layout)
     Layout = null;
 }
-@model IEnumerable<MagicMaids.EntityModels.Cleaner>
 
 <div class="content-heading">
     {{ 'pageTitles.cleaners.CLEANER_SEARCH' | translate }}
 </div>
 
-<div class="row">
-	<div class="panel panel-default">
-	 	<div class="panel-body">
-		    <form class="form-horizontal">
+<div ng-controller="CleanerSearchController as form">
+	@Html.Partial("_InformationDetails")
+
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal">
 		    	<div class="form-group">
-		          <label class="col-lg-2 control-label">Franchise</label>
-		          <div class="col-lg-10">
-		             	<select name="account" class="form-control">
-		                	<option value="">Select Franchise</option>	
-							<option value="NM">North Metro</option>
-							<option value="SW">South West</option>
-							<option value="TA">Tasmania</option>
-		          		</select>	
-		          </div>
+			      	<label class="col-md-2 control-label">Master Franchise</label>
+			      	<div class="col-md-6">
+			         	<select name="MasterFranchise" class="form-control" ng-model="form.Search.SelectedFranchise" 
+									ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
+			            	<option value="">Select Master Franchise</option>	
+			      		</select>	
+			      	</div>
+			   	</div>
+				<div class="form-group">
+		          	<label class="col-md-2 control-label">Name</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Cleaner name" class="form-control" ng-model="form.Search.Name" />
+		          	</div>
 		       	</div>
 				<div class="form-group">
-		          <label class="col-lg-2 control-label">Name</label>
-		          <div class="col-lg-10">
-		             <input type="text" placeholder="Cleaner name" class="form-control" />
-		          </div>
-		       	</div>
-		       	<div class="form-group">
-		          <label class="col-lg-2 control-label">Zone</label>
-		          <div class="col-lg-10">
-		             <input type="text" placeholder="Zone" class="form-control" />
-		          </div>
+		          	<label class="col-md-2 control-label">Zone</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Zone" class="form-control" ng-model="form.Search.Zone" />
+		          	</div>
 		       	</div>
 				<div class="form-group">
-					<label class="col-lg-2 control-label">Search for</label>
-					<div class="col-lg-10">
-						<div class="checkbox c-checkbox">
-			              	<label>
-			                 	<input type="checkbox" checked="false" value="ACTIVE" />
-			                 	<span class="fa fa-check"></span>Active cleaners
+					<label class="col-md-2 control-label"></label>
+			  		<div class="col-md-10">
+			         	<div class="checkbox c-checkbox">
+	                  		<label>
+	                     		<input type="checkbox" checked="false" name="IncludeInactive" id="IncludeInactive" ng-model="form.Search.IncludeInactive"/>
+	                     		<span class="fa fa-check"></span>Include inactive cleaners in results
 							</label>
-							<label>
-			                 	<input type="checkbox" value="INACTIVE" />
-			                 	<span class="fa fa-check"></span>Inactive cleaners
-							</label>
-			           	</div>
-					</div>
+	               		</div>
+			      	</div>
 				</div>
-					
 				<div class="form-group">
-		           	<div class="col-lg-offset-2 col-lg-5">
+		           	<div class="col-md-offset-2 col-md-5">
 						<!-- buttons-->
-						<button class="btn btn-default" ng-click="tableform.$visible = !tableform.$visible">Clear</button>
-						<button class="btn btn-info" ng-click="tableform.$visible = !tableform.$visible">Search</button>
+						<button type="button" class="btn btn-default" ng-click="clearForm()">Clear</button>
+						<button type="button" class="btn btn-info" ng-click="searchCleaners()">Search</button>
 		           	</div>
-					<div class="text-right col-lg-5">
-						<button type="submit" ng-click="$state.go('app.cleaner_details')" class="btn btn-warning">Return to Cleaners</button>
-						<button type="submit" ng-click="$state.go('app.client_details')" class="btn btn-warning">Return to Customers</button>
+					<div class="text-right col-md-5">
+						<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-warning">Return to Cleaners</button>
+						<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-warning">Return to Customers</button>
 					</div>	
 		        </div>
-		    </form>
-	 	</div>
- 	</div>
-</div>
+			</form>
+		</div>
+	</div>
 
-<div class="row" ng-show="tableform.$visible">
-	<div class="panel panel-default">
-     	<div class="panel-heading">Search Results</div>
-
+	<div class="panel panel-transparent" id="panelCleanerResults" ng-show="form.hasSearched">
+		<div class="panel-heading">
+			<div class="form-group">
+				<div class="pull-right">
+					<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+	          	</div>
+            </div>Search Results
+		</div>
 		<div class="panel-body">
-			<!-- Results Table -->
-			<div class="table-responsive">
-				<table class="table table-bordered table-hover bg-white ctable">
-			      	<tr style="font-weight: bold">
-			         	<td style="width:20%" class="text-center">Cleaner</td>
-						<td style="width:10%" class="text-center">Zone</td>
-						<td style="width:10%" class="text-center">Email</td>
-						<td style="width:40%" class="text-center">Address</td>
-						<td style="width:10%" class="text-center">Phone numbers</td>
-						<td style="width:5%" class="text-center">Active</td>
-						<td style="width:5%" class="text-center"></td>
-			      	</tr>
-					@foreach (var _cleaner in Model)
-			    	{
-						<tr valign="top">
-							<td>@_cleaner.FullName</td>
-							<td>@_cleaner.Zone</td>
-							<td>@_cleaner.EmailAddress</td>
-							<td>@Html.Raw(_cleaner.PhysicalAddress.FormattedAddress)</td>
-							<td>@Html.Raw(_cleaner.FormattedContactNumbers)</td>
+			<div ng-hide="form.SearchResults.length" class="EmptyResults p-lg text-center">
+				No cleaners found with the current search criteria.
+			</div>
+			<div class="table-responsive" ng-show="form.SearchResults.length" >
+				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
+					<thead style="font-weight: bold">
+			         	<th style="width:30%" class="text-center">Cleaner Name</th>
+			         	<th style="width:10%" class="text-center">Zone</th>
+			         	<th style="width:20%" class="text-center">Email Address</th>
+			         	<th style="width:10%" class="text-center">Phone Numbers</th>
+						<th style="width:20%" class="text-center">Suburb</th>
+						<th style="width:5%" class="text-center">Active</th>
+						<th style="width:5%" class="text-center"></th>
+					</thead>
+			      	<tbody>
+						<tr valign="top" ng-repeat="cleaner in form.SearchResults">
+							<td>{{cleaner.FirstName}} {{ cleaner.LastName }}</td>
+							<td>{{cleaner.PrimaryZone}}</td>
+							<td style="white-space: nowrap">
+								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a>
+			               	</td>
+							<td style="white-space: nowrap" ng-bind-html="cleaner.FormattedContactNumbers"></td>
+							<td>{{cleaner.PhysicalAddress.Suburb}}</td>
 							<td class="text-center">
-								<label class="switch">
-			                     	<input type="checkbox" checked="@_cleaner.IsActive" />
-			                     	<span></span>
-			                  	</label>
+								{{ cleaner.IsActive ? 'Yes' : 'No' }}
 			               	</td>
 							<td style="white-space: nowrap">
 					            <!-- form-->
 					            <div class="buttons">
-								   	<a ui-sref="app.cleaner_details">
-					               		<button title="Edit" class="btn btn-sm btn-info">
-					                  		<em class="fa fa-pencil"></em>
-					               		</button>
-									</a>
+								   <a ui-sref="app.cleaner_details({ CleanerId: cleaner.Id })">
+					               <button title="Edit" class="btn btn-sm btn-info">
+					                  <em class="fa fa-pencil"></em>
+					               </button></a>
 					            </div>
 					         </td>
 						</tr>
-					}
+					</tbody>
 				</table>
-
 			</div>
-		
-			<!-- End Results Table -->
 		</div>
-		
-		<div class="panel-footer">
-            <div class="row">
-               <div class="col-lg-6">
-                  <button class="btn btn-sm btn-default" ng-click="tableform.$visible = !tableform.$visible">Clear</button>
-				  <button ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">Add Cleaner</button>
-               </div>
-               <div class="col-lg-2"></div>
-               <div class="col-lg-4 text-right">
-                  <ul class="pagination pagination-sm">
-                     <li class="active"><a href="#">1</a>
-                     </li>
-                     <li><a href="#">2</a>
-                     </li>
-                     <li><a href="#">3</a>
-                     </li>
-                     <li><a href="#">&raquo;</a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
 	</div>
 </div>

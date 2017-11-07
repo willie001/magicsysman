@@ -7,11 +7,120 @@
     <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">/Users/ebenventer/.nuget/packages/</NuGetPackageRoot>
     <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">/Users/ebenventer/.nuget/packages/</NuGetPackageFolders>
     <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
-    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">4.3.0</NuGetToolVersion>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">4.3.1</NuGetToolVersion>
   </PropertyGroup>
   <PropertyGroup>
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/app.config.transform" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/app.config.transform')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>app.config.transform</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlCommand.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlCommand.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlCommand.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlCommandBuilder.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlCommandBuilder.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlCommandBuilder.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlConnection.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlConnection.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlConnection.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlConnectionStringBuilder.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlDataAdapter.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlDataAdapter.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlDataAdapter.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlDataReader.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlDataReader.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlDataReader.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlException.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlException.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlException.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlHelper.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlHelper.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlHelper.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlParameter.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlParameter.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlParameter.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlParameterCollection.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlParameterCollection.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlParameterCollection.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlTransaction.xml" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/docs/MySqlTransaction.xml')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>docs/MySqlTransaction.xml</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/web.config.transform" Condition="Exists('$(NuGetPackageRoot)mysql.data/6.10.4/contentFiles/any/net452/web.config.transform')">
+      <NuGetPackageId>MySql.Data</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>web.config.transform</Link>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Content Include="$(NuGetPackageRoot)mysql.data.entity/6.10.4/contentFiles/any/net452/app.config.transform" Condition="Exists('$(NuGetPackageRoot)mysql.data.entity/6.10.4/contentFiles/any/net452/app.config.transform')">
+      <NuGetPackageId>MySql.Data.Entity</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>app.config.transform</Link>
+    </Content>
+    <Content Include="$(NuGetPackageRoot)mysql.data.entity/6.10.4/contentFiles/any/net452/web.config.transform" Condition="Exists('$(NuGetPackageRoot)mysql.data.entity/6.10.4/contentFiles/any/net452/web.config.transform')">
+      <NuGetPackageId>MySql.Data.Entity</NuGetPackageId>
+      <NuGetPackageVersion>6.10.4</NuGetPackageVersion>
+      <NuGetItemType>Content</NuGetItemType>
+      <Private>False</Private>
+      <Link>web.config.transform</Link>
+    </Content>
+  </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)legacy2cpsworkaround/1.0.0/build/netstandard1.0/Legacy2CPSWorkaround.props" Condition="Exists('$(NuGetPackageRoot)legacy2cpsworkaround/1.0.0/build/netstandard1.0/Legacy2CPSWorkaround.props')" />
   </ImportGroup>

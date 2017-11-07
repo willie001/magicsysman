@@ -402,7 +402,7 @@
             $http.get('/settings/getfranchises/?incDisabled=' + _incDisabled)
                 .success(function (data) {
 					vm.listOfFranchises = data.list;
-					console.log("<FRANCHISE LIST> - " + angular.toJson(data.list));
+					//console.log("<FRANCHISE LIST> - " + angular.toJson(data.list));
                 	
                 }).error(function(err) {
                 	

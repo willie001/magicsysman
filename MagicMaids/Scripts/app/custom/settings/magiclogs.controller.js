@@ -72,12 +72,19 @@
                 });
 		}
 
-		$scope.deleteEntry = function(id) {
+		$scope.deleteEntry = function(id, ix) {
 			HandleBusySpinner.start($scope, 'panelApplicationLogs');
 			DeleteLogEntries.deleteLogEntry($scope, $http, ShowUserMessages, id);
 			HandleBusySpinner.stop($scope, 'panelApplicationLogs');
 
-			activate();
+			if (ix)
+			{
+				vm.listOfLogs.splice(ix, 1);
+			}
+			else
+			{
+				activate();
+			}
 		}
 
 		$scope.clearLogEntries = function() {

@@ -8,7 +8,7 @@
 		         	<td class="text-center">Finish Time</td>
 		         	<td class="text-center"># of Cleaners</td>
 		      	</tr>
-				<tr >
+				<!--<tr >
 					<td>Mon</td>
 					<td>
 						<div uib-timepicker="uib-timepicker" show-meridian="tp.ismeridian"></div>
@@ -112,10 +112,43 @@
 							<option>2</option>
 						</select>
 					</td>
-				</tr>
+				</tr>-->
 			</table>
 		</div>	
 	</fieldset>
+
+	<div class="form-group">
+			<label class="col-md-2 control-label">Leave dates:</label>
+			<div class="col-md-10" >
+				<div class="col-md-1">From: </div>
+				<div class="col-md-3">
+					<p class="input-group">
+					 	<input class="form-control" type="text" uib-datepicker-popup="{{form.format}}" ng-model="form.leave.dateStart" is-open="form.opened1" min-date="form.minDate" datepicker-options="form.dateOptions" date-disabled="form.disabled(date, mode)"
+	                	ng-required="true" close-text="Close" />
+	                	<span class="input-group-btn">
+	                   		<button class="btn btn-default" type="button" ng-click="form.open($event,'opened1')">
+	                      		<em class="fa fa-calendar"></em>
+	                   		</button>
+	                	</span>
+	             	</p>
+				</div>
+				<div class="col-md-1"> to </div>
+				<div class="col-md-3">
+					<p class="input-group">
+					 	<input class="form-control" type="text" uib-datepicker-popup="{{form.format}}" ng-model="form.leave.dateEnd" is-open="form.opened2" min-date="form.minDate"  datepicker-options="form.dateOptions" date-disabled="form.disabled(date, mode)"
+	                	ng-required="true" close-text="Close" />
+	                	<span class="input-group-btn">
+	                   		<button class="btn btn-default" type="button" ng-click="form.open($event,'opened2')">
+	                      		<em class="fa fa-calendar"></em>
+	                   		</button>
+	                	</span>
+	             	</p>	
+				</div>
+				<div class="col-md-4">
+					<button onclick="alert('Coming soon!'); return false;" ng-click="$state.go('app.clients')" class="btn btn-primary">Find affected customers</button>
+				</div>
+			</div>
+		</div>
 
 	<div class="form-group">
 	    <div class="col-lg-offset-2 col-lg-6">

@@ -1,12 +1,17 @@
 ﻿#region Using
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 #endregion
 
 namespace MagicMaids.EntityModels                  
 {
+	[Table("Clients")]
 	public class Client: BaseModel
 	{
 		#region Property, Public
+		[Required]
+		[DataType(DataType.Text)]
 		public string Title 
 		{
 			get;

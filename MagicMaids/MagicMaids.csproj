@@ -59,14 +59,8 @@
   	<PackageReference Include="FluentValidation.MVC5-Signed">
   	  <Version>7.0.0</Version>
   	</PackageReference>
-  	<PackageReference Include="FluentValidation.MVC5">
-  	  <Version>7.1.1</Version>
-  	</PackageReference>
   	<PackageReference Include="Glimpse.Mvc5">
   	  <Version>1.5.3</Version>
-  	</PackageReference>
-  	<PackageReference Include="FluentValidation">
-  	  <Version>7.1.1</Version>
   	</PackageReference>
   	<PackageReference Include="WebGrease">
   	  <Version>1.6.0</Version>
@@ -89,9 +83,6 @@
   	<PackageReference Include="NLog.Config">
   	  <Version>4.4.12</Version>
   	</PackageReference>
-  	<PackageReference Include="NLog.Web">
-  	  <Version>4.5.0</Version>
-  	</PackageReference>
   	<PackageReference Include="Microsoft.AspNet.Mvc">
   	  <Version>5.2.3</Version>
   	</PackageReference>
@@ -113,23 +104,8 @@
   	<PackageReference Include="NLog.Schema">
   	  <Version>4.4.12</Version>
   	</PackageReference>
-  	<PackageReference Include="Ninject.MVC5">
-  	  <Version>3.2.1</Version>
-  	</PackageReference>
-  	<PackageReference Include="Ninject.Web.Common">
-  	  <Version>3.2.3</Version>
-  	</PackageReference>
-  	<PackageReference Include="Ninject.Web.Common.WebHost">
-  	  <Version>3.2.3</Version>
-  	</PackageReference>
   	<PackageReference Include="Newtonsoft.Json">
   	  <Version>10.0.3</Version>
-  	</PackageReference>
-  	<PackageReference Include="MySql.Data.Entity">
-  	  <Version>6.9.9</Version>
-  	</PackageReference>
-  	<PackageReference Include="MySql.Data">
-  	  <Version>6.9.9</Version>
   	</PackageReference>
   	<PackageReference Include="Mono.Reflection">
   	  <Version>1.1.0</Version>
@@ -167,8 +143,41 @@
   	<PackageReference Include="DelegateDecompiler.EntityFramework">
   	  <Version>0.23.0</Version>
   	</PackageReference>
+  	<PackageReference Include="FluentValidation.MVC5">
+  	  <Version>7.2.1</Version>
+  	</PackageReference>
+  	<PackageReference Include="FluentValidation">
+  	  <Version>7.2.1</Version>
+  	</PackageReference>
+  	<PackageReference Include="NLog.Web">
+  	  <Version>4.5.1</Version>
+  	</PackageReference>
+  	<PackageReference Include="Ninject.MVC5">
+  	  <Version>3.3.0</Version>
+  	</PackageReference>
+  	<PackageReference Include="Ninject.Web.Common">
+  	  <Version>3.3.0</Version>
+  	</PackageReference>
+  	<PackageReference Include="Ninject.Web.Common.WebHost">
+  	  <Version>3.3.0</Version>
+  	</PackageReference>
+  	<PackageReference Include="MySql.Data.Entity">
+  	  <Version>6.10.4</Version>
+  	</PackageReference>
+  	<PackageReference Include="MySql.Data">
+  	  <Version>6.10.4</Version>
+  	</PackageReference>
   	<PackageReference Include="Ninject">
-  	  <Version>3.2.2</Version>
+  	  <Version>3.3.3</Version>
+  	</PackageReference>
+  	<PackageReference Include="routedebugger">
+  	  <Version>2.1.5</Version>
+  	</PackageReference>
+  	<PackageReference Include="AutoMapper">
+  	  <Version>6.1.1</Version>
+  	</PackageReference>
+  	<PackageReference Include="AutoMapper.EF6">
+  	  <Version>1.1.1</Version>
   	</PackageReference>
 	</ItemGroup>
   <ItemGroup>
@@ -359,7 +368,7 @@
     <Compile Include="DataLayer\EntityModels\Franchise.cs" />
     <Compile Include="DataLayer\EntityModels\IDataModel.cs" />
     <Compile Include="DataLayer\EntityModels\LogEntry.cs" />
-    <Compile Include="DataLayer\EntityModels\Operator.cs" />
+    <Compile Include="DataLayer\EntityModels\Cleaner.cs" />
     <Compile Include="DataLayer\EntityModels\Payment.cs" />
     <Compile Include="DataLayer\EntityModels\Rate.cs" />
     <Compile Include="DataLayer\EntityModels\SuburbZone.cs" />
@@ -371,7 +380,6 @@
     <Compile Include="DataLayer\DataContext\MagicMaidsContext.cs" />
     <Compile Include="DataLayer\DataContext\MagicMaidsInitialiser.cs" />
     <Compile Include="DataLayer\DataAccess\BaseRepository.cs" />
-    <Compile Include="DataLayer\DataAccess\CleanerRepository.cs" />
     <Compile Include="DataLayer\DataAccess\ClientRepository.cs" />
     <Compile Include="DataLayer\DataAccess\IRepository.cs" />
     <Compile Include="DataLayer\DataAccess\TemplateRepository.cs" />
@@ -386,6 +394,9 @@
     <Compile Include="ViewModels\SuburbZonesVM.cs" />
     <Compile Include="ViewModels\FranchiseSettingsVM.cs" />
     <Compile Include="ViewModels\RateDetailsVM.cs" />
+    <Compile Include="ViewModels\CleanerDetailsVM.cs" />
+    <Compile Include="ViewModels\BaseContactVM.cs" />
+    <Compile Include="DataLayer\EntityModels\CleanerTeam.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -1203,6 +1214,9 @@
     <Content Include="Views\Settings\_FranchiseSettings.cshtml" />
     <Content Include="Views\Settings\_SettingsRates.cshtml" />
     <Content Include="Views\Settings\RatesEditor.html" />
+    <Content Include="Scripts\app\custom\cleaners\magiccleaners.controller.js" />
+    <Content Include="Views\Cleaners\_CleanerAddress.cshtml" />
+    <Content Include="Views\Cleaners\CleanerTeam.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
@@ -1246,6 +1260,7 @@
     <Folder Include="DataLayer\EntityModels\" />
     <Folder Include="DataLayer\DataContext\" />
     <Folder Include="DataLayer\DataAccess\" />
+    <Folder Include="Scripts\app\custom\cleaners\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +19,48 @@ namespace MagicMaids
 	public static class Helpers
 	{
 		#region Methods, Public
+		public static String FormatModelError(String msgStarter, Exception ex)
+		{
+			if (ex == null)
+				return msgStarter;
+
+			String error = string.Empty;
+			if (ex.GetType().Equals(typeof(DbEntityValidationException)))
+			{
+				error = ParseValidationErrors(ex);
+			}
+			else
+			{
+				error = ex.Message;
+				if (ex.InnerException != null)
+					error += $"; {ex.InnerException.Message}";
+			}
+
+			return $"{msgStarter} ({error})";
+		}
+
+		public static String ParseValidationErrors(Exception ex)
+		{
+			if (ex == null || !ex.GetType().Equals(typeof(DbEntityValidationException)))
+				return string.Empty;
+
+			var valEx = (DbEntityValidationException)ex;
+			var results = string.Empty;
+			foreach(DbEntityValidationResult _err in valEx.EntityValidationErrors)
+			{
+				foreach(DbValidationError _item in _err.ValidationErrors)
+				{
+					if (results.Length > 0)
+						results += ", ";
+
+					results += _item.ErrorMessage.Replace(".","") ;
+				}
+
+			}
+
+			return $"Validation failed for one or more entities: {results}";
+		}
+
 		public static void LogFormValidationErrors(Logger logger, ModelStateDictionary modelState, string callingMethod, Object classInstance = null)
 		{
 			var enableValidationLogging = System.Configuration.ConfigurationManager.AppSettings["EnableLoggingFormValidationErrors"];

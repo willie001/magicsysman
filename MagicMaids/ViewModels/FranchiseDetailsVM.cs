@@ -1,6 +1,6 @@
 ﻿#region Using
 using System;
-
+using System.Collections.Generic;
 using FluentValidation.Attributes;
 
 using MagicMaids.EntityModels;
@@ -23,16 +23,43 @@ namespace MagicMaids.ViewModels
 			get;
 			set;
 		}
+
+		public decimal? ManagementFeePercentage
+		{
+			get;
+			set;
+		}
 		#endregion
 
 		#region Methods, Public
-		public void PopulateVM(Franchise entityModel)
+		public void PopulateVM(Franchise entityModel, List<SystemSetting> defaultSettings)
 		{
 			if (entityModel == null)
 				return;
 
 			this.Id = entityModel.Id.ToString();
 			this.Name = entityModel.Name;
+			this.ManagementFeePercentage = entityModel.ManagementFeePercentage;
+
+			if (!this.ManagementFeePercentage.HasValue)
+			{
+				Decimal settingValue;
+				foreach (SystemSetting item in defaultSettings)
+				{
+					switch (item.CodeIdentifier)
+					{
+						case "MANAGE_FEE_PERC":
+							decimal.TryParse(item.SettingValue, out settingValue);
+							this.ManagementFeePercentage = settingValue;
+							break;
+						//case "ROYALTY_FEE_PERC":
+							//decimal.TryParse(item.SettingValue, out settingValue);
+							//break;
+						default:
+							break;
+					}
+				}
+			}
 		}
 		#endregion
 	}

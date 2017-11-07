@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "targets": {
     ".NETFramework,Version=v4.5.2": {
       "Antlr/3.5.0.2": {
@@ -9,6 +9,33 @@
         },
         "runtime": {
           "lib/Antlr3.Runtime.dll": {}
+        }
+      },
+      "AutoMapper/6.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/AutoMapper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.dll": {}
+        }
+      },
+      "AutoMapper.EF6/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "AutoMapper": "6.0.0",
+          "DelegateDecompiler.EntityFramework": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System"
+        ],
+        "compile": {
+          "lib/net45/AutoMapper.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.EF6.dll": {}
         }
       },
       "DelegateDecompiler/0.23.0": {
@@ -50,7 +77,7 @@
           "lib/net45/EntityFramework.dll": {}
         }
       },
-      "FluentValidation/7.1.1": {
+      "FluentValidation/7.2.1": {
         "type": "package",
         "compile": {
           "lib/net45/FluentValidation.dll": {}
@@ -59,12 +86,16 @@
           "lib/net45/FluentValidation.dll": {}
         }
       },
-      "FluentValidation.Mvc5/7.1.1": {
+      "FluentValidation.Mvc5/7.2.1": {
         "type": "package",
         "dependencies": {
-          "FluentValidation": "7.1.1",
+          "FluentValidation": "7.2.1",
           "Microsoft.AspNet.Mvc": "5.2.0"
         },
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations",
+          "System.Web"
+        ],
         "compile": {
           "lib/net45/FluentValidation.Mvc.dll": {}
         },
@@ -270,26 +301,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.9": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.9": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.9"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -301,52 +411,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.3": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -379,10 +491,10 @@
       "NLog.Schema/4.4.12": {
         "type": "package"
       },
-      "NLog.Web/4.5.0": {
+      "NLog.Web/4.5.1": {
         "type": "package",
         "dependencies": {
-          "NLog": "4.4.2"
+          "NLog": "4.4.12"
         },
         "compile": {
           "lib/net35/NLog.Web.dll": {}
@@ -402,6 +514,18 @@
       },
       "Respond/1.4.2": {
         "type": "package"
+      },
+      "routedebugger/2.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/RouteDebugger.dll": {}
+        },
+        "runtime": {
+          "lib/net40/RouteDebugger.dll": {}
+        }
       },
       "System.Linq/4.3.0": {
         "type": "package",
@@ -480,6 +604,33 @@
           "lib/Antlr3.Runtime.dll": {}
         }
       },
+      "AutoMapper/6.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/AutoMapper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.dll": {}
+        }
+      },
+      "AutoMapper.EF6/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "AutoMapper": "6.0.0",
+          "DelegateDecompiler.EntityFramework": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System"
+        ],
+        "compile": {
+          "lib/net45/AutoMapper.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.EF6.dll": {}
+        }
+      },
       "DelegateDecompiler/0.23.0": {
         "type": "package",
         "dependencies": {
@@ -519,7 +670,7 @@
           "lib/net45/EntityFramework.dll": {}
         }
       },
-      "FluentValidation/7.1.1": {
+      "FluentValidation/7.2.1": {
         "type": "package",
         "compile": {
           "lib/net45/FluentValidation.dll": {}
@@ -528,12 +679,16 @@
           "lib/net45/FluentValidation.dll": {}
         }
       },
-      "FluentValidation.Mvc5/7.1.1": {
+      "FluentValidation.Mvc5/7.2.1": {
         "type": "package",
         "dependencies": {
-          "FluentValidation": "7.1.1",
+          "FluentValidation": "7.2.1",
           "Microsoft.AspNet.Mvc": "5.2.0"
         },
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations",
+          "System.Web"
+        ],
         "compile": {
           "lib/net45/FluentValidation.Mvc.dll": {}
         },
@@ -739,26 +894,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.9": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.9": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.9"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -770,52 +1004,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.3": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -848,10 +1084,10 @@
       "NLog.Schema/4.4.12": {
         "type": "package"
       },
-      "NLog.Web/4.5.0": {
+      "NLog.Web/4.5.1": {
         "type": "package",
         "dependencies": {
-          "NLog": "4.4.2"
+          "NLog": "4.4.12"
         },
         "compile": {
           "lib/net35/NLog.Web.dll": {}
@@ -871,6 +1107,18 @@
       },
       "Respond/1.4.2": {
         "type": "package"
+      },
+      "routedebugger/2.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/RouteDebugger.dll": {}
+        },
+        "runtime": {
+          "lib/net40/RouteDebugger.dll": {}
+        }
       },
       "System.Linq/4.3.0": {
         "type": "package",
@@ -949,6 +1197,33 @@
           "lib/Antlr3.Runtime.dll": {}
         }
       },
+      "AutoMapper/6.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/AutoMapper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.dll": {}
+        }
+      },
+      "AutoMapper.EF6/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "AutoMapper": "6.0.0",
+          "DelegateDecompiler.EntityFramework": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System"
+        ],
+        "compile": {
+          "lib/net45/AutoMapper.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.EF6.dll": {}
+        }
+      },
       "DelegateDecompiler/0.23.0": {
         "type": "package",
         "dependencies": {
@@ -988,7 +1263,7 @@
           "lib/net45/EntityFramework.dll": {}
         }
       },
-      "FluentValidation/7.1.1": {
+      "FluentValidation/7.2.1": {
         "type": "package",
         "compile": {
           "lib/net45/FluentValidation.dll": {}
@@ -997,12 +1272,16 @@
           "lib/net45/FluentValidation.dll": {}
         }
       },
-      "FluentValidation.Mvc5/7.1.1": {
+      "FluentValidation.Mvc5/7.2.1": {
         "type": "package",
         "dependencies": {
-          "FluentValidation": "7.1.1",
+          "FluentValidation": "7.2.1",
           "Microsoft.AspNet.Mvc": "5.2.0"
         },
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations",
+          "System.Web"
+        ],
         "compile": {
           "lib/net45/FluentValidation.Mvc.dll": {}
         },
@@ -1208,26 +1487,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.9": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.9": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.9"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -1239,52 +1597,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.3": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -1317,10 +1677,10 @@
       "NLog.Schema/4.4.12": {
         "type": "package"
       },
-      "NLog.Web/4.5.0": {
+      "NLog.Web/4.5.1": {
         "type": "package",
         "dependencies": {
-          "NLog": "4.4.2"
+          "NLog": "4.4.12"
         },
         "compile": {
           "lib/net35/NLog.Web.dll": {}
@@ -1340,6 +1700,18 @@
       },
       "Respond/1.4.2": {
         "type": "package"
+      },
+      "routedebugger/2.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/RouteDebugger.dll": {}
+        },
+        "runtime": {
+          "lib/net40/RouteDebugger.dll": {}
+        }
       },
       "System.Linq/4.3.0": {
         "type": "package",
@@ -1418,6 +1790,33 @@
           "lib/Antlr3.Runtime.dll": {}
         }
       },
+      "AutoMapper/6.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/net45/AutoMapper.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.dll": {}
+        }
+      },
+      "AutoMapper.EF6/1.1.1": {
+        "type": "package",
+        "dependencies": {
+          "AutoMapper": "6.0.0",
+          "DelegateDecompiler.EntityFramework": "0.23.0",
+          "EntityFramework": "6.1.3"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System"
+        ],
+        "compile": {
+          "lib/net45/AutoMapper.EF6.dll": {}
+        },
+        "runtime": {
+          "lib/net45/AutoMapper.EF6.dll": {}
+        }
+      },
       "DelegateDecompiler/0.23.0": {
         "type": "package",
         "dependencies": {
@@ -1457,7 +1856,7 @@
           "lib/net45/EntityFramework.dll": {}
         }
       },
-      "FluentValidation/7.1.1": {
+      "FluentValidation/7.2.1": {
         "type": "package",
         "compile": {
           "lib/net45/FluentValidation.dll": {}
@@ -1466,12 +1865,16 @@
           "lib/net45/FluentValidation.dll": {}
         }
       },
-      "FluentValidation.Mvc5/7.1.1": {
+      "FluentValidation.Mvc5/7.2.1": {
         "type": "package",
         "dependencies": {
-          "FluentValidation": "7.1.1",
+          "FluentValidation": "7.2.1",
           "Microsoft.AspNet.Mvc": "5.2.0"
         },
+        "frameworkAssemblies": [
+          "System.ComponentModel.DataAnnotations",
+          "System.Web"
+        ],
         "compile": {
           "lib/net45/FluentValidation.Mvc.dll": {}
         },
@@ -1677,26 +2080,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.9": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.9": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.9"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -1708,52 +2190,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.3": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -1786,10 +2270,10 @@
       "NLog.Schema/4.4.12": {
         "type": "package"
       },
-      "NLog.Web/4.5.0": {
+      "NLog.Web/4.5.1": {
         "type": "package",
         "dependencies": {
-          "NLog": "4.4.2"
+          "NLog": "4.4.12"
         },
         "compile": {
           "lib/net35/NLog.Web.dll": {}
@@ -1809,6 +2293,18 @@
       },
       "Respond/1.4.2": {
         "type": "package"
+      },
+      "routedebugger/2.1.5": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Web.Infrastructure": "1.0.0"
+        },
+        "compile": {
+          "lib/net40/RouteDebugger.dll": {}
+        },
+        "runtime": {
+          "lib/net40/RouteDebugger.dll": {}
+        }
       },
       "System.Linq/4.3.0": {
         "type": "package",
@@ -1890,6 +2386,31 @@
         "lib/Antlr3.Runtime.pdb"
       ]
     },
+    "AutoMapper/6.1.1": {
+      "sha512": "A+6PAblvzmkXPS20nFBQJvlNSW5oEdyfN5+cxT/Du35fTNyuP5pNDXT64KT/jBgxt7CPduOM0Y7oLnNe0E5IXg==",
+      "type": "package",
+      "path": "automapper/6.1.1",
+      "files": [
+        "automapper.6.1.1.nupkg.sha512",
+        "automapper.nuspec",
+        "lib/net45/AutoMapper.dll",
+        "lib/net45/AutoMapper.xml",
+        "lib/netstandard1.1/AutoMapper.dll",
+        "lib/netstandard1.1/AutoMapper.xml",
+        "lib/netstandard1.3/AutoMapper.dll",
+        "lib/netstandard1.3/AutoMapper.xml"
+      ]
+    },
+    "AutoMapper.EF6/1.1.1": {
+      "sha512": "/w6vb3QI2LHTMchwUYDmHzVp3zqpekfw/FEMUDvnPolZDYlNfhbni3B1vsgeO84TAxcMfMIbGm728/NPTa8dEg==",
+      "type": "package",
+      "path": "automapper.ef6/1.1.1",
+      "files": [
+        "automapper.ef6.1.1.1.nupkg.sha512",
+        "automapper.ef6.nuspec",
+        "lib/net45/AutoMapper.EF6.dll"
+      ]
+    },
     "DelegateDecompiler/0.23.0": {
       "sha512": "pGpsj13Mv3TQE0EQh9E1jg1iDl1rFsyZBv/UEsl+geGUIpGoTqJk8C2EwT4p4ZpHAnxQhT1zmpm5F1nKt09XkA==",
       "type": "package",
@@ -1937,12 +2458,12 @@
         "tools/migrate.exe"
       ]
     },
-    "FluentValidation/7.1.1": {
-      "sha512": "+EOmm3XjvgSuPWqVDqCT807cPwerhJTK2qNi2+CfCvbSn5Jq4+3aRcB6buUJeeOwRLJxFAvYpTZyJTx6w6RAoQ==",
+    "FluentValidation/7.2.1": {
+      "sha512": "cQza24pZdc1aPziHNPOazZzg2/5l8S1zbnIpjKMBq8kopRAGj+YXqGyP8Xo4OIqV16SccmzU1hhKV3Q7FyXglg==",
       "type": "package",
-      "path": "fluentvalidation/7.1.1",
+      "path": "fluentvalidation/7.2.1",
       "files": [
-        "fluentvalidation.7.1.1.nupkg.sha512",
+        "fluentvalidation.7.2.1.nupkg.sha512",
         "fluentvalidation.nuspec",
         "lib/net45/FluentValidation.dll",
         "lib/net45/FluentValidation.xml",
@@ -1950,12 +2471,12 @@
         "lib/netstandard1.0/FluentValidation.xml"
       ]
     },
-    "FluentValidation.Mvc5/7.1.1": {
-      "sha512": "Qy+12IXRQ0COEZPhSjNmVqO/GfOy8Qpe+j47vdkEPh6XarD4vpZQILvgzCaAjTmg2zkZildzAdGNDfZmwRzKuw==",
+    "FluentValidation.Mvc5/7.2.1": {
+      "sha512": "8KNFOTlPsE8X2xp1RHOc13iMliP+LsUPoaku60T+FCyWP9QqaMu7rRIwToyD7NH0/pRDPui6MVOnpwOWAzB8OA==",
       "type": "package",
-      "path": "fluentvalidation.mvc5/7.1.1",
+      "path": "fluentvalidation.mvc5/7.2.1",
       "files": [
-        "fluentvalidation.mvc5.7.1.1.nupkg.sha512",
+        "fluentvalidation.mvc5.7.2.1.nupkg.sha512",
         "fluentvalidation.mvc5.nuspec",
         "lib/net45/FluentValidation.Mvc.dll",
         "lib/net45/FluentValidation.Mvc.xml"
@@ -2183,33 +2704,70 @@
         "mono.reflection.nuspec"
       ]
     },
-    "MySql.Data/6.9.9": {
-      "sha512": "rhpv2iJBqvvHU9gkhn/OZfhanQT/jZpfovyO9TEbJl5jLKMvABgxSkIPQbubrvR04M2/ZtdTeI9fC9WSkBe2wA==",
+    "MySql.Data/6.10.4": {
+      "sha512": "Nsoqwptry5ermXvg7HezzPsXphycb+WsZ2ngmX61XRSvuYVHXqTvrHsGq+Jz+fpFpGtvtjS9nz/ju08kOuZuTg==",
       "type": "package",
-      "path": "mysql.data/6.9.9",
+      "path": "mysql.data/6.10.4",
       "files": [
-        "CHANGES",
-        "Readme.txt",
         "content/app.config.transform",
+        "content/docs/MySqlCommand.xml",
+        "content/docs/MySqlCommandBuilder.xml",
+        "content/docs/MySqlConnection.xml",
+        "content/docs/MySqlConnectionStringBuilder.xml",
+        "content/docs/MySqlDataAdapter.xml",
+        "content/docs/MySqlDataReader.xml",
+        "content/docs/MySqlException.xml",
+        "content/docs/MySqlHelper.xml",
+        "content/docs/MySqlParameter.xml",
+        "content/docs/MySqlParameterCollection.xml",
+        "content/docs/MySqlTransaction.xml",
         "content/web.config.transform",
-        "lib/net40/MySql.Data.dll",
-        "lib/net45/MySql.Data.dll",
-        "mysql.data.6.9.9.nupkg.sha512",
+        "contentFiles/any/net452/app.config.transform",
+        "contentFiles/any/net452/docs/MySqlCommand.xml",
+        "contentFiles/any/net452/docs/MySqlCommandBuilder.xml",
+        "contentFiles/any/net452/docs/MySqlConnection.xml",
+        "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml",
+        "contentFiles/any/net452/docs/MySqlDataAdapter.xml",
+        "contentFiles/any/net452/docs/MySqlDataReader.xml",
+        "contentFiles/any/net452/docs/MySqlException.xml",
+        "contentFiles/any/net452/docs/MySqlHelper.xml",
+        "contentFiles/any/net452/docs/MySqlParameter.xml",
+        "contentFiles/any/net452/docs/MySqlParameterCollection.xml",
+        "contentFiles/any/net452/docs/MySqlTransaction.xml",
+        "contentFiles/any/net452/web.config.transform",
+        "contentFiles/any/netstandard1.3/app.config.transform",
+        "contentFiles/any/netstandard1.3/docs/MySqlCommand.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlCommandBuilder.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlConnection.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlConnectionStringBuilder.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlDataAdapter.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlDataReader.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlException.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlHelper.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlParameter.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlParameterCollection.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlTransaction.xml",
+        "contentFiles/any/netstandard1.3/web.config.transform",
+        "lib/net452/MySql.Data.dll",
+        "lib/net452/MySql.Data.xml",
+        "lib/netstandard1.3/MySql.Data.dll",
+        "lib/netstandard1.3/MySql.Data.xml",
+        "mysql.data.6.10.4.nupkg.sha512",
         "mysql.data.nuspec"
       ]
     },
-    "MySql.Data.Entity/6.9.9": {
-      "sha512": "U2WX/TzaLGYk5tN4zYOVLBpRgYIx7iJmjJamPcy4eDlaYrBBEymc9WI4R6hKSFdnSfhEOAPtUlsFn8l1ZB67Dg==",
+    "MySql.Data.Entity/6.10.4": {
+      "sha512": "wa0phdsrX6Z/GeUqoAVFyuIEtmOrqh1fwdGKvjMfMwff7ZxhwKfJUwrHJoNOfkRum8bN6gRhFVo5u1WHvg3MLg==",
       "type": "package",
-      "path": "mysql.data.entity/6.9.9",
+      "path": "mysql.data.entity/6.10.4",
       "files": [
-        "CHANGES",
-        "Readme.txt",
         "content/app.config.transform",
         "content/web.config.transform",
-        "lib/net40/MySql.Data.Entity.EF6.dll",
-        "lib/net45/MySql.Data.Entity.EF6.dll",
-        "mysql.data.entity.6.9.9.nupkg.sha512",
+        "contentFiles/any/net452/app.config.transform",
+        "contentFiles/any/net452/web.config.transform",
+        "lib/net452/MySql.Data.Entity.EF6.dll",
+        "lib/net452/MySql.Data.Entity.EF6.xml",
+        "mysql.data.entity.6.10.4.nupkg.sha512",
         "mysql.data.entity.nuspec"
       ]
     },
@@ -2240,68 +2798,51 @@
         "tools/install.ps1"
       ]
     },
-    "Ninject/3.2.2": {
-      "sha512": "vDyKaDZ1RgmPxD87u3om3La34r4RHBZfap3tCsJtUbSGkIWjQJ8La1s61BR/C0LgO1+3xGEC6UfI7D594MNl5Q==",
+    "Ninject/3.3.3": {
+      "sha512": "GdYkRUQwaf3+yhEVDLr1XkPqBUY0sqlnd6YVlMpSujEmazMFPi5o3OlZ9HeCYJUHZvaZfOEyIeVw9xo2cq8u9w==",
       "type": "package",
-      "path": "ninject/3.2.2",
+      "path": "ninject/3.3.3",
       "files": [
-        "lib/net35/Ninject.dll",
-        "lib/net35/Ninject.xml",
-        "lib/net40/Ninject.dll",
-        "lib/net40/Ninject.xml",
-        "lib/net45-full/Ninject.dll",
-        "lib/net45-full/Ninject.xml",
-        "lib/sl2/Ninject.dll",
-        "lib/sl2/Ninject.xml",
-        "lib/sl3-wp/Ninject.dll",
-        "lib/sl3-wp/Ninject.xml",
-        "lib/sl3/Ninject.dll",
-        "lib/sl3/Ninject.xml",
-        "lib/sl4-windowsphone71/Ninject.dll",
-        "lib/sl4-windowsphone71/Ninject.xml",
-        "lib/sl4/Ninject.dll",
-        "lib/sl4/Ninject.xml",
-        "lib/sl5/Ninject.dll",
-        "lib/sl5/Ninject.xml",
-        "ninject.3.2.2.nupkg.sha512",
+        "lib/net45/Ninject.dll",
+        "lib/net45/Ninject.xml",
+        "lib/netstandard2.0/Ninject.dll",
+        "lib/netstandard2.0/Ninject.xml",
+        "ninject.3.3.3.nupkg.sha512",
         "ninject.nuspec"
       ]
     },
-    "Ninject.MVC5/3.2.1": {
-      "sha512": "MfnnUF6vUzg25r8vi182dQNjkAYYWradcYs+an0iKdB+Q3uYzV0tno13K7yMXhbWBaQoUFPX8fyxYy3G6Kpp0w==",
+    "Ninject.MVC5/3.3.0": {
+      "sha512": "NLmpKSb6OXyWR17NCdeqqpMcvyW2AXlQu5SrICQLXwYYwvCgGX++GfJ3ieeyvjSDkf2q8GihPk6Jhkf+Q0/TPw==",
       "type": "package",
-      "path": "ninject.mvc5/3.2.1",
+      "path": "ninject.mvc5/3.3.0",
       "files": [
-        "lib/net40-full/Ninject.Web.Mvc.dll",
-        "lib/net40-full/Ninject.Web.Mvc.xml",
-        "lib/net45-full/Ninject.Web.Mvc.dll",
-        "lib/net45-full/Ninject.Web.Mvc.xml",
-        "ninject.mvc5.3.2.1.nupkg.sha512",
+        "lib/net45/Ninject.Web.Mvc.dll",
+        "lib/net45/Ninject.Web.Mvc.xml",
+        "ninject.mvc5.3.3.0.nupkg.sha512",
         "ninject.mvc5.nuspec"
       ]
     },
-    "Ninject.Web.Common/3.2.3": {
-      "sha512": "q3W9ioPj+SLXk0z5qFRyeXpom/WTq+ZToSVxNOomt4TMyKdP0z0BzyMoH1ig8YWs6yOVN3g89De1VXIEqZ989Q==",
+    "Ninject.Web.Common/3.3.0": {
+      "sha512": "v7RCQmE7IT3s7zaJQC8vv40ORSzVxxIdoO/iPrfl28dJubJDimrjDTRo7aMTKi7pVXfKiSAEcAva2peJF9sWYw==",
       "type": "package",
-      "path": "ninject.web.common/3.2.3",
+      "path": "ninject.web.common/3.3.0",
       "files": [
-        "lib/net35-full/Ninject.Web.Common.dll",
-        "lib/net35-full/Ninject.Web.Common.xml",
-        "lib/net40-full/Ninject.Web.Common.dll",
-        "lib/net40-full/Ninject.Web.Common.xml",
-        "lib/net45-full/Ninject.Web.Common.dll",
-        "lib/net45-full/Ninject.Web.Common.xml",
-        "ninject.web.common.3.2.3.nupkg.sha512",
+        "lib/net45/Ninject.Web.Common.dll",
+        "lib/net45/Ninject.Web.Common.xml",
+        "lib/netstandard2.0/Ninject.Web.Common.dll",
+        "lib/netstandard2.0/Ninject.Web.Common.xml",
+        "ninject.web.common.3.3.0.nupkg.sha512",
         "ninject.web.common.nuspec"
       ]
     },
-    "Ninject.Web.Common.WebHost/3.2.3": {
-      "sha512": "PmGJp5iXro0Rb2pkZUves+xGPhT9WsvjM9Yy7uuMRVa7etpAODANqHHzBCQy51zRmpQ4c8T+oPZ7PdGrhgYuvw==",
+    "Ninject.Web.Common.WebHost/3.3.0": {
+      "sha512": "x+ZLbaWElOeCECywQlw4oLoSqu9m6uATiN3fJ7FhJWc49gAYuNlmdFIJWYG2bZT4PsLFxDu5IctXZIeQT0D3aA==",
       "type": "package",
-      "path": "ninject.web.common.webhost/3.2.3",
+      "path": "ninject.web.common.webhost/3.3.0",
       "files": [
-        "Content/App_Start/NinjectWebCommon.cs.pp",
-        "ninject.web.common.webhost.3.2.3.nupkg.sha512",
+        "lib/net45/Ninject.Web.Common.WebHost.dll",
+        "lib/net45/Ninject.Web.Common.WebHost.xml",
+        "ninject.web.common.webhost.3.3.0.nupkg.sha512",
         "ninject.web.common.webhost.nuspec"
       ]
     },
@@ -2366,14 +2907,14 @@
         "nlog.schema.nuspec"
       ]
     },
-    "NLog.Web/4.5.0": {
-      "sha512": "IEzyJGcDb0hHPo0/gzad8BuoO87djUbWW1ItkNPM5pjf5tj32MwDvsM6H0wZ0LXdf5V/RaMc/tyV1Rnx4dI6lQ==",
+    "NLog.Web/4.5.1": {
+      "sha512": "zTcUsCJOJhaAx0B9EF/qUiSQUSa8FlUwc+K9vKpkek3Vx6GBjS2Mxp69JDEg90p+FQ9fPYax/N3+nxG0tOc7kg==",
       "type": "package",
-      "path": "nlog.web/4.5.0",
+      "path": "nlog.web/4.5.1",
       "files": [
         "lib/net35/NLog.Web.XML",
         "lib/net35/NLog.Web.dll",
-        "nlog.web.4.5.0.nupkg.sha512",
+        "nlog.web.4.5.1.nupkg.sha512",
         "nlog.web.nuspec"
       ]
     },
@@ -2398,6 +2939,17 @@
         "content/Scripts/respond.min.js",
         "respond.1.4.2.nupkg.sha512",
         "respond.nuspec"
+      ]
+    },
+    "routedebugger/2.1.5": {
+      "sha512": "BQpuDSxwPsFju6pn26t9QIscwJmfbIbRTbEFUILEgF4PGSm5eeTOsyOTs/Dn95hg0iMQdQwz38Edk3BoVW76PQ==",
+      "type": "package",
+      "path": "routedebugger/2.1.5",
+      "files": [
+        "content/Web.config.transform",
+        "lib/net40/RouteDebugger.dll",
+        "routedebugger.2.1.5.nupkg.sha512",
+        "routedebugger.nuspec"
       ]
     },
     "System.Linq/4.3.0": {
@@ -2597,11 +3149,13 @@
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.5.2": [
       "Antlr >= 3.5.0.2",
+      "AutoMapper >= 6.1.1",
+      "AutoMapper.EF6 >= 1.1.1",
       "DelegateDecompiler >= 0.23.0",
       "DelegateDecompiler.EntityFramework >= 0.23.0",
       "EntityFramework >= 6.1.3",
-      "FluentValidation >= 7.1.1",
-      "FluentValidation.MVC5 >= 7.1.1",
+      "FluentValidation >= 7.2.1",
+      "FluentValidation.MVC5 >= 7.2.1",
       "FluentValidation.MVC5-Signed >= 7.0.0",
       "Glimpse >= 1.8.6",
       "Glimpse.Ado >= 1.7.3",
@@ -2620,24 +3174,25 @@
       "Microsoft.Owin >= 3.1.0",
       "Microsoft.Web.Infrastructure >= 1.0.0",
       "Mono.Reflection >= 1.1.0",
-      "MySql.Data >= 6.9.9",
-      "MySql.Data.Entity >= 6.9.9",
+      "MySql.Data >= 6.10.4",
+      "MySql.Data.Entity >= 6.10.4",
       "NLog >= 4.4.12",
       "NLog.Config >= 4.4.12",
       "NLog.Extended >= 4.0.0.1",
       "NLog.Schema >= 4.4.12",
-      "NLog.Web >= 4.5.0",
+      "NLog.Web >= 4.5.1",
       "Newtonsoft.Json >= 10.0.3",
-      "Ninject >= 3.2.2",
-      "Ninject.MVC5 >= 3.2.1",
-      "Ninject.Web.Common >= 3.2.3",
-      "Ninject.Web.Common.WebHost >= 3.2.3",
+      "Ninject >= 3.3.3",
+      "Ninject.MVC5 >= 3.3.0",
+      "Ninject.Web.Common >= 3.3.0",
+      "Ninject.Web.Common.WebHost >= 3.3.0",
       "Respond >= 1.4.2",
       "System.Linq >= 4.3.0",
       "System.Runtime >= 4.3.0",
       "Version >= 3.0.0",
       "WebActivatorEx >= 2.2.0",
-      "WebGrease >= 1.6.0"
+      "WebGrease >= 1.6.0",
+      "routedebugger >= 2.1.5"
     ]
   },
   "packageFolders": {
@@ -2649,15 +3204,28 @@
       "projectUniqueName": "/Users/ebenventer/Projects/MagicMaids/MagicMaids/MagicMaids.csproj",
       "projectName": "MagicMaids",
       "projectPath": "/Users/ebenventer/Projects/MagicMaids/MagicMaids/MagicMaids.csproj",
+      "packagesPath": "/Users/ebenventer/.nuget/packages/",
       "outputPath": "/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj",
       "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/ebenventer/.config/NuGet/NuGet.Config"
+      ],
       "originalTargetFrameworks": [
         "net452"
       ],
+      "sources": {
+        "https://www.nuget.org/api/v2/": {}
+      },
       "frameworks": {
         "net452": {
           "projectReferences": {}
         }
+      }
+    },
+    "dependencies": {
+      "AutoMapper.EF6": {
+        "target": "Package",
+        "version": "[1.1.1, )"
       }
     },
     "frameworks": {
@@ -2684,17 +3252,9 @@
             "target": "Package",
             "version": "7.0.0"
           },
-          "FluentValidation.MVC5": {
-            "target": "Package",
-            "version": "7.1.1"
-          },
           "Glimpse.Mvc5": {
             "target": "Package",
             "version": "1.5.3"
-          },
-          "FluentValidation": {
-            "target": "Package",
-            "version": "7.1.1"
           },
           "WebGrease": {
             "target": "Package",
@@ -2724,10 +3284,6 @@
             "target": "Package",
             "version": "4.4.12"
           },
-          "NLog.Web": {
-            "target": "Package",
-            "version": "4.5.0"
-          },
           "Microsoft.AspNet.Mvc": {
             "target": "Package",
             "version": "5.2.3"
@@ -2756,29 +3312,9 @@
             "target": "Package",
             "version": "4.4.12"
           },
-          "Ninject.MVC5": {
-            "target": "Package",
-            "version": "3.2.1"
-          },
-          "Ninject.Web.Common": {
-            "target": "Package",
-            "version": "3.2.3"
-          },
-          "Ninject.Web.Common.WebHost": {
-            "target": "Package",
-            "version": "3.2.3"
-          },
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "10.0.3"
-          },
-          "MySql.Data.Entity": {
-            "target": "Package",
-            "version": "6.9.9"
-          },
-          "MySql.Data": {
-            "target": "Package",
-            "version": "6.9.9"
           },
           "Mono.Reflection": {
             "target": "Package",
@@ -2828,9 +3364,49 @@
             "target": "Package",
             "version": "0.23.0"
           },
+          "FluentValidation.MVC5": {
+            "target": "Package",
+            "version": "7.2.1"
+          },
+          "FluentValidation": {
+            "target": "Package",
+            "version": "7.2.1"
+          },
+          "NLog.Web": {
+            "target": "Package",
+            "version": "4.5.1"
+          },
+          "Ninject.MVC5": {
+            "target": "Package",
+            "version": "3.3.0"
+          },
+          "Ninject.Web.Common": {
+            "target": "Package",
+            "version": "3.3.0"
+          },
+          "Ninject.Web.Common.WebHost": {
+            "target": "Package",
+            "version": "3.3.0"
+          },
+          "MySql.Data.Entity": {
+            "target": "Package",
+            "version": "6.10.4"
+          },
+          "MySql.Data": {
+            "target": "Package",
+            "version": "6.10.4"
+          },
           "Ninject": {
             "target": "Package",
-            "version": "3.2.2"
+            "version": "3.3.3"
+          },
+          "routedebugger": {
+            "target": "Package",
+            "version": "2.1.5"
+          },
+          "AutoMapper": {
+            "target": "Package",
+            "version": "6.1.1"
           }
         }
       }

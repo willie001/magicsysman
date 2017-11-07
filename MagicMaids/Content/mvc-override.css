@@ -64,3 +64,12 @@ label.star:before {
 	background-color: #f9efef;
 	font-style: italic;
 }
+
+.ngdialog.ngdialog-theme-default.custom-width-800 .ngdialog-content {
+	width: 800px;
+}
+
+.ngdialog.ngdialog-theme-default.custom-width-900 .ngdialog-content {
+	width: 900px;
+}
+
