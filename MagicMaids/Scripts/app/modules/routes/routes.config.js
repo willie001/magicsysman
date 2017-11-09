@@ -150,31 +150,20 @@
           //
           // Single Page Routes
           // -----------------------------------
-          .state('page', {
-              url: '/page',
-              abstract: true,
-              views: {
-                  'main': {
-                      templateUrl: helper.basepath('Pages/Page'),
-                      controller: ['$rootScope', function ($rootScope) {
-                          $rootScope.app.layout.isBoxed = false;
-                      }]
-                  }
-              },
-              resolve: helper.resolveFor('modernizr', 'icons')
+          //.state('page', {
+          //    url: '/page',
+          //    abstract: true,
+          //    views: {
+          //        'main': {
+          //            templateUrl: helper.basepath('Pages/Page'),
+          //            controller: ['$rootScope', function ($rootScope) {
+          //                $rootScope.app.layout.isBoxed = false;
+          //            }]
+          //        }
+          //   },
+          //    resolve: helper.resolveFor('modernizr', 'icons')
+          //})
 
-          })
-
-          .state('page.404', {
-              url: '/404',
-              title: 'Not Found',
-              templateUrl: helper.basepath('Pages/Error404')
-          })
-          .state('page.500', {
-              url: '/500',
-              title: 'Server error',
-              templateUrl: helper.basepath('Pages/Error500')
-          })
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties

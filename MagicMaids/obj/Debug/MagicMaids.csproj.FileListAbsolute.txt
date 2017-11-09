@@ -169,6 +169,8 @@ C:/DevSandbox/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.EF6.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/DelegateDecompiler.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/DelegateDecompiler.EntityFramework.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.dll
@@ -209,8 +211,6 @@ C:/DevSandbox/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Version.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebActivatorEx.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebGrease.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.EF6.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

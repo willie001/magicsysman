@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-
+using System.Web.Routing;
 using MagicMaids.DataAccess;
 using MagicMaids.ViewModels;
 
@@ -100,6 +100,23 @@ namespace MagicMaids.Controllers
 			else
 				return JsonFormResponse();
 		}
+
+		//protected override void OnException(ExceptionContext filterContext)
+		//{
+		//	filterContext.ExceptionHandled = true;
+
+		//	//Log the error!!
+		//	var logger = LogManager.GetCurrentClassLogger();
+		//	logger.Log(LogLevel.Error, filterContext.Exception, "Unhandled Exception");
+
+		//	//Redirect or return a view, but not both.
+		//	filterContext.Result = RedirectToAction("Error", "Pages", new { errorCode = Response.StatusCode, ex = filterContext.Exception } );
+		//	// OR 
+		//	//filterContext.Result = new ViewResult
+		//	//{
+		//	//	ViewName = "~/Views/ErrorHandler/Index.cshtml"
+		//	//};
+		//}
         #endregion
 
     }

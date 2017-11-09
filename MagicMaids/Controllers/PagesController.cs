@@ -16,21 +16,42 @@ namespace MagicMaids.Controllers
     public class PagesController : Controller
     {
 		#region Methods, Public
-		public ActionResult Error404()
+		public ActionResult NotFound( string path)
 		{
-			return View();
+			Response.StatusCode = 404;
+
+			ViewBag.Path = path;
+
+			return View("Error404");
 		}
 
-		public ActionResult Error500()
+		public ActionResult Internal(string path)
 		{
-			return View();
+			Response.StatusCode = 500;
+
+			ViewBag.Path = path;
+
+			return View("Error500");
 		}
 
-		public ActionResult Error(int? errorCode, Exception ex)
+		public ActionResult Error(int? errorCode, string path)
 		{
 			Response.StatusCode = errorCode ?? 0;
 
 			String _view = string.Empty;
+
+			if (ViewData.Model != null && ViewData.Model is System.Web.Mvc.HandleErrorInfo)
+			{
+				var container = ((HandleErrorInfo)ViewData.Model);
+				var ex = container.Exception;
+				if (ex != null)
+				{
+					ViewBag.Message = ex.Message;
+				}
+
+			}
+			ViewBag.Code = errorCode;
+			ViewBag.Path = path;
 
 			switch(errorCode)
 			{

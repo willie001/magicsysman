@@ -1,15 +1,15 @@
 ﻿@{
-    Layout = null;
 }
+
 <div class="abs-center wd-xl">
    <!-- START panel-->
    <div class="text-center mb-xl">
       <div class="mb-lg">
          <em class="fa fa-wrench fa-5x text-muted"></em>
       </div>
-      <div class="text-lg mb-lg">500</div>
+      <div class="text-lg mb-lg">@ViewBag.Code</div>
       <p class="lead m0">Oh! Something went wrong :(</p>
-      <p>Don't worry, we're now checking this.</p>
+      <p>Don't worry, we're now checking this error - @ViewBag.Message</p>
       <p>In the meantime, please try one of those links below or come back in a moment</p>
    </div>
    <ul class="list-inline text-center text-sm mb-xl">
