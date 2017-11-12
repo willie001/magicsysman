@@ -14,17 +14,17 @@ namespace MagicMaids
 			//https://www.exceptionnotfound.net/attribute-routing-vs-convention-routing/
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-			//routes.MapRoute(
-			//	name: "Error404",
-			//	url: "/error404",
-			//	defaults: new { controller = "pages", action = "Error404", path = UrlParameter.Optional }
-			//);
+			routes.MapRoute(
+				name: "Error404",
+				url: "pages/error404",
+				defaults: new { controller = "pages", action = "Error404", path = UrlParameter.Optional }
+			);
 
-			//routes.MapRoute(
-			//	name: "Error500",
-			//	url: "/error500",
-			//	defaults: new { controller = "pages", action = "Error500", path = UrlParameter.Optional }
-			//);
+			routes.MapRoute(
+				name: "Error500",
+				url: "pages/error500",
+				defaults: new { controller = "pages", action = "Error500", path = UrlParameter.Optional }
+			);
 
             routes.MapRoute(
                 name: "Default",

@@ -164,6 +164,18 @@
           //    resolve: helper.resolveFor('modernizr', 'icons')
           //})
 
+    		.state('page.404', {
+          		url: '/error404',
+              	title: 'Not Found',
+              	templateUrl: helper.basepath('Pages/Error404')
+          	})
+          	.state('page.500', {
+              	url: '/error500',
+              	title: 'Server error',
+              	templateUrl: helper.basepath('Pages/Error500')
+          	})
+
+
           //
           // CUSTOM RESOLVES
           //   Add your own resolves properties

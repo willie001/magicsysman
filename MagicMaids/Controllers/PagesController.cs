@@ -16,13 +16,13 @@ namespace MagicMaids.Controllers
     public class PagesController : Controller
     {
 		#region Methods, Public
-		public ActionResult NotFound( string path)
+		public ActionResult NotFound(string path)
 		{
 			Response.StatusCode = 404;
 
 			ViewBag.Path = path;
 
-			return View("Error404");
+			return View("~/views/pages/Error404.cshtml");
 		}
 
 		public ActionResult Internal(string path)
@@ -31,7 +31,7 @@ namespace MagicMaids.Controllers
 
 			ViewBag.Path = path;
 
-			return View("Error500");
+			return View("~/views/pages/Error500.cshtml");
 		}
 
 		public ActionResult Error(int? errorCode, string path)
@@ -56,14 +56,16 @@ namespace MagicMaids.Controllers
 			switch(errorCode)
 			{
 				case 404:
-					_view = "Error404";
+					_view = "~/views/pages/Error404.cshtml";
 					break;
 				case 500:
-					_view = "Error500";
+					_view = "~/views/pages/Error500.cshtml";
 					break;
 				default:
+					_view = "~/views/pages/Error.cshtml";
 					break;
 			}
+			_view = "";
 			return View(_view);
 		}
 

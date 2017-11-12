@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/App_Start/RouteConfig.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/modules/routes/routes.config.js">
     <Files>
       <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="337" Column="34" />
       <File FileName="MagicMaids/Views/Cleaners/Cleaners.cshtml" Line="85" Column="16" />
@@ -7,17 +7,20 @@
       <File FileName="MagicMaids/Views/Cleaners/CleanerDetails.cshtml" Line="4" Column="4" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="114" Column="1" />
       <File FileName="MagicMaids/DataLayer/EntityModels/Cleaner.cs" Line="55" Column="1" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="30" Column="1" />
+      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="56" Column="21" />
       <File FileName="MagicMaids/Views/Pages/Error404.cshtml" Line="2" Column="1" />
       <File FileName="MagicMaids/Views/Pages/Error500.cshtml" Line="15" Column="54" />
       <File FileName="MagicMaids/Global.asax.cs" Line="111" Column="1" />
-      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="24" Column="10" />
+      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="27" Column="6" />
+      <File FileName="MagicMaids/Scripts/app/modules/routes/routes.config.js" Line="147" Column="66" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Helpers.cs" relfile="MagicMaids/Helpers/Helpers.cs" line="47" column="31" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="30" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="39" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
