@@ -8,7 +8,7 @@ using System.Web.Routing;
 namespace MagicMaids
 {
     public class RouteConfig
-    {
+    { 
         public static void RegisterRoutes(RouteCollection routes)
         {
 			//https://www.exceptionnotfound.net/attribute-routing-vs-convention-routing/
