@@ -1218,6 +1218,7 @@
     <Content Include="Views\Cleaners\_CleanerAddress.cshtml" />
     <Content Include="Views\Cleaners\CleanerTeam.html" />
     <Content Include="Views\Shared\_error.cshtml" />
+    <Content Include="SiteTest.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
