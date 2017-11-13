@@ -108,6 +108,7 @@ namespace MagicMaids
 			var routeData = new RouteData();
 			var action = "Error";
 
+
 			if (ex is HttpException)
 			{
 				errorCode = ((HttpException)ex).GetHttpCode();
