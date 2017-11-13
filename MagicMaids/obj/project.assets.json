@@ -3222,12 +3222,6 @@
         }
       }
     },
-    "dependencies": {
-      "AutoMapper.EF6": {
-        "target": "Package",
-        "version": "[1.1.1, )"
-      }
-    },
     "frameworks": {
       "net452": {
         "dependencies": {
@@ -3407,6 +3401,10 @@
           "AutoMapper": {
             "target": "Package",
             "version": "6.1.1"
+          },
+          "AutoMapper.EF6": {
+            "target": "Package",
+            "version": "1.1.1"
           }
         }
       }

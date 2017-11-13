@@ -31,7 +31,7 @@ namespace MagicMaids.Controllers
 
 			ViewBag.Path = path;
 
-			return View("~/views/pages/Error500.cshtml");
+			return PartialView("_error");
 		}
 
 		public ActionResult Error(int? errorCode, string path)
@@ -62,10 +62,10 @@ namespace MagicMaids.Controllers
 					_view = "~/views/pages/Error500.cshtml";
 					break;
 				default:
-					_view = "~/views/pages/Error.cshtml";
+					return PartialView("_error");
 					break;
 			}
-			_view = "";
+
 			return View(_view);
 		}
 

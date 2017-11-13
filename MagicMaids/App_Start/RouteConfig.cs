@@ -22,8 +22,8 @@ namespace MagicMaids
 
 			routes.MapRoute(
 				name: "Error500",
-				url: "pages/error500",
-				defaults: new { controller = "pages", action = "Error500", path = UrlParameter.Optional }
+				url: "pages/internal",
+				defaults: new { controller = "Pages", action = "Internal", path = UrlParameter.Optional }
 			);
 
             routes.MapRoute(
