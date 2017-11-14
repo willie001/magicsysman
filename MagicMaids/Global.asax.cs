@@ -98,8 +98,12 @@ namespace MagicMaids
 
 			}
 
+			Response.Write(exception.Message);
+			Response.End();
+
+
 			// Manage to display a friendly view 
-			InvokeErrorAction(httpContext, exception, currentController, currentAction);
+			//InvokeErrorAction(httpContext, exception, currentController, currentAction);
 		}
 
 		protected void InvokeErrorAction(HttpContext context, Exception ex, String currentController, String currentAction)
