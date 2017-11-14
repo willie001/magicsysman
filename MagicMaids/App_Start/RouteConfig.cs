@@ -17,13 +17,13 @@ namespace MagicMaids
 			routes.MapRoute(
 				name: "Error404",
 				url: "pages/error404",
-				defaults: new { controller = "pages", action = "Error404", path = UrlParameter.Optional }
+				defaults: new { controller = "pages", action = "Error", path = UrlParameter.Optional }
 			);
 
 			routes.MapRoute(
 				name: "Error500",
-				url: "pages/internal",
-				defaults: new { controller = "Pages", action = "Internal", path = UrlParameter.Optional }
+				url: "pages/error500",
+				defaults: new { controller = "Pages", action = "error", path = UrlParameter.Optional }
 			);
 
             routes.MapRoute(

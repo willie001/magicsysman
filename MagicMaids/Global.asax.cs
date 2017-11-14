@@ -115,10 +115,10 @@ namespace MagicMaids
 				switch (errorCode)
 				{
 					case 404:
-						action = "NotFound";
+						action = "Error404";
 						break;
 					case 500:
-						action = "Internal";
+						action = "Error500";
 						break;
 				}
 			}

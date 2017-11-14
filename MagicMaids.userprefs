@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/SiteTest.html">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/PagesController.cs">
     <Files>
       <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="337" Column="34" />
       <File FileName="MagicMaids/Views/Cleaners/Cleaners.cshtml" Line="85" Column="16" />
@@ -7,25 +7,22 @@
       <File FileName="MagicMaids/Views/Cleaners/CleanerDetails.cshtml" Line="4" Column="4" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="114" Column="1" />
       <File FileName="MagicMaids/DataLayer/EntityModels/Cleaner.cs" Line="55" Column="1" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="40" Column="4" />
+      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="32" Column="1" />
       <File FileName="MagicMaids/Views/Pages/Error404.cshtml" Line="2" Column="1" />
-      <File FileName="MagicMaids/Views/Pages/Error500.cshtml" Line="10" Column="34" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="111" Column="4" />
-      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="9" Column="2" />
-      <File FileName="MagicMaids/Scripts/app/modules/routes/routes.config.js" Line="166" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="13" Column="14" />
-      <File FileName="MagicMaids/Views/Pages/Error.cshtml" Line="7" Column="23" />
-      <File FileName="MagicMaids/Views/Pages/Page.cshtml" Line="1" Column="1" />
-      <File FileName="MagicMaids/Views/Shared/_error.cshtml" Line="3" Column="2" />
-      <File FileName="MagicMaids/SiteTest.html" Line="8" Column="24" />
+      <File FileName="MagicMaids/Views/Pages/Error500.cshtml" Line="2" Column="2" />
+      <File FileName="MagicMaids/Global.asax.cs" Line="120" Column="15" />
+      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="23" Column="22" />
+      <File FileName="MagicMaids/Scripts/app/modules/routes/routes.config.js" Line="171" Column="15" />
+      <File FileName="MagicMaids/Web.config" Line="59" Column="40" />
+      <File FileName="MagicMaids/Views/Pages/Error.cshtml" Line="3" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Helpers.cs" relfile="MagicMaids/Helpers/Helpers.cs" line="47" column="31" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="30" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="56" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="32" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

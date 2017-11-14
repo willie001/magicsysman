@@ -19,7 +19,7 @@
         //$locationProvider.html5Mode(true);
 
         // defaults to dashboard
-        //$urlRouterProvider.otherwise('/Dashboard');
+        $urlRouterProvider.otherwise('/Dashboard');
 
         //
         // Application Routes
