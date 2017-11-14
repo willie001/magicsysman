@@ -21,8 +21,8 @@
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="App_Start" expanded="True">
-                <Node name="Startup.Auth.cs" selected="True" />
+              <Node name="Content" expanded="True">
+                <Node name="SiteTest.html" selected="True" />
               </Node>
               <Node name="Global.asax" expanded="True" />
             </Node>
