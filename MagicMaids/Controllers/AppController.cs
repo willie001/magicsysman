@@ -21,7 +21,6 @@ namespace MagicMaids.Controllers
         #endregion
 
         // GET: Home
-        [OutputCache(CacheProfile = "CacheForDemo")]
         public ActionResult Index()
         {
 			return View();
