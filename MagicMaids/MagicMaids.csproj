@@ -1217,7 +1217,7 @@
     <Content Include="Scripts\app\custom\cleaners\magiccleaners.controller.js" />
     <Content Include="Views\Cleaners\_CleanerAddress.cshtml" />
     <Content Include="Views\Cleaners\CleanerTeam.html" />
-    <Content Include="SiteTest.html" />
+    <Content Include="Content\SiteTest.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />

@@ -1,5 +1,5 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/PagesController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/App_Start/RouteConfig.cs">
     <Files>
       <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="337" Column="34" />
       <File FileName="MagicMaids/Views/Cleaners/Cleaners.cshtml" Line="85" Column="16" />
@@ -8,14 +8,28 @@
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="114" Column="1" />
       <File FileName="MagicMaids/DataLayer/EntityModels/Cleaner.cs" Line="55" Column="1" />
       <File FileName="MagicMaids/Controllers/PagesController.cs" Line="32" Column="1" />
-      <File FileName="MagicMaids/Views/Pages/Error404.cshtml" Line="2" Column="1" />
-      <File FileName="MagicMaids/Views/Pages/Error500.cshtml" Line="2" Column="2" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="120" Column="15" />
-      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="23" Column="22" />
-      <File FileName="MagicMaids/Scripts/app/modules/routes/routes.config.js" Line="171" Column="15" />
-      <File FileName="MagicMaids/Web.config" Line="59" Column="40" />
-      <File FileName="MagicMaids/Views/Pages/Error.cshtml" Line="3" Column="7" />
+      <File FileName="MagicMaids/Views/Pages/Error404.cshtml" Line="7" Column="23" />
+      <File FileName="MagicMaids/Views/Pages/Error500.cshtml" Line="3" Column="19" />
+      <File FileName="MagicMaids/Global.asax.cs" Line="118" Column="22" />
+      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="23" Column="20" />
+      <File FileName="MagicMaids/Scripts/app/modules/routes/routes.config.js" Line="22" Column="9" />
+      <File FileName="MagicMaids/Web.config" Line="13" Column="14" />
+      <File FileName="MagicMaids/Views/Pages/Error.cshtml" Line="3" Column="5" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MagicMaids" expanded="True">
+            <Node name="MagicMaids" expanded="True">
+              <Node name="App_Start" expanded="True">
+                <Node name="RouteConfig.cs" selected="True" />
+              </Node>
+              <Node name="Global.asax" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
