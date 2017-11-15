@@ -416,54 +416,52 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.4": {
+      "Ninject/3.2.2": {
         "type": "package",
         "compile": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.3.0": {
+      "Ninject.MVC5/3.2.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNet.Mvc": "5.2.3",
-          "Ninject.Web.Common.WebHost": "3.3.0"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        }
-      },
-      "Ninject.Web.Common/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "3.3.3"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "3.3.0"
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
         },
         "frameworkAssemblies": [
-          "System.Web"
+          "Microsoft.Web.Infrastructure"
         ],
         "compile": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -1014,54 +1012,52 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.4": {
+      "Ninject/3.2.2": {
         "type": "package",
         "compile": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.3.0": {
+      "Ninject.MVC5/3.2.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNet.Mvc": "5.2.3",
-          "Ninject.Web.Common.WebHost": "3.3.0"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        }
-      },
-      "Ninject.Web.Common/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "3.3.3"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "3.3.0"
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
         },
         "frameworkAssemblies": [
-          "System.Web"
+          "Microsoft.Web.Infrastructure"
         ],
         "compile": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -1612,54 +1608,52 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.4": {
+      "Ninject/3.2.2": {
         "type": "package",
         "compile": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.3.0": {
+      "Ninject.MVC5/3.2.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNet.Mvc": "5.2.3",
-          "Ninject.Web.Common.WebHost": "3.3.0"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        }
-      },
-      "Ninject.Web.Common/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "3.3.3"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "3.3.0"
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
         },
         "frameworkAssemblies": [
-          "System.Web"
+          "Microsoft.Web.Infrastructure"
         ],
         "compile": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -2210,54 +2204,52 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.4": {
+      "Ninject/3.2.2": {
         "type": "package",
         "compile": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.dll": {}
+          "lib/net45-full/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.3.0": {
+      "Ninject.MVC5/3.2.1": {
         "type": "package",
         "dependencies": {
-          "Microsoft.AspNet.Mvc": "5.2.3",
-          "Ninject.Web.Common.WebHost": "3.3.0"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Mvc.dll": {}
-        }
-      },
-      "Ninject.Web.Common/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "3.3.3"
-        },
-        "compile": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.3.0": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "3.3.0"
+          "Ninject": "[3.2.0, 3.3.0)",
+          "Ninject.Web.Common.WebHost": "3.0.0"
         },
         "frameworkAssemblies": [
-          "System.Web"
+          "Microsoft.Web.Infrastructure"
         ],
         "compile": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         },
         "runtime": {
-          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
+          "lib/net45-full/Ninject.Web.Mvc.dll": {}
         }
+      },
+      "Ninject.Web.Common/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "[3.2.0, 3.3.0)"
+        },
+        "compile": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45-full/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.2.3": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
+          "WebActivatorEx": "[2.0.0, 3.0.0)"
+        },
+        "frameworkAssemblies": [
+          "Microsoft.Web.Infrastructure"
+        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -2820,51 +2812,68 @@
         "tools/install.ps1"
       ]
     },
-    "Ninject/3.3.4": {
-      "sha512": "CmbWW97FfJuh4LEOVZM/spqXl4KAulRUjqeMwRd5J9rDMQArmIYaDMU3pyzXXHT062tbF0OPIMwI7tSOtprPfg==",
+    "Ninject/3.2.2": {
+      "sha512": "vDyKaDZ1RgmPxD87u3om3La34r4RHBZfap3tCsJtUbSGkIWjQJ8La1s61BR/C0LgO1+3xGEC6UfI7D594MNl5Q==",
       "type": "package",
-      "path": "ninject/3.3.4",
+      "path": "ninject/3.2.2",
       "files": [
-        "lib/net45/Ninject.dll",
-        "lib/net45/Ninject.xml",
-        "lib/netstandard2.0/Ninject.dll",
-        "lib/netstandard2.0/Ninject.xml",
-        "ninject.3.3.4.nupkg.sha512",
+        "lib/net35/Ninject.dll",
+        "lib/net35/Ninject.xml",
+        "lib/net40/Ninject.dll",
+        "lib/net40/Ninject.xml",
+        "lib/net45-full/Ninject.dll",
+        "lib/net45-full/Ninject.xml",
+        "lib/sl2/Ninject.dll",
+        "lib/sl2/Ninject.xml",
+        "lib/sl3-wp/Ninject.dll",
+        "lib/sl3-wp/Ninject.xml",
+        "lib/sl3/Ninject.dll",
+        "lib/sl3/Ninject.xml",
+        "lib/sl4-windowsphone71/Ninject.dll",
+        "lib/sl4-windowsphone71/Ninject.xml",
+        "lib/sl4/Ninject.dll",
+        "lib/sl4/Ninject.xml",
+        "lib/sl5/Ninject.dll",
+        "lib/sl5/Ninject.xml",
+        "ninject.3.2.2.nupkg.sha512",
         "ninject.nuspec"
       ]
     },
-    "Ninject.MVC5/3.3.0": {
-      "sha512": "NLmpKSb6OXyWR17NCdeqqpMcvyW2AXlQu5SrICQLXwYYwvCgGX++GfJ3ieeyvjSDkf2q8GihPk6Jhkf+Q0/TPw==",
+    "Ninject.MVC5/3.2.1": {
+      "sha512": "MfnnUF6vUzg25r8vi182dQNjkAYYWradcYs+an0iKdB+Q3uYzV0tno13K7yMXhbWBaQoUFPX8fyxYy3G6Kpp0w==",
       "type": "package",
-      "path": "ninject.mvc5/3.3.0",
+      "path": "ninject.mvc5/3.2.1",
       "files": [
-        "lib/net45/Ninject.Web.Mvc.dll",
-        "lib/net45/Ninject.Web.Mvc.xml",
-        "ninject.mvc5.3.3.0.nupkg.sha512",
+        "lib/net40-full/Ninject.Web.Mvc.dll",
+        "lib/net40-full/Ninject.Web.Mvc.xml",
+        "lib/net45-full/Ninject.Web.Mvc.dll",
+        "lib/net45-full/Ninject.Web.Mvc.xml",
+        "ninject.mvc5.3.2.1.nupkg.sha512",
         "ninject.mvc5.nuspec"
       ]
     },
-    "Ninject.Web.Common/3.3.0": {
-      "sha512": "v7RCQmE7IT3s7zaJQC8vv40ORSzVxxIdoO/iPrfl28dJubJDimrjDTRo7aMTKi7pVXfKiSAEcAva2peJF9sWYw==",
+    "Ninject.Web.Common/3.2.3": {
+      "sha512": "q3W9ioPj+SLXk0z5qFRyeXpom/WTq+ZToSVxNOomt4TMyKdP0z0BzyMoH1ig8YWs6yOVN3g89De1VXIEqZ989Q==",
       "type": "package",
-      "path": "ninject.web.common/3.3.0",
+      "path": "ninject.web.common/3.2.3",
       "files": [
-        "lib/net45/Ninject.Web.Common.dll",
-        "lib/net45/Ninject.Web.Common.xml",
-        "lib/netstandard2.0/Ninject.Web.Common.dll",
-        "lib/netstandard2.0/Ninject.Web.Common.xml",
-        "ninject.web.common.3.3.0.nupkg.sha512",
+        "lib/net35-full/Ninject.Web.Common.dll",
+        "lib/net35-full/Ninject.Web.Common.xml",
+        "lib/net40-full/Ninject.Web.Common.dll",
+        "lib/net40-full/Ninject.Web.Common.xml",
+        "lib/net45-full/Ninject.Web.Common.dll",
+        "lib/net45-full/Ninject.Web.Common.xml",
+        "ninject.web.common.3.2.3.nupkg.sha512",
         "ninject.web.common.nuspec"
       ]
     },
-    "Ninject.Web.Common.WebHost/3.3.0": {
-      "sha512": "x+ZLbaWElOeCECywQlw4oLoSqu9m6uATiN3fJ7FhJWc49gAYuNlmdFIJWYG2bZT4PsLFxDu5IctXZIeQT0D3aA==",
+    "Ninject.Web.Common.WebHost/3.2.3": {
+      "sha512": "PmGJp5iXro0Rb2pkZUves+xGPhT9WsvjM9Yy7uuMRVa7etpAODANqHHzBCQy51zRmpQ4c8T+oPZ7PdGrhgYuvw==",
       "type": "package",
-      "path": "ninject.web.common.webhost/3.3.0",
+      "path": "ninject.web.common.webhost/3.2.3",
       "files": [
-        "lib/net45/Ninject.Web.Common.WebHost.dll",
-        "lib/net45/Ninject.Web.Common.WebHost.xml",
-        "ninject.web.common.webhost.3.3.0.nupkg.sha512",
+        "Content/App_Start/NinjectWebCommon.cs.pp",
+        "ninject.web.common.webhost.3.2.3.nupkg.sha512",
         "ninject.web.common.webhost.nuspec"
       ]
     },
@@ -3204,10 +3213,10 @@
       "NLog.Schema >= 4.4.12",
       "NLog.Web >= 4.5.1",
       "Newtonsoft.Json >= 10.0.3",
-      "Ninject >= 3.3.4",
-      "Ninject.MVC5 >= 3.3.0",
-      "Ninject.Web.Common >= 3.3.0",
-      "Ninject.Web.Common.WebHost >= 3.3.0",
+      "Ninject >= 3.2.2",
+      "Ninject.MVC5 >= 3.2.1",
+      "Ninject.Web.Common >= 3.2.3",
+      "Ninject.Web.Common.WebHost >= 3.2.3",
       "Respond >= 1.4.2",
       "System.Linq >= 4.3.0",
       "System.Runtime >= 4.3.0",
@@ -3245,9 +3254,9 @@
       }
     },
     "dependencies": {
-      "Ninject": {
+      "Ninject.MVC5": {
         "target": "Package",
-        "version": "[3.3.4, )"
+        "version": "[3.2.1, )"
       }
     },
     "frameworks": {
@@ -3390,18 +3399,6 @@
             "target": "Package",
             "version": "4.5.1"
           },
-          "Ninject.MVC5": {
-            "target": "Package",
-            "version": "3.3.0"
-          },
-          "Ninject.Web.Common": {
-            "target": "Package",
-            "version": "3.3.0"
-          },
-          "Ninject.Web.Common.WebHost": {
-            "target": "Package",
-            "version": "3.3.0"
-          },
           "MySql.Data.Entity": {
             "target": "Package",
             "version": "6.10.4"
@@ -3429,6 +3426,18 @@
           "EntityFramework": {
             "target": "Package",
             "version": "6.2.0"
+          },
+          "Ninject.Web.Common.WebHost": {
+            "target": "Package",
+            "version": "3.2.3"
+          },
+          "Ninject": {
+            "target": "Package",
+            "version": "3.2.2"
+          },
+          "Ninject.Web.Common": {
+            "target": "Package",
+            "version": "3.2.3"
           }
         }
       }
