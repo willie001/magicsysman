@@ -306,26 +306,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.10": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.10": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.10"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -337,52 +416,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -823,26 +904,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.10": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.10": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.10"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -854,52 +1014,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -1340,26 +1502,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.10": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.10": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.10"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -1371,52 +1612,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -1857,26 +2100,105 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.9.10": {
+      "MySql.Data/6.10.4": {
         "type": "package",
         "compile": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.dll": {}
+          "lib/net452/MySql.Data.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommand.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlException.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlHelper.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameter.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "MySql.Data.Entity/6.9.10": {
+      "MySql.Data.Entity/6.10.4": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.0.0",
-          "MySql.Data": "6.9.10"
+          "EntityFramework": "6.1.3",
+          "MySql.Data": "6.10.4"
         },
         "compile": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net45/MySql.Data.Entity.EF6.dll": {}
+          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/net452/app.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/net452/web.config.transform": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -1888,52 +2210,54 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.2.2": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.dll": {}
+          "lib/net45/Ninject.dll": {}
         }
       },
-      "Ninject.MVC5/3.2.1": {
+      "Ninject.MVC5/3.3.0": {
         "type": "package",
         "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)",
-          "Ninject.Web.Common.WebHost": "3.0.0"
+          "Microsoft.AspNet.Mvc": "5.2.3",
+          "Ninject.Web.Common.WebHost": "3.3.0"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Mvc.dll": {}
+        }
+      },
+      "Ninject.Web.Common/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject": "3.3.3"
+        },
+        "compile": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Ninject.Web.Common.dll": {}
+        }
+      },
+      "Ninject.Web.Common.WebHost/3.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Ninject.Web.Common": "3.3.0"
         },
         "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
+          "System.Web"
         ],
         "compile": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         },
         "runtime": {
-          "lib/net45-full/Ninject.Web.Mvc.dll": {}
+          "lib/net45/Ninject.Web.Common.WebHost.dll": {}
         }
-      },
-      "Ninject.Web.Common/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject": "[3.2.0, 3.3.0)"
-        },
-        "compile": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        },
-        "runtime": {
-          "lib/net45-full/Ninject.Web.Common.dll": {}
-        }
-      },
-      "Ninject.Web.Common.WebHost/3.2.3": {
-        "type": "package",
-        "dependencies": {
-          "Ninject.Web.Common": "[3.2.0, 3.3.0)",
-          "WebActivatorEx": "[2.0.0, 3.0.0)"
-        },
-        "frameworkAssemblies": [
-          "Microsoft.Web.Infrastructure"
-        ]
       },
       "NLog/4.4.12": {
         "type": "package",
@@ -2402,33 +2726,70 @@
         "mono.reflection.nuspec"
       ]
     },
-    "MySql.Data/6.9.10": {
-      "sha512": "ZsEsPMwfLnk9tzXPAz2WEb4hN6IRdseQgL7JaYML+vplNpmIQAWbDUIRHuLSEEpsgCbbDAsMmvqQ71sSRNFlWg==",
+    "MySql.Data/6.10.4": {
+      "sha512": "Nsoqwptry5ermXvg7HezzPsXphycb+WsZ2ngmX61XRSvuYVHXqTvrHsGq+Jz+fpFpGtvtjS9nz/ju08kOuZuTg==",
       "type": "package",
-      "path": "mysql.data/6.9.10",
+      "path": "mysql.data/6.10.4",
       "files": [
-        "CHANGES",
-        "Readme.txt",
         "content/app.config.transform",
+        "content/docs/MySqlCommand.xml",
+        "content/docs/MySqlCommandBuilder.xml",
+        "content/docs/MySqlConnection.xml",
+        "content/docs/MySqlConnectionStringBuilder.xml",
+        "content/docs/MySqlDataAdapter.xml",
+        "content/docs/MySqlDataReader.xml",
+        "content/docs/MySqlException.xml",
+        "content/docs/MySqlHelper.xml",
+        "content/docs/MySqlParameter.xml",
+        "content/docs/MySqlParameterCollection.xml",
+        "content/docs/MySqlTransaction.xml",
         "content/web.config.transform",
-        "lib/net40/MySql.Data.dll",
-        "lib/net45/MySql.Data.dll",
-        "mysql.data.6.9.10.nupkg.sha512",
+        "contentFiles/any/net452/app.config.transform",
+        "contentFiles/any/net452/docs/MySqlCommand.xml",
+        "contentFiles/any/net452/docs/MySqlCommandBuilder.xml",
+        "contentFiles/any/net452/docs/MySqlConnection.xml",
+        "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml",
+        "contentFiles/any/net452/docs/MySqlDataAdapter.xml",
+        "contentFiles/any/net452/docs/MySqlDataReader.xml",
+        "contentFiles/any/net452/docs/MySqlException.xml",
+        "contentFiles/any/net452/docs/MySqlHelper.xml",
+        "contentFiles/any/net452/docs/MySqlParameter.xml",
+        "contentFiles/any/net452/docs/MySqlParameterCollection.xml",
+        "contentFiles/any/net452/docs/MySqlTransaction.xml",
+        "contentFiles/any/net452/web.config.transform",
+        "contentFiles/any/netstandard1.3/app.config.transform",
+        "contentFiles/any/netstandard1.3/docs/MySqlCommand.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlCommandBuilder.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlConnection.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlConnectionStringBuilder.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlDataAdapter.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlDataReader.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlException.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlHelper.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlParameter.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlParameterCollection.xml",
+        "contentFiles/any/netstandard1.3/docs/MySqlTransaction.xml",
+        "contentFiles/any/netstandard1.3/web.config.transform",
+        "lib/net452/MySql.Data.dll",
+        "lib/net452/MySql.Data.xml",
+        "lib/netstandard1.3/MySql.Data.dll",
+        "lib/netstandard1.3/MySql.Data.xml",
+        "mysql.data.6.10.4.nupkg.sha512",
         "mysql.data.nuspec"
       ]
     },
-    "MySql.Data.Entity/6.9.10": {
-      "sha512": "XUV5D4pJKF/9s/KiqQaaXS9TijtcXLE4z2ulwV2m/0dltr1spQkJE+Az0KB7BWV4kr+aJ7TSmKgXyrur9bCw/w==",
+    "MySql.Data.Entity/6.10.4": {
+      "sha512": "wa0phdsrX6Z/GeUqoAVFyuIEtmOrqh1fwdGKvjMfMwff7ZxhwKfJUwrHJoNOfkRum8bN6gRhFVo5u1WHvg3MLg==",
       "type": "package",
-      "path": "mysql.data.entity/6.9.10",
+      "path": "mysql.data.entity/6.10.4",
       "files": [
-        "CHANGES",
-        "Readme.txt",
         "content/app.config.transform",
         "content/web.config.transform",
-        "lib/net40/MySql.Data.Entity.EF6.dll",
-        "lib/net45/MySql.Data.Entity.EF6.dll",
-        "mysql.data.entity.6.9.10.nupkg.sha512",
+        "contentFiles/any/net452/app.config.transform",
+        "contentFiles/any/net452/web.config.transform",
+        "lib/net452/MySql.Data.Entity.EF6.dll",
+        "lib/net452/MySql.Data.Entity.EF6.xml",
+        "mysql.data.entity.6.10.4.nupkg.sha512",
         "mysql.data.entity.nuspec"
       ]
     },
@@ -2459,68 +2820,51 @@
         "tools/install.ps1"
       ]
     },
-    "Ninject/3.2.2": {
-      "sha512": "vDyKaDZ1RgmPxD87u3om3La34r4RHBZfap3tCsJtUbSGkIWjQJ8La1s61BR/C0LgO1+3xGEC6UfI7D594MNl5Q==",
+    "Ninject/3.3.4": {
+      "sha512": "CmbWW97FfJuh4LEOVZM/spqXl4KAulRUjqeMwRd5J9rDMQArmIYaDMU3pyzXXHT062tbF0OPIMwI7tSOtprPfg==",
       "type": "package",
-      "path": "ninject/3.2.2",
+      "path": "ninject/3.3.4",
       "files": [
-        "lib/net35/Ninject.dll",
-        "lib/net35/Ninject.xml",
-        "lib/net40/Ninject.dll",
-        "lib/net40/Ninject.xml",
-        "lib/net45-full/Ninject.dll",
-        "lib/net45-full/Ninject.xml",
-        "lib/sl2/Ninject.dll",
-        "lib/sl2/Ninject.xml",
-        "lib/sl3-wp/Ninject.dll",
-        "lib/sl3-wp/Ninject.xml",
-        "lib/sl3/Ninject.dll",
-        "lib/sl3/Ninject.xml",
-        "lib/sl4-windowsphone71/Ninject.dll",
-        "lib/sl4-windowsphone71/Ninject.xml",
-        "lib/sl4/Ninject.dll",
-        "lib/sl4/Ninject.xml",
-        "lib/sl5/Ninject.dll",
-        "lib/sl5/Ninject.xml",
-        "ninject.3.2.2.nupkg.sha512",
+        "lib/net45/Ninject.dll",
+        "lib/net45/Ninject.xml",
+        "lib/netstandard2.0/Ninject.dll",
+        "lib/netstandard2.0/Ninject.xml",
+        "ninject.3.3.4.nupkg.sha512",
         "ninject.nuspec"
       ]
     },
-    "Ninject.MVC5/3.2.1": {
-      "sha512": "MfnnUF6vUzg25r8vi182dQNjkAYYWradcYs+an0iKdB+Q3uYzV0tno13K7yMXhbWBaQoUFPX8fyxYy3G6Kpp0w==",
+    "Ninject.MVC5/3.3.0": {
+      "sha512": "NLmpKSb6OXyWR17NCdeqqpMcvyW2AXlQu5SrICQLXwYYwvCgGX++GfJ3ieeyvjSDkf2q8GihPk6Jhkf+Q0/TPw==",
       "type": "package",
-      "path": "ninject.mvc5/3.2.1",
+      "path": "ninject.mvc5/3.3.0",
       "files": [
-        "lib/net40-full/Ninject.Web.Mvc.dll",
-        "lib/net40-full/Ninject.Web.Mvc.xml",
-        "lib/net45-full/Ninject.Web.Mvc.dll",
-        "lib/net45-full/Ninject.Web.Mvc.xml",
-        "ninject.mvc5.3.2.1.nupkg.sha512",
+        "lib/net45/Ninject.Web.Mvc.dll",
+        "lib/net45/Ninject.Web.Mvc.xml",
+        "ninject.mvc5.3.3.0.nupkg.sha512",
         "ninject.mvc5.nuspec"
       ]
     },
-    "Ninject.Web.Common/3.2.3": {
-      "sha512": "q3W9ioPj+SLXk0z5qFRyeXpom/WTq+ZToSVxNOomt4TMyKdP0z0BzyMoH1ig8YWs6yOVN3g89De1VXIEqZ989Q==",
+    "Ninject.Web.Common/3.3.0": {
+      "sha512": "v7RCQmE7IT3s7zaJQC8vv40ORSzVxxIdoO/iPrfl28dJubJDimrjDTRo7aMTKi7pVXfKiSAEcAva2peJF9sWYw==",
       "type": "package",
-      "path": "ninject.web.common/3.2.3",
+      "path": "ninject.web.common/3.3.0",
       "files": [
-        "lib/net35-full/Ninject.Web.Common.dll",
-        "lib/net35-full/Ninject.Web.Common.xml",
-        "lib/net40-full/Ninject.Web.Common.dll",
-        "lib/net40-full/Ninject.Web.Common.xml",
-        "lib/net45-full/Ninject.Web.Common.dll",
-        "lib/net45-full/Ninject.Web.Common.xml",
-        "ninject.web.common.3.2.3.nupkg.sha512",
+        "lib/net45/Ninject.Web.Common.dll",
+        "lib/net45/Ninject.Web.Common.xml",
+        "lib/netstandard2.0/Ninject.Web.Common.dll",
+        "lib/netstandard2.0/Ninject.Web.Common.xml",
+        "ninject.web.common.3.3.0.nupkg.sha512",
         "ninject.web.common.nuspec"
       ]
     },
-    "Ninject.Web.Common.WebHost/3.2.3": {
-      "sha512": "PmGJp5iXro0Rb2pkZUves+xGPhT9WsvjM9Yy7uuMRVa7etpAODANqHHzBCQy51zRmpQ4c8T+oPZ7PdGrhgYuvw==",
+    "Ninject.Web.Common.WebHost/3.3.0": {
+      "sha512": "x+ZLbaWElOeCECywQlw4oLoSqu9m6uATiN3fJ7FhJWc49gAYuNlmdFIJWYG2bZT4PsLFxDu5IctXZIeQT0D3aA==",
       "type": "package",
-      "path": "ninject.web.common.webhost/3.2.3",
+      "path": "ninject.web.common.webhost/3.3.0",
       "files": [
-        "Content/App_Start/NinjectWebCommon.cs.pp",
-        "ninject.web.common.webhost.3.2.3.nupkg.sha512",
+        "lib/net45/Ninject.Web.Common.WebHost.dll",
+        "lib/net45/Ninject.Web.Common.WebHost.xml",
+        "ninject.web.common.webhost.3.3.0.nupkg.sha512",
         "ninject.web.common.webhost.nuspec"
       ]
     },
@@ -2852,18 +3196,18 @@
       "Microsoft.Owin >= 3.1.0",
       "Microsoft.Web.Infrastructure >= 1.0.0",
       "Mono.Reflection >= 1.1.0",
-      "MySql.Data >= 6.9.10",
-      "MySql.Data.Entity >= 6.9.10",
+      "MySql.Data >= 6.10.4",
+      "MySql.Data.Entity >= 6.10.4",
       "NLog >= 4.4.12",
       "NLog.Config >= 4.4.12",
       "NLog.Extended >= 4.0.0.1",
       "NLog.Schema >= 4.4.12",
       "NLog.Web >= 4.5.1",
       "Newtonsoft.Json >= 10.0.3",
-      "Ninject >= 3.2.2",
-      "Ninject.MVC5 >= 3.2.1",
-      "Ninject.Web.Common >= 3.2.3",
-      "Ninject.Web.Common.WebHost >= 3.2.3",
+      "Ninject >= 3.3.4",
+      "Ninject.MVC5 >= 3.3.0",
+      "Ninject.Web.Common >= 3.3.0",
+      "Ninject.Web.Common.WebHost >= 3.3.0",
       "Respond >= 1.4.2",
       "System.Linq >= 4.3.0",
       "System.Runtime >= 4.3.0",
@@ -2901,9 +3245,29 @@
       }
     },
     "dependencies": {
+      "Ninject.Web.Common.WebHost": {
+        "target": "Package",
+        "version": "[3.3.0, )"
+      },
+      "Ninject": {
+        "target": "Package",
+        "version": "[3.3.4, )"
+      },
+      "Ninject.Web.Common": {
+        "target": "Package",
+        "version": "[3.3.0, )"
+      },
+      "Ninject.MVC5": {
+        "target": "Package",
+        "version": "[3.3.0, )"
+      },
+      "MySql.Data.Entity": {
+        "target": "Package",
+        "version": "[6.10.4, )"
+      },
       "MySql.Data": {
         "target": "Package",
-        "version": "[6.9.10, )"
+        "version": "[6.10.4, )"
       }
     },
     "frameworks": {
@@ -3065,26 +3429,6 @@
           "EntityFramework": {
             "target": "Package",
             "version": "6.2.0"
-          },
-          "Ninject.Web.Common.WebHost": {
-            "target": "Package",
-            "version": "3.2.3"
-          },
-          "Ninject": {
-            "target": "Package",
-            "version": "3.2.2"
-          },
-          "Ninject.Web.Common": {
-            "target": "Package",
-            "version": "3.2.3"
-          },
-          "Ninject.MVC5": {
-            "target": "Package",
-            "version": "3.2.1"
-          },
-          "MySql.Data.Entity": {
-            "target": "Package",
-            "version": "6.9.10"
           }
         }
       }

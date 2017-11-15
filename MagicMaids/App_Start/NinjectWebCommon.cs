@@ -14,6 +14,7 @@ namespace MagicMaids
     using Ninject.Web.Common;
 
     using MagicMaids.DataAccess;
+	using Ninject.Web.Common.WebHost;
 
 	//using WebApiContrib.IoC.Ninject;
 	#endregion
