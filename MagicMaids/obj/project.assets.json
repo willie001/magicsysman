@@ -68,7 +68,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -666,7 +666,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -1264,7 +1264,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -1862,7 +1862,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -2453,15 +2453,15 @@
         "lib/net45/DelegateDecompiler.EntityFramework.dll"
       ]
     },
-    "EntityFramework/6.1.3": {
-      "sha512": "2xzFHAF3VVdmTR3//MygtQpwfbDjeaq+nQwCcokLzen7MKHOojPaxNPQPa4diHY1QtcR7zlHAJHNRqPB7W2Syw==",
+    "EntityFramework/6.2.0": {
+      "sha512": "ptGyXOf26qLrtn+2doAmylIlCxOnBJANwlyyLrXDmqIk9O18IzLWHyxDwwAyhgXkxmbiaA0WNpRy67WRReInBw==",
       "type": "package",
-      "path": "entityframework/6.1.3",
+      "path": "entityframework/6.2.0",
       "files": [
-        "EntityFramework.6.1.3.nupkg.sha512",
-        "EntityFramework.nuspec",
-        "content/App.config.transform",
-        "content/Web.config.transform",
+        "content/net40/App.config.transform",
+        "content/net40/Web.config.transform",
+        "entityframework.6.2.0.nupkg.sha512",
+        "entityframework.nuspec",
         "lib/net40/EntityFramework.SqlServer.dll",
         "lib/net40/EntityFramework.SqlServer.xml",
         "lib/net40/EntityFramework.dll",
@@ -3175,7 +3175,7 @@
       "AutoMapper.EF6 >= 1.1.1",
       "DelegateDecompiler >= 0.23.0",
       "DelegateDecompiler.EntityFramework >= 0.23.0",
-      "EntityFramework >= 6.1.3",
+      "EntityFramework >= 6.2.0",
       "FluentValidation >= 7.2.1",
       "FluentValidation.MVC5 >= 7.2.1",
       "FluentValidation.MVC5-Signed >= 7.0.0",
@@ -3247,7 +3247,7 @@
     "dependencies": {
       "EntityFramework": {
         "target": "Package",
-        "version": "[6.1.3, )"
+        "version": "[6.2.0, )"
       }
     },
     "frameworks": {
