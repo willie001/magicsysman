@@ -7,14 +7,13 @@ namespace MagicMaids
 	using System;
 	using System.Web;
 
-    using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+	using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
-    using Ninject;
-    using Ninject.Syntax;
-    using Ninject.Web.Common;
+	using Ninject;
+	using Ninject.Syntax;
+	using Ninject.Web.Common;
 
-    using MagicMaids.DataAccess;
-	using Ninject.Web.Common.WebHost;
+	using MagicMaids.DataAccess;
 
 	//using WebApiContrib.IoC.Ninject;
 	#endregion
