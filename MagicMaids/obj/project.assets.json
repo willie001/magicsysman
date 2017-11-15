@@ -3245,9 +3245,9 @@
       }
     },
     "dependencies": {
-      "Ninject": {
+      "EntityFramework": {
         "target": "Package",
-        "version": "[3.3.4, )"
+        "version": "[6.2.0, )"
       }
     },
     "frameworks": {
@@ -3422,13 +3422,13 @@
             "target": "Package",
             "version": "1.1.1"
           },
-          "EntityFramework": {
-            "target": "Package",
-            "version": "6.2.0"
-          },
           "AutoMapper": {
             "target": "Package",
             "version": "6.2.0"
+          },
+          "Ninject": {
+            "target": "Package",
+            "version": "3.3.4"
           }
         }
       }
