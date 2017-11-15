@@ -68,7 +68,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.2.0": {
+      "EntityFramework/6.1.3": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -666,7 +666,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.2.0": {
+      "EntityFramework/6.1.3": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -1264,7 +1264,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.2.0": {
+      "EntityFramework/6.1.3": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -1862,7 +1862,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.2.0": {
+      "EntityFramework/6.1.3": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -2453,15 +2453,15 @@
         "lib/net45/DelegateDecompiler.EntityFramework.dll"
       ]
     },
-    "EntityFramework/6.2.0": {
-      "sha512": "ptGyXOf26qLrtn+2doAmylIlCxOnBJANwlyyLrXDmqIk9O18IzLWHyxDwwAyhgXkxmbiaA0WNpRy67WRReInBw==",
+    "EntityFramework/6.1.3": {
+      "sha512": "2xzFHAF3VVdmTR3//MygtQpwfbDjeaq+nQwCcokLzen7MKHOojPaxNPQPa4diHY1QtcR7zlHAJHNRqPB7W2Syw==",
       "type": "package",
-      "path": "entityframework/6.2.0",
+      "path": "entityframework/6.1.3",
       "files": [
-        "content/net40/App.config.transform",
-        "content/net40/Web.config.transform",
-        "entityframework.6.2.0.nupkg.sha512",
-        "entityframework.nuspec",
+        "EntityFramework.6.1.3.nupkg.sha512",
+        "EntityFramework.nuspec",
+        "content/App.config.transform",
+        "content/Web.config.transform",
         "lib/net40/EntityFramework.SqlServer.dll",
         "lib/net40/EntityFramework.SqlServer.xml",
         "lib/net40/EntityFramework.dll",
@@ -3175,7 +3175,7 @@
       "AutoMapper.EF6 >= 1.1.1",
       "DelegateDecompiler >= 0.23.0",
       "DelegateDecompiler.EntityFramework >= 0.23.0",
-      "EntityFramework >= 6.2.0",
+      "EntityFramework >= 6.1.3",
       "FluentValidation >= 7.2.1",
       "FluentValidation.MVC5 >= 7.2.1",
       "FluentValidation.MVC5-Signed >= 7.0.0",
@@ -3247,7 +3247,7 @@
     "dependencies": {
       "EntityFramework": {
         "target": "Package",
-        "version": "[6.2.0, )"
+        "version": "[6.1.3, )"
       }
     },
     "frameworks": {
@@ -3366,10 +3366,6 @@
             "target": "Package",
             "version": "1.7.3"
           },
-          "Glimpse.EF6": {
-            "target": "Package",
-            "version": "1.6.5"
-          },
           "Glimpse.AspNet": {
             "target": "Package",
             "version": "1.9.2"
@@ -3418,10 +3414,6 @@
             "target": "Package",
             "version": "2.1.5"
           },
-          "AutoMapper.EF6": {
-            "target": "Package",
-            "version": "1.1.1"
-          },
           "AutoMapper": {
             "target": "Package",
             "version": "6.2.0"
@@ -3429,6 +3421,14 @@
           "Ninject": {
             "target": "Package",
             "version": "3.3.4"
+          },
+          "Glimpse.EF6": {
+            "target": "Package",
+            "version": "1.6.5"
+          },
+          "AutoMapper.EF6": {
+            "target": "Package",
+            "version": "1.1.1"
           }
         }
       }
