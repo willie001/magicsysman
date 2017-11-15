@@ -11,8 +11,13 @@
           "lib/Antlr3.Runtime.dll": {}
         }
       },
-      "AutoMapper/6.1.1": {
+      "AutoMapper/6.2.0": {
         "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Runtime.Serialization"
+        ],
         "compile": {
           "lib/net45/AutoMapper.dll": {}
         },
@@ -63,7 +68,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -411,7 +416,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.3": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
           "lib/net45/Ninject.dll": {}
@@ -604,8 +609,13 @@
           "lib/Antlr3.Runtime.dll": {}
         }
       },
-      "AutoMapper/6.1.1": {
+      "AutoMapper/6.2.0": {
         "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Runtime.Serialization"
+        ],
         "compile": {
           "lib/net45/AutoMapper.dll": {}
         },
@@ -656,7 +666,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -1004,7 +1014,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.3": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
           "lib/net45/Ninject.dll": {}
@@ -1197,8 +1207,13 @@
           "lib/Antlr3.Runtime.dll": {}
         }
       },
-      "AutoMapper/6.1.1": {
+      "AutoMapper/6.2.0": {
         "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Runtime.Serialization"
+        ],
         "compile": {
           "lib/net45/AutoMapper.dll": {}
         },
@@ -1249,7 +1264,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -1597,7 +1612,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.3": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
           "lib/net45/Ninject.dll": {}
@@ -1790,8 +1805,13 @@
           "lib/Antlr3.Runtime.dll": {}
         }
       },
-      "AutoMapper/6.1.1": {
+      "AutoMapper/6.2.0": {
         "type": "package",
+        "frameworkAssemblies": [
+          "Microsoft.CSharp",
+          "System",
+          "System.Runtime.Serialization"
+        ],
         "compile": {
           "lib/net45/AutoMapper.dll": {}
         },
@@ -1842,7 +1862,7 @@
           "lib/net45/DelegateDecompiler.EntityFramework.dll": {}
         }
       },
-      "EntityFramework/6.1.3": {
+      "EntityFramework/6.2.0": {
         "type": "package",
         "frameworkAssemblies": [
           "System.ComponentModel.DataAnnotations"
@@ -2190,7 +2210,7 @@
           "lib/net45/Newtonsoft.Json.dll": {}
         }
       },
-      "Ninject/3.3.3": {
+      "Ninject/3.3.4": {
         "type": "package",
         "compile": {
           "lib/net45/Ninject.dll": {}
@@ -2386,13 +2406,15 @@
         "lib/Antlr3.Runtime.pdb"
       ]
     },
-    "AutoMapper/6.1.1": {
-      "sha512": "A+6PAblvzmkXPS20nFBQJvlNSW5oEdyfN5+cxT/Du35fTNyuP5pNDXT64KT/jBgxt7CPduOM0Y7oLnNe0E5IXg==",
+    "AutoMapper/6.2.0": {
+      "sha512": "BqguuSB2DDLdv/ohIfrvXCL+jWC6g284m4Xi/7snYcwoRAEPI0CdOb3EZjJ3MEYlZKDD5EFnN+jkr84NAUsN+Q==",
       "type": "package",
-      "path": "automapper/6.1.1",
+      "path": "automapper/6.2.0",
       "files": [
-        "automapper.6.1.1.nupkg.sha512",
+        "automapper.6.2.0.nupkg.sha512",
         "automapper.nuspec",
+        "lib/net40/AutoMapper.dll",
+        "lib/net40/AutoMapper.xml",
         "lib/net45/AutoMapper.dll",
         "lib/net45/AutoMapper.xml",
         "lib/netstandard1.1/AutoMapper.dll",
@@ -2431,15 +2453,15 @@
         "lib/net45/DelegateDecompiler.EntityFramework.dll"
       ]
     },
-    "EntityFramework/6.1.3": {
-      "sha512": "2xzFHAF3VVdmTR3//MygtQpwfbDjeaq+nQwCcokLzen7MKHOojPaxNPQPa4diHY1QtcR7zlHAJHNRqPB7W2Syw==",
+    "EntityFramework/6.2.0": {
+      "sha512": "ptGyXOf26qLrtn+2doAmylIlCxOnBJANwlyyLrXDmqIk9O18IzLWHyxDwwAyhgXkxmbiaA0WNpRy67WRReInBw==",
       "type": "package",
-      "path": "entityframework/6.1.3",
+      "path": "entityframework/6.2.0",
       "files": [
-        "EntityFramework.6.1.3.nupkg.sha512",
-        "EntityFramework.nuspec",
-        "content/App.config.transform",
-        "content/Web.config.transform",
+        "content/net40/App.config.transform",
+        "content/net40/Web.config.transform",
+        "entityframework.6.2.0.nupkg.sha512",
+        "entityframework.nuspec",
         "lib/net40/EntityFramework.SqlServer.dll",
         "lib/net40/EntityFramework.SqlServer.xml",
         "lib/net40/EntityFramework.dll",
@@ -2798,16 +2820,16 @@
         "tools/install.ps1"
       ]
     },
-    "Ninject/3.3.3": {
-      "sha512": "GdYkRUQwaf3+yhEVDLr1XkPqBUY0sqlnd6YVlMpSujEmazMFPi5o3OlZ9HeCYJUHZvaZfOEyIeVw9xo2cq8u9w==",
+    "Ninject/3.3.4": {
+      "sha512": "CmbWW97FfJuh4LEOVZM/spqXl4KAulRUjqeMwRd5J9rDMQArmIYaDMU3pyzXXHT062tbF0OPIMwI7tSOtprPfg==",
       "type": "package",
-      "path": "ninject/3.3.3",
+      "path": "ninject/3.3.4",
       "files": [
         "lib/net45/Ninject.dll",
         "lib/net45/Ninject.xml",
         "lib/netstandard2.0/Ninject.dll",
         "lib/netstandard2.0/Ninject.xml",
-        "ninject.3.3.3.nupkg.sha512",
+        "ninject.3.3.4.nupkg.sha512",
         "ninject.nuspec"
       ]
     },
@@ -3149,11 +3171,11 @@
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.5.2": [
       "Antlr >= 3.5.0.2",
-      "AutoMapper >= 6.1.1",
+      "AutoMapper >= 6.2.0",
       "AutoMapper.EF6 >= 1.1.1",
       "DelegateDecompiler >= 0.23.0",
       "DelegateDecompiler.EntityFramework >= 0.23.0",
-      "EntityFramework >= 6.1.3",
+      "EntityFramework >= 6.2.0",
       "FluentValidation >= 7.2.1",
       "FluentValidation.MVC5 >= 7.2.1",
       "FluentValidation.MVC5-Signed >= 7.0.0",
@@ -3182,7 +3204,7 @@
       "NLog.Schema >= 4.4.12",
       "NLog.Web >= 4.5.1",
       "Newtonsoft.Json >= 10.0.3",
-      "Ninject >= 3.3.3",
+      "Ninject >= 3.3.4",
       "Ninject.MVC5 >= 3.3.0",
       "Ninject.Web.Common >= 3.3.0",
       "Ninject.Web.Common.WebHost >= 3.3.0",
@@ -3222,6 +3244,12 @@
         }
       }
     },
+    "dependencies": {
+      "Ninject": {
+        "target": "Package",
+        "version": "[3.3.4, )"
+      }
+    },
     "frameworks": {
       "net452": {
         "dependencies": {
@@ -3237,10 +3265,6 @@
           "Antlr": {
             "target": "Package",
             "version": "3.5.0.2"
-          },
-          "EntityFramework": {
-            "target": "Package",
-            "version": "6.1.3"
           },
           "FluentValidation.MVC5-Signed": {
             "target": "Package",
@@ -3390,21 +3414,21 @@
             "target": "Package",
             "version": "6.10.4"
           },
-          "Ninject": {
-            "target": "Package",
-            "version": "3.3.3"
-          },
           "routedebugger": {
             "target": "Package",
             "version": "2.1.5"
           },
-          "AutoMapper": {
-            "target": "Package",
-            "version": "6.1.1"
-          },
           "AutoMapper.EF6": {
             "target": "Package",
             "version": "1.1.1"
+          },
+          "EntityFramework": {
+            "target": "Package",
+            "version": "6.2.0"
+          },
+          "AutoMapper": {
+            "target": "Package",
+            "version": "6.2.0"
           }
         }
       }
