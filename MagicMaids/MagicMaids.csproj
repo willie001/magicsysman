@@ -146,12 +146,6 @@
   	<PackageReference Include="NLog.Web">
   	  <Version>4.5.1</Version>
   	</PackageReference>
-  	<PackageReference Include="MySql.Data.Entity">
-  	  <Version>6.10.4</Version>
-  	</PackageReference>
-  	<PackageReference Include="MySql.Data">
-  	  <Version>6.10.4</Version>
-  	</PackageReference>
   	<PackageReference Include="routedebugger">
   	  <Version>2.1.5</Version>
   	</PackageReference>
@@ -178,6 +172,12 @@
   	</PackageReference>
   	<PackageReference Include="Ninject.MVC5">
   	  <Version>3.2.1</Version>
+  	</PackageReference>
+  	<PackageReference Include="MySql.Data.Entity">
+  	  <Version>6.9.10</Version>
+  	</PackageReference>
+  	<PackageReference Include="MySql.Data">
+  	  <Version>6.9.10</Version>
   	</PackageReference>
 	</ItemGroup>
   <ItemGroup>

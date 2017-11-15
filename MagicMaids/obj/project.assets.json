@@ -306,105 +306,26 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.10.4": {
+      "MySql.Data/6.9.10": {
         "type": "package",
         "compile": {
-          "lib/net452/MySql.Data.dll": {}
+          "lib/net45/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommand.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlException.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlHelper.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.dll": {}
         }
       },
-      "MySql.Data.Entity/6.10.4": {
+      "MySql.Data.Entity/6.9.10": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.1.3",
-          "MySql.Data": "6.10.4"
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.10"
         },
         "compile": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -902,105 +823,26 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.10.4": {
+      "MySql.Data/6.9.10": {
         "type": "package",
         "compile": {
-          "lib/net452/MySql.Data.dll": {}
+          "lib/net45/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommand.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlException.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlHelper.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.dll": {}
         }
       },
-      "MySql.Data.Entity/6.10.4": {
+      "MySql.Data.Entity/6.9.10": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.1.3",
-          "MySql.Data": "6.10.4"
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.10"
         },
         "compile": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -1498,105 +1340,26 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.10.4": {
+      "MySql.Data/6.9.10": {
         "type": "package",
         "compile": {
-          "lib/net452/MySql.Data.dll": {}
+          "lib/net45/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommand.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlException.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlHelper.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.dll": {}
         }
       },
-      "MySql.Data.Entity/6.10.4": {
+      "MySql.Data.Entity/6.9.10": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.1.3",
-          "MySql.Data": "6.10.4"
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.10"
         },
         "compile": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -2094,105 +1857,26 @@
           "lib/Mono.Reflection.dll": {}
         }
       },
-      "MySql.Data/6.10.4": {
+      "MySql.Data/6.9.10": {
         "type": "package",
         "compile": {
-          "lib/net452/MySql.Data.dll": {}
+          "lib/net45/MySql.Data.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommand.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlCommandBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataAdapter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlDataReader.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlException.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlHelper.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameter.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlParameterCollection.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/docs/MySqlTransaction.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.dll": {}
         }
       },
-      "MySql.Data.Entity/6.10.4": {
+      "MySql.Data.Entity/6.9.10": {
         "type": "package",
         "dependencies": {
-          "EntityFramework": "6.1.3",
-          "MySql.Data": "6.10.4"
+          "EntityFramework": "6.0.0",
+          "MySql.Data": "6.9.10"
         },
         "compile": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         },
         "runtime": {
-          "lib/net452/MySql.Data.Entity.EF6.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/net452/app.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/net452/web.config.transform": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
+          "lib/net45/MySql.Data.Entity.EF6.dll": {}
         }
       },
       "Newtonsoft.Json/10.0.3": {
@@ -2718,70 +2402,33 @@
         "mono.reflection.nuspec"
       ]
     },
-    "MySql.Data/6.10.4": {
-      "sha512": "Nsoqwptry5ermXvg7HezzPsXphycb+WsZ2ngmX61XRSvuYVHXqTvrHsGq+Jz+fpFpGtvtjS9nz/ju08kOuZuTg==",
+    "MySql.Data/6.9.10": {
+      "sha512": "ZsEsPMwfLnk9tzXPAz2WEb4hN6IRdseQgL7JaYML+vplNpmIQAWbDUIRHuLSEEpsgCbbDAsMmvqQ71sSRNFlWg==",
       "type": "package",
-      "path": "mysql.data/6.10.4",
+      "path": "mysql.data/6.9.10",
       "files": [
+        "CHANGES",
+        "Readme.txt",
         "content/app.config.transform",
-        "content/docs/MySqlCommand.xml",
-        "content/docs/MySqlCommandBuilder.xml",
-        "content/docs/MySqlConnection.xml",
-        "content/docs/MySqlConnectionStringBuilder.xml",
-        "content/docs/MySqlDataAdapter.xml",
-        "content/docs/MySqlDataReader.xml",
-        "content/docs/MySqlException.xml",
-        "content/docs/MySqlHelper.xml",
-        "content/docs/MySqlParameter.xml",
-        "content/docs/MySqlParameterCollection.xml",
-        "content/docs/MySqlTransaction.xml",
         "content/web.config.transform",
-        "contentFiles/any/net452/app.config.transform",
-        "contentFiles/any/net452/docs/MySqlCommand.xml",
-        "contentFiles/any/net452/docs/MySqlCommandBuilder.xml",
-        "contentFiles/any/net452/docs/MySqlConnection.xml",
-        "contentFiles/any/net452/docs/MySqlConnectionStringBuilder.xml",
-        "contentFiles/any/net452/docs/MySqlDataAdapter.xml",
-        "contentFiles/any/net452/docs/MySqlDataReader.xml",
-        "contentFiles/any/net452/docs/MySqlException.xml",
-        "contentFiles/any/net452/docs/MySqlHelper.xml",
-        "contentFiles/any/net452/docs/MySqlParameter.xml",
-        "contentFiles/any/net452/docs/MySqlParameterCollection.xml",
-        "contentFiles/any/net452/docs/MySqlTransaction.xml",
-        "contentFiles/any/net452/web.config.transform",
-        "contentFiles/any/netstandard1.3/app.config.transform",
-        "contentFiles/any/netstandard1.3/docs/MySqlCommand.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlCommandBuilder.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlConnection.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlConnectionStringBuilder.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlDataAdapter.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlDataReader.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlException.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlHelper.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlParameter.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlParameterCollection.xml",
-        "contentFiles/any/netstandard1.3/docs/MySqlTransaction.xml",
-        "contentFiles/any/netstandard1.3/web.config.transform",
-        "lib/net452/MySql.Data.dll",
-        "lib/net452/MySql.Data.xml",
-        "lib/netstandard1.3/MySql.Data.dll",
-        "lib/netstandard1.3/MySql.Data.xml",
-        "mysql.data.6.10.4.nupkg.sha512",
+        "lib/net40/MySql.Data.dll",
+        "lib/net45/MySql.Data.dll",
+        "mysql.data.6.9.10.nupkg.sha512",
         "mysql.data.nuspec"
       ]
     },
-    "MySql.Data.Entity/6.10.4": {
-      "sha512": "wa0phdsrX6Z/GeUqoAVFyuIEtmOrqh1fwdGKvjMfMwff7ZxhwKfJUwrHJoNOfkRum8bN6gRhFVo5u1WHvg3MLg==",
+    "MySql.Data.Entity/6.9.10": {
+      "sha512": "XUV5D4pJKF/9s/KiqQaaXS9TijtcXLE4z2ulwV2m/0dltr1spQkJE+Az0KB7BWV4kr+aJ7TSmKgXyrur9bCw/w==",
       "type": "package",
-      "path": "mysql.data.entity/6.10.4",
+      "path": "mysql.data.entity/6.9.10",
       "files": [
+        "CHANGES",
+        "Readme.txt",
         "content/app.config.transform",
         "content/web.config.transform",
-        "contentFiles/any/net452/app.config.transform",
-        "contentFiles/any/net452/web.config.transform",
-        "lib/net452/MySql.Data.Entity.EF6.dll",
-        "lib/net452/MySql.Data.Entity.EF6.xml",
-        "mysql.data.entity.6.10.4.nupkg.sha512",
+        "lib/net40/MySql.Data.Entity.EF6.dll",
+        "lib/net45/MySql.Data.Entity.EF6.dll",
+        "mysql.data.entity.6.9.10.nupkg.sha512",
         "mysql.data.entity.nuspec"
       ]
     },
@@ -3205,8 +2852,8 @@
       "Microsoft.Owin >= 3.1.0",
       "Microsoft.Web.Infrastructure >= 1.0.0",
       "Mono.Reflection >= 1.1.0",
-      "MySql.Data >= 6.10.4",
-      "MySql.Data.Entity >= 6.10.4",
+      "MySql.Data >= 6.9.10",
+      "MySql.Data.Entity >= 6.9.10",
       "NLog >= 4.4.12",
       "NLog.Config >= 4.4.12",
       "NLog.Extended >= 4.0.0.1",
@@ -3254,9 +2901,9 @@
       }
     },
     "dependencies": {
-      "Ninject.MVC5": {
+      "MySql.Data": {
         "target": "Package",
-        "version": "[3.2.1, )"
+        "version": "[6.9.10, )"
       }
     },
     "frameworks": {
@@ -3399,14 +3046,6 @@
             "target": "Package",
             "version": "4.5.1"
           },
-          "MySql.Data.Entity": {
-            "target": "Package",
-            "version": "6.10.4"
-          },
-          "MySql.Data": {
-            "target": "Package",
-            "version": "6.10.4"
-          },
           "routedebugger": {
             "target": "Package",
             "version": "2.1.5"
@@ -3438,6 +3077,14 @@
           "Ninject.Web.Common": {
             "target": "Package",
             "version": "3.2.3"
+          },
+          "Ninject.MVC5": {
+            "target": "Package",
+            "version": "3.2.1"
+          },
+          "MySql.Data.Entity": {
+            "target": "Package",
+            "version": "6.9.10"
           }
         }
       }

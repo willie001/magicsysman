@@ -15,7 +15,7 @@
       <File FileName="MagicMaids/Web.config" Line="56" Column="14" />
       <File FileName="MagicMaids/Views/Pages/Error.cshtml" Line="3" Column="5" />
       <File FileName="MagicMaids/Global.asax.cs" Line="91" Column="8" />
-      <File FileName="MagicMaids/App_Start/NinjectWebCommon.cs" Line="18" Column="27" />
+      <File FileName="MagicMaids/App_Start/NinjectWebCommon.cs" Line="17" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
