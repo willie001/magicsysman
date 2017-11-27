@@ -11,12 +11,6 @@
   background-image: url(/Images/preloader/preloader.full.png);
 }
 
-.table > tbody > tr > td {
-  vertical-align: top;
-}
-
-
-
 /** STAR Rating Control */
 div.stars {
   width: 190px;
@@ -73,3 +67,8 @@ label.star:before {
 	width: 900px;
 }
 
+.no-border {
+	border: 0;
+	background-color: transparent !important ;
+	box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}

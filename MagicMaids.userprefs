@@ -1,37 +1,15 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/App_Start/NinjectWebCommon.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Settings/_SettingsMainValues.cshtml">
     <Files>
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="337" Column="34" />
-      <File FileName="MagicMaids/Views/Cleaners/Cleaners.cshtml" Line="85" Column="16" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="21" Column="41" />
-      <File FileName="MagicMaids/Views/Cleaners/CleanerDetails.cshtml" Line="4" Column="4" />
-      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="114" Column="1" />
-      <File FileName="MagicMaids/DataLayer/EntityModels/Cleaner.cs" Line="55" Column="1" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="52" Column="5" />
-      <File FileName="MagicMaids/Views/Pages/Error404.cshtml" Line="7" Column="23" />
-      <File FileName="MagicMaids/Views/Pages/Error500.cshtml" Line="3" Column="19" />
-      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="9" Column="2" />
-      <File FileName="MagicMaids/Scripts/app/modules/routes/routes.config.js" Line="22" Column="9" />
-      <File FileName="MagicMaids/Web.config" Line="127" Column="51" />
-      <File FileName="MagicMaids/Views/Pages/Error.cshtml" Line="3" Column="5" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="91" Column="8" />
-      <File FileName="MagicMaids/App_Start/NinjectWebCommon.cs" Line="17" Column="27" />
+      <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="16" Column="16" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="488" Column="12" />
+      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="230" Column="30" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="664" Column="6" />
+      <File FileName="MagicMaids/DataLayer/EntityModels/CleanerLeave.cs" Line="12" Column="29" />
+      <File FileName="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" Line="30" Column="24" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="490" Column="5" />
+      <File FileName="MagicMaids/Views/Settings/_SettingsMainValues.cshtml" Line="22" Column="59" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True">
-              <Node name="Packages" expanded="True" />
-              <Node name="App_Start" expanded="True">
-                <Node name="NinjectWebCommon.cs" selected="True" />
-              </Node>
-              <Node name="Global.asax" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -39,6 +17,7 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Helpers.cs" relfile="MagicMaids/Helpers/Helpers.cs" line="47" column="31" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="56" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="32" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ModelValidators.cs" relfile="MagicMaids/Helpers/ModelValidators.cs" line="206" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

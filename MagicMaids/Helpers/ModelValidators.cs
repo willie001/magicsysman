@@ -196,4 +196,18 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.EmailAddress).EmailAddress().WithMessage("Email address is not a valid email address.");
 		}
 	}
+
+	public class CleanerRosterValidator : AbstractValidator<CleanerRosterVM>
+	{
+		public CleanerRosterValidator()
+		{
+			When(x => x.IsActive, () =>
+		  	{
+			  	RuleFor(x => x.TeamCount).GreaterThan(0).WithMessage(x => $"At least one team member must be available on {x.Weekday}");
+				RuleFor(x => x.StartTime).GreaterThan(DateTime.MinValue).WithMessage(x => $"Select start time for {x.Weekday}");
+				RuleFor(x => x.EndTime).GreaterThan(DateTime.MinValue).WithMessage(x => $"Select end time for {x.Weekday}");
+				RuleFor(x => x.StartTime).GreaterThan(x => x.EndTime).WithMessage(x => $"Start time must be greater than end time for {x.Weekday}");
+	        });
+		}
+	}
 }

@@ -43,6 +43,11 @@ namespace MagicMaids.Controllers
 		{
 			return View();
 		}
+
+		public ActionResult CleanerAvailability()
+		{
+			return View();
+		}
 		#endregion
 
 		#region Service Functions
@@ -161,7 +166,7 @@ namespace MagicMaids.Controllers
 			}
 
 
-			return new JsonNetResult() { Data = new { list = _teamList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return new JsonNetResult() { Data = new { list = _teamList, teamSize=_team.Count()+1 }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpPost]
@@ -598,6 +603,139 @@ namespace MagicMaids.Controllers
 			if (!ModelState.IsValid)
 			{
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SearchCleaner), null);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpGet]
+		public ActionResult GetCleanerRoster(Guid? CleanerId)
+		{
+			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
+
+			if (CleanerId == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Cleaner Id [{CleanerId.ToString()}] not provided.  Please try again.");
+				return JsonFormResponse();
+			}
+
+			List<CleanerRoster> _rosterList = MMContext.CleanerRoster
+							  .Where(f => f.PrimaryCleanerRefId == CleanerId)
+							  .ToList();
+
+			return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		[HttpPost]
+		public ActionResult SaveCleanerRoster(Guid? CleanerId, List<CleanerRosterVM> dataList)
+		{
+			string _objDesc = "Cleaner Roster";
+
+			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
+
+			if (dataList == null || dataList.Count == 0 || !CleanerId.HasValue)
+			{
+				ModelState.AddModelError(string.Empty, "Valid cleaner roster not found.");
+			}
+
+			//ModelState.Clear();
+			foreach (var modelValue in ModelState.Values)
+			{
+				modelValue.Errors.Clear();
+			}
+
+			foreach(CleanerRosterVM item in dataList)
+			{
+				if (item.IsActive)
+				{
+					if (item.TeamCount <= 0)
+					{
+						ModelState.AddModelError("",$"At least 1 team member should be available on {item.Weekday}");
+					}
+
+					if (item.StartTime == DateTime.MinValue || item.EndTime == DateTime.MinValue)
+					{
+						ModelState.AddModelError("",$"Select valid start and end time for {item.Weekday}");
+					}
+					else  if (item.EndTime <= item.StartTime)
+					{
+						ModelState.AddModelError("", $"End time must be later than start time for {item.Weekday}");
+					}
+				}
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					// first delete the existing roster
+					var _objToDelete = MMContext.CleanerRoster
+												.Where(f => f.PrimaryCleanerRefId == CleanerId)
+												.ToList();
+
+					foreach(var _item in _objToDelete)
+					{
+						MMContext.Entry(_item).State = EntityState.Deleted;
+					}
+
+					// insert new roster
+					CleanerRoster _objToInsert = null;
+
+					foreach(CleanerRosterVM _item in dataList )
+					{
+						if (_item.TeamCount > 0)
+						{
+							_objToInsert = new CleanerRoster();
+
+							_objToInsert.Weekday = _item.Weekday;
+							_objToInsert.StartTime = _item.StartTime;
+							_objToInsert.EndTime = _item.EndTime;
+							_objToInsert.TeamCount = _item.TeamCount;
+							_objToInsert.PrimaryCleanerRefId = CleanerId.Value;
+							_objToInsert.IsActive = _item.IsActive;
+							MMContext.Entry(_objToInsert).State = EntityState.Added;
+						}
+					}
+
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse("Team roster saved successfully", dataList);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (CleanerRoster)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, "Unable to save changes. The Team roster was deleted by another user.");
+					}
+					else
+					{
+						var databaseValues = (CleanerRoster)databaseEntry.ToObject();
+
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving team roster", ex));
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, "Error saving team roster", nameof(SaveCleanerRoster), ex, dataList, Helpers.ParseValidationErrors(ex));
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveCleanerRoster), null);
 			}
 
 			return JsonFormResponse();

@@ -260,6 +260,8 @@
     <Compile Include="ViewModels\CleanerDetailsVM.cs" />
     <Compile Include="ViewModels\BaseContactVM.cs" />
     <Compile Include="DataLayer\EntityModels\CleanerTeam.cs" />
+    <Compile Include="DataLayer\EntityModels\CleanerLeave.cs" />
+    <Compile Include="DataLayer\EntityModels\CleanerRoster.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

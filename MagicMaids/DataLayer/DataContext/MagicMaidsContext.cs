@@ -25,6 +25,8 @@ namespace MagicMaids.DataAccess
 			Rates = Set<Rate>();
 			Cleaners = Set<Cleaner>();
 			CleanerTeam = Set<CleanerTeam>();
+			CleanerRoster = Set<CleanerRoster>();
+			CleanerLeave = Set<CleanerLeave>();
 
             Log = LogManager.GetLogger(GetType().FullName);
 
@@ -72,6 +74,18 @@ namespace MagicMaids.DataAccess
 		}
 
 		public DbSet<CleanerTeam> CleanerTeam
+		{
+			get;
+			set;
+		}
+
+		public DbSet<CleanerRoster> CleanerRoster
+		{
+			get;
+			set;
+		}
+
+		public DbSet<CleanerLeave> CleanerLeave
 		{
 			get;
 			set;

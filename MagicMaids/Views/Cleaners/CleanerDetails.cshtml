@@ -43,7 +43,7 @@
 			        	Html.RenderPartial("_CleanerDetails");   
 			    	}
 				</uib-tab>
-			  	<uib-tab index="1" disable="true">
+			  	<uib-tab index="1" disable="DataRecordStatus.IsNewDataRecord">
 			        <uib-tab-heading>Availability</uib-tab-heading>
 			        @{
 			        	Html.RenderPartial("_CleanerAvailability");   

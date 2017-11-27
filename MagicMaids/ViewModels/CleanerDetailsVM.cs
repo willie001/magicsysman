@@ -10,7 +10,7 @@ using MagicMaids.Validators;
 namespace MagicMaids.ViewModels
 {
 	[Validator(typeof(CleanerDetailsValidator))]
-	public class CleanerDetailsVM: BaseContactVM
+	public class CleanerDetailsVM : BaseContactVM
 	{
 		#region Properties, Public
 		public Boolean IsNewItem
@@ -222,6 +222,58 @@ namespace MagicMaids.ViewModels
 		{
 			get;
 			set;
+		}
+		#endregion
+	}
+
+	[Validator(typeof(CleanerRosterValidator))]
+	public class CleanerRosterVM
+	{
+		#region Properties, Public
+		public String Weekday
+		{
+			get;
+			set;
+		}
+
+		public Int32 TeamCount
+		{
+			get;
+			set;
+		}
+
+		public DateTime StartTime
+		{
+			get;
+			set;
+		}
+
+		public DateTime EndTime
+		{
+			get;
+			set;
+		}
+
+		public Boolean IsActive
+		{
+			get;
+			set;
+		}
+		#endregion
+
+		#region Methods, Public
+		public void PopulateVM(Guid? cleanerId, CleanerRoster entityModel)
+		{
+			if (entityModel == null)
+				return;
+
+			if (cleanerId.Equals(Guid.Empty))
+				return;
+
+			this.Weekday = entityModel.Weekday;
+			this.TeamCount = entityModel.TeamCount;
+			this.StartTime = entityModel.StartTime;
+			this.EndTime = entityModel.EndTime;
 		}
 		#endregion
 	}
