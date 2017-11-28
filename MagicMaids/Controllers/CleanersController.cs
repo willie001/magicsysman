@@ -226,10 +226,16 @@ namespace MagicMaids.Controllers
 						// get list of franchise zones to check validity
 						var _zoneList = MMContext.SuburbZones
                          	.Where(p => (p.FranchiseId == dataItem.MasterFranchiseRefId || !p.FranchiseId.HasValue))
-	                        .Select(p => new {NewZone = p.Zone.ToLower() + "," + p.LinkedZones.ToLower()})
+	                        .Select(p => p.Zone.ToLower() + "," + p.LinkedZones.ToLower())
 						    .ToList();
 
-
+						var _zoneCSV = String.Join(",", _zoneList);
+						List<String> _matchList = _zoneCSV.Split(new char[] { ',', ';' }).Select(x => x.ToLower()).ToList();
+						var _missingItems = _tmpList.Except(_matchList);
+						if (_missingItems.Count() > 0)
+						{
+							ModelState.AddModelError("", $"The following zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
+						}
 					}
 				}
 			}
