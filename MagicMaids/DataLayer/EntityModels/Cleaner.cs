@@ -93,6 +93,7 @@ namespace MagicMaids.EntityModels
 			get;
 			set;
 		}
+
 		#endregion
 
 		#region Properties, Foreign Key

@@ -193,6 +193,9 @@
     <Reference Include="AutoMapper.EF6">
       <HintPath>..\packages\AutoMapper.EF6.1.0.0\lib\net45\AutoMapper.EF6.dll</HintPath>
     </Reference>
+    <Reference Include="Version">
+      <HintPath>..\packages\Version.3.0.0\lib\Version.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />

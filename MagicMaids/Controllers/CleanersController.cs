@@ -212,6 +212,30 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
+				// check zones are valid and active
+				if (!String.IsNullOrWhiteSpace(dataItem.PrimaryZone) || !(String.IsNullOrWhiteSpace(dataItem.SecondaryZone)))
+				{
+					List<String> _tmpList = dataItem.SecondaryZone.Split(new char[] { ',',';' }).Select(x => x.ToLower()).ToList();
+					if (_tmpList.Contains(dataItem.PrimaryZone.ToLower()))
+					{
+						ModelState.AddModelError("", "Secondary zone contains primary zone.");
+					}
+					else
+					{
+						_tmpList.Add(dataItem.PrimaryZone.ToLower());
+						// get list of franchise zones to check validity
+						var _zoneList = MMContext.SuburbZones
+                         	.Where(p => (p.FranchiseId == dataItem.MasterFranchiseRefId || !p.FranchiseId.HasValue))
+	                        .Select(p => new {NewZone = p.Zone.ToLower() + "," + p.LinkedZones.ToLower()})
+						    .ToList();
+
+
+					}
+				}
+			}
+
+			if (ModelState.IsValid)
+			{
 				Guid _id = dataItem.Id;
 				var bIsNew = (dataItem.IsNewItem);
 

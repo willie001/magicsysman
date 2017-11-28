@@ -52,7 +52,9 @@
 						<button type="button" class="btn btn-info" ng-click="searchCleaners()">Search</button>
 		           	</div>
 					<div class="text-right col-md-5">
-						<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-warning">Return to Cleaners</button>
+						<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
+      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Cleaner
+						</button>
 						<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-warning">Return to Customers</button>
 					</div>	
 		        </div>
@@ -85,7 +87,9 @@
 					</thead>  
 			      	<tbody>
 						<tr valign="top" ng-repeat="cleaner in form.SearchResults">
-							<td>{{cleaner.FirstName}} {{ cleaner.LastName }}</td>
+							<td class="" ng-class="{'bg-warning-light': cleaner.Rating==4,
+									'bg-success-light': cleaner.Rating==5,
+									'bg-primary-light': cleaner.Rating==6}">{{cleaner.FirstName}} {{ cleaner.LastName }}</td>
 							<td>{{cleaner.PrimaryZone}}</td>
 							<td style="white-space: nowrap">
 								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a>
@@ -108,6 +112,20 @@
 					</tbody>
 				</table>
 			</div>
+			<br/>
+			<div class="form-group">
+				<div class="pull-right">
+					<table class="dataTable">
+						<tr>
+							<td>Ratings:&nbsp; </td>
+							<td width="5px" class="text-center bg-warning-light">4</td>
+							<td width="5px" class="text-center bg-success-light">5</td>
+							<td width="5px" class="text-center bg-primary-light">6</td>
+						</tr>
+					</table>
+				</div>
+			</div>
 		</div>
+
 	</div>
 </div>

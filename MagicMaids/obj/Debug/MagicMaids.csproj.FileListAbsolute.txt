@@ -38,6 +38,7 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.Deployment.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.Razor.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Version.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebActivatorEx.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebGrease.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.pdb
@@ -64,6 +65,8 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Version.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Version.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

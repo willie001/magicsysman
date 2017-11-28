@@ -20,7 +20,7 @@
 	},
 	{
 		"text": "Manage Cleaners",
-		"sref": "app.cleaner_details",
+		"sref": "app.cleaners",
 		"icon": "fa fa-address-book-o",
 		"translate": "pageTitles.cleaners.CLEANER_DETAILS"
 	},

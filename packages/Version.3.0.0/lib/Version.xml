@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Version</name>
+    </assembly>
+    <members>
+        <member name="T:VersionLibrary.Helper">
+            <summary>
+            ASP.NET MVC HTML Helper that gives current assembly version.
+            </summary>
+        </member>
+        <member name="M:VersionLibrary.Helper.Version(System.Web.Mvc.HtmlHelper)">
+            <summary>
+            Returns the version of the current assembly.
+            </summary>
+            <param name="html">Html helper with the context to get the version from</param>
+            <returns>Assembly's version</returns>
+        </member>
+    </members>
+</doc>

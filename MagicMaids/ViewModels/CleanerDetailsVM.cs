@@ -67,6 +67,18 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public string PrimaryZone
+		{
+			get;
+			set;
+		}
+
+		public string SecondaryZone
+		{
+			get;
+			set;
+		}
+
 		public Int32? Rating
 		{
 			get;
@@ -113,6 +125,8 @@ namespace MagicMaids.ViewModels
 			this.IsActive = entityModel.IsActive;
 			this.Ironing = entityModel.Ironing;
 			this.GenderFlag = entityModel.GenderFlag;
+			this.PrimaryZone = entityModel.PrimaryZone;
+			this.SecondaryZone = entityModel.SecondaryZone;
 
 			base.FormatContactDetails(entityModel.PhysicalAddress, entityModel.PostalAddress);
 		}
@@ -213,6 +227,12 @@ namespace MagicMaids.ViewModels
 		}
 
 		public string Zone
+		{
+			get;
+			set;
+		}
+
+		public int Rating
 		{
 			get;
 			set;

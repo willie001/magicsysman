@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 
+using MagicMaids;
 using MagicMaids.ViewModels;
 
 using FluentValidation;
@@ -150,12 +151,14 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.LastName).NotEmpty().WithMessage("Surname is required.");
 			RuleFor(x => x.Region).NotEmpty().WithMessage("Region is required.");
 			RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Valid email address is required.");
+			RuleFor(x => x.PrimaryZone).NotEmpty().WithMessage("Primary zone is required");
 
 			RuleFor(x => x.Initials).Length(1, 5).WithName("Initials");
 			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
 			RuleFor(x => x.LastName).Length(3, 100).WithName("Last name");
 
 			RuleFor(x => x.Region).Length(3, 100).WithName("Region");
+			RuleFor(x => x.PrimaryZone).Length(1, 10).WithMessage("Primary zone must be a valid number");
 
 			RuleFor(x => x.BusinessPhoneNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Primary business number is not a valid phone number.");
 			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");
@@ -165,7 +168,7 @@ namespace MagicMaids.Validators
 
 			When(x => x.Rating.HasValue, () =>
 			{
-				RuleFor(x => x.Rating).InclusiveBetween(1, 5).WithMessage("Rating must be between 1 and 5.");
+				RuleFor(x => x.Rating).InclusiveBetween(1, 6).WithMessage("Rating must be between 1 and 6.");
 			});
 
 			//When(x => x.LeaveStartDate.HasValue, () =>

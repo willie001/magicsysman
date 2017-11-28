@@ -1,14 +1,12 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Settings/_SettingsMainValues.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/SettingsController.cs">
     <Files>
-      <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="16" Column="16" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="488" Column="12" />
-      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="230" Column="30" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="664" Column="6" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="330" Column="18" />
+      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="12" Column="27" />
       <File FileName="MagicMaids/DataLayer/EntityModels/CleanerLeave.cs" Line="12" Column="29" />
-      <File FileName="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" Line="30" Column="24" />
-      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="490" Column="5" />
-      <File FileName="MagicMaids/Views/Settings/_SettingsMainValues.cshtml" Line="22" Column="59" />
+      <File FileName="MagicMaids/Views/Cleaners/_CleanerDetails.cshtml" Line="62" Column="169" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="226" Column="7" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="217" Column="33" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -16,8 +14,9 @@
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Helpers.cs" relfile="MagicMaids/Helpers/Helpers.cs" line="47" column="31" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="56" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="32" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ModelValidators.cs" relfile="MagicMaids/Helpers/ModelValidators.cs" line="206" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ModelValidators.cs" relfile="MagicMaids/Helpers/ModelValidators.cs" line="209" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="30" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="216" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

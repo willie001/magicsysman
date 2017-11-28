@@ -53,6 +53,16 @@
 	      	</div>
 	   	</div>
 		<div class="form-group">
+			<label class="col-md-2 control-label">Primary Zone</label>
+			<div class="col-md-2">
+				<input type="text" placeholder="Primary Zone" class="form-control" name="PrimaryZone" ng-model="form.cleaner.PrimaryZone" ngMaxLength="10"/>
+			</div>
+			<label class="col-md-2 control-label">Secondary Zones</label>
+			<div class="col-md-6">
+				<input type="text" placeholder="Secondary Zones (comma seperated)" class="form-control" name="SecondaryZone" ng-model="form.cleaner.SecondaryZone" ngMaxLength="500"/>
+			</div>
+		</div>
+		<div class="form-group">
 	      	<label class="col-md-2 control-label">Master Franchise</label>
 	      	<div class="col-md-6">
 	         	<select name="MasterFranchise" class="form-control" ng-model="form.cleaner.SelectedFranchise" 
@@ -93,7 +103,9 @@
 			<label class="col-md-2 control-label">Rating</label>
 	        <div class="col-md-10">
 				<div class="stars">
-		      		<input class="star star-5" id="star-5" type="radio" name="star" value="5" ng-model="form.cleaner.Rating"/>
+		      		<input class="star star-6" id="star-6" type="radio" name="star" value="6" ng-model="form.cleaner.Rating"/>
+			      	<label class="star star-6" for="star-6"></label>
+			      	<input class="star star-5" id="star-5" type="radio" name="star" value="5" ng-model="form.cleaner.Rating"/>
 			      	<label class="star star-5" for="star-5"></label>
 			      	<input class="star star-4" id="star-4" type="radio" name="star" value="4" ng-model="form.cleaner.Rating"/>
 			      	<label class="star star-4" for="star-4"></label>

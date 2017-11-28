@@ -125,6 +125,24 @@ namespace MagicMaids
 
 			return Regex.Replace(input, "[^0-9]", ""); ;
 		}
+
+		public static Boolean IsValidNumeric(String input)
+		{
+			if (String.IsNullOrWhiteSpace(input))
+				return false;
+
+			var i = 0;
+			return Int32.TryParse(input, out i);
+		}
+
+		public static Boolean IsValidNumericCommaString(String input)
+		{
+			if (String.IsNullOrWhiteSpace(input))
+				return false;
+
+			var i = 0;
+			return Int32.TryParse(input.Replace(",", ""), out i);
+		}
 #endregion
 	}
 }
