@@ -1,5 +1,6 @@
 ﻿#region Using
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 #endregion
@@ -52,6 +53,12 @@ namespace MagicMaids.EntityModels
 
 		[ForeignKey("PrimaryCleanerRefId")]
 		public Cleaner PrimaryCleaner
+		{
+			get;
+			set;
+		}
+
+		public virtual ICollection<CleanerRosteredTeam> CleanerRosteredTeam
 		{
 			get;
 			set;

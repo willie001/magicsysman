@@ -70,11 +70,11 @@ namespace MagicMaids.Controllers
 			else
 			{
 				_cleaner = MMContext.Cleaners
-							  .Where(f => f.Id == CleanerId )
-							  .Include(nameof(Cleaner.PhysicalAddress))
-							  .Include(nameof(Cleaner.PostalAddress))
-							  .FirstOrDefault();
-				
+						  	.Where(f => f.Id == CleanerId)
+						  	.Include(nameof(Cleaner.PhysicalAddress))
+						  	.Include(nameof(Cleaner.PostalAddress))
+							.FirstOrDefault();
+
 				if (_cleaner == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Cleaner [{CleanerId.ToString()}] not found.  Please try again.");
@@ -88,7 +88,7 @@ namespace MagicMaids.Controllers
 				if (!_dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
 				{
 					var _franchise = MMContext.Franchises
-                          .Where(f => f.Id == _dataItem.MasterFranchiseRefId)
+						  .Where(f => f.Id == _dataItem.MasterFranchiseRefId)
 						  .FirstOrDefault();
 
 					if (_franchise == null)
@@ -134,7 +134,6 @@ namespace MagicMaids.Controllers
 		public ActionResult GetCleanerTeam(Guid? CleanerId)
 		{
 			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
-			CleanerDetailsVM _dataItem = null;
 			List<TeamMemberDetailsVM> _teamList = new List<TeamMemberDetailsVM>();
 
 			if (CleanerId == null)
@@ -143,18 +142,12 @@ namespace MagicMaids.Controllers
 				return JsonFormResponse();
 			}
 
-			//var _team = from c in MMContext.Cleaners
-						//join t in MMContext.CleanerTeam
-						//   on c.Id equals t.TeamMemberRefId
-						//where t.PrimaryCleanerRefId == CleanerId
-						//select new { Cleaners = c, CleanerTeam = t };
-
 			var _team = MMContext.CleanerTeam
-		                      .Where(f => f.PrimaryCleanerRefId == CleanerId)
+							  .Where(f => f.PrimaryCleanerRefId == CleanerId)
 							  .Include(nameof(CleanerTeam.PhysicalAddress))
 							  .Include(nameof(CleanerTeam.PostalAddress))
 							  .ToList();
-			
+
 			if (_team != null && _team.Count() > 0)
 			{
 				foreach (var _member in _team)
@@ -166,10 +159,18 @@ namespace MagicMaids.Controllers
 			}
 
 
-			return new JsonNetResult() { Data = new { list = _teamList, teamSize=_team.Count()+1 }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return new JsonNetResult() { Data = new { list = _teamList, teamSize = _team.Count() + 1 }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
+		[HttpGet]
+		public JsonResult GetFranchiseZonesJson(Guid? FranchiseId)
+		{
+			return new JsonNetResult() { Data = new { item = SettingsController.GetZoneListByFranchise(FranchiseId, false) }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveCleanerDetails(CleanerDetailsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -213,31 +214,34 @@ namespace MagicMaids.Controllers
 			if (ModelState.IsValid)
 			{
 				// check zones are valid and active
-				if (!String.IsNullOrWhiteSpace(dataItem.PrimaryZone) || !(String.IsNullOrWhiteSpace(dataItem.SecondaryZone)))
+				if (dataItem.PrimaryZoneList == null || dataItem.PrimaryZoneList.Count() == 0 || dataItem.SecondaryZoneList == null || dataItem.SecondaryZoneList.Count() == 0)
 				{
-					List<String> _tmpList = dataItem.SecondaryZone.Split(new char[] { ',',';' }).Select(x => x.ToLower()).ToList();
-					if (_tmpList.Contains(dataItem.PrimaryZone.ToLower()))
-					{
-						ModelState.AddModelError("", "Secondary zone contains primary zone.");
-					}
-					else
-					{
-						_tmpList.Add(dataItem.PrimaryZone.ToLower());
-						// get list of franchise zones to check validity
-						var _zoneList = MMContext.SuburbZones
-                         	.Where(p => (p.FranchiseId == dataItem.MasterFranchiseRefId || !p.FranchiseId.HasValue))
-	                        .Select(p => p.Zone.ToLower() + "," + p.LinkedZones.ToLower())
-						    .ToList();
+					ModelState.AddModelError(string.Empty, "Primary zone and secondar zones are required.");
+				}
+				else if (dataItem.PrimaryZoneList.Except(dataItem.SecondaryZoneList).Count() == 0)
+				{
+					ModelState.AddModelError("", "Secondary zone should not contain the primary zone.");
+				}
+				else
+				{
 
-						var _zoneCSV = String.Join(",", _zoneList);
-						List<String> _matchList = _zoneCSV.Split(new char[] { ',', ';' }).Select(x => x.ToLower()).ToList();
-						var _missingItems = _tmpList.Except(_matchList);
-						if (_missingItems.Count() > 0)
-						{
-							ModelState.AddModelError("", $"The following zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
-						}
+					List<String> _matchList = SettingsController.GetZoneListByFranchise(dataItem.MasterFranchiseRefId, true);
+					var _missingItems = dataItem.SecondaryZoneList.Select(x => x.ToLower()).Except(_matchList);
+					if (_missingItems.Count() > 0)
+					{
+						ModelState.AddModelError("", $"The following zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
 					}
 				}
+
+				// put list into comma list for saving
+				if (ModelState.IsValid)
+				{
+					// for some reason single item wants text and list wants collection
+					// if we use SecondaryZone to bind to ui-select it adds commas.
+					// need to revisit !!!
+					dataItem.SecondaryZone = String.Join(",", dataItem.SecondaryZoneList);
+				}
+
 			}
 
 			if (ModelState.IsValid)
@@ -364,7 +368,7 @@ namespace MagicMaids.Controllers
 					ModelState.AddModelError(string.Empty, $"Error saving cleaner ({ex.Message})");
 
 					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving cleaner", nameof(SaveCleanerDetails ), ex, dataItem);
+					log.Log(LogLevel.Error, "Error saving cleaner", nameof(SaveCleanerDetails), ex, dataItem);
 				}
 			}
 
@@ -377,6 +381,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveTeamMember(TeamMemberDetailsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -546,6 +551,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult DeleteTeamMember(Guid? CleanerId)
 		{
 			string _objDesc = "Team Member";
@@ -558,8 +564,8 @@ namespace MagicMaids.Controllers
 			try
 			{
 				var _objToDelete = MMContext.CleanerTeam
-                        .Where(f => f.Id == CleanerId)
-                            .Include(nameof(CleanerTeam.PhysicalAddress))
+						.Where(f => f.Id == CleanerId)
+							.Include(nameof(CleanerTeam.PhysicalAddress))
 						  	.Include(nameof(CleanerTeam.PostalAddress))
 						  .FirstOrDefault();
 
@@ -597,25 +603,27 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SearchCleaner(CleanerSearchVM searchCriteria)
 		{
-			if (searchCriteria == null || (searchCriteria.SelectedFranchiseId.Equals(Guid.Empty) 
-			                               && String.IsNullOrWhiteSpace(searchCriteria.Name)
-			                               && String.IsNullOrWhiteSpace(searchCriteria.Zone)))
+			if (searchCriteria == null || (searchCriteria.SelectedFranchiseId.Equals(Guid.Empty)
+										   && String.IsNullOrWhiteSpace(searchCriteria.Name)
+										   && String.IsNullOrWhiteSpace(searchCriteria.Zone)))
 			{
 				ModelState.AddModelError(string.Empty, $"No search criteria specified.");
 			}
 
 			try
-			{  
+			{
 				var _results = MMContext.Cleaners
-                        .Include(nameof(Cleaner.PhysicalAddress))
-                    .Where(f => searchCriteria.SelectedFranchiseId.Equals(Guid.Empty) || f.MasterFranchiseRefId == searchCriteria.SelectedFranchiseId)
-                    .Where(f => (searchCriteria.Name == null || searchCriteria.Name.Trim() == string.Empty) || (f.FirstName + " " + f.LastName).Contains(searchCriteria.Name))
-                    .Where(f => (searchCriteria.Zone == null || searchCriteria.Zone.Trim() == string.Empty) 
-				           || ("," + f.PrimaryZone + ",").Contains("," + searchCriteria.Zone + ",")
-				           || ("," + f.SecondaryZone + ",").Contains("," + searchCriteria.Zone + ","))
-                    .Where(f => (searchCriteria.IncludeInactive == false && f.IsActive == true) || searchCriteria.IncludeInactive == true)
+						.Include(nameof(Cleaner.PhysicalAddress))
+					.Where(f => searchCriteria.SelectedFranchiseId.Equals(Guid.Empty) || f.MasterFranchiseRefId == searchCriteria.SelectedFranchiseId)
+					.Where(f => (searchCriteria.Name == null || searchCriteria.Name.Trim() == string.Empty) || (f.FirstName + " " + f.LastName).Contains(searchCriteria.Name))
+					.Where(f => (searchCriteria.Zone == null || searchCriteria.Zone.Trim() == string.Empty)
+						   || ("," + f.PrimaryZone + ",").Contains("," + searchCriteria.Zone + ",")
+						   || ("," + f.SecondaryZone + ",").Contains("," + searchCriteria.Zone + ","))
+					.Where(f => (searchCriteria.IncludeInactive == false && f.IsActive == true) || searchCriteria.IncludeInactive == true)
+					.OrderByDescending(f => f.Rating).ThenBy(f => new { f.LastName, f.FirstName })
 				  	.ToList();
 
 				var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerDetailsVM>>(_results);
@@ -649,14 +657,30 @@ namespace MagicMaids.Controllers
 				return JsonFormResponse();
 			}
 
-			List<CleanerRoster> _rosterList = MMContext.CleanerRoster
-							  .Where(f => f.PrimaryCleanerRefId == CleanerId)
-							  .ToList();
+			string query = "SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount,"
+				+ "CT.ID, CT.FirstName, CT.LastName, CRT.IsPrimary "
+				+ "FROM CleanerRoster CR "
+				+ "inner JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 0 "
+				+ "inner JOIN CleanerTeam CT on CT.ID = CRT.TeamRefId "
+				+ $"WHERE CR.PrimaryCleanerRefId = '{CleanerId}' "
+				+ "AND CR.IsActive = 1 "
+				+ "UNION "
+				+ "SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, "
+				+ "C.ID, C.FirstName, C.LastName , CRT.IsPrimary "
+				+ "FROM CleanerRoster CR "
+				+ "INNER JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 1 "
+				+ "INNER JOIN Cleaners C on C.ID = CRT.TeamRefId AND CRT.IsPrimary = 1 "
+				+ $"WHERE CR.PrimaryCleanerRefId = '{CleanerId}' "
+				+ "ORDER BY WeekDay, StartTime, EndTime";
+
+			var _results = MMContext.Database.SqlQuery<RosterTeamMembersVM>(query).ToList();
+			List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
 
 			return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveCleanerRoster(Guid? CleanerId, List<CleanerRosterVM> dataList)
 		{
 			string _objDesc = "Cleaner Roster";
@@ -674,22 +698,57 @@ namespace MagicMaids.Controllers
 				modelValue.Errors.Clear();
 			}
 
-			foreach(CleanerRosterVM item in dataList)
+			List<CleanerRoster> rosterList = new List<CleanerRoster>();
+			CleanerRosteredTeam rosteredTeam;
+			CleanerRoster roster;
+			foreach (CleanerRosterVM item in dataList)
 			{
+				var _checkList = new List<String>();
+
 				if (item.IsActive)
 				{
-					if (item.TeamCount <= 0)
+					if (item.TeamCount <= 0 || item.TeamMembers == null || item.TeamMembers.Count() == 0)
 					{
-						ModelState.AddModelError("",$"At least 1 team member should be available on {item.Weekday}");
+						ModelState.AddModelError("", $"At least 1 team member should be available on {item.Weekday}");
 					}
 
 					if (item.StartTime == DateTime.MinValue || item.EndTime == DateTime.MinValue)
 					{
-						ModelState.AddModelError("",$"Select valid start and end time for {item.Weekday}");
+						ModelState.AddModelError("", $"Select valid start and end time for {item.Weekday}");
 					}
-					else  if (item.EndTime <= item.StartTime)
+					else if (item.EndTime <= item.StartTime)
 					{
 						ModelState.AddModelError("", $"End time must be later than start time for {item.Weekday}");
+					}
+
+					if (ModelState.IsValid)
+					{
+						roster = new CleanerRoster()
+						{
+							StartTime = item.StartTime,
+							EndTime = item.EndTime,
+							TeamCount = item.TeamCount,
+							Weekday = item.Weekday,
+							IsActive = item.IsActive,
+							PrimaryCleanerRefId = CleanerId.Value
+
+						};
+						roster.CleanerRosteredTeam = new List<CleanerRosteredTeam>();
+						foreach (var teamMember in item.TeamMembers)
+						{
+							if (!_checkList.Contains(teamMember.Id.ToString()))
+							{
+								rosteredTeam = new CleanerRosteredTeam()
+								{
+									RosterRefId = roster.Id,
+									IsPrimary = teamMember.IsPrimary,
+									TeamRefId = teamMember.Id
+								};
+								_checkList.Add(teamMember.Id.ToString());
+								roster.CleanerRosteredTeam.Add(rosteredTeam);
+							}
+						}
+						rosterList.Add(roster);
 					}
 				}
 			}
@@ -699,31 +758,35 @@ namespace MagicMaids.Controllers
 				try
 				{
 					// first delete the existing roster
-					var _objToDelete = MMContext.CleanerRoster
-												.Where(f => f.PrimaryCleanerRefId == CleanerId)
-												.ToList();
+					string query = "SELECT * "
+						+ "FROM CleanerRosteredTeam  "
+						+ "WHERE RosterRefId in ("
+						+ $"select Id from CleanerRoster where PrimaryCleanerRefId = '{CleanerId}'"
+						+ ")";
+					var _objChildToDelete = MMContext.Database.SqlQuery<CleanerRosteredTeam>(query).ToList();
 
-					foreach(var _item in _objToDelete)
+					foreach (var _item in _objChildToDelete)
 					{
 						MMContext.Entry(_item).State = EntityState.Deleted;
 					}
 
-					// insert new roster
-					CleanerRoster _objToInsert = null;
-
-					foreach(CleanerRosterVM _item in dataList )
+					var _objToDelete = MMContext.CleanerRoster
+												.Where(f => f.PrimaryCleanerRefId == CleanerId)
+												.ToList();
+					foreach (var _item in _objToDelete)
 					{
-						if (_item.TeamCount > 0)
-						{
-							_objToInsert = new CleanerRoster();
+						MMContext.Entry(_item).State = EntityState.Deleted;
+					}
 
-							_objToInsert.Weekday = _item.Weekday;
-							_objToInsert.StartTime = _item.StartTime;
-							_objToInsert.EndTime = _item.EndTime;
-							_objToInsert.TeamCount = _item.TeamCount;
-							_objToInsert.PrimaryCleanerRefId = CleanerId.Value;
-							_objToInsert.IsActive = _item.IsActive;
-							MMContext.Entry(_objToInsert).State = EntityState.Added;
+
+					// insert new roster
+					foreach (CleanerRoster _objToInsert in rosterList)
+					{
+						MMContext.Entry(_objToInsert).State = EntityState.Added;
+
+						foreach (CleanerRosteredTeam _objToInsertChild in _objToInsert.CleanerRosteredTeam)
+						{
+							MMContext.Entry(_objToInsertChild).State = EntityState.Added;
 						}
 					}
 
@@ -766,6 +829,134 @@ namespace MagicMaids.Controllers
 			if (!ModelState.IsValid)
 			{
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveCleanerRoster), null);
+			}
+
+			return JsonFormResponse();
+		}
+		#endregion
+
+		#region Service Functions, Leave Dates
+		public ActionResult GetLeaveDates(Guid? CleanerId)
+		{
+			if (CleanerId == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Cleaner Id [{CleanerId.ToString()}] not provided.  Please try again.");
+				return JsonFormResponse();
+			}
+
+			List<CleanerLeave> _entityList = new List<CleanerLeave>();
+
+			_entityList = MMContext.CleanerLeave
+				   	.Where(p => p.PrimaryCleanerRefId == CleanerId)
+                   	.OrderByDescending(p => p.StartDate)
+					.ThenByDescending(p => p.EndDate) 
+				   	.ToList();
+
+			List<CleanerLeaveVM> _editList = new List<CleanerLeaveVM>();
+			foreach (CleanerLeave _item in _entityList)
+			{
+				var _vm = new CleanerLeaveVM();
+				_vm.PopulateVM(CleanerId, _item);
+				_editList.Add(_vm);
+			}
+
+			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+
+		[HttpPost]
+		[ValidateAntiForgeryHeader]
+		public ActionResult SaveLeaveDates(CleanerLeaveVM formValues)
+		{
+			string _objDesc = "Leave Dates";
+
+			if (formValues == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				Guid _id = formValues.Id;
+				var bIsNew = formValues.IsNewItem;
+
+				try
+				{
+					CleanerLeave _objToUpdate = null;
+
+					if (bIsNew)
+					{
+						_objToUpdate = new CleanerLeave();
+						_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId;
+						_objToUpdate.StartDate = formValues.StartDate;
+						_objToUpdate.EndDate  = formValues.EndDate;
+
+						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+					}
+					else
+					{
+						_objToUpdate = MMContext.CleanerLeave
+								 .Where(f => f.Id == _id)
+										  .FirstOrDefault();
+
+						if (_objToUpdate == null)
+						{
+							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+							return JsonFormResponse();
+						}
+
+						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+					}
+
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (CleanerLeave)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+					}
+					else
+					{
+						var databaseValues = (CleanerLeave)databaseEntry.ToObject();
+
+						if (databaseValues.StartDate != clientValues.StartDate)
+						{
+							ModelState.AddModelError("LeaveStart", "Current database value for start date: " + databaseValues.StartDate);
+						}
+
+						if (databaseValues.EndDate != clientValues.EndDate)
+						{
+							ModelState.AddModelError("PostCode", "Current database value for end date: " + databaseValues.EndDate);
+						}
+
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(SaveLeaveDates ), ex, formValues, Helpers.ParseValidationErrors(ex));
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveLeaveDates), formValues);
 			}
 
 			return JsonFormResponse();

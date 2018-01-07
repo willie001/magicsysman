@@ -12,7 +12,7 @@ namespace MagicMaids.EntityModels
 		#region Properties, Public
 		[Required]
 		[DataType(DataType.Date)]
-		public DateTime LeaveStart
+		public DateTime StartDate
 		{
 			get;
 			set;
@@ -20,7 +20,7 @@ namespace MagicMaids.EntityModels
 
 		[Required]
 		[DataType(DataType.Date)]
-		public String LeaveEnd
+		public DateTime EndDate
 		{
 			get;
 			set;

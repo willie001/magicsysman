@@ -438,13 +438,14 @@
         {
         	HandleBusySpinner.start($scope, panelName);
 
-            $http.get('/settings/getfranchise/?FranchiseId=' + Id)
+        	 $http.get('/settings/getfranchise/?FranchiseId=' + Id)
                 .success(function (data) {
                 	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
                 	vm.franchise = data.item;
                 	$scope.FranchiseId = vm.franchise.Id;
                 	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
-
+                	$scope.CopyToPostal = $scope.DataRecordStatus.IsNewDataRecord;
+           
                 }).error(function(err) {
                 	
                 }).finally(function() {

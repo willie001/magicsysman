@@ -85,7 +85,7 @@
             	},
               title: 'Cleaner Details',
               templateUrl: helper.basepath('Cleaners/CleanerDetails'),
-              resolve: helper.resolveFor('ngDialog')
+              resolve: helper.resolveFor('ngDialog','ui.select','xeditable')
           })
 
           .state('app.settings_user_accounts', {

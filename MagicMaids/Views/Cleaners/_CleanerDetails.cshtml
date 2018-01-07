@@ -55,11 +55,21 @@
 		<div class="form-group">
 			<label class="col-md-2 control-label">Primary Zone</label>
 			<div class="col-md-2">
-				<input type="text" placeholder="Primary Zone" class="form-control" name="PrimaryZone" ng-model="form.cleaner.PrimaryZone" ngMaxLength="10"/>
+				<ui-select ng-model="form.cleaner.PrimaryZone" theme="bootstrap">
+					<ui-select-match placeholder="Select primary zone....">{{$select.selected}}</ui-select-match>
+					<ui-select-choices repeat="item in AvailableZones | filter: $select.search">
+						<div ng-bind="item"></div>
+					</ui-select-choices>
+				</ui-select>
 			</div>
 			<label class="col-md-2 control-label">Secondary Zones</label>
 			<div class="col-md-6">
-				<input type="text" placeholder="Secondary Zones (comma seperated)" class="form-control" name="SecondaryZone" ng-model="form.cleaner.SecondaryZone" ngMaxLength="500"/>
+				<ui-select multiple="" ng-model="form.cleaner.SecondaryZoneList" theme="bootstrap">
+					<ui-select-match placeholder="Select secondary zones.....">{{$item}}</ui-select-match>
+					<ui-select-choices repeat="item in AvailableZones | filter: $select.search">
+						<div ng-bind-html="item"></div>
+					</ui-select-choices>
+				</ui-select>
 			</div>
 		</div>
 		<div class="form-group">
@@ -264,7 +274,7 @@
 
 		<div class="form-group">
             <div class="col-md-6">
-            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.dashboard')">Close</button>
+            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.cleaners')">Close</button>
 				<button type="submit" class="btn btn-success" ng-disabled="form.cleaner.$invalid || form.submitted == true">Save Cleaner Details</button>
             </div>
 		    <div class="text-right col-md-6">

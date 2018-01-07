@@ -77,11 +77,12 @@
 			<div class="table-responsive" ng-show="form.SearchResults.length" >
 				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
 					<thead style="font-weight: bold">
-			         	<th style="width:30%" class="text-center">Cleaner Name</th>
-			         	<th style="width:10%" class="text-center">Zone</th>
-			         	<th style="width:20%" class="text-center">Email Address</th>
-			         	<th style="width:10%" class="text-center">Phone Numbers</th>
-						<th style="width:20%" class="text-center">Suburb</th>
+			         	<th  class="text-center">Cleaner Name</th>
+			         	<th  class="text-center">Zone</th>
+			         	<th  class="text-center">Email Address</th>
+			         	<th  class="text-center">Phone Numbers</th>
+						<th  class="text-center">Suburb</th>
+						<th class="text-center" ng-hide="true" >Rating</th>
 						<th style="width:5%" class="text-center">Active</th>
 						<th style="width:5%" class="text-center"></th>
 					</thead>  
@@ -96,6 +97,7 @@
 			               	</td>
 							<td style="white-space: nowrap" ng-bind-html="cleaner.FormattedContactNumbers"></td>
 							<td>{{cleaner.PhysicalAddress.Suburb}}</td>
+							<td class="text-center" ng-hide="true">{{cleaner.Rating}}</td>
 							<td class="text-center">
 								{{ cleaner.IsActive ? 'Yes' : 'No' }}
 			               	</td>

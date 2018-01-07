@@ -151,7 +151,6 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.LastName).NotEmpty().WithMessage("Surname is required.");
 			RuleFor(x => x.Region).NotEmpty().WithMessage("Region is required.");
 			RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Valid email address is required.");
-			RuleFor(x => x.PrimaryZone).NotEmpty().WithMessage("Primary zone is required");
 
 			RuleFor(x => x.Initials).Length(1, 5).WithName("Initials");
 			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
@@ -170,18 +169,37 @@ namespace MagicMaids.Validators
 			{
 				RuleFor(x => x.Rating).InclusiveBetween(1, 6).WithMessage("Rating must be between 1 and 6.");
 			});
+		}
+	}
 
-			//When(x => x.LeaveStartDate.HasValue, () =>
-			//{
-			//	RuleFor(x => x.LeaveStartDate).GreaterThan(DateTime.Now).WithMessage("Leave start date must be in the future.");
-			//	RuleFor(x => x.LeaveEndDate)
-			//		.NotEmpty()
-			//		.Must((x, LeaveEndDate) => LeaveEndDate >= x.LeaveStartDate)
-			//		.WithMessage("Leave end date must be after the start date.");
-			//});
+	public class CleanerLeaveValidator : AbstractValidator<CleanerLeaveVM>
+	{
+		public CleanerLeaveValidator()
+		{
+			RuleFor(x => x.StartDate).NotEmpty().WithMessage("Start date is required");
+			RuleFor(x => x.EndDate).NotEmpty().WithMessage("End date is required");
+
+			When(x => (x.StartDate.Year > 1950), () =>
+			{
+				RuleFor(x => x.StartDate).GreaterThan(DateTime.Now).WithMessage("Leave start date must be in the future.");
+				RuleFor(x => x.EndDate)
+					.NotEmpty()
+					.Must((x, EndDate) => EndDate >= x.StartDate)
+					.WithMessage("Leave end date must be after the start date.");
+			});
+
+			When(x => (x.EndDate.Year > 1950), () =>
+			{
+				RuleFor(x => x.EndDate).GreaterThan(DateTime.Now).WithMessage("Leave end date must be in the future.");
+				RuleFor(x => x.StartDate)
+					.NotEmpty()
+					.Must((x, StartDate) => StartDate <= x.EndDate)
+					.WithMessage("Leave start date must be before the end date.");
+			});
 
 		}
 	}
+
 
 	public class TeamMemberDetailsValidator : AbstractValidator<TeamMemberDetailsVM>
 	{

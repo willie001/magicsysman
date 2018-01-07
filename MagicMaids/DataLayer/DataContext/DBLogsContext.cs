@@ -17,7 +17,7 @@ namespace MagicMaids.DataAccess
 		public DBLogsContext()
 				: base(nameOrConnectionString: "MagicMaidsDBConn")
 		{
-			//this.Configuration.LazyLoadingEnabled = false;
+			this.Configuration.LazyLoadingEnabled = false;
 
 			LogEntries = Set<LogEntry>();
 

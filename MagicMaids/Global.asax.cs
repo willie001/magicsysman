@@ -45,6 +45,7 @@ namespace MagicMaids
 			    cfg.CreateMap<Cleaner, CleanerDetailsVM>();  
 				cfg.CreateMap<Address, UpdateAddressViewModel>();  
 			});  
+
         }
 
 		protected void Application_Error(object sender, EventArgs e)

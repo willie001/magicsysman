@@ -9,18 +9,65 @@
     	.controller('CleanerDetailsController', CleanerDetailsController)
     	.controller('CleanerAddressController', CleanerAddressController)
 		.controller('CleanerAvailabilityController', CleanerAvailabilityController)
+		.controller('CleanerLeaveController', CleanerLeaveController)
 		.factory('cleanerTeamFactory', function() {
 		var data = {
+				Primary: {},
 				TeamList: [],
-				TeamSize: 1
+				TeamSize: 0,
+				TeamSelectionList: [],
+				IsTeamSelectionListSet: false
 			};
 
 			return {
+					getTeamSelectionList: function() {
+						
+						if (data.IsTeamSelectionListSet == true)
+						{
+							return data.TeamSelectionList;
+						}
+
+						var teamMember = {
+			    			Id: data.Primary.Id,
+			    			FirstName: data.Primary.FirstName,
+			    			LastName: data.Primary.LastName,
+							DisplayName: data.Primary.FirstName + ' ' + data.Primary.LastName,
+							IsPrimary: true
+			    		};
+
+		    			data.TeamSelectionList.push(teamMember);
+
+			            // Cleaner team count includes primary member
+						for(var i=0; i<=data.TeamSize-2; i++)
+			    		{
+			    			var teamMember = {
+			    				Id: data.TeamList[i].Id,
+			    				FirstName: data.TeamList[i].FirstName,
+			    				LastName: data.TeamList[i].LastName,
+			    				DisplayName:  data.TeamList[i].FirstName + ' ' +  data.TeamList[i].LastName,
+			    				IsPrimary: false
+			    			};
+			    			data.TeamSelectionList.push(teamMember);
+			    		}
+
+			    		data.IsTeamSelectionListSet = true;
+			    		return data.TeamSelectionList;
+            	
+				},
+				getIsTeamSelectionListSet: function() {
+		    		return data.IsTeamSelectionListSet ;
+				},
+				getPrimary: function() {
+					return data.Primary;
+				},
 				getTeamSize: function() {
 					return data.TeamSize;
 				},
 				getTeam: function() {
 					return data.TeamList;
+				},
+				setPrimary: function(cleaner) {
+					data.Primary = cleaner;
 				},
 				setTeamSize: function(value) {
 					data.TeamSize = value;
@@ -37,7 +84,8 @@
     CleanerSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder'];
     CleanerDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages', 'ngDialog', 'cleanerTeamFactory'];
     CleanerAddressController.$inject = [];
-	CleanerAvailabilityController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages', 'ngDialog', 'cleanerTeamFactory'];
+	CleanerAvailabilityController.$inject = ['$scope','$http','HandleBusySpinner', 'ShowUserMessages', 'cleanerTeamFactory'];
+	CleanerLeaveController.$inject = ['$scope','$filter','$http', 'HandleBusySpinner', 'ShowUserMessages','editableOptions', 'editableThemes'];
 
 	function MasterCleanerController($scope)
     {
@@ -80,6 +128,8 @@
 
 		function activate() {
 			HandleBusySpinner.start($scope, panelName);
+
+			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 
 			$http.get('/settings/getactivefranchises')
                 .success(function (data) {
@@ -143,6 +193,7 @@
 		vm.cleanerTeam = {};
 		vm.cleaner.SelectedFranchise = {};
 		vm.addressTypes = null;
+		$scope.AvailableZones = [];
 
 		activate();
 
@@ -155,12 +206,16 @@
                 	//console.log("<FRANCHISE> - " + angular.toJson(data.selectedFranchise));
                 	vm.cleaner = data.item;
                 	$scope.CleanerId = vm.cleaner.Id;
+                	$scope.FranchiseId = data.selectedFranchise.Id;
                 	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
 
                 	if (data.selectedFranchise)
                 	{
                 		vm.cleaner.SelectedFranchise = data.selectedFranchise;
                 	}
+
+                	cleanerTeamFactory.setPrimary(vm.cleaner);
+                	
 
                 }).error(function(err) {
                 	
@@ -207,7 +262,24 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
+                	loadFranchiseZones();
+                	$scope.CopyToPostal = $scope.DataRecordStatus.IsNewDataRecord;
+
                 	HandleBusySpinner.stop($scope, panelName);
+                });
+		}
+
+		function loadFranchiseZones()
+		{
+			$http.get('/cleaners/getfranchisezonesjson/?FranchiseId=' + $scope.FranchiseId)
+                .success(function (data) {
+            		//console.log('<FRANCHISE ZONES> ' + angular.toJson(data.item));
+                	$scope.AvailableZones = data.item;
+
+                }).error(function(err) {
+                	
+                }).finally(function() {
+
                 });
 		}
 
@@ -215,29 +287,31 @@
 		{
 			$http.get('/cleaners/getcleanerteam/?CleanerId=' + vm.cleaner.Id)
                 .success(function (data) {
-                	//console.log('<TEAM> ' + angular.toJson(data));
                 	vm.cleanerTeam = data.list;
-
+                	//console.log('<TEAM> ' + angular.toJson(vm.cleanerTeam));
+                	
                 	cleanerTeamFactory.setTeam(vm.cleanerTeam);
                 	cleanerTeamFactory.setTeamSize(data.teamSize);
 
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	
-
+                	var test = cleanerTeamFactory.getTeamSelectionList();
                 });
 		}
 
 		$scope.openTeamPopupForm = function (item) {
-			//console.log("<CLEANER VM> - " + angular.toJson(item));
+			//console.log("<CLEANER VM> - " + angular.toJson($scope.teamMember));
 
-			$scope.teamMember = {};
-			$scope.teamMember.IsNewItem = true;
-			$scope.teamMember.PhysicalAddress = {};
-			$scope.teamMember.PostalAddress = {};
+			if (!$scope.teamMember)
+			{
+				$scope.teamMember = {};
+				$scope.teamMember.IsNewItem = true;
+				$scope.teamMember.PhysicalAddress = {};
+				$scope.teamMember.PostalAddress = {};
+			}
 
-			console.log("<CLEANER scope> - " + angular.toJson($scope.teamMember));
+			//console.log("<CLEANER scope> - " + angular.toJson($scope.teamMember));
 
 			if (item)
 			{
@@ -251,7 +325,7 @@
 
 					if ($scope.teamMember.PostalAddress.State == null && $scope.teamMember.PhysicalAddress.State == null)
 					{
-						$scope.teamMember.PostalAddress = angular.copy(vm.cleaner.PhysicalAddress);
+						$scope.teamMember.PostalAddress = angular.copy(vm.cleaner.PostalAddress);
 						$scope.teamMember.PhysicalAddress = angular.copy(vm.cleaner.PhysicalAddress);
 
 						// new addresses need new GUID. Currently set to parent address ID
@@ -350,7 +424,7 @@
       	};
 
       	vm.saveData = function() {
-      		//console.log("<CLEANER SelectedFranchise> - " + angular.toJson(vm.cleaner.SelectedFranchise));
+      		//console.log("<CLEANER SelectedFranchise> - " + angular.toJson(vm.cleaner));
       		$scope.submitted = true;
 
       		if (vm.cleaner.SelectedFranchise && vm.cleaner.SelectedFranchise.Id)
@@ -381,6 +455,7 @@
                 	ShowUserMessages.show($scope, response, "Error updating details.");
                 	vm.cleaner = response.DataItem;
                 	$scope.CleanerId = vm.cleaner.Id;
+                	$scope.FranchiseId = vm.cleaner.MasterFranchiseRefId;
 
         			if ($scope.DataRecordStatus.IsNewDataRecord)
                 	{
@@ -425,14 +500,13 @@
 	/****************************/
 	/*** CLEANER AVAILABILITY ***/
 	/****************************/
-	function CleanerAvailabilityController($scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages, ngDialog, cleanerTeamFactory)
+	function CleanerAvailabilityController($scope, $http, HandleBusySpinner, ShowUserMessages, cleanerTeamFactory)
 	{
 		var vm = this;
 		var panelName = "panelCleanerDetails";
 		var Id = $scope.CleanerId;
 
 		vm.cleanerRoster = [];
-		vm.cleanerLeave = {};
 		vm.maxTeamSize = 1;
 
 		activate();
@@ -452,7 +526,8 @@
         			IsActive : false,
         			StartTime : null,
         			EndTime : null,
-        			TeamCount : null
+        			TeamCount : null,
+        			TeamMembers: []
         		};
 
         		// not zero based to number days from 1
@@ -484,14 +559,13 @@
         	}
 
         	loadCleanerRoster();
-
-        	//console.log("<cleanerRoster> - " + angular.toJson(vm.cleanerRoster));
 		}
 
 		function loadCleanerRoster()
 		{
 			$http.get('/cleaners/getcleanerroster/?CleanerId=' + Id)
                 .success(function (data) {
+                	//console.log("<cleanerRoster DATA> - " + angular.toJson(data));
                 	angular.forEach(vm.cleanerRoster, function(value, key) {
                 		var _day = value.Weekday;
                 		angular.forEach(data.list, function(value2, key2) {
@@ -503,18 +577,17 @@
                 				vm.cleanerRoster[key].EndTime = value2.EndTime;
                 				vm.cleanerRoster[key].TeamCount = value2.TeamCount;
                 				vm.cleanerRoster[key].IsActive = value2.IsActive;
+                				vm.cleanerRoster[key].TeamMembers = angular.copy(value2.TeamMembers);
                 			}
             			});
                 	});
-                	//console.log("<data list> - " + angular.toJson(vm.cleanerRoster));
-
 
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	
-
+                	//console.log("<cleanerRoster> - " + angular.toJson(vm.cleanerRoster));
                 });
+
 		}
 
 		$scope.cleanerRosterChanged = function(val) {
@@ -523,10 +596,16 @@
 				val.StartTime =  null;
 				val.EndTime = null;
 				val.TeamCount = null;
+				val.TeamMembers = [];
     		} else {
-    			if (typeof val.TeamCount === 'undefined' || val.TeamCount == null || val.TeamCount == 0)
+    			
+    			if (val.TeamMembers)
     			{
-    				val.TeamCount = cleanerTeamFactory.getTeamSize();
+    				val.TeamCount = val.TeamMembers.length;
+    			}
+    			else
+    			{
+    				val.TeamCount = 0;
     			}
     		}
     	}
@@ -540,13 +619,24 @@
     		return result;
     	}
 
+    	$scope.getTeamList = function() {
+    		if (cleanerTeamFactory.getIsTeamSelectionListSet() == true)
+    		{
+    			return cleanerTeamFactory.getTeamSelectionList();
+    		}
+    		else
+    		{
+    			return null;
+    		}
+    	}
+
     	vm.validateInput = function(name, type) {
         	var input = vm.cleanerRosterForm[name];
     		return (input.$dirty || vm.submitted) && input.$error[type];
       	};
 
       	vm.saveData = function(data) {
-      		console.log("<CLEANER ROSTER Data> - " + angular.toJson(vm.cleanerRoster));
+      		//console.log("<CLEANER ROSTER Data> - " + angular.toJson(vm.cleanerRoster));
 		 	$scope.submitted = true;
 
 			if (vm.cleanerRosterForm.$valid) {
@@ -578,13 +668,108 @@
         	}
       	}
 
-		$scope.openTeamLeavePopupForm = function (item) {
-			alert('team leave popup coming soon')
+		
+	}
+
+	/**************************/
+	/***   CLEANER LEAVE    ***/
+	/**************************/
+	function CleanerLeaveController($scope, $filter, $http, HandleBusySpinner, ShowUserMessages, editableOptions, editableThemes)
+	{
+		var vm = this;
+		var panelName = "panelCleanerDetails";
+		var CleanerId = $scope.CleanerId;
+
+		activate();
+
+		function activate()
+		{
+			vm.listOfLeave = [];
+
+			editableOptions.theme = 'bs3';
+
+          	editableThemes.bs3.inputClass = 'input-sm';
+          	editableThemes.bs3.buttonsClass = 'btn-sm';
+          	editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-success"><span class="fa fa-check"></span></button>';
+            editableThemes.bs3.cancelTpl = '<button type="button" class="btn btn-default" ng-click="$form.$cancel()">'+
+                                           '<span class="fa fa-times text-muted"></span>'+
+                                         '</button>';
+
+			loadLeaveDates();
+
 		}
 
-		$scope.deleteTeamLeave = function(id, ix) {
-			alert('delete coming soon');
-		}
+		function loadLeaveDates()
+		{
+			$http.get('/cleaners/getleavedates?CleanerId='+CleanerId)
+                .success(function (data) {
+                	vm.listOfLeave = data.list;
+                	vm.nextNewGuid = data.nextGuid;
+
+                }).error(function(err) {
+
+                }).finally(function() {
+
+					angular.forEach(vm.listOfLeave, function(value, key) {
+						value.StartDate = new Date(value.StartDate);
+						value.EndDate = new Date(value.EndDate);
+					});
+                	//console.log("<LEAVE loaded> - " + angular.toJson(vm.listOfLeave));
+                });
+		};
+
+		vm.addData = function() {
+          	vm.inserted = {
+          	  Id: vm.nextNewGuid,
+	          StartDate: '',
+	          EndDate: '',
+	          IsNewItem: true
+	        };
+
+            vm.listOfLeave.push(vm.inserted);
+      	};
+
+		vm.validateData = function(data, colName) {
+			//console.log("<LEAVE validate> - " + angular.toJson(data));
+          	if (data.length == 0) {
+              return colName + ' is mandatory';
+            }
+      	};
+
+      	$scope.isFutureLeave = function(endDate) {
+      		var today = new Date().getTime(),
+        		idate = new Date(endDate).getTime();
+
+    		return (today - idate) < 0 ? true : false;
+      	};
+
+      	vm.removeLeave = function(index) {
+          	alert('Coming soon!'); 
+          	return false;
+          	vm.listOfLeave.splice(index, 1);
+      	};
+
+      	vm.saveData = function(data, id, isNew) {
+			//console.log("<LEAVE SAVE> - " + angular.toJson(data));
+          	angular.extend(data, {
+					PrimaryCleanerRefId: CleanerId,
+					Id: id,
+					IsNewItem: isNew
+				});
+
+            //console.log("<LEAVE data post> - " + angular.toJson(data));
+       		return $http.post('/cleaners/saveleavedates', data).success(function (response) {
+                // Add your success stuff here
+            	console.log("<LEAVE response post> - " + angular.toJson(response));
+       			ShowUserMessages.show($scope, response, "Error updating leave dates.");
+           		loadLeaveDates();
+
+            }).error(function (error) {
+
+                ShowUserMessages.show($scope, error, "Error updating leave dates.");
+
+            });
+        }
 
 		$scope.searchCustomers = function(leaveItem) {
 			alert('affected customer search coming soon');

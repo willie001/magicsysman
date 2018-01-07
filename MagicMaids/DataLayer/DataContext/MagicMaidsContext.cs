@@ -16,7 +16,7 @@ namespace MagicMaids.DataAccess
         public MagicMaidsContext() 
 			: base(nameOrConnectionString: "MagicMaidsDBConn")
 		{
-			//this.Configuration.LazyLoadingEnabled = false;
+			this.Configuration.LazyLoadingEnabled = false;
 
             DefaultSettings = Set<SystemSetting>();
             SuburbZones = Set<SuburbZone>();
@@ -26,6 +26,7 @@ namespace MagicMaids.DataAccess
 			Cleaners = Set<Cleaner>();
 			CleanerTeam = Set<CleanerTeam>();
 			CleanerRoster = Set<CleanerRoster>();
+			CleanerRosteredTeam = Set<CleanerRosteredTeam>();
 			CleanerLeave = Set<CleanerLeave>();
 
             Log = LogManager.GetLogger(GetType().FullName);
@@ -85,6 +86,12 @@ namespace MagicMaids.DataAccess
 			set;
 		}
 
+		public DbSet<CleanerRosteredTeam> CleanerRosteredTeam
+		{
+			get;
+			set;
+		}
+
 		public DbSet<CleanerLeave> CleanerLeave
 		{
 			get;
@@ -93,6 +100,7 @@ namespace MagicMaids.DataAccess
         #endregion
 
         #region Methods, Protected
+
 		public override int SaveChanges()
 		{
 			foreach (var auditableEntity in ChangeTracker.Entries<IDataModel>())
@@ -133,6 +141,14 @@ namespace MagicMaids.DataAccess
         {
             // **** USE THIS TO OVERRIDE TABLE NAMES FOR CREATION ****
             //	modelBuilder.Entity<Course>().ToTable("Course");
+
+			modelBuilder.Entity<CleanerRoster>().HasMany(p => p.CleanerRosteredTeam)
+					.WithRequired(pc => pc.Roster)
+			  		.HasForeignKey(pc => pc.RosterRefId);
+
+			modelBuilder.Entity<CleanerTeam>().HasMany(p => p.CleanerRosteredTeam)
+					.WithRequired(pc => pc.TeamMember)
+			  		.HasForeignKey(pc => pc.TeamRefId);
 
             base.OnModelCreating(modelBuilder);
         }

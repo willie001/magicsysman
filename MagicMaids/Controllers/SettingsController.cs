@@ -20,10 +20,10 @@ using FluentValidation.Results;
 
 namespace MagicMaids.Controllers
 {
-	public partial class SettingsController : BaseController 
+	public partial class SettingsController : BaseController
 	{
 		#region Constructor
-		public SettingsController(MagicMaidsContext dbContext): base(dbContext)
+		public SettingsController(MagicMaidsContext dbContext) : base(dbContext)
 		{
 		}
 		#endregion
@@ -99,29 +99,29 @@ namespace MagicMaids.Controllers
 		{
 			return View();
 		}
-        #endregion
+		#endregion
 
-        #region Service Functions, Settings
-        public JsonResult GetSettings(int? incDisabled)
+		#region Service Functions, Settings
+		public JsonResult GetSettings(int? incDisabled)
 		{
-			 List<SystemSetting> _settings = new List<SystemSetting>();
+			List<SystemSetting> _settings = new List<SystemSetting>();
 
-            if (incDisabled != null && incDisabled == 1) 
+			if (incDisabled != null && incDisabled == 1)
 			{
-                _settings = MMContext.DefaultSettings.ToList();
-            }
-            else
-            {
-                _settings = MMContext.DefaultSettings
-                     .Where(p => p.IsActive == true)
-                     .ToList();
-            }
+				_settings = MMContext.DefaultSettings.ToList();
+			}
+			else
+			{
+				_settings = MMContext.DefaultSettings
+					 .Where(p => p.IsActive == true)
+					 .ToList();
+			}
 
 			List<UpdateSettingsViewModel> _editSettings = new List<UpdateSettingsViewModel>();
-			foreach(SystemSetting _item in _settings)
+			foreach (SystemSetting _item in _settings)
 			{
 				var _vm = new UpdateSettingsViewModel();
-				_vm.PopulateVM(_item); 
+				_vm.PopulateVM(_item);
 				_editSettings.Add(_vm);
 			}
 
@@ -129,14 +129,15 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveSettings(UpdateSettingsViewModel setting)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
 
-            if (setting == null)
-            {
-                ModelState.AddModelError(string.Empty, "Valid setting not found.");
-            }
+			if (setting == null)
+			{
+				ModelState.AddModelError(string.Empty, "Valid setting not found.");
+			}
 
 			if (ModelState.IsValid)
 			{
@@ -149,34 +150,34 @@ namespace MagicMaids.Controllers
 					return JsonFormResponse();
 				}
 				//log2.Log(LogLevel.Info, "<XXXXXX> 3", nameof(SaveSettings), null, null);
-                
+
 				if (TryUpdateModel<SystemSetting>(_objToUpdate))
 				{
 					try
-                    {
-                        MMContext.Entry(_objToUpdate).State = EntityState.Modified;
+					{
+						MMContext.Entry(_objToUpdate).State = EntityState.Modified;
 						MMContext.SaveChanges();
 
 						return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
 					}
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        var entry = ex.Entries.Single();
-                        var clientValues = (SystemSetting)entry.Entity;
-                        var databaseEntry = entry.GetDatabaseValues();
-                        if (databaseEntry == null)
-                        {
-                            ModelState.AddModelError(string.Empty, "Unable to save changes. The system setting was deleted by another user.");
-                        }
-                        else
-                        {
-                            var databaseValues = (SystemSetting)databaseEntry.ToObject();
+					catch (DbUpdateConcurrencyException ex)
+					{
+						var entry = ex.Entries.Single();
+						var clientValues = (SystemSetting)entry.Entity;
+						var databaseEntry = entry.GetDatabaseValues();
+						if (databaseEntry == null)
+						{
+							ModelState.AddModelError(string.Empty, "Unable to save changes. The system setting was deleted by another user.");
+						}
+						else
+						{
+							var databaseValues = (SystemSetting)databaseEntry.ToObject();
 
-                            ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-                                + "was modified by another user after you got the original value. The "
-                                + "edit operation was canceled and the current values in the database "
-                                + "have been displayed. If you still want to edit this record, click "
-                                + "the Save button again.");
+							ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+								+ "was modified by another user after you got the original value. The "
+								+ "edit operation was canceled and the current values in the database "
+								+ "have been displayed. If you still want to edit this record, click "
+								+ "the Save button again.");
 
 							if (databaseValues.SettingName != clientValues.SettingName)
 								ModelState.AddModelError("SettingName", "Current database value for setting name: " + databaseValues.SettingName);
@@ -187,30 +188,30 @@ namespace MagicMaids.Controllers
 							if (databaseValues.CodeIdentifier != clientValues.CodeIdentifier)
 								ModelState.AddModelError("CodeIdentifier", "Current database value for code identifier: " + databaseValues.CodeIdentifier);
 						}
-                    }
-                    catch (RetryLimitExceededException /* dex */)
-                    {
-                        //Log the error (uncomment dex variable name and add a line here to write a log.
-                        ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-                    }
-                    catch (Exception ex)
-                    {
+					}
+					catch (RetryLimitExceededException /* dex */)
+					{
+						//Log the error (uncomment dex variable name and add a line here to write a log.
+						ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+					}
+					catch (Exception ex)
+					{
 						ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving setting", ex));
 
 						LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
 						log.Log(LogLevel.Error, "Error saving setting", nameof(SaveSettings), ex, setting, Helpers.ParseValidationErrors(ex));
-                    }
+					}
 				}
-                
-            }
+
+			}
 
 			if (!ModelState.IsValid)
 			{
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveSettings), setting);
 			}
 
-            return JsonFormResponse();
-        }
+			return JsonFormResponse();
+		}
 		#endregion
 
 		#region Service Functions, Postcodes
@@ -235,6 +236,7 @@ namespace MagicMaids.Controllers
 
 
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SavePostCodes(UpdateSuburbZonesVM formValues)
 		{
 			string _objDesc = "Suburb/zone";
@@ -302,13 +304,13 @@ namespace MagicMaids.Controllers
 					var databaseEntry = entry.GetDatabaseValues();
 					if (databaseEntry == null)
 					{
-						ModelState.AddModelError(string.Empty,$"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
 					}
 					else
 					{
 						var databaseValues = (SuburbZone)databaseEntry.ToObject();
 
-						if (databaseValues.SuburbName  != clientValues.SuburbName)
+						if (databaseValues.SuburbName != clientValues.SuburbName)
 						{
 							ModelState.AddModelError("SuburbName", "Current database value for suburb name: " + databaseValues.SuburbName);
 						}
@@ -348,7 +350,7 @@ namespace MagicMaids.Controllers
 
 		#region Service Functions, Rates
 		[HttpGet]
-		public JsonResult GetRateTypesJson(RateApplicationsSettings contextSelection = RateApplicationsSettings.None )
+		public JsonResult GetRateTypesJson(RateApplicationsSettings contextSelection = RateApplicationsSettings.None)
 		{
 			var enumVals = new List<object>();
 			foreach (var item in Enum.GetValues(typeof(RateApplicationsSettings)))
@@ -361,7 +363,7 @@ namespace MagicMaids.Controllers
 					{
 						id = (int)item,
 						name = item.ToString()
-					});	
+					});
 				}
 			}
 
@@ -372,7 +374,7 @@ namespace MagicMaids.Controllers
 		{
 			List<RateListVM> currentRates = GetRatesFromContext(FranchiseId);
 			RateApplicationsSettings allSelections = RateApplicationsSettings.None;
-			foreach(RateListVM _item in currentRates)
+			foreach (RateListVM _item in currentRates)
 			{
 				allSelections |= _item.SelectedRatesValue;
 			}
@@ -384,7 +386,7 @@ namespace MagicMaids.Controllers
 			{
 				allSelections &= ~RateApplicationsSettings.None;
 			}
-			return new JsonNetResult() { Data = new { list = currentRates, nextGuid = Guid.NewGuid() , contextSelections = allSelections }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return new JsonNetResult() { Data = new { list = currentRates, nextGuid = Guid.NewGuid(), contextSelections = allSelections }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		private List<RateListVM> GetRatesFromContext(Guid? FranchiseId)
@@ -407,6 +409,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveRate(RateDetailsVM formValues)
 		{
 			string _objDesc = "Rate";
@@ -420,11 +423,11 @@ namespace MagicMaids.Controllers
 			if (String.IsNullOrWhiteSpace(formValues.SelectedRatesJson))
 			{
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} selections not found.");
-			} 
+			}
 			else
 			{
 				List<SelectedRateItem> _selectionList = JsonConvert.DeserializeObject<List<SelectedRateItem>>(formValues.SelectedRatesJson);
-				foreach(SelectedRateItem _item in _selectionList)
+				foreach (SelectedRateItem _item in _selectionList)
 				{
 					_selection += _item.Id;
 				}
@@ -520,5 +523,48 @@ namespace MagicMaids.Controllers
 			return JsonFormResponse();
 		}
 		#endregion
+
+		#region Methods, Static
+		public static List<string> GetZoneListByFranchise(Guid? FranchiseId, Boolean toLower)
+		{
+			MagicMaidsContext MMContext = new MagicMaidsContext();
+
+			List<String> _zoneList = new List<String>();
+			if (FranchiseId.HasValue)
+			{
+				_zoneList = MMContext.SuburbZones
+							.Where(p => (p.FranchiseId == FranchiseId))
+							.Select(p => p.Zone + "," + p.LinkedZones)
+							.ToList();
+			}
+
+			// load system default list
+			if (_zoneList.Count == 0)
+			{
+				_zoneList = MMContext.SuburbZones
+						 	.Where(p => (!p.FranchiseId.HasValue))
+							.Select(p => p.Zone + "," + p.LinkedZones)
+							.ToList();
+			}
+
+			var _zoneCSV = String.Join(",", _zoneList);
+			if (toLower)
+			{
+				_zoneList = _zoneCSV.ToLower().Split(new char[] { ',', ';' })
+											  .Distinct()
+											  .ToList();
+			}
+			else
+			{
+				_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
+											  .Distinct()
+											  .ToList();
+			}
+
+			_zoneList.Sort();
+
+			return _zoneList;
+		}
+		#endregion 
 	}
 }
