@@ -277,11 +277,6 @@
     <Compile Include="DataLayer\DataContext\DBLogsContext.cs" />
     <Compile Include="DataLayer\DataContext\MagicMaidsContext.cs" />
     <Compile Include="DataLayer\DataContext\MagicMaidsInitialiser.cs" />
-    <Compile Include="DataLayer\DataAccess\BaseRepository.cs" />
-    <Compile Include="DataLayer\DataAccess\ClientRepository.cs" />
-    <Compile Include="DataLayer\DataAccess\IRepository.cs" />
-    <Compile Include="DataLayer\DataAccess\TemplateRepository.cs" />
-    <Compile Include="DataLayer\DataAccess\UserAccountRepository.cs" />
     <Compile Include="Helpers\JsonNetResult.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Helpers\CustomViewEngine.cs" />
@@ -1163,7 +1158,6 @@
     <Folder Include="DataLayer\" />
     <Folder Include="DataLayer\EntityModels\" />
     <Folder Include="DataLayer\DataContext\" />
-    <Folder Include="DataLayer\DataAccess\" />
     <Folder Include="Scripts\app\custom\cleaners\" />
   </ItemGroup>
   <ItemGroup>

@@ -23,7 +23,6 @@ namespace MagicMaids.Controllers
 		// todo - get dependency injection
 		//http://www.dotnetcurry.com/aspnet-mvc/1155/aspnet-mvc-repository-pattern-perform-database-operations
 		#region Fields
-		//private IRepository<Cleaner> repository;
 		#endregion
 
 		#region Constructors
@@ -957,6 +956,44 @@ namespace MagicMaids.Controllers
 			if (!ModelState.IsValid)
 			{
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveLeaveDates), formValues);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryHeader]
+		public ActionResult DeleteLeaveDates(Guid? id)
+		{
+			string _objDesc = "Leave";
+
+			if (!id.HasValue)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
+			}
+
+			try
+			{
+				var objToDelete = MMContext.CleanerLeave.FirstOrDefault(l => l.Id == id.Value);
+				if (objToDelete != null)
+				{
+					MMContext.CleanerLeave.Remove(objToDelete);
+					MMContext.SaveChanges();
+				}
+
+				return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
+
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(LogEntry), null);
 			}
 
 			return JsonFormResponse();

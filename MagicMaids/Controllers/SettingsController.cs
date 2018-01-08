@@ -36,22 +36,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[OutputCache(CacheProfile = "CacheForDemo")]
-		public ActionResult Rates()
-		{
-			bool _chkShowDisabled = false;
-
-			//if (_rateRepo == null)
-			//	_rateRepo = new RatesRepository();
-
-			//List<Rate> _itemList = _rateRepo.GetAll(_chkShowDisabled).ToList<Rate>();
-
-			//return View(_itemList);
-
-			return View();
-		}
-
-
-		[OutputCache(CacheProfile = "CacheForDemo")]
 		public ActionResult Templates()
 		{
 			bool _chkShowDisabled = false;

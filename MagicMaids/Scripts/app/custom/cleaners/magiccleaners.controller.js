@@ -701,6 +701,8 @@
 
 		function loadLeaveDates()
 		{
+			HandleBusySpinner.start($scope, panelName);
+			
 			$http.get('/cleaners/getleavedates?CleanerId='+CleanerId)
                 .success(function (data) {
                 	vm.listOfLeave = data.list;
@@ -715,6 +717,8 @@
 						value.EndDate = new Date(value.EndDate);
 					});
                 	//console.log("<LEAVE loaded> - " + angular.toJson(vm.listOfLeave));
+                	HandleBusySpinner.stop($scope, panelName);
+			
                 });
 		};
 
@@ -743,11 +747,31 @@
     		return (today - idate) < 0 ? true : false;
       	};
 
-      	vm.removeLeave = function(index) {
-          	alert('Coming soon!'); 
-          	return false;
-          	vm.listOfLeave.splice(index, 1);
-      	};
+      	vm.removeLeave = function(id, ix) {
+			HandleBusySpinner.start($scope, panelName);
+			if (confirm('Are you sure you want to deleta the leave dates?')) {
+	       			return $http.post('/cleaners/DeleteLeaveDates/?id=' + id).success(function (response) {
+                		// Add your success stuff here
+        				ShowUserMessages.show($scope, response, "Error deleting leave dates.");
+
+        				if (ix)
+						{
+							vm.listOfLeave.splice(ix, 1);
+						}
+						else
+						{
+							loadLeaveDates();
+						}
+        			}).error(function (error) {
+        				ShowUserMessages.show($scope, error, "Error deleting leave dates.");
+
+        			}).finally(function() {
+        				HandleBusySpinner.stop($scope, panelName);
+        			});
+	        	}
+			
+
+		}
 
       	vm.saveData = function(data, id, isNew) {
 			//console.log("<LEAVE SAVE> - " + angular.toJson(data));
