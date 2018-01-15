@@ -8,144 +8,121 @@
     {{ 'pageTitles.clients.CLIENT_SEARCH' | translate }}
 </div>
 
-<div class="row">
-	<div class="panel panel-default">
-	 	<div class="panel-body">
-		    <form class="form-horizontal">
-		       <div class="form-group">
-		          <label class="col-lg-2 control-label">Name</label>
-		          <div class="col-lg-10">
-		             <input type="text" placeholder="Customer name" class="form-control" />
-		          </div>
-		       </div>
-		       <div class="form-group">
-		          <label class="col-lg-2 control-label">Address</label>
-		          <div class="col-lg-10">
-		             <input type="text" placeholder="Street address" class="form-control" />
-		          </div>
-		       </div>
-		        <div class="form-group">
-		          <label class="col-lg-2 control-label">Suburb</label>
-		          <div class="col-lg-10">
-		             <input type="text" placeholder="Suburb" class="form-control" />
-		          </div>
-		       </div>
-			   <div class="form-group">
-		          <label class="col-lg-2 control-label">Phone</label>
-		          <div class="col-lg-10">
-		             <input type="text" placeholder="Phone number" class="form-control" />
-		          </div>
-		       	</div>	
+<div ng-controller="ClientSearchController as form">
+	@Html.Partial("_InformationDetails")
+
+	<div class="panel panel-primary" id="panelClientSearch">
+		<div class="panel-body">
+			<form class="form-horizontal">
 				<div class="form-group">
-		          <label class="col-lg-2 control-label">Cleaner</label>
-		          <div class="col-lg-10">
-		             <input type="text" placeholder="Cleaner name" class="form-control" />
-		          </div>
-		       	</div>	
+		          	<label class="col-md-2 control-label">Name</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Customer name" class="form-control" ng-model="form.Search.Name" />
+		          	</div>
+		       	</div>
 				<div class="form-group">
-					<label class="col-lg-2 control-label">Search for</label>
-					<div class="col-lg-10">
-						<div class="checkbox c-checkbox">
-			              	<label>
-			                 	<input type="checkbox" checked="false" value="ACTIVE" />
-			                 	<span class="fa fa-check"></span>Active customers
+		          	<label class="col-md-2 control-label">Address</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Street address" class="form-control" ng-model="form.Search.Address" />
+		          	</div>
+		       	</div>
+				<div class="form-group">
+		          	<label class="col-md-2 control-label">Suburb/Postcode</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
+		          	</div>
+		       	</div>
+				<div class="form-group">
+		          	<label class="col-md-2 control-label">Phone</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Phone" class="form-control" ng-model="form.Search.Phone" />
+		          	</div>
+		       	</div>
+				<div class="form-group">
+		          	<label class="col-md-2 control-label">Cleaner</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Cleaner name" class="form-control" ng-model="form.Search.Cleaner" disabled="true" />
+		          	</div>
+		       	</div>
+				<div class="form-group">
+					<label class="col-md-2 control-label"></label>
+			  		<div class="col-md-10">
+			         	<div class="checkbox c-checkbox">
+	                  		<label>
+	                     		<input type="checkbox" checked="false" name="IncludeInactive" id="IncludeInactive" ng-model="form.Search.IncludeInactive"/>
+	                     		<span class="fa fa-check"></span>Include inactive customers in results
 							</label>
-							<label>
-			                 	<input type="checkbox" value="INACTIVE" />
-			                 	<span class="fa fa-check"></span>Inactive customers
-							</label>
-			           	</div>
-					</div>
+	               		</div>
+			      	</div>
 				</div>
-					
 				<div class="form-group">
-		           	<div class="col-lg-offset-2 col-lg-5">
+		           	<div class="col-md-offset-2 col-md-5">
 						<!-- buttons-->
-						<button class="btn btn-default" ng-click="tableform.$visible = !tableform.$visible">Clear</button>
-						<button class="btn btn-primary" ng-click="tableform.$visible = !tableform.$visible">Search</button>
+						<button type="button" class="btn btn-default" ng-click="clearForm()">Clear</button>
+						<button type="button" class="btn btn-info" ng-click="searchClients()">Search</button>
 		           	</div>
-					<div class="text-right col-lg-5">
-						<button type="submit" ng-click="$state.go('app.client_details')" class="btn btn-warning">Return to Customers</button>
-						<button type="submit" ng-click="$state.go('app.cleaner_details')" class="btn btn-warning">Return to Cleaners</button>
+					<div class="text-right col-md-5">
+						<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-primary">
+      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
+						</button>
+						<button type="button" ng-click="$state.go('app.cleaners')" class="btn btn-warning">Return to Cleaners</button>
 					</div>	
 		        </div>
-		    </form>
-	 	</div>
- 	</div>
-</div>
+			</form>
+		</div>
+	</div>
 
-<div class="row" ng-show="tableform.$visible">
-	<div class="panel panel-default">
-     	<div class="panel-heading">Search Results</div>
-
+	<div class="panel panel-transparent" id="panelClientResults" ng-show="form.hasSearched">
+		<div class="panel-heading">
+			<div class="form-group">
+				<div class="pull-right">
+					<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+	          	</div>
+            </div>Search Results
+		</div>
 		<div class="panel-body">
-			<!-- Results Table -->
-			<div class="table-responsive">
-				<table class="table table-bordered table-hover bg-white ctable">
-			      	<tr style="font-weight: bold">
-			         	<td style="width:20%" class="text-center">Customer</td>
-						<td style="width:10%" class="text-center">Email</td>
-						<td style="width:25%" class="text-center">Physical Address</td>
-						<td style="width:25%" class="text-center">Postal Address</td>
-						<td style="width:10%" class="text-center">Phone numbers</td>
-						<td style="width:5%" class="text-center">Active</td>
-						<td style="width:5%" class="text-center"></td>
-			      	</tr>
-					@foreach (var client in Model)
-			    	{
-						<tr valign="top">
-							<td>@client.FullName</td>
-							<td>@client.EmailAddress</td>
-							<td>@Html.Raw(client.PhysicalAddress.FormattedAddress)</td>
-							<td>@Html.Raw(client.PostalAddress.FormattedAddress)</td>
-							<td>@Html.Raw(client.FormattedContactNumbers)</td>
+			<div ng-hide="form.SearchResults.length" class="EmptyResults p-lg text-center">
+				No customers found with the current search criteria.
+			</div>
+			<div class="table-responsive" ng-show="form.SearchResults.length" >
+				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
+					<thead style="font-weight: bold">
+			         	<th  class="text-center">Client Name</th>
+			         	<th  class="text-center">Email Address</th>
+			         	<th  class="text-center">Phone Numbers</th>
+						<th  class="text-center">Suburb</th>
+						<th style="width:5%" class="text-center">Active</th>
+						<th style="width:5%" class="text-center"></th>
+					</thead>  
+			      	<tbody>
+						<tr valign="top" ng-repeat="client in form.SearchResults">
+							<td>{{client.FirstName}} {{ client.LastName }}</td>
+							<td style="white-space: nowrap">
+								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ client.EmailAddress }}">{{ client.EmailAddress }}</a>
+			               	</td>
+							<td style="white-space: nowrap" ng-bind-html="client.FormattedContactNumbers"></td>
+							<td>{{client.PhysicalAddress.Suburb}}</td>
 							<td class="text-center">
-								<label class="switch">
-			                     	<input type="checkbox" checked="@client.IsActive" />
-			                     	<span></span>
-			                  	</label>
+								{{ client.IsActive ? 'Yes' : 'No' }}
 			               	</td>
 							<td style="white-space: nowrap">
 					            <!-- form-->
+								
 					            <div class="buttons">
-								   	<a ui-sref="app.client_details">
-					               		<button title="Edit" class="btn btn-sm btn-info">
-					                  		<em class="fa fa-pencil"></em>
-					               		</button>
-									</a>
+								   <a ui-sref="app.client_details({ ClientId: client.Id })">
+					               <button title="Edit" class="btn btn-sm btn-info">
+					                  <em class="fa fa-pencil"></em>
+					               </button></a>
 					            </div>
 					         </td>
 						</tr>
-					}
+					</tbody>
 				</table>
-
 			</div>
-		
-			<!-- End Results Table -->
 		</div>
-		
-		<div class="panel-footer">
-            <div class="row">
-               <div class="col-lg-2">
-                  <button class="btn btn-sm btn-default" ng-click="tableform.$visible = !tableform.$visible">Clear</button>
-				  <button ng-click="$state.go('app.client_details')" class="btn btn-primary">Add Customer</button>
-               </div>
-               <div class="col-lg-6"></div>
-               <div class="col-lg-4 text-right">
-                  <ul class="pagination pagination-sm">
-                     <li class="active"><a href="#">1</a>
-                     </li>
-                     <li><a href="#">2</a>
-                     </li>
-                     <li><a href="#">3</a>
-                     </li>
-                     <li><a href="#">&raquo;</a>
-                     </li>
-                  </ul>
-               </div>
-            </div>
-         </div>
 	</div>
 </div>
+
+
 
 

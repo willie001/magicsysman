@@ -3,65 +3,79 @@
     Layout = null;
 }
 
-<div class="content-heading">
-	<button type="button" class="btn btn-primary pull-right">
-      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
+<div class="content-heading" ng-controller="MasterClientHeaderController">
+	<button type="button" ng-click="addNewClient()" class="btn btn-primary pull-right">
+      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Client
 	</button>
-    
-    {{ 'pageTitles.clients.CLIENT_DETAILS' | translate }}: @TempData["ClientName"]
+    {{ 'pageTitles.clients.CLIENT_DETAILS' | translate }}
+	<small>Create or edit customer details</small>
 </div>
+<div ng-controller="MasterClientController">
+	@Html.Partial("_InformationDetails")
 
-<div class="panel panel-default">
-	<div class="panel-body">
-		<div class="col-xs-6">
-			<button  class="btn btn-danger">Cancel today's clean</button>
-			<button  class="btn btn-success">Process Payment</button>
-			<button  class="btn btn-info">Contact Customer</button>
-			<!--<button ng-click="$state.go('app.clients')" class="btn btn-info">Find Vacancies</button>
-			<button ng-click="$state.go('app.clients')" class="btn btn-info">Current Customers</button>-->
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-xs-6">
+				<button onclick="alert('Coming soon!'); return false;" class="btn btn-danger">Cancel today's clean</button>
+				<button onclick="alert('Coming soon!'); return false;" class="btn btn-success">Process Payment</button>
+				<button onclick="alert('Coming soon!'); return false;" class="btn btn-info">Contact Customer</button>
+			</div>
+			<div class="text-right col-xs-6">
+				<button ng-click="$state.go('app.clients')" class="btn btn-warning">Find Different Customer</button>
+				<button ng-click="$state.go('app.cleaners')" class="btn btn-warning">Return to Cleaners</button>
+			</div>
 		</div>
-		<div class="text-right col-xs-6">
-			<button ng-click="$state.go('app.clients')" class="btn btn-warning">Find Different Customer</button>
-			<button ng-click="$state.go('app.cleaner_details')" class="btn btn-warning">Return to Cleaners</button>
+	</div>	
+
+	<div class="panel panel-default" id="panelClientDetails">
+		<div class="panel-heading">
+	        <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+			<div class="alert bg-purple" ng-show="DataRecordStatus.IsNewDataRecord">
+				The disabled tabs will be activated once the new Customer has been created.
+            </div>
+	    </div>
+		<div class="panel-body">
+			<uib-tabset justified="true" active="selected">
+				<uib-tab index="0" >
+			     	<uib-tab-heading>Customer Details</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_CustomerDetails");   
+			    	}
+				</uib-tab>
+			  	<uib-tab index="1" disable="true">
+			        <uib-tab-heading>Payments</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_CustomerPayment");   
+			    	}
+			  	</uib-tab>
+			  	<uib-tab index="2" disable="true">
+					<uib-tab-heading>Vacations</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_CustomerHolidays");   
+			    	}
+			  	</uib-tab>
+				<uib-tab index="3"  disable="true">
+			     	<uib-tab-heading>Job Details</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_CustomerJob");   
+			    	}
+				</uib-tab>
+				<uib-tab index="4" disable="true">
+			     	<uib-tab-heading>Communication Log</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_CustomerComms");   
+			    	}
+			  	</uib-tab>	
+				<uib-tab index="5" disable="true">
+			     	<uib-tab-heading>Job History</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_CustomerHistory");   
+			    	}
+			  	</uib-tab>	
+			</uib-tabset>
 		</div>
 	</div>
 </div>
 
-<uib-tabset justified="true">
-  	<uib-tab>
-     	<uib-tab-heading>Job Details</uib-tab-heading>
-		@{
-        	Html.RenderPartial("_CustomerJob");   
-    	}
-	</uib-tab>
-	<uib-tab>
-     	<uib-tab-heading>Customer Details</uib-tab-heading>
-		@{
-        	Html.RenderPartial("_CustomerDetails");   
-    	}
-	</uib-tab>
-  	<uib-tab>
-        <uib-tab-heading>Payments</uib-tab-heading>
-		@{
-        	Html.RenderPartial("_CustomerPayment");   
-    	}
-  	</uib-tab>
-  	<uib-tab>
-		<uib-tab-heading>Vacations</uib-tab-heading>
-		@{
-        	Html.RenderPartial("_CustomerHolidays");   
-    	}
-  	</uib-tab>
-	<uib-tab>
-     	<uib-tab-heading>Communication Log</uib-tab-heading>
-		@{
-        	Html.RenderPartial("_CustomerComms");   
-    	}
-  	</uib-tab>	
-	<uib-tab>
-     	<uib-tab-heading>Job History</uib-tab-heading>
-		@{
-        	Html.RenderPartial("_CustomerHistory");   
-    	}
-  	</uib-tab>	
-</uib-tabset>
+
+

@@ -65,12 +65,17 @@
           .state('app.clients', {
               url: '/clients',
               title: 'Search Customers',
-              templateUrl: helper.basepath('Clients/Clients')
+              templateUrl: helper.basepath('Clients/Clients'),
+              resolve: helper.resolveFor('datatables')
           })
           .state('app.client_details', {
-              url: '/clientdetails',
-              title: 'Customer Details',
-              templateUrl: helper.basepath('Clients/ClientDetails')
+              url: '/clientdetails/:ClientId?',
+              controller: function($scope, $stateParams) {
+            		$scope.ClientId = $stateParams.ClientId;
+            	},
+    		  title: 'Customer Details',
+              templateUrl: helper.basepath('Clients/ClientDetails'),
+              resolve: helper.resolveFor('ngDialog','ui.select','xeditable')
           })
           .state('app.cleaners', {
               url: '/cleaners',

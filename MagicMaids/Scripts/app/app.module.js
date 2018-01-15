@@ -90,6 +90,11 @@
 		.factory('ShowUserMessages', [function () {
 			var factory = {};
 
+			factory.clear = function($scope){
+				$scope.userMessages.splice(0, $scope.userMessages.length); // clear message array
+				$scope.userMessageType.splice(0, $scope.userMessageType.length);
+			}
+
 			factory.show = function($scope, msgs, titleMsg) {
 				/*
 				console.log("<X1 usermsg> - " + angular.toJson($scope.userMessages));

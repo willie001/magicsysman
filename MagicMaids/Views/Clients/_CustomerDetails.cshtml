@@ -1,99 +1,161 @@
-﻿<form class="form-horizontal">
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Name:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Customer name" class="form-control" />
-      	</div>
-   	</div>
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Street Address:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Street Address" class="form-control" />
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-md-2 control-label">Suburb:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Suburb" class="form-control" />
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-md-2 control-label">State:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="State" class="form-control" />
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-md-2 control-label">PostCode:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="PostCode" class="form-control" />
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-md-2 control-label">Mobile:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Mobile number" class="form-control" />
-      	</div>
-   	</div>
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Alternative Number:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Alternative contact number" class="form-control" />
-      	</div>
-   	</div>
-   	<div class="form-group">
-      	<label class="col-md-2 control-label">Email:</label>
-      	<div class="col-md-10">
-         	<input type="text" placeholder="Email" class="form-control" />
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-md-2 control-label">Customer Type:</label>
-      	<div class="col-md-10">
-         	<div class="radio c-radio c-radio-nofont">
-         			<label>
-            			<input type="radio" name="CT" value="R" checked="" />
-           				<span></span>Residencial
-					</label>
-      			</div>
-      			<div class="radio c-radio c-radio-nofont">
-         			<label>
-            			<input type="radio" name="CT" value="C" checked="" />
-            			<span></span>Commercial
-					</label>
-      			</div>
-      	</div>
-   	</div>
-
-	
-	<div class="form-group">
-      	<label class="col-lg-2 control-label">Franchise</label>
-      	<div class="col-lg-10">
-         	<select name="account" class="form-control">
-            	<option value="">Select Franchise</option>	
-				<option value="NM">North Metro</option>
-				<option value="SW">South West</option>
-				<option value="TA">Tasmania</option>
-      		</select>	
-      	</div>
-   	</div>
-	<div class="form-group">
-      	<label class="col-md-2 control-label">Active:</label>
-  		<div class="col-md-10">
-         	<label class="switch">
-         		<input type="checkbox" checked="true" />
-         		<span></span>
-          	</label>
-      	</div>
-   	</div>
-	
-	<div class="form-group">
-	    <div class="col-lg-offset-2 col-lg-6">
-	    	
-	    </div>
-	    <div class="text-right col-lg-4">
-			<button type="button" class="btn btn-default">Cancel</button>
-			<button type="button" class="btn btn-success">Save</button>
+﻿<div class="container-fluid" ng-controller="ClientDetailsController as form">
+	<form class="form-validate form-horizontal" name="form.clientForm" ng-submit="form.saveData()" novalidate="">
+		<!--		
+		<pre>
+			form.clientForm.$error = {{form.clientForm.$error | json}}
+		</pre>
+		-->
+	   	<div class="form-group">
+	      	<label class="col-md-2 control-label">Customer Name</label>
+			<div class="col-md-5">
+	         	<input type="text" placeholder="First name" class="form-control" name="FirstName" ng-model="form.client.FirstName"/>
+	      	</div>
+			<div class="col-md-5">
+	         	<input type="text" placeholder="Last name" class="form-control" name="LastName" ng-model="form.client.LastName"/>
+	      	</div>
+	   	</div>
+		<div class="form-group">
+          	<label class="col-md-2 control-label">Email</label>
+          	<div class="col-md-10">
+             	<input type="email" placeholder="Email" class="form-control" name="emailaddress" ng-model="form.client.EmailAddress" />
+			 	<span class="text-danger" ng-show="form.validateInput('emailaddress', 'email')">This field must be a valid email address</span>
+          	</div>
+       	</div>
+		<div class="form-group">
+		  	<label class="col-md-2 control-label">Contact Numbers</label>
+		  	<div class="col-md-10">
+		    	<div class="row">
+					<div class="col-sm-4">
+						<input type="text"  placeholder="Office" class="form-control"  name="BusinessPhoneNumber" ng-model="form.client.BusinessPhoneNumber"/>
+					</div>		
+					<div class="col-sm-4">
+						<input type="text"  placeholder="Mobile" class="form-control"  name="MobileNumber"  ng-model="form.client.MobileNumber"/>
+					</div>
+					<div class="col-sm-4">
+						<input type="text"  placeholder="Other" class="form-control"  name="OtherNumber"  ng-model="form.client.OtherNumber"/>
+					</div>	
+				</div>
+		  	</div>
 		</div>
-	</div>
-</form>
+		<div class="form-group">
+	      	<label class="col-md-2 control-label">Customer Type:</label>
+	      	<div class="col-md-6">
+	         	<div class="radio c-radio c-radio-nofont">
+	         			<label>
+	            			<input type="radio" name="CT" value="R" checked=""  ng-model="form.client.ClientType"/>
+	           				<span></span>Residencial
+						</label>
+	      			</div>
+	      			<div class="radio c-radio c-radio-nofont">
+	         			<label>
+	            			<input type="radio" name="CT" value="C" checked="" ng-model="form.client.ClientType" />
+	            			<span></span>Commercial
+						</label>
+	      			</div>
+	      	</div>
+			<label class="col-md-2 control-label">Active</label>
+	  		<div class="col-md-2">
+	         	<label class="switch">
+	         		<input type="checkbox" checked="true" name="IsActive" ng-model="form.client.IsActive" />
+	         		<span></span>
+	          	</label>
+	      	</div>
+		</div>
+		<div class="form-group">
+     		<div class="col-sm-6">
+				<div class="panel panel-primary" id="panelPhysical">
+					<div class="panel-heading">Physical Address</div>
+ 					<div class="panel-body">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 1" class="form-control" name="Phys_AddressLine1" ng-model="form.client.PhysicalAddress.AddressLine1"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 2" class="form-control" name="Phys_AddressLine2" ng-model="form.client.PhysicalAddress.AddressLine2"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Suburb" class="form-control" name="Phys_Suburb" ng-model="form.client.PhysicalAddress.Suburb"/>
+							</div>
+							<div class="form-group">
+								<select class="form-control" name="Phys_State" ng-model="form.client.PhysicalAddress.State"  ng-init="Phys_State='WA'">
+				                    <option value="">Select State</option>	
+		                			<option value="ACT">ACT</option>
+									<option value="NT">NT</option>
+									<option value="QLD">QLD</option>
+									<option value="SA">SA</option>
+									<option value="TAS">TAS</option>
+									<option value="VIC">VIC</option>
+									<option value="WA">WA</option>
+			                  	</select>	
+							</div>
+							<div class="form-group">
+								<div class="col-xs-6 nopadding">
+									<input type="text" placeholder="Postcode" class="form-control" name="Phys_PostCode" ng-model="form.client.PhysicalAddress.PostCode"/>
+								</div>
+								<div class="col-xs-6"></div>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Country" class="form-control" name="Phys_Country"  ng-model="form.client.PhysicalAddress.Country" disabled="true" ng-init="Phys_Country='Australia'"/>
+							</div>
+							<div class="checkbox c-checkbox">
+		                  		<label>
+		                     		<input type="checkbox" checked="false" name="CopyToPostal" id="CopyToPostal" ng-model="CopyToPostal"/>
+		                     		<span class="fa fa-check"></span>Use same address for postal address
+								</label>
+		               		</div>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="col-sm-6">
+				<div class="panel panel-green" id="panelPostal" ng-show="!CopyToPostal">
+					<div class="panel-heading">Postal Address</div>
+ 					<div class="panel-body">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 1" class="form-control" name="Post_AddressLine1" ng-model="form.client.PostalAddress.AddressLine1"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Address line 2" class="form-control" name="Post_AddressLine2" ng-model="form.client.PostalAddress.AddressLine2"/>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Suburb" class="form-control" name="Post_Suburb" ng-model="form.client.PostalAddress.Suburb"/>
+							</div>
+							<div class="form-group">
+								<select  class="form-control" name="Post_State" ng-model="form.client.PostalAddress.State" ng-init="Post_State='WA'">
+				                    <option value="">Select State</option>	
+		                			<option value="ACT">ACT</option>
+									<option value="NT">NT</option>
+									<option value="QLD">QLD</option>
+									<option value="SA">SA</option>
+									<option value="TAS">TAS</option>
+									<option value="VIC">VIC</option>
+									<option value="WA">WA</option>
+			                  	</select>	
+							</div>
+							<div class="form-group">
+								<div class="col-xs-6 nopadding">
+									<input type="text" placeholder="Postcode" class="form-control" name="Post_PostCode" ng-model="form.client.PostalAddress.PostCode"/>
+								</div>
+								<div class="col-xs-6"></div>
+							</div>
+							<div class="form-group">
+								<input type="text"  placeholder="Country" class="form-control" name="Post_Country" ng-model="form.client.PostalAddress.Country" ng-init="Post_Country='Australia'" disabled="true"/>
+							</div>
+							<div class="checkbox c-checkbox"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+            <div class="col-md-6">
+            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.clients')">Close</button>
+				<button type="submit" class="btn btn-success" ng-disabled="form.client.$invalid || form.submitted == true">Save Client Details</button>
+            </div>
+		    <div class="text-right col-md-6">
+			</div>		
+        </div>	
+	</form>
+</div>

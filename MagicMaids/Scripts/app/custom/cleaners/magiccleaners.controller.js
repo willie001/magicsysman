@@ -424,7 +424,7 @@
       	};
 
       	vm.saveData = function() {
-      		//console.log("<CLEANER SelectedFranchise> - " + angular.toJson(vm.cleaner));
+      		//console.log("<CLEANER SAVE> - " + angular.toJson(vm.cleaner));
       		$scope.submitted = true;
 
       		if (vm.cleaner.SelectedFranchise && vm.cleaner.SelectedFranchise.Id)

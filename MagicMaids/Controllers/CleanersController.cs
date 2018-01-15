@@ -1,18 +1,20 @@
 ﻿#region Using
 using MagicMaids.DataAccess;
+using MagicMaids.EntityModels;
+using MagicMaids.Validators;
+using MagicMaids.ViewModels;
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using MagicMaids.EntityModels;
-using MagicMaids.ViewModels;
 using System.Data.Entity;
-using MagicMaids.Validators;
-using FluentValidation.Mvc;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Web.Mvc;
+
+using FluentValidation.Mvc;
+
 using NLog;
+
 using AutoMapper;
 #endregion
 

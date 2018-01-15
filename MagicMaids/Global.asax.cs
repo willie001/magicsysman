@@ -43,7 +43,8 @@ namespace MagicMaids
 			Mapper.Initialize(cfg =>  
 			{  
 			    cfg.CreateMap<Cleaner, CleanerDetailsVM>();  
-				cfg.CreateMap<Address, UpdateAddressViewModel>();  
+				cfg.CreateMap<Address, UpdateAddressViewModel>();
+				cfg.CreateMap<Client, ClientDetailsVM>();  
 			});  
 
         }

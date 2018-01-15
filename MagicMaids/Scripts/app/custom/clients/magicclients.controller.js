@@ -2,59 +2,206 @@
     'use strict';
 
     angular
-        .module('magicclients',[])
-        .controller('ClientsController', ClientsController);
-	
-	ClientsController.$inject = ['$filter', '$http', 'editableOptions', 'editableThemes','$q'];
-	function ClientsController($filter, $http, editableOptions, editableThemes, $q)
+    	.module("magicclients",[])
+    	.controller('MasterClientController', MasterClientController)
+    	.controller('MasterClientHeaderController', MasterClientHeaderController)
+    	.controller('ClientSearchController', ClientSearchController)
+    	.controller('ClientDetailsController', ClientDetailsController);
+
+    MasterClientController.$inject = ['$scope'];
+    MasterClientController.$inject = ['$scope','$location','$route','$state'];
+    ClientSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder'];
+    ClientDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
+
+    function MasterClientController($scope)
+    {
+   		var vm = this;
+
+    	// A parent controller is required where we use tabbing with messaging being sent from the child.
+    	$scope.userMessages = [];
+		$scope.userMessageType = [];
+
+		$scope.isLoadingResults;
+		$scope.DataRecordStatus = { IsNewDataRecord: true};
+    }
+
+    function MasterClientHeaderController($scope, $location, $route, $state)
+    {
+		$scope.addNewClient = function() {
+			$scope.userMessages = [];
+			$scope.userMessageType = [];
+
+			$scope.DataRecordStatus = { IsNewDataRecord: true};
+
+			$state.go($state.current, {ClientId: null}, {reload: true});
+		};
+    }
+
+    /***********************/
+	/*** CLEANER SEARCH  ***/
+	/***********************/
+	function ClientSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder)
 	{
 		var vm = this;
+		var panelName = "panelClientResults";
+	
+		vm.Search = {};
+		vm.SeachResults = {};
+		vm.hasSearched = false;
+
+		$scope.userMessages = [];
+		$scope.userMessageType = [];
+
 		activate();
 
-		function activate()
-		{
-			vm.listOfClients = null;
-			$http.get('/clients/getclients')
-				.success(function (data) {
+		function activate() {
+			HandleBusySpinner.start($scope, panelName);
 
-					vm.listOfClients = data.list;
-
-				});
-			
+			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 		}
 
-		vm.validateData = function(data, id) {
-            if (id.length == 0 ) {
-              return 'Primary key is not set';
-            }
+		$scope.clearForm = function() {
+				vm.Search = {};
+				vm.SearchResults = {};
+				vm.hasSearched = false;
+			}
 
-            if (data.GivenName.length == 0) {
-              return 'Given name is mandatory';
-            }
+		$scope.searchClients = function() {
+				ShowUserMessages.clear($scope);
 
-            if (data.Surname.length == 0) {
-              return 'Surname is mandatory';
-            }
+				//console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
+				vm.hasSearched = true;
 
-            if (data.Title.length == 0) {
-              return 'Tiele is mandatory';
-            }
-          };
+	            HandleBusySpinner.start($scope, panelName);
 
-          vm.addClient = function() {
-	          vm.inserted = {
-	              TItle: '',
-	              GivenName: '',
-	              Surname: ''
-	            };
-	            vm.listOfClients.push(vm.inserted);
-          }
-
-          vm.saveClient = function(data, id) {
-          }
-
-          vm.removeClient = function(index) {
-            //vm.users.splice(index, 1);
-          };
+				$http.post('/clients/searchclient/', vm.Search).success(function (response) {
+					//console.log("<CLIENT Search Results> - " + angular.toJson(response));
+					vm.SearchResults = response.SearchResults;
+					HandleBusySpinner.stop($scope, panelName);
+	                
+				}).error(function (error) {
+	        		//console.log("<CLIENT Search Errors> - " + angular.toJson(error));
+	        		HandleBusySpinner.stop($scope, panelName);
+	            	ShowUserMessages.show($scope, error, "Error performing client search.");
+	            	vm.hasSearched = false;
+	        	});   	
+			}
 	}
+
+    /**********************/
+	/*** CLIENT DETAILS ***/
+	/**********************/
+	function ClientDetailsController($scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages)
+	{
+		var vm = this;
+		var _postalType = 1;
+		var _physicalType = 0;
+		var panelName = "panelClientDetails";
+		var Id = $scope.ClientId;
+
+		if ($rootScope.childMessage)
+		{
+			ShowUserMessages.show($scope, $rootScope.childMessage, "Error updating details.");
+            $rootScope.childMessage = null; 	
+		}
+
+		vm.client = {};
+		vm.addressTypes = null;
+
+		activate();
+
+		function activate() {
+        	HandleBusySpinner.start($scope, panelName);
+        	$http.get('/clients/getclient/?ClientId=' + Id)
+                .success(function (data) {
+                	//console.log("<CLIENT> - " + angular.toJson(data.item));
+                	//console.log("<FRANCHISE> - " + angular.toJson(data.selectedFranchise));
+                	vm.client = data.item;
+                	$scope.ClientId = vm.client.Id;
+                	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
+
+                }).error(function(err) {
+                	
+                }).finally(function() {
+                });
+
+			$http.get('/addresses/getaddresstypesjson')
+                .success(function (data) {
+                	//console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
+                	vm.addressTypes = data.item;
+
+                	var result = $filter('filter')(vm.addressTypes, {name:'Postal'})[0];
+                	_postalType = result.id;
+
+                	result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
+                	_physicalType = result.id;
+
+                }).error(function(err) {
+                	
+                }).finally(function() {
+                	$scope.CopyToPostal = $scope.DataRecordStatus.IsNewDataRecord;
+
+                	HandleBusySpinner.stop($scope, panelName);
+                });
+		}
+
+		vm.submitted = false;
+      	vm.validateInput = function(name, type) {
+        	var input = vm.clientForm[name];
+    		return (input.$dirty || vm.submitted) && input.$error[type];
+      	};
+
+		vm.saveData = function() {
+			//console.log("<CLIENT SAVE> - " + angular.toJson(vm.client));
+      		$scope.submitted = true;
+
+			var chkCopy = document.getElementById('CopyToPostal').checked;
+		 	if (chkCopy == true)
+		 	{
+		 		var guid = vm.client.PostalAddress.Id;
+		 		vm.client.PostalAddress = angular.copy(vm.client.PhysicalAddress);
+		 		vm.client.PostalAddress.AddressType = _postalType;
+		 		vm.client.PostalAddress.Id = guid;
+		 	}
+
+			//console.log("<CLIENT Data> - " + angular.toJson(vm.client));
+			if (vm.clientForm.$valid) {
+
+                HandleBusySpinner.start($scope, panelName);
+	
+            	return $http.post('/clients/saveclientdetails', vm.client).success(function (response) {
+                	// Add your success stuff here
+                	HandleBusySpinner.stop($scope, panelName);
+                	$scope.submitted = false;
+                	ShowUserMessages.show($scope, response, "Error updating details.");
+                	vm.client = response.DataItem;
+                	$scope.ClientId = vm.client.Id;
+                	$scope.FranchiseId = vm.client.MasterFranchiseRefId;
+
+        			if ($scope.DataRecordStatus.IsNewDataRecord)
+                	{
+            			$scope.DataRecordStatus.IsNewDataRecord = false;
+                	}
+
+                	activate();
+                	$rootScope.childMessage = response;
+                	$state.go("app.client_details", { "ClientId": $scope.ClientId });
+
+            	}).error(function (error) {
+            		HandleBusySpinner.stop($scope, panelName);
+            		$scope.submitted = false;
+                	ShowUserMessages.show($scope, error, "Error updating details.");
+
+            	});
+        	}
+        	else
+        	{
+        		//console.log("<XX> - " + angular.toJson(vm.clientForm.$error));
+            	$scope.submitted = false;
+            	ShowUserMessages.show($scope, "Error updating customer details - please review validation errors", "Error updating details.");
+        		return false;
+        	}
+		}
+	}
+
 })();

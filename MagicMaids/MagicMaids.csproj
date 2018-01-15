@@ -295,6 +295,7 @@
     <Compile Include="DataLayer\EntityModels\CleanerRosteredTeam.cs" />
     <Compile Include="ViewModels\MSALSessionCache.cs" />
     <Compile Include="Helpers\ValidateAntiForgeryHeader.cs" />
+    <Compile Include="ViewModels\ClientDetailsVM.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

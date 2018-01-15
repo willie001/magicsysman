@@ -14,7 +14,7 @@
 	},
 	{
 		"text": "Manage Clients",
-		"sref": "app.client_details",
+		"sref": "app.clients",
 		"icon": "fa fa-users",
 		"translate": "pageTitles.clients.CLIENT_DETAILS"
 	},
