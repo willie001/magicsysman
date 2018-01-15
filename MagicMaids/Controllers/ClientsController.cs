@@ -45,7 +45,7 @@ namespace MagicMaids.Controllers
 
 		#region Service Functions
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
+		//[ValidateAntiForgeryHeader]
 		public ActionResult SearchClient(ClientSearchVM searchCriteria)
 		{
 			if (searchCriteria == null || (String.IsNullOrWhiteSpace(searchCriteria.Name)
@@ -170,7 +170,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
+		//[ValidateAntiForgeryHeader]
 		public ActionResult SaveClientDetails(ClientDetailsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce

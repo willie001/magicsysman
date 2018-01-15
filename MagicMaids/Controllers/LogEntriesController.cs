@@ -98,7 +98,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
+		//[ValidateAntiForgeryHeader]
 		public ActionResult DeleteLogEntry(Int32? id)
 		{
 			string _objDesc = "Log Entry";
@@ -133,7 +133,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
+		//[ValidateAntiForgeryHeader]
 		public ActionResult DeleteAllLogEntries()
 		{
 			string _objDesc = "Log Entries";
