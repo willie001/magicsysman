@@ -1,145 +1,108 @@
-﻿<form class="form-horizontal">
-       
-	  <div class="form-group">
-	    <label class="col-md-2 control-label">Card Holder's Name:</label>
-	    <div class="col-md-10">
-	      <input type="text" class="input-block-level" pattern="\w+ \w+.*" title="Fill your first and last name" required>
-	    </div>
-	  </div>
-       
-      <div class="form-group">
-        <label class="col-md-2 control-label">Card Number:</label>
-        <div class="col-md-10">
-          <div class="row-fluid">
-            <div >
-              <input type="text" class="col-md-1" autocomplete="off" maxlength="4" pattern="\d{4}" title="First four digits" required>
-            </div>
-            <div >
-              <input type="text" class="col-md-1" autocomplete="off" maxlength="4" pattern="\d{4}" title="Second four digits" required>
-            </div>
-            <div >
-              <input type="text" class="col-md-1" autocomplete="off" maxlength="4" pattern="\d{4}" title="Third four digits" required>
-            </div>
-            <div >
-              <input type="text" class="col-md-1" autocomplete="off" maxlength="4" pattern="\d{4}" title="Fourth four digits" required>
-            </div>
-          </div>
-        </div>
-      </div>
-	<div class="form-group">
-        <label class="col-md-2 control-label">Expiry Date:</label>
-        <div class="col-md-10">
-			<div class="row-fluid">
-            	<div >
-	              	<select class="col-md-1">
-	                	<option>January</option>
-	                	<option>...</option>
-	                	<option>December</option>
-	              	</select>
-            	</div>
-            	<div >
-	              	<select class="col-md-1">
-	                	<option>2017</option>
-	                	<option>...</option>
-	                	<option>2019</option>
-	              	</select>
-            	</div>
-          	</div>
-		</div>
-	</div>
-	<div class="form-group">
-        <label class="col-md-2 control-label">Card CVV:</label>
-        <div class="col-md-10">
-          <div class="row-fluid">
-            <div >
-              <input type="text" class="col-md-1" autocomplete="off" maxlength="4" pattern="\d{4}" title="CVV" required/>
-            </div>
-          </div>
-        </div>
-      </div>
-       
-      <div class="form-group">
-    	<div class="col-lg-offset-2 col-lg-6">
-    	
-    	</div>
-    	<div class="text-right col-lg-4">
-			<button type="button" class="btn btn-default">Cancel</button>
-			<button type="button" class="btn btn-success">Save</button>
-		</div>
-	</div>
-</form>
+﻿<div ng-controller="ClientPaymentController as form">
+	<div class="container-fluid" >
+		<form class="form-validate form-horizontal" name="form.clientForm" ng-submit="form.saveData()" novalidate="">
 
-<div class="row">	
-	<div class="panel panel-default">
-		<div class="panel-heading">Credit Cards</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table class="table table-bordered table-hover bg-white">
-			      	<tr style="font-weight: bold">
-			         	<td  class="text-center">Card Type</td>
-			         	<td  class="text-center">Card Number</td>
-			         	<td  class="text-center">Expiry Date</td>
-						<td  class="text-center"></td>
-			      	</tr>
-					<tr>  
-						<td>VISA</td>
-						<td>**** **** **** 2009</td>
-						<td>09/19</td>
-						<td>
-							 <!-- form-->
-				            <div ng-show="!rowform.$visible" class="buttons">
-				               <button title="View" class="btn btn-sm btn-warning">
-				                  <em class="fa fa-trash"></em>
-				               </button>
-								<button title="Delete" class="btn btn-sm btn-danger">
-				                  <em class="fa fa-file-text-o"></em>
-				               </button>
-				            </div>
-						</td>
-					</tr>
-				</table>
-			</div>	
+		  <div class="form-group">
+		    <label class="col-md-2 control-label">Card Holder's Name</label>
+		    <div class="col-md-6">
+				<input type="text" class="form-control" placeholder="Name on the card" name="CardName" ng-model="form.client.CardName"/>
+		    </div>
+		  </div>
+	       
+	      <div class="form-group">
+	        <label class="col-md-2 control-label">Card Number</label>
+	        <div class="col-md-10">
+	          <div class="row-fluid">
+	            <div >
+	              <input type="text" class="col-md-1" autocomplete="off" maxlength="4"  title="First four digits" ng-model="form.client.CardNumberPart1"/>
+	            </div>
+	            <div >
+	              <input type="text" class="col-md-1" autocomplete="off" maxlength="4"  title="Second four digits" ng-model="form.client.CardNumberPart2"/>
+	            </div>
+	            <div >
+	              <input type="text" class="col-md-1" autocomplete="off" maxlength="4"  title="Third four digits" ng-model="form.client.CardNumberPart3"/>
+	            </div>
+	            <div >
+	              <input type="text" class="col-md-1" autocomplete="off" maxlength="4"  title="Fourth four digits" ng-model="form.client.CardNumberPart4"/>
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+		<div class="form-group">
+	        <label class="col-md-2 control-label">Expiry Date:</label>
+	        <div class="col-md-2">
+				<select class="form-control" name="Month" ng-model="form.client.ExpiryMonth" >
+	                <option value="">Expiry Month</option>	
+	    			<option value="01">January</option>
+					<option value="02">February</option>
+					<option value="03">March</option>
+					<option value="04">April</option>
+					<option value="05">May</option>
+					<option value="06">June</option>
+					<option value="07">July</option>
+					<option value="08">August</option>
+					<option value="09">September</option>
+					<option value="10">October</option>
+					<option value="11">November</option>
+					<option value="12">December</option>
+	          	</select>	
+			</div>
+			<div class="col-md-2">
+				<select class="form-control" name="Year" ng-model="form.client.ExpiryYear" ng-options="year for year in form.cardYears">
+	            	<option value="">Expiry Year</option>	
+				</select>
+			</div>
+			<label class="col-md-2 control-label">Card CVV:</label>
+	       	<div class="col-md-4">
+	              <input class="form-control" name="CVV" autocomplete="off" maxlength="4" title="CVV" ng-model="form.client.CardCvv" />
+	        </div>
 		</div>
-	</div>
-</div>
-
-<div class="row">	
-	<div class="panel panel-default">
-		<div class="panel-heading">Payment History</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table class="table table-bordered table-hover bg-white">
-			      	<tr style="font-weight: bold">
-			         	<td  class="text-center">Payment Date</td>
-			         	<td  class="text-center">Amount</td>
-			         	<td  class="text-center">Payment Status</td>
-			         	<td  class="text-center">Invoice Reference</td>
-						<td  class="text-center">Cleaner</td>
-						<td  class="text-center">Job Date</td>
-						<td  class="text-center"></td>
-			      	</tr>
-					<tr>  
-						<td>1/2/2017</td>
-						<td>$130.00</td>
-						<td>Payment Declined</td>
-						<td>T-130-203944</td>
-						<td>Mary Clean</td>
-						<td>1/1/2017</td>
-						<td>
-							 <!-- form-->
-				            <div ng-show="!rowform.$visible" class="buttons">
-				               <button title="View" class="btn btn-sm btn-warning">
-				                  <em class="fa fa-file-text-o"></em>
-				               </button>
-				            </div>
-						</td>
-					</tr>
-				</table>
-			</div>	<br/>
-			<!-- buttons-->
-	    	<button class="btn btn-success">Process Payment</button>
-		</div>
+		<div class="form-group">
+	            <div class="col-md-6">
+	            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.clients')">Close</button>
+					<button type="submit" class="btn btn-success" ng-disabled="form.client.$invalid || form.submitted == true">Add Card Details</button>
+	            </div>
+			    <div class="text-right col-md-6">
+				</div>		
+	        </div>	
+		</form>
 	</div>
 
-
+	<div class="container-fluid" >	
+		<div class="panel panel-default">
+			<div class="panel-heading">Credit Cards</div>
+			<div ng-hide="form.Cards.length" class="EmptyResults p-lg text-center">
+				No payment methods found.
+			</div>
+			<div class="panel-body" ng-show="form.Cards.length">
+				<div class="table-responsive">
+					<table class="table table-bordered table-hover bg-white">
+				      	<tr style="font-weight: bold">
+				         	<td  class="text-center">Card Name</td>
+				         	<td  class="text-center">Card Type</td>
+				         	<td  class="text-center">Card Number</td>
+							<td  class="text-center">CVV</td>
+				         	<td  class="text-center">Expiry Date</td>
+							<td  class="text-center" width="15%"></td>
+				      	</tr>
+						<tr ng-repeat="card in form.Cards">  
+							<td>{{ card.CardName }}</td>
+							<td>{{ card.CardType }}</td>
+							<td>{{ card.FormattedCardNumber }}</td>
+							<td>{{ card.CardCVV || &apos;Not provided&apos; }}</td>
+							<td>{{ card.FormattedExpiryDate}}</td>
+							<td>
+								 <!-- form-->
+					            <div ng-show="!rowform.$visible" class="buttons">
+					               <button title="Delete" class="btn btn-sm btn-danger" ng-click="deleteEntry(card.Id, $index)">
+					                  <em class="fa fa-trash"></em>
+					               </button>
+					            </div>
+							</td>
+						</tr>
+					</table>
+				</div>	
+			</div>
+		</div>
+	</div>
 </div>

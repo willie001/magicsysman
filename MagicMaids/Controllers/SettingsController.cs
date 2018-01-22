@@ -113,7 +113,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryHeader]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveSettings(UpdateSettingsViewModel setting)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -220,7 +220,7 @@ namespace MagicMaids.Controllers
 
 
 		[HttpPost]
-		//[ValidateAntiForgeryHeader]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SavePostCodes(UpdateSuburbZonesVM formValues)
 		{
 			string _objDesc = "Suburb/zone";
@@ -393,7 +393,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryHeader]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveRate(RateDetailsVM formValues)
 		{
 			string _objDesc = "Rate";

@@ -104,6 +104,12 @@ namespace MagicMaids.DataAccess
 			get;
 			set;
 		}
+
+		public DbSet<ClientMethod> ClientMethods
+		{
+			get;
+			set;
+		}
         #endregion
 
         #region Methods, Protected

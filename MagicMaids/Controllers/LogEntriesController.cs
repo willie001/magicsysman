@@ -83,8 +83,8 @@ namespace MagicMaids.Controllers
 			else
 			{
 				_entry = LogContext.LogEntries 
-									  .Where(x => x.Id == Id)
-									  .FirstOrDefault();
+						  .Where(x => x.Id == Id)
+						  .FirstOrDefault();
 				if (_entry == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Log Entry [{Id.ToString()}] not found.  Please try again.");
@@ -98,7 +98,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryHeader]
+		[ValidateAntiForgeryHeader]
 		public ActionResult DeleteLogEntry(Int32? id)
 		{
 			string _objDesc = "Log Entry";
@@ -133,7 +133,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryHeader]
+		[ValidateAntiForgeryHeader]
 		public ActionResult DeleteAllLogEntries()
 		{
 			string _objDesc = "Log Entries";

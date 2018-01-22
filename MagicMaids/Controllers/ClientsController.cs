@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Text;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,6 +17,7 @@ using FluentValidation.Mvc;
 using NLog;
 
 using AutoMapper;
+using MagicMaids.Security;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -27,9 +29,9 @@ namespace MagicMaids.Controllers
 
 		#region Constructor
 		public ClientsController(MagicMaidsContext dbContext) : base(dbContext)
-        {
+		{
 		}
-		#endregion 
+		#endregion
 
 		#region Method, Public
 		public ActionResult Clients()
@@ -45,14 +47,14 @@ namespace MagicMaids.Controllers
 
 		#region Service Functions
 		[HttpPost]
-		//[ValidateAntiForgeryHeader]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SearchClient(ClientSearchVM searchCriteria)
 		{
 			if (searchCriteria == null || (String.IsNullOrWhiteSpace(searchCriteria.Name)
 										   && String.IsNullOrWhiteSpace(searchCriteria.Address)
-			                               && String.IsNullOrWhiteSpace(searchCriteria.Cleaner)
-			                               && String.IsNullOrWhiteSpace(searchCriteria.Phone)
-			                               && String.IsNullOrWhiteSpace(searchCriteria.Suburb)))
+										   && String.IsNullOrWhiteSpace(searchCriteria.Cleaner)
+										   && String.IsNullOrWhiteSpace(searchCriteria.Phone)
+										   && String.IsNullOrWhiteSpace(searchCriteria.Suburb)))
 			{
 				ModelState.AddModelError(string.Empty, $"No search criteria specified.");
 			}
@@ -64,7 +66,7 @@ namespace MagicMaids.Controllers
 				try
 				{
 					var _results = MMContext.Clients.AsQueryable()
-	                        .Include(nameof(Client.PhysicalAddress));
+							.Include(nameof(Client.PhysicalAddress));
 					if (_results != null)
 					{
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Name))
@@ -74,21 +76,21 @@ namespace MagicMaids.Controllers
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Phone))
 						{
 							_results = _results.Where(x => x.BusinessPhoneNumber.StartsWith(searchCriteria.Phone) ||
-							                          x.MobileNumber.StartsWith(searchCriteria.Phone) ||
-							                          x.OtherNumber.StartsWith(searchCriteria.Phone));
+													  x.MobileNumber.StartsWith(searchCriteria.Phone) ||
+													  x.OtherNumber.StartsWith(searchCriteria.Phone));
 						}
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Address))
 						{
 							_results = _results.Where(x => x.PhysicalAddress.AddressLine1.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.AddressLine2.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.AddressLine3.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.State.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.Country.ToLower().StartsWith(searchCriteria.Address.ToLower()));
+													  x.PhysicalAddress.AddressLine2.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
+													  x.PhysicalAddress.AddressLine3.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
+													  x.PhysicalAddress.State.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
+													  x.PhysicalAddress.Country.ToLower().StartsWith(searchCriteria.Address.ToLower()));
 						}
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
 						{
 							_results = _results.Where(x => x.PhysicalAddress.Suburb.ToLower().StartsWith(searchCriteria.Suburb.ToLower()) ||
-							                          x.PhysicalAddress.PostCode == searchCriteria.Suburb);
+													  x.PhysicalAddress.PostCode == searchCriteria.Suburb);
 						}
 						if (!searchCriteria.IncludeInactive)
 						{
@@ -170,7 +172,7 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		//[ValidateAntiForgeryHeader]
+		[ValidateAntiForgeryHeader]
 		public ActionResult SaveClientDetails(ClientDetailsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -332,6 +334,165 @@ namespace MagicMaids.Controllers
 
 			return JsonFormResponse();
 		}
+
+		[HttpGet]
+		public ActionResult GetClientPaymentMethods(Guid? ClientId)
+		{
+			if (ClientId == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Cleaner Id [{ClientId.ToString()}] not provided.  Please try again.");
+				return JsonFormResponse();
+			}
+
+			List<ClientMethod> _entityList = new List<ClientMethod>();
+
+			MagicMaids.Security.DefaultCrypto _encryption = new MagicMaids.Security.DefaultCrypto();
+			var _hash = _encryption.Hash("|" + ClientId.ToString());
+			if (String.IsNullOrWhiteSpace(_hash))
+			{
+				throw new InvalidOperationException("Error decrypting payment details.");
+			}
+
+			_entityList = MMContext.ClientMethods
+                       .Where(p => p.Validated ==  _hash)
+					   .OrderByDescending(p => p.CreatedAt)
+					   .ToList();
+
+			List<ClientPaymentMethodVM> _editList = new List<ClientPaymentMethodVM>();
+			foreach (ClientMethod _item in _entityList)
+			{
+				var _vm = new ClientPaymentMethodVM();
+				_vm.PopulateVM(_item, _hash);
+				_editList.Add(_vm);
+			}
+
+			return new JsonNetResult() { Data = new { list = _editList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryHeader]
+		public ActionResult SaveClientPaymentMethod(ClientPaymentMethodVM dataItem)
+		{
+			if (dataItem == null)
+			{
+				ModelState.AddModelError(string.Empty, "Valid client payment method not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					StringBuilder _ccDetails = new StringBuilder();
+					_ccDetails.Append("|").Append(dataItem.ClientId);
+					_ccDetails.Append("|").Append(dataItem.CardCVV);
+					_ccDetails.Append("|").Append(dataItem.ExpiryYear);
+					_ccDetails.Append("|").Append(dataItem.ExpiryMonth);
+					_ccDetails.Append("|").Append(dataItem.CardName);
+					_ccDetails.Append("|").Append(dataItem.CardNumberPart3);
+					_ccDetails.Append("|").Append(dataItem.CardNumberPart4);
+					_ccDetails.Append("|").Append(dataItem.CardNumberPart1);
+					_ccDetails.Append("|").Append(dataItem.CardNumberPart2);
+
+					DefaultCrypto _crypto = new DefaultCrypto();
+					var _hash = _crypto.Hash("|" + dataItem.ClientId);
+					if (String.IsNullOrWhiteSpace(_hash))
+					{
+						throw new InvalidOperationException("Error encrypting payment details.");
+					}
+
+					ClientMethod _objToUpdate = new ClientMethod()
+					{
+						Details = Crypto.Encrypt(_ccDetails.ToString(), _hash),
+						Id = Guid.NewGuid(),
+						IsActive = true,
+						Validated =  _hash,
+					};
+
+					MMContext.Entry(_objToUpdate).State = EntityState.Added;
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse("Customer payment method saved successfully", _objToUpdate);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (ClientMethod)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, "Unable to save changes. The payment method was deleted by another user.");
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					//_msg = new InfoViewModel("Error saving cleaner", ex);
+					ModelState.AddModelError(string.Empty, $"Error saving payment method ({ex.Message})");
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, "Error saving payment method", nameof(SaveClientDetails), ex, dataItem);
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveClientPaymentMethod), dataItem);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryHeader]
+		public ActionResult DeletePaymentMethod(Guid? id)
+		{
+			string _objDesc = "Payment Method";
+
+			if (!id.HasValue)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
+			}
+
+			try
+			{
+				var _objToDelete = MMContext.ClientMethods
+						.Where(f => f.Id == id.Value)
+                        .FirstOrDefault();
+
+				if (_objToDelete != null)
+				{
+					MMContext.Entry(_objToDelete).State = EntityState.Deleted;
+					MMContext.SaveChanges();
+				}
+
+				return JsonSuccessResponse($"{_objDesc} deleted successfully", _objToDelete);
+			}
+			catch(Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
+
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(DeletePaymentMethod), null);
+			}
+
+			return JsonFormResponse();
+		}
+
 		#endregion
 	}
 }

@@ -21,7 +21,7 @@
             }
 
             LogEntriesFactory.clearLogEntries = function($scope,$http, ShowUserMessages) {
-            	if (confirm('Are you sure you want to deleta ALL log entries?')) {
+            	if (confirm('Are you sure you want to delete ALL log entries?')) {
 	       			return $http.post('/logentries/deletealllogentries/').success(function (response) {
                 		// Add your success stuff here
         				ShowUserMessages.show($scope, response, "Error clearing log entries.");

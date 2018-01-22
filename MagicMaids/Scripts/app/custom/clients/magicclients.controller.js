@@ -6,12 +6,14 @@
     	.controller('MasterClientController', MasterClientController)
     	.controller('MasterClientHeaderController', MasterClientHeaderController)
     	.controller('ClientSearchController', ClientSearchController)
-    	.controller('ClientDetailsController', ClientDetailsController);
+    	.controller('ClientDetailsController', ClientDetailsController)
+    	.controller('ClientPaymentController', ClientPaymentController);
 
     MasterClientController.$inject = ['$scope'];
     MasterClientController.$inject = ['$scope','$location','$route','$state'];
     ClientSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder'];
     ClientDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
+    ClientPaymentController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
 
     function MasterClientController($scope)
     {
@@ -199,6 +201,112 @@
         		//console.log("<XX> - " + angular.toJson(vm.clientForm.$error));
             	$scope.submitted = false;
             	ShowUserMessages.show($scope, "Error updating customer details - please review validation errors", "Error updating details.");
+        		return false;
+        	}
+		}
+	}
+
+	/**********************/
+	/*** CLIENT PAYMENT ***/
+	/**********************/
+	function ClientPaymentController($scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages)
+	{
+		var vm = this;
+		var panelName = "panelClientPayment";
+		var ClientId = $scope.ClientId;
+		vm.Cards = {};
+
+		if ($rootScope.childMessage)
+		{
+			ShowUserMessages.show($scope, $rootScope.childMessage, "Error updating details.");
+            $rootScope.childMessage = null; 	
+		}
+
+		activate();
+
+		function activate() {
+			var date = new Date();
+			vm.cardYears = [];
+			for(var i=0; i<=5; i++)
+			{
+				vm.cardYears.push(date.getFullYear()+i);
+			}
+
+			HandleBusySpinner.start($scope, panelName);
+        	$http.get('/clients/getclientpaymentmethods/?ClientId=' + ClientId)
+                .success(function (data) {
+                	vm.Cards = data.list;
+                	//console.log("<CLIENT> - " + angular.toJson(vm.Cards));
+                	$scope.ClientId = ClientId;
+
+                }).error(function(err) {
+                	
+                }).finally(function() {
+                	HandleBusySpinner.stop($scope, panelName);
+                });
+		}
+
+
+		$scope.deleteEntry = function(id, ix) {
+			HandleBusySpinner.start($scope, panelName);
+			if (confirm('Are you sure you want to delete the payment method?')) {
+				return $http.post('/clients/deletepaymentmethod/?id=' + id).success(function (response) {
+                		// Add your success stuff here
+        				ShowUserMessages.show($scope, response, "Error deleting payment method.");
+
+        				if (ix)
+						{
+							vm.Cards.splice(ix, 1);
+						}
+						else
+						{
+							activate();
+						}
+        			}).error(function (error) {
+        				ShowUserMessages.show($scope, error, "Error deleting payment method.");
+
+        			}).finally(function() {
+        				HandleBusySpinner.stop($scope, panelName);
+        			});
+			}
+		}
+
+		vm.submitted = false;
+      	vm.validateInput = function(name, type) {
+        	var input = vm.clientForm[name];
+    		return (input.$dirty || vm.submitted) && input.$error[type];
+      	};
+
+
+
+		vm.saveData = function() {
+			//console.log("<CLIENT PAYMENT SAVE> - " + angular.toJson(vm.client));
+      		$scope.submitted = true;
+
+			if (vm.clientForm.$valid) {
+
+                HandleBusySpinner.start($scope, panelName);
+				vm.client.ClientId = ClientId;
+            	return $http.post('/clients/saveclientpaymentmethod', vm.client).success(function (response) {
+                	// Add your success stuff here
+                	HandleBusySpinner.stop($scope, panelName);
+                	$scope.submitted = false;
+                	ShowUserMessages.show($scope, response, "Error updating payment method details.");
+                	vm.client = response.DataItem;
+                	activate();
+
+            	}).error(function (error) {
+            		HandleBusySpinner.stop($scope, panelName);
+            		$scope.submitted = false;
+                	ShowUserMessages.show($scope, error, "Error updating payment method details.");
+
+            	});
+        	}
+        	else
+        	{
+        		//console.log("<XX> - " + angular.toJson(vm.client.$error));
+            	$scope.submitted = false;
+            	ShowUserMessages.show($scope, "Error updating payment method details - please review validation errors", "Error updating payment method details.");
         		return false;
         	}
 		}

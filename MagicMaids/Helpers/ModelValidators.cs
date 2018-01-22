@@ -252,4 +252,193 @@ namespace MagicMaids.Validators
 
 		}
 	}
+
+	public class ClientPaymentMethodValidator : AbstractValidator<ClientPaymentMethodVM>
+	{
+		public ClientPaymentMethodValidator()
+		{
+			RuleFor(x => x.CardName).NotEmpty().WithMessage("Card name is required.");
+			RuleFor(x => x).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
+			//RuleFor(x => x.CardNumberPart2).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
+			//RuleFor(x => x.CardNumberPart3).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
+			//RuleFor(x => x.CardNumberPart4).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
+			RuleFor(x => x.CardCVV).Must((x, s) => IsCvvValid(x.CardCVV)).WithMessage("Card CVV is not valid.");
+			RuleFor(x => x.ExpiryMonth).Must((x, s) => IsExpiryValid(x)).WithMessage("Card expiry is not valid.");
+			RuleFor(x => x.ExpiryYear).Must((x, s) => IsExpiryValid(x)).WithMessage("Card expiry is not valid.");
+		}
+
+		private bool IsCardnumberValid(ClientPaymentMethodVM c)
+		{
+			var values = new string[] { c.CardNumberPart1, c.CardNumberPart2, c.CardNumberPart3, c.CardNumberPart4 };
+
+			if (values.Any(v => String.IsNullOrWhiteSpace(v)))
+			{
+				return false;
+			}
+
+			if (values.Any(v => !Helpers.IsValidNumeric(v)))
+			{
+				return false;
+			}
+
+			var cardNum = String.Concat(values.ToList());
+			var cardType = Helpers.GetCardTypeFromNumber($"{values[0]}{values[1]}{values[2]}{values[3]}");
+			var cardLen = cardNum.Length;
+
+			bool isValid = false;
+			switch(cardType)
+			{
+				case Helpers.CreditCardType.AmericanExpress:
+					isValid = ((values[0].StartsWith("34") || values[0].StartsWith("37")) && (cardLen == 15));
+					break;
+				case Helpers.CreditCardType.Visa:
+					isValid = (values[0].StartsWith("4") && (cardLen == 13 || cardLen == 16 || cardLen == 19));
+					break;
+				case Helpers.CreditCardType.MasterCard:
+					isValid = ((values[0].StartsWith("51") || values[0].StartsWith("52")
+					         || values[0].StartsWith("53") || values[0].StartsWith("54")
+					         || values[0].StartsWith("2") || values[0].StartsWith("55")) && (cardLen == 16));
+					break;
+				case Helpers.CreditCardType.DinersClub:
+					isValid = ((values[0].StartsWith("30") || values[0].StartsWith("36") 
+					            || values[0].StartsWith("38") || values[0].StartsWith("39")) && (cardLen >= 14 && cardLen <= 19));
+					break;
+				case Helpers.CreditCardType.Discover:
+					isValid = ((values[0].StartsWith("6011") || values[0].StartsWith("64") || values[0].StartsWith("65")) && (cardLen >= 16 && cardLen <= 19));
+					break;
+				default:
+					isValid = false;
+					break;
+			}
+
+			if (!isValid)
+			{
+				return false;
+			}
+
+			if (!PassesLuhnTest(cardNum))
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		// *****************************************************************************************
+		//  PassesLuhnTest Method
+		//
+		/// <summary>
+		///     </summary>
+		/// <param name="cardNumber">
+		///     The card number.</param>
+		/// <returns>
+		///     <c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+		//
+		// *****************************************************************************************
+		private  Boolean PassesLuhnTest(String cardNumber)
+		{
+			//Clean the card number- remove dashes and spaces
+			cardNumber = cardNumber.Replace("-", "").Replace(" ", "");
+
+			//Convert card number into digits array
+			Int32[] digits = new int[cardNumber.Length];
+			for (Int32 len = 0; len < cardNumber.Length; len++)
+			{
+				digits[len] = Int32.Parse(cardNumber.Substring(len, 1));
+			}
+
+			//Luhn Algorithm
+			//Adapted from code availabe on Wikipedia at
+			//http://en.wikipedia.org/wiki/Luhn_algorithm
+			Int32 sum = 0;
+			Boolean alt = false;
+			for (Int32 i = digits.Length - 1; i >= 0; i--)
+			{
+				Int32 curDigit = digits[i];
+				if (alt)
+				{
+					curDigit *= 2;
+					if (curDigit > 9)
+					{
+						curDigit -= 9;
+					}
+				}
+				sum += curDigit;
+				alt = !alt;
+			}
+
+			//If Mod 10 equals 0, the number is good and this will return true
+			return sum % 10 == 0;
+		}
+
+		private bool IsExpiryValid(ClientPaymentMethodVM c)
+		{
+			var values = new string[] { c.ExpiryMonth, c.ExpiryYear };
+
+			if (values.Any(v => String.IsNullOrWhiteSpace(v)))
+			{
+				return false;
+			}
+
+			if (values.Any(v => !Helpers.IsValidNumeric(v)))
+			{
+				return false;
+			}
+
+			Int32 _year = Helpers.ToInt32(c.ExpiryYear);
+			Int32 _month = Helpers.ToInt32(c.ExpiryMonth);
+
+			if (_month <= 1 && _month > 12)
+			{
+				return false;
+			}
+
+			if (_year < DateTime.Now.Year)
+			{
+				return false;
+			}
+
+			// we have a valid month/year, but make sure when you combine them that the expiry date is not old
+				
+			DateTime expiryDate = DateTime.Parse(String.Format("{0}/{1}/{2}", DateTime.DaysInMonth(_year,_month), _month, _year));
+			if (expiryDate.Date < DateTime.UtcNow.Date)
+			{
+				if (expiryDate.Year < DateTime.UtcNow.Year)
+				{
+					return false;		// past year
+				}
+				else
+				{
+					return false;		// past month
+				}
+			}
+			else if (expiryDate.Year > (DateTime.UtcNow.Year + 100))
+			{
+				return false;	//too far in the future
+			}
+
+			return true;
+		}
+
+		private bool IsCvvValid(String cvv)
+		{
+			if (String.IsNullOrWhiteSpace(cvv))
+			{
+				// temporary disable mandatory check
+				return true;   // false;
+			}
+
+			if (cvv.Length != 3)
+			{
+				return false;
+			}
+
+			if (!Helpers.IsValidNumeric(cvv))
+			{
+				return false;
+			}
+
+			return true;
+		}
+	}
 }

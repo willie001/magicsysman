@@ -749,7 +749,7 @@
 
       	vm.removeLeave = function(id, ix) {
 			HandleBusySpinner.start($scope, panelName);
-			if (confirm('Are you sure you want to deleta the leave dates?')) {
+			if (confirm('Are you sure you want to delete the leave dates?')) {
 	       			return $http.post('/cleaners/DeleteLeaveDates/?id=' + id).success(function (response) {
                 		// Add your success stuff here
         				ShowUserMessages.show($scope, response, "Error deleting leave dates.");

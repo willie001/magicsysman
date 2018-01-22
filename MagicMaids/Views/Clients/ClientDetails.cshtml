@@ -5,7 +5,7 @@
 
 <div class="content-heading" ng-controller="MasterClientHeaderController">
 	<button type="button" ng-click="addNewClient()" class="btn btn-primary pull-right">
-      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Client
+      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
 	</button>
     {{ 'pageTitles.clients.CLIENT_DETAILS' | translate }}
 	<small>Create or edit customer details</small>
@@ -42,7 +42,7 @@
 			        	Html.RenderPartial("_CustomerDetails");   
 			    	}
 				</uib-tab>
-			  	<uib-tab index="1" disable="true">
+			  	<uib-tab index="1" disable="DataRecordStatus.IsNewDataRecord">
 			        <uib-tab-heading>Payments</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerPayment");   
