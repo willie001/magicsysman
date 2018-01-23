@@ -10,14 +10,13 @@
     {{ 'pageTitles.clients.CLIENT_DETAILS' | translate }}
 	<small>Create or edit customer details</small>
 </div>
-<div ng-controller="MasterClientController">
+<div ng-controller="MasterClientController as client">
 	@Html.Partial("_InformationDetails")
 
 	<div class="panel panel-primary">
 		<div class="panel-body">
 			<div class="col-xs-6">
-				<button onclick="alert('Coming soon!'); return false;" class="btn btn-danger">Cancel today's clean</button>
-				<button onclick="alert('Coming soon!'); return false;" class="btn btn-success">Process Payment</button>
+				<button ng-click="$state.go('app.client_jobs',{ ClientId: client.ClientId })" class="btn btn-pink">Manage Bookings</button>
 				<button onclick="alert('Coming soon!'); return false;" class="btn btn-info">Contact Customer</button>
 			</div>
 			<div class="text-right col-xs-6">
@@ -54,19 +53,13 @@
 			        	Html.RenderPartial("_CustomerHolidays");   
 			    	}
 			  	</uib-tab>
-				<uib-tab index="3"  disable="true">
-			     	<uib-tab-heading>Job Details</uib-tab-heading>
-					@{
-			        	Html.RenderPartial("_CustomerJob");   
-			    	}
-				</uib-tab>
-				<uib-tab index="4" disable="true">
+				<uib-tab index="3" disable="true">
 			     	<uib-tab-heading>Communication Log</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerComms");   
 			    	}
 			  	</uib-tab>	
-				<uib-tab index="5" disable="true">
+				<uib-tab index="4" disable="true">
 			     	<uib-tab-heading>Job History</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerHistory");   

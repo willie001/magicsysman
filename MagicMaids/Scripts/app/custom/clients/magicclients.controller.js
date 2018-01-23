@@ -18,6 +18,7 @@
     function MasterClientController($scope)
     {
    		var vm = this;
+   		vm.ClientId = $scope.ClientId;
 
     	// A parent controller is required where we use tabbing with messaging being sent from the child.
     	$scope.userMessages = [];

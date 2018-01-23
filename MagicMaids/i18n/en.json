@@ -19,7 +19,8 @@
 		"clients": {
 			"CLIENTS": "Customers",	
 			"CLIENT_SEARCH": "Customer Search",
-			"CLIENT_DETAILS": "Customer"
+			"CLIENT_DETAILS": "Customer",
+			"CLIENT_BOOKINGS": "Manage Job Bookings"
 		},
         "cleaners": {
 			"CLEANERS": "Cleaner",

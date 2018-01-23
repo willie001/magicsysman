@@ -1,0 +1,44 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+<div class="content-heading" ng-controller="MasterClientHeaderController">
+	<button type="button" ng-click="addNewClient()" class="btn btn-primary pull-right">
+      	<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
+	</button>
+    {{ 'pageTitles.clients.CLIENT_BOOKINGS' | translate }}
+	<small>Create or change customer job bookings</small>
+</div>
+<div ng-controller="MasterClientController as client">
+	@Html.Partial("_InformationDetails")
+
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<div class="col-xs-6">
+				<a ui-sref="app.client_details({ ClientId: client.ClientId })">
+					<button class="btn btn-info">Customer Details</button>
+				</a>
+				<button onclick="alert('Coming soon!'); return false;" class="btn btn-info">Contact Customer</button>
+			</div>
+			<div class="text-right col-xs-6">
+				<button ng-click="$state.go('app.clients')" class="btn btn-warning">Find Different Customer</button>
+				<button ng-click="$state.go('app.cleaners')" class="btn btn-warning">Return to Cleaners</button>
+			</div>
+		</div>
+	</div>	
+
+	<div class="panel panel-default" id="panelClientDetails">
+		<div class="panel-heading">
+	        <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+	    </div>
+		<div class="panel-body">
+
+			COMING SOON
+
+		</div>
+	</div>
+</div>
+
+
+

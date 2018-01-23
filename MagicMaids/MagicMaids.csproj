@@ -1121,6 +1121,7 @@
     <Content Include="Views\Cleaners\_CleanerAddress.cshtml" />
     <Content Include="Views\Cleaners\CleanerTeam.html" />
     <Content Include="Content\SiteTest.html" />
+    <Content Include="Views\Clients\ClientBookings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />

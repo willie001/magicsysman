@@ -259,9 +259,6 @@ namespace MagicMaids.Validators
 		{
 			RuleFor(x => x.CardName).NotEmpty().WithMessage("Card name is required.");
 			RuleFor(x => x).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
-			//RuleFor(x => x.CardNumberPart2).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
-			//RuleFor(x => x.CardNumberPart3).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
-			//RuleFor(x => x.CardNumberPart4).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
 			RuleFor(x => x.CardCVV).Must((x, s) => IsCvvValid(x.CardCVV)).WithMessage("Card CVV is not valid.");
 			RuleFor(x => x.ExpiryMonth).Must((x, s) => IsExpiryValid(x)).WithMessage("Card expiry is not valid.");
 			RuleFor(x => x.ExpiryYear).Must((x, s) => IsExpiryValid(x)).WithMessage("Card expiry is not valid.");
