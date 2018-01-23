@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Clients/ClientDetails.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Global.asax.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="17" Column="5" />
+      <File FileName="MagicMaids/Web.config" Line="14" Column="14" />
       <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="22" Column="6" />
       <File FileName="MagicMaids/Helpers/ModelValidators.cs" Line="262" Column="76" />
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="45" Column="4" />
       <File FileName="MagicMaids/DataLayer/EntityModels/ClientMethod.cs" Line="21" Column="1" />
       <File FileName="MagicMaids/Views/Clients/_CustomerPayment.cshtml" Line="92" Column="49" />
-      <File FileName="MagicMaids/Views/Clients/ClientDetails.cshtml" Line="16" Column="22" />
+      <File FileName="MagicMaids/Views/Clients/ClientDetails.cshtml" Line="45" Column="55" />
+      <File FileName="MagicMaids/Global.asax.cs" Line="105" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
