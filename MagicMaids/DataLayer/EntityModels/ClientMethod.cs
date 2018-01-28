@@ -18,7 +18,7 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		public String Validated
+		public String Validated   
 		{
 			get;
 			set;
