@@ -135,6 +135,7 @@
             </summary>
             <param name="predicate">The asynchronous condition that should apply to multiple rules</param>
             <param name="action">Action that encapsulates the rules.</param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="M:FluentValidation.AbstractValidator`1.WhenAsync(System.Func{`0,System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Boolean}},System.Action)">
@@ -1377,31 +1378,34 @@
             <param name="ruleSet"></param>
             <returns></returns>
         </member>
-        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAsync``1(FluentValidation.IValidator{``0},``0,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
+        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAsync``1(FluentValidation.IValidator{``0},``0,System.Threading.CancellationToken,System.Linq.Expressions.Expression{System.Func{``0,System.Object}}[])">
             <summary>
             Validates certain properties of the specified instance asynchronously.
             </summary>
             <param name="validator">The current validator</param>
             <param name="instance">The object to validate</param>
+            <param name="cancellationToken"></param>
             <param name="propertyExpressions">Expressions to specify the properties to validate</param>
             <returns>A ValidationResult object containing any validation failures</returns>
         </member>
-        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAsync``1(FluentValidation.IValidator{``0},``0,System.String[])">
+        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAsync``1(FluentValidation.IValidator{``0},``0,System.Threading.CancellationToken,System.String[])">
             <summary>
             Validates certain properties of the specified instance asynchronously.
             </summary>
             <param name="validator"></param>
             <param name="instance">The object to validate</param>
+            <param name="cancellationToken"></param>
             <param name="properties">The names of the properties to validate.</param>
             <returns>A ValidationResult object containing any validation failures.</returns>
         </member>
-        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAsync``1(FluentValidation.IValidator{``0},``0,FluentValidation.Internal.IValidatorSelector,System.String)">
+        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAsync``1(FluentValidation.IValidator{``0},``0,System.Threading.CancellationToken,FluentValidation.Internal.IValidatorSelector,System.String)">
             <summary>
             Validates an object asynchronously using a custom valdiator selector or a ruleset
             </summary>
             <typeparam name="T"></typeparam>
             <param name="validator"></param>
             <param name="instance"></param>
+            <param name="cancellationToken"></param>
             <param name="selector"></param>
             <param name="ruleSet"></param>
             <returns></returns>
@@ -1414,12 +1418,13 @@
             <param name="instance">The instance of the type we are validating.</param>
             <param name="ruleSet">Optional: a ruleset when need to validate against.</param>
         </member>
-        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAndThrowAsync``1(FluentValidation.IValidator{``0},``0,System.String)">
+        <member name="M:FluentValidation.DefaultValidatorExtensions.ValidateAndThrowAsync``1(FluentValidation.IValidator{``0},``0,System.String,System.Threading.CancellationToken)">
             <summary>
             Performs validation asynchronously and then throws an exception if validation fails.
             </summary>
             <param name="validator">The validator this method is extending.</param>
             <param name="instance">The instance of the type we are validating.</param>
+            <param name="cancellationToken"></param>
             <param name="ruleSet">Optional: a ruleset when need to validate against.</param>
         </member>
         <member name="M:FluentValidation.DefaultValidatorExtensions.InclusiveBetween``2(FluentValidation.IRuleBuilder{``0,``1},``1,``1)">
@@ -1627,7 +1632,15 @@
             <param name="applyConditionTo">Whether the condition should be applied to the current rule or all rules in the chain</param>
             <returns></returns>
         </member>
-        <member name="M:FluentValidation.DefaultValidatorOptions.DependentRules``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Action{FluentValidation.DependentRules{``0}})">
+        <member name="M:FluentValidation.DefaultValidatorOptions.DependentRules``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Action{FluentValidation.IValidator{``0}})">
+            <summary>
+            Triggers an action when the rule passes. Typically used to configure dependent rules. This applies to all preceding rules in the chain. 
+            </summary>
+            <param name="rule">The current rule</param>
+            <param name="action">An action to be invoked if the rule is valid</param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentValidation.DefaultValidatorOptions.DependentRules``2(FluentValidation.IRuleBuilderOptions{``0,``1},System.Action)">
             <summary>
             Triggers an action when the rule passes. Typically used to configure dependent rules. This applies to all preceding rules in the chain. 
             </summary>
@@ -1931,14 +1944,14 @@
             <param name="cancellation"></param>
             <returns>A collection of validation failures</returns>
         </member>
-        <member name="M:FluentValidation.Internal.DelegateValidator`1.ApplyCondition(System.Func{System.Object,System.Boolean},FluentValidation.ApplyConditionTo)">
+        <member name="M:FluentValidation.Internal.DelegateValidator`1.ApplyCondition(System.Func{FluentValidation.ValidationContext,System.Boolean},FluentValidation.ApplyConditionTo)">
             <summary>
             Applies a condition to the validator.
             </summary>
             <param name="predicate"></param>
             <param name="applyConditionTo"></param>
         </member>
-        <member name="M:FluentValidation.Internal.DelegateValidator`1.ApplyAsyncCondition(System.Func{System.Object,System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Boolean}},FluentValidation.ApplyConditionTo)">
+        <member name="M:FluentValidation.Internal.DelegateValidator`1.ApplyAsyncCondition(System.Func{FluentValidation.ValidationContext,System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Boolean}},FluentValidation.ApplyConditionTo)">
             <summary>
             Applies a condition asynchronously to the validator
             </summary>
@@ -2367,14 +2380,14 @@
             Invokes a property validator using the specified validation context.
             </summary>
         </member>
-        <member name="M:FluentValidation.Internal.PropertyRule.ApplyCondition(System.Func{System.Object,System.Boolean},FluentValidation.ApplyConditionTo)">
+        <member name="M:FluentValidation.Internal.PropertyRule.ApplyCondition(System.Func{FluentValidation.ValidationContext,System.Boolean},FluentValidation.ApplyConditionTo)">
             <summary>
             Applies a condition to the rule
             </summary>
             <param name="predicate"></param>
             <param name="applyConditionTo"></param>
         </member>
-        <member name="M:FluentValidation.Internal.PropertyRule.ApplyAsyncCondition(System.Func{System.Object,System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Boolean}},FluentValidation.ApplyConditionTo)">
+        <member name="M:FluentValidation.Internal.PropertyRule.ApplyAsyncCondition(System.Func{FluentValidation.ValidationContext,System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Boolean}},FluentValidation.ApplyConditionTo)">
             <summary>
             Applies the condition to the rule asynchronously
             </summary>
@@ -2519,14 +2532,14 @@
             <param name="cancellation">Cancellation token</param>
             <returns>A collection of validation failures</returns>
         </member>
-        <member name="M:FluentValidation.IValidationRule.ApplyCondition(System.Func{System.Object,System.Boolean},FluentValidation.ApplyConditionTo)">
+        <member name="M:FluentValidation.IValidationRule.ApplyCondition(System.Func{FluentValidation.ValidationContext,System.Boolean},FluentValidation.ApplyConditionTo)">
             <summary>
             Applies a condition to the rule
             </summary>
             <param name="predicate"></param>
             <param name="applyConditionTo"></param>
         </member>
-        <member name="M:FluentValidation.IValidationRule.ApplyAsyncCondition(System.Func{System.Object,System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Boolean}},FluentValidation.ApplyConditionTo)">
+        <member name="M:FluentValidation.IValidationRule.ApplyAsyncCondition(System.Func{FluentValidation.ValidationContext,System.Threading.CancellationToken,System.Threading.Tasks.Task{System.Boolean}},FluentValidation.ApplyConditionTo)">
             <summary>
             Applies a condition to the rule asynchronously
             </summary>

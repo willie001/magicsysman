@@ -61,5 +61,12 @@
             <param name="modelState">The ModelStateDictionary to store the errors in.</param>
             <param name="prefix">An optional prefix. If ommitted, the property names will be the keys. If specified, the prefix will be concatenatd to the property name with a period. Eg "user.Name"</param>
         </member>
+        <member name="M:FluentValidation.Mvc.ValidationResultExtension.SetRulesetForClientsideMessages(System.Web.Mvc.ControllerContext,System.String[])">
+            <summary>
+            Sets the rulests used when generating clientside messages.
+            </summary>
+            <param name="context">Http context</param>
+            <param name="ruleSets">Array of ruleset names</param>
+        </member>
     </members>
 </doc>
