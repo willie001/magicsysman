@@ -7,7 +7,7 @@
       <File FileName="MagicMaids/DataLayer/EntityModels/ClientMethod.cs" Line="16" Column="4" />
       <File FileName="MagicMaids/Views/Clients/_CustomerPayment.cshtml" Line="92" Column="49" />
       <File FileName="MagicMaids/Views/Clients/ClientDetails.cshtml" Line="45" Column="55" />
-      <File FileName="MagicMaids/Web.config" Line="99" Column="7" />
+      <File FileName="MagicMaids/Web.config" Line="124" Column="13" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
