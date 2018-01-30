@@ -190,12 +190,10 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
-    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CleanersController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -267,7 +265,6 @@
     <Content Include="Content\mvc-override.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
-    <Content Include="fonts\Simple-Line-Icons.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\logo-single.png" />
     <Content Include="Images\logo.png" />
@@ -349,26 +346,12 @@
     <Content Include="Vendor\modernizr\modernizr.custom.js" />
     <Content Include="Vendor\ngstorage\ngStorage.js" />
     <Content Include="Vendor\oclazyload\dist\ocLazyLoad.js" />
-    <Content Include="Vendor\simple-line-icons\css\simple-line-icons.css" />
-    <Content Include="Vendor\simple-line-icons\fonts\Simple-Line-Icons.svg" />
     <Content Include="fonts\fontawesome-webfont.eot" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="fonts\Simple-Line-Icons.eot" />
-    <Content Include="fonts\Simple-Line-Icons.ttf" />
-    <Content Include="fonts\Simple-Line-Icons.woff" />
-    <Content Include="fonts\Simple-Line-Icons.woff2" />
-    <None Include="Properties\PublishProfiles\angle-mvc-angular-seed.pubxml" />
-    <None Include="Properties\PublishProfiles\Angle-seed-deploy.pubxml" />
     <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -382,11 +365,6 @@
     <Content Include="Vendor\fontawesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Vendor\fontawesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Vendor\fontawesome\fonts\FontAwesome.otf" />
-    <Content Include="Vendor\simple-line-icons\fonts\Simple-Line-Icons.eot" />
-    <Content Include="Vendor\simple-line-icons\fonts\Simple-Line-Icons.ttf" />
-    <Content Include="Vendor\simple-line-icons\fonts\Simple-Line-Icons.woff" />
-    <Content Include="Vendor\simple-line-icons\fonts\Simple-Line-Icons.woff2" />
-    <Content Include="Views\Dashboard\DashboardV1.cshtml" />
     <Content Include="Vendor\animo.js\animo.js" />
     <Content Include="Vendor\fastclick\lib\fastclick.js" />
     <Content Include="Vendor\slimScroll\jquery.slimscroll.min.js" />
@@ -398,34 +376,11 @@
     <Content Include="Vendor\angular-xeditable\dist\css\xeditable.css" />
     <Content Include="Vendor\angular-xeditable\dist\js\xeditable.js" />
     <Content Include="Scripts\app\modules\tables\tables.module.js" />
-    <Content Include="Scripts\app\modules\dashboard\dashboard.controller.js" />
-    <Content Include="Scripts\app\modules\dashboard\dashboard.module.js" />
-    <Content Include="Scripts\app\modules\dashboard\dashboard.v2.controller.js" />
-    <Content Include="Scripts\app\modules\dashboard\dashboard.v3.controller.js" />
-    <Content Include="Scripts\app\modules\charts\chartist.controller.js" />
-    <Content Include="Scripts\app\modules\charts\chartjs.controller.js" />
-    <Content Include="Scripts\app\modules\charts\chartjs.directive.js" />
-    <Content Include="Scripts\app\modules\charts\charts.module.js" />
-    <Content Include="Scripts\app\modules\charts\classyloader.directive.js" />
-    <Content Include="Scripts\app\modules\charts\flot-data.service.js" />
-    <Content Include="Scripts\app\modules\charts\flot.controller.js" />
-    <Content Include="Scripts\app\modules\charts\flot.directive.js" />
-    <Content Include="Scripts\app\modules\charts\morris.controller.js" />
-    <Content Include="Scripts\app\modules\charts\morris.directive.js" />
-    <Content Include="Scripts\app\modules\charts\piecharts.controller.js" />
-    <Content Include="Scripts\app\modules\charts\rickshaw.controller.js" />
-    <Content Include="Scripts\app\modules\charts\sparklines.directive.js" />
     <Content Include="Scripts\app\modules\tables\angular-grid.controller.js" />
     <Content Include="Scripts\app\modules\tables\datatable.controller.js" />
     <Content Include="Scripts\app\modules\tables\ngtable-data.service.js" />
     <Content Include="Scripts\app\modules\tables\ngtable.controller.js" />
     <Content Include="Scripts\app\modules\tables\uigrid.controller.js" />
-    <Content Include="Vendor\Chart.js\Chart.js" />
-    <Content Include="Vendor\Flot\jquery.flot.categories.js" />
-    <Content Include="Vendor\Flot\jquery.flot.js" />
-    <Content Include="Vendor\Flot\jquery.flot.pie.js" />
-    <Content Include="Vendor\Flot\jquery.flot.resize.js" />
-    <Content Include="Vendor\Flot\jquery.flot.time.js" />
     <Content Include="Vendor\ag-grid\dist\ag-grid.js" />
     <Content Include="Vendor\ag-grid\dist\styles\ag-grid.css" />
     <Content Include="Vendor\ag-grid\dist\styles\theme-dark.css" />
@@ -441,7 +396,6 @@
     <Content Include="Vendor\angular-bootstrap-tour\dist\angular-bootstrap-tour.js" />
     <Content Include="Vendor\angular-carousel\dist\angular-carousel.css" />
     <Content Include="Vendor\angular-carousel\dist\angular-carousel.js" />
-    <Content Include="Vendor\angular-chartist.js\dist\angular-chartist.js" />
     <Content Include="Vendor\angular-chosen-localytics\dist\angular-chosen.js" />
     <Content Include="Vendor\angular-datatables\dist\angular-datatables.js" />
     <Content Include="Vendor\angular-datatables\dist\angular-datatables.min.js" />
@@ -473,17 +427,9 @@
     <Content Include="Vendor\angular-deckgrid\angular-deckgrid.js" />
     <Content Include="Vendor\angular-dynamic-locale\dist\tmhDynamicLocale.js" />
     <Content Include="Vendor\angular-file-upload\dist\angular-file-upload.js" />
-    <Content Include="Vendor\angular-i18n\angular-locale_ar.js" />
-    <Content Include="Vendor\angular-i18n\angular-locale_de.js" />
     <Content Include="Vendor\angular-i18n\angular-locale_en.js" />
-    <Content Include="Vendor\angular-i18n\angular-locale_es.js" />
-    <Content Include="Vendor\angular-i18n\angular-locale_fr.js" />
-    <Content Include="Vendor\angular-i18n\angular-locale_ja.js" />
-    <Content Include="Vendor\angular-i18n\angular-locale_ko.js" />
-    <Content Include="Vendor\angular-i18n\angular-locale_zh.js" />
     <Content Include="Vendor\angular-jqcloud\angular-jqcloud.js" />
     <Content Include="Vendor\angular-knob\src\angular-knob.js" />
-    <Content Include="Vendor\angular-rickshaw\rickshaw.js" />
     <Content Include="Vendor\angular-summernote\dist\angular-summernote.js" />
     <Content Include="Vendor\angular-sweetalert\SweetAlert.js" />
     <Content Include="Vendor\angular-ui-calendar\src\calendar.js" />
@@ -525,8 +471,6 @@
     <Content Include="Vendor\bootstrap-tour\build\js\bootstrap-tour-standalone.js" />
     <Content Include="Vendor\bootstrap-wysiwyg\bootstrap-wysiwyg.js" />
     <Content Include="Vendor\bootstrap-wysiwyg\external\jquery.hotkeys.js" />
-    <Content Include="Vendor\chartist\dist\chartist.js" />
-    <Content Include="Vendor\chartist\dist\chartist.min.css" />
     <Content Include="Vendor\chosen_v1.2.0\chosen-sprite.png" />
     <Content Include="Vendor\chosen_v1.2.0\chosen-sprite%402x.png" />
     <Content Include="Vendor\chosen_v1.2.0\chosen.jquery.min.js" />
@@ -733,8 +677,6 @@
     <Content Include="Vendor\datatables-buttons\js\dataTables.buttons.js" />
     <None Include="Vendor\fastclick\.DS_Store" />
     <Content Include="Vendor\flatdoc\flatdoc.js" />
-    <Content Include="Vendor\flot-spline\js\jquery.flot.spline.min.js" />
-    <Content Include="Vendor\flot.tooltip\js\jquery.flot.tooltip.min.js" />
     <Content Include="Vendor\fullcalendar\dist\fullcalendar.css" />
     <Content Include="Vendor\fullcalendar\dist\fullcalendar.min.js" />
     <Content Include="Vendor\fullcalendar\dist\gcal.js" />
@@ -768,7 +710,6 @@
     <Content Include="Vendor\jquery-ui\ui\unique-id.js" />
     <Content Include="Vendor\jquery-ui\ui\version.js" />
     <Content Include="Vendor\jquery-ui\ui\widget.js" />
-    <Content Include="Vendor\jquery.easy-pie-chart\dist\angular.easypiechart.min.js" />
     <Content Include="Vendor\jquery.inputmask\dist\jquery.inputmask.bundle.js" />
     <Content Include="Vendor\jqueryui-touch-punch\jquery.ui.touch-punch.min.js" />
     <Content Include="Vendor\load-google-maps\load-google-maps.js" />
@@ -776,8 +717,6 @@
     <Content Include="Vendor\marked\lib\marked.js" />
     <Content Include="Vendor\matchMedia\matchMedia.js" />
     <Content Include="Vendor\moment\min\moment-with-locales.min.js" />
-    <Content Include="Vendor\morris.js\morris.css" />
-    <Content Include="Vendor\morris.js\morris.js" />
     <Content Include="Vendor\nestable\jquery.nestable.js" />
     <Content Include="Vendor\ng-img-crop\compile\unminified\ng-img-crop.css" />
     <Content Include="Vendor\ng-img-crop\compile\unminified\ng-img-crop.js" />
@@ -791,15 +730,10 @@
     <Content Include="Vendor\ngInfiniteScroll\build\ng-infinite-scroll.js" />
     <Content Include="Vendor\ngWig\dist\ng-wig.min.js" />
     <None Include="Vendor\oclazyload\.DS_Store" />
-    <Content Include="Vendor\raphael\raphael.js" />
-    <Content Include="Vendor\rickshaw\rickshaw.js" />
-    <Content Include="Vendor\rickshaw\rickshaw.min.css" />
     <None Include="Vendor\screenfull\.DS_Store" />
     <Content Include="Vendor\screenfull\dist\screenfull.js" />
     <Content Include="Vendor\seiyria-bootstrap-slider\dist\bootstrap-slider.min.js" />
     <Content Include="Vendor\seiyria-bootstrap-slider\dist\css\bootstrap-slider.min.css" />
-    <Content Include="Vendor\skycons\skycons.js" />
-    <Content Include="Vendor\sparkline\index.js" />
     <Content Include="Vendor\spinkit\css\spinkit.css" />
     <Content Include="Vendor\summernote\dist\summernote.css" />
     <Content Include="Vendor\summernote\dist\summernote.js" />
@@ -895,13 +829,6 @@
     <Content Include="Vendor\summernote\dist\plugin\specialchars\summernote-ext-specialchars.min.js" />
     <Content Include="Vendor\sweetalert\dist\sweetalert.css" />
     <Content Include="Vendor\sweetalert\dist\sweetalert.min.js" />
-    <Content Include="Vendor\weather-icons\css\weather-icons-wind.min.css" />
-    <Content Include="Vendor\weather-icons\css\weather-icons.min.css" />
-    <Content Include="Vendor\weather-icons\font\weathericons-regular-webfont.eot" />
-    <Content Include="Vendor\weather-icons\font\weathericons-regular-webfont.svg" />
-    <Content Include="Vendor\weather-icons\font\weathericons-regular-webfont.ttf" />
-    <Content Include="Vendor\weather-icons\font\weathericons-regular-webfont.woff" />
-    <None Include="Vendor\weather-icons\font\weathericons-regular-webfont.woff2" />
     <Content Include="Vendor\whirl\dist\whirl.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\app\modules\elements\carousel.controller.js" />
@@ -943,9 +870,6 @@
     <Content Include="Scripts\app\modules\notify\notify.directive.js" />
     <Content Include="Scripts\app\modules\notify\notify.module.js" />
     <Content Include="Scripts\app\modules\notify\notify.service.js" />
-    <Content Include="Scripts\app\modules\pages\access-login.controller.js" />
-    <Content Include="Scripts\app\modules\pages\access-register.controller.js" />
-    <Content Include="Scripts\app\modules\pages\pages.module.js" />
     <Content Include="Scripts\app\modules\panels\panel-collapse.directive.js" />
     <Content Include="Scripts\app\modules\panels\panel-dismiss.directive.js" />
     <Content Include="Scripts\app\modules\panels\panel-refresh.directive.js" />
@@ -953,35 +877,6 @@
     <Content Include="Scripts\app\modules\panels\panels.controller.js" />
     <Content Include="Scripts\app\modules\panels\panels.module.js" />
     <Content Include="Scripts\app\modules\panels\portlet.controller.js" />
-    <None Include="Server\ag-owinners.json" />
-    <None Include="Server\chosen-states.json" />
-    <None Include="Server\cities.json" />
-    <None Include="Server\datatable.json" />
-    <None Include="Server\mails.json" />
-    <None Include="Server\ng-grid-data.json" />
-    <None Include="Server\readme.md" />
-    <None Include="Server\table-data.json" />
-    <None Include="Server\treedata.json" />
-    <None Include="Server\uigrid-100.json" />
-    <None Include="Server\uigrid-complex.json" />
-    <None Include="Server\upload.php" />
-    <None Include="Server\xeditable-groups.json" />
-    <None Include="Server\chart\area.json" />
-    <None Include="Server\chart\bar.json" />
-    <None Include="Server\chart\barstacked.json" />
-    <None Include="Server\chart\barstackedv2.json" />
-    <None Include="Server\chart\donut.json" />
-    <None Include="Server\chart\line.json" />
-    <None Include="Server\chart\pie.json" />
-    <None Include="Server\chart\realtime.json" />
-    <None Include="Server\chart\spline.json" />
-    <None Include="Server\chart\splinev2.json" />
-    <None Include="Server\chart\splinev3.json" />
-    <None Include="Server\editor\filetree.json" />
-    <Content Include="Server\editor\source\another.html" />
-    <Content Include="Server\editor\source\index.html" />
-    <Content Include="Server\editor\source\css\style.css" />
-    <Content Include="Server\editor\source\js\script.js" />
     <Content Include="Scripts\app\custom\settings\magicsettings.controller.js" />
     <Content Include="Views\Settings\FranchiseRegister.cshtml" />
     <Content Include="Views\Settings\TemplateManage.cshtml" />
@@ -1025,7 +920,6 @@
     <Content Include="Views\Pages\Error404.cshtml" />
     <Content Include="Views\Pages\Error500.cshtml" />
     <Content Include="Views\Pages\Page.cshtml" />
-    <Content Include="Views\Dashboard\ServerVars.cshtml" />
     <Content Include="Views\Shared\_InformationDetails.cshtml" />
     <None Include="Vendor\angular-bootstrap-toggle-switch\.bower.json" />
     <None Include="Vendor\angular-bootstrap-toggle-switch\LICENSE" />
@@ -1067,22 +961,12 @@
     <Content Include="Views\Cleaners\CleanerTeam.html" />
     <Content Include="Content\SiteTest.html" />
     <Content Include="Views\Clients\ClientBookings.cshtml" />
-    <None Include="docs\MySqlTransaction.xml" />
-    <None Include="docs\MySqlParameterCollection.xml" />
-    <None Include="docs\MySqlParameter.xml" />
-    <None Include="docs\MySqlHelper.xml" />
-    <None Include="docs\MySqlException.xml" />
-    <None Include="docs\MySqlDataReader.xml" />
-    <None Include="docs\MySqlDataAdapter.xml" />
-    <None Include="docs\MySqlConnectionStringBuilder.xml" />
-    <None Include="docs\MySqlConnection.xml" />
-    <None Include="docs\MySqlCommandBuilder.xml" />
-    <None Include="docs\MySqlCommand.xml" />
     <None Include="NLog.xsd" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.js" />
+    <Content Include="Views\Settings\ServerVars.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
@@ -1126,6 +1010,7 @@
     <Folder Include="DataLayer\EntityModels\" />
     <Folder Include="DataLayer\DataContext\" />
     <Folder Include="Scripts\app\custom\cleaners\" />
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

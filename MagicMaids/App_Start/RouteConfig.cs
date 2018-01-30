@@ -26,6 +26,13 @@ namespace MagicMaids
 				defaults: new { controller = "Pages", action = "error", path = UrlParameter.Optional }
 			);
 
+			routes.MapRoute(
+				name: "ServerVars",
+				url: "settings/servervars",
+				defaults: new { controller = "Settings", action = "ServerVars", path = UrlParameter.Optional }
+			);
+
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

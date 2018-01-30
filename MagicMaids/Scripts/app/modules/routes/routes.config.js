@@ -18,8 +18,8 @@
         // You may have to set <base> tag in index and a routing configuration in your server
         //$locationProvider.html5Mode(true);
 
-        // defaults to dashboard
-        $urlRouterProvider.otherwise('/Dashboard');
+        // defaults to homescreen
+        $urlRouterProvider.otherwise('/clients');
 
         //
         // Application Routes
@@ -29,7 +29,7 @@
               //url: '/app',
               abstract: true,
               //templateUrl: helper.basepath('App/Index'),
-              resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'sparklines', 'slimscroll', 'classyloader', 'toaster', 'whirl'),
+              resolve: helper.resolveFor('fastclick', 'modernizr', 'icons', 'screenfull', 'animo', 'slimscroll', 'classyloader', 'toaster', 'whirl'),
               views: {
                   'content': {
                       template: '<div data-ui-view="" autoscroll="false" ng-class="app.viewAnimation" class="content-wrapper"></div>',
@@ -52,10 +52,10 @@
 
           // url maps to controller method name, not the view.
           .state('app.dashboard', {
-              url: '/Dashboard',
-              title: 'Dashboard',
-              templateUrl: helper.basepath('Dashboard/DashboardV1'),
-              resolve: helper.resolveFor('flot-chart', 'flot-chart-plugins', 'weather-icons')
+              url: '/clients',
+              title: 'Home',
+              templateUrl: helper.basepath('Clients/Clients'),
+              resolve: helper.resolveFor('datatables')
           })
           .state('app.servervars', {
               url: '/servervars',

@@ -2,15 +2,7 @@
 	{
 		"text": "Main Navigation",
 		"heading": "true",
-		"translate": "dashboard.WELCOME"
-	},
-	{
-		"text": "Dashboard",
-		"sref": "app.dashboard",
-		"icon": "icon-speedometer",
-		"alert": "0",
-		"label": "label label-info",
-		"translate": "pageTitles.DASHBOARD"
+		"translate": "home.WELCOME"
 	},
 	{
 		"text": "Manage Clients",

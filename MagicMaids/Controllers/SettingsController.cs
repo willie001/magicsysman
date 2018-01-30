@@ -29,6 +29,11 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Method, Public
+		public ActionResult ServerVars()
+		{
+			return View();
+		}
+
 		[OutputCache(CacheProfile = "CacheForDemo")]
 		public ActionResult Index()
 		{

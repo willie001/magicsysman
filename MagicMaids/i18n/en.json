@@ -1,5 +1,5 @@
 ﻿{
-	"dashboard": {
+	"home": {
 		"WELCOME": "Welcome to {{appName}}"
 	},
 	"topbar": {
@@ -15,7 +15,6 @@
 		}
 	},
     "pageTitles" : {
-		"DASHBOARD": "{{appName}} Dashboard",
 		"clients": {
 			"CLIENTS": "Customers",	
 			"CLIENT_SEARCH": "Customer Search",
