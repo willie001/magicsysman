@@ -55,8 +55,8 @@
           // You can use ozLazyLoad to load also the mode js based 
           // on the file extension that is loaded (see handle_filetree)
           vm.loadTheme = function() {
-            var BASE = 'vendor/codemirror/theme/';
-            $ocLazyLoad.load(BASE + vm.editorOpts.theme + '.css');
+            //var BASE = 'vendor/codemirror/theme/';
+            //$ocLazyLoad.load(BASE + vm.editorOpts.theme + '.css');
             vm.refreshEditor = !vm.refreshEditor;
           };
           // load default theme
