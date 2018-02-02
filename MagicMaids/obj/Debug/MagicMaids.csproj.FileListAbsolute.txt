@@ -1,5 +1,4 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.config
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.dll.config
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.dll
@@ -62,7 +61,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Ninject.Web.Common.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.MagicMaids.dll.config
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
