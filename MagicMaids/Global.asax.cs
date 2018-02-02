@@ -15,6 +15,7 @@ using AutoMapper;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
 using MagicMaids.Controllers;
+using System.Configuration;
 
 namespace MagicMaids
 {
@@ -51,6 +52,12 @@ namespace MagicMaids
 
 		protected void Application_Error(object sender, EventArgs e)
 		{
+			Boolean disableGlobalErrorHandling = false;
+			Boolean.TryParse(ConfigurationManager.AppSettings["DisableGlobalErrorHandling"], out disableGlobalErrorHandling);
+
+			if (disableGlobalErrorHandling)
+				return;
+			
 			Exception exception = Server.GetLastError();
 
 			// Clear the response stream 
