@@ -4,14 +4,15 @@
       <File FileName="MagicMaids/MagicMaids.csproj" Line="1" Column="1" />
       <File FileName="MagicMaids/Controllers/AddressesController.cs" Line="39" Column="6" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="9" Column="19" />
-      <File FileName="MagicMaids/Web.config" Line="24" Column="22" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="1" Column="1" />
+      <File FileName="MagicMaids/Web.config" Line="136" Column="17" />
+      <File FileName="MagicMaids/Global.asax.cs" Line="61" Column="48" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
+              <Node name="Packages" expanded="True" />
               <Node name="Global.asax" expanded="True">
                 <Node name="Global.asax.cs" selected="True" />
               </Node>
