@@ -61,7 +61,9 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Ninject.Web.Common.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojResolveAssemblyReference.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.Entity.EF6.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojResolveAssemblyReference.cache
