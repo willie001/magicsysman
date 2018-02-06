@@ -1,34 +1,16 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/FranchisesController.cs">
     <Files>
-      <File FileName="MagicMaids/MagicMaids.csproj" Line="1" Column="1" />
-      <File FileName="MagicMaids/Controllers/AddressesController.cs" Line="39" Column="6" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="9" Column="19" />
-      <File FileName="MagicMaids/Web.config" Line="139" Column="17" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="68" Column="4" />
+      <File FileName="MagicMaids/Web.config" Line="125" Column="202" />
+      <File FileName="MagicMaids/Global.asax.cs" Line="68" Column="1" />
       <File FileName="MagicMaids/Views/Clients/Clients.cshtml" Line="12" Column="8" />
-      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="52" Column="1" />
-      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="40" Column="37" />
-      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="19" Column="1" />
+      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="36" Column="49" />
+      <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="17" Column="19" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="110" Column="1" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="59" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True">
-              <Node name="Packages" expanded="True" />
-              <Node name="DataLayer" expanded="True">
-                <Node name="DataContext" expanded="True" />
-              </Node>
-              <Node name="Views" expanded="True" />
-              <Node name="Global.asax" expanded="True" />
-              <Node name="Web.config" selected="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.DBConnectionTester PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
@@ -36,8 +18,9 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="718" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="722" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CustomFormatters.cs" relfile="MagicMaids/Helpers/CustomFormatters.cs" line="12" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="59" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Global.asax.cs" relfile="MagicMaids/Global.asax.cs" line="64" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Global.asax.cs" relfile="MagicMaids/Global.asax.cs" line="68" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" relfile="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" line="17" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/LogEntriesController.cs" relfile="MagicMaids/Controllers/LogEntriesController.cs" line="139" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

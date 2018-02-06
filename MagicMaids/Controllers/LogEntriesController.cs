@@ -15,7 +15,7 @@ using NLog;
 namespace MagicMaids.Controllers
 {
 	//[RoutePrefix("Settings")]
-    public class LogEntriesController : BaseController 
+	public class LogEntriesController : BaseController 
     {
 		#region Fields
 		#endregion
