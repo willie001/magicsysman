@@ -1,12 +1,10 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/ViewModels/ClientDetailsVM.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="10" Column="20" />
-      <File FileName="MagicMaids/Views/Cleaners/_CleanerDetails.cshtml" Line="68" Column="51" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="395" Column="123" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="59" Column="1" />
-      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="260" Column="10" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="196" Column="23" />
+      <File FileName="MagicMaids/Views/Clients/_CustomerHolidays.cshtml" Line="6" Column="34" />
+      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="45" Column="30" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="506" Column="1" />
+      <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="360" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.DBConnectionTester PreferredExecutionTarget="MonoDevelop.Default" />

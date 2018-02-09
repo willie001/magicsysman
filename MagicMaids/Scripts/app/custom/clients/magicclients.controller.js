@@ -7,13 +7,15 @@
     	.controller('MasterClientHeaderController', MasterClientHeaderController)
     	.controller('ClientSearchController', ClientSearchController)
     	.controller('ClientDetailsController', ClientDetailsController)
-    	.controller('ClientPaymentController', ClientPaymentController);
+    	.controller('ClientPaymentController', ClientPaymentController)
+    	.controller('ClientLeaveController', ClientLeaveController);
 
     MasterClientController.$inject = ['$scope'];
     MasterClientController.$inject = ['$scope','$location','$route','$state'];
     ClientSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder'];
     ClientDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
     ClientPaymentController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
+    ClientLeaveController.$inject = ['$scope','$filter','$http', 'HandleBusySpinner', 'ShowUserMessages','editableOptions', 'editableThemes'];
 
     function MasterClientController($scope)
     {
@@ -41,7 +43,7 @@
     }
 
     /***********************/
-	/*** CLEANER SEARCH  ***/
+	/*** CLIENT SEARCH   ***/
 	/***********************/
 	function ClientSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder)
 	{
@@ -311,6 +313,132 @@
         		return false;
         	}
 		}
+	}
+
+	/**************************/
+	/***    CLIENT LEAVE    ***/
+	/**************************/
+	function ClientLeaveController($scope, $filter, $http, HandleBusySpinner, ShowUserMessages, editableOptions, editableThemes)
+	{
+		var vm = this;
+		var panelName = "panelClientDetails";
+		var ClientId = $scope.ClientId;
+
+		activate();
+
+		function activate()
+		{
+			vm.listOfLeave = [];
+
+			editableOptions.theme = 'bs3';
+
+          	editableThemes.bs3.inputClass = 'input-sm';
+          	editableThemes.bs3.buttonsClass = 'btn-sm';
+          	editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-success"><span class="fa fa-check"></span></button>';
+            editableThemes.bs3.cancelTpl = '<button type="button" class="btn btn-default" ng-click="$form.$cancel()">'+
+                                           '<span class="fa fa-times text-muted"></span>'+
+                                         '</button>';
+
+			loadLeaveDates();
+
+		}
+
+		function loadLeaveDates()
+		{
+			HandleBusySpinner.start($scope, panelName);
+			
+			$http.get('/clients/getleavedates?ClientId='+ClientId)
+                .success(function (data) {
+                	vm.listOfLeave = data.list;
+                	vm.nextNewGuid = data.nextGuid;
+
+                }).error(function(err) {
+
+                }).finally(function() {
+
+					angular.forEach(vm.listOfLeave, function(value, key) {
+						value.StartDate = new Date(value.StartDate);
+						value.EndDate = new Date(value.EndDate);
+					});
+                	//console.log("<LEAVE loaded> - " + angular.toJson(vm.listOfLeave));
+                	HandleBusySpinner.stop($scope, panelName);
+			
+                });
+		};
+
+		vm.addData = function() {
+          	vm.inserted = {
+          	  Id: vm.nextNewGuid,
+	          StartDate: '',
+	          EndDate: '',
+	          IsNewItem: true
+	        };
+
+            vm.listOfLeave.push(vm.inserted);
+      	};
+
+		vm.validateData = function(data, colName) {
+			//console.log("<LEAVE validate> - " + angular.toJson(data));
+          	if (data.length == 0) {
+              return colName + ' is mandatory';
+            }
+      	};
+
+      	$scope.isFutureLeave = function(endDate) {
+      		var today = new Date().getTime(),
+        		idate = new Date(endDate).getTime();
+
+    		return (today - idate) < 0 ? true : false;
+      	};
+
+      	vm.removeLeave = function(id, ix) {
+			HandleBusySpinner.start($scope, panelName);
+			if (confirm('Are you sure you want to delete the leave dates?')) {
+	       			return $http.post('/clients/DeleteLeaveDates/?id=' + id).success(function (response) {
+                		// Add your success stuff here
+        				ShowUserMessages.show($scope, response, "Error deleting leave dates.");
+
+        				if (ix)
+						{
+							vm.listOfLeave.splice(ix, 1);
+						}
+						else
+						{
+							loadLeaveDates();
+						}
+        			}).error(function (error) {
+        				ShowUserMessages.show($scope, error, "Error deleting leave dates.");
+
+        			}).finally(function() {
+        				HandleBusySpinner.stop($scope, panelName);
+        			});
+	        	}
+			
+
+		}
+
+      	vm.saveData = function(data, id, isNew) {
+			//console.log("<LEAVE SAVE> - " + angular.toJson(data));
+          	angular.extend(data, {
+					ClientId: ClientId,
+					Id: id,
+					IsNewItem: isNew
+				});
+
+            //console.log("<LEAVE data post> - " + angular.toJson(data));
+       		return $http.post('/clients/saveleavedates', data).success(function (response) {
+                // Add your success stuff here
+            	console.log("<LEAVE response post> - " + angular.toJson(response));
+       			ShowUserMessages.show($scope, response, "Error updating leave dates.");
+           		loadLeaveDates();
+
+            }).error(function (error) {
+
+                ShowUserMessages.show($scope, error, "Error updating leave dates.");
+
+            });
+        }
+
 	}
 
 })();

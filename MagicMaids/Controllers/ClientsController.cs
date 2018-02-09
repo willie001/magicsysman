@@ -296,7 +296,7 @@ namespace MagicMaids.Controllers
 				catch (DbUpdateConcurrencyException ex)
 				{
 					var entry = ex.Entries.Single();
-					var clientValues = (Cleaner)entry.Entity;
+					var clientValues = (Client)entry.Entity;
 					var databaseEntry = entry.GetDatabaseValues();
 					if (databaseEntry == null)
 					{
@@ -304,7 +304,7 @@ namespace MagicMaids.Controllers
 					}
 					else
 					{
-						var databaseValues = (Cleaner)databaseEntry.ToObject();
+						var databaseValues = (Client)databaseEntry.ToObject();
 
 						if (databaseValues.FirstName != clientValues.FirstName)
 							ModelState.AddModelError("FirstName", "Current database value for customer first name: " + databaseValues.FirstName);
@@ -345,7 +345,7 @@ namespace MagicMaids.Controllers
 		{
 			if (ClientId == null)
 			{
-				ModelState.AddModelError(string.Empty, $"Cleaner Id [{ClientId.ToString()}] not provided.  Please try again.");
+				ModelState.AddModelError(string.Empty, $"Client Id [{ClientId.ToString()}] not provided.  Please try again.");
 				return JsonFormResponse();
 			}
 
@@ -498,6 +498,172 @@ namespace MagicMaids.Controllers
 			return JsonFormResponse();
 		}
 
+		#endregion
+
+		#region Service Functions, Leave Dates
+		public ActionResult GetLeaveDates(Guid? ClientId)
+		{
+			if (ClientId == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Client Id [{ClientId.ToString()}] not provided.  Please try again.");
+				return JsonFormResponse();
+			}
+
+			List<ClientLeave> _entityList = new List<ClientLeave>();
+
+			_entityList = MMContext.ClientLeave
+				   	.Where(p => p.ClientRefId == ClientId)
+					   .OrderByDescending(p => p.StartDate)
+					.ThenByDescending(p => p.EndDate)
+					   .ToList();
+
+			List<ClientLeaveVM> _editList = new List<ClientLeaveVM>();
+			foreach (ClientLeave _item in _entityList)
+			{
+				var _vm = new ClientLeaveVM();
+				_vm.PopulateVM(ClientId, _item);
+				_editList.Add(_vm);
+			}
+
+			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+
+		[HttpPost]
+		[ValidateAntiForgeryHeader]
+		public ActionResult SaveLeaveDates(ClientLeaveVM  formValues)
+		{
+			string _objDesc = "Customer Leave Dates";
+
+			if (formValues == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				Guid _id = formValues.Id;
+				var bIsNew = formValues.IsNewItem;
+
+				try
+				{
+					ClientLeave _objToUpdate = null;
+
+					if (bIsNew)
+					{
+						_objToUpdate = new ClientLeave();
+						_objToUpdate.ClientRefId = formValues.ClientId ;
+						_objToUpdate.StartDate = formValues.StartDate;
+						_objToUpdate.EndDate = formValues.EndDate;
+
+						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+					}
+					else
+					{
+						_objToUpdate = MMContext.ClientLeave
+								 .Where(f => f.Id == _id)
+										  .FirstOrDefault();
+
+						if (_objToUpdate == null)
+						{
+							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+							return JsonFormResponse();
+						}
+
+						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+					}
+
+					MMContext.SaveChanges();
+
+					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (ClientLeave)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+					}
+					else
+					{
+						var databaseValues = (ClientLeave)databaseEntry.ToObject();
+
+						if (databaseValues.StartDate != clientValues.StartDate)
+						{
+							ModelState.AddModelError("LeaveStart", "Current database value for start date: " + databaseValues.StartDate);
+						}
+
+						if (databaseValues.EndDate != clientValues.EndDate)
+						{
+							ModelState.AddModelError("PostCode", "Current database value for end date: " + databaseValues.EndDate);
+						}
+
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(SaveLeaveDates), ex, formValues, Helpers.ParseValidationErrors(ex));
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveLeaveDates), formValues);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryHeader]
+		public ActionResult DeleteLeaveDates(Guid? id)
+		{
+			string _objDesc = "Leave";
+
+			if (!id.HasValue)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
+			}
+
+			try
+			{
+				var objToDelete = MMContext.ClientLeave.FirstOrDefault(l => l.Id == id.Value);
+				if (objToDelete != null)
+				{
+					MMContext.ClientLeave.Remove(objToDelete);
+					MMContext.SaveChanges();
+				}
+
+				return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
+
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(LogEntry), null);
+			}
+
+			return JsonFormResponse();
+		}
 		#endregion
 	}
 }

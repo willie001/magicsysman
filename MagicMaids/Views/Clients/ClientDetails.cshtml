@@ -47,7 +47,7 @@
 			        	Html.RenderPartial("_CustomerPayment");   
 			    	}
 			  	</uib-tab>
-			  	<uib-tab index="2" disable="true">
+			  	<uib-tab index="2" disable="DataRecordStatus.IsNewDataRecord">
 					<uib-tab-heading>Vacations</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerHolidays");   

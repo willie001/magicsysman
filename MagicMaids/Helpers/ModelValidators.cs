@@ -253,6 +253,35 @@ namespace MagicMaids.Validators
 		}
 	}
 
+	public class ClientLeaveValidator : AbstractValidator<ClientLeaveVM>
+	{
+		// todo merge with CleanerLeaveValidator
+		public ClientLeaveValidator()
+		{
+			RuleFor(x => x.StartDate).NotEmpty().WithMessage("Start date is required");
+			RuleFor(x => x.EndDate).NotEmpty().WithMessage("End date is required");
+
+			When(x => (x.StartDate.Year > 1950), () =>
+			{
+				RuleFor(x => x.StartDate).GreaterThan(DateTime.Now).WithMessage("Leave start date must be in the future.");
+				RuleFor(x => x.EndDate)
+					.NotEmpty()
+					.Must((x, EndDate) => EndDate >= x.StartDate)
+					.WithMessage("Leave end date must be after the start date.");
+			});
+
+			When(x => (x.EndDate.Year > 1950), () =>
+			{
+				RuleFor(x => x.EndDate).GreaterThan(DateTime.Now).WithMessage("Leave end date must be in the future.");
+				RuleFor(x => x.StartDate)
+					.NotEmpty()
+					.Must((x, StartDate) => StartDate <= x.EndDate)
+					.WithMessage("Leave start date must be before the end date.");
+			});
+
+		}
+	}
+
 	public class ClientPaymentMethodValidator : AbstractValidator<ClientPaymentMethodVM>
 	{
 		public ClientPaymentMethodValidator()

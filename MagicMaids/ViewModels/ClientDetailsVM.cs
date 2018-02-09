@@ -250,4 +250,115 @@ namespace MagicMaids.ViewModels
 		}
 		#endregion
 	}
+
+	[Validator(typeof(ClientLeaveValidator))]
+	public class ClientLeaveVM
+	{
+		//Cleaner leave container view model
+		#region Properties, Public
+		public Boolean IsNewItem
+		{
+			get;
+			set;
+		}
+
+		public Guid Id
+		{
+			get;
+			set;
+		}
+
+		public Guid ClientId
+		{
+			get;
+			set;
+		}
+
+		public DateTime StartDate
+		{
+			get
+			{
+				return _startDate;
+			}
+			set
+			{
+				_startDate = value;
+			}
+		}
+
+		public String StartDateFormatted
+		{
+			get
+			{
+				if (_startDate == null || _startDate.Equals(DateTime.MinValue) || _startDate.Equals(DateTime.MaxValue))
+				{
+					return String.Empty;
+				}
+
+				return _startDate.ToLocalTime().ToString("d MMM yyyy");
+			}
+		}
+		private DateTime _startDate;
+
+
+		public DateTime EndDate
+		{
+			get
+			{
+				return _endDate;
+			}
+			set
+			{
+				_endDate = value;
+			}
+		}
+
+		public String EndDateFormatted
+		{
+			get
+			{
+				if (_endDate == null || _endDate.Equals(DateTime.MinValue) || _endDate.Equals(DateTime.MaxValue))
+				{
+					return String.Empty;
+				}
+
+				return _endDate.ToLocalTime().ToString("d MMM yyyy");
+			}
+		}
+		private DateTime _endDate;
+
+		public String AdvisedDateFormatted
+		{
+			get
+			{
+				if (_adviseDate == null || _adviseDate.Equals(DateTime.MinValue) || _adviseDate.Equals(DateTime.MaxValue))
+				{
+					return String.Empty;
+				}
+
+				return _adviseDate.ToLocalTime().ToString("d MMM yyyy");
+			}
+		}
+		private DateTime _adviseDate;
+		#endregion
+
+		#region Methods, Public
+		public void PopulateVM(Guid? clientId, ClientLeave entityModel)
+		{
+			if (entityModel == null)
+				return;
+
+			if (clientId.Equals(Guid.Empty))
+				return;
+
+			this.Id = entityModel.Id;
+			this.ClientId = clientId.Value;
+
+			this.StartDate = entityModel.StartDate;
+			this.EndDate = entityModel.EndDate;
+
+			this._adviseDate = entityModel.CreatedAt;
+		}
+		#endregion
+	}
 }

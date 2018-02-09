@@ -245,6 +245,7 @@
     <Compile Include="Helpers\DefaultCrypto.cs" />
     <Compile Include="Helpers\Crypto.cs" />
     <Compile Include="Helpers\CustomFormatters.cs" />
+    <Compile Include="DataLayer\EntityModels\ClientLeave.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
