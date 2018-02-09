@@ -18,6 +18,7 @@ using MagicMaids.Controllers;
 using System.Configuration;
 using System.Data.Entity;
 using MySql.Data.Entity;
+using MagicMaids.DataAccess;
 
 namespace MagicMaids
 {
@@ -51,6 +52,11 @@ namespace MagicMaids
 				cfg.CreateMap<Address, UpdateAddressViewModel>();
 				cfg.CreateMap<Client, ClientDetailsVM>();  
 			});  
+
+			using (DBLogsContext dbContext = new DBLogsContext())
+			{
+				MagicMaidsInitialiser.CheckConnection(dbContext);
+			}
 
         }
 

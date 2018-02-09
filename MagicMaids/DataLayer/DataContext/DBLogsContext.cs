@@ -23,6 +23,8 @@ namespace MagicMaids.DataAccess
 			LogEntries = Set<LogEntry>();
 
 			Log = LogManager.GetLogger(GetType().FullName);
+
+
 		}
 		#endregion
 

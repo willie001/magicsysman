@@ -120,6 +120,13 @@ namespace MagicMaids.EntityModels
 			get;
 			set;
 		}
+
+		public string ApprovedZone
+		{
+			get;
+			set;
+		}
+
 		[ForeignKey("PhysicalAddressRefId")]
 		public Address PhysicalAddress
 		{

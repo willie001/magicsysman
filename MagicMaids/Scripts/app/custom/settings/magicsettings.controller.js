@@ -260,7 +260,10 @@
 
             //console.log("<POSTCODE inserted> - " + angular.toJson(vm.inserted));
 
-            vm.listOfPostcodes.push(vm.inserted);
+            if (vm != null && vm.listOfPostcodes != null)
+            {
+            	vm.listOfPostcodes.push(vm.inserted);
+            }
           };
 
           vm.removeSuburb = function(index) {

@@ -81,6 +81,12 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public string ApprovedZone
+		{
+			get;
+			set;
+		}
+
 		public List<String> PrimaryZoneList
 		{
 			get;
@@ -88,6 +94,12 @@ namespace MagicMaids.ViewModels
 		}
 
 		public List<String> SecondaryZoneList
+		{
+			get;
+			set;
+		}
+
+		public List<String> ApprovedZoneList
 		{
 			get;
 			set;
@@ -141,15 +153,25 @@ namespace MagicMaids.ViewModels
 			this.GenderFlag = entityModel.GenderFlag;
 			this.PrimaryZone = entityModel.PrimaryZone;
 			this.SecondaryZone = entityModel.SecondaryZone;
+			this.ApprovedZone = entityModel.ApprovedZone;
+
 			if (!String.IsNullOrWhiteSpace(this.PrimaryZone))
 			{
 				this.PrimaryZoneList = this.PrimaryZone.Split(new char[] { ',', ';' })
 					.Distinct()
 					.ToList();
 			};
+
 			if (!String.IsNullOrWhiteSpace(this.SecondaryZone))
 			{
 				this.SecondaryZoneList = this.SecondaryZone.Split(new char[] { ',', ';' })
+				.Distinct()
+				.ToList();
+			}
+
+			if (!String.IsNullOrWhiteSpace(this.ApprovedZone))
+			{
+				this.ApprovedZoneList = this.ApprovedZone.Split(new char[] { ',', ';' })
 				.Distinct()
 				.ToList();
 			}

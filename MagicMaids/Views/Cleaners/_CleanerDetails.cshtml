@@ -63,9 +63,18 @@
 				</ui-select>
 			</div>
 			<label class="col-md-2 control-label">Secondary Zones</label>
-			<div class="col-md-6">
+			<div class="col-md-2">
 				<ui-select multiple="" ng-model="form.cleaner.SecondaryZoneList" theme="bootstrap">
 					<ui-select-match placeholder="Select secondary zones.....">{{$item}}</ui-select-match>
+					<ui-select-choices repeat="item in AvailableZones | filter: $select.search">
+						<div ng-bind-html="item"></div>
+					</ui-select-choices>
+				</ui-select>
+			</div>
+			<label class="col-md-2 control-label">Approved Zones</label>
+			<div class="col-md-2">
+				<ui-select multiple="" ng-model="form.cleaner.ApprovedZoneList" theme="bootstrap">
+					<ui-select-match placeholder="Select approved zones.....">{{$item}}</ui-select-match>
 					<ui-select-choices repeat="item in AvailableZones | filter: $select.search">
 						<div ng-bind-html="item"></div>
 					</ui-select-choices>

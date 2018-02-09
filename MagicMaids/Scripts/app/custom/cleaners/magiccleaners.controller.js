@@ -206,7 +206,10 @@
                 	//console.log("<FRANCHISE> - " + angular.toJson(data.selectedFranchise));
                 	vm.cleaner = data.item;
                 	$scope.CleanerId = vm.cleaner.Id;
-                	$scope.FranchiseId = data.selectedFranchise.Id;
+                	if (data.selectedFranchise != null)
+                	{
+                		$scope.FranchiseId = data.selectedFranchise.Id;
+                	}
                 	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
 
                 	if (data.selectedFranchise)

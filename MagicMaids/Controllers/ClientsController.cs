@@ -86,15 +86,15 @@ namespace MagicMaids.Controllers
 						}
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Address))
 						{
-							_results = _results.Where(x => x.PhysicalAddress.AddressLine1.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-													  x.PhysicalAddress.AddressLine2.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-													  x.PhysicalAddress.AddressLine3.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-													  x.PhysicalAddress.State.ToLower().StartsWith(searchCriteria.Address.ToLower()) ||
-													  x.PhysicalAddress.Country.ToLower().StartsWith(searchCriteria.Address.ToLower()));
+							_results = _results.Where(x => x.PhysicalAddress.AddressLine1.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+							                          x.PhysicalAddress.AddressLine2.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+							                          x.PhysicalAddress.AddressLine3.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+							                          x.PhysicalAddress.State.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+							                          x.PhysicalAddress.Country.ToLower().Contains(searchCriteria.Address.ToLower()));
 						}
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
 						{
-							_results = _results.Where(x => x.PhysicalAddress.Suburb.ToLower().StartsWith(searchCriteria.Suburb.ToLower()) ||
+							_results = _results.Where(x => x.PhysicalAddress.Suburb.ToLower().Contains(searchCriteria.Suburb.ToLower()) ||
 													  x.PhysicalAddress.PostCode == searchCriteria.Suburb);
 						}
 						if (!searchCriteria.IncludeInactive)

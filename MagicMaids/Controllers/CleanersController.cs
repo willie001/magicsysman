@@ -214,14 +214,23 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
+				if (!String.IsNullOrWhiteSpace(dataItem.PrimaryZone) && (dataItem.PrimaryZoneList == null || dataItem.PrimaryZoneList.Count() == 0))
+				{
+					dataItem.PrimaryZoneList = new List<string>(new string[] { dataItem.PrimaryZone });
+				}
+
 				// check zones are valid and active
 				if (dataItem.PrimaryZoneList == null || dataItem.PrimaryZoneList.Count() == 0 || dataItem.SecondaryZoneList == null || dataItem.SecondaryZoneList.Count() == 0)
 				{
-					ModelState.AddModelError(string.Empty, "Primary zone and secondar zones are required.");
+					ModelState.AddModelError(string.Empty, "Primary zone and secondary zones are required.");
 				}
 				else if (dataItem.PrimaryZoneList.Except(dataItem.SecondaryZoneList).Count() == 0)
 				{
 					ModelState.AddModelError("", "Secondary zone should not contain the primary zone.");
+				}
+				else if (dataItem.PrimaryZoneList.Except(dataItem.ApprovedZoneList).Count() == 0)
+				{
+					ModelState.AddModelError("", "Approved zone should not contain the primary zone.");
 				}
 				else
 				{
@@ -230,7 +239,13 @@ namespace MagicMaids.Controllers
 					var _missingItems = dataItem.SecondaryZoneList.Select(x => x.ToLower()).Except(_matchList);
 					if (_missingItems.Count() > 0)
 					{
-						ModelState.AddModelError("", $"The following zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
+						ModelState.AddModelError("", $"The following secondary zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
+					}
+
+					_missingItems = dataItem.ApprovedZoneList.Select(x => x.ToLower()).Except(_matchList);
+					if (_missingItems.Count() > 0)
+					{
+						ModelState.AddModelError("", $"The following approved zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
 					}
 				}
 
@@ -241,6 +256,8 @@ namespace MagicMaids.Controllers
 					// if we use SecondaryZone to bind to ui-select it adds commas.
 					// need to revisit !!!
 					dataItem.SecondaryZone = String.Join(",", dataItem.SecondaryZoneList);
+					if (dataItem.ApprovedZoneList != null)
+						dataItem.ApprovedZone = String.Join(",", dataItem.ApprovedZoneList);
 				}
 
 			}

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 
 using MagicMaids.EntityModels;
@@ -45,5 +46,21 @@ namespace MagicMaids.DataAccess
             context.DefaultSettings.AddRange(systemSettings);
             context.SaveChanges();
         }
+
+		public static bool CheckConnection(DbContext context)
+		{
+			try
+			{
+				context.Database.Connection.Open();
+				context.Database.Connection.Close();
+			}
+			catch (SqlException ex)
+			{
+				LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
+				_logger.Log(NLog.LogLevel.Fatal, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
+				return false;
+			}
+			return true;
+		}
     }
 }
