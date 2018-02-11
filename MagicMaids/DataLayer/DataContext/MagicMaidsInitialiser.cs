@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Linq;
 
 using MagicMaids.EntityModels;
@@ -54,10 +53,16 @@ namespace MagicMaids.DataAccess
 				context.Database.Connection.Open();
 				context.Database.Connection.Close();
 			}
-			catch (SqlException ex)
+			catch (MySql.Data.MySqlClient.MySqlException mex)
 			{
 				LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
-				_logger.Log(NLog.LogLevel.Fatal, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
+				_logger.Log(LogLevel.Fatal, "Database connection not valid!!!: " + mex.Message, nameof(CheckConnection), mex, null);
+				return false;
+			}
+			catch (Exception ex)
+			{
+				LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
+				_logger.Log(LogLevel.Fatal, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
 				return false;
 			}
 			return true;

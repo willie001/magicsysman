@@ -5,7 +5,8 @@
       <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="45" Column="30" />
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="506" Column="1" />
       <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="339" Column="17" />
-      <File FileName="MagicMaids/Web.config" Line="127" Column="109" />
+      <File FileName="MagicMaids/Web.config" Line="22" Column="27" />
+      <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="19" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.DBConnectionTester PreferredExecutionTarget="MonoDevelop.Default" />
