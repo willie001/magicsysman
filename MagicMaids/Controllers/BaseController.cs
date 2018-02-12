@@ -26,6 +26,7 @@ namespace MagicMaids.Controllers
 		public BaseController(MagicMaidsContext dbContext)
 		{
 			Log = LogManager.GetLogger(GetType().FullName);
+			MagicMaidsInitialiser.CheckConnection(dbContext);
             MMContext = dbContext;
         }
 

@@ -30,7 +30,7 @@ namespace MagicMaids.Controllers
 		#region Constructors
 		public CleanersController(MagicMaidsContext dbContext) : base(dbContext)
 		{
-
+			
 		}
 		#endregion
 

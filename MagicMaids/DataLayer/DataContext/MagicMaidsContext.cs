@@ -123,6 +123,7 @@ namespace MagicMaids.DataAccess
 
         #region Methods, Protected
 
+
 		public override int SaveChanges()
 		{
 			foreach (var auditableEntity in ChangeTracker.Entries<IDataModel>())

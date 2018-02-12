@@ -1,11 +1,13 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
 
 using MagicMaids.EntityModels;
-
+using MySql.Data.MySqlClient;
 using NLog;
 #endregion
 
@@ -46,26 +48,39 @@ namespace MagicMaids.DataAccess
             context.SaveChanges();
         }
 
-		public static bool CheckConnection(DbContext context)
+		public static void CheckConnection(DbContext context)
 		{
+			if (context == null)
+			{
+				return ;
+			}
+
+			MySqlConnection conn = (MySqlConnection)context.Database.Connection;
+			if (conn == null)
+			{
+				var connString = ConfigurationManager.ConnectionStrings["MagicMaidsDBConn"].ConnectionString;
+				if (String.IsNullOrWhiteSpace(connString))
+				{
+					return ;
+				}
+
+				conn = new MySqlConnection(connString);
+			}
+
 			try
 			{
-				context.Database.Connection.Open();
-				context.Database.Connection.Close();
+				if (!conn.Ping())
+				{
+					conn.Open();
+				}
 			}
-			catch (MySql.Data.MySqlClient.MySqlException mex)
-			{
-				LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
-				_logger.Log(LogLevel.Fatal, "Database connection not valid!!!: " + mex.Message, nameof(CheckConnection), mex, null);
-				return false;
-			}
-			catch (Exception ex)
+			catch(Exception ex)
 			{
 				LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
 				_logger.Log(LogLevel.Fatal, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
-				return false;
+
 			}
-			return true;
 		}
+
     }
 }

@@ -53,11 +53,6 @@ namespace MagicMaids
 				cfg.CreateMap<Client, ClientDetailsVM>();  
 			});  
 
-			using (DBLogsContext dbContext = new DBLogsContext())
-			{
-				MagicMaidsInitialiser.CheckConnection(dbContext);
-			}
-
         }
 
 		protected void Application_Error(object sender, EventArgs e)

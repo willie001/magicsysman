@@ -16,15 +16,13 @@ namespace MagicMaids.DataAccess
 	{
 		#region Constructors
 		public DBLogsContext()
-				: base(nameOrConnectionString: "MagicMaidsDBConn")
+			: base("MagicMaidsDBConn")
 		{
 			this.Configuration.LazyLoadingEnabled = false;
 
 			LogEntries = Set<LogEntry>();
 
 			Log = LogManager.GetLogger(GetType().FullName);
-
-
 		}
 		#endregion
 
