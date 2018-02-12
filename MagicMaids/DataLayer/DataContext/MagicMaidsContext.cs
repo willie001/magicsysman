@@ -1,16 +1,13 @@
 ﻿#region Using
 using System;
 using System.Data.Entity;
-using System.Diagnostics;
 using System.Web;
 using MagicMaids.EntityModels;
-using MySql.Data.Entity;
 using NLog;
 #endregion
 
 namespace MagicMaids.DataAccess
 {
-	[DbConfigurationType(typeof(MySqlEFConfiguration))]
     public class MagicMaidsContext : DbContext
     {
         #region Constructors

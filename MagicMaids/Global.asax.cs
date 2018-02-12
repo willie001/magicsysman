@@ -17,7 +17,6 @@ using MagicMaids.ViewModels;
 using MagicMaids.Controllers;
 using System.Configuration;
 using System.Data.Entity;
-using MySql.Data.Entity;
 using MagicMaids.DataAccess;
 
 namespace MagicMaids
@@ -32,8 +31,6 @@ namespace MagicMaids
         {
 			// Removing all the view engines
 			ViewEngines.Engines.Clear();
-
-			DbConfiguration.SetConfiguration(new MySqlEFConfiguration());
 
 			//Add Razor Engine (which we are using)
 			ViewEngines.Engines.Add(new CustomViewEngine());
