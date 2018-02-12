@@ -1,0 +1,6 @@
+2018-02-12 17:12:09.5798 FATAL Database connection not valid!!!: Unable to connect to any of the specified MySQL hosts.  MySql.Data.MySqlClient.MySqlException (0x80004005): Unable to connect to any of the specified MySQL hosts.
+  at MySql.Data.MySqlClient.NativeDriver.Open () [0x00059] in <8051f3898298485d9e8510b51445dcd7>:0 
+  at MySql.Data.MySqlClient.Driver.Open () [0x0000b] in <8051f3898298485d9e8510b51445dcd7>:0 
+  at MySql.Data.MySqlClient.Driver.Create (MySql.Data.MySqlClient.MySqlConnectionStringBuilder settings) [0x0004e] in <8051f3898298485d9e8510b51445dcd7>:0 
+  at MySql.Data.MySqlClient.MySqlConnection.Open () [0x0016d] in <8051f3898298485d9e8510b51445dcd7>:0 
+  at MagicMaids.DataAccess.MagicMaidsInitialiser.CheckConnection (System.Data.Entity.DbContext context) [0x00002] in /Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs:53 
