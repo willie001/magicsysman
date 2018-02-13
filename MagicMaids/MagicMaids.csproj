@@ -181,10 +181,13 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.WebData.3.2.3\lib\net45\WebMatrix.WebData.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\packages\MySql.Data.6.8.8\lib\net45\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.10.6-noinstall\v4.5.2\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data.Entity.EF6">
-      <HintPath>..\packages\MySql.Data.Entity.6.8.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.10.6-noinstall\v4.5.2\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web">
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.10.6-noinstall\v4.5.2\MySql.Web.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

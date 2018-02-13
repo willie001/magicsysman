@@ -12,6 +12,8 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.Web.Infrastructure.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Mono.Reflection.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.Entity.EF6.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Web.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Newtonsoft.Json.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Ninject.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Ninject.Web.Common.dll
@@ -64,6 +66,9 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.Data.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.WebData.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.Entity.EF6.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Web.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

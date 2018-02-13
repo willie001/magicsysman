@@ -1,29 +1,24 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
       <File FileName="MagicMaids/Views/Clients/_CustomerHolidays.cshtml" Line="6" Column="34" />
       <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="45" Column="30" />
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="506" Column="1" />
       <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="339" Column="17" />
-      <File FileName="MagicMaids/Web.config" Line="132" Column="17" />
+      <File FileName="MagicMaids/Web.config" Line="15" Column="8" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="7" Column="1" />
       <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="79" Column="58" />
       <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="4" Column="1" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="31" Column="62" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="20" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Packages" expanded="True" />
-              <Node name="DataLayer" expanded="True">
-                <Node name="DataContext" expanded="True">
-                  <Node name="MagicMaidsContext.cs" selected="True" />
-                </Node>
-              </Node>
+              <Node name="References" expanded="True" />
               <Node name="Global.asax" expanded="True" />
+              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>
