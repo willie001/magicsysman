@@ -137,7 +137,7 @@
 			//console.log("<RATES EDIT2> - " + angular.toJson($scope.rateData.SelectedRates));
 				
 			ngDialog.open({
-              template: '/views/settings/RatesEditor.html',
+              template: '/Views/Settings/RatesEditor.chtml',
               className: 'ngdialog-theme-default',
               width: '40%',
               scope: $scope,
