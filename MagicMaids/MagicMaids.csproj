@@ -797,7 +797,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.js" />
-    <None Include="Views\Settings\RatesEditor.chtml" />
+    <Content Include="Views\Settings\RatesEditor.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
