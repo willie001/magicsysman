@@ -52,7 +52,6 @@ namespace MagicMaids.Controllers
 
 		#region Service Functions
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SearchClient(ClientSearchVM searchCriteria)
 		{
 			if (searchCriteria == null || (String.IsNullOrWhiteSpace(searchCriteria.Name)
@@ -177,7 +176,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveClientDetails(ClientDetailsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -375,7 +373,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveClientPaymentMethod(ClientPaymentMethodVM dataItem)
 		{
 			if (dataItem == null)
@@ -458,7 +455,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult DeletePaymentMethod(Guid? id)
 		{
 			string _objDesc = "Payment Method";
@@ -530,7 +526,6 @@ namespace MagicMaids.Controllers
 
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveLeaveDates(ClientLeaveVM  formValues)
 		{
 			string _objDesc = "Customer Leave Dates";
@@ -628,7 +623,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult DeleteLeaveDates(Guid? id)
 		{
 			string _objDesc = "Leave";

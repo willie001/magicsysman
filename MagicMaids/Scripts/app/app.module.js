@@ -46,15 +46,13 @@
             'toggle-switch',
           	'angular.filter'
         ])
-        .config(['$httpProvider', function ($httpProvider) {
-    			var antiForgeryToken = document.getElementById('antiForgeryForm').childNodes[1].value;
-    			$httpProvider.defaults.headers.post['__RequestVerificationToken'] = antiForgeryToken;
-			}])
+        /*
 		.filter('trustAsHtml',['$sce', function($sce) {
 			  return function(text) {
 			    return $sce.trustAsHtml(text);
 			  };
 			}])
+			*/
         .factory('HandleBusySpinner', ['$timeout', function ($timeout) {
 
     		var factory = {};

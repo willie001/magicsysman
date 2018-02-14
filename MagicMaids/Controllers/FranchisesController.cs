@@ -161,7 +161,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveFranchise(UpdateFranchisesViewModel dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -326,7 +325,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveFranchiseSettings(FranchiseSettingsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce

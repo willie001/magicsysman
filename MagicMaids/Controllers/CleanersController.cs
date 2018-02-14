@@ -171,7 +171,6 @@ namespace MagicMaids.Controllers
 
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveCleanerDetails(CleanerDetailsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -399,7 +398,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveTeamMember(TeamMemberDetailsVM dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
@@ -569,7 +567,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult DeleteTeamMember(Guid? CleanerId)
 		{
 			string _objDesc = "Team Member";
@@ -621,7 +618,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SearchCleaner(CleanerSearchVM searchCriteria)
 		{
 			if (searchCriteria == null || (searchCriteria.SelectedFranchiseId.Equals(Guid.Empty)
@@ -698,7 +694,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveCleanerRoster(Guid? CleanerId, List<CleanerRosterVM> dataList)
 		{
 			string _objDesc = "Cleaner Roster";
@@ -883,7 +878,6 @@ namespace MagicMaids.Controllers
 
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult SaveLeaveDates(CleanerLeaveVM formValues)
 		{
 			string _objDesc = "Leave Dates";
@@ -981,7 +975,6 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryHeader]
 		public ActionResult DeleteLeaveDates(Guid? id)
 		{
 			string _objDesc = "Leave";

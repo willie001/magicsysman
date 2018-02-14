@@ -797,7 +797,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.js" />
-    <Content Include="Views\Settings\RatesEditor.html" />
+    <Content Include="static\RatesEditor.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
@@ -842,6 +842,7 @@
     <Folder Include="DataLayer\DataContext\" />
     <Folder Include="Scripts\app\custom\cleaners\" />
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="static\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

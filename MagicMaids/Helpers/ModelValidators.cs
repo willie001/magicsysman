@@ -40,7 +40,7 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.TradingName).Length(5, 50).WithName("Trading name");
 			RuleFor(x => x.MasterFranchiseCode).Length(5, 20).WithName("Franchise code");
 			RuleFor(x => x.CodeOfConductURL).Length(0, 500).WithName("Code of conduct");
-			RuleFor(x => x.MetroRegion).Length(3, 100).WithName("Metro region");
+			RuleFor(x => x.MetroRegion).Length(2, 100).WithName("Metro region");
 
 			RuleFor(x => x.BusinessPhoneNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Primary business number is not a valid phone number.");
 			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");
@@ -156,7 +156,7 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
 			RuleFor(x => x.LastName).Length(3, 100).WithName("Last name");
 
-			RuleFor(x => x.Region).Length(3, 100).WithName("Region");
+			RuleFor(x => x.Region).Length(2, 100).WithName("Region");
 			RuleFor(x => x.PrimaryZone).Length(1, 10).WithMessage("Primary zone must be a valid number");
 
 			RuleFor(x => x.BusinessPhoneNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Primary business number is not a valid phone number.");
