@@ -566,6 +566,10 @@
 
 		function loadCleanerRoster()
 		{
+			if (Id == null)
+			{
+				Id = 0;
+			}
 			$http.get('/cleaners/getcleanerroster/?CleanerId=' + Id)
                 .success(function (data) {
                 	//console.log("<cleanerRoster DATA> - " + angular.toJson(data));
