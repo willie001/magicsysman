@@ -1,35 +1,28 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js">
     <Files>
-      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="140" Column="26" />
       <File FileName="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" Line="21" Column="44" />
-      <File FileName="MagicMaids/App_Start/FilterConfig.cs" Line="13" Column="6" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="668" Column="1" />
-      <File FileName="MagicMaids/MagicMaids.csproj" Line="248" Column="31" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="582" Column="70" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="137" Column="53" />
+      <File FileName="MagicMaids/Web.config" Line="16" Column="5" />
+      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="79" Column="36" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="547" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="App_Start" expanded="True" />
               <Node name="Controllers" expanded="True" />
               <Node name="Helpers" expanded="True" />
               <Node name="Scripts" expanded="True">
                 <Node name="app" expanded="True">
                   <Node name="custom" expanded="True">
-                    <Node name="cleaners" expanded="True">
-                      <Node name="magiccleaners.controller.js" selected="True" />
+                    <Node name="cleaners" expanded="True" />
+                    <Node name="settings" expanded="True">
+                      <Node name="magicsettings.controller.js" selected="True" />
                     </Node>
-                    <Node name="settings" expanded="True" />
                   </Node>
-                </Node>
-              </Node>
-              <Node name="static" expanded="True" />
-              <Node name="Vendor" expanded="True">
-                <Node name="jquery" expanded="True">
-                  <Node name="dist" expanded="True" />
                 </Node>
               </Node>
               <Node name="Global.asax" expanded="True" />

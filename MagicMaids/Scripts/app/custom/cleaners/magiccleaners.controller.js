@@ -450,7 +450,6 @@
 			if (vm.cleanerForm.$valid) {
 
                 HandleBusySpinner.start($scope, panelName);
-	
             	return $http.post('/cleaners/savecleanerdetails', vm.cleaner).success(function (response) {
                 	// Add your success stuff here
                 	HandleBusySpinner.stop($scope, panelName);
@@ -561,15 +560,12 @@
         		vm.cleanerRoster.push(roster);
         	}
 
-        	loadCleanerRoster();
+        	if (Id)
+        		loadCleanerRoster();
 		}
 
 		function loadCleanerRoster()
 		{
-			if (Id == null)
-			{
-				Id = 0;
-			}
 			$http.get('/cleaners/getcleanerroster/?CleanerId=' + Id)
                 .success(function (data) {
                 	//console.log("<cleanerRoster DATA> - " + angular.toJson(data));
@@ -708,6 +704,9 @@
 
 		function loadLeaveDates()
 		{
+			if (!CleanerId)
+				return;
+
 			HandleBusySpinner.start($scope, panelName);
 			
 			$http.get('/cleaners/getleavedates?CleanerId='+CleanerId)

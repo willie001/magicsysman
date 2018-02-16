@@ -544,6 +544,9 @@
 
 		function activate()
         {
+        	if (!Id)
+        		return;
+
             $http.get('/settings/getfranchisesettings/?FranchiseId=' + Id)
                 .success(function (data) {
                 	//console.log("<FRANCHISE> - " + angular.toJson(data.item));
