@@ -510,15 +510,18 @@
                 	HandleBusySpinner.stop($scope, panelName);
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating details.");
-                	vm.franchise = response.DataItem;
-                	$scope.FranchiseId = vm.franchise.Id;
+                	if (response.IsValid)
+            		{	
+                		vm.franchise = response.DataItem;
+                		$scope.FranchiseId = vm.franchise.Id;
 
-        			if ($scope.DataRecordStatus.IsNewDataRecord)
-                	{
-            			$scope.DataRecordStatus.IsNewDataRecord = false;
-            			$rootScope.childMessage = response;
-                		$location.path('/franchiseregister/'+$scope.FranchiseId);
-                	}
+	        			if ($scope.DataRecordStatus.IsNewDataRecord)
+	                	{
+	            			$scope.DataRecordStatus.IsNewDataRecord = false;
+	            			$rootScope.childMessage = response;
+	                		$location.path('/franchiseregister/'+$scope.FranchiseId);
+	                	}
+					}
 
             	}).error(function (error) {
             		HandleBusySpinner.stop($scope, panelName);
