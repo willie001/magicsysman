@@ -171,11 +171,10 @@
 
 			//console.log("<CLIENT Data> - " + angular.toJson(vm.client));
 			if (vm.clientForm.$valid) {
-
                 HandleBusySpinner.start($scope, panelName);
 	
             	return $http.post('/clients/saveclientdetails', vm.client).success(function (response) {
-                	// Add your success stuff here
+            		// Add your success stuff here
                 	HandleBusySpinner.stop($scope, panelName);
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating details.");
@@ -193,6 +192,7 @@
                 	$state.go("app.client_details", { "ClientId": $scope.ClientId });
 
             	}).error(function (error) {
+            	
             		HandleBusySpinner.stop($scope, panelName);
             		$scope.submitted = false;
                 	ShowUserMessages.show($scope, error, "Error updating details.");
@@ -234,6 +234,9 @@
 			{
 				vm.cardYears.push(date.getFullYear()+i);
 			}
+
+			if (!ClientId)
+				return;
 
 			HandleBusySpinner.start($scope, panelName);
         	$http.get('/clients/getclientpaymentmethods/?ClientId=' + ClientId)
@@ -345,6 +348,9 @@
 
 		function loadLeaveDates()
 		{
+			if (!ClientId)
+				return;
+
 			HandleBusySpinner.start($scope, panelName);
 			
 			$http.get('/clients/getleavedates?ClientId='+ClientId)
