@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MagicMaids.DataAccess;
@@ -75,7 +76,7 @@ namespace MagicMaids.Controllers
                 Errors = errorList
             };
 
-            Response.StatusCode = 400;
+            //Response.StatusCode = 400;
 			return new JsonNetResult() { Data = response, JsonRequestBehavior  = jsonRequestBehaviour };
         }
 

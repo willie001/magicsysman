@@ -1,11 +1,15 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js">
     <Files>
       <File FileName="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" Line="21" Column="44" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="668" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="16" Column="5" />
-      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="77" Column="4" />
-      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="194" Column="22" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="174" Column="37" />
+      <File FileName="MagicMaids/Web.config" Line="18" Column="8" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="815" Column="6" />
+      <File FileName="MagicMaids/Helpers/JsonNetResult.cs" Line="19" Column="28" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="198" Column="26" />
+      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="80" Column="1" />
+      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="458" Column="5" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="14" Column="44" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.DBConnectionTester PreferredExecutionTarget="MonoDevelop.Default" />
@@ -18,6 +22,7 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CustomFormatters.cs" relfile="MagicMaids/Helpers/CustomFormatters.cs" line="12" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" relfile="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" line="79" column="11" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" relfile="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" line="17" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="699" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

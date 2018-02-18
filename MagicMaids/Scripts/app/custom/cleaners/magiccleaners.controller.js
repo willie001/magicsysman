@@ -377,9 +377,12 @@
 	            // Add your success stuff here
 	        	//console.log("<TEAM SAVE response post> - " + angular.toJson(response));
 	   			ShowUserMessages.show($scope, response, "Error updating team member.");
-	   			vm.isSaving = true;
+	   			if (response.IsValid)
+        		{	
+	   				vm.isSaving = true;
 
-	   			ngDialog.close(); 
+	   				ngDialog.close(); 
+				}
 
 	        }).error(function (error) {
 
@@ -451,22 +454,28 @@
 
                 HandleBusySpinner.start($scope, panelName);
             	return $http.post('/cleaners/savecleanerdetails', vm.cleaner).success(function (response) {
+            		//console.log("<CLEANER SAVE> - " + angular.toJson(response));
+
                 	// Add your success stuff here
                 	HandleBusySpinner.stop($scope, panelName);
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating details.");
-                	vm.cleaner = response.DataItem;
-                	$scope.CleanerId = vm.cleaner.Id;
-                	$scope.FranchiseId = vm.cleaner.MasterFranchiseRefId;
 
-        			if ($scope.DataRecordStatus.IsNewDataRecord)
-                	{
-            			$scope.DataRecordStatus.IsNewDataRecord = false;
-                	}
+                	if (response.IsValid)
+            		{	
+                		vm.cleaner = response.DataItem;
+                		$scope.CleanerId = vm.cleaner.Id;
+                		$scope.FranchiseId = vm.cleaner.MasterFranchiseRefId;
 
-                	activate();
-                	$rootScope.childMessage = response;
-                	$state.go("app.cleaner_details", { "CleanerId": $scope.CleanerId});
+    					if ($scope.DataRecordStatus.IsNewDataRecord)
+                		{
+            				$scope.DataRecordStatus.IsNewDataRecord = false;
+                		}
+
+                		activate();
+                		$rootScope.childMessage = response;
+                		$state.go("app.cleaner_details", { "CleanerId": $scope.CleanerId});
+					}
 
             	}).error(function (error) {
             		HandleBusySpinner.stop($scope, panelName);
@@ -651,7 +660,11 @@
                 	HandleBusySpinner.stop($scope, panelName);
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating roster details.");
-                	vm.cleanerRoster = response.DataItem;
+
+                	if (response.IsValid)
+            		{	
+                		vm.cleanerRoster = response.DataItem;
+					}
 
             	}).error(function (error) {
             		HandleBusySpinner.stop($scope, panelName);
@@ -760,13 +773,16 @@
                 		// Add your success stuff here
         				ShowUserMessages.show($scope, response, "Error deleting leave dates.");
 
-        				if (ix)
-						{
-							vm.listOfLeave.splice(ix, 1);
-						}
-						else
-						{
-							loadLeaveDates();
+        				if (response.IsValid)
+                		{	
+	        				if (ix)
+							{
+								vm.listOfLeave.splice(ix, 1);
+							}
+							else
+							{
+								loadLeaveDates();
+							}
 						}
         			}).error(function (error) {
         				ShowUserMessages.show($scope, error, "Error deleting leave dates.");
@@ -790,9 +806,13 @@
             //console.log("<LEAVE data post> - " + angular.toJson(data));
        		return $http.post('/cleaners/saveleavedates', data).success(function (response) {
                 // Add your success stuff here
-            	console.log("<LEAVE response post> - " + angular.toJson(response));
+            	//console.log("<LEAVE response post> - " + angular.toJson(response));
        			ShowUserMessages.show($scope, response, "Error updating leave dates.");
-           		loadLeaveDates();
+
+           		if (response.IsValid)
+        		{	
+        			loadLeaveDates();
+				}
 
             }).error(function (error) {
 

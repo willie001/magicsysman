@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 #endregion
@@ -15,12 +16,14 @@ namespace MagicMaids.ViewModels
 		{
             Errors = new List<JsonFormValidationError>();
         }
+
 		public InfoViewModel(String messageText, InfoMsgTypes msgType)
 		{
 			Message = messageText;
 			MsgType = msgType;
             Errors = new List<JsonFormValidationError>();
         }
+
 		public InfoViewModel(String messageText, Exception ex)
 		{
 			Message = messageText;
@@ -75,6 +78,20 @@ namespace MagicMaids.ViewModels
                 }
             }
         }
+
+		public bool IsValid
+		{
+			get
+			{
+				if (Errors.Count() > 0 || Exception  != null)
+				{
+					return false;
+				}
+
+				return true;
+			}
+		}
+
 
         public IEnumerable<JsonFormValidationError> Errors
         {

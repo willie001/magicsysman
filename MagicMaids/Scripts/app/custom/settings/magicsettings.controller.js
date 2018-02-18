@@ -168,9 +168,12 @@
 	            // Add your success stuff here
 	        	//console.log("<RATE SAVE response post> - " + angular.toJson(response));
 	   			ShowUserMessages.show($scope, response, "Error updating rate.");
-	   			vm.isSaving = true;
-	       		loadRates();
-	       		ngDialog.close(); 
+	   			if (response.IsValid)
+        		{	
+	   				vm.isSaving = true;
+	       			loadRates();
+       			}
+       			ngDialog.close(); 
 
 	        }).error(function (error) {
 
@@ -284,7 +287,10 @@
                 // Add your success stuff here
             	//console.log("<POSTCODE response post> - " + angular.toJson(response));
        			ShowUserMessages.show($scope, response, "Error updating suburb/zone.");
-           		loadPostCodes();
+       			if (response.IsValid)
+        		{	
+           			loadPostCodes();
+				}
 
             }).error(function (error) {
 
@@ -344,7 +350,10 @@
                 // Add your success stuff here
                 //console.log("<SETTING item post> - " + angular.toJson(item));
            		ShowUserMessages.show($scope, response, "Error updating default settings.");
-           		activate();
+           		if (response.IsValid)
+        		{	
+           			activate();
+				}
 
             }).error(function (error) {
 

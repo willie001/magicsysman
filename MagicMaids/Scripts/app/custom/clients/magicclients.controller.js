@@ -174,25 +174,29 @@
                 HandleBusySpinner.start($scope, panelName);
 	
             	return $http.post('/clients/saveclientdetails', vm.client).success(function (response) {
-            		// Add your success stuff here
-                	HandleBusySpinner.stop($scope, panelName);
-                	$scope.submitted = false;
+            		HandleBusySpinner.stop($scope, panelName);
+            		$scope.submitted = false;
+	                	
+        			// Add your success stuff here
                 	ShowUserMessages.show($scope, response, "Error updating details.");
-                	vm.client = response.DataItem;
-                	$scope.ClientId = vm.client.Id;
-                	$scope.FranchiseId = vm.client.MasterFranchiseRefId;
-
-        			if ($scope.DataRecordStatus.IsNewDataRecord)
+                	if (response.IsValid)
                 	{
-            			$scope.DataRecordStatus.IsNewDataRecord = false;
+                		vm.client = response.DataItem;
+	                	$scope.ClientId = vm.client.Id;
+	                	$scope.FranchiseId = vm.client.MasterFranchiseRefId;
+
+	        			if ($scope.DataRecordStatus.IsNewDataRecord)
+	                	{
+	            			$scope.DataRecordStatus.IsNewDataRecord = false;
+	                	}
+
+	                	activate();
+	                	$rootScope.childMessage = response;
+	                	$state.go("app.client_details", { "ClientId": $scope.ClientId });
                 	}
 
-                	activate();
-                	$rootScope.childMessage = response;
-                	$state.go("app.client_details", { "ClientId": $scope.ClientId });
-
             	}).error(function (error) {
-            	
+            		console.log("<CLIENT ERROR> - " + angular.toJson(error));
             		HandleBusySpinner.stop($scope, panelName);
             		$scope.submitted = false;
                 	ShowUserMessages.show($scope, error, "Error updating details.");
@@ -260,14 +264,18 @@
                 		// Add your success stuff here
         				ShowUserMessages.show($scope, response, "Error deleting payment method.");
 
-        				if (ix)
-						{
-							vm.Cards.splice(ix, 1);
+        				if (response.IsValid)
+                		{	
+	        				if (ix)
+							{
+								vm.Cards.splice(ix, 1);
+							}
+							else
+							{
+								activate();
+							}
 						}
-						else
-						{
-							activate();
-						}
+
         			}).error(function (error) {
         				ShowUserMessages.show($scope, error, "Error deleting payment method.");
 
@@ -298,8 +306,11 @@
                 	HandleBusySpinner.stop($scope, panelName);
                 	$scope.submitted = false;
                 	ShowUserMessages.show($scope, response, "Error updating payment method details.");
-                	vm.client = response.DataItem;
-                	activate();
+                	if (response.IsValid)
+            		{	
+                		vm.client = response.DataItem;
+                		activate();
+					}
 
             	}).error(function (error) {
             		HandleBusySpinner.stop($scope, panelName);
@@ -404,14 +415,18 @@
                 		// Add your success stuff here
         				ShowUserMessages.show($scope, response, "Error deleting leave dates.");
 
-        				if (ix)
-						{
-							vm.listOfLeave.splice(ix, 1);
+        				if (response.IsValid)
+                		{	
+	        				if (ix)
+							{
+								vm.listOfLeave.splice(ix, 1);
+							}
+							else
+							{
+								loadLeaveDates();
+							}
 						}
-						else
-						{
-							loadLeaveDates();
-						}
+
         			}).error(function (error) {
         				ShowUserMessages.show($scope, error, "Error deleting leave dates.");
 
@@ -436,7 +451,10 @@
                 // Add your success stuff here
             	//console.log("<LEAVE response post> - " + angular.toJson(response));
        			ShowUserMessages.show($scope, response, "Error updating leave dates.");
-           		loadLeaveDates();
+       			if (response.IsValid)
+        		{	
+           			loadLeaveDates();	
+				}
 
             }).error(function (error) {
 
