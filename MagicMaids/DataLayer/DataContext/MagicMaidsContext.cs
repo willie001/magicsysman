@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Web;
 using MagicMaids.EntityModels;
 using NLog;
@@ -14,6 +15,8 @@ namespace MagicMaids.DataAccess
         public MagicMaidsContext() 
 			: base(nameOrConnectionString: "MagicMaidsDBConn")
 		{
+			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
+
 			this.Configuration.LazyLoadingEnabled = false;
 
             DefaultSettings = Set<SystemSetting>();

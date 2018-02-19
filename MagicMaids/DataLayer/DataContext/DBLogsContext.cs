@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 
 using MagicMaids.EntityModels;
@@ -16,6 +17,8 @@ namespace MagicMaids.DataAccess
 		public DBLogsContext()
 			: base("MagicMaidsDBConn")
 		{
+			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
+
 			this.Configuration.LazyLoadingEnabled = false;
 
 			LogEntries = Set<LogEntry>();
