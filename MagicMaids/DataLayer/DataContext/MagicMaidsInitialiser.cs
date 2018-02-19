@@ -55,6 +55,7 @@ namespace MagicMaids.DataAccess
 				return ;
 			}
 
+			context.Database.CommandTimeout = 180;
 			MySqlConnection conn = (MySqlConnection)context.Database.Connection;
 			if (conn == null)
 			{
@@ -77,7 +78,7 @@ namespace MagicMaids.DataAccess
 			catch(Exception ex)
 			{
 				LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
-				_logger.Log(LogLevel.Fatal, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
+				_logger.Log(LogLevel.Info, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
 
 			}
 		}
