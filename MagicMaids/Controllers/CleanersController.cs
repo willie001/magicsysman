@@ -293,6 +293,10 @@ namespace MagicMaids.Controllers
 						_objToUpdate.GenderFlag = dataItem.GenderFlag;
 						_objToUpdate.Ironing = dataItem.Ironing;
 
+						_objToUpdate.PrimaryZone = dataItem.PrimaryZone;
+						_objToUpdate.SecondaryZone = dataItem.SecondaryZone;
+						_objToUpdate.ApprovedZone = dataItem.ApprovedZone;
+
 						_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
 						_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
 						_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
