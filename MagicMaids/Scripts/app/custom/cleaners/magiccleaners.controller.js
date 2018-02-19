@@ -303,6 +303,11 @@
                 });
 		}
 
+		$scope.updateZones = function() {
+			$scope.FranchiseId = vm.cleaner.SelectedFranchise.Id;
+			loadFranchiseZones();
+		}
+
 		$scope.openTeamPopupForm = function (item) {
 			//console.log("<CLEANER VM> - " + angular.toJson($scope.teamMember));
 

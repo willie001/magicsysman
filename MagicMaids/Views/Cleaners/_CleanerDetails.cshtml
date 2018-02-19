@@ -53,6 +53,19 @@
 	      	</div>
 	   	</div>
 		<div class="form-group">
+	      	<label class="col-md-2 control-label">Master Franchise</label>
+	      	<div class="col-md-6">
+	         	<select name="MasterFranchise" class="form-control" ng-model="form.cleaner.SelectedFranchise" ng-change="updateZones()"
+							ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
+	            	<option value="">Select Master Franchise</option>	
+	      		</select>	
+	      	</div>
+			<label class="col-md-2 control-label">Management Fee (%)</label>
+	      	<div class="col-md-2">
+	         	<input type="text" placeholder="Management Fee" class="form-control" ng-ReadOnly="true" name="ManagementFee" ng-model="form.cleaner.SelectedFranchise.ManagementFeePercentage"/>
+	      	</div>
+	   	</div>
+		<div class="form-group">
 			<label class="col-md-2 control-label">Primary Zone</label>
 			<div class="col-md-2">
 				<ui-select ng-model="form.cleaner.PrimaryZone" theme="bootstrap">
@@ -81,19 +94,7 @@
 				</ui-select>
 			</div>
 		</div>
-		<div class="form-group">
-	      	<label class="col-md-2 control-label">Master Franchise</label>
-	      	<div class="col-md-6">
-	         	<select name="MasterFranchise" class="form-control" ng-model="form.cleaner.SelectedFranchise" 
-							ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
-	            	<option value="">Select Master Franchise</option>	
-	      		</select>	
-	      	</div>
-			<label class="col-md-2 control-label">Management Fee (%)</label>
-	      	<div class="col-md-2">
-	         	<input type="text" placeholder="Management Fee" class="form-control" ng-ReadOnly="true" name="ManagementFee" ng-model="form.cleaner.SelectedFranchise.ManagementFeePercentage"/>
-	      	</div>
-	   	</div>
+
 		<div class="form-group">
 			<label class="col-md-2 control-label">Active</label>
 	  		<div class="col-md-2">
