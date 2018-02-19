@@ -375,6 +375,10 @@
 
 					angular.forEach(vm.listOfLeave, function(value, key) {
 						value.StartDate = new Date(value.StartDate);
+						//alert(value.StartDate);
+						//value.StartDate.setMinutes( value.StartDate.getMinutes() - value.StartDate.getTimezoneOffset() ); //https://github.com/angular-ui/bootstrap/issues/2628
+						//alert(value.StartDate);
+						
 						value.EndDate = new Date(value.EndDate);
 					});
                 	//console.log("<LEAVE loaded> - " + angular.toJson(vm.listOfLeave));
