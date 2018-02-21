@@ -22,13 +22,7 @@ namespace MagicMaids.Controllers
 		public BaseController()
 		{
 			Log = LogManager.GetLogger(GetType().FullName);
-		}
-
-		public BaseController(MagicMaidsContext dbContext)
-		{
-			Log = LogManager.GetLogger(GetType().FullName);
-			MagicMaidsInitialiser.CheckConnection(dbContext);
-            MMContext = dbContext;
+			MagicMaidsInitialiser.CheckConnection();
         }
 
         protected override void Dispose(bool disposing)
@@ -39,7 +33,6 @@ namespace MagicMaids.Controllers
 
         #region Properties, Protected
         protected Logger Log { get; private set; }
-        protected MagicMaidsContext MMContext { get; private set; }
         #endregion
 
         #region Methods, Protected

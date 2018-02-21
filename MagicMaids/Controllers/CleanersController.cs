@@ -28,7 +28,7 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Constructors
-		public CleanersController(MagicMaidsContext dbContext) : base(dbContext)
+		public CleanersController() : base()
 		{
 			
 		}
@@ -70,41 +70,44 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				_cleaner = MMContext.Cleaners
-						  	.Where(f => f.Id == CleanerId)
-						  	.Include(nameof(Cleaner.PhysicalAddress))
-						  	.Include(nameof(Cleaner.PostalAddress))
-							.FirstOrDefault();
-
-				if (_cleaner == null)
+				using (var context = new MagicMaidsContext())
 				{
-					ModelState.AddModelError(string.Empty, $"Cleaner [{CleanerId.ToString()}] not found.  Please try again.");
-					return JsonFormResponse();
-				}
+					_cleaner = context.Cleaners
+								  .Where(f => f.Id == CleanerId)
+								  .Include(nameof(Cleaner.PhysicalAddress))
+								  .Include(nameof(Cleaner.PostalAddress))
+								.FirstOrDefault();
 
-				_dataItem = new CleanerDetailsVM();
-				_dataItem.PopulateVM(_cleaner);
-				_dataItem.IsNewItem = false;
-
-				if (!_dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
-				{
-					var _franchise = MMContext.Franchises
-						  .Where(f => f.Id == _dataItem.MasterFranchiseRefId)
-						  .FirstOrDefault();
-
-					if (_franchise == null)
+					if (_cleaner == null)
 					{
-						ModelState.AddModelError(string.Empty, $"Cleaner's [{CleanerId.ToString()}] Master Franchise not found not found.  Please try again.");
+						ModelState.AddModelError(string.Empty, $"Cleaner [{CleanerId.ToString()}] not found.  Please try again.");
 						return JsonFormResponse();
 					}
 
-					List<SystemSetting> _settings = new List<SystemSetting>();
-					_settings = MMContext.DefaultSettings
-							 .Where(p => p.IsActive == true)
-							 .ToList();
+					_dataItem = new CleanerDetailsVM();
+					_dataItem.PopulateVM(_cleaner);
+					_dataItem.IsNewItem = false;
 
-					_selectedFranchise = new FranchiseSelectViewModel();
-					_selectedFranchise.PopulateVM(_franchise, _settings);
+					if (!_dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
+					{
+						var _franchise = context.Franchises
+							  .Where(f => f.Id == _dataItem.MasterFranchiseRefId)
+							  .FirstOrDefault();
+
+						if (_franchise == null)
+						{
+							ModelState.AddModelError(string.Empty, $"Cleaner's [{CleanerId.ToString()}] Master Franchise not found not found.  Please try again.");
+							return JsonFormResponse();
+						}
+
+						List<SystemSetting> _settings = new List<SystemSetting>();
+						_settings = context.DefaultSettings
+								 .Where(p => p.IsActive == true)
+								 .ToList();
+
+						_selectedFranchise = new FranchiseSelectViewModel();
+						_selectedFranchise.PopulateVM(_franchise, _settings);
+					}
 				}
 			}
 
@@ -116,16 +119,18 @@ namespace MagicMaids.Controllers
 		{
 			Int32 _cleanerCode = 1000; // starting value
 
-			Int32? _match = MMContext.Cleaners
+			using (var context = new MagicMaidsContext())
+			{
+				Int32? _match = context.Cleaners
 								  .Max(x => (Int32?)x.CleanerCode);
-
-			if (!_match.HasValue)
-			{
-				_cleanerCode = 1000;
-			}
-			else
-			{
-				_cleanerCode = (Int32)_match + 1;
+				if (!_match.HasValue)
+				{
+					_cleanerCode = 1000;
+				}
+				else
+				{
+					_cleanerCode = (Int32)_match + 1;
+				}
 			}
 
 			return new JsonNetResult() { Data = new { item = _cleanerCode }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -143,24 +148,27 @@ namespace MagicMaids.Controllers
 				return JsonFormResponse();
 			}
 
-			var _team = MMContext.CleanerTeam
-							  .Where(f => f.PrimaryCleanerRefId == CleanerId)
-							  .Include(nameof(CleanerTeam.PhysicalAddress))
-							  .Include(nameof(CleanerTeam.PostalAddress))
-							  .ToList();
-
-			if (_team != null && _team.Count() > 0)
+			using (var context = new MagicMaidsContext())
 			{
-				foreach (var _member in _team)
+				var _team = context.CleanerTeam
+								  .Where(f => f.PrimaryCleanerRefId == CleanerId)
+								  .Include(nameof(CleanerTeam.PhysicalAddress))
+								  .Include(nameof(CleanerTeam.PostalAddress))
+								  .ToList();
+
+				if (_team != null && _team.Count() > 0)
 				{
-					var _nextMember = new TeamMemberDetailsVM();
-					_nextMember.PopulateVM(CleanerId, _member);
-					_teamList.Add(_nextMember);
+					foreach (var _member in _team)
+					{
+						var _nextMember = new TeamMemberDetailsVM();
+						_nextMember.PopulateVM(CleanerId, _member);
+						_teamList.Add(_nextMember);
+					}
 				}
+
+
+				return new JsonNetResult() { Data = new { list = _teamList, teamSize = _team.Count() + 1 }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 			}
-
-
-			return new JsonNetResult() { Data = new { list = _teamList, teamSize = _team.Count() + 1 }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpGet]
@@ -274,81 +282,85 @@ namespace MagicMaids.Controllers
 				{
 					Cleaner _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new Cleaner();
-
-						_objToUpdate.CleanerCode = dataItem.CleanerCode;
-						_objToUpdate.Initials = dataItem.Initials;
-						_objToUpdate.FirstName = dataItem.FirstName;
-						_objToUpdate.LastName = dataItem.LastName;
-						_objToUpdate.EmailAddress = dataItem.EmailAddress;
-						_objToUpdate.IsActive = dataItem.IsActive;
-						_objToUpdate.MobileNumber = dataItem.MobileNumber;
-						_objToUpdate.OtherNumber = dataItem.OtherNumber;
-						_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
-						_objToUpdate.Region = dataItem.Region;
-						_objToUpdate.MasterFranchiseRefId = dataItem.MasterFranchiseRefId;
-						_objToUpdate.Rating = dataItem.Rating;
-						_objToUpdate.GenderFlag = dataItem.GenderFlag;
-						_objToUpdate.Ironing = dataItem.Ironing;
-
-						_objToUpdate.PrimaryZone = dataItem.PrimaryZone;
-						_objToUpdate.SecondaryZone = dataItem.SecondaryZone;
-						_objToUpdate.ApprovedZone = dataItem.ApprovedZone;
-
-						_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-						_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-						_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-						_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-						if (dataItem.PhysicalAddress != null)
+						if (bIsNew)
 						{
-							_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-							_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-							_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-							_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-							_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
-							_objToUpdate.PhysicalAddress.IsActive = true;
-							_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-							_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							_objToUpdate = new Cleaner();
+
+							_objToUpdate.CleanerCode = dataItem.CleanerCode;
+							_objToUpdate.Initials = dataItem.Initials;
+							_objToUpdate.FirstName = dataItem.FirstName;
+							_objToUpdate.LastName = dataItem.LastName;
+							_objToUpdate.EmailAddress = dataItem.EmailAddress;
+							_objToUpdate.IsActive = dataItem.IsActive;
+							_objToUpdate.MobileNumber = dataItem.MobileNumber;
+							_objToUpdate.OtherNumber = dataItem.OtherNumber;
+							_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
+							_objToUpdate.Region = dataItem.Region;
+							_objToUpdate.MasterFranchiseRefId = dataItem.MasterFranchiseRefId;
+							_objToUpdate.Rating = dataItem.Rating;
+							_objToUpdate.GenderFlag = dataItem.GenderFlag;
+							_objToUpdate.Ironing = dataItem.Ironing;
+
+							_objToUpdate.PrimaryZone = dataItem.PrimaryZone;
+							_objToUpdate.SecondaryZone = dataItem.SecondaryZone;
+							_objToUpdate.ApprovedZone = dataItem.ApprovedZone;
+
+							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+							if (dataItem.PhysicalAddress != null)
+							{
+								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+								_objToUpdate.PhysicalAddress.IsActive = true;
+								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							}
+
+							if (dataItem.PostalAddress != null)
+							{
+								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+								_objToUpdate.PostalAddress.IsActive = true;
+								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+							}
+
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+
+						}
+						else
+						{
+							_objToUpdate = context.Cleaners
+									 .Where(f => f.Id == _id)
+											  .Include(nameof(Cleaner.PhysicalAddress))
+											  .Include(nameof(Cleaner.PostalAddress))
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"Cleaner [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
+							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
+							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
 						}
 
-						if (dataItem.PostalAddress != null)
-						{
-							_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-							_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-							_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-							_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-							_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-							_objToUpdate.PostalAddress.IsActive = true;
-							_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-							_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-						}
-
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+						context.SaveChanges();
 					}
-					else
-					{
-						_objToUpdate = MMContext.Cleaners
-								 .Where(f => f.Id == _id)
-										  .Include(nameof(Cleaner.PhysicalAddress))
-										  .Include(nameof(Cleaner.PostalAddress))
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
-						{
-							ModelState.AddModelError(string.Empty, $"Cleaner [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
-						}
-
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-						MMContext.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-						MMContext.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
-					}
-
-					MMContext.SaveChanges();
-
 					return JsonSuccessResponse("Cleaner saved successfully", _objToUpdate);
 				}
 				catch (DbUpdateConcurrencyException ex)
@@ -455,73 +467,75 @@ namespace MagicMaids.Controllers
 				{
 					CleanerTeam _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new CleanerTeam();
-
-						_objToUpdate.FirstName = dataItem.FirstName;
-						_objToUpdate.LastName = dataItem.LastName;
-						_objToUpdate.EmailAddress = dataItem.EmailAddress;
-						_objToUpdate.IsActive = dataItem.IsActive;
-						_objToUpdate.MobileNumber = dataItem.MobileNumber;
-						_objToUpdate.GenderFlag = dataItem.GenderFlag;
-						_objToUpdate.Ironing = dataItem.Ironing;
-						_objToUpdate.PrimaryCleanerRefId = dataItem.PrimaryCleanerRefId;
-
-						_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-						_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-						_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-						_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-						if (dataItem.PhysicalAddress != null)
+						if (bIsNew)
 						{
-							_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-							_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-							_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-							_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-							_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
-							_objToUpdate.PhysicalAddress.IsActive = true;
-							_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-							_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							_objToUpdate = new CleanerTeam();
+
+							_objToUpdate.FirstName = dataItem.FirstName;
+							_objToUpdate.LastName = dataItem.LastName;
+							_objToUpdate.EmailAddress = dataItem.EmailAddress;
+							_objToUpdate.IsActive = dataItem.IsActive;
+							_objToUpdate.MobileNumber = dataItem.MobileNumber;
+							_objToUpdate.GenderFlag = dataItem.GenderFlag;
+							_objToUpdate.Ironing = dataItem.Ironing;
+							_objToUpdate.PrimaryCleanerRefId = dataItem.PrimaryCleanerRefId;
+
+							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+							if (dataItem.PhysicalAddress != null)
+							{
+								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+								_objToUpdate.PhysicalAddress.IsActive = true;
+								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							}
+
+							if (dataItem.PostalAddress != null)
+							{
+								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+								_objToUpdate.PostalAddress.IsActive = true;
+								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+							}
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+						}
+						else
+						{
+							_objToUpdate = context.CleanerTeam
+									 .Where(f => f.Id == _id)
+											  .Include(nameof(CleanerTeam.PhysicalAddress))
+											  .Include(nameof(CleanerTeam.PostalAddress))
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"Team member [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							// no action on team member yet until it's deleted
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
+							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
+							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
 						}
 
-						if (dataItem.PostalAddress != null)
-						{
-							_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-							_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-							_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-							_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-							_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-							_objToUpdate.PostalAddress.IsActive = true;
-							_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-							_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-						}
-
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+						context.SaveChanges();
 					}
-					else
-					{
-						_objToUpdate = MMContext.CleanerTeam
-								 .Where(f => f.Id == _id)
-										  .Include(nameof(CleanerTeam.PhysicalAddress))
-										  .Include(nameof(CleanerTeam.PostalAddress))
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
-						{
-							ModelState.AddModelError(string.Empty, $"Team member [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
-						}
-
-						// no action on team member yet until it's deleted
-
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-						MMContext.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-						MMContext.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
-					}
-
-					MMContext.SaveChanges();
-
 					return JsonSuccessResponse("Team member saved successfully", _objToUpdate);
 				}
 				catch (DbUpdateConcurrencyException ex)
@@ -582,28 +596,31 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				var _objToDelete = MMContext.CleanerTeam
-						.Where(f => f.Id == CleanerId)
-							.Include(nameof(CleanerTeam.PhysicalAddress))
-						  	.Include(nameof(CleanerTeam.PostalAddress))
-						  .FirstOrDefault();
-
-
-				if (_objToDelete == null)
+				using (var context = new MagicMaidsContext())
 				{
-					ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
+					var _objToDelete = context.CleanerTeam
+							.Where(f => f.Id == CleanerId)
+								.Include(nameof(CleanerTeam.PhysicalAddress))
+								  .Include(nameof(CleanerTeam.PostalAddress))
+							  .FirstOrDefault();
+
+
+					if (_objToDelete == null)
+					{
+						ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
+					}
+
+					var _physAddress = _objToDelete.PhysicalAddress;
+					var _postAddress = _objToDelete.PostalAddress;
+
+					context.Addresses.Remove(_physAddress);
+					context.Addresses.Remove(_postAddress);
+
+					context.Entry(_objToDelete).State = EntityState.Deleted;
+					context.SaveChanges();
+
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", _objToDelete);
 				}
-
-				var _physAddress = _objToDelete.PhysicalAddress;
-				var _postAddress = _objToDelete.PostalAddress;
-
-				MMContext.Addresses.Remove(_physAddress);
-				MMContext.Addresses.Remove(_postAddress);
-
-				MMContext.Entry(_objToDelete).State = EntityState.Deleted;
-				MMContext.SaveChanges();
-
-				return JsonSuccessResponse($"{_objDesc} deleted successfully", _objToDelete);
 			}
 			catch (Exception ex)
 			{
@@ -633,20 +650,23 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				var _results = MMContext.Cleaners
-						.Include(nameof(Cleaner.PhysicalAddress))
-					.Where(f => searchCriteria.SelectedFranchiseId.Equals(Guid.Empty) || f.MasterFranchiseRefId == searchCriteria.SelectedFranchiseId)
-					.Where(f => (searchCriteria.Name == null || searchCriteria.Name.Trim() == string.Empty) || (f.FirstName + " " + f.LastName).Contains(searchCriteria.Name))
-					.Where(f => (searchCriteria.Zone == null || searchCriteria.Zone.Trim() == string.Empty)
-						   || ("," + f.PrimaryZone + ",").Contains("," + searchCriteria.Zone + ",")
-						   || ("," + f.SecondaryZone + ",").Contains("," + searchCriteria.Zone + ","))
-					.Where(f => (searchCriteria.IncludeInactive == false && f.IsActive == true) || searchCriteria.IncludeInactive == true)
-					.OrderByDescending(f => f.Rating).ThenBy(f => new { f.LastName, f.FirstName })
-				  	.ToList();
+				using (var context = new MagicMaidsContext())
+				{
+					var _results = context.Cleaners
+							.Include(nameof(Cleaner.PhysicalAddress))
+						.Where(f => searchCriteria.SelectedFranchiseId.Equals(Guid.Empty) || f.MasterFranchiseRefId == searchCriteria.SelectedFranchiseId)
+						.Where(f => (searchCriteria.Name == null || searchCriteria.Name.Trim() == string.Empty) || (f.FirstName + " " + f.LastName).Contains(searchCriteria.Name))
+						.Where(f => (searchCriteria.Zone == null || searchCriteria.Zone.Trim() == string.Empty)
+							   || ("," + f.PrimaryZone + ",").Contains("," + searchCriteria.Zone + ",")
+							   || ("," + f.SecondaryZone + ",").Contains("," + searchCriteria.Zone + ","))
+						.Where(f => (searchCriteria.IncludeInactive == false && f.IsActive == true) || searchCriteria.IncludeInactive == true)
+						.OrderByDescending(f => f.Rating).ThenBy(f => new { f.LastName, f.FirstName })
+						  .ToList();
 
-				var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerDetailsVM>>(_results);
+					var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerDetailsVM>>(_results);
 
-				return new JsonNetResult() { Data = new { SearchResults = _vmResults }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+					return new JsonNetResult() { Data = new { SearchResults = _vmResults }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+				}
 			}
 			catch (Exception ex)
 			{
@@ -691,10 +711,13 @@ namespace MagicMaids.Controllers
 				+ $"WHERE CR.PrimaryCleanerRefId = '{CleanerId}' "
 				+ "ORDER BY WeekDay, StartTime, EndTime";
 
-			var _results = MMContext.Database.SqlQuery<RosterTeamMembersVM>(query).ToList();
-			List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
+			using (var context = new MagicMaidsContext())
+			{
+				var _results = context.Database.SqlQuery<RosterTeamMembersVM>(query).ToList();
+				List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
 
-			return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+				return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			}
 		}
 
 		[HttpPost]
@@ -774,41 +797,43 @@ namespace MagicMaids.Controllers
 			{
 				try
 				{
-					// first delete the existing roster
-					string query = "SELECT * "
-						+ "FROM CleanerRosteredTeam  "
-						+ "WHERE RosterRefId in ("
-						+ $"select Id from CleanerRoster where PrimaryCleanerRefId = '{CleanerId}'"
-						+ ")";
-					var _objChildToDelete = MMContext.Database.SqlQuery<CleanerRosteredTeam>(query).ToList();
-
-					foreach (var _item in _objChildToDelete)
+					using (var context = new MagicMaidsContext())
 					{
-						MMContext.Entry(_item).State = EntityState.Deleted;
-					}
+						// first delete the existing roster
+						string query = "SELECT * "
+							+ "FROM CleanerRosteredTeam  "
+							+ "WHERE RosterRefId in ("
+							+ $"select Id from CleanerRoster where PrimaryCleanerRefId = '{CleanerId}'"
+							+ ")";
+						var _objChildToDelete = context.Database.SqlQuery<CleanerRosteredTeam>(query).ToList();
 
-					var _objToDelete = MMContext.CleanerRoster
-												.Where(f => f.PrimaryCleanerRefId == CleanerId)
-												.ToList();
-					foreach (var _item in _objToDelete)
-					{
-						MMContext.Entry(_item).State = EntityState.Deleted;
-					}
-
-
-					// insert new roster
-					foreach (CleanerRoster _objToInsert in rosterList)
-					{
-						MMContext.Entry(_objToInsert).State = EntityState.Added;
-
-						foreach (CleanerRosteredTeam _objToInsertChild in _objToInsert.CleanerRosteredTeam)
+						foreach (var _item in _objChildToDelete)
 						{
-							MMContext.Entry(_objToInsertChild).State = EntityState.Added;
+							context.Entry(_item).State = EntityState.Deleted;
 						}
+
+						var _objToDelete = context.CleanerRoster
+													.Where(f => f.PrimaryCleanerRefId == CleanerId)
+													.ToList();
+						foreach (var _item in _objToDelete)
+						{
+							context.Entry(_item).State = EntityState.Deleted;
+						}
+
+
+						// insert new roster
+						foreach (CleanerRoster _objToInsert in rosterList)
+						{
+							context.Entry(_objToInsert).State = EntityState.Added;
+
+							foreach (CleanerRosteredTeam _objToInsertChild in _objToInsert.CleanerRosteredTeam)
+							{
+								context.Entry(_objToInsertChild).State = EntityState.Added;
+							}
+						}
+
+						context.SaveChanges();
 					}
-
-					MMContext.SaveChanges();
-
 					return JsonSuccessResponse("Team roster saved successfully", dataList);
 				}
 				catch (DbUpdateConcurrencyException ex)
@@ -863,12 +888,14 @@ namespace MagicMaids.Controllers
 
 			List<CleanerLeave> _entityList = new List<CleanerLeave>();
 
-			_entityList = MMContext.CleanerLeave
-				   	.Where(p => p.PrimaryCleanerRefId == CleanerId)
-                   	.OrderByDescending(p => p.StartDate)
-					.ThenByDescending(p => p.EndDate) 
-				   	.ToList();
-
+			using (var context = new MagicMaidsContext())
+			{
+				_entityList = context.CleanerLeave
+						   .Where(p => p.PrimaryCleanerRefId == CleanerId)
+						   .OrderByDescending(p => p.StartDate)
+						.ThenByDescending(p => p.EndDate)
+						   .ToList();
+			}
 			List<CleanerLeaveVM> _editList = new List<CleanerLeaveVM>();
 			foreach (CleanerLeave _item in _entityList)
 			{
@@ -900,32 +927,34 @@ namespace MagicMaids.Controllers
 				{
 					CleanerLeave _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new CleanerLeave();
-						_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId;
-						_objToUpdate.StartDate = formValues.StartDate;
-						_objToUpdate.EndDate  = formValues.EndDate;
-
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
-					}
-					else
-					{
-						_objToUpdate = MMContext.CleanerLeave
-								 .Where(f => f.Id == _id)
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
+						if (bIsNew)
 						{
-							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
+							_objToUpdate = new CleanerLeave();
+							_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId;
+							_objToUpdate.StartDate = formValues.StartDate;
+							_objToUpdate.EndDate = formValues.EndDate;
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+						}
+						else
+						{
+							_objToUpdate = context.CleanerLeave
+									 .Where(f => f.Id == _id)
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
 						}
 
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+						context.SaveChanges();
 					}
-
-					MMContext.SaveChanges();
-
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
 				catch (DbUpdateConcurrencyException ex)
@@ -990,14 +1019,17 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				var objToDelete = MMContext.CleanerLeave.FirstOrDefault(l => l.Id == id.Value);
-				if (objToDelete != null)
+				using (var context = new MagicMaidsContext())
 				{
-					MMContext.CleanerLeave.Remove(objToDelete);
-					MMContext.SaveChanges();
-				}
+					var objToDelete = context.CleanerLeave.FirstOrDefault(l => l.Id == id.Value);
+					if (objToDelete != null)
+					{
+						context.CleanerLeave.Remove(objToDelete);
+						context.SaveChanges();
+					}
 
-				return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+				}
 			}
 			catch (Exception ex)
 			{

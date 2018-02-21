@@ -14,6 +14,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 
 using FluentValidation.Mvc;
+using MagicMaids.DataAccess;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -40,20 +41,23 @@ namespace MagicMaids.Controllers
 		{
 			List<Franchise> _data = new List<Franchise>();
 
-			if (incDisabled != null && incDisabled == 1)
+			using (var context = new MagicMaidsContext())
 			{
-				_data = MMContext.Franchises
-					 .Include(nameof(Franchise.PhysicalAddress))
-					 .Include(nameof(Franchise.PostalAddress))
-					 .ToList();
-			}
-			else
-			{
-				_data = MMContext.Franchises
-		             .Include(nameof(Franchise.PhysicalAddress))
-					 .Include(nameof(Franchise.PostalAddress))
-					 .Where(p => p.IsActive == true)
-					 .ToList();
+				if (incDisabled != null && incDisabled == 1)
+				{
+					_data = context.Franchises
+						 .Include(nameof(Franchise.PhysicalAddress))
+						 .Include(nameof(Franchise.PostalAddress))
+						 .ToList();
+				}
+				else
+				{
+					_data = context.Franchises
+						 .Include(nameof(Franchise.PhysicalAddress))
+						 .Include(nameof(Franchise.PostalAddress))
+						 .Where(p => p.IsActive == true)
+						 .ToList();
+				}
 			}
 
 			List<UpdateFranchisesViewModel> _editFranchises = new List<UpdateFranchisesViewModel>();
@@ -69,26 +73,30 @@ namespace MagicMaids.Controllers
 		[HttpGet]
 		public JsonNetResult GetActiveFranchises()
 		{
-			List<Franchise> _data = new List<Franchise>();
 
-		 	_data = MMContext.Franchises
-			 	.Where(p => p.IsActive == true)
-				.OrderBy(x => x.Name)
-				.ToList();
-
-			List<SystemSetting> _settings = new List<SystemSetting>();
-			_settings = MMContext.DefaultSettings
-					 .Where(p => p.IsActive == true)
-					 .ToList();
-
-			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
-			foreach (Franchise _item in _data)
+			using (var context = new MagicMaidsContext())
 			{
-				var _vm = new FranchiseSelectViewModel();
-				_vm.PopulateVM(_item, _settings);
-				_listFranchises.Add(_vm);
+				List<Franchise> _data = new List<Franchise>();
+
+				_data = context.Franchises
+					.Where(p => p.IsActive == true)
+				   .OrderBy(x => x.Name)
+				   .ToList();
+
+				List<SystemSetting> _settings = new List<SystemSetting>();
+				_settings = context.DefaultSettings
+						 .Where(p => p.IsActive == true)
+						 .ToList();
+
+				List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
+				foreach (Franchise _item in _data)
+				{
+					var _vm = new FranchiseSelectViewModel();
+					_vm.PopulateVM(_item, _settings);
+					_listFranchises.Add(_vm);
+				}
+				return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 			}
-			return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpGet]
@@ -108,12 +116,14 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				_franchise = MMContext.Franchises
-									  .Where(f => f.Id == FranchiseId)
-									  .Include(nameof(Franchise.PhysicalAddress))
-									  .Include(nameof(Franchise.PostalAddress))
-				                      .FirstOrDefault();
-				
+				using (var context = new MagicMaidsContext())
+				{
+					_franchise = context.Franchises
+										  .Where(f => f.Id == FranchiseId)
+										  .Include(nameof(Franchise.PhysicalAddress))
+										  .Include(nameof(Franchise.PostalAddress))
+										  .FirstOrDefault();
+				}
 				if (_franchise == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Franchise [{FranchiseId.ToString()}] not found.  Please try again.");
@@ -141,23 +151,26 @@ namespace MagicMaids.Controllers
 			FranchiseSettingsVM _dataItem = null;
 
 			List<SystemSetting> _settings = new List<SystemSetting>();
-			_settings = MMContext.DefaultSettings
-					 .Where(p => p.IsActive == true)
-					 .ToList();
-
-			_franchise = MMContext.Franchises
-								  .Where(f => f.Id == FranchiseId)
-								  .FirstOrDefault();
-			if (_franchise == null)
+			using (var context = new MagicMaidsContext())
 			{
-				ModelState.AddModelError(string.Empty, $"Franchise [{FranchiseId.ToString()}] not found.  Please try again.");
-				return JsonFormResponse();
+				_settings = context.DefaultSettings
+						 .Where(p => p.IsActive == true)
+						 .ToList();
+
+				_franchise = context.Franchises
+									  .Where(f => f.Id == FranchiseId)
+									  .FirstOrDefault();
+				if (_franchise == null)
+				{
+					ModelState.AddModelError(string.Empty, $"Franchise [{FranchiseId.ToString()}] not found.  Please try again.");
+					return JsonFormResponse();
+				}
+
+				_dataItem = new FranchiseSettingsVM();
+				_dataItem.PopulateVM(_franchise, _settings);
+
+				return new JsonNetResult() { Data = new { item = _dataItem }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 			}
-
-			_dataItem = new FranchiseSettingsVM();
-			_dataItem.PopulateVM(_franchise, _settings);
-
-			return new JsonNetResult() { Data = new { item = _dataItem }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpPost]
@@ -209,74 +222,77 @@ namespace MagicMaids.Controllers
 				{
 					Franchise _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new Franchise();
-						_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-						_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-						_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-						_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-						_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
-						_objToUpdate.CodeOfConductURL = dataItem.CodeOfConductURL;
-						_objToUpdate.EmailAddress = dataItem.EmailAddress;
-						_objToUpdate.IsActive = dataItem.IsActive;
-						_objToUpdate.MasterFranchiseCode = dataItem.MasterFranchiseCode;
-						_objToUpdate.MetroRegion = dataItem.MetroRegion;
-						_objToUpdate.MobileNumber = dataItem.MobileNumber;
-						_objToUpdate.Name = dataItem.Name;
-						_objToUpdate.OtherNumber = dataItem.OtherNumber;
-						_objToUpdate.TradingName = dataItem.TradingName;
-						_objToUpdate.Name = dataItem.Name;
-
-						if (dataItem.PhysicalAddress != null)
+						if (bIsNew)
 						{
-							_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-							_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-							_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-							_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-							_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country ;
-							_objToUpdate.PhysicalAddress.IsActive = true;
-							_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-							_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							_objToUpdate = new Franchise();
+							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+							_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
+							_objToUpdate.CodeOfConductURL = dataItem.CodeOfConductURL;
+							_objToUpdate.EmailAddress = dataItem.EmailAddress;
+							_objToUpdate.IsActive = dataItem.IsActive;
+							_objToUpdate.MasterFranchiseCode = dataItem.MasterFranchiseCode;
+							_objToUpdate.MetroRegion = dataItem.MetroRegion;
+							_objToUpdate.MobileNumber = dataItem.MobileNumber;
+							_objToUpdate.Name = dataItem.Name;
+							_objToUpdate.OtherNumber = dataItem.OtherNumber;
+							_objToUpdate.TradingName = dataItem.TradingName;
+							_objToUpdate.Name = dataItem.Name;
+
+							if (dataItem.PhysicalAddress != null)
+							{
+								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+								_objToUpdate.PhysicalAddress.IsActive = true;
+								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							}
+
+							if (dataItem.PostalAddress != null)
+							{
+								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+								_objToUpdate.PostalAddress.IsActive = true;
+								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+							}
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+						}
+						else
+						{
+							_objToUpdate = context.Franchises
+									 .Where(f => f.Id == _id)
+											  .Include(nameof(Franchise.PhysicalAddress))
+											  .Include(nameof(Franchise.PostalAddress))
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"Franchise [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
+							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
+							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
 						}
 
-						if (dataItem.PostalAddress != null)
-						{
-							_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-							_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-							_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-							_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-							_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-							_objToUpdate.PostalAddress.IsActive = true;
-							_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-							_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-						}
+						context.SaveChanges();
 
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+						return JsonSuccessResponse("Franchise saved successfully", _objToUpdate);
 					}
-					else
-					{
-						_objToUpdate = MMContext.Franchises
-								 .Where(f => f.Id == _id)
-										  .Include(nameof(Franchise.PhysicalAddress))
-										  .Include(nameof(Franchise.PostalAddress))
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
-						{
-							ModelState.AddModelError(string.Empty, $"Franchise [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
-						}
-
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-						MMContext.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-						MMContext.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
-					}
-
-					MMContext.SaveChanges();
-
-					return JsonSuccessResponse("Franchise saved successfully", _objToUpdate);
 				}
 				catch (DbUpdateConcurrencyException ex)
 				{
@@ -342,21 +358,23 @@ namespace MagicMaids.Controllers
 				{
 					Franchise _objToUpdate = null;
 
-					_objToUpdate = MMContext.Franchises
-							 .Where(f => f.Id == _id)
-									  .FirstOrDefault();
-
-					if (_objToUpdate == null)
+					using (var context = new MagicMaidsContext())
 					{
-						ModelState.AddModelError(string.Empty, $"Franchise [{_id.ToString()}] not found.  Please try again.");
-						return JsonFormResponse();
+						_objToUpdate = context.Franchises
+								 .Where(f => f.Id == _id)
+										  .FirstOrDefault();
+
+						if (_objToUpdate == null)
+						{
+							ModelState.AddModelError(string.Empty, $"Franchise [{_id.ToString()}] not found.  Please try again.");
+							return JsonFormResponse();
+						}
+
+						context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
+						context.Entry(_objToUpdate).Property("Name").IsModified = false;
+
+						context.SaveChanges();
 					}
-
-					MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-					MMContext.Entry(_objToUpdate).Property("Name").IsModified = false;
-
-					MMContext.SaveChanges();
-
 					return JsonSuccessResponse("Franchise settings saved successfully", _objToUpdate);
 				}
 				catch (DbUpdateConcurrencyException ex)

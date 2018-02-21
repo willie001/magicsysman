@@ -28,7 +28,7 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Constructor
-		public ClientsController(MagicMaidsContext dbContext) : base(dbContext)
+		public ClientsController() : base()
 		{
 		}
 		#endregion
@@ -69,54 +69,57 @@ namespace MagicMaids.Controllers
 
 				try
 				{
-					var _results = MMContext.Clients.AsQueryable()
-							.Include(nameof(Client.PhysicalAddress));
-					if (_results != null)
+					using (var context = new MagicMaidsContext())
 					{
-						if (!String.IsNullOrWhiteSpace(searchCriteria.Name))
+						var _results = context.Clients.AsQueryable()
+								.Include(nameof(Client.PhysicalAddress));
+						if (_results != null)
 						{
-							_results = _results.Where(x => x.FirstName.ToLower().StartsWith(searchCriteria.Name.ToLower()) || x.LastName.ToLower().StartsWith(searchCriteria.Name.ToLower()));
-						}
-						if (!String.IsNullOrWhiteSpace(searchCriteria.Phone))
-						{
-							_results = _results.Where(x => x.BusinessPhoneNumber.StartsWith(searchCriteria.Phone) ||
-													  x.MobileNumber.StartsWith(searchCriteria.Phone) ||
-													  x.OtherNumber.StartsWith(searchCriteria.Phone));
-						}
-						if (!String.IsNullOrWhiteSpace(searchCriteria.Address))
-						{
-							_results = _results.Where(x => x.PhysicalAddress.AddressLine1.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.AddressLine2.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.AddressLine3.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.State.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-							                          x.PhysicalAddress.Country.ToLower().Contains(searchCriteria.Address.ToLower()));
-						}
-						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
-						{
-							_results = _results.Where(x => x.PhysicalAddress.Suburb.ToLower().Contains(searchCriteria.Suburb.ToLower()) ||
-													  x.PhysicalAddress.PostCode == searchCriteria.Suburb);
-						}
-						if (!searchCriteria.IncludeInactive)
-						{
-							_results = _results.Where(x => x.IsActive == true);
-						}
+							if (!String.IsNullOrWhiteSpace(searchCriteria.Name))
+							{
+								_results = _results.Where(x => x.FirstName.ToLower().StartsWith(searchCriteria.Name.ToLower()) || x.LastName.ToLower().StartsWith(searchCriteria.Name.ToLower()));
+							}
+							if (!String.IsNullOrWhiteSpace(searchCriteria.Phone))
+							{
+								_results = _results.Where(x => x.BusinessPhoneNumber.StartsWith(searchCriteria.Phone) ||
+														  x.MobileNumber.StartsWith(searchCriteria.Phone) ||
+														  x.OtherNumber.StartsWith(searchCriteria.Phone));
+							}
+							if (!String.IsNullOrWhiteSpace(searchCriteria.Address))
+							{
+								_results = _results.Where(x => x.PhysicalAddress.AddressLine1.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+														  x.PhysicalAddress.AddressLine2.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+														  x.PhysicalAddress.AddressLine3.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+														  x.PhysicalAddress.State.ToLower().Contains(searchCriteria.Address.ToLower()) ||
+														  x.PhysicalAddress.Country.ToLower().Contains(searchCriteria.Address.ToLower()));
+							}
+							if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
+							{
+								_results = _results.Where(x => x.PhysicalAddress.Suburb.ToLower().Contains(searchCriteria.Suburb.ToLower()) ||
+														  x.PhysicalAddress.PostCode == searchCriteria.Suburb);
+							}
+							if (!searchCriteria.IncludeInactive)
+							{
+								_results = _results.Where(x => x.IsActive == true);
+							}
 
-						if (!String.IsNullOrWhiteSpace(searchCriteria.Cleaner))
-						{
-							// todo add sub query
-							// https://stackoverflow.com/questions/2066084/in-operator-in-linq?answertab=active#tab-top
-							// https://stackoverflow.com/questions/23685375/subquery-with-entity-framework
+							if (!String.IsNullOrWhiteSpace(searchCriteria.Cleaner))
+							{
+								// todo add sub query
+								// https://stackoverflow.com/questions/2066084/in-operator-in-linq?answertab=active#tab-top
+								// https://stackoverflow.com/questions/23685375/subquery-with-entity-framework
 
 
-						}
-					};
+							}
+						};
 
-					var _orderedResults = _results.OrderBy(f => new { f.LastName, f.FirstName })
-							   .ToList();
+						var _orderedResults = _results.OrderBy(f => new { f.LastName, f.FirstName })
+								   .ToList();
 
-					var _vmResults = Mapper.Map<List<Client>, List<ClientDetailsVM>>(_orderedResults);
+						var _vmResults = Mapper.Map<List<Client>, List<ClientDetailsVM>>(_orderedResults);
 
-					return new JsonNetResult() { Data = new { SearchResults = _vmResults }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+						return new JsonNetResult() { Data = new { SearchResults = _vmResults }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+					}
 				}
 				catch (Exception ex)
 				{
@@ -154,16 +157,19 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				_client = MMContext.Clients
-						  	.Where(f => f.Id == ClientId)
-						  	.Include(nameof(Cleaner.PhysicalAddress))
-						  	.Include(nameof(Cleaner.PostalAddress))
-							.FirstOrDefault();
-
-				if (_client == null)
+				using (var context = new MagicMaidsContext())
 				{
-					ModelState.AddModelError(string.Empty, $"Customer [{ClientId.ToString()}] not found.  Please try again.");
-					return JsonFormResponse();
+					_client = context.Clients
+								  .Where(f => f.Id == ClientId)
+								  .Include(nameof(Cleaner.PhysicalAddress))
+								  .Include(nameof(Cleaner.PostalAddress))
+								.FirstOrDefault();
+
+					if (_client == null)
+					{
+						ModelState.AddModelError(string.Empty, $"Customer [{ClientId.ToString()}] not found.  Please try again.");
+						return JsonFormResponse();
+					}
 				}
 
 				_dataItem = new ClientDetailsVM();
@@ -224,70 +230,73 @@ namespace MagicMaids.Controllers
 				{
 					Client _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new Client();
-
-						_objToUpdate.FirstName = dataItem.FirstName;
-						_objToUpdate.LastName = dataItem.LastName;
-						_objToUpdate.EmailAddress = dataItem.EmailAddress;
-						_objToUpdate.IsActive = dataItem.IsActive;
-						_objToUpdate.MobileNumber = dataItem.MobileNumber;
-						_objToUpdate.OtherNumber = dataItem.OtherNumber;
-						_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
-						_objToUpdate.ClientType = dataItem.ClientType;
-
-						_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-						_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-						_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-						_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-						if (dataItem.PhysicalAddress != null)
+						if (bIsNew)
 						{
-							_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-							_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-							_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-							_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-							_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
-							_objToUpdate.PhysicalAddress.IsActive = true;
-							_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-							_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							_objToUpdate = new Client();
+
+							_objToUpdate.FirstName = dataItem.FirstName;
+							_objToUpdate.LastName = dataItem.LastName;
+							_objToUpdate.EmailAddress = dataItem.EmailAddress;
+							_objToUpdate.IsActive = dataItem.IsActive;
+							_objToUpdate.MobileNumber = dataItem.MobileNumber;
+							_objToUpdate.OtherNumber = dataItem.OtherNumber;
+							_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
+							_objToUpdate.ClientType = dataItem.ClientType;
+
+							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+							if (dataItem.PhysicalAddress != null)
+							{
+								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+								_objToUpdate.PhysicalAddress.IsActive = true;
+								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+							}
+
+							if (dataItem.PostalAddress != null)
+							{
+								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+								_objToUpdate.PostalAddress.IsActive = true;
+								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+							}
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+						}
+						else
+						{
+							_objToUpdate = context.Clients
+									 .Where(f => f.Id == _id)
+											  .Include(nameof(Cleaner.PhysicalAddress))
+											  .Include(nameof(Cleaner.PostalAddress))
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"Customer [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
+							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
+							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
 						}
 
-						if (dataItem.PostalAddress != null)
-						{
-							_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-							_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-							_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-							_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-							_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-							_objToUpdate.PostalAddress.IsActive = true;
-							_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-							_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-						}
-
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
+						context.SaveChanges();
 					}
-					else
-					{
-						_objToUpdate = MMContext.Clients
-								 .Where(f => f.Id == _id)
-										  .Include(nameof(Cleaner.PhysicalAddress))
-										  .Include(nameof(Cleaner.PostalAddress))
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
-						{
-							ModelState.AddModelError(string.Empty, $"Customer [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
-						}
-
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-						MMContext.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-						MMContext.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
-					}
-
-					MMContext.SaveChanges();
 
 					return JsonSuccessResponse("Customer saved successfully", _objToUpdate);
 				}
@@ -356,10 +365,13 @@ namespace MagicMaids.Controllers
 				throw new InvalidOperationException("Error decrypting payment details.");
 			}
 
-			_entityList = MMContext.ClientMethods
-                       .Where(p => p.Validated ==  _hash)
-					   .OrderByDescending(p => p.CreatedAt)
-					   .ToList();
+			using (var context = new MagicMaidsContext())
+			{
+				_entityList = context.ClientMethods
+						   .Where(p => p.Validated == _hash)
+						   .OrderByDescending(p => p.CreatedAt)
+						   .ToList();
+			}
 
 			List<ClientPaymentMethodVM> _editList = new List<ClientPaymentMethodVM>();
 			foreach (ClientMethod _item in _entityList)
@@ -410,10 +422,13 @@ namespace MagicMaids.Controllers
 						Validated =  _hash,
 					};
 
-					MMContext.Entry(_objToUpdate).State = EntityState.Added;
-					MMContext.SaveChanges();
-
+					using (var context = new MagicMaidsContext())
+					{
+						context.Entry(_objToUpdate).State = EntityState.Added;
+						context.SaveChanges();
+					}
 					return JsonSuccessResponse("Customer payment method saved successfully", _objToUpdate);
+
 				}
 				catch (DbUpdateConcurrencyException ex)
 				{
@@ -466,17 +481,20 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				var _objToDelete = MMContext.ClientMethods
-						.Where(f => f.Id == id.Value)
-                        .FirstOrDefault();
-
-				if (_objToDelete != null)
+				using (var context = new MagicMaidsContext())
 				{
-					MMContext.Entry(_objToDelete).State = EntityState.Deleted;
-					MMContext.SaveChanges();
-				}
+					var _objToDelete = context.ClientMethods
+							.Where(f => f.Id == id.Value)
+							.FirstOrDefault();
 
-				return JsonSuccessResponse($"{_objDesc} deleted successfully", _objToDelete);
+					if (_objToDelete != null)
+					{
+						context.Entry(_objToDelete).State = EntityState.Deleted;
+						context.SaveChanges();
+					}
+
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", _objToDelete);
+				}
 			}
 			catch(Exception ex)
 			{
@@ -507,11 +525,14 @@ namespace MagicMaids.Controllers
 
 			List<ClientLeave> _entityList = new List<ClientLeave>();
 
-			_entityList = MMContext.ClientLeave
-				   	.Where(p => p.ClientRefId == ClientId)
-					   .OrderByDescending(p => p.StartDate)
-					.ThenByDescending(p => p.EndDate)
-					   .ToList();
+			using (var context = new MagicMaidsContext())
+			{
+				_entityList = context.ClientLeave
+						   .Where(p => p.ClientRefId == ClientId)
+						   .OrderByDescending(p => p.StartDate)
+						.ThenByDescending(p => p.EndDate)
+						   .ToList();
+			}
 
 			List<ClientLeaveVM> _editList = new List<ClientLeaveVM>();
 			foreach (ClientLeave _item in _entityList)
@@ -544,33 +565,36 @@ namespace MagicMaids.Controllers
 				{
 					ClientLeave _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new ClientLeave();
-						_objToUpdate.ClientRefId = formValues.ClientId ;
-						_objToUpdate.StartDate = formValues.StartDate;
-						_objToUpdate.EndDate = formValues.EndDate;
-
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
-					}
-					else
-					{
-						_objToUpdate = MMContext.ClientLeave
-								 .Where(f => f.Id == _id)
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
+						if (bIsNew)
 						{
-							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
+							_objToUpdate = new ClientLeave();
+							_objToUpdate.ClientRefId = formValues.ClientId;
+							_objToUpdate.StartDate = formValues.StartDate;
+							_objToUpdate.EndDate = formValues.EndDate;
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+						}
+						else
+						{
+							_objToUpdate = context.ClientLeave
+									 .Where(f => f.Id == _id)
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
 						}
 
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+						context.SaveChanges();
+
+						return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 					}
-
-					MMContext.SaveChanges();
-
-					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
 				catch (DbUpdateConcurrencyException ex)
 				{
@@ -634,14 +658,17 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				var objToDelete = MMContext.ClientLeave.FirstOrDefault(l => l.Id == id.Value);
-				if (objToDelete != null)
+				using (var context = new MagicMaidsContext())
 				{
-					MMContext.ClientLeave.Remove(objToDelete);
-					MMContext.SaveChanges();
-				}
+					var objToDelete = context.ClientLeave.FirstOrDefault(l => l.Id == id.Value);
+					if (objToDelete != null)
+					{
+						context.ClientLeave.Remove(objToDelete);
+						context.SaveChanges();
+					}
 
-				return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+				}
 			}
 			catch (Exception ex)
 			{

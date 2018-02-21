@@ -55,7 +55,7 @@
         .factory('HandleBusySpinner', ['$timeout', function ($timeout) {
 
     		var factory = {};
-    		var spinTime = 200;
+    		var spinTime = 150;
 
     		factory.start = function ($scope, panelName) {
 		    	$scope.isLoadingResults = true;

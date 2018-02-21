@@ -21,9 +21,8 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Constructor
-		public LogEntriesController(DBLogsContext dbContext): base()
+		public LogEntriesController(): base()
 		{
-			LogContext = dbContext;
 		}
 
 		protected override void Dispose(bool disposing)
@@ -33,7 +32,6 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Properties, Protected
-		protected DBLogsContext LogContext { get; private set; }
 		#endregion
 
 		#region Methods, Public
@@ -55,10 +53,13 @@ namespace MagicMaids.Controllers
 		{
 			List<LogEntry> _data = new List<LogEntry>();
 
-			_data = LogContext.LogEntries
-                 .OrderByDescending(x => x.LoggedDate)
-                 .ThenBy(x => x.Id)
-				 .ToList();
+			using(var context = new DBLogsContext())
+			{
+				_data =  context.LogEntries
+				 	.OrderByDescending(x => x.LoggedDate)
+				 	.ThenBy(x => x.Id)
+				 	.ToList();
+			}
 
 			List<LogEntryViewModel> _vmList = new List<LogEntryViewModel>();
 			foreach(LogEntry _item in _data)
@@ -82,10 +83,13 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				_entry = LogContext.LogEntries 
-						  .Where(x => x.Id == Id)
-						  .FirstOrDefault();
-				if (_entry == null)
+				using (var context = new DBLogsContext())
+				{
+					_entry = context.LogEntries
+							  .Where(x => x.Id == Id)
+							  .FirstOrDefault();
+				}
+					if (_entry == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Log Entry [{Id.ToString()}] not found.  Please try again.");
 					return JsonFormResponse();
@@ -110,8 +114,11 @@ namespace MagicMaids.Controllers
 			try
 			{
 				LogEntry _entry = new LogEntry() { Id = id ?? 0 };
-				LogContext.Entry(_entry).State = EntityState.Deleted;
-				LogContext.SaveChanges();
+				using (var context = new DBLogsContext())
+				{
+					context.Entry(_entry).State = EntityState.Deleted;
+					context.SaveChanges();
+				}
 
 				return JsonSuccessResponse($"{_objDesc} deleted successfully", _entry);
 			}
@@ -138,9 +145,11 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				LogContext.LogEntries.RemoveRange(LogContext.LogEntries);
-				LogContext.SaveChanges();
-
+				using (var context = new DBLogsContext())
+				{
+					context.LogEntries.RemoveRange(context.LogEntries);
+					context.SaveChanges();
+				}
 				return JsonSuccessResponse($"{_objDesc} deleted successfully");
 			}
 			catch (Exception ex)

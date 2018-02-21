@@ -23,7 +23,7 @@ namespace MagicMaids.Controllers
 	public partial class SettingsController : BaseController
 	{
 		#region Constructor
-		public SettingsController(MagicMaidsContext dbContext) : base(dbContext)
+		public SettingsController() : base()
 		{
 		}
 		#endregion
@@ -95,15 +95,18 @@ namespace MagicMaids.Controllers
 		{
 			List<SystemSetting> _settings = new List<SystemSetting>();
 
-			if (incDisabled != null && incDisabled == 1)
+			using (var context = new MagicMaidsContext())
 			{
-				_settings = MMContext.DefaultSettings.ToList();
-			}
-			else
-			{
-				_settings = MMContext.DefaultSettings
-					 .Where(p => p.IsActive == true)
-					 .ToList();
+				if (incDisabled != null && incDisabled == 1)
+				{
+					_settings = context.DefaultSettings.ToList();
+				}
+				else
+				{
+					_settings = context.DefaultSettings
+						 .Where(p => p.IsActive == true)
+						 .ToList();
+				}
 			}
 
 			List<UpdateSettingsViewModel> _editSettings = new List<UpdateSettingsViewModel>();
@@ -131,63 +134,66 @@ namespace MagicMaids.Controllers
 			{
 				Guid _id = setting.Id;
 
-				SystemSetting _objToUpdate = MMContext.DefaultSettings.Find(_id);
-				if (_objToUpdate == null)
+				using (var context = new MagicMaidsContext())
 				{
-					ModelState.AddModelError(string.Empty, $"Setting [{_id.ToString()}] not found.  Please try again.");
-					return JsonFormResponse();
-				}
-				//log2.Log(LogLevel.Info, "<XXXXXX> 3", nameof(SaveSettings), null, null);
-
-				if (TryUpdateModel<SystemSetting>(_objToUpdate))
-				{
-					try
+					SystemSetting _objToUpdate = context.DefaultSettings.Find(_id);
+					if (_objToUpdate == null)
 					{
-						MMContext.Entry(_objToUpdate).State = EntityState.Modified;
-						MMContext.SaveChanges();
-
-						return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
+						ModelState.AddModelError(string.Empty, $"Setting [{_id.ToString()}] not found.  Please try again.");
+						return JsonFormResponse();
 					}
-					catch (DbUpdateConcurrencyException ex)
+					//log2.Log(LogLevel.Info, "<XXXXXX> 3", nameof(SaveSettings), null, null);
+
+					if (TryUpdateModel<SystemSetting>(_objToUpdate))
 					{
-						var entry = ex.Entries.Single();
-						var clientValues = (SystemSetting)entry.Entity;
-						var databaseEntry = entry.GetDatabaseValues();
-						if (databaseEntry == null)
+						try
 						{
-							ModelState.AddModelError(string.Empty, "Unable to save changes. The system setting was deleted by another user.");
+							context.Entry(_objToUpdate).State = EntityState.Modified;
+							context.SaveChanges();
+
+							return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
 						}
-						else
+						catch (DbUpdateConcurrencyException ex)
 						{
-							var databaseValues = (SystemSetting)databaseEntry.ToObject();
+							var entry = ex.Entries.Single();
+							var clientValues = (SystemSetting)entry.Entity;
+							var databaseEntry = entry.GetDatabaseValues();
+							if (databaseEntry == null)
+							{
+								ModelState.AddModelError(string.Empty, "Unable to save changes. The system setting was deleted by another user.");
+							}
+							else
+							{
+								var databaseValues = (SystemSetting)databaseEntry.ToObject();
 
-							ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-								+ "was modified by another user after you got the original value. The "
-								+ "edit operation was canceled and the current values in the database "
-								+ "have been displayed. If you still want to edit this record, click "
-								+ "the Save button again.");
+								ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+									+ "was modified by another user after you got the original value. The "
+									+ "edit operation was canceled and the current values in the database "
+									+ "have been displayed. If you still want to edit this record, click "
+									+ "the Save button again.");
 
-							if (databaseValues.SettingName != clientValues.SettingName)
-								ModelState.AddModelError("SettingName", "Current database value for setting name: " + databaseValues.SettingName);
+								if (databaseValues.SettingName != clientValues.SettingName)
+									ModelState.AddModelError("SettingName", "Current database value for setting name: " + databaseValues.SettingName);
 
-							if (databaseValues.SettingValue != clientValues.SettingValue)
-								ModelState.AddModelError("SettingValue", "Current database value for setting value: " + databaseValues.SettingValue);
+								if (databaseValues.SettingValue != clientValues.SettingValue)
+									ModelState.AddModelError("SettingValue", "Current database value for setting value: " + databaseValues.SettingValue);
 
-							if (databaseValues.CodeIdentifier != clientValues.CodeIdentifier)
-								ModelState.AddModelError("CodeIdentifier", "Current database value for code identifier: " + databaseValues.CodeIdentifier);
+								if (databaseValues.CodeIdentifier != clientValues.CodeIdentifier)
+									ModelState.AddModelError("CodeIdentifier", "Current database value for code identifier: " + databaseValues.CodeIdentifier);
+							}
 						}
-					}
-					catch (RetryLimitExceededException /* dex */)
-					{
-						//Log the error (uncomment dex variable name and add a line here to write a log.
-						ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-					}
-					catch (Exception ex)
-					{
-						ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving setting", ex));
+						catch (RetryLimitExceededException /* dex */)
+						{
+							//Log the error (uncomment dex variable name and add a line here to write a log.
+							ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+						}
+						catch (Exception ex)
+						{
+							ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving setting", ex));
 
-						LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-						log.Log(LogLevel.Error, "Error saving setting", nameof(SaveSettings), ex, setting, Helpers.ParseValidationErrors(ex));
+							LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+							log.Log(LogLevel.Error, "Error saving setting", nameof(SaveSettings), ex, setting, Helpers.ParseValidationErrors(ex));
+						}
 					}
 				}
 
@@ -207,10 +213,12 @@ namespace MagicMaids.Controllers
 		{
 			List<SuburbZone> _entityList = new List<SuburbZone>();
 
-			_entityList = MMContext.SuburbZones
-				   .Where(p => p.FranchiseId == FranchiseId)
-				   .ToList();
-
+			using (var context = new MagicMaidsContext())
+			{
+				_entityList = context.SuburbZones
+					   .Where(p => p.FranchiseId == FranchiseId)
+					   .ToList();
+			}
 			List<UpdateSuburbZonesVM> _editList = new List<UpdateSuburbZonesVM>();
 			foreach (SuburbZone _item in _entityList)
 			{
@@ -254,33 +262,36 @@ namespace MagicMaids.Controllers
 				{
 					SuburbZone _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new SuburbZone();
-						_objToUpdate.SuburbName = formValues.SuburbName;
-						_objToUpdate.PostCode = formValues.PostCode;
-						_objToUpdate.Zone = formValues.Zone;
-						_objToUpdate.LinkedZones = formValues.LinkedZones;
-						_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
-
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
-					}
-					else
-					{
-						_objToUpdate = MMContext.SuburbZones
-								 .Where(f => f.Id == _id)
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
+						if (bIsNew)
 						{
-							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
+							_objToUpdate = new SuburbZone();
+							_objToUpdate.SuburbName = formValues.SuburbName;
+							_objToUpdate.PostCode = formValues.PostCode;
+							_objToUpdate.Zone = formValues.Zone;
+							_objToUpdate.LinkedZones = formValues.LinkedZones;
+							_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+						}
+						else
+						{
+							_objToUpdate = context.SuburbZones
+									 .Where(f => f.Id == _id)
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
 						}
 
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+						context.SaveChanges();
 					}
-
-					MMContext.SaveChanges();
 
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
@@ -380,9 +391,12 @@ namespace MagicMaids.Controllers
 		{
 			List<Rate> _entityList = new List<Rate>();
 
-			_entityList = MMContext.Rates
-				   .Where(p => p.FranchiseId == FranchiseId)
-				   .ToList();
+			using (var context = new MagicMaidsContext())
+			{
+				_entityList = context.Rates
+					   .Where(p => p.FranchiseId == FranchiseId)
+					   .ToList();
+			}
 
 			List<RateListVM> _showList = new List<RateListVM>();
 			foreach (Rate _item in _entityList)
@@ -428,35 +442,37 @@ namespace MagicMaids.Controllers
 				{
 					Rate _objToUpdate = null;
 
-					if (bIsNew)
+					using (var context = new MagicMaidsContext())
 					{
-						_objToUpdate = new Rate();
-						_objToUpdate.RateCode = formValues.RateCode;
-						_objToUpdate.RateAmount = formValues.RateAmount;
-						_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
-						_objToUpdate.IsActive = formValues.IsActive;
-						_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
-
-						MMContext.Entry(_objToUpdate).State = EntityState.Added;
-					}
-					else
-					{
-						_objToUpdate = MMContext.Rates
-								 .Where(f => f.Id == _id)
-										  .FirstOrDefault();
-
-						if (_objToUpdate == null)
+						if (bIsNew)
 						{
-							ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
-							return JsonFormResponse();
+							_objToUpdate = new Rate();
+							_objToUpdate.RateCode = formValues.RateCode;
+							_objToUpdate.RateAmount = formValues.RateAmount;
+							_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
+							_objToUpdate.IsActive = formValues.IsActive;
+							_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
+
+							context.Entry(_objToUpdate).State = EntityState.Added;
+						}
+						else
+						{
+							_objToUpdate = context.Rates
+									 .Where(f => f.Id == _id)
+											  .FirstOrDefault();
+
+							if (_objToUpdate == null)
+							{
+								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
+								return JsonFormResponse();
+							}
+
+							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+							_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
 						}
 
-						MMContext.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
-						_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
+						context.SaveChanges();
 					}
-
-					MMContext.SaveChanges();
-
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
 				catch (DbUpdateConcurrencyException ex)
