@@ -1,6 +1,6 @@
 ﻿#region Using
 using FluentValidation;
-using Ninject.Modules;
+//using Ninject.Modules;
 #endregion
 
 namespace MagicMaids.EntityModels

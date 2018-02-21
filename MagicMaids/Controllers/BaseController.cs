@@ -17,21 +17,14 @@ namespace MagicMaids.Controllers
 	public class BaseController : Controller
 	{
 		#region Fields
-		private DbContext _context;
 		#endregion
 
 		#region Constructor
 		public BaseController()
 		{
 			Log = LogManager.GetLogger(GetType().FullName);
-		}
-
-		public BaseController(DbContext dbContext)
-		{
-			_context = dbContext;
-			Log = LogManager.GetLogger(GetType().FullName);
 			MagicMaidsInitialiser.CheckConnection();
-        }
+		}
 
         protected override void Dispose(bool disposing)
         {

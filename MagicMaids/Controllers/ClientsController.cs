@@ -28,7 +28,7 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Constructor
-		public ClientsController(MagicMaidsContext dbContext) : base(dbContext)
+		public ClientsController() : base()
 		{
 		}
 		#endregion

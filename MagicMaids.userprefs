@@ -1,10 +1,26 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
       <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="38" Column="56" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="57" Column="30" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="34" Column="4" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="829" Column="9" />
+      <File FileName="MagicMaids/Web.config" Line="136" Column="17" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MagicMaids" expanded="True">
+            <Node name="MagicMaids" expanded="True">
+              <Node name="Packages" expanded="True" />
+              <Node name="App_Start" expanded="True" />
+              <Node name="Controllers" expanded="True" />
+              <Node name="Views" expanded="True" />
+              <Node name="Global.asax" expanded="True" />
+              <Node name="Web.config" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.DBConnectionTester PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

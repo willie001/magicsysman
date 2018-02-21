@@ -28,7 +28,7 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Constructors
-		public CleanersController(MagicMaidsContext dbContext) : base(dbContext)
+		public CleanersController() : base()
 		{
 			
 		}
