@@ -15,9 +15,9 @@ namespace MagicMaids.Controllers
     {
 
         #region Constructor
-		public AppController(MagicMaidsContext dbContext): base(dbContext)
+		public AppController(MagicMaidsContext dbContext) : base(dbContext)
 		{
-        }
+		}
         #endregion
 
         // GET: Home

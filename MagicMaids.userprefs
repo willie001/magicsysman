@@ -1,10 +1,11 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/BaseController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/AppController.cs">
     <Files>
       <File FileName="MagicMaids/Web.config" Line="24" Column="51" />
       <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="482" Column="1" />
       <File FileName="MagicMaids/Controllers/AddressesController.cs" Line="14" Column="45" />
-      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="20" Column="3" />
+      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="18" Column="3" />
+      <File FileName="MagicMaids/Controllers/AppController.cs" Line="18" Column="41" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.DBConnectionTester PreferredExecutionTarget="MonoDevelop.Default" />

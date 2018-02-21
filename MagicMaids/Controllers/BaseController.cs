@@ -21,6 +21,11 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Constructor
+		public BaseController()
+		{
+			Log = LogManager.GetLogger(GetType().FullName);
+		}
+
 		public BaseController(DbContext dbContext)
 		{
 			_context = dbContext;
