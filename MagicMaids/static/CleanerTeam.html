@@ -1,0 +1,133 @@
+﻿<div class="ngdialog-content" ng-controller="CleanerDetailsController">
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label class="col-md-2 control-label">Cleaner Name</label>
+			<div class="col-md-4">
+				<input type="text" placeholder="First name" class="form-control" name="FirstName" ng-model="teamMember.FirstName" />
+			</div>
+			<div class="col-md-6">
+				<input type="text" placeholder="Last name" class="form-control" name="LastName" ng-model="teamMember.LastName" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">Email</label>
+			<div class="col-md-4">
+				<input type="email" placeholder="Email" class="form-control" name="emailaddress" ng-model="teamMember.EmailAddress" />
+				<span class="text-danger" ng-show="form.validateInput('emailaddress', 'email')">This field must be a valid email address</span>
+			</div>
+			<label class="col-md-2 control-label">Mobile</label>
+			<div class="col-md-4">
+				<input type="text" placeholder="Mobile" class="form-control" name="MobileNumber" ng-model="teamMember.MobileNumber" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-md-2 control-label">Does Ironing?</label>
+			<div class="col-md-4">
+				<select name="Ironing" class="form-control" ng-model="teamMember.Ironing">
+					<option value="true" ng-selected="teamMember.Ironing === true">Yes</option>
+					<option value="false" ng-selected="teamMember.Ironing === false">No</option>
+				</select>
+			</div>
+			<label class="col-md-2 control-label">Gender</label>
+			<div class="col-md-4">
+				<select name="GenderFlag" class="form-control" ng-model="teamMember.GenderFlag">
+					<option value="">Unspecified</option>
+					<option value="F">Female</option>
+					<option value="M">Male</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="col-sm-6">
+			<div class="panel panel-primary" id="panelPhysical">
+				<div class="panel-heading">Physical Address</div>
+				<div class="panel-body">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<input type="text" placeholder="Address line 1" class="form-control" name="Phys_AddressLine1" ng-model="teamMember.PhysicalAddress.AddressLine1" />
+						</div>
+						<div class="form-group">
+							<input type="text" placeholder="Address line 2" class="form-control" name="Phys_AddressLine2" ng-model="teamMember.PhysicalAddress.AddressLine2" />
+						</div>
+						<div class="form-group">
+							<input type="text" placeholder="Suburb" class="form-control" name="Phys_Suburb" ng-model="teamMember.PhysicalAddress.Suburb" />
+						</div>
+						<div class="form-group">
+							<select class="form-control" name="Phys_State" ng-model="teamMember.PhysicalAddress.State" ng-init="Phys_State='WA'">
+								<option value="">Select State</option>
+								<option value="ACT">ACT</option>
+								<option value="NT">NT</option>
+								<option value="QLD">QLD</option>
+								<option value="SA">SA</option>
+								<option value="TAS">TAS</option>
+								<option value="VIC">VIC</option>
+								<option value="WA">WA</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-6 nopadding">
+								<input type="text" placeholder="Postcode" class="form-control" name="Phys_PostCode" ng-model="teamMember.PhysicalAddress.PostCode" />
+							</div>
+							<div class="col-xs-6"></div>
+						</div>
+						<div class="form-group">
+							<input type="text" placeholder="Country" class="form-control" name="Phys_Country" ng-model="teamMember.PhysicalAddress.Country" disabled="true" ng-init="Phys_Country='Australia'" />
+						</div>
+						<div class="checkbox c-checkbox">
+							<label>
+								<input type="checkbox" checked="true" name="CopyToPostal" id="CopyToPostal" ng-model="CopyToPostal" />
+								<span class="fa fa-check"></span>Use same address for postal address
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-6">
+			<div class="panel panel-green" id="panelPostal" ng-show="!CopyToPostal">
+				<div class="panel-heading">Postal Address</div>
+				<div class="panel-body">
+					<div class="col-xs-12">
+						<div class="form-group">
+							<input type="text" placeholder="Address line 1" class="form-control" name="Post_AddressLine1" ng-model="teamMember.PostalAddress.AddressLine1" />
+						</div>
+						<div class="form-group">
+							<input type="text" placeholder="Address line 2" class="form-control" name="Post_AddressLine2" ng-model="teamMember.PostalAddress.AddressLine2" />
+						</div>
+						<div class="form-group">
+							<input type="text" placeholder="Suburb" class="form-control" name="Post_Suburb" ng-model="teamMember.PostalAddress.Suburb" />
+						</div>
+						<div class="form-group">
+							<select class="form-control" name="Post_State" ng-model="teamMember.PostalAddress.State" ng-init="Post_State='WA'">
+								<option value="">Select State</option>
+								<option value="ACT">ACT</option>
+								<option value="NT">NT</option>
+								<option value="QLD">QLD</option>
+								<option value="SA">SA</option>
+								<option value="TAS">TAS</option>
+								<option value="VIC">VIC</option>
+								<option value="WA">WA</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-6 nopadding">
+								<input type="text" placeholder="Postcode" class="form-control" name="Post_PostCode" ng-model="teamMember.PostalAddress.PostCode" />
+							</div>
+							<div class="col-xs-6"></div>
+						</div>
+						<div class="form-group">
+							<input type="text" placeholder="Country" class="form-control" name="Post_Country" ng-model="teamMember.PostalAddress.Country" ng-init="Post_Country='Australia'" disabled="true" />
+						</div>
+						<div class="checkbox c-checkbox"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="ngdialog-buttons">
+			<button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="saveTeamPopupForm() && closeThisDialog()">Save</button>
+			<button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('confirm')">Cancel</button>
+		</div>
+	</form>
+</div>

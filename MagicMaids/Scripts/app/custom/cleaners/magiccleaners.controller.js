@@ -346,7 +346,7 @@
 			//console.log("<TEAM EDIT> - " + angular.toJson($scope.teamMember));
 				
 			ngDialog.open({
-              template: '/views/Cleaners/CleanerTeam.html',
+              template: 'static/CleanerTeam.html',
               className: 'ngdialog-theme-default custom-width-900',
               height: '700px',
               scope: $scope,

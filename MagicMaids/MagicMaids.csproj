@@ -788,7 +788,6 @@
     <Content Include="Views\Settings\_SettingsRates.cshtml" />
     <Content Include="Scripts\app\custom\cleaners\magiccleaners.controller.js" />
     <Content Include="Views\Cleaners\_CleanerAddress.cshtml" />
-    <Content Include="Views\Cleaners\CleanerTeam.html" />
     <Content Include="Content\SiteTest.html" />
     <Content Include="Views\Clients\ClientBookings.cshtml" />
     <Content Include="Views\Settings\ServerVars.cshtml" />
@@ -798,6 +797,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="static\RatesEditor.html" />
+    <Content Include="static\CleanerTeam.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
