@@ -13,7 +13,7 @@ namespace MagicMaids.Controllers
     public class PartialsController : BaseController
     {
         #region Constructor
-        public PartialsController(): base()
+		public PartialsController(MagicMaidsContext dbContext) : base(dbContext)
 		{
         }
         #endregion

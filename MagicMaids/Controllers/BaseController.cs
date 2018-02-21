@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -16,11 +17,13 @@ namespace MagicMaids.Controllers
 	public class BaseController : Controller
 	{
 		#region Fields
+		private DbContext _context;
 		#endregion
 
 		#region Constructor
-		public BaseController()
+		public BaseController(DbContext dbContext)
 		{
+			_context = dbContext;
 			Log = LogManager.GetLogger(GetType().FullName);
 			MagicMaidsInitialiser.CheckConnection();
         }

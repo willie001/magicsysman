@@ -72,7 +72,7 @@ namespace MagicMaids
         private static void RegisterServices(IBindingRoot kernel)
         {
             //http://blog.staticvoid.co.nz/2011/staticvoid_repository_pattern-nuget/
-            //kernel.Bind<MagicMaidsContext>().ToSelf().InRequestScope();
+            kernel.Bind<MagicMaidsContext>().ToSelf().InRequestScope();
             //kernel.Bind(typeof(IRepository<>)).To(typeof(SystemSettingsRepository));
 		}
     }

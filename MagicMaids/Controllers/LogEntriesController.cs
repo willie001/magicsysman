@@ -21,7 +21,7 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Constructor
-		public LogEntriesController(): base()
+		public LogEntriesController(DBLogsContext dbContext): base(dbContext)
 		{
 		}
 

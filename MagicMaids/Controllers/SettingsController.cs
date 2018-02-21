@@ -23,7 +23,7 @@ namespace MagicMaids.Controllers
 	public partial class SettingsController : BaseController
 	{
 		#region Constructor
-		public SettingsController() : base()
+		public SettingsController(MagicMaidsContext dbContext) : base(dbContext)
 		{
 		}
 		#endregion

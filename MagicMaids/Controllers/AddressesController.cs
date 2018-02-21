@@ -14,7 +14,7 @@ namespace MagicMaids.Controllers
 	public class AddressesController : BaseController
 	{
 		#region Constructor
-		public AddressesController(): base()
+		public AddressesController(MagicMaidsContext dbContext): base(dbContext)
 		{
 		}
 		#endregion
