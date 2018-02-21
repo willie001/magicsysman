@@ -299,7 +299,6 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	var test = cleanerTeamFactory.getTeamSelectionList();
                 });
 		}
 
