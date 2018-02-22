@@ -299,6 +299,9 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
+            		// force reload of team
+                	var test = cleanerTeamFactory.getTeamSelectionList();
+
                 });
 		}
 

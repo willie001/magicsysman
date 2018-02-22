@@ -2,18 +2,15 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
       <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="38" Column="56" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="829" Column="9" />
-      <File FileName="MagicMaids/Web.config" Line="136" Column="17" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="341" Column="50" />
+      <File FileName="MagicMaids/Web.config" Line="17" Column="9" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Packages" expanded="True" />
-              <Node name="App_Start" expanded="True" />
-              <Node name="Controllers" expanded="True" />
-              <Node name="Views" expanded="True" />
+              <Node name="Properties" expanded="True" />
               <Node name="Global.asax" expanded="True" />
               <Node name="Web.config" selected="True" />
             </Node>
