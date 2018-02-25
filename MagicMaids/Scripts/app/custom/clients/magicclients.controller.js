@@ -443,6 +443,9 @@
       		var dateStart = new Date(data.StartDate);
       		var dateEnd = new Date(data.EndDate);
 
+      		data.StartDate = (dateStart.toISOString());
+			data.EndDate = (dateEnd.toISOString());
+
 			console.log("<LEAVE SAVE> - " + angular.toJson(data));
           	angular.extend(data, {
 					ClientId: ClientId,
