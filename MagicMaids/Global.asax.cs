@@ -42,6 +42,7 @@ namespace MagicMaids
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
+			GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
