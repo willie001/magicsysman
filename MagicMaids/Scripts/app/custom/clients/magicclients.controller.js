@@ -399,7 +399,8 @@
       	};
 
 		vm.validateData = function(data, colName) {
-			//console.log("<LEAVE validate> - " + angular.toJson(data));
+			console.log("<LEAVE validate> - " + angular.toJson(data));
+			//value.StartDate.setMinutes( value.StartDate.getMinutes() + value.StartDate.getTimezoneOffset() ); 	//https://github.com/angular-ui/bootstrap/issues/2628
           	if (data.length == 0) {
               return colName + ' is mandatory';
             }
@@ -450,7 +451,6 @@
 					IsNewItem: isNew
 				});
 
-            console.log("<LEAVE data post> - " + angular.toJson(data));
        		return $http.post('/clients/saveleavedates', data).success(function (response) {
                 // Add your success stuff here
             	//console.log("<LEAVE response post> - " + angular.toJson(response));

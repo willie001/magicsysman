@@ -1,10 +1,9 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Global.asax.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Clients/_CustomerHolidays.cshtml">
     <Files>
-      <File FileName="MagicMaids/Global.asax.cs" Line="44" Column="64" />
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="554" Column="1" />
-      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="459" Column="13" />
-      <File FileName="MagicMaids/packages.config" Line="1" Column="1" />
+      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="439" Column="15" />
+      <File FileName="MagicMaids/Views/Clients/_CustomerHolidays.cshtml" Line="20" Column="19" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -12,18 +11,15 @@
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
               <Node name="Packages" expanded="True" />
+              <Node name="Controllers" expanded="True" />
               <Node name="Helpers" expanded="True" />
               <Node name="Properties" expanded="True" />
-              <Node name="Scripts" expanded="True">
-                <Node name="app" expanded="True">
-                  <Node name="custom" expanded="True">
-                    <Node name="clients" expanded="True" />
-                  </Node>
+              <Node name="Views" expanded="True">
+                <Node name="Clients" expanded="True">
+                  <Node name="_CustomerHolidays.cshtml" selected="True" />
                 </Node>
               </Node>
-              <Node name="Global.asax" expanded="True">
-                <Node name="Global.asax.cs" selected="True" />
-              </Node>
+              <Node name="Global.asax" expanded="True" />
             </Node>
           </Node>
         </State>
