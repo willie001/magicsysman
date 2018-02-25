@@ -17,6 +17,7 @@ using MagicMaids.ViewModels;
 using System.Configuration;
 using System.Data.Entity;
 using System.Web.Http;
+using Newtonsoft.Json;
 
 namespace MagicMaids
 {
@@ -48,6 +49,12 @@ namespace MagicMaids
 				cfg.CreateMap<Address, UpdateAddressViewModel>();
 				cfg.CreateMap<Client, ClientDetailsVM>();  
 			});  
+
+			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+			{
+				DateParseHandling = DateParseHandling.None,
+				DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
+			};
 
         }
 

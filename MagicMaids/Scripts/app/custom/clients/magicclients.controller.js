@@ -375,10 +375,7 @@
 
 					angular.forEach(vm.listOfLeave, function(value, key) {
 						value.StartDate = new Date(value.StartDate);
-						value.StartDate.setMinutes( value.StartDate.getMinutes() + value.StartDate.getTimezoneOffset() ); 	//https://github.com/angular-ui/bootstrap/issues/2628
-						
 						value.EndDate = new Date(value.EndDate);
-						value.EndDate.setMinutes( value.EndDate.getMinutes() + value.EndDate.getTimezoneOffset() ); 
 						
 					});
                 	//console.log("<LEAVE loaded> - " + angular.toJson(vm.listOfLeave));
@@ -443,6 +440,9 @@
 		}
 
       	vm.saveData = function(data, id, isNew) {
+      		var dateStart = new Date(data.StartDate);
+      		var dateEnd = new Date(data.EndDate);
+
 			console.log("<LEAVE SAVE> - " + angular.toJson(data));
           	angular.extend(data, {
 					ClientId: ClientId,
