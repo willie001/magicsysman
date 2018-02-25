@@ -450,7 +450,7 @@
 					IsNewItem: isNew
 				});
 
-            //console.log("<LEAVE data post> - " + angular.toJson(data));
+            console.log("<LEAVE data post> - " + angular.toJson(data));
        		return $http.post('/clients/saveleavedates', data).success(function (response) {
                 // Add your success stuff here
             	//console.log("<LEAVE response post> - " + angular.toJson(response));
