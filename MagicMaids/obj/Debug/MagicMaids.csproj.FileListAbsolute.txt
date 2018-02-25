@@ -48,7 +48,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.Deployment.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.Razor.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Newtonsoft.Json.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Extended.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Web.xml
@@ -59,6 +58,7 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.Data.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.WebData.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Newtonsoft.Json.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
