@@ -399,9 +399,8 @@
       	};
 
 		vm.validateData = function(data, colName) {
-			console.log("<LEAVE validate> - " + angular.toJson(data));
-			//value.StartDate.setMinutes( value.StartDate.getMinutes() + value.StartDate.getTimezoneOffset() ); 	//https://github.com/angular-ui/bootstrap/issues/2628
-          	if (data.length == 0) {
+			//console.log("<LEAVE validate> - " + angular.toJson(data));
+			if (data.length == 0) {
               return colName + ' is mandatory';
             }
       	};
@@ -444,7 +443,7 @@
 		}
 
       	vm.saveData = function(data, id, isNew) {
-			//console.log("<LEAVE SAVE> - " + angular.toJson(data));
+			console.log("<LEAVE SAVE> - " + angular.toJson(data));
           	angular.extend(data, {
 					ClientId: ClientId,
 					Id: id,
