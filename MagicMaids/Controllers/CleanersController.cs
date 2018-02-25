@@ -601,9 +601,12 @@ namespace MagicMaids.Controllers
 					var _objToDelete = context.CleanerTeam
 							.Where(f => f.Id == CleanerId)
 								.Include(nameof(CleanerTeam.PhysicalAddress))
-								  .Include(nameof(CleanerTeam.PostalAddress))
+							 	.Include(nameof(CleanerTeam.PostalAddress))
 							  .FirstOrDefault();
 
+					var _objTeamDelete = context.CleanerRosteredTeam
+							.Where(f => f.TeamRefId == CleanerId)
+							.ToArray<CleanerRosteredTeam>();
 
 					if (_objToDelete == null)
 					{
@@ -615,6 +618,7 @@ namespace MagicMaids.Controllers
 
 					context.Addresses.Remove(_physAddress);
 					context.Addresses.Remove(_postAddress);
+					context.CleanerRosteredTeam.RemoveRange(_objTeamDelete);
 
 					context.Entry(_objToDelete).State = EntityState.Deleted;
 					context.SaveChanges();

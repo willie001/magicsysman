@@ -12,7 +12,6 @@
     SweetAlertController.$inject = ['SweetAlert'];
     function SweetAlertController(SweetAlert) {
         var vm = this;
-        alert('1');
 
         activate();
 

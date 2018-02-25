@@ -153,8 +153,8 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Valid email address is required.");
 
 			RuleFor(x => x.Initials).Length(1, 5).WithName("Initials");
-			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
-			RuleFor(x => x.LastName).Length(3, 100).WithName("Last name");
+			RuleFor(x => x.FirstName).Length(2, 100).WithName("First name");
+			RuleFor(x => x.LastName).Length(2, 100).WithName("Last name");
 
 			RuleFor(x => x.Region).Length(2, 100).WithName("Region");
 			RuleFor(x => x.PrimaryZone).Length(1, 10).WithMessage("Primary zone must be a valid number");
@@ -209,8 +209,8 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.LastName).NotEmpty().WithMessage("Surname is required.");
 			RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Valid email address is required.");
 
-			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
-			RuleFor(x => x.LastName).Length(3, 100).WithName("Last name");
+			RuleFor(x => x.FirstName).Length(2, 100).WithName("First name");
+			RuleFor(x => x.LastName).Length(2, 100).WithName("Last name");
 
 			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");
 
@@ -241,8 +241,8 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.EmailAddress).NotEmpty().WithMessage("Valid email address is required.");
 			RuleFor(x => x.ClientType).NotEmpty().WithMessage("Client classification is required.");
 
-			RuleFor(x => x.FirstName).Length(3, 100).WithName("First name");
-			RuleFor(x => x.LastName).Length(3, 100).WithName("Last name");
+			RuleFor(x => x.FirstName).Length(2, 100).WithName("First name");
+			RuleFor(x => x.LastName).Length(2, 100).WithName("Last name");
 
 			RuleFor(x => x.BusinessPhoneNumber).SetValidator(new PhoneNumberValidator(false)).WithMessage("Primary business number is not a valid phone number.");
 			RuleFor(x => x.MobileNumber).SetValidator(new PhoneNumberValidator(true)).WithMessage("Mobile number is not a valid number.");

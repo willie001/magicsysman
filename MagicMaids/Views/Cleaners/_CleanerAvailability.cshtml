@@ -35,7 +35,7 @@
 							<td align="left">
 								<ui-select multiple="" ng-change="cleanerRosterChanged(roster)" ng-model="roster.TeamMembers" theme="bootstrap" ng-disabled="roster.IsActive != true">
 									<ui-select-match placeholder="Select team.....">{{$item.DisplayName}}</ui-select-match>
-									<ui-select-choices repeat="item in getTeamList() | propsFilter: {DisplayName: $select.search} track by item.Id">
+									<ui-select-choices repeat="item in getTeamList() | propsFilter: {DisplayName: $select.search} track by $index">
 									<div ng-bind-html="item.DisplayName | highlight: $select.search"></div>
 									</ui-select-choices>
 								</ui-select>

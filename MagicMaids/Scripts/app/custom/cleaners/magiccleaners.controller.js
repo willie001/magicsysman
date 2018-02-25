@@ -27,6 +27,8 @@
 							return data.TeamSelectionList;
 						}
 
+						data.TeamSelectionList = [];
+
 						var teamMember = {
 			    			Id: data.Primary.Id,
 			    			FirstName: data.Primary.FirstName,
@@ -67,12 +69,14 @@
 					return data.TeamList;
 				},
 				setPrimary: function(cleaner) {
+					data.IsTeamSelectionListSet = false;
 					data.Primary = cleaner;
 				},
 				setTeamSize: function(value) {
 					data.TeamSize = value;
 				},
 				setTeam: function(team) {
+					data.IsTeamSelectionListSet = false;
 					data.TeamList = team;
 				}
 			};
@@ -291,7 +295,7 @@
 			$http.get('/cleaners/getcleanerteam/?CleanerId=' + vm.cleaner.Id)
                 .success(function (data) {
                 	vm.cleanerTeam = data.list;
-                	//console.log('<TEAM> ' + angular.toJson(vm.cleanerTeam));
+                	console.log('<TEAM> ' + angular.toJson(vm.cleanerTeam));
                 	
                 	cleanerTeamFactory.setTeam(vm.cleanerTeam);
                 	cleanerTeamFactory.setTeamSize(data.teamSize);
@@ -300,7 +304,7 @@
                 	
                 }).finally(function() {
             		// force reload of team
-                	var test = cleanerTeamFactory.getTeamSelectionList();
+                	var reload = cleanerTeamFactory.getTeamSelectionList();
 
                 });
 		}
@@ -312,6 +316,12 @@
 
 		$scope.openTeamPopupForm = function (item) {
 			//console.log("<CLEANER VM> - " + angular.toJson($scope.teamMember));
+			//console.log("<CLEANER VM> - " + angular.toJson(item));
+
+			if (!item)
+			{
+				$scope.teamMember = null;
+			}
 
 			if (!$scope.teamMember)
 			{
@@ -421,10 +431,7 @@
 						{
 							vm.cleanerTeam.splice(ix, 1);
 						}
-						else
-						{
-							activate();
-						}
+						loadTeamMembers();
 	            	});
 			}
 		}

@@ -18,6 +18,7 @@ using MagicMaids.Controllers;
 using System.Configuration;
 using System.Data.Entity;
 using MagicMaids.DataAccess;
+using System.Web.Http;
 
 namespace MagicMaids
 {
@@ -40,6 +41,7 @@ namespace MagicMaids
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
+			GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
