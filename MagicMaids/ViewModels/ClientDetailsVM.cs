@@ -278,11 +278,11 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _startDate;
+				return _startDate.ToLocalTime();
 			}
 			set
 			{
-				_startDate = value;
+				_startDate = value.ToUniversalTime();
 			}
 		}
 
@@ -305,11 +305,11 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _endDate;
+				return _endDate.ToLocalTime();
 			}
 			set
 			{
-				_endDate = value;
+				_endDate = value.ToUniversalTime() ;
 			}
 		}
 
