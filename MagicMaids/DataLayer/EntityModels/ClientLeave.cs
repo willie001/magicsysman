@@ -14,17 +14,32 @@ namespace MagicMaids.EntityModels
 		[DataType(DataType.Date)]
 		public DateTime StartDate
 		{
-			get;
-			set;
+			get
+			{
+				return _startDate.ToLocalTime();
+			}
+			set
+			{
+				_startDate = value.ToUniversalTime();
+			}
 		}
+		private DateTime _startDate;
+
 
 		[Required]
 		[DataType(DataType.Date)]
 		public DateTime EndDate
 		{
-			get;
-			set;
+			get
+			{
+				return _endDate.ToLocalTime();
+			}
+			set
+			{
+				_endDate = value.ToUniversalTime();
+			}
 		}
+		private DateTime _endDate;
 
 		#endregion
 

@@ -2,10 +2,11 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/ViewModels/ClientDetailsVM.cs">
     <Files>
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="550" Column="44" />
-      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="447" Column="30" />
+      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="443" Column="1" />
       <File FileName="MagicMaids/Views/Clients/_CustomerHolidays.cshtml" Line="27" Column="116" />
       <File FileName="MagicMaids/Global.asax.cs" Line="56" Column="58" />
-      <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="281" Column="12" />
+      <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="346" Column="46" />
+      <File FileName="MagicMaids/DataLayer/EntityModels/ClientLeave.cs" Line="17" Column="7" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,6 +15,9 @@
             <Node name="MagicMaids" expanded="True">
               <Node name="Packages" expanded="True" />
               <Node name="Controllers" expanded="True" />
+              <Node name="DataLayer" expanded="True">
+                <Node name="EntityModels" expanded="True" />
+              </Node>
               <Node name="Helpers" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="Scripts" expanded="True">
