@@ -1,9 +1,9 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/SearchController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/cleaners/magicsearches.controller.js">
     <Files>
-      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="136" Column="28" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magicsearches.controller.js" Line="96" Column="49" />
-      <File FileName="MagicMaids/Views/Search/Search.cshtml" Line="133" Column="69" />
+      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="132" Column="5" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magicsearches.controller.js" Line="81" Column="34" />
+      <File FileName="MagicMaids/Views/Search/Search.cshtml" Line="97" Column="76" />
       <File FileName="MagicMaids/ViewModels/SearchVM.cs" Line="33" Column="8" />
       <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="608" Column="1" />
     </Files>
@@ -15,7 +15,6 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/CleanerDetailsVM.cs" relfile="MagicMaids/ViewModels/CleanerDetailsVM.cs" line="126" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CustomFormatters.cs" relfile="MagicMaids/Helpers/CustomFormatters.cs" line="12" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" relfile="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" line="17" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SearchController.cs" relfile="MagicMaids/Controllers/SearchController.cs" line="134" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
