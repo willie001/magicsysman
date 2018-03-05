@@ -11,6 +11,7 @@ using MagicMaids.ViewModels;
 using NLog;
 
 using System.Text;
+using System.Collections;
 #endregion
 
 namespace MagicMaids
@@ -31,6 +32,7 @@ namespace MagicMaids
 		#endregion
 
 		#region Methods, Public
+
 		public static String FormatModelError(String msgStarter, Exception ex)
 		{
 			if (ex == null)

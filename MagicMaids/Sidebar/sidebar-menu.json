@@ -5,6 +5,12 @@
 		"translate": "home.WELCOME"
 	},
 	{
+		"text": "Cleaner Match",
+		"sref": "app.mainsearch",
+		"icon": "fa fa-search",
+		"translate": "pageTitles.cleaners.MAIN_SEARCH"
+	},
+	{
 		"text": "Manage Clients",
 		"sref": "app.clients",
 		"icon": "fa fa-users",

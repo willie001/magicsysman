@@ -47,7 +47,8 @@ namespace MagicMaids
 			{  
 			    cfg.CreateMap<Cleaner, CleanerDetailsVM>();  
 				cfg.CreateMap<Address, UpdateAddressViewModel>();
-				cfg.CreateMap<Client, ClientDetailsVM>();  
+				cfg.CreateMap<Client, ClientDetailsVM>(); 
+				cfg.CreateMap<Cleaner, CleanerJobMatchVM>();  
 			});  
 
 			JsonConvert.DefaultSettings = () => new JsonSerializerSettings

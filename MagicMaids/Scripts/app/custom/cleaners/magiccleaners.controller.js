@@ -154,7 +154,7 @@
 		}
 
 	$scope.searchCleaners = function() {
-			//console.log("<CLEANER Search> - " + angular.toJson(vm.Search));
+			console.log("<CLEANER Search> - " + angular.toJson(vm.Search));
 			vm.hasSearched = true;
 
 			if (vm.Search.SelectedFranchise)

@@ -19,7 +19,7 @@
         //$locationProvider.html5Mode(true);
 
         // defaults to homescreen
-        $urlRouterProvider.otherwise('/clients');
+        $urlRouterProvider.otherwise('/search');
 
         //
         // Application Routes
@@ -52,15 +52,21 @@
 
           // url maps to controller method name, not the view.
           .state('app.dashboard', {
-              url: '/clients',
+              url: '/search',
               title: 'Home',
-              templateUrl: helper.basepath('Clients/Clients'),
-              resolve: helper.resolveFor('datatables')
+              templateUrl: helper.basepath('Search/Search'),
+              resolve: helper.resolveFor('datatables','xeditable')
           })
           .state('app.servervars', {
               url: '/servervars',
               title: 'Server Variables',
               templateUrl: helper.basepath('Dashboard/ServerVars')
+          })
+          .state('app.mainsearch', {
+              url: '/search',
+              title: 'Search',
+              templateUrl: helper.basepath('Search/Search'),
+              resolve: helper.resolveFor('datatables', 'xeditable')
           })
           .state('app.clients', {
               url: '/clients',

@@ -128,6 +128,7 @@ namespace MagicMaids.ViewModels
 			get;
 			set;
 		}
+
 		#endregion
 
 		#region Methods, Public
@@ -287,6 +288,72 @@ namespace MagicMaids.ViewModels
 		}
 
 		public Boolean IncludeInactive
+		{
+			get;
+			set;
+		}
+		#endregion
+	}
+
+	public class CleanerJobMatchVM: BaseContactVM
+	{
+		#region Properties, Public
+		public Int32 SearchMatchScore
+		{
+			get;
+			set;
+		}
+
+		public string Initials
+		{
+			get;
+			set;
+		}
+
+		public string FirstName
+		{
+			get;
+			set;
+		}
+
+		public string LastName
+		{
+			get;
+			set;
+		}
+
+		public string PrimaryZone
+		{
+			get;
+			set;
+		}
+
+		public string SecondaryZone
+		{
+			get;
+			set;
+		}
+
+		public string ApprovedZone
+		{
+			get;
+			set;
+		}
+
+
+		public List<String> PrimaryZoneList
+		{
+			get;
+			set;
+		}
+
+		public List<String> SecondaryZoneList
+		{
+			get;
+			set;
+		}
+
+		public List<String> ApprovedZoneList
 		{
 			get;
 			set;

@@ -74,7 +74,7 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.Country).NotEmpty().WithMessage(x => $"{x.AddressType} Country is required.");
 
 			RuleFor(x => x.AddressLine1).Length(5, 250).WithName("1st address line");
-			RuleFor(x => x.Suburb).Length(5, 100);
+			RuleFor(x => x.Suburb).Length(4, 100);
 			RuleFor(x => x.State).Length(2, 20);
 			RuleFor(x => x.PostCode).Length(2, 5).WithName("Post code");
 			RuleFor(x => x.Country).Length(5, 250);
@@ -94,7 +94,7 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.PostCode).NotEmpty().WithMessage("Post code is required.");
 			RuleFor(x => x.LinkedZones).NotEmpty().WithMessage("At least one linked zone must be provided.");
 
-			RuleFor(x => x.SuburbName).Length(5, 250).WithName("Suburb name");
+			RuleFor(x => x.SuburbName).Length(4, 250).WithName("Suburb name");
 			RuleFor(x => x.PostCode).Length(2, 5).WithName("Post code");
 			RuleFor(x => x.Zone).Length(1, 10).WithName("Zone Id");
 			RuleFor(x => x.LinkedZones).Length(1, 500).WithName("Linked zone list");
@@ -465,6 +465,37 @@ namespace MagicMaids.Validators
 			}
 
 			return true;
+		}
+	}
+
+	public class SearchCleanerMatch : AbstractValidator<SearchVM>
+	{
+		public SearchCleanerMatch()
+		{
+			RuleFor(x => x.Suburb).NotEmpty().WithMessage("Suburb is required.");
+			RuleFor(x => x.WeeklyJob).Must((x, s) => IsJobSelected(x)).WithMessage("No service preference is selected.");
+			RuleFor(x => x.ServiceDate).NotEmpty().WithMessage("Service date is required.");
+			RuleFor(x => x.ServiceLength).NotEmpty().WithMessage("Service duration is required.");
+
+			RuleFor(x => x.Suburb).Length(4, 100);
+
+			When(x => (x.ServiceDate.Year > 1950), () =>
+			{
+				RuleFor(x => x.ServiceDate).GreaterThanOrEqualTo(DateTime.Now.AddDays(-1)).WithMessage("Service date can't be in the past.");
+				RuleFor(x => x.ServiceDate).LessThanOrEqualTo(DateTime.Now.AddDays(SystemSettings.BookingsDaysAllowed)).WithMessage($"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
+			});
+
+			RuleFor(x => x.ServiceLength).GreaterThan(0).LessThanOrEqualTo(SystemSettings.WorkSessionMaxHours).WithMessage($"Service duration can not exceed {SystemSettings.WorkSessionMaxHours} hours.");
+		}
+
+		private bool IsJobSelected(SearchVM c)
+		{
+			if (c.OneOffJob || c.FortnightlyJob || c.WeeklyJob)
+			{
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

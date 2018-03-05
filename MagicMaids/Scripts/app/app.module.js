@@ -41,6 +41,7 @@
             'app.utils',
             'magicsettings',
             'magicclients',
+            'magicsearches',
             'magiclogs',
             'magiccleaners',
             'toggle-switch',

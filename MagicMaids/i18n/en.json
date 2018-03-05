@@ -18,13 +18,14 @@
 		"clients": {
 			"CLIENTS": "Customers",	
 			"CLIENT_SEARCH": "Customer Search",
-			"CLIENT_DETAILS": "Customer",
+			"CLIENT_DETAILS": "Customers",
 			"CLIENT_BOOKINGS": "Manage Job Bookings"
 		},
         "cleaners": {
+			"MAIN_SEARCH": "Cleaner Matching",
 			"CLEANERS": "Cleaner",
 			"CLEANER_SEARCH": "Cleaner Search",
-			"CLEANER_DETAILS": "Cleaner"
+			"CLEANER_DETAILS": "Cleaners"
 		},
         "settings": {
 			"USER_ACCOUNTS": "User Accounts",

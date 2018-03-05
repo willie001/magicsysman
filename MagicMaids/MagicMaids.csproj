@@ -242,6 +242,9 @@
     <Compile Include="Helpers\Crypto.cs" />
     <Compile Include="Helpers\CustomFormatters.cs" />
     <Compile Include="DataLayer\EntityModels\ClientLeave.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="ViewModels\SearchVM.cs" />
+    <Compile Include="Helpers\SystemSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -788,6 +791,8 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="static\RatesEditor.html" />
     <Content Include="static\CleanerTeam.html" />
+    <Content Include="Scripts\app\custom\cleaners\magicsearches.controller.js" />
+    <Content Include="Views\Search\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
@@ -833,6 +838,7 @@
     <Folder Include="Scripts\app\custom\cleaners\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="static\" />
+    <Folder Include="Views\Search\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

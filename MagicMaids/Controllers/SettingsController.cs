@@ -151,6 +151,8 @@ namespace MagicMaids.Controllers
 							context.Entry(_objToUpdate).State = EntityState.Modified;
 							context.SaveChanges();
 
+							SystemSettings.Reset();
+
 							return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
 						}
 						catch (DbUpdateConcurrencyException ex)
@@ -562,6 +564,43 @@ namespace MagicMaids.Controllers
 											  .Distinct()
 											  .ToList();
 			}
+
+			_zoneList.Sort();
+
+			return _zoneList;
+		}
+
+		public static List<string> GetZoneListBySuburb(string Suburb)
+		{
+			if (String.IsNullOrWhiteSpace(Suburb))
+			{
+				return new List<string>();
+			}
+
+			List<String> _zoneList = new List<String>();
+			using (var context = new MagicMaidsContext())
+			{
+				_zoneList = context.SuburbZones
+							.Where(p => (p.SuburbName.ToLower().Contains(Suburb.ToLower())
+				                         || p.PostCode == Suburb))
+							.Select(p => p.Zone + "," + p.LinkedZones)
+							.ToList();
+
+				// load system default list
+				if (_zoneList.Count == 0)
+				{
+					_zoneList = context.SuburbZones
+								 .Where(p => (!p.FranchiseId.HasValue))
+								.Select(p => p.Zone + "," + p.LinkedZones)
+								.ToList();
+				}
+			}
+
+
+			var _zoneCSV = String.Join(",", _zoneList);
+			_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
+						  .Distinct()
+						  .ToList();
 
 			_zoneList.Sort();
 

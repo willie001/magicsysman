@@ -1,0 +1,142 @@
+﻿@{
+    // This is requried for AngularJS because we have to send only the view markup (not within the layout)
+    Layout = null;
+}
+
+
+<div class="content-heading">
+    {{ 'pageTitles.cleaners.MAIN_SEARCH' | translate }}
+</div>
+
+
+<div ng-controller="MainSearchController as form">
+	@Html.Partial("_InformationDetails")
+
+	<div class="panel panel-primary">
+		<div class="panel-body">
+			<form class="form-horizontal">
+				<div class="form-group">
+		          	<label class="col-md-2 control-label">Suburb/Postcode</label>
+		          	<div class="col-md-10">
+		             	<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
+		          	</div>
+		       	</div>
+				<div class="form-group">
+		          	<label class="col-md-2 control-label">Service request</label>
+		          	<div class="col-md-10">
+		             	<label class="checkbox checkbox-inline"><input id="serviceWeekly" type="checkbox" value="W" ng-model="form.Search.WeeklyJob" />Weekly</label>
+                  		<label class="checkbox-inline"><input id="inlineFortnight" type="checkbox" value="F" ng-model="form.Search.FortnightlyJob"/>Fortnightly</label>
+                  		<label class="checkbox-inline"><input id="inlineOne" type="checkbox" value="O" ng-model="form.Search.OneOffJob"/>One-off</label>
+		          	</div>
+		       	</div>
+				<div class="form-group">
+		          	<label class="col-md-2 control-label">Date required</label>
+		          	<div class="col-md-4">
+						<p class="input-group">
+                              <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
+                              date-disabled="form.date.disabled(date, mode)" close-text="Close" />
+                              <span class="input-group-btn">
+                                 <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
+                                    <em class="fa fa-calendar"></em>
+                                 </button>
+                              </span>
+                           </p>
+		          	</div>
+		          	<label class="col-md-2 control-label">Duration</label>
+		          	<div class="col-md-3" style="white=space:nowrap">
+						<input type="text" ng-model="form.Search.ServiceLength" class="form-control" placeholder="Hours" maxlength="4"/>
+		          	</div>
+					<p class="col-md-1">hours</p>
+		       	</div>
+				
+				<div class="form-group">
+		           	<div class="col-md-offset-2 col-md-5">
+						<!-- buttons-->
+						<button type="button" class="btn btn-default" ng-click="clearForm()">Reset</button>
+						<button type="button" class="btn btn-info" ng-click="searchMatches()">Search</button>
+		           	</div>
+					<div class="text-right col-md-5">
+						<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-primary">
+      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
+						</button>
+						<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
+      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Cleaner
+						</button>
+					</div>	
+		        </div>
+			</form>
+		</div>
+	</div>
+
+	<div class="panel panel-transparent" id="panelMainResults" ng-show="form.hasSearched">
+		<div class="panel-heading">
+			<div class="form-group">
+				<div class="pull-right">
+					<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+	          	</div>
+            </div>Search Results
+		</div>
+		<div class="panel-body">
+			<div ng-hide="form.SearchResults.length" class="EmptyResults p-lg text-center">
+				No cleaners found with the current search criteria.
+			</div>
+			<div class="table-responsive" ng-show="form.SearchResults.length" >
+				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
+					<thead style="font-weight: bold">
+			         	<th  class="text-center">Cleaner Name</th>
+			         	<th  class="text-center">Zone</th>
+			         	<th  class="text-center">Email Address</th>
+			         	<th  class="text-center">Phone Numbers</th>
+						<th  class="text-center">Suburb</th>
+						<th class="text-center" ng-hide="true" >Rating</th>
+						<th style="width:5%" class="text-center">Active</th>
+						<th style="width:5%" class="text-center"></th>
+					</thead>  
+			      	<tbody>
+						<tr valign="top" ng-repeat="cleaner in form.SearchResults">
+							<td class="" ng-class="{'bg-warning-light': cleaner.SearchMatchScore == 50,
+									'bg-success-light': cleaner.SearchMatchScore == 75,
+									'bg-primary-light': cleaner.SearchMatchScore == 100}">{{cleaner.FirstName}} {{ cleaner.LastName }}</td>
+							<td>{{cleaner.PrimaryZone}}</td>
+							<td style="white-space: nowrap">
+								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a>
+			               	</td>
+							<td style="white-space: nowrap" ng-bind-html="cleaner.FormattedContactNumbers"></td>
+							<td>{{cleaner.PhysicalAddress.Suburb}}</td>
+							<td class="text-center" ng-hide="true">{{cleaner.Rating}}</td>
+							<td class="text-center">
+								{{ cleaner.IsActive ? 'Yes' : 'No' }}
+			               	</td>
+							<td style="white-space: nowrap">
+					            <!-- form-->
+					            <div class="buttons">
+									<a ui-sref="app.client_jobs({ ClientId: client.Id })">
+					               		<button title="Manage job booking" class="btn btn-sm btn-pink"><em class="fa fa-calendar"></em></button>
+									</a>
+								   	<a ui-sref="app.cleaner_details({ CleanerId: cleaner.Id })">
+					               		<button title="Edit" class="btn btn-sm btn-info">
+					                  		<em class="fa fa-pencil"></em>
+					               		</button>
+									</a>
+					            </div>
+					         </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<br/>
+			<div class="form-group">
+				<div class="pull-right">
+					<table class="dataTable">
+						<tr>
+							<td>Zone match:&nbsp; </td>
+							<td width="5px" class="text-center bg-warning-light">Approved</td>
+							<td width="5px" class="text-center bg-success-light">Secondary</td>
+							<td width="5px" class="text-center bg-primary-light">Primary</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
