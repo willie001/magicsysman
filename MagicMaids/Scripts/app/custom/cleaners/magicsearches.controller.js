@@ -94,7 +94,7 @@
 
             //console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
 			$http.post('/search/matchcleaners', vm.Search).success(function (response) {
-				if (!response.IsValid)
+				if (!response.IsValid && response.IsValid !== undefined)
         		{	
 	   				HandleBusySpinner.stop($scope, panelName);
             		ShowUserMessages.show($scope, response, "Error performing search.");

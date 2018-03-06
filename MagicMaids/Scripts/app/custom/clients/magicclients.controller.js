@@ -81,7 +81,7 @@
 
 				$http.post('/clients/searchclient/', vm.Search).success(function (response) {
 					//console.log("<CLIENT Search Results> - " + angular.toJson(response));
-					if (!response.IsValid)
+					if (!response.IsValid && response.IsValid !== undefined)
 					{
 						HandleBusySpinner.stop($scope, panelName);
 	            		ShowUserMessages.show($scope, response, "Error performing client search.");
