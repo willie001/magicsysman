@@ -94,10 +94,19 @@
 
             //console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
 			$http.post('/search/matchcleaners', vm.Search).success(function (response) {
-				vm.SearchResults = response.SearchResults;
-				//console.log("<MAIN Search Results> - " + angular.toJson(vm.SearchResults));
-       			HandleBusySpinner.stop($scope, panelName);
-                
+				if (!response.IsValid)
+        		{	
+	   				HandleBusySpinner.stop($scope, panelName);
+            		ShowUserMessages.show($scope, response, "Error performing search.");
+            		vm.hasSearched = false;
+				}
+				else
+				{
+					vm.SearchResults = response.SearchResults;
+					//console.log("<MAIN Search Results> - " + angular.toJson(response));
+       				HandleBusySpinner.stop($scope, panelName);
+				}
+
 			}).error(function (error) {
         		//console.log("<MAIN Search Errors> - " + angular.toJson(error));
         		HandleBusySpinner.stop($scope, panelName);

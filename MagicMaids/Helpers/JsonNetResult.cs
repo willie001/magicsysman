@@ -10,6 +10,13 @@ namespace MagicMaids
 	{
 		public JsonNetResult()
 		{
+			IsValid = true;
+		}
+
+		public bool IsValid
+		{
+			get;
+			set;
 		}
 
 		public override void ExecuteResult(ControllerContext context)

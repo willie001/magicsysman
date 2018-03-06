@@ -81,8 +81,17 @@
 
 				$http.post('/clients/searchclient/', vm.Search).success(function (response) {
 					//console.log("<CLIENT Search Results> - " + angular.toJson(response));
-					vm.SearchResults = response.SearchResults;
-					HandleBusySpinner.stop($scope, panelName);
+					if (!response.IsValid)
+					{
+						HandleBusySpinner.stop($scope, panelName);
+	            		ShowUserMessages.show($scope, response, "Error performing client search.");
+	            		vm.hasSearched = false;
+					}
+					else
+					{
+						vm.SearchResults = response.SearchResults;
+						HandleBusySpinner.stop($scope, panelName);
+					}
 	                
 				}).error(function (error) {
 	        		//console.log("<CLIENT Search Errors> - " + angular.toJson(error));

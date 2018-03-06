@@ -53,7 +53,8 @@
 			    return $sce.trustAsHtml(text);
 			  };
 			}])
-        .factory('HandleBusySpinner', ['$timeout', function ($timeout) {
+
+		.factory('HandleBusySpinner', ['$timeout', function ($timeout) {
 
     		var factory = {};
     		var spinTime = 150;
@@ -83,6 +84,7 @@
 
 		    return factory;
 		}])
+
 		.factory('ShowUserMessages', [function () {
 			var factory = {};
 
@@ -148,5 +150,6 @@
 
 			return factory;
 		}]);
+
 })();
 

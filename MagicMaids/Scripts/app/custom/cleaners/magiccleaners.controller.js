@@ -166,6 +166,7 @@
 
 			$http.post('/cleaners/searchcleaner/', vm.Search).success(function (response) {
 				//console.log("<CLEANER Search Results> - " + angular.toJson(response.SearchResults));
+
 				vm.SearchResults = response.SearchResults;
 				HandleBusySpinner.stop($scope, panelName);
                 
