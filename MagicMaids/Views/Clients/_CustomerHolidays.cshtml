@@ -20,7 +20,7 @@
 			      	</thead>
 					<tbody>
 						<tr ng-repeat="leave in leaveTable.listOfLeave">  
-							<td>{{leave.StartDate}}
+							<td>
 								<span editable-date="leave.StartDate" e-name="StartDate" e-form="rowform" onbeforesave="leaveTable.validateData($data, 'Start Date')" e-required="">{{ leave.StartDateFormatted || &apos;Not set&apos; }}</span>
 							</td>
 							<td>
