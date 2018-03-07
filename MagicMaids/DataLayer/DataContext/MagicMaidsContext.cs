@@ -134,13 +134,13 @@ namespace MagicMaids.DataAccess
 					if (String.IsNullOrWhiteSpace(currentUser))
 						currentUser = "TODO";
 					
-					auditableEntity.Entity.UpdatedAt = DateTime.UtcNow;
-					auditableEntity.Entity.RowVersion = DateTime.UtcNow;
+					auditableEntity.Entity.UpdatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
+					auditableEntity.Entity.RowVersion = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local);
 					auditableEntity.Entity.UpdatedBy = currentUser;
 
 					if (auditableEntity.State == EntityState.Added)
 					{
-						auditableEntity.Entity.CreatedAt = DateTime.UtcNow ;
+						auditableEntity.Entity.CreatedAt = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Local) ;
 					}
 					else
 					{

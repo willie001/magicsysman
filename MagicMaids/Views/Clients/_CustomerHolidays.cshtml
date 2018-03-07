@@ -26,7 +26,7 @@
 							<td>
 								<span editable-date="leave.EndDate" e-name="EndDate" e-form="rowform" onbeforesave="leaveTable.validateData($data, 'End Date')" e-required="">{{ leave.EndDateFormatted || &apos;Not set&apos; }}</span>
 							</td>
-							<td>{{ leave.AdvisedDateFormatted }}
+							<td>
 							<td style="white-space: nowrap">
 								<!-- form-->
 					            <form editable-form="" name="rowform" onbeforesave="leaveTable.saveData($data, leave.Id, leave.IsNewItem)" ng-show="rowform.$visible" shown="leaveTable.inserted == leave" class="form-buttons form-inline">

@@ -35,7 +35,7 @@
 						<span ng-if="!form.Search.OneOffJob">Preferred day</span>
 					</label>
 		          	<div class="col-md-4">
-						<p class="input-group" ng-if="form.Search.OneOffJob">{{form.Search.ServiceDate}}
+						<p class="input-group" ng-if="form.Search.OneOffJob">
                           <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
                           date-disabled="form.date.disabled(date, mode)" close-text="Close" />
                           <span class="input-group-btn">
