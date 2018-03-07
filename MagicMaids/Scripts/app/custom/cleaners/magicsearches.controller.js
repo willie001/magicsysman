@@ -40,9 +40,37 @@
 
 			vm.Search.ServiceLength = 2;
 			vm.Search.ServiceDate = new Date();
-			vm.Search.WeeklyJob = false;
-			vm.Search.FortnightlyJob = false;
-			vm.Search.OneOffJob = false;
+			vm.Search.ServiceType = "W"
+			vm.Search.ServiceDayValue = "1";
+			vm.Search.changeServiceType = function() {
+				vm.Search.WeeklyJob = (vm.Search.ServiceType=="W") ? true : false;
+				vm.Search.FortnightlyJob = (vm.Search.ServiceType=="F") ? true : false;
+				vm.Search.OneOffJob = (vm.Search.ServiceType=="O") ? true : false;
+			}
+			vm.Search.changeServiceDay = function() {
+				if (vm.Search.ServiceDayValue == 1)
+					vm.Search.ServiceDay = "Monday";
+
+				if (vm.Search.ServiceDayValue == 2)
+					vm.Search.ServiceDay = "Tuesday";
+
+				if (vm.Search.ServiceDayValue == 3)
+					vm.Search.ServiceDay = "Wednesday";
+
+				if (vm.Search.ServiceDayValue == 4)
+					vm.Search.ServiceDay = "Thursday";
+
+				if (vm.Search.ServiceDayValue == 5)
+					vm.Search.ServiceDay = "Friday";
+
+				if (vm.Search.ServiceDayValue == 6)
+					vm.Search.ServiceDay = "Saturday";
+
+				if (vm.Search.ServiceDayValue == 7)
+					vm.Search.ServiceDay = "Sunday";
+			}
+			vm.Search.changeServiceType();
+			vm.Search.changeServiceDay();
 
 			vm.date = [];
 			vm.date.clear = function () {
@@ -69,8 +97,8 @@
           	};
 
           	vm.date.dateOptions = {
-            	formatYear: 'yy',
-	            startingDay: 1
+            	formatYear: 'yyyy',
+	            startingDay: 1		
           	};
 
       		vm.date.initDate = new Date();

@@ -23,25 +23,39 @@
 		       	</div>
 				<div class="form-group">
 		          	<label class="col-md-2 control-label">Service request</label>
-		          	<div class="col-md-10">
-		             	<label class="checkbox checkbox-inline"><input id="serviceWeekly" type="checkbox" value="W" ng-model="form.Search.WeeklyJob" />Weekly</label>
-                  		<label class="checkbox-inline"><input id="inlineFortnight" type="checkbox" value="F" ng-model="form.Search.FortnightlyJob"/>Fortnightly</label>
-                  		<label class="checkbox-inline"><input id="inlineOne" type="checkbox" value="O" ng-model="form.Search.OneOffJob"/>One-off</label>
+		          	<div class="col-md-10">{{form.Search.changeServiceType}}
+		             	<label class="radio radio-inline"><input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()" checked="" />Weekly</label>
+                  		<label class="radio-inline"><input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>Fortnightly</label>
+                  		<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="O" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>One-off</label>
 		          	</div>
 		       	</div>
 				<div class="form-group">
-		          	<label class="col-md-2 control-label">Date required</label>
+					<label class="col-md-2 control-label">
+						<span ng-if="form.Search.OneOffJob">Date required</span>
+						<span ng-if="!form.Search.OneOffJob">Preferred day</span>
+					</label>
 		          	<div class="col-md-4">
-						<p class="input-group">
-                              <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
-                              date-disabled="form.date.disabled(date, mode)" close-text="Close" />
-                              <span class="input-group-btn">
-                                 <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
-                                    <em class="fa fa-calendar"></em>
-                                 </button>
-                              </span>
-                           </p>
-		          	</div>
+						<p class="input-group" ng-if="form.Search.OneOffJob">{{form.Search.ServiceDate}}
+                          <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
+                          date-disabled="form.date.disabled(date, mode)" close-text="Close" />
+                          <span class="input-group-btn">
+                             <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
+                                <em class="fa fa-calendar"></em>
+                             </button>
+                          </span>
+                       	</p>
+						<p class="input-group" ng-if="!form.Search.OneOffJob">
+							<select  class="form-control" name="ServiceDay" ng-model="form.Search.ServiceDayValue" ng-change="form.Search.changeServiceDay()" >
+	                			<option value="1">Monday</option>
+								<option value="2">Tuesday</option>
+								<option value="3">Wednesday</option>
+								<option value="4">Thursday</option>
+								<option value="5">Friday</option>
+								<option value="6">Saturday</option>
+								<option value="7">Sunday</option>
+		                  	</select>	
+						</p>
+					</div>
 		          	<label class="col-md-2 control-label">Duration</label>
 		          	<div class="col-md-3" style="white=space:nowrap">
 						<input type="text" ng-model="form.Search.ServiceLength" class="form-control" placeholder="Hours" maxlength="4"/>

@@ -124,13 +124,6 @@ namespace MagicMaids.Controllers
 			string cleanerSuburb = item.PhysicalAddress.Suburb.Trim().ToLower();
 			string cleanerPostCode = item.PhysicalAddress.PostCode.Trim();
 
-			if (searchArea == cleanerSuburb ||
-			    searchArea == cleanerPostCode ||
-			    cleanerSuburb.Contains(searchArea))
-			{
-				return 100;		// direct match in same postcode / suburb
-			}
-
 			var zoneList = SettingsController.GetZoneListBySuburb(searchArea);
 
 			if (zoneList.Intersect(item.PrimaryZoneList).Count() > 0)

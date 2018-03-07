@@ -16,6 +16,12 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public string ServiceType
+		{
+			get;
+			set;
+		}
+
 		public Boolean WeeklyJob
 		{
 			get;
@@ -29,6 +35,18 @@ namespace MagicMaids.ViewModels
 		}
 
 		public Boolean OneOffJob
+		{
+			get;
+			set;
+		}
+
+		public String ServiceDay
+		{
+			get;
+			set;
+		}
+
+		public Int32 ServiceDayValue
 		{
 			get;
 			set;

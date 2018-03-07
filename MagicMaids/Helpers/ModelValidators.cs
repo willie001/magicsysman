@@ -473,18 +473,20 @@ namespace MagicMaids.Validators
 		public SearchCleanerMatch()
 		{
 			RuleFor(x => x.Suburb).NotEmpty().WithMessage("Suburb is required.");
-			RuleFor(x => x.WeeklyJob).Must((x, s) => IsJobSelected(x)).WithMessage("No service preference is selected.");
-			RuleFor(x => x.ServiceDate).NotEmpty().WithMessage("Service date is required.");
-			RuleFor(x => x.ServiceLength).NotEmpty().WithMessage("Service duration is required.");
+			RuleFor(x => x.Suburb).Length(3, 100);
 
-			RuleFor(x => x.Suburb).Length(4, 100);
+			When(x => (x.OneOffJob == false), () =>
+			{
+				RuleFor(x => x.ServiceDay).NotEmpty().WithMessage("Preferred service day is required.");
+			});
 
-			When(x => (x.ServiceDate.Year > 1950), () =>
+			When(x => (x.OneOffJob == true), () =>
 			{
 				RuleFor(x => x.ServiceDate).GreaterThanOrEqualTo(DateTime.Now.AddDays(-1)).WithMessage("Service date can't be in the past.");
 				RuleFor(x => x.ServiceDate).LessThanOrEqualTo(DateTime.Now.AddDays(SystemSettings.BookingsDaysAllowed)).WithMessage($"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
 			});
 
+			RuleFor(x => x.ServiceLength).NotEmpty().WithMessage("Service duration is required.");
 			RuleFor(x => x.ServiceLength).GreaterThan(0).LessThanOrEqualTo(SystemSettings.WorkSessionMaxHours).WithMessage($"Service duration can not exceed {SystemSettings.WorkSessionMaxHours} hours.");
 		}
 
