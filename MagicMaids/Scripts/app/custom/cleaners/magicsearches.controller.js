@@ -29,7 +29,6 @@
 			HandleBusySpinner.start($scope, panelName);
 			manageTimeZoneCookie();
 
-			$scope.searchCriteria = false; // expand search panel on first load
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 
 			editableOptions.theme = 'bs3';
@@ -109,6 +108,9 @@
       		vm.date.initDate = new Date();
           	vm.date.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
           	vm.date.format = vm.date.formats[0];
+
+          	$scope.searchCriteria = false; // expand search panel on first load
+			
 		}
 
 		function manageTimeZoneCookie() {
