@@ -29,7 +29,7 @@
 			HandleBusySpinner.start($scope, panelName);
 			manageTimeZoneCookie();
 
-			$scope.searchCriteria = true; // expand search panel on first load
+			$scope.searchCriteria = false; // expand search panel on first load
 
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 
