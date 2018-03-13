@@ -30,7 +30,6 @@
 			manageTimeZoneCookie();
 
 			$scope.searchCriteria = false; // expand search panel on first load
-
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 
 			editableOptions.theme = 'bs3';
