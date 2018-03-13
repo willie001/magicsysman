@@ -245,6 +245,7 @@
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="ViewModels\SearchVM.cs" />
     <Compile Include="Helpers\SystemSettings.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

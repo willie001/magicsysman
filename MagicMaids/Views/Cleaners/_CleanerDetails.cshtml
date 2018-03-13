@@ -6,68 +6,64 @@
 		</pre>
 		-->
 	   	<div class="form-group">
-	      	<label class="col-md-2 control-label">Cleaner Code</label>
-	      	<div class="col-md-10">
+	      	<label class="col-xs-2 control-label">Cleaner Code</label>
+	      	<div class="col-xs-1">
 	         	<input type="text" placeholder="####" class="form-control" ng-readonly="true" name="CleanerCode" ng-model="form.cleaner.CleanerCode" />
 	      	</div>
-	  	</div>
-	   	<div class="form-group">
-	      	<label class="col-md-2 control-label">Cleaner Name</label>
-	      	<div class="col-md-2">
+	      	<label class="col-xs-2 control-label">Cleaner Name</label>
+	      	<div class="col-xs-1">
 	         	<input type="text" placeholder="Cleaner Initials" class="form-control" name="Initials" ng-model="form.cleaner.Initials" />
 	      	</div>
-			<div class="col-md-4">
+			<div class="col-xs-3">
 	         	<input type="text" placeholder="First name" class="form-control" name="FirstName" ng-model="form.cleaner.FirstName"/>
 	      	</div>
-			<div class="col-md-4">
+			<div class="col-xs-3">
 	         	<input type="text" placeholder="Last name" class="form-control" name="LastName" ng-model="form.cleaner.LastName"/>
 	      	</div>
 	   	</div>
 		<div class="form-group">
-          	<label class="col-md-2 control-label">Email</label>
-          	<div class="col-md-10">
-             	<input type="email" placeholder="Email" class="form-control" name="emailaddress" ng-model="form.cleaner.EmailAddress" />
-			 	<span class="text-danger" ng-show="form.validateInput('emailaddress', 'email')">This field must be a valid email address</span>
-          	</div>
-       	</div>
-		<div class="form-group">
-		  	<label class="col-md-2 control-label">Contact Numbers</label>
-		  	<div class="col-md-10">
+		  	<label class="col-xs-2 control-label">Contact Numbers</label>
+		  	<div class="col-xs-10">
 		    	<div class="row">
-					<div class="col-sm-4">
+					<div class="col-xs-4">
 						<input type="text"  placeholder="Office" class="form-control"  name="BusinessPhoneNumber" ng-model="form.cleaner.BusinessPhoneNumber"/>
 					</div>		
-					<div class="col-sm-4">
+					<div class="col-xs-4">
 						<input type="text"  placeholder="Mobile" class="form-control"  name="MobileNumber"  ng-model="form.cleaner.MobileNumber"/>
 					</div>
-					<div class="col-sm-4">
+					<div class="col-xs-4">
 						<input type="text"  placeholder="Other" class="form-control"  name="OtherNumber"  ng-model="form.cleaner.OtherNumber"/>
 					</div>	
 				</div>
 		  	</div>
 		</div>
-	   	<div class="form-group">
-	      	<label class="col-md-2 control-label">Region</label>
-	      	<div class="col-md-10">
+		<div class="form-group">
+          	<label class="col-xs-2 control-label">Email</label>
+          	<div class="col-xs-4">
+             	<input type="email" placeholder="Email" class="form-control" name="emailaddress" ng-model="form.cleaner.EmailAddress" />
+			 	<span class="text-danger" ng-show="form.validateInput('emailaddress', 'email')">This field must be a valid email address</span>
+          	</div>
+	      	<label class="col-xs-2 control-label">Region</label>
+	      	<div class="col-xs-4">
 	         	<input type="text" placeholder="Region" class="form-control" name="Region" ng-model="form.cleaner.Region"/>
 	      	</div>
 	   	</div>
 		<div class="form-group">
-	      	<label class="col-md-2 control-label">Master Franchise</label>
-	      	<div class="col-md-6">
+	      	<label class="col-xs-2 control-label">Master Franchise</label>
+	      	<div class="col-xs-6">
 	         	<select name="MasterFranchise" class="form-control" ng-model="form.cleaner.SelectedFranchise" ng-change="updateZones()"
 							ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
 	            	<option value="">Select Master Franchise</option>	
 	      		</select>	
 	      	</div>
-			<label class="col-md-2 control-label">Management Fee (%)</label>
-	      	<div class="col-md-2">
+			<label class="col-xs-2 control-label">Management Fee (%)</label>
+	      	<div class="col-xs-2">
 	         	<input type="text" placeholder="Management Fee" class="form-control" ng-ReadOnly="true" name="ManagementFee" ng-model="form.cleaner.SelectedFranchise.ManagementFeePercentage"/>
 	      	</div>
 	   	</div>
 		<div class="form-group">
-			<label class="col-md-2 control-label">Primary Zone</label>
-			<div class="col-md-2">
+			<label class="col-xs-2 control-label">Primary Zone</label>
+			<div class="col-xs-2">
 				<ui-select ng-model="form.cleaner.PrimaryZone" theme="bootstrap">
 					<ui-select-match placeholder="Select primary zone....">{{$select.selected}}</ui-select-match>
 					<ui-select-choices repeat="item in AvailableZones | filter: $select.search">
@@ -75,8 +71,8 @@
 					</ui-select-choices>
 				</ui-select>
 			</div>
-			<label class="col-md-2 control-label">Secondary Zones</label>
-			<div class="col-md-2">
+			<label class="col-xs-2 control-label">Secondary Zones</label>
+			<div class="col-xs-2">
 				<ui-select multiple="" ng-model="form.cleaner.SecondaryZoneList" theme="bootstrap">
 					<ui-select-match placeholder="Select secondary zones.....">{{$item}}</ui-select-match>
 					<ui-select-choices repeat="item in AvailableZones | filter: $select.search">
@@ -84,8 +80,8 @@
 					</ui-select-choices>
 				</ui-select>
 			</div>
-			<label class="col-md-2 control-label">Approved Zones</label>
-			<div class="col-md-2">
+			<label class="col-xs-2 control-label">Approved Zones</label>
+			<div class="col-xs-2">
 				<ui-select multiple="" ng-model="form.cleaner.ApprovedZoneList" theme="bootstrap">
 					<ui-select-match placeholder="Select approved zones.....">{{$item}}</ui-select-match>
 					<ui-select-choices repeat="item in AvailableZones | filter: $select.search">
@@ -230,7 +226,7 @@
 		<div class="panel panel-default" ng-if="!form.cleaner.IsNewItem" >
 			<div class="panel-heading">Team Details</div>
 			<div class="panel-body">
-				<div ng-hide="form.cleanerTeam.length" class="EmptyResults p-lg text-center">
+				<div ng-hide="form.cleanerTeam.length" class="EmptyResults p-xs text-center">
 					No team members found.  <a href="" ng-click="openTeamPopupForm()">Click here</a>
 					to add team member details.
 				</div>
@@ -283,11 +279,11 @@
 		</div>
 
 		<div class="form-group">
-            <div class="col-md-6">
+            <div class="col-xs-6">
             	<button type="submit" class="btn btn-default" ng-click="$state.go('app.cleaners')">Close</button>
 				<button type="submit" class="btn btn-success" ng-disabled="form.cleaner.$invalid || form.submitted == true">Save Cleaner Details</button>
             </div>
-		    <div class="text-right col-md-6">
+		    <div class="text-right col-xs-6">
 			</div>		
         </div>	
 	</form>

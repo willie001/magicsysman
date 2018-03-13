@@ -12,73 +12,78 @@
 <div ng-controller="MainSearchController as form">
 	@Html.Partial("_InformationDetails")
 
-	<div class="panel panel-primary">
-		<div class="panel-body">
-			<form class="form-horizontal">
-				<div class="form-group">
-		          	<label class="col-md-2 control-label">Suburb/Postcode</label>
-		          	<div class="col-md-10">
-		             	<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
-		          	</div>
-		       	</div>
-				<div class="form-group">
-		          	<label class="col-md-2 control-label">Service request</label>
-		          	<div class="col-md-10">{{form.Search.changeServiceType}}
-		             	<label class="radio radio-inline"><input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()" checked="" />Weekly</label>
-                  		<label class="radio-inline"><input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>Fortnightly</label>
-                  		<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="O" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>One-off</label>
-		          	</div>
-		       	</div>
-				<div class="form-group">
-					<label class="col-md-2 control-label">
-						<span ng-if="form.Search.OneOffJob">Date required</span>
-						<span ng-if="!form.Search.OneOffJob">Preferred day</span>
-					</label>
-		          	<div class="col-md-4">
-						<p class="input-group" ng-if="form.Search.OneOffJob">
-                          <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
-                          date-disabled="form.date.disabled(date, mode)" close-text="Close" />
-                          <span class="input-group-btn">
-                             <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
-                                <em class="fa fa-calendar"></em>
-                             </button>
-                          </span>
-                       	</p>
-						<p class="input-group" ng-if="!form.Search.OneOffJob">
-							<select  class="form-control" name="ServiceDay" ng-model="form.Search.ServiceDayValue" ng-change="form.Search.changeServiceDay()" >
-	                			<option value="1">Monday</option>
-								<option value="2">Tuesday</option>
-								<option value="3">Wednesday</option>
-								<option value="4">Thursday</option>
-								<option value="5">Friday</option>
-								<option value="6">Saturday</option>
-								<option value="7">Sunday</option>
-		                  	</select>	
-						</p>
-					</div>
-		          	<label class="col-md-2 control-label">Duration</label>
-		          	<div class="col-md-3" style="white=space:nowrap">
-						<input type="text" ng-model="form.Search.ServiceLength" class="form-control" placeholder="Hours" maxlength="4"/>
-		          	</div>
-					<p class="col-md-1">hours</p>
-		       	</div>
-				
-				<div class="form-group">
-		           	<div class="col-md-offset-2 col-md-5">
-						<!-- buttons-->
-						<button type="button" class="btn btn-default" ng-click="clearForm()">Reset</button>
-						<button type="button" class="btn btn-info" ng-click="searchMatches()">Search</button>
-		           	</div>
-					<div class="text-right col-md-5">
-						<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-primary">
-      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
-						</button>
-						<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
-      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Cleaner
-						</button>
-					</div>	
-		        </div>
-			</form>
+	<div class="panel panel-default" id="searchCriteria">
+		<div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse" ></paneltool>
+			<div class="panel-title">&nbsp</div>
+        </div>
+		<div uib-collapse="searchCriteria" class="panel-wrapper">
+			<div class="panel-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+			          	<label class="col-xs-2 control-label">Suburb/Postcode</label>
+			          	<div class="col-xs-5">
+			             	<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
+			          	</div>
+						<label class="col-xs-2 control-label">Duration (hours)</label>
+			          	<div class="col-xs-3" style="white-space: nowrap">
+							<input type="text" ng-model="form.Search.ServiceLength" class="form-control" placeholder="Hours" maxlength="4"/>
+			          	</div>
+			       	</div>
+					<div class="form-group">
+			          	<label class="col-xs-2 control-label">Service request</label>
+			          	<div class="col-xs-5">{{form.Search.changeServiceType}}
+			             	<label class="radio radio-inline"><input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()" checked="" />Weekly</label>
+	                  		<label class="radio-inline"><input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>Fortnightly</label>
+	                  		<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="O" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>One-off</label>
+							<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="V" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>Vacate Clean</label>
+			          	</div>
+						<label class="col-xs-2 control-label">
+							<span ng-if="form.Search.OneOffJob || form.Search.VacateClean">Date required</span>
+							<span ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">Preferred day</span>
+						</label>
+			          	<div class="col-xs-3">
+							<p class="input-group" ng-if="form.Search.OneOffJob || form.Search.VacateClean">
+	                          <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
+	                          date-disabled="form.date.disabled(date, mode)" close-text="Close" />
+	                          <span class="input-group-btn">
+	                             <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
+	                                <em class="fa fa-calendar"></em>
+	                             </button>
+	                          </span>
+	                       	</p>
+							<p class="input-group" ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">
+								<select  class="form-control" name="ServiceDay" ng-model="form.Search.ServiceDayValue" ng-change="form.Search.changeServiceDay()" >
+		                			<option value="1">Monday</option>
+									<option value="2">Tuesday</option>
+									<option value="3">Wednesday</option>
+									<option value="4">Thursday</option>
+									<option value="5">Friday</option>
+									<option value="6">Saturday</option>
+									<option value="7">Sunday</option>
+			                  	</select>	
+							</p>
+						</div>
+			          	
+			       	</div>
+					
+					<div class="form-group">
+			           	<div class="col-xs-offset-2 col-xs-5">
+							<!-- buttons-->
+							<button type="button" class="btn btn-default" ng-click="clearForm()">Reset</button>
+							<button type="button" class="btn btn-info" ng-click="searchMatches()">Search</button>
+			           	</div>
+						<div class="text-right col-xs-5">
+							<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-primary">
+	      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
+							</button>
+							<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
+	      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Cleaner
+							</button>
+						</div>	
+			        </div>
+				</form>
+			</div>
 		</div>
 	</div>
 

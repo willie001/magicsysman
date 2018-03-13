@@ -11,7 +11,8 @@ namespace MagicMaids.EntityModels
 	{
 		#region Properties, Public
 		[Required]
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateTime StartDate
 		{
 			get;
@@ -19,7 +20,8 @@ namespace MagicMaids.EntityModels
 		}
 
 		[Required]
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateTime EndDate
 		{
 			get;

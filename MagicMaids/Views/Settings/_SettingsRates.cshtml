@@ -1,10 +1,10 @@
 ﻿<div ng-controller="RatesController as vmRates" class="container-fluid">
-	<div class="col-md-12" style="padding-bottom: 5px">
+	<div class="col-xs-12" style="padding-bottom: 5px">
 		<button type="button" class="btn btn-primary pull-right" ng-click="openRatesPopupForm()" ng-disabled="vmRates.enableAdd">
 			<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Rate
 		</button>
 	</div>
-	<div class="table-responsive col-md-12">
+	<div class="table-responsive col-xs-12">
 		<table class="table table-bordered table-hover bg-white">
 	      	<tr style="font-weight: bold">
 	         	<td class="text-center">Rate Code</td>
@@ -44,10 +44,10 @@
 		</table>
 	</div>
 	<div class="form-group">
-        <div class="col-lg-8"  style="padding-top: 10px">
+        <div class="col-xs-8"  style="padding-top: 10px">
         	<button type="submit" class="btn btn-default" ng-show="vmRates.selectedFranchise != null" ng-click="$state.go('app.settings_master_franchises')" ng-disabled="{{ form.franchiseSettings.submitted }}">Close</button>
         </div>
-	    <div class="text-right col-lg-4">
+	    <div class="text-right col-xs-4">
 		
 		</div>		
     </div>	

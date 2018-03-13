@@ -50,7 +50,7 @@ namespace MagicMaids.EntityModels
 			}
 		}
 
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
 		[Required]
 		[DisplayFormat(DataFormatString="{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime CreatedAt
@@ -69,7 +69,7 @@ namespace MagicMaids.EntityModels
 			}
 		}
 
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime UpdatedAt
 		{
@@ -107,7 +107,7 @@ namespace MagicMaids.EntityModels
 
 		//https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/handling-concurrency-with-the-entity-framework-in-an-asp-net-mvc-application
 		//http://hundeide.net/2015/05/optimistic-concurrency-with-mysql-and-entity-framework/
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
 		[Required]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
 		[ConcurrencyCheck]

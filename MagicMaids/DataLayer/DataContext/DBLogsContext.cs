@@ -38,6 +38,7 @@ namespace MagicMaids.DataAccess
 		#endregion
 
 		#region Methods, Public
+
 		#endregion
 	}
 }

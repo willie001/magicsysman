@@ -1,5 +1,5 @@
 ﻿<div ng-controller="PostCodesController as vmPost" class="container-fluid">
-	<div class="col-md-12" style="padding-bottom: 5px">
+	<div class="col-xs-12" style="padding-bottom: 5px">
 		<button type="button" class="btn btn-primary pull-right" ng-click="vmPost.addData()">
 			<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Suburb Zone
 		</button>
@@ -7,7 +7,7 @@
 	<div ng-hide="vmPost.listOfPostcodes.length" class="EmptyResults p-lg text-center">
 		No suburb/zone found.  <a href="" ng-click="vmPost.addData()">Please add</a> a new suburb/zone.
 	</div>
-	<div class="table-responsive col-md-12" ng-show="vmPost.listOfPostcodes.length">
+	<div class="table-responsive col-xs-12" ng-show="vmPost.listOfPostcodes.length">
 		<table datatable="ng" class="table table-bordered table-hover bg-white">
 			<thead>
 				<th class="text-center">Suburb Name</th>
@@ -54,10 +54,10 @@
 		</table>
 	</div>
 	<div class="form-group">
-        <div class="col-lg-8"  style="padding-top: 10px">
+        <div class="col-xs-8"  style="padding-top: 10px">
         	<button type="submit" class="btn btn-default" ng-show="vmPost.selectedFranchise != null" ng-click="$state.go('app.settings_master_franchises')" ng-disabled="{{ form.franchiseSettings.submitted }}">Close</button>
         </div>
-	    <div class="text-right col-lg-4">
+	    <div class="text-right col-xs-4">
 		
 		</div>		
     </div>	

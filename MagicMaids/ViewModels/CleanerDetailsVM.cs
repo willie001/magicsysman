@@ -575,7 +575,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _startDate.ToLocalTime().ToString("d MMM yyyy");	
+				return _startDate.ToClientDate();	
 			}
 		}
 		private DateTime _startDate;
@@ -602,7 +602,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _endDate.ToLocalTime().ToString("d MMM yyyy");	
+				return _endDate.ToClientDate();	
 			}
 		}
 		private DateTime _endDate;

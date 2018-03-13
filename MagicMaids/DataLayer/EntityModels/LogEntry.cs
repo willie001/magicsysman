@@ -23,7 +23,7 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime LoggedDate
 		{

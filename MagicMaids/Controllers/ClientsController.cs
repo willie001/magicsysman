@@ -406,6 +406,8 @@ namespace MagicMaids.Controllers
 					_ccDetails.Append("|").Append(dataItem.CardNumberPart4);
 					_ccDetails.Append("|").Append(dataItem.CardNumberPart1);
 					_ccDetails.Append("|").Append(dataItem.CardNumberPart2);
+					_ccDetails.Append("|").Append(dataItem.CardType);
+					_ccDetails.Append("|").Append(dataItem.ClientReferenceCode);
 
 					DefaultCrypto _crypto = new DefaultCrypto();
 					var _hash = _crypto.Hash("|" + dataItem.ClientId);
@@ -464,6 +466,103 @@ namespace MagicMaids.Controllers
 			if (!ModelState.IsValid)
 			{
 				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveClientPaymentMethod), dataItem);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpPost]
+		public ActionResult UpdateRefCode(ClientPaymentReferenceUpdateVM dataItem)
+		{
+			if (dataItem == null)
+			{
+				ModelState.AddModelError(string.Empty, "Valid client payment method not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				ClientMethod _objToUpdate = null;
+				try
+				{
+					using (var context = new MagicMaidsContext())
+					{
+						_objToUpdate = context.ClientMethods
+									 	.Where(f => f.Id == dataItem.Id)
+									  	.FirstOrDefault();
+
+						if (_objToUpdate == null)
+						{
+							ModelState.AddModelError(string.Empty, $"Payment method [{dataItem.Id.ToString()}] not found.  Please try again.");
+							return JsonFormResponse();
+						}
+
+						ClientPaymentMethodVM _payment = new ClientPaymentMethodVM();
+						_payment.PopulateVM(_objToUpdate, _objToUpdate.Validated);
+
+						StringBuilder _ccDetails = new StringBuilder();
+						_ccDetails.Append("|").Append(_payment.ClientId);
+						_ccDetails.Append("|").Append(_payment.CardCVV);
+						_ccDetails.Append("|").Append(_payment.ExpiryYear);
+						_ccDetails.Append("|").Append(_payment.ExpiryMonth);
+						_ccDetails.Append("|").Append(_payment.CardName);
+						_ccDetails.Append("|").Append(_payment.CardNumberPart3);
+						_ccDetails.Append("|").Append(_payment.CardNumberPart4);
+						_ccDetails.Append("|").Append(_payment.CardNumberPart1);
+						_ccDetails.Append("|").Append(_payment.CardNumberPart2);
+						_ccDetails.Append("|").Append(_payment.CardType);
+						_ccDetails.Append("|").Append(dataItem.ClientReferenceCode);
+
+						DefaultCrypto _crypto = new DefaultCrypto();
+						var _hash = _crypto.Hash("|" + _payment.ClientId);
+						if (String.IsNullOrWhiteSpace(_hash))
+						{
+							throw new InvalidOperationException("Error encrypting payment details.");
+						}
+
+						_objToUpdate.Details = Crypto.Encrypt(_ccDetails.ToString(), _hash);
+
+						context.Entry(_objToUpdate).State = EntityState.Modified;
+						context.SaveChanges();
+
+					}
+
+					return JsonSuccessResponse("Payment method saved successfully", _objToUpdate);
+
+				}
+				catch (DbUpdateConcurrencyException ex)
+				{
+					var entry = ex.Entries.Single();
+					var clientValues = (ClientMethod)entry.Entity;
+					var databaseEntry = entry.GetDatabaseValues();
+					if (databaseEntry == null)
+					{
+						ModelState.AddModelError(string.Empty, "Unable to save changes. The payment method was deleted by another user.");
+					}
+					else
+					{
+						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+							+ "was modified by another user after you got the original value. The edit operation "
+							+ "was canceled. If you still want to edit this record, click the Save button again.");
+					}
+				}
+				catch (RetryLimitExceededException /* dex */)
+				{
+					//Log the error (uncomment dex variable name and add a line here to write a log.
+					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
+				}
+				catch (Exception ex)
+				{
+					//_msg = new InfoViewModel("Error saving cleaner", ex);
+					ModelState.AddModelError(string.Empty, $"Error saving payment method ({ex.Message})");
+
+					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+					log.Log(LogLevel.Error, "Error saving payment method", nameof(UpdateRefCode), ex, dataItem);
+				}
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(UpdateRefCode), dataItem);
 			}
 
 			return JsonFormResponse();

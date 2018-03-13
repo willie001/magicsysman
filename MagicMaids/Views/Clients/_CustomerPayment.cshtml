@@ -3,34 +3,42 @@
 		<form class="form-validate form-horizontal" name="form.clientForm" ng-submit="form.saveData()" novalidate="">
 
 		  <div class="form-group">
-		    <label class="col-md-2 control-label">Card Holder's Name</label>
-		    <div class="col-md-6">
+		    <label class="col-xs-2 control-label">Card Holder's Name</label>
+		    <div class="col-xs-5">
 				<input type="text" class="form-control" placeholder="Name on the card" name="CardName" ng-model="form.client.CardName"/>
+		    </div>
+			<label class="col-xs-2 control-label">Reference Code</label>
+		    <div class="col-xs-3">
+				<input type="text" class="form-control" placeholder="BPoint Reference Code" name="RefCode" ng-model="form.client.ClientReferenceCode"/>
 		    </div>
 		  </div>
 	       
 	      <div class="form-group">
-	        <label class="col-md-2 control-label">Card Number</label>
-	        <div class="col-md-10">
+	        <label class="col-xs-2 control-label">Card Number</label>
+	        <div class="col-xs-7">
 	          <div class="row-fluid">
 	            <div >
-	              <input type="text" class="col-md-2" autocomplete="off" maxlength="4"  title="First four digits" ng-model="form.client.CardNumberPart1"/>
+	              <input type="text" class="col-xs-3" autocomplete="off" maxlength="4"  title="First four digits" ng-model="form.client.CardNumberPart1"/>
 	            </div>
 	            <div >
-	              <input type="text" class="col-md-2" autocomplete="off" maxlength="4"  title="Second four digits" ng-model="form.client.CardNumberPart2"/>
+	              <input type="text" class="col-xs-3" autocomplete="off" maxlength="4"  title="Second four digits" ng-model="form.client.CardNumberPart2"/>
 	            </div>
 	            <div >
-	              <input type="text" class="col-md-2" autocomplete="off" maxlength="4"  title="Third four digits" ng-model="form.client.CardNumberPart3"/>
+	              <input type="text" class="col-xs-3" autocomplete="off" maxlength="4"  title="Third four digits" ng-model="form.client.CardNumberPart3"/>
 	            </div>
 	            <div >
-	              <input type="text" class="col-md-2" autocomplete="off" maxlength="4"  title="Fourth four digits" ng-model="form.client.CardNumberPart4"/>
+	              <input type="text" class="col-xs-3" autocomplete="off" maxlength="4"  title="Fourth four digits" ng-model="form.client.CardNumberPart4"/>
 	            </div>
 	          </div>
 	        </div>
+			<label class="col-xs-1 control-label">CVV:</label>
+	       	<div class="col-xs-2">
+	              <input class="form-control" name="CVV" autocomplete="off" maxlength="4" title="CVV" ng-model="form.client.CardCvv" />
+	        </div>
 	      </div>
 		<div class="form-group">
-	        <label class="col-md-2 control-label">Expiry Date:</label>
-	        <div class="col-md-2">
+	        <label class="col-xs-2 control-label">Expiry Date:</label>
+	        <div class="col-xs-3">
 				<select class="form-control" name="Month" ng-model="form.client.ExpiryMonth" >
 	                <option value="">Expiry Month</option>	
 	    			<option value="01">January</option>
@@ -47,22 +55,27 @@
 					<option value="12">December</option>
 	          	</select>	
 			</div>
-			<div class="col-md-2">
+			<div class="col-xs-2 text-left">
 				<select class="form-control" name="Year" ng-model="form.client.ExpiryYear" ng-options="year for year in form.cardYears">
 	            	<option value="">Expiry Year</option>	
 				</select>
 			</div>
-			<label class="col-md-2 control-label">Card CVV:</label>
-	       	<div class="col-md-4">
-	              <input class="form-control" name="CVV" autocomplete="off" maxlength="4" title="CVV" ng-model="form.client.CardCvv" />
-	        </div>
+			<label class="col-xs-2 control-label">Card Type</label>
+		    <div class="col-xs-3">
+				<select class="form-control" name="CardType" ng-model="form.client.CardType" >
+	                <option value=""></option>	
+	    			<option value="VISA">Visa</option>
+					<option value="MC">Master Card</option>
+					<option value="DC">Diners Card</option>
+	          	</select>	
+		    </div>
 		</div>
 		<div class="form-group">
-	            <div class="col-md-6">
+	            <div class="col-xs-6">
 	            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.clients')">Close</button>
 					<button type="submit" class="btn btn-success" ng-disabled="form.client.$invalid || form.submitted == true">Add Card Details</button>
 	            </div>
-			    <div class="text-right col-md-6">
+			    <div class="text-right col-xs-6">
 				</div>		
 	        </div>	
 		</form>
@@ -71,7 +84,7 @@
 	<div class="container-fluid" >	
 		<div class="panel panel-default">
 			<div class="panel-heading">Credit Cards</div>
-			<div ng-hide="form.Cards.length" class="EmptyResults p-lg text-center">
+			<div ng-hide="form.Cards.length" class="EmptyResults p-xs text-center">
 				No payment methods found.
 			</div>
 			<div class="panel-body" ng-show="form.Cards.length">
@@ -79,6 +92,7 @@
 					<table class="table table-bordered table-hover bg-white">
 				      	<tr style="font-weight: bold">
 				         	<td  class="text-center">Card Name</td>
+							<td  class="text-center">Ref Code</td>
 				         	<td  class="text-center">Card Type</td>
 				         	<td  class="text-center">Card Number</td>
 							<td  class="text-center">CVV</td>
@@ -87,13 +101,27 @@
 				      	</tr>
 						<tr ng-repeat="card in form.Cards">  
 							<td>{{ card.CardName }}</td>
+							<td>
+								<span editable-text="card.ClientReferenceCode" e-name="ClientReferenceCode" e-form="rowform" >{{ card.ClientReferenceCode }}</span>
+							</td>
 							<td>{{ card.CardType }}</td>
 							<td>{{ card.FormattedCardNumber }}</td>
 							<td>{{ card.CardCVV || &apos;Not provided&apos; }}</td>
 							<td>{{ card.FormattedExpiryDate}}</td>
 							<td>
 								 <!-- form-->
+								<form editable-form="" name="rowform" onbeforesave="form.saveCustomerRef($data, card.Id)" ng-show="rowform.$visible" shown="form.inserted == card" class="form-buttons form-inline">
+					               <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
+					                  <em class="fa fa-save"></em>
+					               </button>
+					               <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
+					                  <em class="fa fa-times"></em>
+					               </button>
+					            </form>
 					            <div ng-show="!rowform.$visible" class="buttons">
+									<button ng-click="rowform.$show();" title="Edit" class="btn btn-sm btn-info">
+					                  <em class="fa fa-pencil"></em>
+					               </button>
 					               <button title="Delete" class="btn btn-sm btn-danger" ng-click="deleteEntry(card.Id, $index)">
 					                  <em class="fa fa-trash"></em>
 					               </button>

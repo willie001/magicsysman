@@ -14,29 +14,25 @@
 		<div class="panel-body">
 			<form class="form-horizontal">
 		    	<div class="form-group">
-			      	<label class="col-md-2 control-label">Master Franchise</label>
-			      	<div class="col-md-6">
+			      	<label class="col-xs-2 control-label">Master Franchise</label>
+			      	<div class="col-xs-4">
 			         	<select name="MasterFranchise" class="form-control" ng-model="form.Search.SelectedFranchise" 
 									ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
 			            	<option value="">Select Master Franchise</option>	
 			      		</select>	
 			      	</div>
-			   	</div>
-				<div class="form-group">
-		          	<label class="col-md-2 control-label">Name</label>
-		          	<div class="col-md-10">
+		          	<label class="col-xs-2 control-label">Name</label>
+		          	<div class="col-xs-4">
 		             	<input type="text" placeholder="Cleaner name" class="form-control" ng-model="form.Search.Name" />
 		          	</div>
 		       	</div>
 				<div class="form-group">
-		          	<label class="col-md-2 control-label">Zone</label>
-		          	<div class="col-md-10">
+		          	<label class="col-xs-2 control-label">Zone</label>
+		          	<div class="col-xs-4">
 		             	<input type="text" placeholder="Zone" class="form-control" ng-model="form.Search.Zone" />
 		          	</div>
-		       	</div>
-				<div class="form-group">
-					<label class="col-md-2 control-label"></label>
-			  		<div class="col-md-10">
+					<label class="col-xs-2 control-label"></label>
+			  		<div class="col-xs-4">
 			         	<div class="checkbox c-checkbox">
 	                  		<label>
 	                     		<input type="checkbox" checked="false" name="IncludeInactive" id="IncludeInactive" ng-model="form.Search.IncludeInactive"/>
@@ -46,14 +42,14 @@
 			      	</div>
 				</div>
 				<div class="form-group">
-		           	<div class="col-md-offset-2 col-md-5">
+		           	<div class="col-xs-offset-2 col-xs-5">
 						<!-- buttons-->
 						<button type="button" class="btn btn-default" ng-click="clearForm()">Clear</button>
 						<button type="button" class="btn btn-info" ng-click="searchCleaners()">Search</button>
 		           	</div>
-					<div class="text-right col-md-5">
+					<div class="text-right col-xs-5">
 						<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
-      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Cleaner
+      						<em class="fa fa-plus-circle fa-fw mr-xs"></em>New Cleaner
 						</button>
 						<button type="button" ng-click="$state.go('app.clients')" class="btn btn-warning">Return to Customers</button>
 					</div>	
@@ -71,26 +67,33 @@
             </div>Search Results
 		</div>
 		<div class="panel-body">
-			<div ng-hide="form.SearchResults.length" class="EmptyResults p-lg text-center">
+			<div ng-hide="form.SearchResults.length" class="EmptyResults p-xs text-center">
 				No cleaners found with the current search criteria.
 			</div>
 			<div class="table-responsive" ng-show="form.SearchResults.length" >
 				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
 					<thead style="font-weight: bold">
 			         	<th  class="text-center">Cleaner Name</th>
+						<th style="width:5%" class="text-center"></th>
 			         	<th  class="text-center">Zone</th>
 			         	<th  class="text-center">Email Address</th>
 			         	<th  class="text-center">Phone Numbers</th>
 						<th  class="text-center">Suburb</th>
 						<th class="text-center" ng-hide="true" >Rating</th>
 						<th style="width:5%" class="text-center">Active</th>
-						<th style="width:5%" class="text-center"></th>
 					</thead>  
 			      	<tbody>
 						<tr valign="top" ng-repeat="cleaner in form.SearchResults">
 							<td class="" ng-class="{'bg-warning-light': cleaner.Rating==4,
 									'bg-success-light': cleaner.Rating==5,
 									'bg-primary-light': cleaner.Rating==6}">{{cleaner.FirstName}} {{ cleaner.LastName }}</td>
+							<td style="white-space: nowrap">
+					            <!-- form-->
+					            <div class="buttons">
+								   <a ui-sref="app.cleaner_details({ CleanerId: cleaner.Id })">
+					               <button title="Edit" class="btn btn-xs btn-info">Edit</button></a>
+					            </div>
+					         </td>
 							<td>{{cleaner.PrimaryZone}}</td>
 							<td style="white-space: nowrap">
 								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a>
@@ -101,15 +104,7 @@
 							<td class="text-center">
 								{{ cleaner.IsActive ? 'Yes' : 'No' }}
 			               	</td>
-							<td style="white-space: nowrap">
-					            <!-- form-->
-					            <div class="buttons">
-								   <a ui-sref="app.cleaner_details({ CleanerId: cleaner.Id })">
-					               <button title="Edit" class="btn btn-sm btn-info">
-					                  <em class="fa fa-pencil"></em>
-					               </button></a>
-					            </div>
-					         </td>
+							
 						</tr>
 					</tbody>
 				</table>

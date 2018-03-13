@@ -28,8 +28,8 @@
 		</fieldset>
 		<fieldset>
 			<div class="form-group">
-	          	<label class="col-lg-2 control-label">Master Franchise Royalty (%)</label>
-	          	<div class="col-lg-10"> 
+	          	<label class="col-xs-2 control-label">Master Franchise Royalty (%)</label>
+	          	<div class="col-xs-10"> 
 					<input type="number" placeholder="Custom royalty fee for current Master Franchise" class="form-control" name="RoyaltyFeePercentage" ng-model="form.franchiseSettings.RoyaltyFeePercentage" />
 					<!--<span class="text-danger" ng-show="form.validateInput('ManagementFeePercentage', 'number')">This field must be a valid numeric percentage</span>-->
 	          	</div>
@@ -38,8 +38,8 @@
 
 		<fieldset>
 			<div class="form-group">
-	          	<label class="col-lg-2 control-label">Management Fee (%)</label>
-	          	<div class="col-lg-10"> 
+	          	<label class="col-xs-2 control-label">Management Fee (%)</label>
+	          	<div class="col-xs-10"> 
 					<input type="number" placeholder="Custom management fee for current Master Franchise" class="form-control" name="ManagementFeePercentage" ng-model="form.franchiseSettings.ManagementFeePercentage" />
 					<!--<span class="text-danger" ng-show="form.validateInput('ManagementFeePercentage', 'number')">This field must be a valid numeric percentage</span>-->
 	          	</div>
@@ -47,11 +47,11 @@
 		</fieldset>
        	
 		<div class="form-group">
-            <div class="col-lg-offset-2 col-lg-6">
+            <div class="col-xs-offset-2 col-xs-6">
             	<button type="submit" class="btn btn-default" ng-click="$state.go('app.settings_master_franchises')" ng-disabled="{{ form.franchiseSettings.submitted }}">Close</button>
           		<button type="submit" class="btn btn-success" ng-disabled="form.franchiseSettings.$invalid || form.franchiseSettings.submitted == true">Save Settings</button>
             </div>
-		    <div class="text-right col-lg-4">
+		    <div class="text-right col-xs-4">
 			
 			</div>		
         </div>	

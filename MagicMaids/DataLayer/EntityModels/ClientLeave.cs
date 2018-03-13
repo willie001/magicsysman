@@ -11,33 +11,21 @@ namespace MagicMaids.EntityModels
 	{
 		#region Properties, Public
 		[Required]
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateTime StartDate
 		{
-			get
-			{
-				return _startDate.ToLocalTime();
-			}
-			set
-			{
-				_startDate = value.ToUniversalTime();
-			}
+			get;
+			set;
 		}
-		private DateTime _startDate;
-
 
 		[Required]
-		[DataType(DataType.Date)]
+		[DataType(DataType.DateTime)]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateTime EndDate
 		{
-			get
-			{
-				return _endDate.ToLocalTime();
-			}
-			set
-			{
-				_endDate = value.ToUniversalTime();
-			}
+			get;
+			set;
 		}
 		private DateTime _endDate;
 

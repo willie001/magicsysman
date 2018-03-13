@@ -288,6 +288,7 @@ namespace MagicMaids.Validators
 		{
 			RuleFor(x => x.CardName).NotEmpty().WithMessage("Card name is required.");
 			RuleFor(x => x).Must((x, s) => IsCardnumberValid(x)).WithMessage("Card number is not valid.");
+			RuleFor(x => x.CardType).NotEmpty().WithMessage("Cart type is required.");
 			RuleFor(x => x.CardCVV).Must((x, s) => IsCvvValid(x.CardCVV)).WithMessage("Card CVV is not valid.");
 			RuleFor(x => x.ExpiryMonth).Must((x, s) => IsExpiryValid(x)).WithMessage("Card expiry is not valid.");
 			RuleFor(x => x.ExpiryYear).Must((x, s) => IsExpiryValid(x)).WithMessage("Card expiry is not valid.");
@@ -475,12 +476,12 @@ namespace MagicMaids.Validators
 			RuleFor(x => x.Suburb).NotEmpty().WithMessage("Suburb is required.");
 			RuleFor(x => x.Suburb).Length(3, 100);
 
-			When(x => (x.OneOffJob == false), () =>
+			When(x => (x.OneOffJob == false && x.VacateClean == false), () =>
 			{
 				RuleFor(x => x.ServiceDay).NotEmpty().WithMessage("Preferred service day is required.");
 			});
 
-			When(x => (x.OneOffJob == true), () =>
+			When(x => (x.OneOffJob == true || x.VacateClean == true), () =>
 			{
 				RuleFor(x => x.ServiceDate).GreaterThanOrEqualTo(DateTime.Now.AddDays(-1)).WithMessage("Service date can't be in the past.");
 				RuleFor(x => x.ServiceDate).LessThanOrEqualTo(DateTime.Now.AddDays(SystemSettings.BookingsDaysAllowed)).WithMessage($"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
@@ -492,7 +493,7 @@ namespace MagicMaids.Validators
 
 		private bool IsJobSelected(SearchVM c)
 		{
-			if (c.OneOffJob || c.FortnightlyJob || c.WeeklyJob)
+			if (c.OneOffJob || c.FortnightlyJob || c.WeeklyJob || c.VacateClean)
 			{
 				return true;
 			}

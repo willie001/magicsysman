@@ -5,13 +5,14 @@
     	.module("magicsearches",[])
     	.controller('MainSearchController', MainSearchController);
 
-    	MainSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','editableOptions', 'editableThemes'];
+    	MainSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','editableOptions', 'editableThemes', '$cookies'];
     
     /***********************/
 	/***   MAIN SEARCH   ***/
 	/***********************/
-	function MainSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes)
+	function MainSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies)
 	{
+		
 		var vm = this;
 		var panelName = "panelMainResults";
 	
@@ -26,6 +27,9 @@
 
 		function activate() {
 			HandleBusySpinner.start($scope, panelName);
+			manageTimeZoneCookie();
+
+			$scope.searchCriteria = true; // expand search panel on first load
 
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 
@@ -46,6 +50,7 @@
 				vm.Search.WeeklyJob = (vm.Search.ServiceType=="W") ? true : false;
 				vm.Search.FortnightlyJob = (vm.Search.ServiceType=="F") ? true : false;
 				vm.Search.OneOffJob = (vm.Search.ServiceType=="O") ? true : false;
+				vm.Search.VacateClean = (vm.Search.ServiceType=="V") ? true : false;
 			}
 			vm.Search.changeServiceDay = function() {
 				if (vm.Search.ServiceDayValue == 1)
@@ -77,6 +82,7 @@
 	            vm.Search.ServiceDate = null;
           	};	
 
+
           	// Disable weekend selection
 	       	vm.date.disabled = function(date, mode) {
 	       		//return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
@@ -106,11 +112,46 @@
           	vm.date.format = vm.date.formats[0];
 		}
 
+		function manageTimeZoneCookie() {
+      		var timezone_cookie = "timezoneoffset";
+
+            if (!$cookies.get(timezone_cookie)) { // if the timezone cookie not exists create one.
+
+                // check if the browser supports cookie
+                var test_cookie = 'test cookie';
+                $cookies.put(test_cookie, 'oatmeal');
+
+                if ($cookies.get(test_cookie)) { // browser supports cookie
+
+                    // delete the test cookie.
+                    $cookies.remove(test_cookie);
+
+                    // create a new cookie 
+                    $cookies.put(timezone_cookie, new Date().getTimezoneOffset());
+
+                    location.reload(); // re-load the page
+                }
+            }
+            else { // if the current timezone and the one stored in cookie are different then
+                   // store the new timezone in the cookie and refresh the page.
+
+                var storedOffset = parseInt($cookies.get(timezone_cookie));
+                var currentOffset = new Date().getTimezoneOffset();
+
+                if (storedOffset !== currentOffset) { // user may have changed the timezone
+                    $cookies.put(timezone_cookie, new Date().getTimezoneOffset());
+					location.reload();
+                }
+            }
+      	};
+
 		$scope.clearForm = function() {
 				vm.Search = {};
 				vm.SearchResults = {};
 				vm.hasSearched = false;
 
+				$scope.searchCriteria = false;
+					
 				activate();
 			}
 
@@ -130,6 +171,7 @@
 				}
 				else
 				{
+					$scope.searchCriteria = true;
 					vm.SearchResults = response.SearchResults;
 					//console.log("<MAIN Search Results> - " + angular.toJson(response));
        				HandleBusySpinner.stop($scope, panelName);

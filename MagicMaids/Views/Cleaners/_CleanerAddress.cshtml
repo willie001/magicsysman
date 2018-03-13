@@ -1,7 +1,7 @@
 ﻿<div class="container-fluid" ng-controller="CleanerAddressController as form">
 	<form class="form-horizontal">
 	   <div class="form-group">
-     		<div class="col-sm-6">
+     		<div class="col-xs-6">
 				<div class="panel panel-primary" id="panelPhysical">
 					<div class="panel-heading">Physical Address</div>
  					<div class="panel-body">
@@ -47,7 +47,7 @@
 				</div>
 			</div>
 				
-			<div class="col-sm-6">
+			<div class="col-xs-6">
 				<div class="panel panel-green" id="panelPostal" ng-show="!CopyToPostal">
 					<div class="panel-heading">Postal Address</div>
  					<div class="panel-body">
@@ -90,15 +90,15 @@
 		</div>
 
 		<div class="form-group">
-		    <div class="col-lg-offset-2 col-lg-6">
+		    <div class="col-xs-offset-2 col-xs-6">
 		    	
 		    </div>
 			<div class="form-group">
-	            <div class="col-lg-6">
+	            <div class="col-xs-6">
 	            	<button type="button" class="btn btn-default" ng-click="$state.go('app.dashboard')">Close</button>
 				<button type="button" class="btn btn-success" onclick="alert('Coming soon!'); return false;" >Save Cleaner Address</button>
 	            </div>
-			    <div class="text-right col-lg-6">
+			    <div class="text-right col-xs-6">
 				</div>		
 	        </div>	
 		</div>

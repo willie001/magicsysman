@@ -40,6 +40,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public Boolean VacateClean
+		{
+			get;
+			set;
+		}
+
+
 		public String ServiceDay
 		{
 			get;

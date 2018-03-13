@@ -37,6 +37,19 @@ namespace MagicMaids.Controllers
         #endregion
 
         #region Methods, Protected
+		/// <summary>
+		/// Read the timezone offset value from cookie and store in session.
+		/// </summary>
+		/// <param name="filterContext"></param>
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			if (HttpContext.Request.Cookies.AllKeys.Contains("timezoneoffset"))
+			{
+				Session["timezoneoffset"] = HttpContext.Request.Cookies["timezoneoffset"].Value;
+			}
+			base.OnActionExecuting(filterContext);
+		}
+
         //http://benjii.me/2014/10/handling-validation-errors-with-angularjs-and-asp-net-mvc/
         //http://stephenwalther.com/archive/2015/01/18/asp-net-5-and-angularjs-part-5-form-validation
         protected ActionResult JsonFormResponse(JsonRequestBehavior jsonRequestBehaviour = JsonRequestBehavior.DenyGet)

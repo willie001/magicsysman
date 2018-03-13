@@ -206,18 +206,25 @@ namespace MagicMaids.ViewModels
 
 		public string CardType
 		{
-			get
-			{
-				var card = Helpers.GetCardTypeFromNumber($"{CardNumberPart1}{CardNumberPart2}{CardNumberPart3}{CardNumberPart4}");
-	            switch(card)
-				{
-					case Helpers.CreditCardType.AmericanExpress:
-						return "American Express";
-					default:
-						return card.ToString();
+			get;
+			set;
+			//{
+			//	var card = Helpers.GetCardTypeFromNumber($"{CardNumberPart1}{CardNumberPart2}{CardNumberPart3}{CardNumberPart4}");
+	  //          switch(card)
+			//	{
+			//		case Helpers.CreditCardType.AmericanExpress:
+			//			return "American Express";
+			//		default:
+			//			return card.ToString();
 						        
-				}
-			}
+			//	}
+			//}
+		}
+
+		public string ClientReferenceCode
+		{
+			get;
+			set;
 		}
 
 		public Guid ClientId
@@ -247,7 +254,28 @@ namespace MagicMaids.ViewModels
 			this.CardNumberPart4 = items[7];
 			this.CardNumberPart1 = items[8];
 			this.CardNumberPart2 = items[9];
+			this.CardType = items[10];
+			this.ClientReferenceCode = items[11];
 		}
+		#endregion
+	}
+
+	public class ClientPaymentReferenceUpdateVM
+	{
+		//Primary Client's container view model
+		#region Properties, Public
+		public Guid Id
+		{
+			get;
+			set;
+		}
+
+		public string ClientReferenceCode
+		{
+			get;
+			set;
+		}
+
 		#endregion
 	}
 
@@ -295,7 +323,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _startDate.ToLocalTime().ToString("d MMM yyyy");
+				return _startDate.ToClientDate();
 			}
 		}
 		private DateTime _startDate;
@@ -322,7 +350,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _endDate.ToLocalTime().ToString("d MMM yyyy");
+				return _endDate.ToClientDate();
 			}
 		}
 		private DateTime _endDate;
@@ -336,7 +364,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _adviseDate.ToLocalTime().ToString("d MMM yyyy");
+				return _adviseDate.ToClientDate() ;
 			}
 		}
 		private DateTime _adviseDate;

@@ -19,22 +19,22 @@
 			
 		 	 <form class="form-horizontal">
 				<div class="form-group">
-		          <label class="col-lg-1 control-label text-left">ID</label>
-		          <div class="col-lg-2">
+		          <label class="col-xs-1 control-label text-left">ID</label>
+		          <div class="col-xs-2">
 		             <input type="text" class="form-control" name="Id"  ng-model="form.logEntry.Id" disabled="true"/>
 		          </div>
-				  <label class="col-lg-1 control-label">Date</label>
-		          <div class="col-lg-3">
+				  <label class="col-xs-1 control-label">Date</label>
+		          <div class="col-xs-3">
 		             <input type="text" class="form-control" name="LoggedDate" ng-model="form.logEntry.LoggedDate" disabled="true"/>
 		          </div>
-				  <label class="col-lg-2 control-label">User Name</label>
-		          <div class="col-lg-2">
+				  <label class="col-xs-2 control-label">User Name</label>
+		          <div class="col-xs-2">
 		             <input type="text" class="form-control" name="UserName"  ng-model="form.logEntry.UserName" disabled="true"/>
 		          </div>	
-				  <div class="col-lg-1"></div>
+				  <div class="col-xs-1"></div>
 		       </div>
 		       <div class="form-group">
-				<div class="col-lg-12 text-center"  >
+				<div class="col-xs-12 text-center"  >
 					<div class="box-placeholder b0" ng-class="{'bg-warning': form.logEntry.Level=='WARN',
 						'bg-danger': form.logEntry.Level=='ERROR',
 						'bg-success': form.logEntry.Level=='INFO'}">
@@ -43,32 +43,32 @@
 				</div>
 			</div>
 			
-				<div class="form-group col-lg-12">
+				<div class="form-group col-xs-12">
 					<label>Message</label>
 	                <pre style="white-space: pre-wrap;">{{ form.logEntry.Message }}</pre>
 				</div>
 
-				<div class="form-group col-lg-12" ng-show="form.logEntry.Exception.length > 0">
+				<div class="form-group col-xs-12" ng-show="form.logEntry.Exception.length > 0">
 					<label>Exception</label>
 	                <pre style="white-space: pre-wrap;">{{ form.logEntry.Exception }}</pre>
 				</div>
 
-				<div class="form-group col-lg-12" ng-show="form.logEntry.InnerErrorMessage.length > 0">
+				<div class="form-group col-xs-12" ng-show="form.logEntry.InnerErrorMessage.length > 0">
 					<label>Inner Error Message</label>
 	                <pre style="white-space: pre-wrap;">{{ form.logEntry.InnerErrorMessage }}</pre>
 				</div>
 
-				<div class="form-group col-lg-12" ng-show="form.logEntry.EventContext.length > 0">
+				<div class="form-group col-xs-12" ng-show="form.logEntry.EventContext.length > 0">
 					<label>Event Context</label>
 	                <pre style="white-space: pre-wrap;">{{ form.logEntry.EventContext  }}</pre>
 				</div>
 
-				<div class="form-group col-lg-12" ng-show="form.logEntry.ObjectContext.length > 0">
+				<div class="form-group col-xs-12" ng-show="form.logEntry.ObjectContext.length > 0">
 					<label>Object Context</label>
 	                <pre style="white-space: pre-wrap;" >{{ parseJson(form.logEntry.ObjectContext) | json }}</pre>
 				</div>
 
-				<div class="form-group col-lg-12" ng-show="form.logEntry.FormattedAddresses.length > 0">
+				<div class="form-group col-xs-12" ng-show="form.logEntry.FormattedAddresses.length > 0">
 					<label>Other Details</label>
 	                <pre>
 						<div ng-bind-html="form.logEntry.FormattedAddresses | trustAsHtml"></div>

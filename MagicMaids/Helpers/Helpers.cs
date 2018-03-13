@@ -12,6 +12,7 @@ using NLog;
 
 using System.Text;
 using System.Collections;
+using System.Configuration;
 #endregion
 
 namespace MagicMaids
@@ -117,14 +118,10 @@ namespace MagicMaids
 
 		public static bool IsDebug(this HtmlHelper htmlhelper)
 		{
-			if (HttpContext.Current.IsDebuggingEnabled)
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}
+			Boolean _displayDebugMessages = false;
+			Boolean.TryParse(ConfigurationManager.AppSettings["DisplayDebugHeaders"], out _displayDebugMessages);
+
+			return _displayDebugMessages;
 		}
 
 		/// <summary>

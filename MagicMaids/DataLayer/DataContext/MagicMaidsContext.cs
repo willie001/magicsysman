@@ -2,6 +2,7 @@
 using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Linq;
 using System.Web;
 using MagicMaids.EntityModels;
 using NLog;
@@ -126,27 +127,46 @@ namespace MagicMaids.DataAccess
 
 		public override int SaveChanges()
 		{
-			foreach (var auditableEntity in ChangeTracker.Entries<IDataModel>())
+			foreach(var change in ChangeTracker.Entries<IDataModel>().Where(p => (p.State == EntityState.Added || p.State == EntityState.Modified)).ToList())
 			{
-				if (auditableEntity.State == EntityState.Added || auditableEntity.State == EntityState.Modified)
-				{
-					string currentUser = HttpContext.Current.User.Identity.Name;
-					if (String.IsNullOrWhiteSpace(currentUser))
-						currentUser = "TODO";
-					
-					auditableEntity.Entity.UpdatedAt = DateTime.Now.ToUniversalTime() ;
-					auditableEntity.Entity.RowVersion = DateTime.Now.ToUniversalTime();
-					auditableEntity.Entity.UpdatedBy = currentUser;
+				string currentUser = HttpContext.Current.User.Identity.Name;
+				if (String.IsNullOrWhiteSpace(currentUser))
+					currentUser = "TODO";
+				change.Entity.UpdatedAt = DateTime.Now.ToUniversalTime();
+				change.Entity.RowVersion = DateTime.Now.ToUniversalTime();
+				change.Entity.UpdatedBy = currentUser;
 
-					if (auditableEntity.State == EntityState.Added)
+				if (change.State == EntityState.Added)
+				{
+					change.Entity.CreatedAt = DateTime.Now.ToUniversalTime();
+				}
+				else
+				{
+					// we also want to make sure that code is not inadvertly
+					// modifying created date and created by columns 
+					change.Property(p => p.CreatedAt).IsModified = false;
+				}
+
+				var entityName = change.Entity.GetType().Name;
+				foreach (string propName in change.CurrentValues.PropertyNames)
+				{
+					var prop = change.Entity.GetType().GetProperty(propName);
+					var currentValue = ((change.CurrentValues[propName]) != null) ? change.CurrentValues[propName].ToString() : "";
+
+					if (change.State == EntityState.Added)
 					{
-						auditableEntity.Entity.CreatedAt = DateTime.Now.ToUniversalTime() ;
+						if (prop.PropertyType == typeof(DateTime))
+						{
+							prop.SetValue(change.Entity, ((DateTime)change.CurrentValues[propName]).ToUniversalTime());
+						}
 					}
 					else
 					{
-						// we also want to make sure that code is not inadvertly
-						// modifying created date and created by columns 
-						auditableEntity.Property(p => p.CreatedAt).IsModified = false;
+						var originalValue = (change.OriginalValues[propName] != null) ? change.OriginalValues[propName].ToString() : "";
+						if (originalValue != currentValue && prop.PropertyType == typeof(DateTime))
+						{
+							prop.SetValue(change.Entity, ((DateTime)change.CurrentValues[propName]).ToUniversalTime());
+						}
 					}
 				}
 			}

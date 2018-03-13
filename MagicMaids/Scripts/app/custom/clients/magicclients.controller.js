@@ -336,6 +336,27 @@
         		return false;
         	}
 		}
+
+		vm.saveCustomerRef = function(data, id) {
+
+			angular.extend(data, {
+					Id: id
+				});
+
+       		return $http.post('/clients/updateRefCode', data).success(function (response) {
+                // Add your success stuff here
+       			ShowUserMessages.show($scope, response, "Error updating customer reference.");
+       			if (response.IsValid)
+        		{	
+           			activate();
+				}
+
+            }).error(function (error) {
+
+                ShowUserMessages.show($scope, error, "Error updating customer reference.");
+
+            });
+        }
 	}
 
 	/**************************/
@@ -449,7 +470,7 @@
 		}
 
       	vm.saveData = function(data, id, isNew) {
-			console.log("<LEAVE SAVE> - " + angular.toJson(data));
+			//console.log("<LEAVE SAVE> - " + angular.toJson(data));
           	angular.extend(data, {
 					ClientId: ClientId,
 					Id: id,
