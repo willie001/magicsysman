@@ -428,9 +428,9 @@ namespace MagicMaids.Validators
 			// we have a valid month/year, but make sure when you combine them that the expiry date is not old
 				
 			DateTime expiryDate = DateTime.Parse(String.Format("{0}/{1}/{2}", DateTime.DaysInMonth(_year,_month), _month, _year));
-			if (expiryDate.Date < DateTime.UtcNow.Date)
+			if (expiryDate.Date.ToUniversalTime() < DateTime.Now.ToUniversalTime())
 			{
-				if (expiryDate.Year < DateTime.UtcNow.Year)
+				if (expiryDate.Date.ToUniversalTime().Year < DateTime.Now.ToUniversalTime().Year) 
 				{
 					return false;		// past year
 				}

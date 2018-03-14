@@ -45,7 +45,8 @@ namespace MagicMaids.Controllers
 					using (var context = new MagicMaidsContext())
 					{
 						var _results = context.Cleaners.AsQueryable()
-								.Include(nameof(Cleaner.PhysicalAddress));
+								.Include(nameof(Cleaner.PhysicalAddress))
+							   .Where(x => x.Ironing == searchCriteria.RequireIroning);
 
 						if (_results != null)
 						{

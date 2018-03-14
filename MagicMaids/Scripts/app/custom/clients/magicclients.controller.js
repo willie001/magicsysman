@@ -61,6 +61,7 @@
 
 		function activate() {
 			HandleBusySpinner.start($scope, panelName);
+			$scope.panelClientSearch = false;
 
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 		}
@@ -69,6 +70,7 @@
 				vm.Search = {};
 				vm.SearchResults = {};
 				vm.hasSearched = false;
+				$scope.panelClientSearch = false;
 			}
 
 		$scope.searchClients = function() {
@@ -89,6 +91,7 @@
 					}
 					else
 					{
+						$scope.panelClientSearch = true;
 						vm.SearchResults = response.SearchResults;
 						HandleBusySpinner.stop($scope, panelName);
 					}

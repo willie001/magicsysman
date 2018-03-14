@@ -40,6 +40,7 @@
                                            '<span class="fa fa-times text-muted"></span>'+
                                          '</button>';
 
+			vm.Search.Ironing = false;
 			vm.Search.ServiceLength = 2;
 			vm.Search.ServiceDate = new Date();
 			vm.Search.ServiceType = "W"

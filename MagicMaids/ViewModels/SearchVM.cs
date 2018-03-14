@@ -22,6 +22,12 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public Boolean RequireIroning
+		{
+			get;
+			set;
+		}
+
 		public Boolean WeeklyJob
 		{
 			get;

@@ -132,7 +132,7 @@
 
 		function activate() {
 			HandleBusySpinner.start($scope, panelName);
-
+			$scope.searchCriteria = false;
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 
 			$http.get('/settings/getactivefranchises')
@@ -151,6 +151,7 @@
 			vm.Search = {};
 			vm.SearchResults = {};
 			vm.hasSearched = false;
+			$scope.searchCriteria = false;
 		}
 
 	$scope.searchCleaners = function() {
@@ -167,6 +168,7 @@
 			$http.post('/cleaners/searchcleaner/', vm.Search).success(function (response) {
 				//console.log("<CLEANER Search Results> - " + angular.toJson(response.SearchResults));
 
+				$scope.searchCriteria = true;
 				vm.SearchResults = response.SearchResults;
 				HandleBusySpinner.stop($scope, panelName);
                 

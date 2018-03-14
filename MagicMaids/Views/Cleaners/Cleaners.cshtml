@@ -10,51 +10,57 @@
 <div ng-controller="CleanerSearchController as form">
 	@Html.Partial("_InformationDetails")
 
-	<div class="panel panel-primary">
-		<div class="panel-body">
-			<form class="form-horizontal">
-		    	<div class="form-group">
-			      	<label class="col-xs-2 control-label">Master Franchise</label>
-			      	<div class="col-xs-4">
-			         	<select name="MasterFranchise" class="form-control" ng-model="form.Search.SelectedFranchise" 
-									ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
-			            	<option value="">Select Master Franchise</option>	
-			      		</select>	
-			      	</div>
-		          	<label class="col-xs-2 control-label">Name</label>
-		          	<div class="col-xs-4">
-		             	<input type="text" placeholder="Cleaner name" class="form-control" ng-model="form.Search.Name" />
-		          	</div>
-		       	</div>
-				<div class="form-group">
-		          	<label class="col-xs-2 control-label">Zone</label>
-		          	<div class="col-xs-4">
-		             	<input type="text" placeholder="Zone" class="form-control" ng-model="form.Search.Zone" />
-		          	</div>
-					<label class="col-xs-2 control-label"></label>
-			  		<div class="col-xs-4">
-			         	<div class="checkbox c-checkbox">
-	                  		<label>
-	                     		<input type="checkbox" checked="false" name="IncludeInactive" id="IncludeInactive" ng-model="form.Search.IncludeInactive"/>
-	                     		<span class="fa fa-check"></span>Include inactive cleaners in results
-							</label>
-	               		</div>
-			      	</div>
-				</div>
-				<div class="form-group">
-		           	<div class="col-xs-offset-2 col-xs-5">
-						<!-- buttons-->
-						<button type="button" class="btn btn-default" ng-click="clearForm()">Clear</button>
-						<button type="button" class="btn btn-info" ng-click="searchCleaners()">Search</button>
-		           	</div>
-					<div class="text-right col-xs-5">
-						<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
-      						<em class="fa fa-plus-circle fa-fw mr-xs"></em>New Cleaner
-						</button>
-						<button type="button" ng-click="$state.go('app.clients')" class="btn btn-warning">Return to Customers</button>
-					</div>	
-		        </div>
-			</form>
+	<div class="panel panel-default" id="searchCriteria">
+		<div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse" ></paneltool>
+			<div class="panel-title">&nbsp</div>
+        </div>
+		<div uib-collapse="searchCriteria" class="panel-wrapper">
+			<div class="panel-body">
+				<form class="form-horizontal">
+			    	<div class="form-group">
+				      	<label class="col-xs-2 control-label">Master Franchise</label>
+				      	<div class="col-xs-4">
+				         	<select name="MasterFranchise" class="form-control" ng-model="form.Search.SelectedFranchise" 
+										ng-options="fran.Name for fran in form.availableFranchises track by fran.Id" >
+				            	<option value="">Select Master Franchise</option>	
+				      		</select>	
+				      	</div>
+			          	<label class="col-xs-2 control-label">Name</label>
+			          	<div class="col-xs-4">
+			             	<input type="text" placeholder="Cleaner name" class="form-control" ng-model="form.Search.Name" />
+			          	</div>
+			       	</div>
+					<div class="form-group">
+			          	<label class="col-xs-2 control-label">Zone</label>
+			          	<div class="col-xs-4">
+			             	<input type="text" placeholder="Zone" class="form-control" ng-model="form.Search.Zone" />
+			          	</div>
+						<label class="col-xs-2 control-label"></label>
+				  		<div class="col-xs-4">
+				         	<div class="checkbox c-checkbox">
+		                  		<label>
+		                     		<input type="checkbox" checked="false" name="IncludeInactive" id="IncludeInactive" ng-model="form.Search.IncludeInactive"/>
+		                     		<span class="fa fa-check"></span>Include inactive cleaners in results
+								</label>
+		               		</div>
+				      	</div>
+					</div>
+					<div class="form-group">
+			           	<div class="col-xs-offset-2 col-xs-5">
+							<!-- buttons-->
+							<button type="button" class="btn btn-default" ng-click="clearForm()">Clear</button>
+							<button type="button" class="btn btn-info" ng-click="searchCleaners()">Search</button>
+			           	</div>
+						<div class="text-right col-xs-5">
+							<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
+	      						<em class="fa fa-plus-circle fa-fw mr-xs"></em>New Cleaner
+							</button>
+							<button type="button" ng-click="$state.go('app.clients')" class="btn btn-warning">Return to Customers</button>
+						</div>	
+			        </div>
+				</form>
+			</div>
 		</div>
 	</div>
 
