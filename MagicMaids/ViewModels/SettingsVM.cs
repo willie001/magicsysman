@@ -80,11 +80,11 @@ namespace MagicMaids.ViewModels
 
 			if (_output.Length > 0) _output.Append("<br/>");
 			_output.Append("<span>Created:</span>&nbsp;");
-			_output.Append(entityModel.CreatedAt.ToClientDateTime());
+			_output.Append(entityModel.CreatedAt.ToClientDateTimeString());
 
 			if (_output.Length > 0) _output.Append("<br/>");
 			_output.Append("<span>Updated:</span>&nbsp;");
-			_output.Append(entityModel.UpdatedAt.ToClientDateTime());
+			_output.Append(entityModel.UpdatedAt.ToClientDateTimeString());
 
 			if (_output.Length > 0) _output.Append("<br/>");
 			_output.Append("<span>Active:</span>&nbsp;");

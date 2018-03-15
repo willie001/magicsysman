@@ -10,9 +10,19 @@ namespace MagicMaids
 		/// </summary>
 		/// <param name="dt"></param>
 		/// <returns></returns>
-		public static string ToClientDate(this DateTime dt)
+		public static string ToClientDateString(this DateTime dt)
 		{
 			return GetClientDateTime(dt).ToString("d MMM yyyy");
+		}
+
+		/// <summary>
+		/// Convert the passed datetime into client timezone (date).
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		public static DateTime ToClientDate(this DateTime dt)
+		{
+			return GetClientDateTime(dt);
 		}
 
 		/// <summary>
@@ -20,9 +30,19 @@ namespace MagicMaids
 		/// </summary>
 		/// <param name="dt"></param>
 		/// <returns></returns>
-		public static string ToClientDateTime(this DateTime dt)
+		public static string ToClientDateTimeString(this DateTime dt)
 		{
 			return GetClientDateTime(dt).ToString("d MMM yyyy HH:mm:ss");
+		}
+
+		/// <summary>
+		/// Convert the passed datetime into client timezone (datetime).
+		/// </summary>
+		/// <param name="dt"></param>
+		/// <returns></returns>
+		public static DateTime ToClientDateTime(this DateTime dt)
+		{
+			return GetClientDateTime(dt);
 		}
 
 		private static DateTime GetClientDateTime(DateTime dt)

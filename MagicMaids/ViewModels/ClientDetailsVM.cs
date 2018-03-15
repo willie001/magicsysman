@@ -306,7 +306,7 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _startDate;
+				return _startDate.ToClientDate();
 			}
 			set
 			{
@@ -323,7 +323,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _startDate.ToClientDate();
+				return _startDate.ToClientDateString();
 			}
 		}
 		private DateTime _startDate;
@@ -333,7 +333,7 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _endDate;
+				return _endDate.ToClientDate();
 			}
 			set
 			{
@@ -350,7 +350,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _endDate.ToClientDate();
+				return _endDate.ToClientDateString();
 			}
 		}
 		private DateTime _endDate;
@@ -364,7 +364,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _adviseDate.ToClientDate() ;
+				return _adviseDate.ToClientDateString() ;
 			}
 		}
 		private DateTime _adviseDate;
