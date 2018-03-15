@@ -407,7 +407,9 @@
                 }).finally(function() {
 
 					angular.forEach(vm.listOfLeave, function(value, key) {
+						alert(value.StartDate);
 						value.StartDate = new Date(value.StartDate);
+						alert(value.StartDate);
 						value.EndDate = new Date(value.EndDate);
 						
 					});
