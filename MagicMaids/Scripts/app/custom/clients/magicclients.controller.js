@@ -406,14 +406,13 @@
 
                 }).finally(function() {
 
+                	console.log("<LEAVE loaded PRE> - " + angular.toJson(vm.listOfLeave));
 					angular.forEach(vm.listOfLeave, function(value, key) {
-						alert(value.StartDate);
 						value.StartDate = new Date(value.StartDate);
-						alert(value.StartDate);
 						value.EndDate = new Date(value.EndDate);
 						
 					});
-                	//console.log("<LEAVE loaded> - " + angular.toJson(vm.listOfLeave));
+                	console.log("<LEAVE loaded POST> - " + angular.toJson(vm.listOfLeave));
                 	HandleBusySpinner.stop($scope, panelName);
 			
                 });
