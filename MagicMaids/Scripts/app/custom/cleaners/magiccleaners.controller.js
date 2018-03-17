@@ -766,7 +766,7 @@
 	          IsNewItem: true
 	        };
 
-            vm.listOfLeave.push(vm.inserted);
+            vm.listOfLeave.unshift(vm.inserted);
       	};
 
 		vm.validateData = function(data, colName) {

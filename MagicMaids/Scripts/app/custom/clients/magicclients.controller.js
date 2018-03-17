@@ -251,6 +251,12 @@
 				vm.cardYears.push(date.getFullYear()+i);
 			}
 
+			vm.client = {
+		        CardNumber: '',
+		        creditCardFormattedValue: '',
+		        CardType: ''
+	        }
+
 			if (!ClientId)
 				return;
 
@@ -266,9 +272,27 @@
                 }).finally(function() {
                 	HandleBusySpinner.stop($scope, panelName);
                 });
+
 		}
 
+		/* Cleave.JS card mask formatting */
 
+	 	$scope.onCreditCardValueChange = function(formattedValue) {
+        	vm.client.creditCardFormattedValue = formattedValue;
+    	};
+
+	 	$scope.onCreditCardTypeChanged = function(type) {
+   		 	vm.client.CardType = type;
+    	};
+
+	 	$scope.options = {
+	        creditCard: {
+	            creditCard: true,
+	            onCreditCardTypeChanged: $scope.onCreditCardTypeChanged
+	        }
+	    };
+	    /* Cleave.JS card mask formatting */
+		
 		$scope.deleteEntry = function(id, ix) {
 			HandleBusySpinner.start($scope, panelName);
 			if (confirm('Are you sure you want to delete the payment method?')) {
@@ -406,13 +430,13 @@
 
                 }).finally(function() {
 
-                	console.log("<LEAVE loaded PRE> - " + angular.toJson(vm.listOfLeave));
+                	//console.log("<LEAVE loaded PRE> - " + angular.toJson(vm.listOfLeave));
 					angular.forEach(vm.listOfLeave, function(value, key) {
 						value.StartDate = new Date(value.StartDate);
 						value.EndDate = new Date(value.EndDate);
 						
 					});
-                	console.log("<LEAVE loaded POST> - " + angular.toJson(vm.listOfLeave));
+                	//console.log("<LEAVE loaded POST> - " + angular.toJson(vm.listOfLeave));
                 	HandleBusySpinner.stop($scope, panelName);
 			
                 });
@@ -426,7 +450,7 @@
 	          IsNewItem: true
 	        };
 
-            vm.listOfLeave.push(vm.inserted);
+            vm.listOfLeave.unshift(vm.inserted);
       	};
 
 		vm.validateData = function(data, colName) {

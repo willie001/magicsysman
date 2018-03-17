@@ -32,31 +32,37 @@
 	    </div>
 		<div class="panel-body">
 			<uib-tabset justified="true" active="selected">
-				<uib-tab index="0" >
+				<uib-tab index="0">
 			     	<uib-tab-heading>Details</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerDetails");   
 			    	}
 				</uib-tab>
-			  	<uib-tab index="1" disable="DataRecordStatus.IsNewDataRecord">
+			  	<uib-tab index="1">
+			     	<uib-tab-heading>Bookings</uib-tab-heading>
+					@{
+			        	Html.RenderPartial("_CustomerBookings");   
+			    	}
+				</uib-tab>
+				<uib-tab index="2" disable="DataRecordStatus.IsNewDataRecord">
 			        <uib-tab-heading>Payments</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerPayment");   
 			    	}
 			  	</uib-tab>
-			  	<uib-tab index="2" disable="DataRecordStatus.IsNewDataRecord">
+			  	<uib-tab index="3" disable="DataRecordStatus.IsNewDataRecord">
 					<uib-tab-heading>Vacations</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerHolidays");   
 			    	}
 			  	</uib-tab>
-				<uib-tab index="3" disable="true">
+				<uib-tab index="4" disable="true">
 			     	<uib-tab-heading>Communication</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerComms");   
 			    	}
 			  	</uib-tab>	
-				<uib-tab index="4" disable="true">
+				<uib-tab index="5" disable="true">
 			     	<uib-tab-heading>History</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerHistory");   

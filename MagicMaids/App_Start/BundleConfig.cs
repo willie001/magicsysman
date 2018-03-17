@@ -100,6 +100,7 @@ namespace MagicMaids
               "~/Vendor/angular-dynamic-locale/dist/tmhDynamicLocale.js",
               "~/Vendor/jquery.browser/dist/jquery.browser.js",
               "~/Vendor/matchMedia/matchMedia.js", 
+				"~/Vendor/cleave/dist/cleave-angular.min.js",	
 			  "~/Vendor/angular-bootstrap-toggle-switch/angular-toggle-switch.min.js"
             ));
 

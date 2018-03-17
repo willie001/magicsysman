@@ -22,24 +22,25 @@
 				<form class="form-horizontal">
 					<div class="form-group">
 			          	<label class="col-xs-2 control-label">Suburb/Postcode</label>
-			          	<div class="col-xs-3">
+			          	<div class="col-xs-4">
 			             	<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
 			          	</div>
-						<label class="col-xs-1 control-label">Duration (hours)</label>
-			          	<div class="col-xs-1" style="white-space: nowrap">
+						<label class="col-xs-2 control-label">Duration (hours)</label>
+			          	<div class="col-xs-2" style="white-space: nowrap">
 							<input type="text" ng-model="form.Search.ServiceLength" class="form-control" placeholder="Hours" maxlength="4"/>
 			          	</div>
-						<label class="col-xs-2 control-label">Requires Ironing?</label>
-				  		<div class="col-xs-3">
-				         	<select name="Ironing" class="form-control" ng-model="form.Search.RequireIroning">
-								<option value="true" ng-selected="form.Search.RequireIroning === true">Yes</option>
-								<option value="false" ng-selected="form.Search.RequireIroning === false">No</option>
-							</select>
+				  		<div class="col-xs-2">
+							<div class="checkbox c-checkbox">
+		                  		<label>
+		                     		<input type="checkbox" checked="false" name="RequireIroning" id="CopyToPostal" ng-model="form.Search.RequireIroning"/>
+		                     		<span class="fa fa-check"></span>Requires Ironing?
+								</label>
+		               		</div>
 				      	</div>
 			       	</div>
 					<div class="form-group">
 			          	<label class="col-xs-2 control-label">Service request</label>
-			          	<div class="col-xs-5">{{form.Search.changeServiceType}}
+			          	<div class="col-xs-4">{{form.Search.changeServiceType}}
 			             	<label class="radio radio-inline"><input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()" checked="" />Weekly</label>
 	                  		<label class="radio-inline"><input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>Fortnightly</label>
 	                  		<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="O" ng-model="form.Search.ServiceType" ng-change="form.Search.changeServiceType()"/>One-off</label>
@@ -49,7 +50,7 @@
 							<span ng-if="form.Search.OneOffJob || form.Search.VacateClean">Date required</span>
 							<span ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">Preferred day</span>
 						</label>
-			          	<div class="col-xs-3">
+			          	<div class="col-xs-4">
 							<p class="input-group" ng-if="form.Search.OneOffJob || form.Search.VacateClean">
 	                          <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
 	                          date-disabled="form.date.disabled(date, mode)" close-text="Close" />
@@ -136,9 +137,6 @@
 							<td style="white-space: nowrap">
 					            <!-- form-->
 					            <div class="buttons">
-									<a ui-sref="app.client_jobs({ ClientId: client.Id })">
-					               		<button title="Manage job booking" class="btn btn-sm btn-pink"><em class="fa fa-calendar"></em></button>
-									</a>
 								   	<a ui-sref="app.cleaner_details({ CleanerId: cleaner.Id })">
 					               		<button title="Edit" class="btn btn-sm btn-info">
 					                  		<em class="fa fa-pencil"></em>

@@ -265,7 +265,7 @@
 
             if (vm != null && vm.listOfPostcodes != null)
             {
-            	vm.listOfPostcodes.push(vm.inserted);
+            	vm.listOfPostcodes.unshift(vm.inserted);
             }
           };
 

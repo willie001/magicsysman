@@ -45,7 +45,8 @@
             'magiclogs',
             'magiccleaners',
             'toggle-switch',
-          	'angular.filter'
+          	'angular.filter',
+          	'cleave.js'
         ])
 
 		.filter('trustAsHtml',['$sce', function($sce) {

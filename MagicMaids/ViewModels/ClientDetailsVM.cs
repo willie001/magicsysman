@@ -156,29 +156,58 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
+		public string CardNumber
+		{
+			get
+			{
+				return FormattedCardNumber;
+			}
+			set
+			{
+				_cardNumber = value;
+				_cardNumberPart1 = (_cardNumber.Length >=4) ? _cardNumber.Substring(0, 4) : "";
+				_cardNumberPart2 = (_cardNumber.Length >= 8) ? _cardNumber.Substring(4, 4) : "";
+				_cardNumberPart3 = (_cardNumber.Length >= 12) ? _cardNumber.Substring(8, 4) : "";
+				_cardNumberPart4 = (_cardNumber.Length >= 15) ? _cardNumber.Substring(12) : "";
+			}
+		}
+		private string _cardNumber;
+
 		public string CardNumberPart1
 		{
-			get;
-			set;
+			get
+			{
+				return _cardNumberPart1;
+			}
 		}
+		private string _cardNumberPart1="";
 
 		public string CardNumberPart2
 		{
-			get;
-			set;
+			get
+			{
+				return _cardNumberPart2;
+			}
 		}
+		private string _cardNumberPart2="";
 
 		public string CardNumberPart3
 		{
-			get;
-			set;
+			get
+			{
+				return _cardNumberPart3;
+			}
 		}
+		private string _cardNumberPart3="";
 
 		public string CardNumberPart4
 		{
-			get;
-			set;
+			get
+			{
+				return _cardNumberPart4;
+			}
 		}
+		private string _cardNumberPart4="";
 
 		public string CardName
 		{
@@ -241,21 +270,22 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
-			this.IsNewItem = false;
+			Id = entityModel.Id;
+			IsNewItem = false;
 			string[] items = Crypto.Decrypt(entityModel.Details, passphrase).Split('|');
 
-			this.ClientId = Guid.Parse(items[1]);
-			this.CardCVV = items[2];
-			this.ExpiryYear = items[3];
-			this.ExpiryMonth = items[4];
-			this.CardName = items[5];
-			this.CardNumberPart3 = items[6];
-			this.CardNumberPart4 = items[7];
-			this.CardNumberPart1 = items[8];
-			this.CardNumberPart2 = items[9];
-			this.CardType = items[10];
-			this.ClientReferenceCode = items[11];
+			ClientId = Guid.Parse(items[1]);
+			CardCVV = items[2];
+			ExpiryYear = items[3];
+			ExpiryMonth = items[4];
+			CardName = items[5];
+			_cardNumberPart3 = items[6];
+			_cardNumberPart4 = items[7];
+			_cardNumberPart1 = items[8];
+			_cardNumberPart2 = items[9];
+
+			CardType = items[10];
+			ClientReferenceCode = items[11];
 		}
 		#endregion
 	}

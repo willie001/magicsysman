@@ -43,11 +43,6 @@ namespace MagicMaids.Controllers
 		{
 			return View();
 		}
-
-		public ActionResult ClientBookings()
-		{
-			return View();
-		}
 		#endregion
 
 		#region Service Functions
