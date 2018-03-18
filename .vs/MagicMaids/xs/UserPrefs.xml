@@ -1,17 +1,26 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/SettingsController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/FranchisesController.cs">
     <Files>
-      <File FileName="MagicMaids/Views/Clients/_CustomerPayment.cshtml" Line="96" Column="40" />
-      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="255" Column="19" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="385" Column="1" />
-      <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="172" Column="1" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="21" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="14" Column="3" />
-      <File FileName="MagicMaids/App_Start/BundleConfig.cs" Line="96" Column="49" />
-      <File FileName="MagicMaids/Controllers/AppController.cs" Line="1" Column="1" />
-      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="1" Column="1" />
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="18" Column="32" />
+      <File FileName="MagicMaids/Controllers/AddressesController.cs" Line="37" Column="4" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="443" Column="1" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="177" Column="72" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="1" Column="1" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MagicMaids" expanded="True">
+            <Node name="MagicMaids" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="FranchisesController.cs" selected="True" />
+              </Node>
+              <Node name="Helpers" expanded="True" />
+              <Node name="Global.asax" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.ItemProperties.DBConnectionTester PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -20,6 +29,8 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/CleanerDetailsVM.cs" relfile="MagicMaids/ViewModels/CleanerDetailsVM.cs" line="126" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CustomFormatters.cs" relfile="MagicMaids/Helpers/CustomFormatters.cs" line="12" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" relfile="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" line="17" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/StaticContentFilter.cs" relfile="MagicMaids/Helpers/StaticContentFilter.cs" line="52" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Global.asax.cs" relfile="MagicMaids/Global.asax.cs" line="146" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

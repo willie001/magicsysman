@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation.Mvc;
+using LazyCache;
 using MagicMaids.DataAccess;
 
 namespace MagicMaids

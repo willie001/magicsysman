@@ -11,9 +11,9 @@ namespace MagicMaids
             // Application Scripts
             bundles.Add(new ScriptBundle("~/bundles/appScripts")
                 // Main module definition
-                .Include("~/Scripts/app/app.module.js")
+	            .Include("~/Scripts/app/app.module.js")
                 // All modules definition
-                .Include("~/Scripts/app/modules/core/core.module.js")
+	            .Include("~/Scripts/app/modules/core/core.module.js")
                 .IncludeDirectory("~/Scripts/app/modules/core", "*.js", true)
                 .Include("~/Scripts/app/modules/colors/colors.module.js")
                 .IncludeDirectory("~/Scripts/app/modules/colors", "*.js", true)
@@ -106,12 +106,12 @@ namespace MagicMaids
             ));
 
             bundles.Add(new StyleBundle("~/bundles/appStyles")
-			        .Include("~/Vendor/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css")   
-                    .Include("~/Content/app/app.css")
-                    .Include("~/Content/mvc-override.css"));
+			        .Include("~/Vendor/angular-bootstrap-toggle-switch/style/bootstrap3/angular-toggle-switch-bootstrap-3.css") 
+	            	.Include("~/Content/app/app.css")
+		            .Include("~/Content/mvc-override.css"));
             
             bundles.Add(new StyleBundle("~/bundles/bootstrapStyles")
-                    .Include("~/Content/app/bootstrap.css"));
+			            .Include("~/Content/app/bootstrap.css"));
         }
     }
 }

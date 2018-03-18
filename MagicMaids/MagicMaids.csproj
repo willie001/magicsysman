@@ -177,6 +177,10 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="LazyCache">
+      <HintPath>..\packages\LazyCache.0.7.1.44\lib\net45\LazyCache.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -246,6 +250,7 @@
     <Compile Include="ViewModels\SearchVM.cs" />
     <Compile Include="Helpers\SystemSettings.cs" />
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\StaticContentFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

@@ -16,6 +16,7 @@ using System.Globalization;
 using Newtonsoft.Json;
 using MagicMaids.Validators;
 using FluentValidation.Results;
+using LazyCache;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -93,6 +94,23 @@ namespace MagicMaids.Controllers
 		#region Service Functions, Settings
 		public JsonResult GetSettings(int? incDisabled)
 		{
+			List<UpdateSettingsViewModel> _editSettings = new List<UpdateSettingsViewModel>();
+
+			IAppCache cache = new CachingService();
+			if (incDisabled != null && incDisabled == 1)
+			{
+				_editSettings = cache.GetOrAdd("System_Settings_All", () => GetSettingsPrivate(incDisabled), new TimeSpan(1, 0, 0));
+			}
+			else
+			{
+				_editSettings = cache.GetOrAdd("System_Settings_Active", () => GetSettingsPrivate(incDisabled), new TimeSpan(1, 0, 0));
+			}
+
+			return new JsonNetResult() { Data = new { list = _editSettings }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		private List<UpdateSettingsViewModel> GetSettingsPrivate(int? incDisabled)
+		{
 			List<SystemSetting> _settings = new List<SystemSetting>();
 
 			using (var context = new MagicMaidsContext())
@@ -117,7 +135,7 @@ namespace MagicMaids.Controllers
 				_editSettings.Add(_vm);
 			}
 
-			return new JsonNetResult() { Data = new { list = _editSettings }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return _editSettings;
 		}
 
 		[HttpPost]
@@ -152,6 +170,10 @@ namespace MagicMaids.Controllers
 							context.SaveChanges();
 
 							SystemSettings.Reset();
+
+							IAppCache cache = new CachingService();
+							cache.Remove("System_Settings_All");
+							cache.Remove("System_Settings_Active");
 
 							return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
 						}
@@ -213,6 +235,19 @@ namespace MagicMaids.Controllers
 		#region Service Functions, Postcodes
 		public JsonResult GetPostcodes(Guid? FranchiseId)
 		{
+			List<UpdateSuburbZonesVM> _editList = new List<UpdateSuburbZonesVM>();
+
+			IAppCache cache = new CachingService();
+			var cacheName = "Postcodes";
+			if (FranchiseId.HasValue && FranchiseId != null)
+				cacheName += $"_{FranchiseId}";
+			_editList = cache.GetOrAdd(cacheName, () => GetPostcodesPrivate(FranchiseId), new TimeSpan(1, 0, 0));
+
+			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		private List<UpdateSuburbZonesVM> GetPostcodesPrivate(Guid? FranchiseId)
+		{
 			List<SuburbZone> _entityList = new List<SuburbZone>();
 
 			using (var context = new MagicMaidsContext())
@@ -229,7 +264,7 @@ namespace MagicMaids.Controllers
 				_editList.Add(_vm);
 			}
 
-			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			return _editList;
 		}
 
 
@@ -293,6 +328,12 @@ namespace MagicMaids.Controllers
 						}
 
 						context.SaveChanges();
+
+						IAppCache cache = new CachingService();
+						var cacheName = "Postcodes";
+						if (_objToUpdate.FranchiseId.HasValue && _objToUpdate.FranchiseId != null)
+							cacheName += $"_{_objToUpdate.FranchiseId}";
+						cache.Remove(cacheName);
 					}
 
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
@@ -353,6 +394,7 @@ namespace MagicMaids.Controllers
 		public JsonResult GetRateTypesJson(RateApplicationsSettings contextSelection = RateApplicationsSettings.None)
 		{
 			var enumVals = new List<object>();
+
 			foreach (var item in Enum.GetValues(typeof(RateApplicationsSettings)))
 			{
 				var _val = Enum.Parse(typeof(RateApplicationsSettings), item.ToString());
@@ -391,6 +433,19 @@ namespace MagicMaids.Controllers
 
 		private List<RateListVM> GetRatesFromContext(Guid? FranchiseId)
 		{
+			List<RateListVM> _showList = new List<RateListVM>();
+
+			IAppCache cache = new CachingService();
+			var cacheName = "Rates";
+			if (FranchiseId.HasValue && FranchiseId != null)
+				cacheName += $"_{FranchiseId}";
+			_showList = cache.GetOrAdd(cacheName, () => GetRatesPrivate(FranchiseId), new TimeSpan(1, 0, 0));
+
+			return _showList;
+		}
+
+		private List<RateListVM> GetRatesPrivate(Guid? FranchiseId)
+		{
 			List<Rate> _entityList = new List<Rate>();
 
 			using (var context = new MagicMaidsContext())
@@ -410,7 +465,6 @@ namespace MagicMaids.Controllers
 
 			return _showList;
 		}
-
 		[HttpPost]
 		public ActionResult SaveRate(RateDetailsVM formValues)
 		{
@@ -474,6 +528,12 @@ namespace MagicMaids.Controllers
 						}
 
 						context.SaveChanges();
+
+						IAppCache cache = new CachingService();
+						var cacheName = "Rates";
+						if (_objToUpdate.FranchiseId.HasValue && _objToUpdate.FranchiseId != null)
+							cacheName += $"_{_objToUpdate.FranchiseId}";
+						cache.Remove(cacheName);
 					}
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
