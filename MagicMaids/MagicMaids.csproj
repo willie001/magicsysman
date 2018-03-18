@@ -793,9 +793,6 @@
     <Content Include="Scripts\app\custom\cleaners\magicsearches.controller.js" />
     <Content Include="Views\Search\Search.cshtml" />
     <Content Include="Views\Clients\_CustomerBookings.cshtml" />
-    <None Include="Vendor\cleave\.DS_Store" />
-    <Content Include="Vendor\cleave\dist\cleave-angular.min.js" />
-    <Content Include="Vendor\cleave\dist\cleave.min.js" />
     <Content Include="Vendor\cleave\dist\addons\cleave-phone.ac.js" />
     <Content Include="Vendor\cleave\dist\addons\cleave-phone.ad.js" />
     <Content Include="Vendor\cleave\dist\addons\cleave-phone.ae.js" />
@@ -1042,6 +1039,8 @@
     <Content Include="Vendor\cleave\dist\addons\cleave-phone.za.js" />
     <Content Include="Vendor\cleave\dist\addons\cleave-phone.zm.js" />
     <Content Include="Vendor\cleave\dist\addons\cleave-phone.zw.js" />
+    <Content Include="Vendor\cleave\dist\cleave.js" />
+    <Content Include="Vendor\cleave\dist\cleave-angular.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
