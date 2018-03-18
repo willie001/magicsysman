@@ -500,7 +500,6 @@
     <Content Include="Vendor\datatables-buttons\js\buttons.print.js" />
     <Content Include="Vendor\datatables-buttons\js\buttons.semanticui.js" />
     <Content Include="Vendor\datatables-buttons\js\dataTables.buttons.js" />
-    <None Include="Vendor\fastclick\.DS_Store" />
     <Content Include="Vendor\flatdoc\flatdoc.js" />
     <Content Include="Vendor\fullcalendar\dist\fullcalendar.css" />
     <Content Include="Vendor\fullcalendar\dist\fullcalendar.min.js" />
