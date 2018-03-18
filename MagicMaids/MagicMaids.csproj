@@ -1041,6 +1041,7 @@
     <Content Include="Vendor\cleave\dist\addons\cleave-phone.zw.js" />
     <Content Include="Vendor\cleave\dist\cleave.js" />
     <Content Include="Vendor\cleave\dist\cleave-angular.js" />
+    <Content Include="hallo.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
