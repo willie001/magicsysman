@@ -9,6 +9,7 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/EntityFramework.SqlServer.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/FluentValidation.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/FluentValidation.Mvc.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/LazyCache.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.Web.Infrastructure.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Mono.Reflection.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.dll
@@ -62,4 +63,3 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/LazyCache.dll

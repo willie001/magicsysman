@@ -23,7 +23,7 @@ namespace MagicMaids.Controllers
 		public BaseController()
 		{
 			Log = LogManager.GetLogger(GetType().FullName);
-			MagicMaidsInitialiser.CheckConnection();
+			//MagicMaidsInitialiser.CheckConnection();
 		}
 
         protected override void Dispose(bool disposing)

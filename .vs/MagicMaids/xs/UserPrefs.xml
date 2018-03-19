@@ -1,11 +1,12 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs">
     <Files>
       <File FileName="MagicMaids/Controllers/AddressesController.cs" Line="37" Column="4" />
       <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="176" Column="47" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="532" Column="29" />
       <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="26" Column="3" />
-      <File FileName="MagicMaids/Web.config" Line="103" Column="45" />
+      <File FileName="MagicMaids/Web.config" Line="20" Column="5" />
+      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="17" Column="29" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,9 +14,12 @@
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
               <Node name="Controllers" expanded="True" />
-              <Node name="Helpers" expanded="True" />
+              <Node name="DataLayer" expanded="True">
+                <Node name="DataContext" expanded="True">
+                  <Node name="MagicMaidsInitialiser.cs" selected="True" />
+                </Node>
+              </Node>
               <Node name="Global.asax" expanded="True" />
-              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>

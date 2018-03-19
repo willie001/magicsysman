@@ -36,7 +36,7 @@ namespace MagicMaids.DataAccess
 
             Log = LogManager.GetLogger(GetType().FullName);
 
-            Database.SetInitializer(new MagicMaidsInitialiser());
+            //Database.SetInitializer(new MagicMaidsInitialiser());
         }
         #endregion
 
