@@ -1,6 +1,8 @@
 ﻿using System;
 using Newtonsoft.Json;
 using NLog;
+using SharpRaven;
+using SharpRaven.Data;
 
 namespace MagicMaids
 {
@@ -16,13 +18,84 @@ namespace MagicMaids
 	public class LogHelper
 	{
 		private Logger internalLogger;
+
 		public LogHelper(Logger logger)
 		{
 			internalLogger = logger;
 		}
 
+		private RavenClient LogClient
+		{
+			get
+			{
+				if (ravenClient == null)
+				{
+					ravenClient = new RavenClient("https://ef70d575026049b4a56618bf643e5a38:acc6f63b39614a5fbb24e021b0d2e6ec@sentry.io/306347");
+				}
+				return ravenClient;
+			}
+		}
+		private RavenClient ravenClient;
+
+
+		private async void LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
+		{
+			if (ex != null)
+			{
+				if (!String.IsNullOrWhiteSpace(customMessage))
+				{
+					ex.Data.Add("Custom Message", customMessage);
+				}
+
+				if (!String.IsNullOrWhiteSpace(callingMethod))
+				{
+					ex.Data.Add("Calling Method", callingMethod);
+				}
+
+				if (classInstance != null)
+				{
+					ex.Data.Add("Class Instance", classInstance);
+				}
+
+				if (validationErrors != null)
+				{
+					ex.Data.Add("Validation Errors", validationErrors);
+				}
+
+				await LogClient.CaptureAsync(new SharpRaven.Data.SentryEvent(ex));
+
+			}
+			else
+			{
+				System.Text.StringBuilder message = new System.Text.StringBuilder();
+				if (!String.IsNullOrWhiteSpace(customMessage))
+				{
+					message.Append($"Custom Message: {customMessage} <br/> ");
+				}
+
+				if (!String.IsNullOrWhiteSpace(callingMethod))
+				{
+					message.Append($"Calling Method: {callingMethod}  <br/> ");
+				}
+
+				if (classInstance != null)
+				{
+					message.Append($"Class Instance: {GetObjectData(classInstance)}  <br/> ");
+				}
+
+				if (validationErrors != null)
+				{
+					message.Append($"Validation Errors: {validationErrors}  <br/> ");
+				}
+
+				await LogClient.CaptureAsync(new SentryEvent(message.ToString()));
+			}
+		}
+
 		public void Log(LogLevel logLevel, String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
+			LogRaven(customMessage, callingMethod, ex, classInstance, validationErrors);
+
 			if (internalLogger == null)
 				internalLogger = LogManager.GetCurrentClassLogger();
 			
