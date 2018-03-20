@@ -24,7 +24,7 @@ namespace MagicMaids
 			internalLogger = logger;
 		}
 
-		private RavenClient LogClient
+		private static RavenClient LogClient
 		{
 			get
 			{
@@ -35,8 +35,32 @@ namespace MagicMaids
 				return ravenClient;
 			}
 		}
-		private RavenClient ravenClient;
+		private static RavenClient ravenClient;
 
+		public static void FormatDebugMessage(ref string messageToDate, string newMessage)
+		{
+			if (!String.IsNullOrWhiteSpace(newMessage))
+			{
+				messageToDate += $" {newMessage.Trim()} ({DateTime.Now.ToString("HH:mm:ss:ffff")})";
+			}
+		}
+
+		public static async void LogRaven(String callingMethod, String customMessage)
+		{
+			System.Text.StringBuilder message = new System.Text.StringBuilder();
+
+			if (!String.IsNullOrWhiteSpace(callingMethod))
+			{
+				message.Append($"Calling Method: {callingMethod} " + Environment.NewLine);
+			}
+
+			if (!String.IsNullOrWhiteSpace(customMessage))
+			{
+				message.Append($"Custom Message: {customMessage} " + Environment.NewLine);
+			}
+
+			await LogClient.CaptureAsync(new SentryEvent(message.ToString()));
+		}
 
 		private async void LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{

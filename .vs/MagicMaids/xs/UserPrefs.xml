@@ -1,11 +1,12 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/Helpers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/LogEntriesController.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="141" Column="17" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="118" Column="6" />
-      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="110" Column="30" />
-      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="91" Column="5" />
-      <File FileName="MagicMaids/Helpers/Helpers.cs" Line="79" Column="22" />
+      <File FileName="MagicMaids/Web.config" Line="43" Column="55" />
+      <File FileName="MagicMaids/Global.asax.cs" Line="127" Column="1" />
+      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="37" Column="1" />
+      <File FileName="MagicMaids/Controllers/LogEntriesController.cs" Line="64" Column="1" />
+      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="54" Column="16" />
+      <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="17" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,13 +14,13 @@
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
               <Node name="App_Start" expanded="True" />
-              <Node name="Controllers" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="LogEntriesController.cs" selected="True" />
+              </Node>
               <Node name="DataLayer" expanded="True">
                 <Node name="DataContext" expanded="True" />
               </Node>
-              <Node name="Helpers" expanded="True">
-                <Node name="Helpers.cs" selected="True" />
-              </Node>
+              <Node name="Helpers" expanded="True" />
               <Node name="Global.asax" expanded="True" />
             </Node>
           </Node>
@@ -35,10 +36,9 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CustomFormatters.cs" relfile="MagicMaids/Helpers/CustomFormatters.cs" line="12" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" relfile="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" line="17" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/StaticContentFilter.cs" relfile="MagicMaids/Helpers/StaticContentFilter.cs" line="52" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Global.asax.cs" relfile="MagicMaids/Global.asax.cs" line="149" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="91" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="65" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Global.asax.cs" relfile="MagicMaids/Global.asax.cs" line="99" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Global.asax.cs" relfile="MagicMaids/Global.asax.cs" line="111" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/LogEntriesController.cs" relfile="MagicMaids/Controllers/LogEntriesController.cs" line="62" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/DBLogsContext.cs" relfile="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" line="20" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

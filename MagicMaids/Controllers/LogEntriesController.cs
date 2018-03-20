@@ -52,20 +52,36 @@ namespace MagicMaids.Controllers
 		public JsonResult GetLogEntries()
 		{
 			List<LogEntry> _data = new List<LogEntry>();
-
-			using(var context = new DBLogsContext())
-			{
-				_data =  context.LogEntries
-				 	.OrderByDescending(x => x.LoggedDate)
-				 	.ThenBy(x => x.Id)
-				 	.ToList();
-			}
-
 			List<LogEntryViewModel> _vmList = new List<LogEntryViewModel>();
-			foreach(LogEntry _item in _data)
+				
+			try
 			{
-				_vmList.Add(new LogEntryViewModel(_item)); 
+				
+				string debug = "";
+				LogHelper.FormatDebugMessage(ref debug, " | 1 ");
+				using (var context = new DBLogsContext())
+				{
+					_data = context.LogEntries
+						 .OrderByDescending(x => x.LoggedDate)
+						 .ThenBy(x => x.Id)
+						 .ToList();
+				}
+				LogHelper.FormatDebugMessage(ref debug, " | 2 ");
+
+				foreach (LogEntry _item in _data)
+				{
+					_vmList.Add(new LogEntryViewModel(_item));
+				}
+				LogHelper.FormatDebugMessage(ref debug, " | 3 ");
+				LogHelper.LogRaven(nameof(GetLogEntries), debug);
+	
 			}
+			catch(Exception ex)
+			{
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, $"Error loading log entries", nameof(LogEntries), ex, null);
+			}
+
 
 			return new JsonNetResult() { Data = new { list = _vmList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
