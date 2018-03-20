@@ -121,7 +121,6 @@ namespace MagicMaids
 				}
 			}
 
-
 			// Manage to display a friendly view 
 			InvokeErrorAction(httpContext, exception, currentController, currentAction);
 		}

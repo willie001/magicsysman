@@ -57,23 +57,26 @@ namespace MagicMaids.Controllers
 			try
 			{
 				
-				string debug = "";
-				LogHelper.FormatDebugMessage(ref debug, " | 1 ");
+				//string debug = "";
+				//LogHelper.FormatDebugMessage(ref debug, " | 1 ");
 				using (var context = new DBLogsContext())
 				{
-					_data = context.LogEntries
-						 .OrderByDescending(x => x.LoggedDate)
-						 .ThenBy(x => x.Id)
-						 .ToList();
+					var _query = context.LogEntries.AsNoTracking()
+									.OrderByDescending(x => x.LoggedDate)
+									.ThenBy(x => x.Id);
+					
+					_data = _query
+						.Select(x => x)
+						.ToList();
 				}
-				LogHelper.FormatDebugMessage(ref debug, " | 2 ");
+				//LogHelper.FormatDebugMessage(ref debug, " | 2 ");
 
 				foreach (LogEntry _item in _data)
 				{
 					_vmList.Add(new LogEntryViewModel(_item));
 				}
-				LogHelper.FormatDebugMessage(ref debug, " | 3 ");
-				LogHelper.LogRaven(nameof(GetLogEntries), debug);
+				//LogHelper.FormatDebugMessage(ref debug, " | 3 ");
+				//LogHelper.LogRaven(nameof(GetLogEntries), debug);
 	
 			}
 			catch(Exception ex)
@@ -81,7 +84,6 @@ namespace MagicMaids.Controllers
 				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
 				log.Log(LogLevel.Error, $"Error loading log entries", nameof(LogEntries), ex, null);
 			}
-
 
 			return new JsonNetResult() { Data = new { list = _vmList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
