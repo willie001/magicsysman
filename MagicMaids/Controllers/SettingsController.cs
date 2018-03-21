@@ -48,14 +48,14 @@ namespace MagicMaids.Controllers
 				Formatting = Formatting.Indented
 			};
 
-			var connectionString = "server=localhost;port=3306;Database=magicdry_db;Uid=magic_maids;Pwd=dQ6gd6^5;sslmode=None;";
+			var connstring = "server=localhost;port=3306;Database=magicdry_db;Uid=magic_maids;Pwd=dQ6gd6^5;sslmode=None;";
 			Stopwatch stopwatch= new Stopwatch();
 			MySqlConnection connection = null;
 			try
 			{
 				stopwatch.Start();
 
-				connection = new MySqlConnection(connectionString);
+				connection = new MySqlConnection(connstring);
 				StringBuilder output = new StringBuilder();
 
 				connection.Open();
