@@ -14,6 +14,7 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Mono.Reflection.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.Entity.EF6.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Web.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Newtonsoft.Json.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Extended.dll
