@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NLog;
 using SharpRaven;
@@ -45,7 +46,7 @@ namespace MagicMaids
 			}
 		}
 
-		public static async void LogRaven(String callingMethod, String customMessage)
+		public static async Task LogRaven(String callingMethod, String customMessage)
 		{
 			System.Text.StringBuilder message = new System.Text.StringBuilder();
 
@@ -62,7 +63,7 @@ namespace MagicMaids
 			await LogClient.CaptureAsync(new SentryEvent(message.ToString()));
 		}
 
-		public static async void LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
+		public static async Task LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
 			if (ex != null)
 			{

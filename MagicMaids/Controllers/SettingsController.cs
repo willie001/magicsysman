@@ -84,12 +84,12 @@ namespace MagicMaids.Controllers
 			}
 			finally
 			{
-				if (connection.State == ConnectionState.Open)
+				if (connection != null && connection.State == ConnectionState.Open)
 				{
 					connection.Close();
 				}
 
-				if (stopwatch.IsRunning)
+				if (stopwatch != null && stopwatch.IsRunning)
 				{
 					stopwatch.Stop();
 				}
