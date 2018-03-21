@@ -65,6 +65,7 @@ namespace MagicMaids
 
 		public static async Task LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
+
 			if (ex != null)
 			{
 				if (!String.IsNullOrWhiteSpace(customMessage))

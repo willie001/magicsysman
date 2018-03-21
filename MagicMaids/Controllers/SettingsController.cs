@@ -48,7 +48,7 @@ namespace MagicMaids.Controllers
 				Formatting = Formatting.Indented
 			};
 
-			var connstring = "SERVER=mi3-wts5.a2hosting.com;PORT=3306;UID=magic_maids;PWD=wC51ur51;DATABASE=magicdry_db;POOLING=False;SSLMODE=None;";
+			var connstring = "SERVER=localhost;PORT=3306;UID=magic_maids;PWD=wC51ur51;DATABASE=magicdry_db;POOLING=False;SSLMODE=None;";
 			Stopwatch stopwatch= new Stopwatch();
 			MySqlConnection connection = null;
 			try
