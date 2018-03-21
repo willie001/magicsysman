@@ -1,8 +1,0 @@
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/bin/Debug/DBConnectionTester.exe.config
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/bin/Debug/DBConnectionTester.exe
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/bin/Debug/DBConnectionTester.pdb
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/bin/Debug/MySql.Data.dll
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/obj/Debug/DBConnectionTester.csprojResolveAssemblyReference.cache
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/obj/Debug/DBConnectionTester.csproj.CoreCompileInputs.cache
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/obj/Debug/DBConnectionTester.exe
-/Users/ebenventer/Projects/MagicMaids/DBConnectionTester/obj/Debug/DBConnectionTester.pdb

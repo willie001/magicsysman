@@ -32,6 +32,11 @@ namespace MagicMaids
 				defaults: new { controller = "Settings", action = "ServerVars", path = UrlParameter.Optional }
 			);
 
+			routes.MapRoute(
+				name: "ConnectionValidator",
+				url: "settings/connvalidator",
+				defaults: new { controller = "Settings", action = "ConnValidator", path = UrlParameter.Optional }
+			);
 
             routes.MapRoute(
                 name: "Default",

@@ -5,8 +5,6 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagicMaids", "MagicMaids\MagicMaids.csproj", "{B97F03C5-8E84-46BA-AC9A-F07362843C6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBConnectionTester", "DBConnectionTester\DBConnectionTester.csproj", "{01D274CA-E847-4132-BF01-A58B869DC96F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,9 +15,6 @@ Global
 		{B97F03C5-8E84-46BA-AC9A-F07362843C6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B97F03C5-8E84-46BA-AC9A-F07362843C6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B97F03C5-8E84-46BA-AC9A-F07362843C6A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{01D274CA-E847-4132-BF01-A58B869DC96F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{01D274CA-E847-4132-BF01-A58B869DC96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{01D274CA-E847-4132-BF01-A58B869DC96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

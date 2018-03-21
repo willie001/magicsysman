@@ -17,6 +17,11 @@ using Newtonsoft.Json;
 using MagicMaids.Validators;
 using FluentValidation.Results;
 using LazyCache;
+using MySql.Data.MySqlClient;
+using System.Text;
+using System.Data;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -32,6 +37,67 @@ namespace MagicMaids.Controllers
 		#region Method, Public
 		public ActionResult ServerVars()
 		{
+			return View();
+		}
+
+		public ActionResult ConnValidator()
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings
+			{
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+				Formatting = Formatting.Indented
+			};
+
+			var connectionString = "server=mi3-wts5.a2hosting.com;port=3306;Database=magicdry_db;Uid=magic_maids;Pwd=dQ6gd6^5;sslmode=None;";
+			Stopwatch stopwatch= new Stopwatch();
+			MySqlConnection connection = null;
+			try
+			{
+				stopwatch.Start();
+
+				connection = new MySqlConnection(connectionString);
+				StringBuilder output = new StringBuilder();
+
+				connection.Open();
+
+				string stm = "SELECT VERSION()";
+				MySqlCommand cmd = new MySqlCommand(stm, connection);
+				string version = Convert.ToString(cmd.ExecuteScalar());
+				output.Append($"MySQL version : {version.ToString()}\n");
+
+				stm = "SELECT count(*) from systemsettings";
+				cmd = new MySqlCommand(stm, connection);
+				string counter = Convert.ToString(cmd.ExecuteScalar());
+				output.Append($"Record Count : {counter.ToString()}\n");
+				TempData["results"] = output.ToString();
+
+				connection.Close();
+
+			}
+			catch (Exception ex)
+			{
+				string json = JsonConvert.SerializeObject(ex, settings);
+				TempData["results"] = json;
+
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, $"Error loading Connection Validator", nameof(ConnValidator), ex, null);
+			}
+			finally
+			{
+				if (connection.State == ConnectionState.Open)
+				{
+					connection.Close();
+				}
+
+				if (stopwatch.IsRunning)
+				{
+					stopwatch.Stop();
+				}
+
+				TempData["timer"] = stopwatch.ElapsedMilliseconds.ToString() + " milliseconds";
+			}
+
+
 			return View();
 		}
 
