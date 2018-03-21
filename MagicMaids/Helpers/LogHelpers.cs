@@ -62,7 +62,7 @@ namespace MagicMaids
 			await LogClient.CaptureAsync(new SentryEvent(message.ToString()));
 		}
 
-		private async void LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
+		public static async void LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
 			if (ex != null)
 			{

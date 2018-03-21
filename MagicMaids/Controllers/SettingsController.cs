@@ -79,8 +79,8 @@ namespace MagicMaids.Controllers
 				string json = JsonConvert.SerializeObject(ex, settings);
 				TempData["results"] = json;
 
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, $"Error loading Connection Validator", nameof(ConnValidator), ex, null);
+				LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
+
 			}
 			finally
 			{
