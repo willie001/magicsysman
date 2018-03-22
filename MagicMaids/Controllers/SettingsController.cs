@@ -22,6 +22,7 @@ using System.Text;
 using System.Data;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
+using System.Configuration;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -48,7 +49,7 @@ namespace MagicMaids.Controllers
 				Formatting = Formatting.Indented
 			};
 
-			var connstring = "Server=mi3-wts5.a2hosting.com;Port=3306;Uid=magic_maids;Pwd=wC51ur51;Database=magicdry_db;SSLMODE=None;Persist Security Info=true;Charset=utf8";
+			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsDBConn"].ConnectionString;
 			Stopwatch stopwatch= new Stopwatch();
 			MySqlConnection connection = null;
 			try
