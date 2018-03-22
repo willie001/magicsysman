@@ -50,37 +50,35 @@ namespace MagicMaids.DataAccess
 
 		public static void CheckConnection()
 		{
-			return;
-			//using (var context = new MagicMaidsContext())
-			//{
-			//	context.Database.CommandTimeout = 180;
-			//	MySqlConnection conn = (MySqlConnection)context.Database.Connection;
-			//	if (conn == null)
-			//	{
-			//		var connString = ConfigurationManager.ConnectionStrings["MagicMaidsDBConn"].ConnectionString;
-			//		if (String.IsNullOrWhiteSpace(connString))
-			//		{
-			//			return;
-			//		}
+			using (var context = new MagicMaidsContext())
+			{
+				context.Database.CommandTimeout = 180;
+				MySqlConnection conn = (MySqlConnection)context.Database.Connection;
+				if (conn == null)
+				{
+					var connString = ConfigurationManager.ConnectionStrings["MagicMaidsDBConn"].ConnectionString;
+					if (String.IsNullOrWhiteSpace(connString))
+					{
+						return;
+					}
 
-			//		conn = new MySqlConnection(connString);
-			//	}
+					conn = new MySqlConnection(connString);
+				}
 
-			//	try
-			//	{
-			//		if (!conn.Ping())
-			//		{
-			//			conn.Open();
-			//		}
-			//		conn.Dispose();
-			//	}
-			//	catch (Exception ex)
-			//	{
-			//		LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
-			//		_logger.Log(LogLevel.Warn, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
+				try
+				{
+					if (!conn.Ping())
+					{
+						conn.Open();
+					}
+				}
+				catch (Exception ex)
+				{
+					LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
+					_logger.Log(LogLevel.Warn, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
 
-			//	}
-			//}
+				}
+			}
 		}
 
     }

@@ -49,6 +49,7 @@ namespace MagicMaids.Controllers
 				Formatting = Formatting.Indented
 			};
 
+			MagicMaidsInitialiser.CheckConnection();
 			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsDBConn"].ConnectionString;
 			Stopwatch stopwatch= new Stopwatch();
 			MySqlConnection connection = null;
