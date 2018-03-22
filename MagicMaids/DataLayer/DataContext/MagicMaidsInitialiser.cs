@@ -48,6 +48,12 @@ namespace MagicMaids.DataAccess
         //    context.DefaultSettings.AddRange(systemSettings);
         //}
 
+		private static Boolean HasPinged
+		{
+			get;
+			set;
+		}
+
 		public static void CheckConnection()
 		{
 			using (var context = new MagicMaidsContext())
@@ -67,9 +73,10 @@ namespace MagicMaids.DataAccess
 
 				try
 				{
-					if (!conn.Ping())
+					if (!HasPinged && !conn.Ping())
 					{
 						conn.Open();
+						HasPinged = true;
 					}
 				}
 				catch (Exception ex)
