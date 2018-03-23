@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Data.Common;
 using System.Data.Entity;
 using System.Linq;
-
+using System.Web;
 using MagicMaids.EntityModels;
 using MySql.Data.MySqlClient;
 using NLog;
@@ -81,6 +81,7 @@ namespace MagicMaids.DataAccess
 				}
 				catch (Exception ex)
 				{
+					Console.WriteLine(ex.InnerException.ToString());
 					LogHelper _logger = new LogHelper(LogManager.GetCurrentClassLogger());
 					_logger.Log(LogLevel.Warn, "Database connection not valid!!!: " + ex.Message, nameof(CheckConnection), ex, null);
 
