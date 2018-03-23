@@ -1053,7 +1053,7 @@
     <Content Include="Vendor\cleave\dist\cleave.js" />
     <Content Include="Vendor\cleave\dist\cleave-angular.js" />
     <Content Include="hallo.html" />
-    <Content Include="Views\Settings\ConnValidator.cshtml" />
+    <Content Include="Views\Pages\ConnValidator.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />

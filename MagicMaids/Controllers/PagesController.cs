@@ -1,13 +1,17 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
 using MagicMaids.DataAccess;
 using MagicMaids.EntityModels;
-
+using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using NLog;
 #endregion
 
@@ -16,6 +20,68 @@ namespace MagicMaids.Controllers
     public class PagesController : Controller
     {
 		#region Methods, Public
+		public ActionResult ConnValidator()
+		{
+			JsonSerializerSettings settings = new JsonSerializerSettings
+			{
+				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+				Formatting = Formatting.Indented
+			};
+
+			MagicMaidsInitialiser.CheckConnection();
+			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
+			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+			MySqlConnection connection = null;
+			try
+			{
+				stopwatch.Start();
+
+				connection = new MySqlConnection(connstring);
+				StringBuilder output = new StringBuilder();
+
+				connection.Open();
+
+				string stm = "SELECT VERSION()";
+				MySqlCommand cmd = new MySqlCommand(stm, connection);
+				string version = Convert.ToString(cmd.ExecuteScalar());
+				output.Append($"MySQL version : {version.ToString()}\n");
+
+				stm = "SELECT count(*) from systemsettings";
+				cmd = new MySqlCommand(stm, connection);
+				string counter = Convert.ToString(cmd.ExecuteScalar());
+				output.Append($"Record Count : {counter.ToString()}\n");
+				TempData["results"] = output.ToString();
+
+				connection.Close();
+
+			}
+			catch (Exception ex)
+			{
+				string json = JsonConvert.SerializeObject(ex, settings);
+				TempData["results"] = json;
+
+				LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
+
+			}
+			finally
+			{
+				if (connection != null && connection.State == ConnectionState.Open)
+				{
+					connection.Close();
+				}
+
+				if (stopwatch != null && stopwatch.IsRunning)
+				{
+					stopwatch.Stop();
+				}
+
+				TempData["timer"] = stopwatch.ElapsedMilliseconds.ToString() + " milliseconds";
+			}
+
+
+			return View();
+		}
+
 		public ActionResult Error404(string path)
 		{
 			Response.StatusCode = 404;

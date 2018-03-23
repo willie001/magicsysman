@@ -21,8 +21,6 @@ using MySql.Data.MySqlClient;
 using System.Text;
 using System.Data;
 using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using System.Configuration;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -38,68 +36,6 @@ namespace MagicMaids.Controllers
 		#region Method, Public
 		public ActionResult ServerVars()
 		{
-			return View();
-		}
-
-		public ActionResult ConnValidator()
-		{
-			JsonSerializerSettings settings = new JsonSerializerSettings
-			{
-				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-				Formatting = Formatting.Indented
-			};
-
-			MagicMaidsInitialiser.CheckConnection();
-			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
-			Stopwatch stopwatch= new Stopwatch();
-			MySqlConnection connection = null;
-			try
-			{
-				stopwatch.Start();
-
-				connection = new MySqlConnection(connstring);
-				StringBuilder output = new StringBuilder();
-
-				connection.Open();
-
-				string stm = "SELECT VERSION()";
-				MySqlCommand cmd = new MySqlCommand(stm, connection);
-				string version = Convert.ToString(cmd.ExecuteScalar());
-				output.Append($"MySQL version : {version.ToString()}\n");
-
-				stm = "SELECT count(*) from systemsettings";
-				cmd = new MySqlCommand(stm, connection);
-				string counter = Convert.ToString(cmd.ExecuteScalar());
-				output.Append($"Record Count : {counter.ToString()}\n");
-				TempData["results"] = output.ToString();
-
-				connection.Close();
-
-			}
-			catch (Exception ex)
-			{
-				string json = JsonConvert.SerializeObject(ex, settings);
-				TempData["results"] = json;
-
-				LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
-
-			}
-			finally
-			{
-				if (connection != null && connection.State == ConnectionState.Open)
-				{
-					connection.Close();
-				}
-
-				if (stopwatch != null && stopwatch.IsRunning)
-				{
-					stopwatch.Stop();
-				}
-
-				TempData["timer"] = stopwatch.ElapsedMilliseconds.ToString() + " milliseconds";
-			}
-
-
 			return View();
 		}
 
