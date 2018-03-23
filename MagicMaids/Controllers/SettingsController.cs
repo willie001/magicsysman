@@ -50,7 +50,7 @@ namespace MagicMaids.Controllers
 			};
 
 			MagicMaidsInitialiser.CheckConnection();
-			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsDBConn"].ConnectionString;
+			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
 			Stopwatch stopwatch= new Stopwatch();
 			MySqlConnection connection = null;
 			try

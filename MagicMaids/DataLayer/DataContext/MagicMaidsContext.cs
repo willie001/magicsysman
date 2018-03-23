@@ -14,7 +14,7 @@ namespace MagicMaids.DataAccess
     {
         #region Constructors
         public MagicMaidsContext() 
-			: base(nameOrConnectionString: "MagicMaidsDBConn")
+			: base(nameOrConnectionString: "MagicMaidsContext")
 		{
 			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
 

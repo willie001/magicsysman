@@ -62,7 +62,7 @@ namespace MagicMaids.DataAccess
 				MySqlConnection conn = (MySqlConnection)context.Database.Connection;
 				if (conn == null)
 				{
-					var connString = ConfigurationManager.ConnectionStrings["MagicMaidsDBConn"].ConnectionString;
+					var connString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
 					if (String.IsNullOrWhiteSpace(connString))
 					{
 						return;
