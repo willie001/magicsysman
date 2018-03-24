@@ -37,6 +37,7 @@ namespace MagicMaids.Controllers
 				stopwatch.Start();
 
 				connection = new MySqlConnection(connstring);
+				connection.Ping();
 				StringBuilder output = new StringBuilder();
 
 				connection.Open();
