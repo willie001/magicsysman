@@ -1,28 +1,29 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/App_Start/RouteConfig.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Pages/ConnValidator.cshtml">
     <Files>
       <File FileName="MagicMaids/Web.config" Line="13" Column="82" />
-      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="17" Column="42" />
       <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="90" Column="1" />
       <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="17" Column="53" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="33" Column="72" />
+      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="25" Column="18" />
       <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="24" Column="1" />
-      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="37" Column="16" />
+      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="25" Column="27" />
+      <File FileName="MagicMaids/Views/Pages/ConnValidator.cshtml" Line="8" Column="48" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="App_Start" expanded="True">
-                <Node name="RouteConfig.cs" selected="True" />
-              </Node>
+              <Node name="App_Start" expanded="True" />
               <Node name="Controllers" expanded="True" />
               <Node name="DataLayer" expanded="True">
                 <Node name="DataContext" expanded="True" />
               </Node>
-              <Node name="ViewModels" expanded="True" />
-              <Node name="Views" expanded="True" />
+              <Node name="Views" expanded="True">
+                <Node name="Pages" expanded="True">
+                  <Node name="ConnValidator.cshtml" selected="True" />
+                </Node>
+              </Node>
               <Node name="Global.asax" expanded="True" />
             </Node>
           </Node>
@@ -38,7 +39,6 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" relfile="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" line="17" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/StaticContentFilter.cs" relfile="MagicMaids/Helpers/StaticContentFilter.cs" line="52" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="68" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="25" column="18" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

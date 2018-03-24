@@ -20,6 +20,8 @@ namespace MagicMaids.Controllers
     public class PagesController : Controller
     {
 		#region Methods, Public
+
+		[OutputCache(NoStore = true, Duration = 60, VaryByParam = "*")]
 		public ActionResult ConnValidator()
 		{
 			JsonSerializerSettings settings = new JsonSerializerSettings
@@ -32,8 +34,8 @@ namespace MagicMaids.Controllers
 			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
 			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 			MySqlConnection connection = null;
-			try
-			{
+			//try
+			//{
 				stopwatch.Start();
 
 				connection = new MySqlConnection(connstring);
@@ -55,33 +57,34 @@ namespace MagicMaids.Controllers
 
 				connection.Close();
 
-			}
-			catch (Exception ex)
-			{
-				string json = JsonConvert.SerializeObject(ex, settings);
-				TempData["results"] = json;
+			//}
+			//catch (Exception ex)
+			//{
+			//	string json = JsonConvert.SerializeObject(ex, settings);
+			//	TempData["results"] = json;
 
-				LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
+			//	LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
 
-			}
-			finally
-			{
-				if (connection != null && connection.State == ConnectionState.Open)
-				{
-					connection.Close();
-				}
+			//}
+			//finally
+			//{
+			//	if (connection != null && connection.State == ConnectionState.Open)
+			//	{
+			//		connection.Close();
+			//	}
 
-				if (stopwatch != null && stopwatch.IsRunning)
-				{
-					stopwatch.Stop();
-				}
+			//	if (stopwatch != null && stopwatch.IsRunning)
+			//	{
+			//		stopwatch.Stop();
+			//	}
 
-				TempData["timer"] = stopwatch.ElapsedMilliseconds.ToString() + " milliseconds";
-			}
+			//	TempData["timer"] = stopwatch.ElapsedMilliseconds.ToString() + " milliseconds";
+			//}
 
 
 			return View();
 		}
+
 
 		public ActionResult Error404(string path)
 		{
