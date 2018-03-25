@@ -1,29 +1,34 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/Extensions.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="13" Column="95" />
-      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="90" Column="1" />
-      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="17" Column="53" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="24" Column="65" />
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="24" Column="1" />
-      <File FileName="MagicMaids/App_Start/RouteConfig.cs" Line="25" Column="27" />
-      <File FileName="MagicMaids/Views/Pages/ConnValidator.cshtml" Line="11" Column="46" />
+      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="69" Column="1" />
+      <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="1" Column="1" />
+      <File FileName="MagicMaids/Views/Clients/_CustomerHolidays.cshtml" Line="24" Column="45" />
+      <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="339" Column="12" />
+      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="561" Column="35" />
+      <File FileName="MagicMaids/Helpers/Extensions.cs" Line="51" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="App_Start" expanded="True" />
-              <Node name="Controllers" expanded="True" />
-              <Node name="DataLayer" expanded="True">
-                <Node name="DataContext" expanded="True" />
+              <Node name="Helpers" expanded="True">
+                <Node name="Extensions.cs" selected="True" />
               </Node>
+              <Node name="Scripts" expanded="True">
+                <Node name="app" expanded="True">
+                  <Node name="custom" expanded="True">
+                    <Node name="cleaners" expanded="True" />
+                    <Node name="clients" expanded="True" />
+                  </Node>
+                </Node>
+              </Node>
+              <Node name="ViewModels" expanded="True" />
               <Node name="Views" expanded="True">
-                <Node name="Pages" expanded="True" />
+                <Node name="Clients" expanded="True" />
               </Node>
               <Node name="Global.asax" expanded="True" />
-              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>
@@ -37,7 +42,8 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CustomFormatters.cs" relfile="MagicMaids/Helpers/CustomFormatters.cs" line="12" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" relfile="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" line="17" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/StaticContentFilter.cs" relfile="MagicMaids/Helpers/StaticContentFilter.cs" line="52" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="68" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="69" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Extensions.cs" relfile="MagicMaids/Helpers/Extensions.cs" line="50" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

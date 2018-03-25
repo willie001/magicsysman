@@ -62,6 +62,7 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.Data.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.WebData.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Newtonsoft.Json.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojResolveAssemblyReference.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

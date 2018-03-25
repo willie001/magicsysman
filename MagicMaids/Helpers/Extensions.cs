@@ -49,11 +49,13 @@ namespace MagicMaids
 		{
 			var timeOffSet = HttpContext.Current.Session["timezoneoffset"];  // read the value from session
 
+			Console.WriteLine(dt.ToString());
 			if (timeOffSet != null)
 			{
+				Console.WriteLine("Offset: " + timeOffSet.ToString());
 				var offset = int.Parse(timeOffSet.ToString());
 				dt = dt.AddMinutes(-1 * offset);
-
+				Console.WriteLine("Output: " + dt.ToString());
 				return dt;
 			}
 
