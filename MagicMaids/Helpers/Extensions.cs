@@ -49,7 +49,7 @@ namespace MagicMaids
 		private static DateTime GetClientDateTime(DateTime dt)
 		{
 			var timeOffSet = HttpContext.Current.Session["timezoneoffset"];  // read the value from session
-			var debug = $"Input: {dt.ToString()} | Offset: {timeOffSet.ToString()}";
+			var debug = $"Input: {dt.ToString()}";
 
 			if (timeOffSet != null)
 			{
@@ -59,13 +59,16 @@ namespace MagicMaids
 				dt = dt.AddMinutes(-1 * offset);
 				debug += $" | Output: {dt.ToString()}";
 
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Debug, "Error saving cleaner", nameof(ToClientDateTime), null, debug);
 
 				return dt;
 			}
 
 			// if there is no offset in session return the datetime in server timezone
+			debug += $" | Local Output: {dt.ToLocalTime().ToString()}";
+
+			LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+			log.Log(LogLevel.Info, "Date Time Convert:", nameof(ToClientDateTime), null, debug);
+
 			return dt.ToLocalTime();
 		}
 	}
