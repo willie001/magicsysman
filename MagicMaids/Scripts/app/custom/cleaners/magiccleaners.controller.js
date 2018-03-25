@@ -155,7 +155,7 @@
 		}
 
 	$scope.searchCleaners = function() {
-			console.log("<CLEANER Search> - " + angular.toJson(vm.Search));
+			//console.log("<CLEANER Search> - " + angular.toJson(vm.Search));
 			vm.hasSearched = true;
 
 			if (vm.Search.SelectedFranchise)
@@ -298,7 +298,7 @@
 			$http.get('/cleaners/getcleanerteam/?CleanerId=' + vm.cleaner.Id)
                 .success(function (data) {
                 	vm.cleanerTeam = data.list;
-                	console.log('<TEAM> ' + angular.toJson(vm.cleanerTeam));
+                	//console.log('<TEAM> ' + angular.toJson(vm.cleanerTeam));
                 	
                 	cleanerTeamFactory.setTeam(vm.cleanerTeam);
                 	cleanerTeamFactory.setTeamSize(data.teamSize);

@@ -4,15 +4,16 @@
       <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="69" Column="1" />
       <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="1" Column="1" />
       <File FileName="MagicMaids/Views/Clients/_CustomerHolidays.cshtml" Line="24" Column="45" />
-      <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="339" Column="12" />
+      <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="356" Column="41" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="561" Column="35" />
-      <File FileName="MagicMaids/Helpers/Extensions.cs" Line="51" Column="4" />
+      <File FileName="MagicMaids/Helpers/Extensions.cs" Line="60" Column="34" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
+              <Node name="Controllers" expanded="True" />
               <Node name="Helpers" expanded="True">
                 <Node name="Extensions.cs" selected="True" />
               </Node>
@@ -26,6 +27,7 @@
               </Node>
               <Node name="ViewModels" expanded="True" />
               <Node name="Views" expanded="True">
+                <Node name="Cleaners" expanded="True" />
                 <Node name="Clients" expanded="True" />
               </Node>
               <Node name="Global.asax" expanded="True" />
@@ -43,7 +45,6 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" relfile="MagicMaids/Helpers/ValidateAntiForgeryHeader.cs" line="17" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/StaticContentFilter.cs" relfile="MagicMaids/Helpers/StaticContentFilter.cs" line="52" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="69" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Extensions.cs" relfile="MagicMaids/Helpers/Extensions.cs" line="50" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using NLog;
 
 namespace MagicMaids
 {
@@ -48,14 +49,19 @@ namespace MagicMaids
 		private static DateTime GetClientDateTime(DateTime dt)
 		{
 			var timeOffSet = HttpContext.Current.Session["timezoneoffset"];  // read the value from session
+			var debug = $"Input: {dt.ToString()} | Offset: {timeOffSet.ToString()}";
 
-			Console.WriteLine(dt.ToString());
 			if (timeOffSet != null)
 			{
-				Console.WriteLine("Offset: " + timeOffSet.ToString());
+				debug += $" | Offset: {timeOffSet.ToString()}";
+
 				var offset = int.Parse(timeOffSet.ToString());
 				dt = dt.AddMinutes(-1 * offset);
-				Console.WriteLine("Output: " + dt.ToString());
+				debug += $" | Output: {dt.ToString()}";
+
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Debug, "Error saving cleaner", nameof(ToClientDateTime), null, debug);
+
 				return dt;
 			}
 
