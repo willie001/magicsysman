@@ -4,9 +4,8 @@
       <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="74" Column="69" />
       <File FileName="MagicMaids/ViewModels/ClientDetailsVM.cs" Line="339" Column="36" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="561" Column="35" />
-      <File FileName="MagicMaids/Helpers/Extensions.cs" Line="26" Column="56" />
+      <File FileName="MagicMaids/Helpers/Extensions.cs" Line="55" Column="5" />
       <File FileName="MagicMaids/Helpers/ModelValidators.cs" Line="437" Column="39" />
-      <File FileName="MagicMaids/Scripts/app/custom/clients/magicclients.controller.js" Line="428" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

@@ -42,10 +42,10 @@ namespace MagicMaids.Controllers
 		/// <param name="filterContext"></param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			//if (HttpContext.Request.Cookies.AllKeys.Contains("timezoneoffset"))
-			//{
-			//	Session["timezoneoffset"] = HttpContext.Request.Cookies["timezoneoffset"].Value;
-			//}
+			if (HttpContext.Request.Cookies.AllKeys.Contains("timezoneoffset"))
+			{
+				Session["timezoneoffset"] = HttpContext.Request.Cookies["timezoneoffset"].Value;
+			}
 			base.OnActionExecuting(filterContext);
 		}
 
