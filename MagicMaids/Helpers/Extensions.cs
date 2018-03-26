@@ -13,7 +13,7 @@ namespace MagicMaids
 		/// <returns></returns>
 		public static string ToClientDateString(this DateTime dt)
 		{
-			return GetClientDateTime(dt).ToString("d MMM yyyy");
+			return ToClientDate(dt).ToString("d MMM yyyy");
 		}
 
 		/// <summary>
@@ -23,7 +23,8 @@ namespace MagicMaids
 		/// <returns></returns>
 		public static DateTime ToClientDate(this DateTime dt)
 		{
-			return GetClientDateTime(dt);
+			var newDt = new DateTime(dt.Year, dt.Month, dt.Day);
+			return GetClientDateTime(newDt);
 		}
 
 		/// <summary>
