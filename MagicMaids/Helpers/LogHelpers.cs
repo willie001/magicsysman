@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 using NLog;
 using SharpRaven;
@@ -48,6 +49,10 @@ namespace MagicMaids
 
 		public static async Task LogRaven(String callingMethod, String customMessage)
 		{
+			var isLocal = (HttpContext.Current == null) ? false : HttpContext.Current.Request.IsLocal;
+			if (isLocal)
+				return;
+			
 			System.Text.StringBuilder message = new System.Text.StringBuilder();
 
 			if (!String.IsNullOrWhiteSpace(callingMethod))
@@ -65,7 +70,10 @@ namespace MagicMaids
 
 		public static async Task LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
-
+			var isLocal = (HttpContext.Current == null) ? false : HttpContext.Current.Request.IsLocal;
+			if (isLocal)
+				return;
+			
 			if (ex != null)
 			{
 				if (!String.IsNullOrWhiteSpace(customMessage))

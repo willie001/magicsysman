@@ -7,6 +7,7 @@ using MagicMaids.ViewModels;
 using FluentValidation;
 using System.Collections.Generic;
 using System.Linq;
+using NLog;
 #endregion
 namespace MagicMaids.Validators
 {
@@ -400,51 +401,62 @@ namespace MagicMaids.Validators
 
 		private bool IsExpiryValid(ClientPaymentMethodVM c)
 		{
-			var values = new string[] { c.ExpiryMonth, c.ExpiryYear };
-
-			if (values.Any(v => String.IsNullOrWhiteSpace(v)))
+			try
 			{
-				return false;
-			}
-
-			if (values.Any(v => !Helpers.IsValidNumeric(v)))
-			{
-				return false;
-			}
-
-			Int32 _year = Helpers.ToInt32(c.ExpiryYear);
-			Int32 _month = Helpers.ToInt32(c.ExpiryMonth);
-
-			if (_month <= 1 && _month > 12)
-			{
-				return false;
-			}
-
-			if (_year < DateTime.Now.Year)
-			{
-				return false;
-			}
-
-			// we have a valid month/year, but make sure when you combine them that the expiry date is not old
-				
-			DateTime expiryDate = DateTime.Parse(String.Format("{0}/{1}/{2}", DateTime.DaysInMonth(_year,_month), _month, _year));
-			if (expiryDate.Date.ToUniversalTime() < DateTime.Now.ToUniversalTime())
-			{
-				if (expiryDate.Date.ToUniversalTime().Year < DateTime.Now.ToUniversalTime().Year) 
+				var values = new string[] { c.ExpiryMonth, c.ExpiryYear };
+				if (values.Any(v => String.IsNullOrWhiteSpace(v)))
 				{
-					return false;		// past year
+					return false;
 				}
-				else
+
+				if (values.Any(v => !Helpers.IsValidNumeric(v)))
 				{
-					return false;		// past month
+					return false;
 				}
+
+				Int32 _year = Helpers.ToInt32(c.ExpiryYear);
+				Int32 _month = Helpers.ToInt32(c.ExpiryMonth);
+
+				if (_month <= 1 && _month > 12)
+				{
+					return false;
+				}
+
+				if (_year < DateTime.Now.Year)
+				{
+					return false;
+				}
+
+				// we have a valid month/year, but make sure when you combine them that the expiry date is not old
+
+				DateTime expiryDate = DateTime.Parse(String.Format("{0}/{1}/{2}", DateTime.DaysInMonth(_year, _month), _month, _year));
+				if (expiryDate.Date.ToUniversalTime() < DateTime.Now.ToUniversalTime())
+				{
+					if (expiryDate.Date.ToUniversalTime().Year < DateTime.Now.ToUniversalTime().Year)
+					{
+						return false;       // past year
+					}
+					else
+					{
+						return false;       // past month
+					}
+				}
+				else if (expiryDate.Year > (DateTime.UtcNow.Year + 100))
+				{
+					return false;   //too far in the future
+				}
+
+				return true;
 			}
-			else if (expiryDate.Year > (DateTime.UtcNow.Year + 100))
+			catch(Exception ex)
 			{
-				return false;	//too far in the future
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Error, "Error validating credit card expiry date:", nameof(IsExpiryValid), ex, c);
+
+				return false;
 			}
 
-			return true;
+
 		}
 
 		private bool IsCvvValid(String cvv)
