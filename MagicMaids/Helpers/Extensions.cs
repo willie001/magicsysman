@@ -23,8 +23,7 @@ namespace MagicMaids
 		/// <returns></returns>
 		public static DateTime ToClientDate(this DateTime dt)
 		{
-			var newDt = new DateTime(dt.Year, dt.Month, dt.Day);
-			return GetClientDateTime(newDt);
+			return GetClientDateTime(dt);
 		}
 
 		/// <summary>

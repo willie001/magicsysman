@@ -15,6 +15,7 @@ using System.Data.Entity.Infrastructure;
 
 using FluentValidation.Mvc;
 using MagicMaids.DataAccess;
+using LazyCache;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -73,11 +74,21 @@ namespace MagicMaids.Controllers
 		[HttpGet]
 		public JsonNetResult GetActiveFranchises()
 		{
+			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
+
+			IAppCache cache = new CachingService();
+			_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(1, 0, 0));
+			return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		private List<FranchiseSelectViewModel> GetActiveFranchisesPrivate()
+		{
+			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
+			List<Franchise> _data = new List<Franchise>();
 
 			using (var context = new MagicMaidsContext())
 			{
-				List<Franchise> _data = new List<Franchise>();
-
+				
 				_data = context.Franchises
 					.Where(p => p.IsActive == true)
 				   .OrderBy(x => x.Name)
@@ -88,15 +99,15 @@ namespace MagicMaids.Controllers
 						 .Where(p => p.IsActive == true)
 						 .ToList();
 
-				List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 				foreach (Franchise _item in _data)
 				{
 					var _vm = new FranchiseSelectViewModel();
 					_vm.PopulateVM(_item, _settings);
 					_listFranchises.Add(_vm);
 				}
-				return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 			}
+
+			return _listFranchises;
 		}
 
 		[HttpGet]
@@ -288,6 +299,9 @@ namespace MagicMaids.Controllers
 							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
 							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
 						}
+
+						IAppCache cache = new CachingService();
+						cache.Remove("Active_Franchises");
 
 						context.SaveChanges();
 

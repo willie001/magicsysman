@@ -73,6 +73,8 @@ namespace MagicMaids
 			var isLocal = (HttpContext.Current == null) ? false : HttpContext.Current.Request.IsLocal;
 			if (isLocal)
 				return;
+			else
+				LogRaven("TESTING", "THIS IS A TEST");
 			
 			if (ex != null)
 			{
