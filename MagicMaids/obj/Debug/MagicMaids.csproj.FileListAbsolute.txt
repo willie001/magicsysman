@@ -19,6 +19,8 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Extended.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.Web.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.Serialization.JsonNet.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/SharpRaven.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Net.Http.Formatting.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.ValueTuple.dll
@@ -62,6 +64,9 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.Data.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.WebData.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Newtonsoft.Json.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.Serialization.JsonNet.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojResolveAssemblyReference.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll

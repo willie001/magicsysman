@@ -558,7 +558,7 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _startDate.ToClientDate();
+				return _startDate;
 			}
 			set
 			{
@@ -575,7 +575,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _startDate.ToClientDateString();	
+				return DateTimeWrapper.FormatClientDate(_startDate);	
 			}
 		}
 		private DateTime _startDate;
@@ -585,7 +585,7 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _endDate.ToClientDate();
+				return _endDate;
 			}
 			set
 			{
@@ -602,7 +602,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _endDate.ToClientDateString();	
+				return DateTimeWrapper.FormatClientDate(_endDate);	
 			}
 		}
 		private DateTime _endDate;

@@ -1,6 +1,7 @@
 ﻿@if (Html.IsDebug())
 {
-	var date = DateTime.Now.ToString();
+	var date = DateTimeWrapper.UTCtoLocal(DateTime.Now);
+
 	<div class="panel panel-flat " id="panelData" ng-show="userMessages && userMessageType[0] != 'alert alert-success'">
         <div class="panel-heading">
             <b>Debug Information: @date</b>

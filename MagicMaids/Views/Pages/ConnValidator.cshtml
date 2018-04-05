@@ -12,6 +12,42 @@
 	<div><pre>@TempData["results"]</pre></div>
 
 	<div><pre>Execution Time: @TempData["timer"]</pre></div>
-</body>
+
+
+		<%
+		if request.form("dbhost") <> "" then
+			Set objConn = CreateObject("ADODB.Connection")
+			objConn.open = ("Driver={MySQL ODBC 3.51 Driver}; Server=" & request.form("dbhost") & "; Database=" & request.form("dbname") & "; UID=" & request.form("dbuser") & "; PWD=" & request.form("dbpass") & "; Option=3")
+			objConn.close
+			set objConn = nothing
+			Response.Write("The connection to " & request.form("dbhost") & " was successful.")
+		else %>
+			<form method="post">
+				<table>
+					<tr>
+						<td> Database Host: </td>
+						<td><input type="text" name="dbhost"></td>
+					</tr>
+					<tr>
+						<td> Database Name: </td>
+						<td><input type="text" name="dbname"></td>
+					</tr>
+					<tr>
+						<td> Database User: </td>
+						<td><input type="text" name="dbuser"></td>
+					</tr>
+					<tr>
+						<td> Database Password: </td>
+						<td><input type="password" name="dbpass"></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" value="submit"></td>
+					</tr>
+				</table>
+			<%
+		end if
+		%>
+	</body>
 </html>
 

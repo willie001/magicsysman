@@ -28,15 +28,37 @@ namespace MagicMaids.EntityModels
 
 		public DateTime LastScheduled
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_lastScheduledDate);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _lastScheduledDate)
+				{
+					_lastScheduledDate = convertedValue;
+				}
+			}
 		}
+		private DateTime _lastScheduledDate;
 
 		public DateTime NextScheduled
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_nexScheduled);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _nexScheduled)
+				{
+					_nexScheduled = convertedValue;
+				}
+			}
 		}
+		private DateTime _nexScheduled;
 
 		#endregion
 

@@ -187,6 +187,12 @@
     <Reference Include="MySql.Data.Entity.EF6">
       <HintPath>..\packages\MySql.Data.Entity.6.9.11\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
     </Reference>
+    <Reference Include="NodaTime">
+      <HintPath>..\packages\NodaTime.2.2.5\lib\net45\NodaTime.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime.Serialization.JsonNet">
+      <HintPath>..\packages\NodaTime.Serialization.JsonNet.2.0.0\lib\net45\NodaTime.Serialization.JsonNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -257,6 +263,7 @@
     <Compile Include="Helpers\SystemSettings.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\StaticContentFilter.cs" />
+    <Compile Include="Helpers\DateTimeWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -551,7 +558,6 @@
     <Content Include="Vendor\loaders.css\loaders.css" />
     <Content Include="Vendor\marked\lib\marked.js" />
     <Content Include="Vendor\matchMedia\matchMedia.js" />
-    <Content Include="Vendor\moment\min\moment-with-locales.min.js" />
     <Content Include="Vendor\nestable\jquery.nestable.js" />
     <Content Include="Vendor\ng-img-crop\compile\unminified\ng-img-crop.css" />
     <Content Include="Vendor\ng-img-crop\compile\unminified\ng-img-crop.js" />
@@ -1054,6 +1060,17 @@
     <Content Include="Vendor\cleave\dist\cleave-angular.js" />
     <Content Include="hallo.html" />
     <Content Include="Views\Pages\ConnValidator.cshtml" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment-with-langs.min.js" />
+    <Content Include="Scripts\moment-with-langs.js" />
+    <Content Include="Scripts\moment-timezone.min.js" />
+    <Content Include="Scripts\moment-timezone.js" />
+    <Content Include="Scripts\moment-timezone-with-data.min.js" />
+    <Content Include="Scripts\moment-timezone-with-data.js" />
+    <Content Include="Scripts\moment-timezone-with-data-2012-2022.min.js" />
+    <Content Include="Scripts\moment-timezone-with-data-2012-2022.js" />
+    <Content Include="Scripts\moment-timezone-utils.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />
@@ -1100,6 +1117,7 @@
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="static\" />
     <Folder Include="Views\Search\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

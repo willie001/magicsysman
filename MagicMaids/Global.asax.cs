@@ -19,6 +19,7 @@ using System.Data.Entity;
 using System.Web.Http;
 using Newtonsoft.Json;
 using LazyCache;
+using NodaTime;
 
 namespace MagicMaids
 {
@@ -57,9 +58,9 @@ namespace MagicMaids
 			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 			{
 				DateParseHandling = DateParseHandling.None,
-				DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind
-			};
+				DateTimeZoneHandling = DateTimeZoneHandling.Utc,
 
+			};
         }
 
 		protected void Application_Error(object sender, EventArgs e)

@@ -27,9 +27,20 @@ namespace MagicMaids.EntityModels
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
 		public DateTime LoggedDate
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_loggedDate);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _loggedDate)
+				{
+					_loggedDate = convertedValue;
+				}
+			}
 		}
+		private DateTime _loggedDate;
 
 		[DataType(DataType.Text)]
 		public string Level

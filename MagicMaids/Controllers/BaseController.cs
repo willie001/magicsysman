@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using MagicMaids.DataAccess;
@@ -45,6 +47,10 @@ namespace MagicMaids.Controllers
 			if (HttpContext.Request.Cookies.AllKeys.Contains("timezoneoffset"))
 			{
 				Session["timezoneoffset"] = HttpContext.Request.Cookies["timezoneoffset"].Value;
+			}
+			if (HttpContext.Request.Cookies.AllKeys.Contains("timezonename"))
+			{
+				Session["timezonename"] = HttpContext.Request.Cookies["timezonename"].Value;
 			}
 			base.OnActionExecuting(filterContext);
 		}

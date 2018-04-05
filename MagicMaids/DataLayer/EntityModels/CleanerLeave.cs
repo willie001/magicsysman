@@ -15,18 +15,40 @@ namespace MagicMaids.EntityModels
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateTime StartDate
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_startDate);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _startDate)
+				{
+					_startDate = convertedValue;
+				}
+			}
 		}
+		private DateTime _startDate;
 
 		[Required]
 		[DataType(DataType.DateTime)]
 		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 		public DateTime EndDate
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_endDate);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _endDate)
+				{
+					_endDate = convertedValue;
+				}
+			}
 		}
+		private DateTime _endDate;
 
 		#endregion
 

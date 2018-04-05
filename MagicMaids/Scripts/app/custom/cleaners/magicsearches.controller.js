@@ -1,16 +1,16 @@
-﻿(function() {
+﻿
+(function() {
     'use strict';
-
-    angular
+	angular
     	.module("magicsearches",[])
     	.controller('MainSearchController', MainSearchController);
 
-    	MainSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','editableOptions', 'editableThemes', '$cookies'];
+    	MainSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','editableOptions', 'editableThemes', '$cookies', 'moment'];
     
     /***********************/
 	/***   MAIN SEARCH   ***/
 	/***********************/
-	function MainSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies)
+	function MainSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies, moment)
 	{
 		
 		var vm = this;
@@ -116,9 +116,9 @@
 
 		function manageTimeZoneCookie() {
       		var timezone_cookie = "timezoneoffset";
-
-            if (!$cookies.get(timezone_cookie)) { // if the timezone cookie not exists create one.
-
+      		var timezoneName_cookie = "timezonename";
+      		if (!$cookies.get(timezone_cookie)) { // if the timezone cookie not exists create one.
+            
                 // check if the browser supports cookie
                 var test_cookie = 'test cookie';
                 $cookies.put(test_cookie, 'oatmeal');
@@ -130,19 +130,23 @@
 
                     // create a new cookie 
                     $cookies.put(timezone_cookie, new Date().getTimezoneOffset());
-
                     location.reload(); // re-load the page
                 }
             }
             else { // if the current timezone and the one stored in cookie are different then
                    // store the new timezone in the cookie and refresh the page.
-
+            
                 var storedOffset = parseInt($cookies.get(timezone_cookie));
                 var currentOffset = new Date().getTimezoneOffset();
-
                 if (storedOffset !== currentOffset) { // user may have changed the timezone
                     $cookies.put(timezone_cookie, new Date().getTimezoneOffset());
-					location.reload();
+                }
+
+                var storedName = $cookies.get(timezoneName_cookie);
+                var currentName = moment.tz.guess();
+                if (storedName && storedName !== currentName) { // user may have changed the timezone
+                    $cookies.put(timezoneName_cookie, currentName);
+                    location.reload();
                 }
             }
       	};

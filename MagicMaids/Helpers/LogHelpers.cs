@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Newtonsoft.Json;
 using NLog;
+using NodaTime;
 using SharpRaven;
 using SharpRaven.Data;
 
@@ -73,8 +74,8 @@ namespace MagicMaids
 			var isLocal = (HttpContext.Current == null) ? false : HttpContext.Current.Request.IsLocal;
 			if (isLocal)
 				return;
-			else
-				LogRaven("TESTING", "THIS IS A TEST");
+			//else
+			//	LogRaven("TESTING", "THIS IS A TEST");
 			
 			if (ex != null)
 			{
@@ -130,7 +131,9 @@ namespace MagicMaids
 
 		public void Log(LogLevel logLevel, String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
-			LogRaven(customMessage, callingMethod, ex, classInstance, validationErrors);
+			var result = Task.Run(() => {
+				return LogRaven(customMessage, callingMethod, ex, classInstance, validationErrors);
+			});
 
 			if (internalLogger == null)
 				internalLogger = LogManager.GetCurrentClassLogger();

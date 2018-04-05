@@ -55,6 +55,10 @@
 			  };
 			}])
 
+		.factory('moment', ['$window',  function($window) {
+      		return $window.moment;
+    	}])
+
 		.factory('HandleBusySpinner', ['$timeout', function ($timeout) {
 
     		var factory = {};

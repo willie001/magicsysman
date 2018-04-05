@@ -8,6 +8,7 @@ using MagicMaids.EntityModels;
 using MagicMaids.Formatters;
 using MagicMaids.Security;
 using MagicMaids.Validators;
+using NodaTime;
 #endregion
 
 namespace MagicMaids.ViewModels
@@ -336,7 +337,7 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _startDate.ToClientDate();
+				return _startDate;
 			}
 			set
 			{
@@ -353,7 +354,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _startDate.ToClientDateString();
+				return DateTimeWrapper.FormatClientDate(_startDate);
 			}
 		}
 		private DateTime _startDate;
@@ -363,7 +364,7 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				return _endDate.ToClientDate();
+				return _endDate;
 			}
 			set
 			{
@@ -380,7 +381,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _endDate.ToClientDateString();
+				return DateTimeWrapper.FormatClientDate(_endDate);
 			}
 		}
 		private DateTime _endDate;
@@ -394,7 +395,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return _adviseDate.ToClientDateString() ;
+				return DateTimeWrapper.FormatClientDate(_adviseDate) ;
 			}
 		}
 		private DateTime _adviseDate;

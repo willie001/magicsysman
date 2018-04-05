@@ -132,13 +132,13 @@ namespace MagicMaids.DataAccess
 				string currentUser = HttpContext.Current.User.Identity.Name;
 				if (String.IsNullOrWhiteSpace(currentUser))
 					currentUser = "TODO";
-				change.Entity.UpdatedAt = DateTime.Now.ToUniversalTime();
-				change.Entity.RowVersion = DateTime.Now.ToUniversalTime();
+				change.Entity.UpdatedAt = DateTime.Now;
+				change.Entity.RowVersion = DateTime.Now;
 				change.Entity.UpdatedBy = currentUser;
 
 				if (change.State == EntityState.Added)
 				{
-					change.Entity.CreatedAt = DateTime.Now.ToUniversalTime();
+					change.Entity.CreatedAt = DateTime.Now;
 				}
 				else
 				{
@@ -157,7 +157,7 @@ namespace MagicMaids.DataAccess
 					{
 						if (prop.PropertyType == typeof(DateTime))
 						{
-							prop.SetValue(change.Entity, ((DateTime)change.CurrentValues[propName]).ToUniversalTime());
+							prop.SetValue(change.Entity, ((DateTime)change.CurrentValues[propName]));
 						}
 					}
 					else
@@ -165,7 +165,7 @@ namespace MagicMaids.DataAccess
 						var originalValue = (change.OriginalValues[propName] != null) ? change.OriginalValues[propName].ToString() : "";
 						if (originalValue != currentValue && prop.PropertyType == typeof(DateTime))
 						{
-							prop.SetValue(change.Entity, ((DateTime)change.CurrentValues[propName]).ToUniversalTime());
+							prop.SetValue(change.Entity, ((DateTime)change.CurrentValues[propName]));
 						}
 					}
 				}

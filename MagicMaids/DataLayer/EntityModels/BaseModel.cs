@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.CompilerServices;
+using NodaTime;
 #endregion
 
 namespace MagicMaids.EntityModels
@@ -17,6 +18,7 @@ namespace MagicMaids.EntityModels
 		private Guid _id;
 		private DateTime _updatedDate;
 		private DateTime _createdDate;
+		private DateTime _rowVersion;
 		private String _updatedBy;
 		private Boolean _isActive;
 		#endregion
@@ -57,13 +59,14 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _createdDate;
+				return DateTimeWrapper.UTCtoLocal(_createdDate);
 			}
 			set
 			{
-				if (value != _createdDate)
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _createdDate)
 				{
-					_createdDate = value;
+					_createdDate = convertedValue;
 					NotifyPropertyChanged();
 				}
 			}
@@ -75,15 +78,17 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _updatedDate;
+				return DateTimeWrapper.UTCtoLocal(_updatedDate);
 			}
 			set
 			{
-				if (value != _updatedDate)
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _updatedDate)
 				{
-					_updatedDate = value;
+					_updatedDate = convertedValue;
 					NotifyPropertyChanged();
 				}
+
 			}
 		}
 
@@ -109,13 +114,25 @@ namespace MagicMaids.EntityModels
 		//http://hundeide.net/2015/05/optimistic-concurrency-with-mysql-and-entity-framework/
 		[DataType(DataType.DateTime)]
 		[Required]
-		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss:ff}")]
 		[ConcurrencyCheck]
 		[DatabaseGenerated(DatabaseGeneratedOption.None)]
 		public DateTime RowVersion
         {
-            get;
-            set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_rowVersion);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _rowVersion)
+				{
+					_rowVersion = convertedValue;
+					NotifyPropertyChanged();
+				}
+
+			}
         }
 
         public bool IsActive

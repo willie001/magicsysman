@@ -30,17 +30,39 @@ namespace MagicMaids.EntityModels
 		[DataType(DataType.Time)]
 		public DateTime StartTime
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_startTime);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _startTime)
+				{
+					_startTime = convertedValue;
+				}
+			}
 		}
+		private DateTime _startTime;
 
 		[Required]
 		[DataType(DataType.Time)]
 		public DateTime EndTime
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_endTime);
+			}
+			set
+			{
+				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				if (convertedValue != _endTime)
+				{
+					_endTime = convertedValue;
+				}
+			}
 		}
+		private DateTime _endTime;
 
 		#endregion
 

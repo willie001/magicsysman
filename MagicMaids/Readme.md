@@ -11,7 +11,8 @@ Expanded context of current instance (more info):				btn btn-info
 Navigate away from current instance without state retaining:	btn btn-warning
 
 
-
+NodaTime
+https://hanson.io/taming-the-datetime-beast-with-noda-time/
 
 ** Parent / Child management
 https://stackoverflow.com/questions/27176014/how-to-add-update-child-entities-when-updating-a-parent-entity-in-ef

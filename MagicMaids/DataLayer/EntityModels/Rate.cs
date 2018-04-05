@@ -38,9 +38,25 @@ namespace MagicMaids.EntityModels
 		[DataType(DataType.DateTime)]
 		public DateTime? ActivationDate
 		{
-			get;
-			set;
+			get
+			{
+				return DateTimeWrapper.UTCtoLocal(_activationDate);
+			}
+			set
+			{
+				if (value.HasValue)
+				{
+					var convertedValue = DateTimeWrapper.LocaltoUTC(value.Value);
+					if (convertedValue != _activationDate)
+					{
+						_activationDate = convertedValue;
+					}
+
+				}
+			}
 		}
+		private DateTime _activationDate;
+
 
 		[DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
 		[Required]

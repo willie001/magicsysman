@@ -1,3 +1,4 @@
 @using VersionLibrary;
-<span>&copy; {{app.year}} - {{ app.name }} - version @(Html.Version())</span>
+
+<span>&copy; {{app.year}} - {{ app.name }} - version @(Html.Version()) - @DateTimeWrapper.UTCtoLocal(DateTime.Now)</span>
    
