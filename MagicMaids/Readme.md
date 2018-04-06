@@ -21,3 +21,6 @@ https://stackoverflow.com/questions/27176014/how-to-add-update-child-entities-wh
 MySQL Connection issues: Remember to install MySql .NET Connector
 https://stackoverflow.com/questions/9527303/could-not-load-file-or-assembly-mysql-data-version-6-3-6-0
 https://bugs.mysql.com/bug.php?id=76597
+
+Connection issues persisting:
+https://docs.plesk.com/en-US/12.5/administrator-guide/website-management/websites-and-domains/advanced-extended-website-management/using-virtual-directories-windows/configuring-aspnet-for-virtual-directories.65219/
