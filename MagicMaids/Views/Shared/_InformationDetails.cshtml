@@ -1,10 +1,14 @@
 ﻿@if (Html.IsDebug())
 {
 	var date = DateTimeWrapper.UTCtoLocal(DateTime.Now);
+	var conn = MagicMaids.DataAccess.MagicMaidsInitialiser.getConnection();
 
 	<div class="panel panel-flat " id="panelData" ng-show="userMessages && userMessageType[0] != 'alert alert-success'">
         <div class="panel-heading">
             <b>Debug Information: @date</b>
+        </div>
+	<div class="panel-heading">
+            <b>Connection String: @conn</b>
         </div>
 		<div class="panel-body">
 			Main Message Type: {{ userMessageType[0] | json }}
