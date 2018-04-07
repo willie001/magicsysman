@@ -1,21 +1,23 @@
 ﻿#region Using
 using System;
+using System.Configuration;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Diagnostics;
 
 using MagicMaids.EntityModels;
+using MySql.Data.MySqlClient;
 using NLog;
 
 #endregion
 
 namespace MagicMaids.DataAccess 
 {
+	[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
 	public class DBLogsContext : DbContext
 	{
 		#region Constructors
-		public DBLogsContext()
-			: base("MagicMaidsContext")
+		public DBLogsContext(): base(nameOrConnectionString: MagicMaidsInitialiser.getConnection())
 		{
 			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
 

@@ -48,6 +48,11 @@ namespace MagicMaids.DataAccess
         //    context.DefaultSettings.AddRange(systemSettings);
         //}
 
+		public static string getConnection()
+		{
+			return ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
+		}
+
 		private static Boolean HasPinged
 		{
 			get;
