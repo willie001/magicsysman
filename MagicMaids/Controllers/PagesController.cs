@@ -31,8 +31,6 @@ namespace MagicMaids.Controllers
 			};
 
 			var connstring = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
-			connstring = "Driver={MySQL ODBC 5.5 Driver};Server=mi3-wts5.a2hosting.com;Database=magicdry_db;User=magicdry_db;Password=oLc2c609;Option=3;";
-			//connstring = "Server=localhost;Port=3306;uid=magic_maids;pwd=oLc2c609;Database=magicdry_db;sslmode=None;Persist Security Info=true;";
 			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 			MySqlConnection connection = null;
 			//try
