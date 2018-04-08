@@ -13,7 +13,6 @@ using NLog;
 
 namespace MagicMaids.DataAccess 
 {
-	[DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
 	public class DBLogsContext : DbContext
 	{
 		#region Constructors

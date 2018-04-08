@@ -67,6 +67,9 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.Serialization.JsonNet.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Web.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.Entity.EF6.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

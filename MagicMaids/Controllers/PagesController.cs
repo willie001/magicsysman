@@ -39,10 +39,11 @@ namespace MagicMaids.Controllers
 				stopwatch.Start();
 
 				connection = new MySqlConnection(connstring);
-				connection.Ping();
+				if (!connection.Ping())
+				{
+					connection.Open();
+				};
 				StringBuilder output = new StringBuilder();
-
-				connection.Open();
 
 				string stm = "SELECT VERSION()";
 				MySqlCommand cmd = new MySqlCommand(stm, connection);
