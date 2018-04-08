@@ -178,20 +178,17 @@
     <Reference Include="NodaTime.Serialization.JsonNet">
       <HintPath>..\packages\NodaTime.Serialization.JsonNet.2.0.0\lib\net45\NodaTime.Serialization.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data">
-      <HintPath>..\packages\MySql.Data.6.10.6\lib\net452\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Web">
-      <HintPath>..\packages\MySql.Web.6.10.6\lib\net452\MySql.Web.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF6">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.10.6-noinstall\v4.5.2\MySql.Data.Entity.EF6.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>..\packages\MySql.Data.6.9.11\lib\net45\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6">
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.9.11-noinstall\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1071,17 +1068,6 @@
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.min.js" />
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.js" />
     <Content Include="Scripts\moment-timezone-utils.js" />
-    <None Include="docs\MySqlTransaction.xml" />
-    <None Include="docs\MySqlParameterCollection.xml" />
-    <None Include="docs\MySqlParameter.xml" />
-    <None Include="docs\MySqlHelper.xml" />
-    <None Include="docs\MySqlException.xml" />
-    <None Include="docs\MySqlDataReader.xml" />
-    <None Include="docs\MySqlDataAdapter.xml" />
-    <None Include="docs\MySqlConnectionStringBuilder.xml" />
-    <None Include="docs\MySqlConnection.xml" />
-    <None Include="docs\MySqlCommandBuilder.xml" />
-    <None Include="docs\MySqlCommand.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />

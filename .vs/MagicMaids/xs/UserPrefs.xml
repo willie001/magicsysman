@@ -1,15 +1,15 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/DBLogsContext.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
       <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="138" Column="1" />
       <File FileName="MagicMaids/DataLayer/EntityModels/CleanerLeave.cs" Line="40" Column="1" />
-      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="13" Column="2" />
+      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="20" Column="1" />
       <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="48" Column="1" />
       <File FileName="MagicMaids/Views/Pages/ConnValidator.cshtml" Line="13" Column="51" />
       <File FileName="MagicMaids/Controllers/LogEntriesController.cs" Line="83" Column="1" />
-      <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="18" Column="3" />
-      <File FileName="MagicMaids/Web.config" Line="6" Column="16" />
-      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="62" Column="37" />
+      <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="16" Column="1" />
+      <File FileName="MagicMaids/Web.config" Line="173" Column="21" />
+      <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="69" Column="1" />
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="121" Column="1" />
     </Files>
     <Pads>
@@ -17,17 +17,14 @@
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="DataLayer" expanded="True">
-                <Node name="DataContext" expanded="True">
-                  <Node name="DBLogsContext.cs" selected="True" />
-                </Node>
-              </Node>
+              <Node name="References" expanded="True" />
+              <Node name="Packages" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Pages" expanded="True" />
                 <Node name="Shared" expanded="True" />
               </Node>
               <Node name="Global.asax" expanded="True" />
+              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>
@@ -45,7 +42,6 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Services/ClockService.cs" relfile="MagicMaids/Services/ClockService.cs" line="18" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/DateTimeWrapper.cs" relfile="MagicMaids/Helpers/DateTimeWrapper.cs" line="117" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="76" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" relfile="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" line="66" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
