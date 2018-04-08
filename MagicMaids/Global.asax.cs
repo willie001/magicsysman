@@ -20,6 +20,7 @@ using System.Web.Http;
 using Newtonsoft.Json;
 using LazyCache;
 using NodaTime;
+using MySql.Data.Entity;
 
 namespace MagicMaids
 {
@@ -31,6 +32,8 @@ namespace MagicMaids
 
         protected void Application_Start()
         {
+			DbConfiguration.SetConfiguration(new MySqlEFConfiguration());
+
 			// Removing all the view engines
 			ViewEngines.Engines.Clear();
 
