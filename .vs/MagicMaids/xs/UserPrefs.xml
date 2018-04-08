@@ -8,7 +8,7 @@
       <File FileName="MagicMaids/Views/Pages/ConnValidator.cshtml" Line="13" Column="51" />
       <File FileName="MagicMaids/Controllers/LogEntriesController.cs" Line="83" Column="1" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="16" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="173" Column="21" />
+      <File FileName="MagicMaids/Web.config" Line="172" Column="149" />
       <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="69" Column="1" />
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="121" Column="1" />
     </Files>
@@ -17,7 +17,6 @@
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="References" expanded="True" />
               <Node name="Packages" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Pages" expanded="True" />
