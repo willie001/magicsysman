@@ -5,6 +5,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using MagicMaids.EntityModels;
+using MySql.Data.MySqlClient;
 using NLog;
 #endregion
 
@@ -16,6 +17,7 @@ namespace MagicMaids.DataAccess
         public MagicMaidsContext() 
 			: base(nameOrConnectionString: MagicMaidsInitialiser.getConnection())
 		{
+			MagicMaidsInitialiser.CheckConnection((MySqlConnection)Database.Connection);
 			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
 
 			this.Configuration.LazyLoadingEnabled = false;

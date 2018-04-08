@@ -19,6 +19,7 @@ namespace MagicMaids.DataAccess
 		#region Constructors
 		public DBLogsContext(): base(nameOrConnectionString: MagicMaidsInitialiser.getConnection())
 		{
+			MagicMaidsInitialiser.CheckConnection((MySqlConnection)Database.Connection);
 			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
 
 			this.Configuration.LazyLoadingEnabled = false;
