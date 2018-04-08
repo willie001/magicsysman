@@ -8,7 +8,7 @@
       <File FileName="MagicMaids/Views/Pages/ConnValidator.cshtml" Line="13" Column="51" />
       <File FileName="MagicMaids/Controllers/LogEntriesController.cs" Line="83" Column="1" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBLogsContext.cs" Line="16" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="172" Column="149" />
+      <File FileName="MagicMaids/Web.config" Line="53" Column="46" />
       <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs" Line="69" Column="1" />
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="121" Column="1" />
     </Files>
