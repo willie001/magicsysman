@@ -71,6 +71,7 @@ namespace MagicMaids
 
 		public static async Task LogRaven(String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
+			return;
 			var isLocal = (HttpContext.Current == null) ? false : HttpContext.Current.Request.IsLocal;
 			if (isLocal)
 				return;

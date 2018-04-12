@@ -53,7 +53,7 @@ namespace MagicMaids.EntityModels
 		#endregion
 
 		#region Properties, Foreign Key
-		public Guid PrimaryCleanerRefId
+		public String PrimaryCleanerRefId
 		{
 			get;
 			set;

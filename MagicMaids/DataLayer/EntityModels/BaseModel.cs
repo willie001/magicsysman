@@ -15,7 +15,7 @@ namespace MagicMaids.EntityModels
         #region Fields
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		private Guid _id;
+		private String _id;
 		private DateTime _updatedDate;
 		private DateTime _createdDate;
 		private DateTime _rowVersion;
@@ -26,7 +26,7 @@ namespace MagicMaids.EntityModels
 		#region Constructors
 		public BaseModel()
 		{
-			Id = Guid.NewGuid();
+			Id = Guid.NewGuid().ToString();
 			IsActive = true;
 		}
         #endregion
@@ -36,7 +36,7 @@ namespace MagicMaids.EntityModels
 		[Required]
 		[DatabaseGenerated(DatabaseGeneratedOption.None)]
 		[Column("Id")]
-		public Guid Id
+		public String Id
 		{
 			get
 			{

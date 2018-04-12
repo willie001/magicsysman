@@ -54,7 +54,7 @@ namespace MagicMaids.EntityModels
 		#endregion
 
 		#region Properties, Foreign Key
-		public Guid ClientRefId
+		public String ClientRefId
 		{
 			get;
 			set;

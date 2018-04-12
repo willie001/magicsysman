@@ -234,7 +234,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.MasterFranchiseCode = entityModel.MasterFranchiseCode ;
 			this.Name = entityModel.Name;
 			this.TradingName = entityModel.TradingName ;
@@ -244,7 +244,7 @@ namespace MagicMaids.ViewModels
 			this.MobileNumber = entityModel.MobileNumber ;
 			this.CodeOfConductURL  = entityModel.CodeOfConductURL;
 			this.MetroRegion  = entityModel.MetroRegion ;
-			this.PhysicalAddressRefId  = entityModel.PhysicalAddressRefId ;
+			this.PhysicalAddressRefId  = new Guid(entityModel.PhysicalAddressRefId) ;
 			this.IsActive = entityModel.IsActive;
 
 			if (entityModel.PhysicalAddress != null)
@@ -253,14 +253,14 @@ namespace MagicMaids.ViewModels
 				_vm.PopulateVM(entityModel.PhysicalAddress);
 				this.PhysicalAddress = _vm;
 			}
-			this.PhysicalAddressRefId = entityModel.PhysicalAddressRefId;
+			this.PhysicalAddressRefId = new Guid(entityModel.PhysicalAddressRefId);
 			if (entityModel.PostalAddress != null)
 			{
 				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
 				_vm.PopulateVM(entityModel.PostalAddress);
 				this.PostalAddress = _vm;
 			}
-			this.PostalAddressRefId = entityModel.PostalAddressRefId;
+			this.PostalAddressRefId = new Guid(entityModel.PostalAddressRefId);
 
 			FormatContactNumbers(entityModel);
 		}

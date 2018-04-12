@@ -107,7 +107,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null || defaultSettings == null)
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.franchiseName = entityModel.Name;
 			this.ManagementFeePercentage = entityModel.ManagementFeePercentage;
 			this.RoyaltyFeePercentage = entityModel.RoyaltyFeePercentage;

@@ -103,7 +103,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.FirstName = entityModel.FirstName;
 			this.LastName = entityModel.LastName;
 			this.EmailAddress = entityModel.EmailAddress;
@@ -271,7 +271,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			Id = entityModel.Id;
+			Id = new Guid(entityModel.Id);
 			IsNewItem = false;
 			string[] items = Crypto.Decrypt(entityModel.Details, passphrase).Split('|');
 
@@ -410,7 +410,7 @@ namespace MagicMaids.ViewModels
 			if (clientId.Equals(Guid.Empty))
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.ClientId = clientId.Value;
 
 			this.StartDate = entityModel.StartDate;

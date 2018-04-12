@@ -178,20 +178,26 @@
     <Reference Include="NodaTime.Serialization.JsonNet">
       <HintPath>..\packages\NodaTime.Serialization.JsonNet.2.0.0\lib\net45\NodaTime.Serialization.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\packages\Google.Protobuf.3.3.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\packages\MySql.Data.6.9.11\lib\net45\MySql.Data.dll</HintPath>
+      <HintPath>..\packages\MySql.Data.8.0.10-rc\lib\net452\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data.Entity.EF6">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.9.11-noinstall\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Web">
-      <HintPath>..\packages\MySql.Web.6.9.11\lib\net45\MySql.Web.dll</HintPath>
+    <Reference Include="Dapper.SimpleCRUD">
+      <HintPath>..\packages\Dapper.SimpleCRUD.1.13.0\lib\net45\Dapper.SimpleCRUD.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>..\packages\Glimpse.1.8.2\lib\net45\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>..\packages\Glimpse.AspNet.1.8.0\lib\net45\Glimpse.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5">
+      <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -264,6 +270,7 @@
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\StaticContentFilter.cs" />
     <Compile Include="Helpers\DateTimeWrapper.cs" />
+    <Compile Include="GlimpseSecurityPolicy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -1071,6 +1078,17 @@
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.min.js" />
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.js" />
     <Content Include="Scripts\moment-timezone-utils.js" />
+    <None Include="docs\MySqlTransaction.xml" />
+    <None Include="docs\MySqlParameterCollection.xml" />
+    <None Include="docs\MySqlParameter.xml" />
+    <None Include="docs\MySqlHelper.xml" />
+    <None Include="docs\MySqlException.xml" />
+    <None Include="docs\MySqlDataReader.xml" />
+    <None Include="docs\MySqlDataAdapter.xml" />
+    <None Include="docs\MySqlConnectionStringBuilder.xml" />
+    <None Include="docs\MySqlConnection.xml" />
+    <None Include="docs\MySqlCommandBuilder.xml" />
+    <None Include="docs\MySqlCommand.xml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vendor\angular-loading-bar\src\" />

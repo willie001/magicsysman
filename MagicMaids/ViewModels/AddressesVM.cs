@@ -145,7 +145,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.AddressLine1 = entityModel.AddressLine1;
 			this.AddressLine2 = entityModel.AddressLine2;
 			this.AddressLine3 = entityModel.AddressLine3;

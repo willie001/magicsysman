@@ -6,8 +6,6 @@ using MagicMaids.ViewModels;
 
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -16,6 +14,9 @@ using FluentValidation.Mvc;
 using NLog;
 
 using AutoMapper;
+using System.Data;
+using Dapper;
+using System.Text;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -57,9 +58,11 @@ namespace MagicMaids.Controllers
 		{
 			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
 			Cleaner _cleaner = null;
+			Franchise _franchise = null;
 			CleanerDetailsVM _dataItem = null;
 			FranchiseSelectViewModel _selectedFranchise = null;
-
+			List<SystemSetting> _settings = new List<SystemSetting>();
+					
 			if (CleanerId == null)
 			{
 				// create new item
@@ -70,44 +73,49 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				using (var context = new MagicMaidsContext())
+				string sql = @"select * from Cleaners C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.ID = '" + CleanerId + "'";
+
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					_cleaner = context.Cleaners
-								  .Where(f => f.Id == CleanerId)
-								  .Include(nameof(Cleaner.PhysicalAddress))
-								  .Include(nameof(Cleaner.PostalAddress))
-								.FirstOrDefault();
-
-					if (_cleaner == null)
-					{
-						ModelState.AddModelError(string.Empty, $"Cleaner [{CleanerId.ToString()}] not found.  Please try again.");
-						return JsonFormResponse();
-					}
-
-					_dataItem = new CleanerDetailsVM();
-					_dataItem.PopulateVM(_cleaner);
-					_dataItem.IsNewItem = false;
+					_cleaner = db.Query<Cleaner, Address, Address, Cleaner>(sql, (clnr, phys, post) => {
+						clnr.PhysicalAddress = phys;
+						clnr.PostalAddress = post;
+						return clnr;
+					}).SingleOrDefault();
 
 					if (!_dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
 					{
-						var _franchise = context.Franchises
-							  .Where(f => f.Id == _dataItem.MasterFranchiseRefId)
-							  .FirstOrDefault();
-
-						if (_franchise == null)
-						{
-							ModelState.AddModelError(string.Empty, $"Cleaner's [{CleanerId.ToString()}] Master Franchise not found not found.  Please try again.");
-							return JsonFormResponse();
-						}
-
-						List<SystemSetting> _settings = new List<SystemSetting>();
-						_settings = context.DefaultSettings
-								 .Where(p => p.IsActive == true)
-								 .ToList();
-
-						_selectedFranchise = new FranchiseSelectViewModel();
-						_selectedFranchise.PopulateVM(_franchise, _settings);
+						sql = @"select * from Franchises where ID = '" + _dataItem.MasterFranchiseRefId + "'";
+						_franchise = db.Query<Franchise>(sql).SingleOrDefault();
 					}
+
+					sql = "select * from SystemSettings where IsActive = 1";
+					_settings = db.Query<SystemSetting>(sql).ToList();
+				}
+
+				if (_cleaner == null)
+				{
+					ModelState.AddModelError(string.Empty, $"Cleaner [{CleanerId.ToString()}] not found.  Please try again.");
+					return JsonFormResponse();
+				}
+
+				_dataItem = new CleanerDetailsVM();
+				_dataItem.PopulateVM(_cleaner);
+				_dataItem.IsNewItem = false;
+
+				if (!_dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
+				{
+					if (_franchise == null)
+					{
+						ModelState.AddModelError(string.Empty, $"Cleaner's [{CleanerId.ToString()}] Master Franchise not found not found.  Please try again.");
+						return JsonFormResponse();
+					}
+
+					_selectedFranchise = new FranchiseSelectViewModel();
+					_selectedFranchise.PopulateVM(_franchise, _settings);
 				}
 			}
 
@@ -118,19 +126,17 @@ namespace MagicMaids.Controllers
 		public JsonNetResult GetNextCleanerCode()
 		{
 			Int32 _cleanerCode = 1000; // starting value
-
-			using (var context = new MagicMaidsContext())
+			Int32? _match = null;
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				Int32? _match = context.Cleaners
-								  .Max(x => (Int32?)x.CleanerCode);
-				if (!_match.HasValue)
-				{
-					_cleanerCode = 1000;
-				}
-				else
-				{
-					_cleanerCode = (Int32)_match + 1;
-				}
+				string sql = "select max(cleanerCode) as NextCode from Cleaners";
+				var rows = db.Query(sql).ToList();
+				_match = rows[0]?.NextCode?.ToString();
+			}
+
+			if (_match.HasValue)
+			{
+				_cleanerCode = (Int32)_match + 1;
 			}
 
 			return new JsonNetResult() { Data = new { item = _cleanerCode }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -141,6 +147,7 @@ namespace MagicMaids.Controllers
 		{
 			//https://msdn.microsoft.com/en-us/data/jj574232.aspx
 			List<TeamMemberDetailsVM> _teamList = new List<TeamMemberDetailsVM>();
+			List<CleanerTeam> _team;
 
 			if (CleanerId == null)
 			{
@@ -148,27 +155,27 @@ namespace MagicMaids.Controllers
 				return JsonFormResponse();
 			}
 
-			using (var context = new MagicMaidsContext())
+			string sql = @"select * from CleanerTeam CT
+							 	inner join Addresses Ph on CT.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on CT.PostalAddressRefId = Po.ID
+								where C.PrimaryCleanerRefId = '" + CleanerId + "'";
+
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				var _team = context.CleanerTeam
-								  .Where(f => f.PrimaryCleanerRefId == CleanerId)
-								  .Include(nameof(CleanerTeam.PhysicalAddress))
-								  .Include(nameof(CleanerTeam.PostalAddress))
-								  .ToList();
-
-				if (_team != null && _team.Count() > 0)
-				{
-					foreach (var _member in _team)
-					{
-						var _nextMember = new TeamMemberDetailsVM();
-						_nextMember.PopulateVM(CleanerId, _member);
-						_teamList.Add(_nextMember);
-					}
-				}
-
-
-				return new JsonNetResult() { Data = new { list = _teamList, teamSize = _team.Count() + 1 }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+				_team = db.Query<CleanerTeam>(sql).ToList();
 			}
+
+			if (_team != null && _team.Count() > 0)
+			{
+				foreach (var _member in _team)
+				{
+					var _nextMember = new TeamMemberDetailsVM();
+					_nextMember.PopulateVM(CleanerId, _member);
+					_teamList.Add(_nextMember);
+				}
+			}
+
+			return new JsonNetResult() { Data = new { list = _teamList, teamSize = _team.Count() + 1 }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 		[HttpGet]
@@ -282,71 +289,26 @@ namespace MagicMaids.Controllers
 				{
 					Cleaner _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
-							_objToUpdate = new Cleaner();
-
-							_objToUpdate.CleanerCode = dataItem.CleanerCode;
-							_objToUpdate.Initials = dataItem.Initials;
-							_objToUpdate.FirstName = dataItem.FirstName;
-							_objToUpdate.LastName = dataItem.LastName;
-							_objToUpdate.EmailAddress = dataItem.EmailAddress;
-							_objToUpdate.IsActive = dataItem.IsActive;
-							_objToUpdate.MobileNumber = dataItem.MobileNumber;
-							_objToUpdate.OtherNumber = dataItem.OtherNumber;
-							_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
-							_objToUpdate.Region = dataItem.Region;
-							_objToUpdate.MasterFranchiseRefId = dataItem.MasterFranchiseRefId;
-							_objToUpdate.Rating = dataItem.Rating;
-							_objToUpdate.GenderFlag = dataItem.GenderFlag;
-							_objToUpdate.Ironing = dataItem.Ironing;
-
-							_objToUpdate.PrimaryZone = dataItem.PrimaryZone;
-							_objToUpdate.SecondaryZone = dataItem.SecondaryZone;
-							_objToUpdate.ApprovedZone = dataItem.ApprovedZone;
-
-							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-							if (dataItem.PhysicalAddress != null)
-							{
-								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
-								_objToUpdate.PhysicalAddress.IsActive = true;
-								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
-							}
-
-							if (dataItem.PostalAddress != null)
-							{
-								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-								_objToUpdate.PostalAddress.IsActive = true;
-								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-							}
-
-
-							context.Entry(_objToUpdate).State = EntityState.Added;
-
+							_objToUpdate = UpdateCleaner(null, dataItem);
+							var newId = db.Insert(UpdateAuditTracking(_objToUpdate)); 
 						}
 						else
 						{
-							_objToUpdate = context.Cleaners
-									 .Where(f => f.Id == _id)
-											  .Include(nameof(Cleaner.PhysicalAddress))
-											  .Include(nameof(Cleaner.PostalAddress))
-											  .FirstOrDefault();
+							string sql = @"select * from Cleaners C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.ID = '" + _id + "'";
+
+							_objToUpdate = db.Query<Cleaner, Address, Address, Cleaner>(sql, (clnr, phys, post) => {
+									clnr.PhysicalAddress = phys;
+									clnr.PostalAddress = post;
+									return clnr;
+								}).SingleOrDefault();
+
 
 							if (_objToUpdate == null)
 							{
@@ -354,47 +316,44 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
+							_objToUpdate = UpdateCleaner(_objToUpdate, dataItem);
+
+							db.Update(UpdateAuditTracking(dataItem));
+							db.Update(UpdateAuditTracking(dataItem.PhysicalAddress));
+							db.Update(UpdateAuditTracking(dataItem.PostalAddress));
+
 						}
 
-						context.SaveChanges();
 					}
 					return JsonSuccessResponse("Cleaner saved successfully", _objToUpdate);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (Cleaner)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The cleaner was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (Cleaner)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (Cleaner)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The cleaner was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (Cleaner)databaseEntry.ToObject();
 
-						if (databaseValues.CleanerCode != clientValues.CleanerCode)
-							ModelState.AddModelError("CleanerCode", "Current database value for cleaner code: " + databaseValues.CleanerCode);
+				//		if (databaseValues.CleanerCode != clientValues.CleanerCode)
+				//			ModelState.AddModelError("CleanerCode", "Current database value for cleaner code: " + databaseValues.CleanerCode);
 
-						if (databaseValues.FirstName != clientValues.FirstName)
-							ModelState.AddModelError("FirstName", "Current database value for cleaner first name: " + databaseValues.FirstName);
+				//		if (databaseValues.FirstName != clientValues.FirstName)
+				//			ModelState.AddModelError("FirstName", "Current database value for cleaner first name: " + databaseValues.FirstName);
 
-						if (databaseValues.LastName != clientValues.LastName)
-							ModelState.AddModelError("LastName", "Current database value for cleaner surname: " + databaseValues.LastName);
+				//		if (databaseValues.LastName != clientValues.LastName)
+				//			ModelState.AddModelError("LastName", "Current database value for cleaner surname: " + databaseValues.LastName);
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					//_msg = new InfoViewModel("Error saving cleaner", ex);
@@ -411,6 +370,124 @@ namespace MagicMaids.Controllers
 			}
 
 			return JsonFormResponse();
+		}
+
+		private Cleaner UpdateCleaner(Cleaner _objToUpdate, CleanerDetailsVM dataItem)
+		{
+			
+			if (dataItem == null)
+			{
+				return _objToUpdate;
+			}
+
+			if (_objToUpdate == null)
+			{
+				_objToUpdate = new Cleaner();
+			}
+
+			_objToUpdate.CleanerCode = dataItem.CleanerCode;
+			_objToUpdate.Initials = dataItem.Initials;
+			_objToUpdate.FirstName = dataItem.FirstName;
+			_objToUpdate.LastName = dataItem.LastName;
+			_objToUpdate.EmailAddress = dataItem.EmailAddress;
+			_objToUpdate.IsActive = dataItem.IsActive;
+			_objToUpdate.MobileNumber = dataItem.MobileNumber;
+			_objToUpdate.OtherNumber = dataItem.OtherNumber;
+			_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
+			_objToUpdate.Region = dataItem.Region;
+			_objToUpdate.MasterFranchiseRefId = dataItem.MasterFranchiseRefId.ToString();
+			_objToUpdate.Rating = dataItem.Rating;
+			_objToUpdate.GenderFlag = dataItem.GenderFlag;
+			_objToUpdate.Ironing = dataItem.Ironing;
+
+			_objToUpdate.PrimaryZone = dataItem.PrimaryZone;
+			_objToUpdate.SecondaryZone = dataItem.SecondaryZone;
+			_objToUpdate.ApprovedZone = dataItem.ApprovedZone;
+
+			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+			if (dataItem.PhysicalAddress != null)
+			{
+				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+				_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+				_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+				_objToUpdate.PhysicalAddress.IsActive = true;
+				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+			}
+
+			if (dataItem.PostalAddress != null)
+			{
+				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+				_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+				_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+				_objToUpdate.PostalAddress.IsActive = true;
+				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+			}
+
+			return _objToUpdate;
+		}
+
+		private CleanerTeam UpdateCleanerTeam(CleanerTeam _objToUpdate, TeamMemberDetailsVM dataItem)
+		{
+
+			if (dataItem == null)
+			{
+				return _objToUpdate;
+			}
+
+			if (_objToUpdate == null)
+			{
+				_objToUpdate = new CleanerTeam();
+			}
+
+			_objToUpdate.FirstName = dataItem.FirstName;
+			_objToUpdate.LastName = dataItem.LastName;
+			_objToUpdate.EmailAddress = dataItem.EmailAddress;
+			_objToUpdate.IsActive = dataItem.IsActive;
+			_objToUpdate.MobileNumber = dataItem.MobileNumber;
+			_objToUpdate.GenderFlag = dataItem.GenderFlag;
+			_objToUpdate.Ironing = dataItem.Ironing;
+			_objToUpdate.PrimaryCleanerRefId = dataItem.PrimaryCleanerRefId.ToString();
+
+			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+			if (dataItem.PhysicalAddress != null)
+			{
+				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+				_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+				_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+				_objToUpdate.PhysicalAddress.IsActive = true;
+				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+			}
+
+			if (dataItem.PostalAddress != null)
+			{
+				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+				_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+				_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+				_objToUpdate.PostalAddress.IsActive = true;
+				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+			}
+
+			return _objToUpdate;
 		}
 
 		[HttpPost]
@@ -467,59 +544,26 @@ namespace MagicMaids.Controllers
 				{
 					CleanerTeam _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
-							_objToUpdate = new CleanerTeam();
-
-							_objToUpdate.FirstName = dataItem.FirstName;
-							_objToUpdate.LastName = dataItem.LastName;
-							_objToUpdate.EmailAddress = dataItem.EmailAddress;
-							_objToUpdate.IsActive = dataItem.IsActive;
-							_objToUpdate.MobileNumber = dataItem.MobileNumber;
-							_objToUpdate.GenderFlag = dataItem.GenderFlag;
-							_objToUpdate.Ironing = dataItem.Ironing;
-							_objToUpdate.PrimaryCleanerRefId = dataItem.PrimaryCleanerRefId;
-
-							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-							if (dataItem.PhysicalAddress != null)
-							{
-								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
-								_objToUpdate.PhysicalAddress.IsActive = true;
-								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
-							}
-
-							if (dataItem.PostalAddress != null)
-							{
-								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-								_objToUpdate.PostalAddress.IsActive = true;
-								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-							}
-
-							context.Entry(_objToUpdate).State = EntityState.Added;
+							_objToUpdate = UpdateCleanerTeam(null, dataItem);
+							var newId = db.Insert(_objToUpdate); 
 						}
 						else
 						{
-							_objToUpdate = context.CleanerTeam
-									 .Where(f => f.Id == _id)
-											  .Include(nameof(CleanerTeam.PhysicalAddress))
-											  .Include(nameof(CleanerTeam.PostalAddress))
-											  .FirstOrDefault();
+							string sql = @"select * from Cleaners C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.ID = '" + _id + "'";
+
+							_objToUpdate = db.Query<CleanerTeam, Address, Address, CleanerTeam>(sql, (clnr, phys, post) => {
+								clnr.PhysicalAddress = phys;
+								clnr.PostalAddress = post;
+								return clnr;
+							}).SingleOrDefault();
+
 
 							if (_objToUpdate == null)
 							{
@@ -529,44 +573,38 @@ namespace MagicMaids.Controllers
 
 							// no action on team member yet until it's deleted
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
-						}
+							db.Update(dataItem);
+							db.Update(dataItem.PhysicalAddress);
+							db.Update(dataItem.PostalAddress);
 
-						context.SaveChanges();
+						}
 					}
 					return JsonSuccessResponse("Team member saved successfully", _objToUpdate);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (Cleaner)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The Team member was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (Cleaner)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (Cleaner)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The Team member was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (Cleaner)databaseEntry.ToObject();
 
-						if (databaseValues.FirstName != clientValues.FirstName)
-							ModelState.AddModelError("FirstName", "Current database value for team member first name: " + databaseValues.FirstName);
+				//		if (databaseValues.FirstName != clientValues.FirstName)
+				//			ModelState.AddModelError("FirstName", "Current database value for team member first name: " + databaseValues.FirstName);
 
-						if (databaseValues.LastName != clientValues.LastName)
-							ModelState.AddModelError("LastName", "Current database value for team member surname: " + databaseValues.LastName);
+				//		if (databaseValues.LastName != clientValues.LastName)
+				//			ModelState.AddModelError("LastName", "Current database value for team member surname: " + databaseValues.LastName);
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving team member", ex));
@@ -596,19 +634,25 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (var context = new MagicMaidsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					var _objToDelete = context.CleanerTeam
-							.Where(f => f.Id == CleanerId)
-								.Include(nameof(CleanerTeam.PhysicalAddress))
-							 	.Include(nameof(CleanerTeam.PostalAddress))
-							  .FirstOrDefault();
+					string sql = @"select * from Cleaners C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.ID = '" + CleanerId + "'";
 
-					var _objTeamDelete = context.CleanerRosteredTeam
-							.Where(f => f.TeamRefId == CleanerId)
-							.ToArray<CleanerRosteredTeam>();
+					var _objToDelete = db.Query<CleanerTeam, Address, Address, CleanerTeam>(sql, (clnr, phys, post) => {
+						clnr.PhysicalAddress = phys;
+						clnr.PostalAddress = post;
+						return clnr;
+					}).SingleOrDefault();
 
-					if (_objToDelete == null)
+					sql = @"select * from CleanerRosteredTeam C 
+								where C.TeamRefId = '" + CleanerId + "'";
+
+					var _objTeamDelete = db.Query<CleanerRosteredTeam>(sql).ToArray();
+
+                   if (_objToDelete == null)
 					{
 						ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
 					}
@@ -616,12 +660,9 @@ namespace MagicMaids.Controllers
 					var _physAddress = _objToDelete.PhysicalAddress;
 					var _postAddress = _objToDelete.PostalAddress;
 
-					context.Addresses.Remove(_physAddress);
-					context.Addresses.Remove(_postAddress);
-					context.CleanerRosteredTeam.RemoveRange(_objTeamDelete);
-
-					context.Entry(_objToDelete).State = EntityState.Deleted;
-					context.SaveChanges();
+					db.Delete<LogEntry>(_physAddress);
+					db.Delete<LogEntry>(_postAddress);
+					db.Delete<LogEntry>(_objToDelete);
 
 					return JsonSuccessResponse($"{_objDesc} deleted successfully", _objToDelete);
 				}
@@ -654,18 +695,37 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (var context = new MagicMaidsContext())
+				StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where 1=1");
+				if (!searchCriteria.SelectedFranchiseId.Equals(Guid.Empty))
 				{
-					var _results = context.Cleaners
-							.Include(nameof(Cleaner.PhysicalAddress))
-						.Where(f => searchCriteria.SelectedFranchiseId.Equals(Guid.Empty) || f.MasterFranchiseRefId == searchCriteria.SelectedFranchiseId)
-						.Where(f => (searchCriteria.Name == null || searchCriteria.Name.Trim() == string.Empty) || (f.FirstName + " " + f.LastName).Contains(searchCriteria.Name))
-						.Where(f => (searchCriteria.Zone == null || searchCriteria.Zone.Trim() == string.Empty)
-							   || ("," + f.PrimaryZone + ",").Contains("," + searchCriteria.Zone + ",")
-							   || ("," + f.SecondaryZone + ",").Contains("," + searchCriteria.Zone + ","))
-						.Where(f => (searchCriteria.IncludeInactive == false && f.IsActive == true) || searchCriteria.IncludeInactive == true)
-						.OrderByDescending(f => f.Rating).ThenBy(f => new { f.LastName, f.FirstName })
-						  .ToList();
+					sql.Append($" and C.MasterFranchiseRefId = '{searchCriteria.SelectedFranchiseId.ToString()}'");
+				}
+
+				if (!String.IsNullOrWhiteSpace(searchCriteria.Zone))
+				{
+					sql.Append($" and (C.PrimaryZone like '%{searchCriteria.Zone}%' || C.SecondaryZone like '%{searchCriteria.Zone.Trim()}%' )");
+				}
+
+				if (!String.IsNullOrWhiteSpace(searchCriteria.Name))
+				{
+					sql.Append($" and concat(C.FirstName, ' ', C.LastName) like '%{searchCriteria.Name.Trim()}%'");
+				}
+
+				if (!searchCriteria.IncludeInactive)
+				{
+					sql.Append(" and C.IsActive = true");
+				}
+
+
+				sql.Append(" order by C.Rating desc, C.LastName, C.FirstName");
+
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				{
+					var _results = db.Query<Cleaner, Address, Cleaner>(sql.ToString(), (clnr, phys) => {
+						clnr.PhysicalAddress = phys;
+						return clnr;
+					}).ToList();
 
 					var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerDetailsVM>>(_results);
 
@@ -699,36 +759,46 @@ namespace MagicMaids.Controllers
 				return JsonFormResponse();
 			}
 
-			string query = "SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount,"
-				+ "CT.ID, CT.FirstName, CT.LastName, CRT.IsPrimary "
-				+ "FROM CleanerRoster CR "
-				+ "inner JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 0 "
-				+ "inner JOIN CleanerTeam CT on CT.ID = CRT.TeamRefId "
-				+ $"WHERE CR.PrimaryCleanerRefId = '{CleanerId}' "
-				+ "AND CR.IsActive = 1 "
-				+ "UNION "
-				+ "SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, "
-				+ "C.ID, C.FirstName, C.LastName , CRT.IsPrimary "
-				+ "FROM CleanerRoster CR "
-				+ "INNER JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 1 "
-				+ "INNER JOIN Cleaners C on C.ID = CRT.TeamRefId AND CRT.IsPrimary = 1 "
-				+ $"WHERE CR.PrimaryCleanerRefId = '{CleanerId}' "
-				+ "ORDER BY WeekDay, StartTime, EndTime";
+			string sql = @"SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount,
+				 CT.ID, CT.FirstName, CT.LastName, CRT.IsPrimary 
+				 FROM CleanerRoster CR 
+				 inner JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 0 
+				 inner JOIN CleanerTeam CT on CT.ID = CRT.TeamRefId 
+				 WHERE CR.PrimaryCleanerRefId = '" + CleanerId + "' " +
+				 @" AND CR.IsActive = 1 
+				 UNION 
+				 SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, 
+				 C.ID, C.FirstName, C.LastName , CRT.IsPrimary 
+				 FROM CleanerRoster CR 
+				 INNER JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 1 
+				 INNER JOIN Cleaners C on C.ID = CRT.TeamRefId AND CRT.IsPrimary = 1 
+				 WHERE CR.PrimaryCleanerRefId = '" + CleanerId + "' " +
+				 @"ORDER BY WeekDay, StartTime, EndTime";
+			//using (var context = new MagicMaidsContext())
+			//{
+			//	var _results = context.Database.SqlQuery<RosterTeamMembersVM>(query).ToList();
+			//	List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
 
-			using (var context = new MagicMaidsContext())
-			{
-				var _results = context.Database.SqlQuery<RosterTeamMembersVM>(query).ToList();
-				List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
+			//	return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			//}
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				//{
+				//	var _results = db.Query<CleanerRoster, CleanerRosteredTeam, CleanerRoster>(sql, (r, ct) => {
+				//		r.CleanerRosteredTeam = ct;
+				//		return r;
+				//	}).ToList();
 
-				return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-			}
+				//	List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
+
+				//	return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+				//}
+
+				return null;
 		}
 
 		[HttpPost]
 		public ActionResult SaveCleanerRoster(Guid? CleanerId, List<CleanerRosterVM> dataList)
 		{
-			string _objDesc = "Cleaner Roster";
-
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
 
 			if (dataList == null || dataList.Count == 0 || !CleanerId.HasValue)
@@ -774,7 +844,7 @@ namespace MagicMaids.Controllers
 							TeamCount = item.TeamCount,
 							Weekday = item.Weekday,
 							IsActive = item.IsActive,
-							PrimaryCleanerRefId = CleanerId.Value
+							PrimaryCleanerRefId = CleanerId.Value.ToString()
 
 						};
 						roster.CleanerRosteredTeam = new List<CleanerRosteredTeam>();
@@ -784,9 +854,9 @@ namespace MagicMaids.Controllers
 							{
 								rosteredTeam = new CleanerRosteredTeam()
 								{
-									RosterRefId = roster.Id,
+									RosterRefId = roster.Id.ToString(),
 									IsPrimary = teamMember.IsPrimary,
-									TeamRefId = teamMember.Id
+									TeamRefId = teamMember.Id.ToString()
 								};
 								_checkList.Add(teamMember.Id.ToString());
 								roster.CleanerRosteredTeam.Add(rosteredTeam);
@@ -801,68 +871,59 @@ namespace MagicMaids.Controllers
 			{
 				try
 				{
-					using (var context = new MagicMaidsContext())
-					{
-						// first delete the existing roster
-						string query = "SELECT * "
+					string query = "SELECT * "
 							+ "FROM CleanerRosteredTeam  "
 							+ "WHERE RosterRefId in ("
 							+ $"select Id from CleanerRoster where PrimaryCleanerRefId = '{CleanerId}'"
 							+ ")";
-						var _objChildToDelete = context.Database.SqlQuery<CleanerRosteredTeam>(query).ToList();
 
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					{
+						// first delete the existing roster
+						List<CleanerRosteredTeam> _objChildToDelete = db.GetList<CleanerRosteredTeam>().ToList();
 						foreach (var _item in _objChildToDelete)
 						{
-							context.Entry(_item).State = EntityState.Deleted;
+							db.Delete<CleanerRosteredTeam>(_item);
 						}
 
-						var _objToDelete = context.CleanerRoster
-													.Where(f => f.PrimaryCleanerRefId == CleanerId)
-													.ToList();
+						List<CleanerRoster> _objToDelete = db.GetList<CleanerRoster>(new { PrimaryCleanerRefId = CleanerId }).ToList();
 						foreach (var _item in _objToDelete)
 						{
-							context.Entry(_item).State = EntityState.Deleted;
+							db.Delete<CleanerRoster>(_item);
 						}
-
 
 						// insert new roster
 						foreach (CleanerRoster _objToInsert in rosterList)
 						{
-							context.Entry(_objToInsert).State = EntityState.Added;
+							db.Insert<CleanerRoster>(UpdateAuditTracking(_objToInsert));
 
 							foreach (CleanerRosteredTeam _objToInsertChild in _objToInsert.CleanerRosteredTeam)
 							{
-								context.Entry(_objToInsertChild).State = EntityState.Added;
+								db.Insert<CleanerRosteredTeam>(UpdateAuditTracking(_objToInsertChild));
 							}
 						}
 
-						context.SaveChanges();
 					}
 					return JsonSuccessResponse("Team roster saved successfully", dataList);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (CleanerRoster)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The Team roster was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (CleanerRoster)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (CleanerRoster)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The Team roster was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (CleanerRoster)databaseEntry.ToObject();
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving team roster", ex));
@@ -892,14 +953,11 @@ namespace MagicMaids.Controllers
 
 			List<CleanerLeave> _entityList = new List<CleanerLeave>();
 
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_entityList = context.CleanerLeave
-						   .Where(p => p.PrimaryCleanerRefId == CleanerId)
-						   .OrderByDescending(p => p.StartDate)
-						.ThenByDescending(p => p.EndDate)
-						   .ToList();
+				_entityList = db.Query<CleanerLeave>($"Select * from CleanerLeave where PrimaryCleanerRefId = '{CleanerId}' order by StartDate desc, EndDate desc").ToList();
 			}
+
 			List<CleanerLeaveVM> _editList = new List<CleanerLeaveVM>();
 			foreach (CleanerLeave _item in _entityList)
 			{
@@ -931,22 +989,20 @@ namespace MagicMaids.Controllers
 				{
 					CleanerLeave _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
 							_objToUpdate = new CleanerLeave();
-							_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId;
+							_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId.ToString();
 							_objToUpdate.StartDate = formValues.StartDate;
 							_objToUpdate.EndDate = formValues.EndDate;
 
-							context.Entry(_objToUpdate).State = EntityState.Added;
+							db.Insert<CleanerLeave>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
-							_objToUpdate = context.CleanerLeave
-									 .Where(f => f.Id == _id)
-											  .FirstOrDefault();
+							_objToUpdate = db.Query<CleanerLeave>($"Select * from CleanerLeave where id = {_id}").SingleOrDefault();
 
 							if (_objToUpdate == null)
 							{
@@ -954,46 +1010,39 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+							db.Update(UpdateAuditTracking(_objToUpdate));
 						}
-
-						context.SaveChanges();
 					}
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (CleanerLeave)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (CleanerLeave)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (CleanerLeave)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (CleanerLeave)databaseEntry.ToObject();
 
-						if (databaseValues.StartDate != clientValues.StartDate)
-						{
-							ModelState.AddModelError("LeaveStart", "Current database value for start date: " + databaseValues.StartDate);
-						}
+				//		if (databaseValues.StartDate != clientValues.StartDate)
+				//		{
+				//			ModelState.AddModelError("LeaveStart", "Current database value for start date: " + databaseValues.StartDate);
+				//		}
 
-						if (databaseValues.EndDate != clientValues.EndDate)
-						{
-							ModelState.AddModelError("PostCode", "Current database value for end date: " + databaseValues.EndDate);
-						}
+				//		if (databaseValues.EndDate != clientValues.EndDate)
+				//		{
+				//			ModelState.AddModelError("PostCode", "Current database value for end date: " + databaseValues.EndDate);
+				//		}
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
@@ -1023,16 +1072,11 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (var context = new MagicMaidsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					var objToDelete = context.CleanerLeave.FirstOrDefault(l => l.Id == id.Value);
-					if (objToDelete != null)
-					{
-						context.CleanerLeave.Remove(objToDelete);
-						context.SaveChanges();
-					}
+					db.Delete<LogEntry>(new { Id = id.Value });
 
-					return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id="+id.Value);
 				}
 			}
 			catch (Exception ex)

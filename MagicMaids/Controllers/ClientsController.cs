@@ -6,8 +6,6 @@ using MagicMaids.ViewModels;
 
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Text;
 using System.Linq;
 using System.Web.Mvc;
@@ -18,6 +16,8 @@ using NLog;
 
 using AutoMapper;
 using MagicMaids.Security;
+using System.Data;
+using Dapper;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -64,52 +64,54 @@ namespace MagicMaids.Controllers
 
 				try
 				{
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
-						var _results = context.Clients.AsQueryable()
-								.Include(nameof(Client.PhysicalAddress));
-						if (_results != null)
+						StringBuilder sql = new StringBuilder(@"select * from Clients C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where 1=1");
+						
+						if (!String.IsNullOrWhiteSpace(searchCriteria.Name))
 						{
-							if (!String.IsNullOrWhiteSpace(searchCriteria.Name))
-							{
-								_results = _results.Where(x => x.FirstName.ToLower().StartsWith(searchCriteria.Name.ToLower()) || x.LastName.ToLower().StartsWith(searchCriteria.Name.ToLower()));
-							}
-							if (!String.IsNullOrWhiteSpace(searchCriteria.Phone))
-							{
-								_results = _results.Where(x => x.BusinessPhoneNumber.StartsWith(searchCriteria.Phone) ||
-														  x.MobileNumber.StartsWith(searchCriteria.Phone) ||
-														  x.OtherNumber.StartsWith(searchCriteria.Phone));
-							}
-							if (!String.IsNullOrWhiteSpace(searchCriteria.Address))
-							{
-								_results = _results.Where(x => x.PhysicalAddress.AddressLine1.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-														  x.PhysicalAddress.AddressLine2.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-														  x.PhysicalAddress.AddressLine3.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-														  x.PhysicalAddress.State.ToLower().Contains(searchCriteria.Address.ToLower()) ||
-														  x.PhysicalAddress.Country.ToLower().Contains(searchCriteria.Address.ToLower()));
-							}
-							if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
-							{
-								_results = _results.Where(x => x.PhysicalAddress.Suburb.ToLower().Contains(searchCriteria.Suburb.ToLower()) ||
-														  x.PhysicalAddress.PostCode == searchCriteria.Suburb);
-							}
-							if (!searchCriteria.IncludeInactive)
-							{
-								_results = _results.Where(x => x.IsActive == true);
-							}
+							sql.Append($" and (C.FirstName like '{searchCriteria.Name}%' or C.LastName like '{searchCriteria.Name}%')" );
+						}
 
-							if (!String.IsNullOrWhiteSpace(searchCriteria.Cleaner))
-							{
-								// todo add sub query
-								// https://stackoverflow.com/questions/2066084/in-operator-in-linq?answertab=active#tab-top
-								// https://stackoverflow.com/questions/23685375/subquery-with-entity-framework
+						if (!String.IsNullOrWhiteSpace(searchCriteria.Phone))
+						{
+							sql.Append($" and (C.BusinessPhoneNumber like '{searchCriteria.Phone}%' or C.MobileNumber like '{searchCriteria.Phone}%' or C.OtherNumber like '{searchCriteria.Phone}%')");
+						}
 
+						if (!String.IsNullOrWhiteSpace(searchCriteria.Address))
+						{
+							sql.Append($" and (Ph.AddressLine1 like '%{searchCriteria.Address}%'");
+							sql.Append($" or Ph.AddressLine2 like '{searchCriteria.Address}%'");
+							sql.Append($" or Ph.AddressLine3 like '{searchCriteria.Address}%'");
+							sql.Append($" or Ph.State like '{searchCriteria.Address}%'");
+							sql.Append($" or Ph.Country like '{searchCriteria.Address}%')");
+						}
 
-							}
-						};
+						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
+						{
+							sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%'");
+							sql.Append($" or Ph.Suburb like '{searchCriteria.Suburb}%')");
+						}
 
-						var _orderedResults = _results.OrderBy(f => new { f.LastName, f.FirstName })
-								   .ToList();
+						if (!searchCriteria.IncludeInactive)
+						{
+							sql.Append($" and Ph.IsActive = 1");
+						}
+
+						if (!String.IsNullOrWhiteSpace(searchCriteria.Cleaner))
+						{
+							// todo add sub query
+							// https://stackoverflow.com/questions/2066084/in-operator-in-linq?answertab=active#tab-top
+							// https://stackoverflow.com/questions/23685375/subquery-with-entity-framework
+						}
+
+						sql.Append(" order by C.LastName, C.FirstName ");
+
+						var _orderedResults = db.Query<Client, Address, Client>(sql.ToString(), (clnr, phys) => {
+							clnr.PhysicalAddress = phys;
+							return clnr;
+						}).ToList();
 
 						var _vmResults = Mapper.Map<List<Client>, List<ClientDetailsVM>>(_orderedResults);
 
@@ -152,13 +154,18 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				using (var context = new MagicMaidsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					_client = context.Clients
-								  .Where(f => f.Id == ClientId)
-								  .Include(nameof(Cleaner.PhysicalAddress))
-								  .Include(nameof(Cleaner.PostalAddress))
-								.FirstOrDefault();
+					string sql = @"select * from Clients C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.ID = '" + ClientId + "'";
+
+					_client = db.Query<Client, Address, Address, Client>(sql, (cl, phys, post) => {
+						cl.PhysicalAddress = phys;
+						cl.PostalAddress = post;
+						return cl;
+					}).SingleOrDefault();
 
 					if (_client == null)
 					{
@@ -225,59 +232,25 @@ namespace MagicMaids.Controllers
 				{
 					Client _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
-							_objToUpdate = new Client();
-
-							_objToUpdate.FirstName = dataItem.FirstName;
-							_objToUpdate.LastName = dataItem.LastName;
-							_objToUpdate.EmailAddress = dataItem.EmailAddress;
-							_objToUpdate.IsActive = dataItem.IsActive;
-							_objToUpdate.MobileNumber = dataItem.MobileNumber;
-							_objToUpdate.OtherNumber = dataItem.OtherNumber;
-							_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
-							_objToUpdate.ClientType = dataItem.ClientType;
-
-							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-							if (dataItem.PhysicalAddress != null)
-							{
-								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
-								_objToUpdate.PhysicalAddress.IsActive = true;
-								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
-							}
-
-							if (dataItem.PostalAddress != null)
-							{
-								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-								_objToUpdate.PostalAddress.IsActive = true;
-								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-							}
-
-							context.Entry(_objToUpdate).State = EntityState.Added;
+							_objToUpdate = UpdateClient(null, dataItem);
+							var newId = db.Insert(_objToUpdate); 
 						}
 						else
 						{
-							_objToUpdate = context.Clients
-									 .Where(f => f.Id == _id)
-											  .Include(nameof(Cleaner.PhysicalAddress))
-											  .Include(nameof(Cleaner.PostalAddress))
-											  .FirstOrDefault();
+							string sql = @"select * from Clients C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.ID = '" + _id + "'";
+
+							_objToUpdate = db.Query<Client, Address, Address, Client>(sql, (clnt, phys, post) => {
+								clnt.PhysicalAddress = phys;
+								clnt.PostalAddress = post;
+								return clnt;
+							}).SingleOrDefault();
 
 							if (_objToUpdate == null)
 							{
@@ -285,45 +258,41 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
-						}
 
-						context.SaveChanges();
+							_objToUpdate = UpdateClient(_objToUpdate, dataItem);
+
+							db.Update(dataItem);
+							db.Update(dataItem.PhysicalAddress);
+							db.Update(dataItem.PostalAddress);
+						}
 					}
 
 					return JsonSuccessResponse("Customer saved successfully", _objToUpdate);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (Client)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The customer was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (Client)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (Client)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The customer was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (Client)databaseEntry.ToObject();
 
-						if (databaseValues.FirstName != clientValues.FirstName)
-							ModelState.AddModelError("FirstName", "Current database value for customer first name: " + databaseValues.FirstName);
+				//		if (databaseValues.FirstName != clientValues.FirstName)
+				//			ModelState.AddModelError("FirstName", "Current database value for customer first name: " + databaseValues.FirstName);
 
-						if (databaseValues.LastName != clientValues.LastName)
-							ModelState.AddModelError("LastName", "Current database value for customer surname: " + databaseValues.LastName);
+				//		if (databaseValues.LastName != clientValues.LastName)
+				//			ModelState.AddModelError("LastName", "Current database value for customer surname: " + databaseValues.LastName);
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					//_msg = new InfoViewModel("Error saving cleaner", ex);
@@ -342,6 +311,60 @@ namespace MagicMaids.Controllers
 			return JsonFormResponse();
 		}
 
+		private Client UpdateClient(Client _objToUpdate, ClientDetailsVM dataItem)
+		{
+
+			if (dataItem == null)
+			{
+				return _objToUpdate;
+			}
+
+			if (_objToUpdate == null)
+			{
+				_objToUpdate = new Client();
+			}
+
+			_objToUpdate.FirstName = dataItem.FirstName;
+			_objToUpdate.LastName = dataItem.LastName;
+			_objToUpdate.EmailAddress = dataItem.EmailAddress;
+			_objToUpdate.IsActive = dataItem.IsActive;
+			_objToUpdate.MobileNumber = dataItem.MobileNumber;
+			_objToUpdate.OtherNumber = dataItem.OtherNumber;
+			_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
+			_objToUpdate.ClientType = dataItem.ClientType;
+
+			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+			if (dataItem.PhysicalAddress != null)
+			{
+				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+				_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+				_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+				_objToUpdate.PhysicalAddress.IsActive = true;
+				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+			}
+
+			if (dataItem.PostalAddress != null)
+			{
+				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+				_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+				_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+				_objToUpdate.PostalAddress.IsActive = true;
+				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+			}
+
+			return UpdateAuditTracking(_objToUpdate);
+		}
+
 		[HttpGet]
 		public ActionResult GetClientPaymentMethods(Guid? ClientId)
 		{
@@ -353,19 +376,16 @@ namespace MagicMaids.Controllers
 
 			List<ClientMethod> _entityList = new List<ClientMethod>();
 
-			MagicMaids.Security.DefaultCrypto _encryption = new MagicMaids.Security.DefaultCrypto();
+			DefaultCrypto _encryption = new DefaultCrypto();
 			var _hash = _encryption.Hash("|" + ClientId.ToString());
 			if (String.IsNullOrWhiteSpace(_hash))
 			{
 				throw new InvalidOperationException("Error decrypting payment details.");
 			}
 
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_entityList = context.ClientMethods
-						   .Where(p => p.Validated == _hash)
-						   .OrderByDescending(p => p.CreatedAt)
-						   .ToList();
+				_entityList = db.Query<ClientMethod>($"Select * from Methods where Validated = '{_hash}' order by CreatedAt").ToList();
 			}
 
 			List<ClientPaymentMethodVM> _editList = new List<ClientPaymentMethodVM>();
@@ -414,40 +434,34 @@ namespace MagicMaids.Controllers
 					ClientMethod _objToUpdate = new ClientMethod()
 					{
 						Details = Crypto.Encrypt(_ccDetails.ToString(), _hash),
-						Id = Guid.NewGuid(),
+						Id = Guid.NewGuid().ToString(),
 						IsActive = true,
 						Validated =  _hash,
 					};
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
-						context.Entry(_objToUpdate).State = EntityState.Added;
-						context.SaveChanges();
+						var newId = db.Insert(UpdateAuditTracking(_objToUpdate)); 
 					}
 					return JsonSuccessResponse("Customer payment method saved successfully", _objToUpdate);
 
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (ClientMethod)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The payment method was deleted by another user.");
-					}
-					else
-					{
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (ClientMethod)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The payment method was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					//_msg = new InfoViewModel("Error saving cleaner", ex);
@@ -479,11 +493,9 @@ namespace MagicMaids.Controllers
 				ClientMethod _objToUpdate = null;
 				try
 				{
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
-						_objToUpdate = context.ClientMethods
-									 	.Where(f => f.Id == dataItem.Id)
-									  	.FirstOrDefault();
+						_objToUpdate = db.Get<ClientMethod>(new { Id = dataItem.Id });
 
 						if (_objToUpdate == null)
 						{
@@ -516,35 +528,28 @@ namespace MagicMaids.Controllers
 
 						_objToUpdate.Details = Crypto.Encrypt(_ccDetails.ToString(), _hash);
 
-						context.Entry(_objToUpdate).State = EntityState.Modified;
-						context.SaveChanges();
-
+						db.Update(UpdateAuditTracking(_objToUpdate));
 					}
 
 					return JsonSuccessResponse("Payment method saved successfully", _objToUpdate);
 
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (ClientMethod)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The payment method was deleted by another user.");
-					}
-					else
-					{
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (ClientMethod)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The payment method was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					//_msg = new InfoViewModel("Error saving cleaner", ex);
@@ -575,19 +580,11 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (var context = new MagicMaidsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					var _objToDelete = context.ClientMethods
-							.Where(f => f.Id == id.Value)
-							.FirstOrDefault();
-
-					if (_objToDelete != null)
-					{
-						context.Entry(_objToDelete).State = EntityState.Deleted;
-						context.SaveChanges();
-					}
-
-					return JsonSuccessResponse($"{_objDesc} deleted successfully", _objToDelete);
+					
+					db.Delete<ClientMethod>(id);
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id = " + id);
 				}
 			}
 			catch(Exception ex)
@@ -619,13 +616,9 @@ namespace MagicMaids.Controllers
 
 			List<ClientLeave> _entityList = new List<ClientLeave>();
 
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_entityList = context.ClientLeave
-						   .Where(p => p.ClientRefId == ClientId)
-						   .OrderByDescending(p => p.StartDate)
-						.ThenByDescending(p => p.EndDate)
-						   .ToList();
+				_entityList = db.Query<ClientLeave>($"Select * from ClientLeave where ClientRefId = '{ClientId}' order by StartDate desc, EndDate desc").ToList();
 			}
 
 			List<ClientLeaveVM> _editList = new List<ClientLeaveVM>();
@@ -659,70 +652,60 @@ namespace MagicMaids.Controllers
 				{
 					ClientLeave _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
 							_objToUpdate = new ClientLeave();
-							_objToUpdate.ClientRefId = formValues.ClientId;
+							_objToUpdate.ClientRefId = formValues.ClientId.ToString();
 							_objToUpdate.StartDate = formValues.StartDate;
 							_objToUpdate.EndDate = formValues.EndDate;
 
-							context.Entry(_objToUpdate).State = EntityState.Added;
+							var newId = db.Insert(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
-							_objToUpdate = context.ClientLeave
-									 .Where(f => f.Id == _id)
-											  .FirstOrDefault();
-
+							_objToUpdate = db.Get<ClientLeave>(new {Id = _id});
 							if (_objToUpdate == null)
 							{
 								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
 								return JsonFormResponse();
 							}
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+							db.Update(UpdateAuditTracking(_objToUpdate));
 						}
-
-						context.SaveChanges();
 
 						return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 					}
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (ClientLeave)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (ClientLeave)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (ClientLeave)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (ClientLeave)databaseEntry.ToObject();
 
-						if (databaseValues.StartDate != clientValues.StartDate)
-						{
-							ModelState.AddModelError("LeaveStart", "Current database value for start date: " + databaseValues.StartDate);
-						}
+				//		if (databaseValues.StartDate != clientValues.StartDate)
+				//		{
+				//			ModelState.AddModelError("LeaveStart", "Current database value for start date: " + databaseValues.StartDate);
+				//		}
 
-						if (databaseValues.EndDate != clientValues.EndDate)
-						{
-							ModelState.AddModelError("PostCode", "Current database value for end date: " + databaseValues.EndDate);
-						}
+				//		if (databaseValues.EndDate != clientValues.EndDate)
+				//		{
+				//			ModelState.AddModelError("PostCode", "Current database value for end date: " + databaseValues.EndDate);
+				//		}
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
@@ -752,16 +735,10 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (var context = new MagicMaidsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					var objToDelete = context.ClientLeave.FirstOrDefault(l => l.Id == id.Value);
-					if (objToDelete != null)
-					{
-						context.ClientLeave.Remove(objToDelete);
-						context.SaveChanges();
-					}
-
-					return JsonSuccessResponse($"{_objDesc} deleted successfully", objToDelete);
+					db.Delete<ClientLeave>(new {Id = id.Value});
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id=" + id.Value);
 				}
 			}
 			catch (Exception ex)

@@ -1,46 +1,44 @@
-﻿#region Using
-using System;
-using System.Configuration;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Diagnostics;
+﻿//#region Using
+//using System;
+//using System.Configuration;
+//using System.Diagnostics;
 
-using MagicMaids.EntityModels;
-using MySql.Data.MySqlClient;
-using NLog;
+//using MagicMaids.EntityModels;
+//using MySql.Data.MySqlClient;
+//using NLog;
 
-#endregion
+//#endregion
 
-namespace MagicMaids.DataAccess 
-{
-	public class DBLogsContext : DbContext
-	{
-		#region Constructors
-		public DBLogsContext(): base(nameOrConnectionString: MagicMaidsInitialiser.getConnection())
-		{
-			MagicMaidsInitialiser.CheckConnection((MySqlConnection)Database.Connection);
-			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
+//namespace MagicMaids.DataAccess 
+//{
+//	public class DBLogsContext : DbContext
+//	{
+//		#region Constructors
+//		public DBLogsContext(): base(nameOrConnectionString: MagicMaidsInitialiser.getConnection())
+//		{
+//			MagicMaidsInitialiser.CheckConnection((MySqlConnection)Database.Connection);
+//			((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 180;
 
-			this.Configuration.LazyLoadingEnabled = false;
+//			this.Configuration.LazyLoadingEnabled = false;
 
-			LogEntries = Set<LogEntry>();
+//			LogEntries = Set<LogEntry>();
 
-			Log = LogManager.GetLogger(GetType().FullName);
-		}
-		#endregion
+//			Log = LogManager.GetLogger(GetType().FullName);
+//		}
+//		#endregion
 
-		#region Properties, Protected
-		protected Logger Log { get; private set; }
+//		#region Properties, Protected
+//		protected Logger Log { get; private set; }
 
-		public DbSet<LogEntry> LogEntries
-		{
-			get;
-			set;
-		}
-		#endregion
+//		public DbSet<LogEntry> LogEntries
+//		{
+//			get;
+//			set;
+//		}
+//		#endregion
 
-		#region Methods, Public
+//		#region Methods, Public
 
-		#endregion
-	}
-}
+//		#endregion
+//	}
+//}

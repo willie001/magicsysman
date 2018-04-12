@@ -1,12 +1,14 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Dapper;
+using LazyCache;
 using MagicMaids.DataAccess;
 using MagicMaids.ViewModels;
 
@@ -35,9 +37,57 @@ namespace MagicMaids.Controllers
 
         #region Properties, Protected
         protected Logger Log { get; private set; }
-        #endregion
+		#endregion
 
-        #region Methods, Protected
+		#region Methods, Protected
+
+		protected IEnumerable<T> GetList<T>()
+		{
+			return GetList<T>(new TimeSpan(0, 5, 0));
+		}
+
+		protected IEnumerable<T> GetList<T>(TimeSpan time)
+		{
+			IEnumerable<T> results = new List<T>();
+			String cacheName = (typeof(T)).ToString();
+
+			if (String.IsNullOrWhiteSpace(cacheName))
+			{
+				return results;
+			}
+
+			IAppCache cache = new CachingService();
+			return cache.GetOrAdd(cacheName, () => GetListFromDb<T>(), time);
+		}
+
+		private IEnumerable<T> GetListFromDb<T>()
+		{
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			{
+				return db.GetList<T>(); 
+			}
+		}
+
+		//Verander die dat dit die cache check. As die item nie daar is nie expire cache en laai item direk
+		//protected T GetItem<T>(object primaryKey)
+		//{
+		//	var result = default(T);
+		//	if (primaryKey is null)
+		//	{
+		//		return result;
+		//	}
+
+		//	var cachedResults = GetList<T>();
+		//	if (cachedResults == null)
+		//	{
+		//		return result;
+		//	}
+
+		//	result = cachedResults.FirstOrDefault<T>((System.Func<T, bool>)primaryKey);
+
+		//	return result;
+		//}
+
 		/// <summary>
 		/// Read the timezone offset value from cookie and store in session.
 		/// </summary>
@@ -112,6 +162,32 @@ namespace MagicMaids.Controllers
 			}
 			else
 				return JsonFormResponse();
+		}
+
+		protected T UpdateAuditTracking<T>(T dataInstance)
+		{
+			if (dataInstance == null)
+			{
+				return dataInstance;
+			}
+
+
+			//string currentUser = HttpContext.Current.User.Identity.Name;
+
+			//if (String.IsNullOrWhiteSpace(currentUser))
+				//currentUser = "TODO";
+
+			//dataInstance.
+			//				change.Entity.UpdatedAt = DateTime.Now;
+			//				change.Entity.RowVersion = DateTime.Now;
+			//				change.Entity.UpdatedBy = currentUser;
+
+			//				if (change.State == EntityState.Added)
+			//				{
+			//					change.Entity.CreatedAt = DateTime.Now;
+			//				}
+
+			return dataInstance;
 		}
 
 		//protected override void OnException(ExceptionContext filterContext)

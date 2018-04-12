@@ -14,21 +14,22 @@ namespace MagicMaids.EntityModels
 		[Required]
 		[DatabaseGenerated(DatabaseGeneratedOption.None)]
 		[Column("Id")]
-		public Guid Id
+		public String Id
 		{
 			get
 			{
-				if (!_id.HasValue)
+				if (!Helpers.IsValidGuid(_id.ToString()))
 				{
 					_id = Guid.NewGuid();
 				}
-				return _id.Value;
+
+				return _id.ToString();
 			}
 			set
 			{
-				if (value != _id)
+				if (value != _id.ToString() && Helpers.IsValidGuid(value))
 				{
-					_id = value;
+					_id = new Guid(value);
 				}
 			}
 		}
@@ -43,7 +44,7 @@ namespace MagicMaids.EntityModels
 		#endregion 
 
 		#region Properties, Foreign Key
-		public Guid RosterRefId
+		public String RosterRefId
 		{
 			get;
 			set;
@@ -56,7 +57,7 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		public Guid TeamRefId
+		public String TeamRefId
 		{
 			get;
 			set;

@@ -1,7 +1,6 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
-using System.Data.Entity.Validation;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -40,38 +39,38 @@ namespace MagicMaids
 				return msgStarter;
 
 			String error = string.Empty;
-			if (ex.GetType().Equals(typeof(DbEntityValidationException)))
-			{
-				error = ParseValidationErrors(ex);
-			}
-			else
-			{
+			//if (ex.GetType().Equals(typeof(DbEntityValidationException)))
+			//{
+			//	error = ParseValidationErrors(ex);
+			//}
+			//else
+			//{
 				error = ex.Message;
 				if (ex.InnerException != null)
 					error += $"; {ex.InnerException.Message}";
-			}
+			//}
 
 			return $"{msgStarter} ({error})";
 		}
 
 		public static String ParseValidationErrors(Exception ex)
 		{
-			if (ex == null || !ex.GetType().Equals(typeof(DbEntityValidationException)))
-				return string.Empty;
+			//if (ex == null || !ex.GetType().Equals(typeof(DbEntityValidationException)))
+			//	return string.Empty;
 
-			var valEx = (DbEntityValidationException)ex;
+			//var valEx = (DbEntityValidationException)ex;
 			var results = string.Empty;
-			foreach(DbEntityValidationResult _err in valEx.EntityValidationErrors)
-			{
-				foreach(DbValidationError _item in _err.ValidationErrors)
-				{
-					if (results.Length > 0)
-						results += ", ";
+			//foreach(DbEntityValidationResult _err in valEx.EntityValidationErrors)
+			//{
+			//	foreach(DbValidationError _item in _err.ValidationErrors)
+			//	{
+			//		if (results.Length > 0)
+			//			results += ", ";
 
-					results += _item.ErrorMessage.Replace(".","") ;
-				}
+			//		results += _item.ErrorMessage.Replace(".","") ;
+			//	}
 
-			}
+			//}
 
 			return $"Validation failed for one or more entities: {results}";
 		}
@@ -144,6 +143,27 @@ namespace MagicMaids
 
 			var i = 0;
 			return Int32.TryParse(input, out i);
+		}
+
+		public static Boolean IsValidGuid(String input)
+		{
+			if (String.IsNullOrWhiteSpace(input))
+			{
+				return false;
+			}
+
+			Guid value;
+			if (!Guid.TryParse(input, out value))
+			{
+				return false;
+			}
+
+			if (value.Equals(Guid.Empty))
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		public static Int32 ToInt32(String input)

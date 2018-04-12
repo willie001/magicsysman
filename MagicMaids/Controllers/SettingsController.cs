@@ -10,8 +10,6 @@ using MagicMaids.ViewModels;
 
 using NLog;
 
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Globalization;
 using Newtonsoft.Json;
 using MagicMaids.Validators;
@@ -21,6 +19,7 @@ using MySql.Data.MySqlClient;
 using System.Text;
 using System.Data;
 using Newtonsoft.Json.Linq;
+using Dapper;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -48,15 +47,6 @@ namespace MagicMaids.Controllers
 		[OutputCache(CacheProfile = "CacheForDemo")]
 		public ActionResult Templates()
 		{
-			bool _chkShowDisabled = false;
-
-			//if (_tempRepo == null)
-			//	_tempRepo = new TemplateRepository();
-
-			//List<Template> _itemList = _tempRepo.GetAll(_chkShowDisabled).ToList<Template>();
-
-			//return View(_itemList);
-
 			return View();
 		}
 
@@ -69,17 +59,6 @@ namespace MagicMaids.Controllers
 		[OutputCache(CacheProfile = "CacheForDemo")]
 		public ActionResult UserAccounts()
 		{
-			bool _chkShowDisabled = false;
-
-			//if (_userRepo == null)
-			//{
-			//	_userRepo = new UserAccountRepository();
-			//}
-
-			//List<UserAccount> _itemList = _userRepo.GetAll(_chkShowDisabled).ToList<UserAccount>();
-
-			//return View(_itemList);
-
 			return View();
 		}
 
@@ -117,17 +96,21 @@ namespace MagicMaids.Controllers
 		{
 			List<SystemSetting> _settings = new List<SystemSetting>();
 
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				if (incDisabled != null && incDisabled == 1)
+				try
 				{
-					_settings = context.DefaultSettings.ToList();
+					if (incDisabled != null && incDisabled == 1)
+					{
+						_settings = db.GetList<SystemSetting>().ToList();
+					}
+					else
+					{
+						_settings = db.GetList<SystemSetting>(new { IsActive = 1 }).ToList();
+					}
 				}
-				else
-				{
-					_settings = context.DefaultSettings
-						 .Where(p => p.IsActive == true)
-						 .ToList();
+				catch (Exception ex){
+					string s =ex.Message;
 				}
 			}
 
@@ -156,22 +139,20 @@ namespace MagicMaids.Controllers
 			{
 				Guid _id = setting.Id;
 
-				using (var context = new MagicMaidsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					SystemSetting _objToUpdate = context.DefaultSettings.Find(_id);
+					SystemSetting _objToUpdate = db.Get<SystemSetting>(_id); 
 					if (_objToUpdate == null)
 					{
 						ModelState.AddModelError(string.Empty, $"Setting [{_id.ToString()}] not found.  Please try again.");
 						return JsonFormResponse();
 					}
-					//log2.Log(LogLevel.Info, "<XXXXXX> 3", nameof(SaveSettings), null, null);
 
 					if (TryUpdateModel<SystemSetting>(_objToUpdate))
 					{
 						try
 						{
-							context.Entry(_objToUpdate).State = EntityState.Modified;
-							context.SaveChanges();
+							db.Update(UpdateAuditTracking(_objToUpdate));
 
 							SystemSettings.Reset();
 
@@ -181,40 +162,35 @@ namespace MagicMaids.Controllers
 
 							return JsonSuccessResponse("Setting saved successfully", _objToUpdate);
 						}
-						catch (DbUpdateConcurrencyException ex)
-						{
-							var entry = ex.Entries.Single();
-							var clientValues = (SystemSetting)entry.Entity;
-							var databaseEntry = entry.GetDatabaseValues();
-							if (databaseEntry == null)
-							{
-								ModelState.AddModelError(string.Empty, "Unable to save changes. The system setting was deleted by another user.");
-							}
-							else
-							{
-								var databaseValues = (SystemSetting)databaseEntry.ToObject();
+						//catch (DbUpdateConcurrencyException ex)
+						//{
+						//	var entry = ex.Entries.Single();
+						//	var clientValues = (SystemSetting)entry.Entity;
+						//	var databaseEntry = entry.GetDatabaseValues();
+						//	if (databaseEntry == null)
+						//	{
+						//		ModelState.AddModelError(string.Empty, "Unable to save changes. The system setting was deleted by another user.");
+						//	}
+						//	else
+						//	{
+						//		var databaseValues = (SystemSetting)databaseEntry.ToObject();
 
-								ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-									+ "was modified by another user after you got the original value. The "
-									+ "edit operation was canceled and the current values in the database "
-									+ "have been displayed. If you still want to edit this record, click "
-									+ "the Save button again.");
+						//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+						//			+ "was modified by another user after you got the original value. The "
+						//			+ "edit operation was canceled and the current values in the database "
+						//			+ "have been displayed. If you still want to edit this record, click "
+						//			+ "the Save button again.");
 
-								if (databaseValues.SettingName != clientValues.SettingName)
-									ModelState.AddModelError("SettingName", "Current database value for setting name: " + databaseValues.SettingName);
+						//		if (databaseValues.SettingName != clientValues.SettingName)
+						//			ModelState.AddModelError("SettingName", "Current database value for setting name: " + databaseValues.SettingName);
 
-								if (databaseValues.SettingValue != clientValues.SettingValue)
-									ModelState.AddModelError("SettingValue", "Current database value for setting value: " + databaseValues.SettingValue);
+						//		if (databaseValues.SettingValue != clientValues.SettingValue)
+						//			ModelState.AddModelError("SettingValue", "Current database value for setting value: " + databaseValues.SettingValue);
 
-								if (databaseValues.CodeIdentifier != clientValues.CodeIdentifier)
-									ModelState.AddModelError("CodeIdentifier", "Current database value for code identifier: " + databaseValues.CodeIdentifier);
-							}
-						}
-						catch (RetryLimitExceededException /* dex */)
-						{
-							//Log the error (uncomment dex variable name and add a line here to write a log.
-							ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-						}
+						//		if (databaseValues.CodeIdentifier != clientValues.CodeIdentifier)
+						//			ModelState.AddModelError("CodeIdentifier", "Current database value for code identifier: " + databaseValues.CodeIdentifier);
+						//	}
+						//}
 						catch (Exception ex)
 						{
 							ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving setting", ex));
@@ -254,11 +230,9 @@ namespace MagicMaids.Controllers
 		{
 			List<SuburbZone> _entityList = new List<SuburbZone>();
 
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_entityList = context.SuburbZones
-					   .Where(p => p.FranchiseId == FranchiseId)
-					   .ToList();
+				_entityList = db.GetList<SuburbZone>(new { FranchiseId = FranchiseId}).ToList();
 			}
 			List<UpdateSuburbZonesVM> _editList = new List<UpdateSuburbZonesVM>();
 			foreach (SuburbZone _item in _entityList)
@@ -303,24 +277,16 @@ namespace MagicMaids.Controllers
 				{
 					SuburbZone _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
-							_objToUpdate = new SuburbZone();
-							_objToUpdate.SuburbName = formValues.SuburbName;
-							_objToUpdate.PostCode = formValues.PostCode;
-							_objToUpdate.Zone = formValues.Zone;
-							_objToUpdate.LinkedZones = formValues.LinkedZones;
-							_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
-
-							context.Entry(_objToUpdate).State = EntityState.Added;
+							_objToUpdate = UpdateSettings(null, formValues);
+							db.Insert<SuburbZone>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
-							_objToUpdate = context.SuburbZones
-									 .Where(f => f.Id == _id)
-											  .FirstOrDefault();
+							_objToUpdate = db.Get<SuburbZone>(new { Id = _id });
 
 							if (_objToUpdate == null)
 							{
@@ -328,53 +294,46 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
+							db.Insert<SuburbZone>(UpdateAuditTracking(_objToUpdate));
 						}
-
-						context.SaveChanges();
 
 						IAppCache cache = new CachingService();
 						var cacheName = "Postcodes";
-						if (_objToUpdate.FranchiseId.HasValue && _objToUpdate.FranchiseId != null)
+						if (Helpers.IsValidGuid(_objToUpdate.FranchiseId))
 							cacheName += $"_{_objToUpdate.FranchiseId}";
 						cache.Remove(cacheName);
 					}
 
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (SuburbZone)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (SuburbZone)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (SuburbZone)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (SuburbZone)databaseEntry.ToObject();
 
-						if (databaseValues.SuburbName != clientValues.SuburbName)
-						{
-							ModelState.AddModelError("SuburbName", "Current database value for suburb name: " + databaseValues.SuburbName);
-						}
+				//		if (databaseValues.SuburbName != clientValues.SuburbName)
+				//		{
+				//			ModelState.AddModelError("SuburbName", "Current database value for suburb name: " + databaseValues.SuburbName);
+				//		}
 
-						if (databaseValues.PostCode != clientValues.PostCode)
-						{
-							ModelState.AddModelError("PostCode", "Current database value for post code: " + databaseValues.PostCode);
-						}
+				//		if (databaseValues.PostCode != clientValues.PostCode)
+				//		{
+				//			ModelState.AddModelError("PostCode", "Current database value for post code: " + databaseValues.PostCode);
+				//		}
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
@@ -390,6 +349,28 @@ namespace MagicMaids.Controllers
 			}
 
 			return JsonFormResponse();
+		}
+
+		private SuburbZone UpdateSettings(SuburbZone _objToUpdate, UpdateSuburbZonesVM dataItem)
+		{
+
+			if (dataItem == null)
+			{
+				return _objToUpdate;
+			}
+
+			if (_objToUpdate == null)
+			{
+				_objToUpdate = new SuburbZone();
+			}
+
+			_objToUpdate.SuburbName = dataItem.SuburbName;
+			_objToUpdate.PostCode = dataItem.PostCode;
+			_objToUpdate.Zone = dataItem.Zone;
+			_objToUpdate.LinkedZones = dataItem.LinkedZones;
+			_objToUpdate.FranchiseId = (Helpers.IsValidGuid(dataItem.FranchiseId.ToString())) ? dataItem.FranchiseId.ToString() : null;
+
+			return _objToUpdate;
 		}
 		#endregion
 
@@ -452,11 +433,9 @@ namespace MagicMaids.Controllers
 		{
 			List<Rate> _entityList = new List<Rate>();
 
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_entityList = context.Rates
-					   .Where(p => p.FranchiseId == FranchiseId)
-					   .ToList();
+				_entityList = db.GetList<Rate>(new { FranchiseId = FranchiseId }).ToList();
 			}
 
 			List<RateListVM> _showList = new List<RateListVM>();
@@ -502,24 +481,16 @@ namespace MagicMaids.Controllers
 				{
 					Rate _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
-							_objToUpdate = new Rate();
-							_objToUpdate.RateCode = formValues.RateCode;
-							_objToUpdate.RateAmount = formValues.RateAmount;
-							_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
-							_objToUpdate.IsActive = formValues.IsActive;
-							_objToUpdate.FranchiseId = formValues.FranchiseId.HasValue ? formValues.FranchiseId : null;
-
-							context.Entry(_objToUpdate).State = EntityState.Added;
+							_objToUpdate = UpdateRates(null, formValues, _selection);
+							db.Insert<Rate>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
-							_objToUpdate = context.Rates
-									 .Where(f => f.Id == _id)
-											  .FirstOrDefault();
+							_objToUpdate = db.Get<Rate>(new { Id = _id });
 
 							if (_objToUpdate == null)
 							{
@@ -527,53 +498,46 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(formValues);
-							_objToUpdate.RateApplications = (RateApplicationsSettings)_selection;
+							_objToUpdate = UpdateRates(_objToUpdate, formValues, _selection);
+							db.Update(UpdateAuditTracking(_objToUpdate));
 						}
-
-						context.SaveChanges();
 
 						IAppCache cache = new CachingService();
 						var cacheName = "Rates";
-						if (_objToUpdate.FranchiseId.HasValue && _objToUpdate.FranchiseId != null)
+						if (Helpers.IsValidGuid(_objToUpdate.FranchiseId))
 							cacheName += $"_{_objToUpdate.FranchiseId}";
 						cache.Remove(cacheName);
 					}
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (Rate)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (Rate)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (Rate)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, $"Unable to save changes. The {_objDesc.ToLower()} was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (Rate)databaseEntry.ToObject();
 
-						if (databaseValues.RateCode != clientValues.RateCode)
-						{
-							ModelState.AddModelError("RateCode", "Current database value for rate code: " + databaseValues.RateCode);
-						}
+				//		if (databaseValues.RateCode != clientValues.RateCode)
+				//		{
+				//			ModelState.AddModelError("RateCode", "Current database value for rate code: " + databaseValues.RateCode);
+				//		}
 
-						if (databaseValues.RateAmount != clientValues.RateAmount)
-						{
-							ModelState.AddModelError("RateAmount", "Current database value for rate amount: " + databaseValues.RateAmount);
-						}
+				//		if (databaseValues.RateAmount != clientValues.RateAmount)
+				//		{
+				//			ModelState.AddModelError("RateAmount", "Current database value for rate amount: " + databaseValues.RateAmount);
+				//		}
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
@@ -590,29 +554,46 @@ namespace MagicMaids.Controllers
 
 			return JsonFormResponse();
 		}
+
+		private Rate UpdateRates(Rate _objToUpdate, RateDetailsVM dataItem, int selection)
+		{
+
+			if (dataItem == null)
+			{
+				return _objToUpdate;
+			}
+
+			if (_objToUpdate == null)
+			{
+				_objToUpdate = new Rate();
+			}
+
+			_objToUpdate.RateCode = dataItem.RateCode;
+			_objToUpdate.RateAmount = dataItem.RateAmount;
+			_objToUpdate.RateApplications = (RateApplicationsSettings)selection;
+			_objToUpdate.IsActive = dataItem.IsActive;
+			_objToUpdate.FranchiseId = (Helpers.IsValidGuid(dataItem.FranchiseId.ToString())) ? dataItem.FranchiseId.ToString() : null;
+
+			return _objToUpdate;
+		}
 		#endregion
 
 		#region Methods, Static
 		public static List<string> GetZoneListByFranchise(Guid? FranchiseId, Boolean toLower)
 		{
-			MagicMaidsContext MMContext = new MagicMaidsContext();
-
 			List<String> _zoneList = new List<String>();
-			if (FranchiseId.HasValue)
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_zoneList = MMContext.SuburbZones
-							.Where(p => (p.FranchiseId == FranchiseId))
-							.Select(p => p.Zone + "," + p.LinkedZones)
-							.ToList();
-			}
+				if (FranchiseId.HasValue)
+				{
+					_zoneList = db.Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId='{FranchiseId}'").ToList();
+				}
 
-			// load system default list
-			if (_zoneList.Count == 0)
-			{
-				_zoneList = MMContext.SuburbZones
-						 	.Where(p => (!p.FranchiseId.HasValue))
-							.Select(p => p.Zone + "," + p.LinkedZones)
-							.ToList();
+				// load system default list
+				if (_zoneList.Count == 0)
+				{
+					_zoneList = db.Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
+				}
 			}
 
 			var _zoneCSV = String.Join(",", _zoneList);
@@ -642,21 +623,14 @@ namespace MagicMaids.Controllers
 			}
 
 			List<String> _zoneList = new List<String>();
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_zoneList = context.SuburbZones
-							.Where(p => (p.SuburbName.ToLower().Contains(Suburb.ToLower())
-				                         || p.PostCode == Suburb))
-							.Select(p => p.Zone + "," + p.LinkedZones)
-							.ToList();
+				_zoneList = db.Query<String>($"select Zone+','+LinkedZones from SuburbZones where SuburbName like '%{Suburb}%' or PostCode = '{Suburb}'").ToList();
 
 				// load system default list
 				if (_zoneList.Count == 0)
 				{
-					_zoneList = context.SuburbZones
-								 .Where(p => (!p.FranchiseId.HasValue))
-								.Select(p => p.Zone + "," + p.LinkedZones)
-								.ToList();
+					_zoneList = db.Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
 				}
 			}
 

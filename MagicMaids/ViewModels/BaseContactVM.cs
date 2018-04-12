@@ -140,7 +140,7 @@ namespace MagicMaids.ViewModels
 				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
 				_vm.PopulateVM(physicalAddress);
 				this.PhysicalAddress = _vm;
-				this.PhysicalAddressRefId = physicalAddress.Id;
+				this.PhysicalAddressRefId = new Guid(physicalAddress.Id);
 			}
 
 			if (postalAddress != null)
@@ -148,7 +148,7 @@ namespace MagicMaids.ViewModels
 				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
 				_vm.PopulateVM(postalAddress);
 				this.PostalAddress = _vm;
-				this.PostalAddressRefId = postalAddress.Id;
+				this.PostalAddressRefId = new Guid(postalAddress.Id);
 			}
 
 			FormatContactNumbers();

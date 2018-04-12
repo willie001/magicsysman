@@ -5,7 +5,7 @@ namespace MagicMaids.EntityModels
 {
 	public interface IDataModel
 	{
-		Guid Id 
+		String Id 
 		{ 
 			get;
 			set;

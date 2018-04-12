@@ -10,12 +10,12 @@ using MagicMaids.Validators;
 
 using NLog;
 
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-
 using FluentValidation.Mvc;
 using MagicMaids.DataAccess;
 using LazyCache;
+using System.Data;
+using Dapper;
+using System.Text;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -42,23 +42,23 @@ namespace MagicMaids.Controllers
 		{
 			List<Franchise> _data = new List<Franchise>();
 
-			using (var context = new MagicMaidsContext())
+			StringBuilder sql = new StringBuilder(@"select * from Franchises C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID");
+
+			if (!incDisabled.HasValue || incDisabled == 0)
 			{
-				if (incDisabled != null && incDisabled == 1)
-				{
-					_data = context.Franchises
-						 .Include(nameof(Franchise.PhysicalAddress))
-						 .Include(nameof(Franchise.PostalAddress))
-						 .ToList();
-				}
-				else
-				{
-					_data = context.Franchises
-						 .Include(nameof(Franchise.PhysicalAddress))
-						 .Include(nameof(Franchise.PostalAddress))
-						 .Where(p => p.IsActive == true)
-						 .ToList();
-				}
+				sql.Append(" where C.IsActive = 1");
+			}
+								
+				
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			{
+				_data = db.Query<Franchise, Address, Address, Franchise>(sql.ToString(), (fr, phys, pos) => {
+					fr.PhysicalAddress = phys;
+					fr.PostalAddress = pos;
+					return fr;
+				}).ToList();
 			}
 
 			List<UpdateFranchisesViewModel> _editFranchises = new List<UpdateFranchisesViewModel>();
@@ -86,18 +86,12 @@ namespace MagicMaids.Controllers
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 			List<Franchise> _data = new List<Franchise>();
 
-			using (var context = new MagicMaidsContext())
-			{
-				
-				_data = context.Franchises
-					.Where(p => p.IsActive == true)
-				   .OrderBy(x => x.Name)
-				   .ToList();
 
-				List<SystemSetting> _settings = new List<SystemSetting>();
-				_settings = context.DefaultSettings
-						 .Where(p => p.IsActive == true)
-						 .ToList();
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			{
+				_data = db.GetList<Franchise>(new {IsActive = true}).OrderByDescending(p => p.Name).ToList();
+
+				List<SystemSetting> _settings = db.GetList<SystemSetting>(new { IsActive = true }).ToList();
 
 				foreach (Franchise _item in _data)
 				{
@@ -127,13 +121,19 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				using (var context = new MagicMaidsContext())
+				string sql = @"select * from Franchises C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.Id = '" + FranchiseId + "'";
+
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					_franchise = context.Franchises
-										  .Where(f => f.Id == FranchiseId)
-										  .Include(nameof(Franchise.PhysicalAddress))
-										  .Include(nameof(Franchise.PostalAddress))
-										  .FirstOrDefault();
+					_franchise = db.Query<Franchise, Address, Address, Franchise>(sql, (clnt, phys, post) => {
+						clnt.PhysicalAddress = phys;
+						clnt.PostalAddress = post;
+						return clnt;
+					}).SingleOrDefault();
+
 				}
 				if (_franchise == null)
 				{
@@ -162,15 +162,11 @@ namespace MagicMaids.Controllers
 			FranchiseSettingsVM _dataItem = null;
 
 			List<SystemSetting> _settings = new List<SystemSetting>();
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_settings = context.DefaultSettings
-						 .Where(p => p.IsActive == true)
-						 .ToList();
+				_settings = db.GetList<SystemSetting>(new { IsActive = 1 }).ToList();
+				_franchise = db.Get<Franchise>(new { Id = FranchiseId });
 
-				_franchise = context.Franchises
-									  .Where(f => f.Id == FranchiseId)
-									  .FirstOrDefault();
 				if (_franchise == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Franchise [{FranchiseId.ToString()}] not found.  Please try again.");
@@ -233,61 +229,25 @@ namespace MagicMaids.Controllers
 				{
 					Franchise _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
 						if (bIsNew)
 						{
-							_objToUpdate = new Franchise();
-							_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-							_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-							_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-							_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
-							_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
-							_objToUpdate.CodeOfConductURL = dataItem.CodeOfConductURL;
-							_objToUpdate.EmailAddress = dataItem.EmailAddress;
-							_objToUpdate.IsActive = dataItem.IsActive;
-							_objToUpdate.MasterFranchiseCode = dataItem.MasterFranchiseCode;
-							_objToUpdate.MetroRegion = dataItem.MetroRegion;
-							_objToUpdate.MobileNumber = dataItem.MobileNumber;
-							_objToUpdate.Name = dataItem.Name;
-							_objToUpdate.OtherNumber = dataItem.OtherNumber;
-							_objToUpdate.TradingName = dataItem.TradingName;
-							_objToUpdate.Name = dataItem.Name;
-
-							if (dataItem.PhysicalAddress != null)
-							{
-								_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
-								_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
-								_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
-								_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
-								_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
-								_objToUpdate.PhysicalAddress.IsActive = true;
-								_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
-								_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
-							}
-
-							if (dataItem.PostalAddress != null)
-							{
-								_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
-								_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
-								_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
-								_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
-								_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
-								_objToUpdate.PostalAddress.IsActive = true;
-								_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
-								_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
-							}
-
-							context.Entry(_objToUpdate).State = EntityState.Added;
+							_objToUpdate = UpdateFranchise(null, dataItem);
+							var newId = db.Insert<Franchise>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
-							_objToUpdate = context.Franchises
-									 .Where(f => f.Id == _id)
-											  .Include(nameof(Franchise.PhysicalAddress))
-											  .Include(nameof(Franchise.PostalAddress))
-											  .FirstOrDefault();
+							string sql = @"select * from Franchises C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
+								inner join Addresses Po on C.PostalAddressRefId = Po.ID
+								where C.ID = '" + _id + "'";
+
+							_objToUpdate = db.Query<Franchise, Address, Address, Franchise>(sql, (clnt, phys, post) => {
+								clnt.PhysicalAddress = phys;
+								clnt.PostalAddress = post;
+								return clnt;
+							}).SingleOrDefault();
 
 							if (_objToUpdate == null)
 							{
@@ -295,48 +255,39 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-							context.Entry(_objToUpdate.PhysicalAddress).CurrentValues.SetValues(dataItem.PhysicalAddress);
-							context.Entry(_objToUpdate.PostalAddress).CurrentValues.SetValues(dataItem.PostalAddress);
+							db.Update(UpdateAuditTracking(_objToUpdate));
 						}
 
 						IAppCache cache = new CachingService();
 						cache.Remove("Active_Franchises");
 
-						context.SaveChanges();
-
 						return JsonSuccessResponse("Franchise saved successfully", _objToUpdate);
 					}
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (Franchise)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The franchise was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (Franchise)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (Franchise)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The franchise was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (Franchise)databaseEntry.ToObject();
 
-						if (databaseValues.Name  != clientValues.Name)
-							ModelState.AddModelError("Name", "Current database value for franchise name: " + databaseValues.Name);
+				//		if (databaseValues.Name  != clientValues.Name)
+				//			ModelState.AddModelError("Name", "Current database value for franchise name: " + databaseValues.Name);
 
-						if (databaseValues.TradingName != clientValues.TradingName)
-							ModelState.AddModelError("TradingName", "Current database value for trading name: " + databaseValues.TradingName);
+				//		if (databaseValues.TradingName != clientValues.TradingName)
+				//			ModelState.AddModelError("TradingName", "Current database value for trading name: " + databaseValues.TradingName);
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving franchise", ex));
@@ -352,6 +303,63 @@ namespace MagicMaids.Controllers
 			}
 
 			return JsonFormResponse();
+		}
+
+		private Franchise UpdateFranchise(Franchise _objToUpdate, UpdateFranchisesViewModel dataItem)
+		{
+
+			if (dataItem == null)
+			{
+				return _objToUpdate;
+			}
+
+			if (_objToUpdate == null)
+			{
+				_objToUpdate = new Franchise();
+			}
+
+			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+
+			_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
+			_objToUpdate.CodeOfConductURL = dataItem.CodeOfConductURL;
+			_objToUpdate.EmailAddress = dataItem.EmailAddress;
+			_objToUpdate.IsActive = dataItem.IsActive;
+			_objToUpdate.MasterFranchiseCode = dataItem.MasterFranchiseCode;
+			_objToUpdate.MetroRegion = dataItem.MetroRegion;
+			_objToUpdate.MobileNumber = dataItem.MobileNumber;
+			_objToUpdate.Name = dataItem.Name;
+			_objToUpdate.OtherNumber = dataItem.OtherNumber;
+			_objToUpdate.TradingName = dataItem.TradingName;
+			_objToUpdate.Name = dataItem.Name;
+
+			if (dataItem.PhysicalAddress != null)
+			{
+				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
+				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
+				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
+				_objToUpdate.PhysicalAddress.Suburb = dataItem.PhysicalAddress.Suburb;
+				_objToUpdate.PhysicalAddress.Country = dataItem.PhysicalAddress.Country;
+				_objToUpdate.PhysicalAddress.IsActive = true;
+				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
+				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+			}
+
+			if (dataItem.PostalAddress != null)
+			{
+				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
+				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
+				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
+				_objToUpdate.PostalAddress.Suburb = dataItem.PostalAddress.Suburb;
+				_objToUpdate.PostalAddress.Country = dataItem.PostalAddress.Country;
+				_objToUpdate.PostalAddress.IsActive = true;
+				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
+				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+			}
+
+			return _objToUpdate;
 		}
 
 		[HttpPost]
@@ -372,11 +380,9 @@ namespace MagicMaids.Controllers
 				{
 					Franchise _objToUpdate = null;
 
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
-						_objToUpdate = context.Franchises
-								 .Where(f => f.Id == _id)
-										  .FirstOrDefault();
+						_objToUpdate = db.Get<Franchise>(new { Id = _id });
 
 						if (_objToUpdate == null)
 						{
@@ -384,42 +390,35 @@ namespace MagicMaids.Controllers
 							return JsonFormResponse();
 						}
 
-						context.Entry(_objToUpdate).CurrentValues.SetValues(dataItem);
-						context.Entry(_objToUpdate).Property("Name").IsModified = false;
-
-						context.SaveChanges();
+						db.Update(UpdateAuditTracking(_objToUpdate));
+						//context.Entry(_objToUpdate).Property("Name").IsModified = false;
 					}
 					return JsonSuccessResponse("Franchise settings saved successfully", _objToUpdate);
 				}
-				catch (DbUpdateConcurrencyException ex)
-				{
-					var entry = ex.Entries.Single();
-					var clientValues = (Franchise)entry.Entity;
-					var databaseEntry = entry.GetDatabaseValues();
-					if (databaseEntry == null)
-					{
-						ModelState.AddModelError(string.Empty, "Unable to save changes. The franchise was deleted by another user.");
-					}
-					else
-					{
-						var databaseValues = (Franchise)databaseEntry.ToObject();
+				//catch (DbUpdateConcurrencyException ex)
+				//{
+				//	var entry = ex.Entries.Single();
+				//	var clientValues = (Franchise)entry.Entity;
+				//	var databaseEntry = entry.GetDatabaseValues();
+				//	if (databaseEntry == null)
+				//	{
+				//		ModelState.AddModelError(string.Empty, "Unable to save changes. The franchise was deleted by another user.");
+				//	}
+				//	else
+				//	{
+				//		var databaseValues = (Franchise)databaseEntry.ToObject();
 
-						if (databaseValues.RoyaltyFeePercentage != clientValues.RoyaltyFeePercentage)
-							ModelState.AddModelError("RoyaltyFeePercentage", "Current database value for franchise royalty fee: " + databaseValues.RoyaltyFeePercentage);
+				//		if (databaseValues.RoyaltyFeePercentage != clientValues.RoyaltyFeePercentage)
+				//			ModelState.AddModelError("RoyaltyFeePercentage", "Current database value for franchise royalty fee: " + databaseValues.RoyaltyFeePercentage);
 
-						if (databaseValues.ManagementFeePercentage != clientValues.ManagementFeePercentage)
-							ModelState.AddModelError("TradingName", "Current database value for franchise management fee: " + databaseValues.ManagementFeePercentage);
+				//		if (databaseValues.ManagementFeePercentage != clientValues.ManagementFeePercentage)
+				//			ModelState.AddModelError("TradingName", "Current database value for franchise management fee: " + databaseValues.ManagementFeePercentage);
 
-						ModelState.AddModelError(string.Empty, "The record you attempted to edit "
-							+ "was modified by another user after you got the original value. The edit operation "
-							+ "was canceled. If you still want to edit this record, click the Save button again.");
-					}
-				}
-				catch (RetryLimitExceededException /* dex */)
-				{
-					//Log the error (uncomment dex variable name and add a line here to write a log.
-					ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
-				}
+				//		ModelState.AddModelError(string.Empty, "The record you attempted to edit "
+				//			+ "was modified by another user after you got the original value. The edit operation "
+				//			+ "was canceled. If you still want to edit this record, click the Save button again.");
+				//	}
+				//}
 				catch (Exception ex)
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving franchise settings", ex));

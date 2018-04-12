@@ -79,12 +79,13 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
-			this.SuburbName = entityModel.SuburbName;
-			this.PostCode = entityModel.PostCode;
-			this.Zone = entityModel.Zone;
-			this.LinkedZones = entityModel.LinkedZones;
-			this.FranchiseId = entityModel.FranchiseId.HasValue ? entityModel.FranchiseId : null;
+			Id = new Guid(entityModel.Id);
+			SuburbName = entityModel.SuburbName;
+			PostCode = entityModel.PostCode;
+			Zone = entityModel.Zone;
+			LinkedZones = entityModel.LinkedZones;
+			FranchiseId = (Helpers.IsValidGuid(entityModel.FranchiseId)) ? new Guid(entityModel.FranchiseId) : Guid.Empty;
+
 		}
 		#endregion
 	}

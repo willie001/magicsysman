@@ -137,7 +137,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.CleanerCode = entityModel.CleanerCode;
 			this.Initials = entityModel.Initials;
 			this.FirstName = entityModel.FirstName;
@@ -148,7 +148,7 @@ namespace MagicMaids.ViewModels
 			this.MobileNumber = entityModel.MobileNumber;
 			this.Region = entityModel.Region;
 			this.Rating = entityModel.Rating;
-			this.MasterFranchiseRefId = entityModel.MasterFranchiseRefId;
+			this.MasterFranchiseRefId = new Guid(entityModel.MasterFranchiseRefId);
 			this.IsActive = entityModel.IsActive;
 			this.Ironing = entityModel.Ironing;
 			this.GenderFlag = entityModel.GenderFlag;
@@ -245,15 +245,15 @@ namespace MagicMaids.ViewModels
 			if (cleanerId.Equals(Guid.Empty))
 				return;
 
-			this.Id = entityModel.Id;
-			this.FirstName = entityModel.FirstName;
-			this.LastName = entityModel.LastName;
-			this.EmailAddress = entityModel.EmailAddress;
-			this.MobileNumber = entityModel.MobileNumber;
-			this.IsActive = entityModel.IsActive;
-			this.Ironing = entityModel.Ironing;
-			this.GenderFlag = entityModel.GenderFlag;
-			this.PrimaryCleanerRefId = cleanerId.Value;
+			Id = new Guid(entityModel.Id);
+			FirstName = entityModel.FirstName;
+			LastName = entityModel.LastName;
+			EmailAddress = entityModel.EmailAddress;
+			MobileNumber = entityModel.MobileNumber;
+			IsActive = entityModel.IsActive;
+			Ironing = entityModel.Ironing;
+			GenderFlag = entityModel.GenderFlag;
+			PrimaryCleanerRefId = cleanerId.Value;
 
 			base.FormatContactDetails(entityModel.PhysicalAddress, entityModel.PostalAddress);
 		}
@@ -617,7 +617,7 @@ namespace MagicMaids.ViewModels
 			if (cleanerId.Equals(Guid.Empty))
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.PrimaryCleanerRefId = cleanerId.Value;
 
 			this.StartDate = entityModel.StartDate;

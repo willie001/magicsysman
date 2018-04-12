@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using Dapper;
 using FluentValidation.Mvc;
 using LazyCache;
 using MagicMaids.DataAccess;
@@ -189,13 +191,11 @@ namespace MagicMaids
 		{
 			Settings.Clear();
 
-			using (var context = new MagicMaidsContext())
+			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				var _settings = context.DefaultSettings
-					 //.Where(p => p.IsActive == true)
-					 .ToList();
+				List<EntityModels.SystemSetting> _settings = (System.Collections.Generic.List<MagicMaids.EntityModels.SystemSetting>)db.GetList<EntityModels.SystemSetting>();
 
-				foreach(EntityModels.SystemSetting _setting in _settings)
+				foreach (EntityModels.SystemSetting _setting in _settings)
 				{
 					SettingEnum _enum;
 					if (Enum.TryParse(_setting.CodeIdentifier.Trim(), true, out _enum)) 

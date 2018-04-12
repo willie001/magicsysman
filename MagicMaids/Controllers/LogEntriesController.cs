@@ -1,8 +1,6 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -10,6 +8,9 @@ using MagicMaids.EntityModels;
 using MagicMaids.DataAccess;
 
 using NLog;
+using System.Data;
+using MySql.Data.MySqlClient;
+using Dapper;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -56,28 +57,15 @@ namespace MagicMaids.Controllers
 				
 			try
 			{
-				
-				//string debug = "";
-				//LogHelper.FormatDebugMessage(ref debug, " | 1 ");
-				using (var context = new DBLogsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					var _query = context.LogEntries.AsNoTracking()
-									.OrderByDescending(x => x.LoggedDate)
-									.ThenBy(x => x.Id);
-					
-					_data = _query
-						.Select(x => x)
-						.ToList();
+					_data = db.GetList<LogEntry>().OrderByDescending(l => l.LoggedDate).ToList();
 				}
-				//LogHelper.FormatDebugMessage(ref debug, " | 2 ");
 
 				foreach (LogEntry _item in _data)
 				{
 					_vmList.Add(new LogEntryViewModel(_item));
 				}
-				//LogHelper.FormatDebugMessage(ref debug, " | 3 ");
-				//LogHelper.LogRaven(nameof(GetLogEntries), debug);
-	
 			}
 			catch(Exception ex)
 			{
@@ -101,13 +89,12 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				using (var context = new DBLogsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					_entry = context.LogEntries
-							  .Where(x => x.Id == Id)
-							  .FirstOrDefault();
+					_entry = db.Get<LogEntry>(Id);
 				}
-					if (_entry == null)
+
+				if (_entry == null)
 				{
 					ModelState.AddModelError(string.Empty, $"Log Entry [{Id.ToString()}] not found.  Please try again.");
 					return JsonFormResponse();
@@ -131,14 +118,12 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				LogEntry _entry = new LogEntry() { Id = id ?? 0 };
-				using (var context = new DBLogsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					context.Entry(_entry).State = EntityState.Deleted;
-					context.SaveChanges();
+					db.Delete<LogEntry>(id);
 				}
 
-				return JsonSuccessResponse($"{_objDesc} deleted successfully", _entry);
+				return JsonSuccessResponse($"{_objDesc} deleted successfully", "Log Id = " + id);
 			}
 			catch(Exception ex)
 			{
@@ -163,11 +148,11 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (var context = new DBLogsContext())
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 				{
-					context.LogEntries.RemoveRange(context.LogEntries);
-					context.SaveChanges();
+					db.DeleteList<LogEntry>("where id > 0");
 				}
+
 				return JsonSuccessResponse($"{_objDesc} deleted successfully");
 			}
 			catch (Exception ex)

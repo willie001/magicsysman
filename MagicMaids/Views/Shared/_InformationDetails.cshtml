@@ -1,7 +1,7 @@
 ﻿@if (Html.IsDebug())
 {
 	var date = DateTimeWrapper.UTCtoLocal(DateTime.Now);
-	var conn = MagicMaids.DataAccess.MagicMaidsInitialiser.getConnection();
+	var conn = MagicMaids.DataAccess.MagicMaidsInitialiser.getConnectionString();
 
 	<div class="panel panel-flat " id="panelData" ng-show="userMessages && userMessageType[0] != 'alert alert-success'">
         <div class="panel-heading">

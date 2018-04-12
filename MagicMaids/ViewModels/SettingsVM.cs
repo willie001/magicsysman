@@ -49,7 +49,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.SettingName = entityModel.SettingName;
 			this.SettingValue = entityModel.SettingValue;
 			this.CodeIdentifier = entityModel.CodeIdentifier;

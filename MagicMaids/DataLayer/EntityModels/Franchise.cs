@@ -95,7 +95,7 @@ namespace MagicMaids.EntityModels
 		#endregion
 
 		#region Properties, Foreign Key
-		public Guid PhysicalAddressRefId
+		public String PhysicalAddressRefId
 		{
 			get;
 			set;
@@ -108,7 +108,7 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		public Guid PostalAddressRefId
+		public String PostalAddressRefId
 		{
 			get;
 			set;

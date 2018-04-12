@@ -15,12 +15,11 @@ using AutoMapper;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
 using System.Configuration;
-using System.Data.Entity;
 using System.Web.Http;
 using Newtonsoft.Json;
 using LazyCache;
 using NodaTime;
-using MySql.Data.Entity;
+using Dapper;
 
 namespace MagicMaids
 {
@@ -32,7 +31,7 @@ namespace MagicMaids
 
         protected void Application_Start()
         {
-			DbConfiguration.SetConfiguration(new MySqlEFConfiguration());
+			SimpleCRUD.SetDialect(SimpleCRUD.Dialect.MySQL);
 
 			// Removing all the view engines
 			ViewEngines.Engines.Clear();

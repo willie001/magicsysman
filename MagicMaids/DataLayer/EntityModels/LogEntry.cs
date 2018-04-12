@@ -138,7 +138,7 @@ namespace MagicMaids.EntityModels
 			get;
 			set;
 		}
-		#endregion 
+		#endregion
 
 	}
 }

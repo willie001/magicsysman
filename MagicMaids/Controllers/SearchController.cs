@@ -1,14 +1,16 @@
 ﻿#region Using
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Data;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
+
 using AutoMapper;
+using Dapper;
 using MagicMaids.DataAccess;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
-
 
 using NLog;
 #endregion
@@ -43,24 +45,27 @@ namespace MagicMaids.Controllers
 			{
 				try
 				{
-					using (var context = new MagicMaidsContext())
+					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
-						var _results = context.Cleaners.AsQueryable()
-								.Include(nameof(Cleaner.PhysicalAddress))
-						                      .Where(x => (x.Ironing == searchCriteria.RequireIroning && searchCriteria.RequireIroning) ||
-						                            (searchCriteria.RequireIroning == false));
+						StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where 1=1");
 
-						if (_results != null)
+						if (searchCriteria.RequireIroning)
 						{
-							if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
-							{
-								_results = _results.Where(x => x.PhysicalAddress.Suburb.ToLower().Contains(searchCriteria.Suburb.ToLower()) ||
-														  x.PhysicalAddress.PostCode == searchCriteria.Suburb);
-							}
-						};
+							sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
+						}
 
-						var _orderedResults = _results.OrderBy(f => new { f.LastName, f.FirstName })
-								   .ToList();
+						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
+						{
+							sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%' or Ph.PostCode = '{searchCriteria.Suburb}')");
+						}
+
+						sql.Append(" order by LastName, FirstName");
+
+						var _orderedResults = db.Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) => {
+							cl.PhysicalAddress = phys;
+							return cl;
+						}).ToList();
 
 						var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerJobMatchVM>>(_orderedResults);
 

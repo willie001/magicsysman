@@ -82,14 +82,14 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
-			this.RateCode = entityModel.RateCode;
-			this.RateAmount = entityModel.RateAmount;
-			this.IsActive = entityModel.IsActive;
-			this.ActivationDate = entityModel.ActivationDate;
-			this.FranchiseId = entityModel.FranchiseId.HasValue ? entityModel.FranchiseId : null;
+			Id = new Guid(entityModel.Id);
+			RateCode = entityModel.RateCode;
+			RateAmount = entityModel.RateAmount;
+			IsActive = entityModel.IsActive;
+			ActivationDate = entityModel.ActivationDate;
+			FranchiseId = (Helpers.IsValidGuid(entityModel.FranchiseId)) ? new Guid(entityModel.FranchiseId) : Guid.Empty;
 
-			this.SelectedRatesValue = entityModel.RateApplications;
+			SelectedRatesValue = entityModel.RateApplications;
 
 			SelectedRates = new List<object>();
 			if (entityModel.RateApplications.HasFlag(RateApplicationsSettings.Commercial))
@@ -292,12 +292,12 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id;
+			this.Id = new Guid(entityModel.Id);
 			this.RateCode = entityModel.RateCode;
 			this.RateAmount = entityModel.RateAmount;
 			this.IsActive = entityModel.IsActive;
 			this.ActivationDate = entityModel.ActivationDate;
-			this.FranchiseId = entityModel.FranchiseId.HasValue ? entityModel.FranchiseId : null;
+			this.FranchiseId = (Helpers.IsValidGuid(entityModel.FranchiseId)) ? new Guid(entityModel.FranchiseId) : Guid.Empty;
 		}
 		#endregion
 	}

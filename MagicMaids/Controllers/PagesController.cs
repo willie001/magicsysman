@@ -1,18 +1,18 @@
 ﻿#region Using
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
-using System.Linq;
 using System.Text;
-using System.Web;
 using System.Web.Mvc;
 
 using MagicMaids.DataAccess;
-using MagicMaids.EntityModels;
-using MySql.Data.MySqlClient;
+
 using Newtonsoft.Json;
-using NLog;
+
+using Dapper;
+
+using MySql.Data.MySqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -30,33 +30,28 @@ namespace MagicMaids.Controllers
 				Formatting = Formatting.Indented
 			};
 
-			var connstring = MagicMaidsInitialiser.getConnection();
+			var connstring = MagicMaidsInitialiser.getConnectionString();
 			TempData["connstring"] = connstring;
 			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 			MySqlConnection connection = null;
 			try
 			{
 				stopwatch.Start();
-
-				connection = new MySqlConnection(connstring);
-				if (!connection.Ping())
-				{
-					connection.Open();
-				};
 				StringBuilder output = new StringBuilder();
 
-				string stm = "SELECT VERSION()";
-				MySqlCommand cmd = new MySqlCommand(stm, connection);
-				string version = Convert.ToString(cmd.ExecuteScalar());
-				output.Append($"MySQL version : {version.ToString()}\n");
+				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				{
+					string stm = "SELECT VERSION() as version";
+					var rows = db.Query(stm).ToList();
+					string version = rows[0].version.ToString();
+					output.Append($"MySQL version : {version.ToString()}\n");
 
-				stm = "SELECT count(*) from systemsettings";
-				cmd = new MySqlCommand(stm, connection);
-				string counter = Convert.ToString(cmd.ExecuteScalar());
-				output.Append($"Record Count : {counter.ToString()}\n");
-				TempData["results"] = output.ToString();
-
-				connection.Close();
+					stm = "SELECT count(*) as testCount from systemsettings";
+					rows = db.Query(stm).ToList();
+					string counter = rows[0].testCount.ToString();
+					output.Append($"Record Count : {counter.ToString()}\n");
+					TempData["results"] = output.ToString();
+				}
 
 			}
 			catch (Exception ex)
@@ -64,8 +59,9 @@ namespace MagicMaids.Controllers
 				string json = JsonConvert.SerializeObject(ex, settings);
 				TempData["results"] = json;
 
-				LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
-
+				//var result = Task.Run(() => {
+					LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
+				//});
 			}
 			finally
 			{
