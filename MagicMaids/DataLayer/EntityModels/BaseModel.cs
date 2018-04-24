@@ -54,7 +54,7 @@ namespace MagicMaids.EntityModels
 
 		[DataType(DataType.DateTime)]
 		[Required]
-		[DisplayFormat(DataFormatString="{0:dd/MM/yyyy hh:mm:ss}")]
+		[DisplayFormat(DataFormatString="{0:yyyy-mm-dd HH:mm:ss}")]
 		public DateTime CreatedAt
 		{
 			get
@@ -68,17 +68,18 @@ namespace MagicMaids.EntityModels
 				{
 					_createdDate = convertedValue;
 					NotifyPropertyChanged();
-				}
+				}	
 			}
 		}
 
 		[DataType(DataType.DateTime)]
-		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss}")]
+		[DisplayFormat(DataFormatString = "{0:yyyy-mm-dd HH:mm:ss}")]
 		public DateTime UpdatedAt
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_updatedDate);
+				return _updatedDate;
+				//return DateTimeWrapper.UTCtoLocal(_updatedDate);
 			}
 			set
 			{
@@ -114,7 +115,7 @@ namespace MagicMaids.EntityModels
 		//http://hundeide.net/2015/05/optimistic-concurrency-with-mysql-and-entity-framework/
 		[DataType(DataType.DateTime)]
 		[Required]
-		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss:ff}")]
+		[DisplayFormat(DataFormatString = "{0:yyyy-mm-dd HH:mm:ss:ff}")]
 		[ConcurrencyCheck]
 		[DatabaseGenerated(DatabaseGeneratedOption.None)]
 		public DateTime RowVersion

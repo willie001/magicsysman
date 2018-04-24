@@ -69,10 +69,10 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NodaTime.Serialization.JsonNet.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Google.Protobuf.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.pdb
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.SimpleCRUD.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.SimpleCRUD.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojResolveAssemblyReference.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

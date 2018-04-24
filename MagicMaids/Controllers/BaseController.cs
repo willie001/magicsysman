@@ -10,6 +10,7 @@ using System.Web.Routing;
 using Dapper;
 using LazyCache;
 using MagicMaids.DataAccess;
+using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
 
 using NLog;
@@ -172,10 +173,35 @@ namespace MagicMaids.Controllers
 			}
 
 
-			//string currentUser = HttpContext.Current.User.Identity.Name;
+			string currentUser = HttpContext.User.Identity.Name;
 
-			//if (String.IsNullOrWhiteSpace(currentUser))
-				//currentUser = "TODO";
+			if (String.IsNullOrWhiteSpace(currentUser))
+				currentUser = "TODO";
+
+			Type t = dataInstance.GetType();
+			var _instance = (IDataModel)dataInstance;
+			if (_instance != null)
+			{
+				if (_instance.CreatedAt.Year < 1950)
+				{
+					_instance.CreatedAt = DateTimeWrapper.Now.ToDateTimeUtc();
+				}
+
+				_instance.UpdatedAt = DateTimeWrapper.Now.ToDateTimeUtc();
+				_instance.UpdatedBy = currentUser;
+				_instance.RowVersion = DateTimeWrapper.Now.ToDateTimeUtc();
+
+				dataInstance = (T)_instance;
+			}
+			//Type t = dataInstance.GetType();
+			//if (t.IsGenericType)
+			//{
+			//	if (t.GetGenericTypeDefinition() == typeof(IDataModel)) //check the object is our type
+			//	{
+			//		//Get the property value
+			//		//return t.GetProperty("UpdatedAt").SetValue = DateTime.Now;
+			//	}
+			//}
 
 			//dataInstance.
 			//				change.Entity.UpdatedAt = DateTime.Now;

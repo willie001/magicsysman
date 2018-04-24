@@ -65,9 +65,14 @@ namespace MagicMaids.ViewModels
 	}
 
 	[Validator(typeof(FranchiseDetailsValidator))]
-	public class UpdateFranchisesViewModel
+	public class UpdateFranchisesViewModel: BaseViewModel
 	{
 		#region Properties, Public
+		public String Id
+		{
+			get;
+			set;
+		}
 		public Boolean IsNewItem
 		{
 			get;
@@ -75,12 +80,6 @@ namespace MagicMaids.ViewModels
 		}
 
 		public Boolean IsActive
-		{
-			get;
-			set;
-		}
-
-		public Guid Id
 		{
 			get;
 			set;
@@ -146,7 +145,7 @@ namespace MagicMaids.ViewModels
 			private set;
 		}
 
-		public Guid PhysicalAddressRefId
+		public String PhysicalAddressRefId
 		{
 			get;
 			set;
@@ -158,7 +157,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid PostalAddressRefId
+		public String PostalAddressRefId
 		{
 			get;
 			set;
@@ -234,7 +233,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = new Guid(entityModel.Id);
+			this.Id = entityModel.Id;
 			this.MasterFranchiseCode = entityModel.MasterFranchiseCode ;
 			this.Name = entityModel.Name;
 			this.TradingName = entityModel.TradingName ;
@@ -244,7 +243,7 @@ namespace MagicMaids.ViewModels
 			this.MobileNumber = entityModel.MobileNumber ;
 			this.CodeOfConductURL  = entityModel.CodeOfConductURL;
 			this.MetroRegion  = entityModel.MetroRegion ;
-			this.PhysicalAddressRefId  = new Guid(entityModel.PhysicalAddressRefId) ;
+			this.PhysicalAddressRefId  = entityModel.PhysicalAddressRefId ;
 			this.IsActive = entityModel.IsActive;
 
 			if (entityModel.PhysicalAddress != null)
@@ -253,14 +252,14 @@ namespace MagicMaids.ViewModels
 				_vm.PopulateVM(entityModel.PhysicalAddress);
 				this.PhysicalAddress = _vm;
 			}
-			this.PhysicalAddressRefId = new Guid(entityModel.PhysicalAddressRefId);
+			this.PhysicalAddressRefId = entityModel.PhysicalAddressRefId;
 			if (entityModel.PostalAddress != null)
 			{
 				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
 				_vm.PopulateVM(entityModel.PostalAddress);
 				this.PostalAddress = _vm;
 			}
-			this.PostalAddressRefId = new Guid(entityModel.PostalAddressRefId);
+			this.PostalAddressRefId = entityModel.PostalAddressRefId;
 
 			FormatContactNumbers(entityModel);
 		}

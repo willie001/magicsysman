@@ -6,7 +6,21 @@ using MagicMaids.EntityModels;
 
 namespace MagicMaids.ViewModels 
 {
-	public class BaseContactVM
+	public interface IAddressViewModel
+	{
+		string EmailAddress { get; set; }
+		string MobileNumber { get; set; }
+		string PhysicalAddressRefId { get; set; }
+		string PostalAddressRefId { get; set; }
+		UpdateAddressViewModel PostalAddress { get; set; }
+		UpdateAddressViewModel PhysicalAddress { get; set; }
+		Boolean HasAnyPhoneNumbers { get; }
+		Boolean HasAnyValidAddress { get; }
+		Boolean HasValidPostalAddress { get; }
+		Boolean HasValidPhysicalAddress { get; }
+	}
+
+	public class BaseContactVM: IAddressViewModel
 	{
 		#region Properties, Public
 		public string EmailAddress
@@ -33,7 +47,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid PhysicalAddressRefId
+		public String PhysicalAddressRefId
 		{
 			get;
 			set;
@@ -45,7 +59,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid PostalAddressRefId
+		public String PostalAddressRefId
 		{
 			get;
 			set;
@@ -140,7 +154,7 @@ namespace MagicMaids.ViewModels
 				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
 				_vm.PopulateVM(physicalAddress);
 				this.PhysicalAddress = _vm;
-				this.PhysicalAddressRefId = new Guid(physicalAddress.Id);
+				this.PhysicalAddressRefId = physicalAddress.Id;
 			}
 
 			if (postalAddress != null)
@@ -148,7 +162,7 @@ namespace MagicMaids.ViewModels
 				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
 				_vm.PopulateVM(postalAddress);
 				this.PostalAddress = _vm;
-				this.PostalAddressRefId = new Guid(postalAddress.Id);
+				this.PostalAddressRefId = postalAddress.Id;
 			}
 
 			FormatContactNumbers();

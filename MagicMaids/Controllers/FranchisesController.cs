@@ -115,9 +115,12 @@ namespace MagicMaids.Controllers
 			{
 				// create new item
 				_dataItem = new UpdateFranchisesViewModel();
+				_dataItem.Id = Guid.NewGuid().ToString();
 				_dataItem.IsNewItem = true;
-				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Physical };
-				_dataItem.PostalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Postal };
+				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Physical };
+				_dataItem.PostalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Postal };
+				_dataItem.PhysicalAddressRefId = _dataItem.PhysicalAddress.Id;
+				_dataItem.PostalAddressRefId = _dataItem.PostalAddress.Id;
 			}
 			else
 			{
@@ -165,7 +168,7 @@ namespace MagicMaids.Controllers
 			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
 				_settings = db.GetList<SystemSetting>(new { IsActive = 1 }).ToList();
-				_franchise = db.Get<Franchise>(new { Id = FranchiseId });
+				_franchise = db.Get<Franchise>(FranchiseId);
 
 				if (_franchise == null)
 				{
@@ -184,7 +187,6 @@ namespace MagicMaids.Controllers
 		public ActionResult SaveFranchise(UpdateFranchisesViewModel dataItem)
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
-
 			if (dataItem == null)
 			{
 				ModelState.AddModelError(string.Empty, "Valid franchise data not found.");
@@ -218,7 +220,7 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				Guid _id = dataItem.Id;
+				String _id = dataItem.Id;
 				var bIsNew = (dataItem.IsNewItem );
 
 				//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
@@ -234,7 +236,98 @@ namespace MagicMaids.Controllers
 						if (bIsNew)
 						{
 							_objToUpdate = UpdateFranchise(null, dataItem);
-							var newId = db.Insert<Franchise>(UpdateAuditTracking(_objToUpdate));
+
+							StringBuilder _sql = new StringBuilder();
+							if (_objToUpdate.PhysicalAddress != null)
+							{
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PhysicalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PhysicalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							if (_objToUpdate.PostalAddress != null)
+							{
+								_sql.Clear();
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PostalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PostalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							_sql.Clear();
+							_sql.Append("Insert into Franchises (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("Name, TradingName, MasterFranchiseCode, EmailAddress, PhysicalAddressRefId, PostalAddressRefId, ");
+							_sql.Append("BusinessPhoneNumber, MobileNumber, OtherNumber, CodeOfConductURL, ManagementFeePercentage, RoyaltyFeePercentage, MetroRegion)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_objToUpdate.Id}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+							_sql.Append($"{_objToUpdate.IsActive},");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+							_sql.Append($"'{_objToUpdate.Name}',");
+							_sql.Append($"'{_objToUpdate.TradingName}',");
+							_sql.Append($"'{_objToUpdate.MasterFranchiseCode}',");
+							_sql.Append($"'{_objToUpdate.EmailAddress}',");
+							_sql.Append($"'{_objToUpdate.PhysicalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.PostalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.BusinessPhoneNumber}',");
+							_sql.Append($"'{_objToUpdate.MobileNumber}',");
+							_sql.Append($"'{_objToUpdate.OtherNumber}',");
+							_sql.Append($"'{_objToUpdate.CodeOfConductURL}',");
+							if (_objToUpdate.ManagementFeePercentage == null)
+							{
+								_sql.Append($"null,");
+
+							}
+							else
+							{
+								_sql.Append($"{_objToUpdate.ManagementFeePercentage},");
+							}
+							if (_objToUpdate.RoyaltyFeePercentage == null)
+							{
+								_sql.Append($"null,");
+
+							}
+							else
+							{
+								_sql.Append($"{_objToUpdate.RoyaltyFeePercentage},");
+							}
+							_sql.Append($"'{_objToUpdate.MetroRegion}'");
+							_sql.Append(")");
+							db.Execute(_sql.ToString());
+							//var newId = db.Insert<Franchise>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
@@ -255,7 +348,9 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							db.Update(UpdateAuditTracking(_objToUpdate));
+							db.Update(UpdateFranchise(_objToUpdate, dataItem));     // Foreign Key error on Addresses
+							db.Update(_objToUpdate.PhysicalAddress);
+							db.Update(_objToUpdate.PostalAddress);
 						}
 
 						IAppCache cache = new CachingService();
@@ -318,11 +413,6 @@ namespace MagicMaids.Controllers
 				_objToUpdate = new Franchise();
 			}
 
-			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
-
 			_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
 			_objToUpdate.CodeOfConductURL = dataItem.CodeOfConductURL;
 			_objToUpdate.EmailAddress = dataItem.EmailAddress;
@@ -335,8 +425,21 @@ namespace MagicMaids.Controllers
 			_objToUpdate.TradingName = dataItem.TradingName;
 			_objToUpdate.Name = dataItem.Name;
 
-			if (dataItem.PhysicalAddress != null)
+			_objToUpdate = UpdateAuditTracking(_objToUpdate);
+
+			if (dataItem.PhysicalAddress == null)
 			{
+				_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PhysicalAddress == null)
+				{
+					_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+					_objToUpdate.PhysicalAddress.Id = dataItem.PhysicalAddress.Id;
+					_objToUpdate.PhysicalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
 				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
 				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
@@ -345,10 +448,26 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PhysicalAddress.IsActive = true;
 				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
 				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+				_objToUpdate.PhysicalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PhysicalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PhysicalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
 			}
 
-			if (dataItem.PostalAddress != null)
+
+			if (dataItem.PostalAddress == null)
 			{
+				_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PostalAddress == null)
+				{
+					_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+					_objToUpdate.PostalAddress.Id = dataItem.PostalAddress.Id;
+					_objToUpdate.PostalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
 				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
 				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
@@ -357,6 +476,10 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PostalAddress.IsActive = true;
 				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
 				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+				_objToUpdate.PostalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PostalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PostalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
 			}
 
 			return _objToUpdate;
@@ -367,14 +490,14 @@ namespace MagicMaids.Controllers
 		{
 			//https://stackoverflow.com/questions/13541225/asp-net-mvc-how-to-display-success-confirmation-message-after-server-side-proce
 
-			if (dataItem == null || dataItem.Id.ToString().Contains("00000000-0000-0000-0000-000000000000"))
+			if (dataItem == null || !Helpers.IsValidGuid(dataItem.Id))
 			{
 				ModelState.AddModelError(string.Empty, "Valid franchise settings not found. Ensure a valid franchise is selected.");
 			}
 
 			if (ModelState.IsValid)
 			{
-				Guid _id = dataItem.Id;
+				String _id = dataItem.Id;
 
 				try
 				{
@@ -382,7 +505,7 @@ namespace MagicMaids.Controllers
 
 					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 					{
-						_objToUpdate = db.Get<Franchise>(new { Id = _id });
+						_objToUpdate = db.Get<Franchise>(_id);
 
 						if (_objToUpdate == null)
 						{
@@ -390,8 +513,9 @@ namespace MagicMaids.Controllers
 							return JsonFormResponse();
 						}
 
+						_objToUpdate.ManagementFeePercentage = dataItem.ManagementFeePercentage;
+						_objToUpdate.RoyaltyFeePercentage = dataItem.RoyaltyFeePercentage;
 						db.Update(UpdateAuditTracking(_objToUpdate));
-						//context.Entry(_objToUpdate).Property("Name").IsModified = false;
 					}
 					return JsonSuccessResponse("Franchise settings saved successfully", _objToUpdate);
 				}

@@ -68,8 +68,11 @@ namespace MagicMaids.Controllers
 				// create new item
 				_dataItem = new CleanerDetailsVM();
 				_dataItem.IsNewItem = true;
-				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Physical };
-				_dataItem.PostalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Postal };
+				_dataItem.Id = Guid.NewGuid().ToString();
+				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Physical };
+				_dataItem.PostalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Postal };
+				_dataItem.PhysicalAddressRefId = _dataItem.PhysicalAddress.Id;
+				_dataItem.PostalAddressRefId = _dataItem.PostalAddress.Id;
 			}
 			else
 			{
@@ -86,9 +89,9 @@ namespace MagicMaids.Controllers
 						return clnr;
 					}).SingleOrDefault();
 
-					if (!_dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
+					if (!_cleaner.MasterFranchiseRefId.Equals(Guid.Empty))
 					{
-						sql = @"select * from Franchises where ID = '" + _dataItem.MasterFranchiseRefId + "'";
+						sql = @"select * from Franchises where ID = '" + _cleaner.MasterFranchiseRefId + "'";
 						_franchise = db.Query<Franchise>(sql).SingleOrDefault();
 					}
 
@@ -106,7 +109,7 @@ namespace MagicMaids.Controllers
 				_dataItem.PopulateVM(_cleaner);
 				_dataItem.IsNewItem = false;
 
-				if (!_dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
+				if (!Helpers.IsValidGuid(_dataItem.MasterFranchiseRefId))
 				{
 					if (_franchise == null)
 					{
@@ -129,9 +132,9 @@ namespace MagicMaids.Controllers
 			Int32? _match = null;
 			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				string sql = "select max(cleanerCode) as NextCode from Cleaners";
+				string sql = "select max(cleanerCode) NextCode from Cleaners";
 				var rows = db.Query(sql).ToList();
-				_match = rows[0]?.NextCode?.ToString();
+				_match = rows[0]?.NextCode;
 			}
 
 			if (_match.HasValue)
@@ -155,10 +158,10 @@ namespace MagicMaids.Controllers
 				return JsonFormResponse();
 			}
 
-			string sql = @"select * from CleanerTeam CT
+			string sql = @"select * from CleanerTeam CT 
 							 	inner join Addresses Ph on CT.PhysicalAddressRefId = Ph.ID
 								inner join Addresses Po on CT.PostalAddressRefId = Po.ID
-								where C.PrimaryCleanerRefId = '" + CleanerId + "'";
+								where CT.PrimaryCleanerRefId = '" + CleanerId + "'";
 
 			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
@@ -181,7 +184,8 @@ namespace MagicMaids.Controllers
 		[HttpGet]
 		public JsonResult GetFranchiseZonesJson(Guid? FranchiseId)
 		{
-			return new JsonNetResult() { Data = new { item = SettingsController.GetZoneListByFranchise(FranchiseId, false) }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			var item = SettingsController.GetZoneListByFranchise(FranchiseId.Value.ToString(), false); 
+			return new JsonNetResult() { Data = new { item }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
 
@@ -200,7 +204,7 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, "Please provide at least one valid phone number.");
 			}
 
-			if (dataItem.MasterFranchiseRefId.Equals(Guid.Empty))
+			if (!Helpers.IsValidGuid(dataItem.MasterFranchiseRefId))
 			{
 				ModelState.AddModelError(string.Empty, "Please select cleaner's master franchise.");
 			}
@@ -250,6 +254,7 @@ namespace MagicMaids.Controllers
 				{
 
 					List<String> _matchList = SettingsController.GetZoneListByFranchise(dataItem.MasterFranchiseRefId, true);
+
 					var _missingItems = dataItem.SecondaryZoneList.Select(x => x.ToLower()).Except(_matchList);
 					if (_missingItems.Count() > 0)
 					{
@@ -278,7 +283,7 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				Guid _id = dataItem.Id;
+				String _id = dataItem.Id;
 				var bIsNew = (dataItem.IsNewItem);
 
 				//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
@@ -294,7 +299,88 @@ namespace MagicMaids.Controllers
 						if (bIsNew)
 						{
 							_objToUpdate = UpdateCleaner(null, dataItem);
-							var newId = db.Insert(UpdateAuditTracking(_objToUpdate)); 
+							//var newId = db.Insert(UpdateAuditTracking(_objToUpdate)); 
+
+							StringBuilder _sql = new StringBuilder();
+							if (_objToUpdate.PhysicalAddress != null)
+							{
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PhysicalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PhysicalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							if (_objToUpdate.PostalAddress != null)
+							{
+								_sql.Clear();
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PostalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PostalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							_sql.Clear();
+							_sql.Append("Insert into Cleaners (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("CleanerCode, Initials, FirstName, LastName, Rating, MasterFranchiseRefId, ");
+							_sql.Append("EmailAddress, PhysicalAddressRefId, PostalAddressRefId, BusinessPhoneNumber, MobileNumber, OtherNumber, Region, ");
+							_sql.Append("GenderFlag, Ironing, PrimaryZone, SecondaryZone, ApprovedZone)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_objToUpdate.Id}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+							_sql.Append($"{_objToUpdate.IsActive},");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+							_sql.Append($"'{_objToUpdate.CleanerCode}',");
+							_sql.Append($"'{_objToUpdate.Initials}',");
+							_sql.Append($"'{_objToUpdate.FirstName}',");
+							_sql.Append($"'{_objToUpdate.LastName}',");
+							_sql.Append($"{_objToUpdate.Rating},");
+							_sql.Append($"'{_objToUpdate.MasterFranchiseRefId}',");
+							_sql.Append($"'{_objToUpdate.EmailAddress}',");
+							_sql.Append($"'{_objToUpdate.PhysicalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.PostalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.BusinessPhoneNumber}',");
+							_sql.Append($"'{_objToUpdate.MobileNumber}',");
+							_sql.Append($"'{_objToUpdate.OtherNumber}',");
+							_sql.Append($"'{_objToUpdate.Region}',");
+							_sql.Append($"'{_objToUpdate.GenderFlag}',");
+							_sql.Append($"'{_objToUpdate.Ironing}',");
+							_sql.Append($"'{_objToUpdate.PrimaryZone}',");
+							_sql.Append($"'{_objToUpdate.SecondaryZone}',");
+							_sql.Append($"'{_objToUpdate.ApprovedZone}'");
+							_sql.Append(")");
+							db.Execute(_sql.ToString());
 						}
 						else
 						{
@@ -318,9 +404,9 @@ namespace MagicMaids.Controllers
 
 							_objToUpdate = UpdateCleaner(_objToUpdate, dataItem);
 
-							db.Update(UpdateAuditTracking(dataItem));
-							db.Update(UpdateAuditTracking(dataItem.PhysicalAddress));
-							db.Update(UpdateAuditTracking(dataItem.PostalAddress));
+							db.Update(_objToUpdate);     
+							db.Update(_objToUpdate.PhysicalAddress);
+							db.Update(_objToUpdate.PostalAddress);
 
 						}
 
@@ -399,18 +485,25 @@ namespace MagicMaids.Controllers
 			_objToUpdate.Rating = dataItem.Rating;
 			_objToUpdate.GenderFlag = dataItem.GenderFlag;
 			_objToUpdate.Ironing = dataItem.Ironing;
-
 			_objToUpdate.PrimaryZone = dataItem.PrimaryZone;
 			_objToUpdate.SecondaryZone = dataItem.SecondaryZone;
 			_objToUpdate.ApprovedZone = dataItem.ApprovedZone;
 
-			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+			_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
-			if (dataItem.PhysicalAddress != null)
+			if (dataItem.PhysicalAddress == null)
 			{
+				_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PhysicalAddress == null)
+				{
+					_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+					_objToUpdate.PhysicalAddress.Id = dataItem.PhysicalAddress.Id;
+					_objToUpdate.PhysicalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
 				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
 				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
@@ -419,10 +512,26 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PhysicalAddress.IsActive = true;
 				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
 				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+				_objToUpdate.PhysicalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PhysicalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PhysicalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
 			}
 
-			if (dataItem.PostalAddress != null)
+
+			if (dataItem.PostalAddress == null)
 			{
+				_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PostalAddress == null)
+				{
+					_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+					_objToUpdate.PostalAddress.Id = dataItem.PostalAddress.Id;
+					_objToUpdate.PostalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
 				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
 				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
@@ -431,6 +540,10 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PostalAddress.IsActive = true;
 				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
 				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+				_objToUpdate.PostalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PostalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PostalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
 			}
 
 			return _objToUpdate;
@@ -456,15 +569,23 @@ namespace MagicMaids.Controllers
 			_objToUpdate.MobileNumber = dataItem.MobileNumber;
 			_objToUpdate.GenderFlag = dataItem.GenderFlag;
 			_objToUpdate.Ironing = dataItem.Ironing;
-			_objToUpdate.PrimaryCleanerRefId = dataItem.PrimaryCleanerRefId.ToString();
+			_objToUpdate.PrimaryCleanerRefId = dataItem.PrimaryCleanerRefId;
 
-			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+			_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
-			if (dataItem.PhysicalAddress != null)
+			if (dataItem.PhysicalAddress == null)
 			{
+				_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PhysicalAddress == null)
+				{
+					_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+					_objToUpdate.PhysicalAddress.Id = Guid.NewGuid().ToString();   // can't use copied address from primary cleaner
+					_objToUpdate.PhysicalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
 				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
 				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
@@ -473,10 +594,26 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PhysicalAddress.IsActive = true;
 				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
 				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+				_objToUpdate.PhysicalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PhysicalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PhysicalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
 			}
 
-			if (dataItem.PostalAddress != null)
+
+			if (dataItem.PostalAddress == null)
 			{
+				_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PostalAddress == null)
+				{
+					_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+					_objToUpdate.PostalAddress.Id = Guid.NewGuid().ToString();   // can't use copied address from primary cleaner
+					_objToUpdate.PostalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
 				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
 				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
@@ -485,6 +622,10 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PostalAddress.IsActive = true;
 				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
 				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+				_objToUpdate.PostalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PostalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PostalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
 			}
 
 			return _objToUpdate;
@@ -533,7 +674,7 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				Guid _id = dataItem.Id;
+				String _id = dataItem.Id;
 				var bIsNew = (dataItem.IsNewItem);
 
 				//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
@@ -549,7 +690,79 @@ namespace MagicMaids.Controllers
 						if (bIsNew)
 						{
 							_objToUpdate = UpdateCleanerTeam(null, dataItem);
-							var newId = db.Insert(_objToUpdate); 
+							//var newId = db.Insert(_objToUpdate); 
+
+							StringBuilder _sql = new StringBuilder();
+							if (_objToUpdate.PhysicalAddress != null)
+							{
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PhysicalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PhysicalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							if (_objToUpdate.PostalAddress != null)
+							{
+								_sql.Clear();
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PostalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PostalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							_sql.Clear();
+							_sql.Append("Insert into CleanerTeam (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("PrimaryCleanerRefId, FirstName, LastName, ");
+							_sql.Append("EmailAddress, PhysicalAddressRefId, PostalAddressRefId, MobileNumber, ");
+							_sql.Append("GenderFlag, Ironing)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_objToUpdate.Id}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+							_sql.Append($"{_objToUpdate.IsActive},");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+							_sql.Append($"'{_objToUpdate.PrimaryCleanerRefId}',");
+							_sql.Append($"'{_objToUpdate.FirstName}',");
+							_sql.Append($"'{_objToUpdate.LastName}',");
+							_sql.Append($"'{_objToUpdate.EmailAddress}',");
+							_sql.Append($"'{_objToUpdate.PhysicalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.PostalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.MobileNumber}',");
+							_sql.Append($"'{_objToUpdate.GenderFlag}',");
+							_sql.Append($"'{_objToUpdate.Ironing}'");
+							_sql.Append(")");
+							db.Execute(_sql.ToString());
 						}
 						else
 						{
@@ -782,18 +995,17 @@ namespace MagicMaids.Controllers
 			//	return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 			//}
 			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
-				//{
-				//	var _results = db.Query<CleanerRoster, CleanerRosteredTeam, CleanerRoster>(sql, (r, ct) => {
-				//		r.CleanerRosteredTeam = ct;
-				//		return r;
-				//	}).ToList();
+			{
+				//var _results = db.Query<CleanerRoster, CleanerRosteredTeam, CleanerRoster>(sql, (r, ct) => {
+				//	r.CleanerRosteredTeam = ct;
+				//	return r;
+				//}).ToList();
+				var _results = db.GetList<RosterTeamMembersVM>(sql.ToString()).ToList();
 
-				//	List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
+				List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
 
-				//	return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-				//}
-
-				return null;
+				return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+			}
 		}
 
 		[HttpPost]
@@ -982,7 +1194,7 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				Guid _id = formValues.Id;
+				String _id = formValues.Id;
 				var bIsNew = formValues.IsNewItem;
 
 				try

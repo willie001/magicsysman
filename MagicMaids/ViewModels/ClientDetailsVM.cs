@@ -55,7 +55,7 @@ namespace MagicMaids.ViewModels
 	}
 
 	[Validator(typeof(ClientDetailsValidator))]
-	public class ClientDetailsVM : BaseContactVM
+	public class ClientDetailsVM : BaseContactVM, IAddressViewModel
 	{
 		//Primary Client's container view model
 		#region Properties, Public
@@ -71,7 +71,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
@@ -103,7 +103,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = new Guid(entityModel.Id);
+			this.Id = entityModel.Id;
 			this.FirstName = entityModel.FirstName;
 			this.LastName = entityModel.LastName;
 			this.EmailAddress = entityModel.EmailAddress;
@@ -135,7 +135,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
@@ -257,7 +257,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid ClientId
+		public String ClientId
 		{
 			get;
 			set;
@@ -271,11 +271,12 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			Id = new Guid(entityModel.Id);
+			Id = entityModel.Id;
 			IsNewItem = false;
 			string[] items = Crypto.Decrypt(entityModel.Details, passphrase).Split('|');
 
-			ClientId = Guid.Parse(items[1]);
+			ClientId = (Helpers.IsValidGuid(items[1])) ? items[1].ToString() : "";
+
 			CardCVV = items[2];
 			ExpiryYear = items[3];
 			ExpiryMonth = items[4];
@@ -321,13 +322,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
 		}
 
-		public Guid ClientId
+		public String ClientId
 		{
 			get;
 			set;
@@ -410,13 +411,13 @@ namespace MagicMaids.ViewModels
 			if (clientId.Equals(Guid.Empty))
 				return;
 
-			this.Id = new Guid(entityModel.Id);
-			this.ClientId = clientId.Value;
+			Id = entityModel.Id;
+			ClientId = (Helpers.IsValidGuid(clientId)) ? clientId.Value.ToString() : "";
 
-			this.StartDate = entityModel.StartDate;
-			this.EndDate = entityModel.EndDate;
+			StartDate = entityModel.StartDate;
+			EndDate = entityModel.EndDate;
 
-			this._adviseDate = entityModel.CreatedAt;
+			_adviseDate = entityModel.CreatedAt;
 		}
 		#endregion
 	}

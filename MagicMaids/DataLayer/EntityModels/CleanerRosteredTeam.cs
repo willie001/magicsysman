@@ -20,20 +20,20 @@ namespace MagicMaids.EntityModels
 			{
 				if (!Helpers.IsValidGuid(_id.ToString()))
 				{
-					_id = Guid.NewGuid();
+					_id = Guid.NewGuid().ToString();
 				}
 
-				return _id.ToString();
+				return _id;
 			}
 			set
 			{
-				if (value != _id.ToString() && Helpers.IsValidGuid(value))
+				if (value.ToString() != _id.ToString() && Helpers.IsValidGuid(value))
 				{
-					_id = new Guid(value);
+					_id = value;
 				}
 			}
 		}
-		private Guid? _id;
+		private String _id;
 
 		public Boolean IsPrimary
 		{

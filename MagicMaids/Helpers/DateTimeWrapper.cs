@@ -16,9 +16,38 @@ namespace MagicMaids
 			return dt.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
 		}
 
+		public static string FormatLocalNow()
+		{
+			return DateTimeWrapper.LocalNow.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+		}
+
 		public static string FormatClientDateTime(DateTime dt)
 		{
-			return dt.ToString("d MMM yyyy HH:mm:ss", CultureInfo.InvariantCulture);
+			return dt.ToString("d MMM yyyy HH:mm:ss");
+		}
+
+		public static string FormatDateTimeForDatabase(DateTime dt)
+		{
+			return dt.ToString("yyyy-MM-dd HH:mm:ss:ff");
+		}
+
+		public static Instant Now
+		{
+			get
+			{
+				return SystemClock.Instance.GetCurrentInstant();
+			}
+		}
+
+		public static LocalDateTime LocalNow 
+		{
+			get{
+				if (UserTimeZone == null)
+				{
+					SetTimeZoneFromContext();
+				}
+				return Now.InZone(UserTimeZone).LocalDateTime;
+			}
 		}
 
 		public static DateTime UTCtoLocal(DateTime dateTime)
@@ -30,7 +59,7 @@ namespace MagicMaids
 
 			// If should be set to DateTimeKind.Unspecified in Convert
 			var dateKind = ((DateTime)dateTime).Kind;
-			if (dateKind == DateTimeKind.Local)
+			if (dateKind == DateTimeKind.Local || dateKind == DateTimeKind.Unspecified)
 			{
 				return dateTime;
 			}
@@ -56,7 +85,7 @@ namespace MagicMaids
 				return DateTime.MinValue;
 			}
 
-			if (TimeZoneName == null || TimeZoneName.GetType() != typeof(string) || !DateTimeZoneProviders.Tzdb.Ids.Contains(TimeZoneName))
+			if (String.IsNullOrWhiteSpace(TimeZoneName) || TimeZoneName.GetType() != typeof(string) || !DateTimeZoneProviders.Tzdb.Ids.Contains(TimeZoneName))
 			{
 				return dateTime;
 			}
@@ -64,9 +93,7 @@ namespace MagicMaids
 			ZonedDateTime zonedDbDateTime;
 			if (String.IsNullOrWhiteSpace(TimeZoneName))
 			{
-				var offset = Offset.FromSeconds(-1 * TimeZoneOffsetMins * 60);
-				var localDateTime = LocalDateTime.FromDateTime(dateTime);
-				return new OffsetDateTime(localDateTime, offset).ToInstant().ToDateTimeUtc();
+				return GetOffsetDateTime(dateTime).ToInstant().ToDateTimeUtc();
 			}
 			else
 			{
@@ -77,6 +104,13 @@ namespace MagicMaids
 
 		}
 
+		private static OffsetDateTime GetOffsetDateTime(DateTime dateTime)
+		{
+			var offset = Offset.FromSeconds(-1 * TimeZoneOffsetMins * 60);
+			var localDateTime = LocalDateTime.FromDateTime(dateTime);
+			return new OffsetDateTime(localDateTime, offset);
+		}
+
 		private static Boolean  SetTimeZoneFromContext()
 		{
 			if (!String.IsNullOrWhiteSpace(TimeZoneName) && UserTimeZone != null)
@@ -84,39 +118,32 @@ namespace MagicMaids
 				return true;
 			}
 
-			try
-			{
-				var timeOffSet = HttpContext.Current.Session["timezoneoffset"]?.ToString();  // read the value from session
-				TimeZoneName = HttpContext.Current.Session["timezonename"]?.ToString();  // read the value from session
+			var timeOffSet = HttpContext.Current.Session["timezoneoffset"]?.ToString();  // read the value from session
+			TimeZoneName = HttpContext.Current.Session["timezonename"]?.ToString();  // read the value from session
 
+			if (String.IsNullOrWhiteSpace(TimeZoneName))
+			{
+				TimeZoneName = "";
+				UserTimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull("UTC");
+
+			}
+			else 
+			{
 				TimeZoneName = TimeZoneName.Replace("%2F", "/");
-				if (String.IsNullOrWhiteSpace(TimeZoneName))
+				if (DateTimeZoneProviders.Tzdb.Ids.Contains(TimeZoneName))
+				{
+					UserTimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull(TimeZoneName);
+				}
+				else
 				{
 					TimeZoneName = "";
 					UserTimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull("UTC");
-
-				}
-				else 
-				{
-					if (DateTimeZoneProviders.Tzdb.Ids.Contains(TimeZoneName))
-					{
-						UserTimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull(TimeZoneName);
-					}
-					else
-					{
-						TimeZoneName = "";
-						UserTimeZone = DateTimeZoneProviders.Tzdb.GetZoneOrNull("UTC");
-					}
-				}
-
-				if (!String.IsNullOrWhiteSpace(timeOffSet))
-				{
-					Int32.TryParse(timeOffSet, out TimeZoneOffsetMins);
 				}
 			}
-			catch
-			{
 
+			if (!String.IsNullOrWhiteSpace(timeOffSet))
+			{
+				Int32.TryParse(timeOffSet, out TimeZoneOffsetMins);
 			}
 
 			return true;

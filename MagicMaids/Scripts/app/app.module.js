@@ -59,6 +59,51 @@
       		return $window.moment;
     	}])
 
+    	.factory('manageTimeZoneCookie', ['$cookies', 'moment', function($cookies, moment) {
+    		var factory = {};
+
+    		factory.set = function($cookies, moment)
+    		{
+	    		var timezone_cookie = "timezoneoffset";
+	      		var timezoneName_cookie = "timezonename";
+	      		if (!$cookies.get(timezone_cookie) || !$cookies.get(timezoneName_cookie)) { // if the timezone cookie not exists create one.
+	            
+	                // check if the browser supports cookie
+	                var test_cookie = 'test cookie';
+	                $cookies.put(test_cookie, 'oatmeal');
+
+	                if ($cookies.get(test_cookie)) { // browser supports cookie
+
+	                    // delete the test cookie.
+	                    $cookies.remove(test_cookie);
+
+	                    // create a new cookie 
+	                    var currentName = moment.tz.guess();
+	                    $cookies.put(timezone_cookie, new Date().getTimezoneOffset());
+	                    $cookies.put(timezoneName_cookie, currentName);
+	                    location.reload(); // re-load the page
+	                }
+	            }
+	            else { 
+	            	// if the current timezone and the one stored in cookie are different then
+	                // store the new timezone in the cookie and refresh the page.
+	                var storedOffset = parseInt($cookies.get(timezone_cookie));
+	                var currentOffset = new Date().getTimezoneOffset();
+	                if (storedOffset !== currentOffset) { // user may have changed the timezone
+	                    $cookies.put(timezone_cookie, new Date().getTimezoneOffset());
+	                }
+	                var storedName = $cookies.get(timezoneName_cookie);
+	                var currentName = moment.tz.guess();
+	                if (storedName && storedName !== currentName) { // user may have changed the timezone
+	                    $cookies.put(timezoneName_cookie, currentName);
+	                    location.reload();
+	                }
+	            }
+            }
+
+            return factory;
+    	}])
+
 		.factory('HandleBusySpinner', ['$timeout', function ($timeout) {
 
     		var factory = {};

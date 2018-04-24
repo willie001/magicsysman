@@ -20,7 +20,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
@@ -66,7 +66,7 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
-		public Guid? FranchiseId
+		public String FranchiseId
 		{
 			get;
 			set;
@@ -79,12 +79,13 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			Id = new Guid(entityModel.Id);
+			Id = entityModel.Id;
 			SuburbName = entityModel.SuburbName;
 			PostCode = entityModel.PostCode;
 			Zone = entityModel.Zone;
 			LinkedZones = entityModel.LinkedZones;
-			FranchiseId = (Helpers.IsValidGuid(entityModel.FranchiseId)) ? new Guid(entityModel.FranchiseId) : Guid.Empty;
+			FranchiseId = (Helpers.IsValidGuid(entityModel.FranchiseId)) ? entityModel.FranchiseId.ToString() : "";
+
 
 		}
 		#endregion

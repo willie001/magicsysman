@@ -184,9 +184,6 @@
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.8.0.10-rc\lib\net452\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Dapper">
-      <HintPath>..\packages\Dapper.1.42\lib\net45\Dapper.dll</HintPath>
-    </Reference>
     <Reference Include="Dapper.SimpleCRUD">
       <HintPath>..\packages\Dapper.SimpleCRUD.1.13.0\lib\net45\Dapper.SimpleCRUD.dll</HintPath>
     </Reference>
@@ -198,6 +195,9 @@
     </Reference>
     <Reference Include="Glimpse.Mvc5">
       <HintPath>..\packages\Glimpse.Mvc5.1.5.3\lib\net45\Glimpse.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.50.4\lib\net451\Dapper.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +271,7 @@
     <Compile Include="Helpers\StaticContentFilter.cs" />
     <Compile Include="Helpers\DateTimeWrapper.cs" />
     <Compile Include="GlimpseSecurityPolicy.cs" />
+    <Compile Include="ViewModels\BaseViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

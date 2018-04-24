@@ -23,7 +23,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
@@ -145,7 +145,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = new Guid(entityModel.Id);
+			this.Id = entityModel.Id.ToString();
 			this.AddressLine1 = entityModel.AddressLine1;
 			this.AddressLine2 = entityModel.AddressLine2;
 			this.AddressLine3 = entityModel.AddressLine3;

@@ -12,7 +12,7 @@
 
     MasterClientController.$inject = ['$scope'];
     MasterClientController.$inject = ['$scope','$location','$route','$state'];
-    ClientSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder'];
+    ClientSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','$cookies', 'moment','manageTimeZoneCookie'];
     ClientDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
     ClientPaymentController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
     ClientLeaveController.$inject = ['$scope','$filter','$http', 'HandleBusySpinner', 'ShowUserMessages','editableOptions', 'editableThemes'];
@@ -45,11 +45,12 @@
     /***********************/
 	/*** CLIENT SEARCH   ***/
 	/***********************/
-	function ClientSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder)
+	function ClientSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, $cookies, moment, manageTimeZoneCookie)
 	{
 		var vm = this;
 		var panelName = "panelClientResults";
-	
+		manageTimeZoneCookie.set($cookies, moment, location);
+
 		vm.Search = {};
 		vm.SeachResults = {};
 		vm.hasSearched = false;
@@ -60,6 +61,8 @@
 		activate();
 
 		function activate() {
+			manageTimeZoneCookie.set($cookies, moment, location);
+
 			HandleBusySpinner.start($scope, panelName);
 			$scope.panelClientSearch = false;
 

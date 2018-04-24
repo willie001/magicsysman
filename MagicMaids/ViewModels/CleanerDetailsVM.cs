@@ -11,7 +11,7 @@ using MagicMaids.Validators;
 namespace MagicMaids.ViewModels
 {
 	[Validator(typeof(CleanerDetailsValidator))]
-	public class CleanerDetailsVM : BaseContactVM
+	public class CleanerDetailsVM : BaseContactVM, IAddressViewModel
 	{
 		//Primary Cleaner's container view model
 		#region Properties, Public
@@ -27,13 +27,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
 		}
 
-		public Guid MasterFranchiseRefId
+		public String MasterFranchiseRefId
 		{
 			get;
 			set;
@@ -137,42 +137,43 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = new Guid(entityModel.Id);
-			this.CleanerCode = entityModel.CleanerCode;
-			this.Initials = entityModel.Initials;
-			this.FirstName = entityModel.FirstName;
-			this.LastName = entityModel.LastName;
-			this.EmailAddress = entityModel.EmailAddress;
-			this.BusinessPhoneNumber = entityModel.BusinessPhoneNumber;
-			this.OtherNumber = entityModel.OtherNumber;
-			this.MobileNumber = entityModel.MobileNumber;
-			this.Region = entityModel.Region;
-			this.Rating = entityModel.Rating;
-			this.MasterFranchiseRefId = new Guid(entityModel.MasterFranchiseRefId);
-			this.IsActive = entityModel.IsActive;
-			this.Ironing = entityModel.Ironing;
-			this.GenderFlag = entityModel.GenderFlag;
-			this.PrimaryZone = entityModel.PrimaryZone;
-			this.SecondaryZone = entityModel.SecondaryZone;
-			this.ApprovedZone = entityModel.ApprovedZone;
+			Id = entityModel.Id;
+			CleanerCode = entityModel.CleanerCode;
+			Initials = entityModel.Initials;
+			FirstName = entityModel.FirstName;
+			LastName = entityModel.LastName;
+			EmailAddress = entityModel.EmailAddress;
+			BusinessPhoneNumber = entityModel.BusinessPhoneNumber;
+			OtherNumber = entityModel.OtherNumber;
+			MobileNumber = entityModel.MobileNumber;
+			Region = entityModel.Region;
+			Rating = entityModel.Rating;
+			MasterFranchiseRefId = (Helpers.IsValidGuid(entityModel.MasterFranchiseRefId)) ? entityModel.MasterFranchiseRefId.ToString() : "";
+
+			IsActive = entityModel.IsActive;
+			Ironing = entityModel.Ironing;
+			GenderFlag = entityModel.GenderFlag;
+			PrimaryZone = entityModel.PrimaryZone;
+			SecondaryZone = entityModel.SecondaryZone;
+			ApprovedZone = entityModel.ApprovedZone;
 
 			if (!String.IsNullOrWhiteSpace(this.PrimaryZone))
 			{
-				this.PrimaryZoneList = this.PrimaryZone.Split(new char[] { ',', ';' })
+				PrimaryZoneList = this.PrimaryZone.Split(new char[] { ',', ';' })
 					.Distinct()
 					.ToList();
 			};
 
 			if (!String.IsNullOrWhiteSpace(this.SecondaryZone))
 			{
-				this.SecondaryZoneList = this.SecondaryZone.Split(new char[] { ',', ';' })
+				SecondaryZoneList = this.SecondaryZone.Split(new char[] { ',', ';' })
 				.Distinct()
 				.ToList();
 			}
 
 			if (!String.IsNullOrWhiteSpace(this.ApprovedZone))
 			{
-				this.ApprovedZoneList = this.ApprovedZone.Split(new char[] { ',', ';' })
+				ApprovedZoneList = this.ApprovedZone.Split(new char[] { ',', ';' })
 				.Distinct()
 				.ToList();
 			}
@@ -198,13 +199,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
 		}
 
-		public Guid PrimaryCleanerRefId
+		public String PrimaryCleanerRefId
 		{
 			get;
 			set;
@@ -245,7 +246,7 @@ namespace MagicMaids.ViewModels
 			if (cleanerId.Equals(Guid.Empty))
 				return;
 
-			Id = new Guid(entityModel.Id);
+			Id = entityModel.Id;
 			FirstName = entityModel.FirstName;
 			LastName = entityModel.LastName;
 			EmailAddress = entityModel.EmailAddress;
@@ -253,7 +254,7 @@ namespace MagicMaids.ViewModels
 			IsActive = entityModel.IsActive;
 			Ironing = entityModel.Ironing;
 			GenderFlag = entityModel.GenderFlag;
-			PrimaryCleanerRefId = cleanerId.Value;
+			PrimaryCleanerRefId = (Helpers.IsValidGuid(cleanerId)) ? cleanerId.Value.ToString() : "";
 
 			base.FormatContactDetails(entityModel.PhysicalAddress, entityModel.PostalAddress);
 		}
@@ -263,7 +264,7 @@ namespace MagicMaids.ViewModels
 	public class CleanerSearchVM
 	{
 		#region Properties, Public
-		public Guid SelectedFranchiseId
+		public String SelectedFranchiseId
 		{
 			get;
 			set;
@@ -298,6 +299,12 @@ namespace MagicMaids.ViewModels
 	public class CleanerJobMatchVM: BaseContactVM
 	{
 		#region Properties, Public
+		public String Id
+		{
+			get;
+			set;
+		}
+
 		public Int32 SearchMatchScore
 		{
 			get;
@@ -366,7 +373,7 @@ namespace MagicMaids.ViewModels
 	{
 		//Roster view model per day
 		#region Properties, Public
-		public Guid? Id
+		public string Id
 		{
 			get;
 			set;
@@ -418,19 +425,20 @@ namespace MagicMaids.ViewModels
 			if (cleanerId.Equals(Guid.Empty))
 				return;
 
-			this.Id = entityModel.Id;
-			this.Weekday = entityModel.Weekday;
-			this.TeamCount = entityModel.TeamCount;
-			this.StartTime = entityModel.StartTime;
-			this.EndTime = entityModel.EndTime;
-			this.IsActive = true;
+			Id = (Helpers.IsValidGuid(entityModel.Id)) ? entityModel.Id.ToString() : "";
 
-			this.TeamMembers = new List<RosterTeamMembersVM>();
+			Weekday = entityModel.Weekday;
+			TeamCount = entityModel.TeamCount;
+			StartTime = entityModel.StartTime;
+			EndTime = entityModel.EndTime;
+			IsActive = true;
+
+			TeamMembers = new List<RosterTeamMembersVM>();
 			// add initial member to collection - controller will take it a step further
 			// to add teammembers to existing roster items
 			if (entityModel != null)
 			{
-				this.TeamMembers.Add(entityModel);
+				TeamMembers.Add(entityModel);
 			}
 		}
 
@@ -468,13 +476,13 @@ namespace MagicMaids.ViewModels
 	public class RosterTeamMembersVM
 	{
 		//Team member's rostered view model
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
 		}
 
-		public Guid RosterId
+		public String RosterId
 		{
 			get;
 			set;
@@ -542,13 +550,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
 		}
 
-		public Guid PrimaryCleanerRefId
+		public String PrimaryCleanerRefId
 		{
 			get;
 			set;
@@ -617,11 +625,11 @@ namespace MagicMaids.ViewModels
 			if (cleanerId.Equals(Guid.Empty))
 				return;
 
-			this.Id = new Guid(entityModel.Id);
-			this.PrimaryCleanerRefId = cleanerId.Value;
+			Id = entityModel.Id;
+			PrimaryCleanerRefId = (Helpers.IsValidGuid(cleanerId)) ? cleanerId.Value.ToString() : "";
 
-			this.StartDate = entityModel.StartDate;
-			this.EndDate = entityModel.EndDate;
+			StartDate = entityModel.StartDate;
+			EndDate = entityModel.EndDate;
 		}
 		#endregion
 	}

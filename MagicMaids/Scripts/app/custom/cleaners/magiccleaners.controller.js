@@ -85,7 +85,7 @@
 
 	MasterCleanerController.$inject = ['$scope'];
     MasterCleanerHeaderController.$inject = ['$scope','$location','$route','$state'];
-    CleanerSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder'];
+    CleanerSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder', '$cookies', 'moment', 'manageTimeZoneCookie'];
     CleanerDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages', 'ngDialog', 'cleanerTeamFactory'];
     CleanerAddressController.$inject = [];
 	CleanerAvailabilityController.$inject = ['$scope','$http','HandleBusySpinner', 'ShowUserMessages', 'cleanerTeamFactory'];
@@ -118,11 +118,11 @@
     /***********************/
 	/*** CLEANER SEARCH  ***/
 	/***********************/
-	function CleanerSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder)
+	function CleanerSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, $cookies, moment, manageTimeZoneCookie)
 	{
 		var vm = this;
 		var panelName = "panelCleanerResults";
-	
+
 		vm.Search = {};
 		vm.SeachResults = {};
 		vm.Search.SelectedFranchise = {};
@@ -131,6 +131,7 @@
 		activate();
 
 		function activate() {
+			manageTimeZoneCookie.set($cookies, moment, location);
 			HandleBusySpinner.start($scope, panelName);
 			$scope.searchCriteria = false;
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);

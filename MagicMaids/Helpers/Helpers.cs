@@ -166,6 +166,18 @@ namespace MagicMaids
 			return true;
 		}
 
+		public static Boolean IsValidGuid(Guid? input)
+		{
+			if (input == null || !input.HasValue)
+			{
+				return false;
+			}
+			else
+			{
+				return IsValidGuid(input.Value.ToString());
+			}
+		}
+
 		public static Int32 ToInt32(String input)
 		{
 			var i = 0;

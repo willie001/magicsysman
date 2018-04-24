@@ -13,7 +13,7 @@ namespace MagicMaids.ViewModels
 	public class FranchiseSettingsVM
 	{
 		#region Properties, Public
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
@@ -107,7 +107,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null || defaultSettings == null)
 				return;
 
-			this.Id = new Guid(entityModel.Id);
+			this.Id = entityModel.Id;
 			this.franchiseName = entityModel.Name;
 			this.ManagementFeePercentage = entityModel.ManagementFeePercentage;
 			this.RoyaltyFeePercentage = entityModel.RoyaltyFeePercentage;

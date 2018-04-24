@@ -11,7 +11,7 @@
 		.controller('PostCodesController', PostCodesController)
 		.controller('RatesController', RatesController);
 
-	MasterSettingsController.$inject = ['$scope'];
+	MasterSettingsController.$inject = ['$scope','$cookies', 'moment','manageTimeZoneCookie'];
 	DefaultSettingsController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q', 'HandleBusySpinner','ShowUserMessages'];
     FranchiseController.$inject = ['$scope','$filter', '$http','$q', 'HandleBusySpinner'];
     FranchiseDetailController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', 'HandleBusySpinner', 'ShowUserMessages'];
@@ -19,9 +19,10 @@
     PostCodesController.$inject = ['$scope','$filter', '$http', 'editableOptions', 'editableThemes','$q','ShowUserMessages'];
     RatesController.$inject = ['$scope', '$http', 'ngDialog', 'ShowUserMessages'];
 
-    function MasterSettingsController($scope)
+    function MasterSettingsController($scope, $cookies, moment, manageTimeZoneCookie)
     {
    		var vm = this;
+   		manageTimeZoneCookie.set($cookies, moment, location);
 
     	// A parent controller is required where we use tabbing with messaging being sent from the child.
     	$scope.userMessages = [];
@@ -45,6 +46,7 @@
     function RatesController($scope, $http, ngDialog, ShowUserMessages)
 	{
 		var vm = this;
+
 		vm.selectedFranchise = null;
 		vm.enableAdd = false;
 		vm.isSaving = false;

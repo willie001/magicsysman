@@ -13,7 +13,7 @@ namespace MagicMaids.ViewModels
 	public class UpdateSettingsViewModel
 	{
 		#region Properties, Public
-		public Guid Id
+		public String Id
 		{
 			get;
 			set;
@@ -49,7 +49,7 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = new Guid(entityModel.Id);
+			this.Id = entityModel.Id;
 			this.SettingName = entityModel.SettingName;
 			this.SettingValue = entityModel.SettingValue;
 			this.CodeIdentifier = entityModel.CodeIdentifier;

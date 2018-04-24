@@ -50,6 +50,13 @@ namespace MagicMaids.Controllers
 					rows = db.Query(stm).ToList();
 					string counter = rows[0].testCount.ToString();
 					output.Append($"Record Count : {counter.ToString()}\n");
+
+					output.Append("\n\n");
+					output.Append($"Date Time Now: {DateTime.Now.ToString()}\n");
+					output.Append($"NodaTime UTC Now: {DateTimeWrapper.Now.ToString()}\n");
+					output.Append($"NodaTime LocalNow: {DateTimeWrapper.LocalNow.ToString()}\n");
+					output.Append($"NodaTime Now UTC: {DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString()}\n");
+
 					TempData["results"] = output.ToString();
 				}
 

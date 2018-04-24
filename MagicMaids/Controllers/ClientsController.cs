@@ -221,7 +221,7 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				Guid _id = dataItem.Id;
+				String _id = dataItem.Id;
 				var bIsNew = (dataItem.IsNewItem);
 
 				//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
@@ -237,7 +237,79 @@ namespace MagicMaids.Controllers
 						if (bIsNew)
 						{
 							_objToUpdate = UpdateClient(null, dataItem);
-							var newId = db.Insert(_objToUpdate); 
+							//var newId = db.Insert(_objToUpdate); 
+
+							StringBuilder _sql = new StringBuilder();
+							if (_objToUpdate.PhysicalAddress != null)
+							{
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PhysicalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PhysicalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PhysicalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							if (_objToUpdate.PostalAddress != null)
+							{
+								_sql.Clear();
+								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Id}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.CreatedAt)}',");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.UpdatedAt)}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedBy}',");
+								_sql.Append($"{_objToUpdate.PostalAddress.IsActive},");
+								_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.PostalAddress.RowVersion)}',");
+								_sql.Append($"{(int)_objToUpdate.PostalAddress.AddressType},");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine1}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine2}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine3}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Suburb}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.State}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
+								_sql.Append(")");
+								db.Execute(_sql.ToString());
+							}
+
+							_sql.Clear();
+							_sql.Append("Insert into Clients (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("FirstName, LastName,  ");
+							_sql.Append("EmailAddress, PhysicalAddressRefId, PostalAddressRefId, BusinessPhoneNumber, MobileNumber, OtherNumber, ");
+							_sql.Append("ClientType)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_objToUpdate.Id}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+							_sql.Append($"{_objToUpdate.IsActive},");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+							_sql.Append($"'{_objToUpdate.FirstName}',");
+							_sql.Append($"'{_objToUpdate.LastName}',");
+							_sql.Append($"'{_objToUpdate.EmailAddress}',");
+							_sql.Append($"'{_objToUpdate.PhysicalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.PostalAddressRefId}',");
+							_sql.Append($"'{_objToUpdate.BusinessPhoneNumber}',");
+							_sql.Append($"'{_objToUpdate.MobileNumber}',");
+							_sql.Append($"'{_objToUpdate.OtherNumber}',");
+							_sql.Append($"'{_objToUpdate.ClientType}'");
+							_sql.Append(")");
+							db.Execute(_sql.ToString());
 						}
 						else
 						{
@@ -333,13 +405,21 @@ namespace MagicMaids.Controllers
 			_objToUpdate.BusinessPhoneNumber = dataItem.BusinessPhoneNumber;
 			_objToUpdate.ClientType = dataItem.ClientType;
 
-			_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
-			_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
-			_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
-			_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+			_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
-			if (dataItem.PhysicalAddress != null)
+			if (dataItem.PhysicalAddress == null)
 			{
+				_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PhysicalAddress == null)
+				{
+					_objToUpdate.PhysicalAddress = new Address() { AddressType = AddressTypeSetting.Physical };
+					_objToUpdate.PhysicalAddress.Id = dataItem.PhysicalAddress.Id;
+					_objToUpdate.PhysicalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PhysicalAddress.AddressLine1 = dataItem.PhysicalAddress.AddressLine1;
 				_objToUpdate.PhysicalAddress.AddressLine2 = dataItem.PhysicalAddress.AddressLine2;
 				_objToUpdate.PhysicalAddress.AddressLine3 = dataItem.PhysicalAddress.AddressLine3;
@@ -348,10 +428,25 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PhysicalAddress.IsActive = true;
 				_objToUpdate.PhysicalAddress.PostCode = dataItem.PhysicalAddress.PostCode;
 				_objToUpdate.PhysicalAddress.State = dataItem.PhysicalAddress.State;
+				_objToUpdate.PhysicalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PhysicalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PhysicalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PhysicalAddressRefId = _objToUpdate.PhysicalAddress.Id;
 			}
 
-			if (dataItem.PostalAddress != null)
+			if (dataItem.PostalAddress == null)
 			{
+				_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
+			}
+			else
+			{
+				if (_objToUpdate.PostalAddress == null)
+				{
+					_objToUpdate.PostalAddress = new Address() { AddressType = AddressTypeSetting.Postal };
+					_objToUpdate.PostalAddress.Id = dataItem.PostalAddress.Id;
+					_objToUpdate.PostalAddress.CreatedAt = _objToUpdate.CreatedAt;
+				}
 				_objToUpdate.PostalAddress.AddressLine1 = dataItem.PostalAddress.AddressLine1;
 				_objToUpdate.PostalAddress.AddressLine2 = dataItem.PostalAddress.AddressLine2;
 				_objToUpdate.PostalAddress.AddressLine3 = dataItem.PostalAddress.AddressLine3;
@@ -360,9 +455,13 @@ namespace MagicMaids.Controllers
 				_objToUpdate.PostalAddress.IsActive = true;
 				_objToUpdate.PostalAddress.PostCode = dataItem.PostalAddress.PostCode;
 				_objToUpdate.PostalAddress.State = dataItem.PostalAddress.State;
+				_objToUpdate.PostalAddress.UpdatedBy = _objToUpdate.UpdatedBy;
+				_objToUpdate.PostalAddress.UpdatedAt = _objToUpdate.UpdatedAt;
+				_objToUpdate.PostalAddress.RowVersion = _objToUpdate.RowVersion;
+				_objToUpdate.PostalAddressRefId = _objToUpdate.PostalAddress.Id;
 			}
 
-			return UpdateAuditTracking(_objToUpdate);
+			return _objToUpdate;
 		}
 
 		[HttpGet]
@@ -645,7 +744,7 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				Guid _id = formValues.Id;
+				String _id = formValues.Id;
 				var bIsNew = formValues.IsNewItem;
 
 				try
