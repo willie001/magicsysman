@@ -165,7 +165,11 @@ namespace MagicMaids.Controllers
 
 			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
 			{
-				_team = db.Query<CleanerTeam>(sql).ToList();
+				_team = db.Query<CleanerTeam, Address, Address, CleanerTeam>(sql, (clnr, phys, post) => {
+					clnr.PhysicalAddress = phys;
+					clnr.PostalAddress = post;
+					return clnr;
+				}).ToList();
 			}
 
 			if (_team != null && _team.Count() > 0)
@@ -766,7 +770,7 @@ namespace MagicMaids.Controllers
 						}
 						else
 						{
-							string sql = @"select * from Cleaners C 
+							string sql = @"select * from CleanerTeam C 
 							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
 								inner join Addresses Po on C.PostalAddressRefId = Po.ID
 								where C.ID = '" + _id + "'";
@@ -785,10 +789,11 @@ namespace MagicMaids.Controllers
 							}
 
 							// no action on team member yet until it's deleted
+							_objToUpdate = UpdateCleanerTeam(_objToUpdate, dataItem);
 
-							db.Update(dataItem);
-							db.Update(dataItem.PhysicalAddress);
-							db.Update(dataItem.PostalAddress);
+							db.Update(_objToUpdate);
+							db.Update(_objToUpdate.PhysicalAddress);
+							db.Update(_objToUpdate.PostalAddress);
 
 						}
 					}

@@ -224,10 +224,6 @@ namespace MagicMaids.Controllers
 				String _id = dataItem.Id;
 				var bIsNew = (dataItem.IsNewItem);
 
-				//https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/crud
-				//https://stackoverflow.com/questions/21286538/asp-net-mvc-5-model-binding-edit-view
-				//https://www.mikesdotnetting.com/article/248/mvc-5-with-ef-6-in-visual-basic-updating-related-data
-
 				try
 				{
 					Client _objToUpdate = null;
