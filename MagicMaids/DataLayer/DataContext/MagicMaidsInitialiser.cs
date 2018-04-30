@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Configuration;
+using System.Data.Odbc;
 using MySql.Data.MySqlClient;
 #endregion
 
@@ -10,7 +11,8 @@ namespace MagicMaids.DataAccess
     {
 		public static MySqlConnection getConnection()
 		{
-			return new MySqlConnection(ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString);
+			//return new OdbcConnection(getConnectionString());
+			return new MySqlConnection(getConnectionString());
 		}
 
 		public static String getConnectionString()

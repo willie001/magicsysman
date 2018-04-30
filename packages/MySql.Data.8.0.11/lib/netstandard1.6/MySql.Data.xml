@@ -1095,90 +1095,12 @@
       </code>
     </example>
         </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommand.BeginExecuteReader">
-            <summary>
-            Initiates the asynchronous execution of the SQL statement or stored procedure 
-            that is described by this <see cref="T:MySql.Data.MySqlClient.MySqlCommand"/>, and retrieves one or more 
-            result sets from the server. 
-            </summary>
-            <returns>An <see cref="T:System.IAsyncResult"/> that can be used to poll, wait for results, 
-            or both; this value is also needed when invoking EndExecuteReader, 
-            which returns a <see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> instance that can be used to retrieve 
-            the returned rows. </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommand.BeginExecuteReader(System.Data.CommandBehavior)">
-            <summary>
-            Initiates the asynchronous execution of the SQL statement or stored procedure 
-            that is described by this <see cref="T:MySql.Data.MySqlClient.MySqlCommand"/> using one of the 
-            <b>CommandBehavior</b> values. 
-            </summary>
-            <param name="behavior">One of the <see cref="T:System.Data.CommandBehavior"/> values, indicating 
-            options for statement execution and data retrieval.</param>
-            <returns>An <see cref="T:System.IAsyncResult"/> that can be used to poll, wait for results, 
-            or both; this value is also needed when invoking EndExecuteReader, 
-            which returns a <see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> instance that can be used to retrieve 
-            the returned rows. </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommand.EndExecuteReader(System.IAsyncResult)">
-            <summary>
-            Finishes asynchronous execution of a SQL statement, returning the requested 
-            <see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/>.
-            </summary>
-            <param name="result">The <see cref="T:System.IAsyncResult"/> returned by the call to 
-            <see cref="M:MySql.Data.MySqlClient.MySqlCommand.BeginExecuteReader"/>.</param>
-            <returns>A <b>MySqlDataReader</b> object that can be used to retrieve the requested rows. </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommand.BeginExecuteNonQuery(System.AsyncCallback,System.Object)">
-            <summary>
-            Initiates the asynchronous execution of the SQL statement or stored procedure 
-            that is described by this <see cref="T:MySql.Data.MySqlClient.MySqlCommand"/>. 
-            </summary>
-            <param name="callback">
-            An <see cref="T:System.AsyncCallback"/> delegate that is invoked when the command's 
-            execution has completed. Pass a null reference (<b>Nothing</b> in Visual Basic) 
-            to indicate that no callback is required.</param>
-            <param name="stateObject">A user-defined state object that is passed to the 
-            callback procedure. Retrieve this object from within the callback procedure 
-            using the <see cref="P:System.IAsyncResult.AsyncState"/> property.</param>
-            <returns>An <see cref="T:System.IAsyncResult"/> that can be used to poll or wait for results, 
-            or both; this value is also needed when invoking <see cref="M:MySql.Data.MySqlClient.MySqlCommand.EndExecuteNonQuery(System.IAsyncResult)"/>, 
-            which returns the number of affected rows. </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommand.BeginExecuteNonQuery">
-            <summary>
-            Initiates the asynchronous execution of the SQL statement or stored procedure 
-            that is described by this <see cref="T:MySql.Data.MySqlClient.MySqlCommand"/>. 
-            </summary>
-            <returns>An <see cref="T:System.IAsyncResult"/> that can be used to poll or wait for results, 
-            or both; this value is also needed when invoking <see cref="M:MySql.Data.MySqlClient.MySqlCommand.EndExecuteNonQuery(System.IAsyncResult)"/>, 
-            which returns the number of affected rows. </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommand.EndExecuteNonQuery(System.IAsyncResult)">
-            <summary>
-            Finishes asynchronous execution of a SQL statement. 
-            </summary>
-            <param name="asyncResult">The <see cref="T:System.IAsyncResult"/> returned by the call 
-            to <see cref="M:MySql.Data.MySqlClient.MySqlCommand.BeginExecuteNonQuery"/>.</param>
-            <returns></returns>
-        </member>
         <member name="M:MySql.Data.MySqlClient.MySqlCommand.AddCallStatement(System.String)">
             <summary>
             Verifies if a query is valid even if it has not spaces or is a stored procedure call
             </summary>
             <param name="query">Query to validate</param>
             <returns>If it is necessary to add call statement</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommand.Clone">
-            <summary>
-            Creates a clone of this MySqlCommand object.  CommandText, Connection, and Transaction properties
-            are included as well as the entire parameter list.
-            </summary>
-            <returns>The cloned MySqlCommand object</returns>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.Common.NamedPipeStream">
-            <summary>
-            Summary description for API.
-            </summary>
         </member>
         <member name="T:MySql.Data.MySqlClient.CompressedStream">
             <summary>
@@ -2393,44 +2315,6 @@
             <param name="restrictionValues">Values to restrict</param>
             <returns>A schema collection</returns>
         </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlConnection.GetSchema">
-            <summary>
-            Returns schema information for the data source of this <see cref="T:System.Data.Common.DbConnection"/>. 
-            </summary>
-            <returns>A <see cref="T:System.Data.DataTable"/> that contains schema information. </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlConnection.GetSchema(System.String)">
-            <summary>
-            Returns schema information for the data source of this 
-            <see cref="T:System.Data.Common.DbConnection"/> using the specified string for the schema name. 
-            </summary>
-            <param name="collectionName">Specifies the name of the schema to return. </param>
-            <returns>A <see cref="T:System.Data.DataTable"/> that contains schema information. </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlConnection.GetSchema(System.String,System.String[])">
-            <summary>
-            Returns schema information for the data source of this <see cref="T:System.Data.Common.DbConnection"/>
-            using the specified string for the schema name and the specified string array 
-            for the restriction values. 
-            </summary>
-            <param name="collectionName">Specifies the name of the schema to return.</param>
-            <param name="restrictionValues">Specifies a set of restriction values for the requested schema.</param>
-            <returns>A <see cref="T:System.Data.DataTable"/> that contains schema information.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlConnection.EnlistTransaction(System.Transactions.Transaction)">
-            <summary>
-            Enlists in the specified transaction. 
-            </summary>
-            <param name="transaction">
-            A reference to an existing <see cref="T:System.Transactions.Transaction"/> in which to enlist.
-            </param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlConnection.Clone">
-            <summary>
-            Creates a new MySqlConnection object with the exact same ConnectionString value
-            </summary>
-            <returns>A cloned MySqlConnection object</returns>
-        </member>
         <member name="T:MySql.Data.MySqlClient.MySqlInfoMessageEventHandler">
             <summary>
             Represents the method that will handle the <see cref="E:MySql.Data.MySqlClient.MySqlConnection.InfoMessage"/> event of a 
@@ -3071,12 +2955,6 @@
             Returns an <see cref="T:System.Collections.IEnumerator"/> that iterates through the <see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/>. 
             </summary>    
         </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataReader.GetSchemaTable">
-            <summary>
-            Returns a DataTable that describes the column metadata of the MySqlDataReader.
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:MySql.Data.MySqlClient.Driver">
             <summary>
             Summary description for BaseDriver.
@@ -3166,1628 +3044,6 @@
             Summary description for Field.
             </summary>
         </member>
-        <member name="T:MySql.Data.MySqlClient.CustomInstaller">
-            <summary>
-            We are adding a custom installer class to our assembly so our installer
-            can make proper changes to the machine.config file.
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.CustomInstaller.Install(System.Collections.IDictionary)">
-            <summary>
-            We override Install so we can add our assembly to the proper
-            machine.config files.
-            </summary>
-            <param name="stateSaver"></param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.CustomInstaller.Uninstall(System.Collections.IDictionary)">
-            <summary>
-            We override Uninstall so we can remove out assembly from the
-            machine.config files.
-            </summary>
-            <param name="savedState"></param>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlCommandBuilder">
-            <summary>
-      Automatically generates single-table commands used to reconcile changes made to a DataSet with the associated MySQL database. This class cannot be inherited.
-    </summary><remarks>
-      <para>
-        The <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> does not automatically generate the SQL statements required to
-        reconcile changes made to a <see cref="T:System.Data.DataSet">DataSet</see> with the associated instance of MySQL.
-        However, you can create a <B>MySqlCommandBuilder</B> object to automatically generate SQL statements for
-        single-table updates if you set the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand">SelectCommand</see> property
-        of the <B>MySqlDataAdapter</B>. Then, any additional SQL statements that you do not set are generated by the
-        <B>MySqlCommandBuilder</B>.
-      </para>
-
-      <para>
-        The <B>MySqlCommandBuilder</B> registers itself as a listener for <see cref="M:MySql.Data.MySqlClient.MySqlDataAdapter.OnRowUpdating(System.Data.Common.RowUpdatingEventArgs)">RowUpdating</see>
-        events whenever you set the <see cref="P:MySql.Data.MySqlClient.MySqlCommandBuilder.DataAdapter" /> property. You can only associate one
-        <B>MySqlDataAdapter</B> or <B>MySqlCommandBuilder</B> object with each other at one time.
-      </para>
-
-      <para>
-        To generate INSERT, UPDATE, or DELETE statements, the <B>MySqlCommandBuilder</B> uses the
-        <B>SelectCommand</B> property to retrieve a required set of metadata automatically. If you change
-        the <B>SelectCommand</B> after the metadata has is retrieved (for example, after the first update), you
-        should call the <see cref="!:RefreshSchema" /> method to update the metadata.
-      </para>
-
-      <para>
-        The <B>SelectCommand</B> must also return at least one primary key or unique
-        column. If none are present, an <I>InvalidOperation</I> exception is generated,
-        and the commands are not generated.
-      </para>
-
-      <para>
-        The <B>MySqlCommandBuilder</B> also uses the <see cref="P:MySql.Data.MySqlClient.MySqlCommand.Connection">Connection</see>,
-        <see cref="P:MySql.Data.MySqlClient.MySqlCommand.CommandTimeout">CommandTimeout</see>, and <see cref="P:MySql.Data.MySqlClient.MySqlCommand.Transaction">Transaction</see>
-        properties referenced by the <B>SelectCommand</B>. The user should call
-        <B>RefreshSchema</B> if any of these properties are modified, or if the
-        <B>SelectCommand</B> itself is replaced. Otherwise the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.InsertCommand">InsertCommand</see>,
-        <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateCommand">UpdateCommand</see>, and
-        <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.DeleteCommand">DeleteCommand</see> properties retain
-        their previous values.
-      </para>
-
-      <para>
-        If you call <i>Dispose</i>, the <B>MySqlCommandBuilder</B> is disassociated
-        from the <B>MySqlDataAdapter</B>, and the generated commands are no longer used.
-      </para>
-
-      <note>
-        Caution must be used when using MySqlCOmmandBuilder on MySql 4.0 systems.  With MySql 4.0,
-        database/schema information is not provided to the connector for a query.  This means that
-        a query that pulls columns from two identically named tables in two or more different databases
-        will not cause an exception to be thrown but will not work correctly.  Even more dangerous
-        is the situation where your select statement references database X but is executed in
-        database Y and both databases have tables with similar layouts.  This situation can cause
-        unwanted changes or deletes.
-        This note does not apply to MySQL versions 4.1 and later.
-      </note>
-
-    </remarks><example>
-      The	following example uses the <see cref="T:MySql.Data.MySqlClient.MySqlCommand" />, along
-      <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and <see cref="T:MySql.Data.MySqlClient.MySqlConnection" />, to
-      select rows from a data source. The example is passed an initialized
-      <see cref="T:System.Data.DataSet" />, a connection string, a
-      query string that is a SQL SELECT statement, and a string that is the
-      name of the database table. The example then creates a <B>MySqlCommandBuilder</B>.
-
-      <code lang="vbnet">
-        Public Shared Function SelectRows(myConnection As String, mySelectQuery As String, myTableName As String) As DataSet
-        Dim myConn As New MySqlConnection(myConnection)
-        Dim myDataAdapter As New MySqlDataAdapter()
-        myDataAdapter.SelectCommand = New MySqlCommand(mySelectQuery, myConn)
-        Dim cb As SqlCommandBuilder = New MySqlCommandBuilder(myDataAdapter)
-
-        myConn.Open()
-
-        Dim ds As DataSet = New DataSet
-        myDataAdapter.Fill(ds, myTableName)
-
-        ' Code to modify data in DataSet here
-
-        ' Without the MySqlCommandBuilder this line would fail.
-        myDataAdapter.Update(ds, myTableName)
-
-        myConn.Close()
-        End Function 'SelectRows
-      </code>
-      <code lang="C#">
-        public static DataSet SelectRows(string myConnection, string mySelectQuery, string myTableName)
-        {
-        MySqlConnection myConn = new MySqlConnection(myConnection);
-        MySqlDataAdapter myDataAdapter = new MySqlDataAdapter();
-        myDataAdapter.SelectCommand = new MySqlCommand(mySelectQuery, myConn);
-        MySqlCommandBuilder cb = new MySqlCommandBuilder(myDataAdapter);
-
-        myConn.Open();
-
-        DataSet ds = new DataSet();
-        myDataAdapter.Fill(ds, myTableName);
-
-        //code to modify data in DataSet here
-
-        //Without the MySqlCommandBuilder this line would fail
-        myDataAdapter.Update(ds, myTableName);
-
-        myConn.Close();
-
-        return ds;
-        }
-
-      </code>
-    </example>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommandBuilder.#ctor">
-            <summary>
-      Initializes a new instance of the <see cref="T:MySql.Data.MySqlClient.MySqlCommandBuilder" /> class.
-    </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommandBuilder.#ctor(MySql.Data.MySqlClient.MySqlDataAdapter)">
-            <summary>
-      Initializes a new instance of the <see cref="T:MySql.Data.MySqlClient.MySqlCommandBuilder" /> class
-      with the associated <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> object.
-    </summary><param name="adapter">
-      The <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> to use.
-    </param><remarks>
-      <para>
-        The <see cref="T:MySql.Data.MySqlClient.MySqlCommandBuilder" /> registers itself as a listener for
-        <see cref="E:MySql.Data.MySqlClient.MySqlDataAdapter.RowUpdating" /> events that are generated by the
-        <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> specified in this property.
-      </para>
-      <para>
-        When you create a new instance <B>MySqlCommandBuilder</B>, any existing
-        <B>MySqlCommandBuilder</B> associated with this <B>MySqlDataAdapter</B>
-        is released.
-      </para>
-    </remarks>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.MySqlCommandBuilder.DataAdapter">
-            <summary>
-      Gets or sets a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> object for which SQL statements are automatically generated.
-    </summary><value>
-      A <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> object.
-    </value><remarks>
-      <para>
-        The <see cref="T:MySql.Data.MySqlClient.MySqlCommandBuilder" /> registers itself as a listener for
-        <see cref="E:MySql.Data.MySqlClient.MySqlDataAdapter.RowUpdating" /> events that are generated by the
-        <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> specified in this property.
-      </para>
-      <para>
-        When you create a new instance <B>MySqlCommandBuilder</B>, any existing
-        <B>MySqlCommandBuilder</B> associated with this <B>MySqlDataAdapter</B>
-        is released.
-      </para>
-    </remarks>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommandBuilder.DeriveParameters(MySql.Data.MySqlClient.MySqlCommand)">
-            <summary>
-            Retrieves parameter information from the stored procedure specified 
-            in the MySqlCommand and populates the Parameters collection of the 
-            specified MySqlCommand object.
-            This method is not currently supported since stored procedures are 
-            not available in MySql.
-            </summary>
-            <param name="command">The MySqlCommand referencing the stored 
-            procedure from which the parameter information is to be derived. 
-            The derived parameters are added to the Parameters collection of the 
-            MySqlCommand.</param>
-            <exception cref="T:System.InvalidOperationException">The command text is not 
-            a valid stored procedure name.</exception>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommandBuilder.GetDeleteCommand">
-            <summary>
-            Gets the delete command.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommandBuilder.GetUpdateCommand">
-            <summary>
-            Gets the update command.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommandBuilder.GetInsertCommand">
-            <summary>
-            Gets the insert command.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlCommandBuilder.GetParameterName(System.String)">
-            <summary>
-            
-            </summary>
-            <param name="parameterName"></param>
-            <returns></returns>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlDataAdapter">
-            <summary>
-      Represents a set of data commands and a database connection that are used to fill a dataset and update a MySQL database. This class cannot be inherited.
-    </summary><remarks>
-      <para>
-        The <B>MySQLDataAdapter</B>, serves as a bridge between a <see cref="T:System.Data.DataSet" />
-        and MySQL for retrieving and saving data. The <B>MySQLDataAdapter</B> provides this
-        bridge by mapping <see cref="M:System.Data.Common.DbDataAdapter.Fill(System.Data.DataSet)" />, which changes the data in the
-        <B>DataSet</B> to match the data in the data source, and <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" />,
-        which changes the data in the data source to match the data in the <B>DataSet</B>,
-        using the appropriate SQL statements against the data source.
-      </para>
-      <para>
-        When the <B>MySQLDataAdapter</B> fills a <B>DataSet</B>, it will create the necessary
-        tables and columns for the returned data if they do not already exist. However, primary
-        key information will not be included in the implicitly created schema unless the
-        <see cref="T:System.Data.MissingSchemaAction" /> property is set to <see cref="F:System.Data.MissingSchemaAction.AddWithKey" />.
-        You may also have the <B>MySQLDataAdapter</B> create the schema of the <B>DataSet</B>,
-        including primary key information, before filling it with data using <see cref="M:System.Data.Common.DbDataAdapter.FillSchema(System.Data.DataTable,System.Data.SchemaType)" />.
-      </para>
-      <para>
-        <B>MySQLDataAdapter</B> is used in conjunction with <see cref="T:MySql.Data.MySqlClient.MySqlConnection" />
-        and <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> to increase performance when connecting to a MySQL database.
-      </para>
-      <para>
-        The <B>MySQLDataAdapter</B> also includes the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" />,
-        <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.InsertCommand" />, <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.DeleteCommand" />,
-        <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateCommand" />, and <see cref="P:System.Data.Common.DataAdapter.TableMappings" />
-        properties to facilitate the loading and updating of data.
-      </para>
-      <para>
-        When an instance of <B>MySQLDataAdapter</B> is created, the read/write properties
-        are set to initial values. For a list of these values, see the <B>MySQLDataAdapter</B>
-        constructor.
-      </para>
-      <note>
-        Please be aware that the <see cref="T:System.Data.DataColumn" /> class allows only
-        Int16, Int32, and Int64 to have the AutoIncrement property set.
-        If you plan to use autoincremement columns with MySQL, you should consider
-        using signed integer columns.
-      </note>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> and a <see cref="T:MySql.Data.MySqlClient.MySqlConnection" />.
-      The <B>MySqlConnection</B> is opened and set as the <see cref="P:MySql.Data.MySqlClient.MySqlCommand.Connection" /> for the
-      <B>MySqlCommand</B>. The example then calls <see cref="M:MySql.Data.MySqlClient.MySqlCommand.ExecuteNonQuery" />, and closes
-      the connection. To accomplish this, the <B>ExecuteNonQuery</B> is
-      passed a connection string and a query string that is a SQL INSERT
-      statement.
-      <code lang="vbnet">
-        Public Function SelectRows(dataSet As DataSet, connection As String, query As String) As DataSet
-        Dim conn As New MySqlConnection(connection)
-        Dim adapter As New MySqlDataAdapter()
-        adapter.SelectCommand = new MySqlCommand(query, conn)
-        adapter.Fill(dataset)
-        Return dataset
-        End Function
-      </code>
-      <code lang="C#">
-        public DataSet SelectRows(DataSet dataset,string connection,string query)
-        {
-        MySqlConnection conn = new MySqlConnection(connection);
-        MySqlDataAdapter adapter = new MySqlDataAdapter();
-        adapter.SelectCommand = new MySqlCommand(query, conn);
-        adapter.Fill(dataset);
-        return dataset;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="E:MySql.Data.MySqlClient.MySqlDataAdapter.RowUpdating">
-            <summary>
-            Occurs during Update before a command is executed against the data source. The attempt to update is made, so the event fires.
-            </summary>
-        </member>
-        <member name="E:MySql.Data.MySqlClient.MySqlDataAdapter.RowUpdated">
-            <summary>
-            Occurs during Update after a command is executed against the data source. The attempt to update is made, so the event fires.
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.#ctor">
-            <overloads /><summary>
-      Initializes a new instance of the MySqlDataAdapter class.
-    </summary><remarks>
-      <para>
-        When an instance of <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> is created,
-        the following read/write properties are set to the following initial
-        values.
-      </para>
-      <list type="table">
-        <listheader>
-          <term>Properties</term>
-          <term>Initial Value</term>
-        </listheader>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingMappingAction" />
-          </term>
-          <term>
-            <B>MissingMappingAction.Passthrough</B>
-          </term>
-        </item>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingSchemaAction" />
-          </term>
-          <term>
-            <B>MissingSchemaAction.Add</B>
-          </term>
-        </item>
-      </list>
-      <para>
-        You can change the value of any of these properties through a separate call
-        to the property.
-      </para>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets some of
-      its properties.
-      <code lang="vbnet">
-        Public Sub CreateSqlDataAdapter()
-        Dim conn As MySqlConnection = New MySqlConnection("Data Source=localhost;" &amp; _
-        "database=test")
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey
-
-        da.SelectCommand = New MySqlCommand("SELECT id, name FROM mytable", conn)
-        da.InsertCommand = New MySqlCommand("INSERT INTO mytable (id, name) " &amp; _
-        "VALUES (@id, @name)", conn)
-        da.UpdateCommand = New MySqlCommand("UPDATE mytable SET id=@id, name=@name " &amp; _
-        "WHERE id=@oldId", conn)
-        da.DeleteCommand = New MySqlCommand("DELETE FROM mytable WHERE id=@id", conn)
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-        End Sub
-      </code>
-      <code lang="C#">
-        public static void CreateSqlDataAdapter()
-        {
-        MySqlConnection conn = new MySqlConnection("Data Source=localhost;database=test");
-        MySqlDataAdapter da = new MySqlDataAdapter();
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-
-        da.SelectCommand = new MySqlCommand("SELECT id, name FROM mytable", conn);
-        da.InsertCommand = new MySqlCommand("INSERT INTO mytable (id, name) " +
-        "VALUES (@id, @name)", conn);
-        da.UpdateCommand = new MySqlCommand("UPDATE mytable SET id=@id, name=@name " +
-        "WHERE id=@oldId", conn);
-        da.DeleteCommand = new MySqlCommand("DELETE FROM mytable WHERE id=@id", conn);
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.#ctor(MySql.Data.MySqlClient.MySqlCommand)">
-            <summary>
-      Initializes a new instance of the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> class with
-      the specified <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> as the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" />
-      property.
-    </summary><param name="selectCommand">
-      <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> that is a SQL SELECT statement or stored procedure and is set
-      as the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> property of the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" />.
-    </param><remarks>
-      <para>
-        When an instance of <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> is created,
-        the following read/write properties are set to the following initial
-        values.
-      </para>
-      <list type="table">
-        <listheader>
-          <term>Properties</term>
-          <term>Initial Value</term>
-        </listheader>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingMappingAction" />
-          </term>
-          <term>
-            <B>MissingMappingAction.Passthrough</B>
-          </term>
-        </item>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingSchemaAction" />
-          </term>
-          <term>
-            <B>MissingSchemaAction.Add</B>
-          </term>
-        </item>
-      </list>
-      <para>
-        You can change the value of any of these properties through a separate call
-        to the property.
-      </para>
-      <para>
-        When <B>SelectCommand</B> (or any of the other command properties) is assigned
-        to a previously created <see cref="T:MySql.Data.MySqlClient.MySqlCommand" />, the <B>MySqlCommand</B> is not cloned.
-        The <B>SelectCommand</B> maintains a reference to the previously created <B>MySqlCommand</B>
-        object.
-      </para>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets some of
-      its properties.
-      <code lang="vbnet">
-        Public Sub CreateSqlDataAdapter()
-        Dim conn As MySqlConnection = New MySqlConnection("Data Source=localhost;" &amp; _
-        "database=test")
-        Dim cmd as new MySqlCommand("SELECT id, name FROM mytable", conn)
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter(cmd)
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey
-
-        da.InsertCommand = New MySqlCommand("INSERT INTO mytable (id, name) " &amp; _
-        "VALUES (@id, @name)", conn)
-        da.UpdateCommand = New MySqlCommand("UPDATE mytable SET id=@id, name=@name " &amp; _
-        "WHERE id=@oldId", conn)
-        da.DeleteCommand = New MySqlCommand("DELETE FROM mytable WHERE id=@id", conn)
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-        End Sub
-      </code>
-      <code lang="C#">
-        public static void CreateSqlDataAdapter()
-        {
-        MySqlConnection conn = new MySqlConnection("Data Source=localhost;database=test");
-        MySqlCommand cmd = new MySqlCommand("SELECT id, name FROM mytable", conn);
-        MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-
-        da.InsertCommand = new MySqlCommand("INSERT INTO mytable (id, name) " +
-        "VALUES (@id, @name)", conn);
-        da.UpdateCommand = new MySqlCommand("UPDATE mytable SET id=@id, name=@name " +
-        "WHERE id=@oldId", conn);
-        da.DeleteCommand = new MySqlCommand("DELETE FROM mytable WHERE id=@id", conn);
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.#ctor(System.String,MySql.Data.MySqlClient.MySqlConnection)">
-            <summary>
-      Initializes a new instance of the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> class with
-      a <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> and a <see cref="T:MySql.Data.MySqlClient.MySqlConnection" /> object.
-    </summary><param name="selectCommandText">
-      A <b>String</b> that is a SQL SELECT statement or stored procedure to be used by
-      the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> property of the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" />.
-    </param><param name="connection">
-      A <see cref="T:MySql.Data.MySqlClient.MySqlConnection" /> that represents the connection.
-    </param><remarks>
-      <para>
-        This implementation of the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> opens and closes a <see cref="T:MySql.Data.MySqlClient.MySqlConnection" />
-        if it is not already open. This can be useful in a an application that must call the
-        <see cref="M:System.Data.Common.DbDataAdapter.Fill(System.Data.DataSet)" /> method for two or more <B>MySqlDataAdapter</B> objects.
-        If the <B>MySqlConnection</B> is already open, you must explicitly call
-        <see cref="M:MySql.Data.MySqlClient.MySqlConnection.Close" /> or <see cref="M:MySql.Data.MySqlClient.MySqlConnection.Dispose" /> to close it.
-      </para>
-      <para>
-        When an instance of <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> is created,
-        the following read/write properties are set to the following initial
-        values.
-      </para>
-      <list type="table">
-        <listheader>
-          <term>Properties</term>
-          <term>Initial Value</term>
-        </listheader>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingMappingAction" />
-          </term>
-          <term>
-            <B>MissingMappingAction.Passthrough</B>
-          </term>
-        </item>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingSchemaAction" />
-          </term>
-          <term>
-            <B>MissingSchemaAction.Add</B>
-          </term>
-        </item>
-      </list>
-      <para>
-        You can change the value of any of these properties through a separate call
-        to the property.
-      </para>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets some of
-      its properties.
-      <code lang="vbnet">
-        Public Sub CreateSqlDataAdapter()
-        Dim conn As MySqlConnection = New MySqlConnection("Data Source=localhost;" &amp; _
-        "database=test")
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter("SELECT id, name FROM mytable", conn)
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey
-
-        da.InsertCommand = New MySqlCommand("INSERT INTO mytable (id, name) " &amp; _
-        "VALUES (@id, @name)", conn)
-        da.UpdateCommand = New MySqlCommand("UPDATE mytable SET id=@id, name=@name " &amp; _
-        "WHERE id=@oldId", conn)
-        da.DeleteCommand = New MySqlCommand("DELETE FROM mytable WHERE id=@id", conn)
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-        End Sub
-      </code>
-      <code lang="C#">
-        public static void CreateSqlDataAdapter()
-        {
-        MySqlConnection conn = new MySqlConnection("Data Source=localhost;database=test");
-        MySqlDataAdapter da = new MySqlDataAdapter("SELECT id, name FROM mytable", conn);
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-
-        da.InsertCommand = new MySqlCommand("INSERT INTO mytable (id, name) " +
-        "VALUES (@id, @name)", conn);
-        da.UpdateCommand = new MySqlCommand("UPDATE mytable SET id=@id, name=@name " +
-        "WHERE id=@oldId", conn);
-        da.DeleteCommand = new MySqlCommand("DELETE FROM mytable WHERE id=@id", conn);
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.#ctor(System.String,System.String)">
-            <summary>
-      Initializes a new instance of the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> class with
-      a <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> and a connection string.
-    </summary><param name="selectCommandText">
-      A <see cref="T:System.String" /> that is a SQL SELECT statement or stored procedure to
-      be used by the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> property of the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" />.
-    </param><param name="selectConnString">The connection string</param><remarks>
-      <para>
-        When an instance of <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> is created,
-        the following read/write properties are set to the following initial
-        values.
-      </para>
-      <list type="table">
-        <listheader>
-          <term>Properties</term>
-          <term>Initial Value</term>
-        </listheader>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingMappingAction" />
-          </term>
-          <term>
-            <B>MissingMappingAction.Passthrough</B>
-          </term>
-        </item>
-        <item>
-          <term>
-            <see cref="T:System.Data.MissingSchemaAction" />
-          </term>
-          <term>
-            <B>MissingSchemaAction.Add</B>
-          </term>
-        </item>
-      </list>
-      <para>
-        You can change the value of any of these properties through a separate call
-        to the property.
-      </para>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets some of
-      its properties.
-      <code lang="vbnet">
-        Public Sub CreateSqlDataAdapter()
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter("SELECT id, name FROM mytable", "Data Source=localhost;database=test")
-        Dim conn As MySqlConnection = da.SelectCommand.Connection
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey
-
-        da.InsertCommand = New MySqlCommand("INSERT INTO mytable (id, name) " &amp; _
-        "VALUES (@id, @name)", conn)
-        da.UpdateCommand = New MySqlCommand("UPDATE mytable SET id=@id, name=@name " &amp; _
-        "WHERE id=@oldId", conn)
-        da.DeleteCommand = New MySqlCommand("DELETE FROM mytable WHERE id=@id", conn)
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name")
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original
-        End Sub
-      </code>
-      <code lang="C#">
-        public static void CreateSqlDataAdapter()
-        {
-        MySqlDataAdapter da = new MySqlDataAdapter("SELECT id, name FROM mytable", "Data Source=localhost;database=test");
-        MySqlConnection conn = da.SelectCommand.Connection;
-        da.MissingSchemaAction = MissingSchemaAction.AddWithKey;
-
-        da.InsertCommand = new MySqlCommand("INSERT INTO mytable (id, name) " +
-        "VALUES (@id, @name)", conn);
-        da.UpdateCommand = new MySqlCommand("UPDATE mytable SET id=@id, name=@name " +
-        "WHERE id=@oldId", conn);
-        da.DeleteCommand = new MySqlCommand("DELETE FROM mytable WHERE id=@id", conn);
-
-        da.InsertCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.InsertCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-
-        da.UpdateCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        da.UpdateCommand.Parameters.Add("@name", MySqlDbType.VarChar, 40, "name");
-        da.UpdateCommand.Parameters.Add("@oldId", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-
-        da.DeleteCommand.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id").SourceVersion = DataRowVersion.Original;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.MySqlDataAdapter.DeleteCommand">
-            <summary>
-      Gets or sets a SQL statement or stored procedure used to delete records from the data set.
-    </summary><value>
-      A <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to delete records in the
-      database that correspond to deleted rows in the <see cref="T:System.Data.DataSet" />.
-    </value><remarks>
-      <para>
-        During <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" />, if this property is not set and primary key information
-        is present in the <see cref="T:System.Data.DataSet" />, the <B>DeleteCommand</B> can be generated
-        automatically if you set the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> property and use the
-        <see cref="T:MySql.Data.MySqlClient.MySqlCommandBuilder" />.  Then, any additional commands that you do not set are
-        generated by the <B>MySqlCommandBuilder</B>. This generation logic requires key column
-        information to be present in the <B>DataSet</B>.
-      </para>
-      <para>
-        When <B>DeleteCommand</B> is assigned to a previously created <see cref="T:MySql.Data.MySqlClient.MySqlCommand" />,
-        the <B>MySqlCommand</B> is not cloned. The <B>DeleteCommand</B> maintains a reference
-        to the previously created <B>MySqlCommand</B> object.
-      </para>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets the
-      <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> and <B>DeleteCommand</B> properties. It assumes you have already
-      created a <see cref="T:MySql.Data.MySqlClient.MySqlConnection" /> object.
-      <code lang="vbnet">
-        Public Shared Function CreateCustomerAdapter(conn As MySqlConnection) As MySqlDataAdapter
-
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter()
-        Dim cmd As MySqlCommand
-        Dim parm As MySqlParameter
-
-        ' Create the SelectCommand.
-        cmd = New MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn)
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15)
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15)
-
-        da.SelectCommand = cmd
-
-        ' Create the DeleteCommand.
-        cmd = New MySqlCommand("DELETE FROM mytable WHERE id=@id", conn)
-
-        parm = cmd.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id")
-        parm.SourceVersion = DataRowVersion.Original
-
-        da.DeleteCommand = cmd
-
-        Return da
-        End Function
-      </code>
-      <code lang="C#">
-        public static MySqlDataAdapter CreateCustomerAdapter(MySqlConnection conn)
-        {
-        MySqlDataAdapter da = new MySqlDataAdapter();
-        MySqlCommand cmd;
-        MySqlParameter parm;
-
-        // Create the SelectCommand.
-        cmd = new MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn);
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15);
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15);
-
-        da.SelectCommand = cmd;
-
-        // Create the DeleteCommand.
-        cmd = new MySqlCommand("DELETE FROM mytable WHERE id=@id", conn);
-
-        parm = cmd.Parameters.Add("@id", MySqlDbType.VarChar, 5, "id");
-        parm.SourceVersion = DataRowVersion.Original;
-
-        da.DeleteCommand = cmd;
-
-        return da;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.MySqlDataAdapter.InsertCommand">
-            <summary>
-      Gets or sets a SQL statement or stored procedure used to insert records into the data set.
-    </summary><value>
-      A <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to insert records into the
-      database that correspond to new rows in the <see cref="T:System.Data.DataSet" />.
-    </value><remarks>
-      <para>
-        During <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" />, if this property is not set and primary key information
-        is present in the <see cref="T:System.Data.DataSet" />, the <B>InsertCommand</B> can be generated
-        automatically if you set the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> property and use the
-        <see cref="T:MySql.Data.MySqlClient.MySqlCommandBuilder" />.  Then, any additional commands that you do not set are
-        generated by the <B>MySqlCommandBuilder</B>. This generation logic requires key column
-        information to be present in the <B>DataSet</B>.
-      </para>
-      <para>
-        When <B>InsertCommand</B> is assigned to a previously created <see cref="T:MySql.Data.MySqlClient.MySqlCommand" />,
-        the <B>MySqlCommand</B> is not cloned. The <B>InsertCommand</B> maintains a reference
-        to the previously created <B>MySqlCommand</B> object.
-      </para>
-      <note>
-        If execution of this command returns rows, these rows may be added to the <B>DataSet</B>
-        depending on how you set the <see cref="P:MySql.Data.MySqlClient.MySqlCommand.UpdatedRowSource" /> property of the <B>MySqlCommand</B> object.
-      </note>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets the
-      <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> and <B>InsertCommand</B> properties. It assumes you have already
-      created a <see cref="T:MySql.Data.MySqlClient.MySqlConnection" /> object.
-      <code lang="vbnet">
-        Public Shared Function CreateCustomerAdapter(conn As MySqlConnection) As MySqlDataAdapter
-
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter()
-        Dim cmd As MySqlCommand
-        Dim parm As MySqlParameter
-
-        ' Create the SelectCommand.
-        cmd = New MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn)
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15)
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15)
-
-        da.SelectCommand = cmd
-
-        ' Create the InsertCommand.
-        cmd = New MySqlCommand("INSERT INTO mytable (id,name) VALUES (@id, @name)", conn)
-
-        cmd.Parameters.Add( "@id", MySqlDbType.VarChar, 15, "id" )
-        cmd.Parameters.Add( "@name", MySqlDbType.VarChar, 15, "name" )
-        da.InsertCommand = cmd
-
-        Return da
-        End Function
-      </code>
-      <code lang="C#">
-        public static MySqlDataAdapter CreateCustomerAdapter(MySqlConnection conn)
-        {
-        MySqlDataAdapter da = new MySqlDataAdapter();
-        MySqlCommand cmd;
-        MySqlParameter parm;
-
-        // Create the SelectCommand.
-        cmd = new MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn);
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15);
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15);
-
-        da.SelectCommand = cmd;
-
-        // Create the InsertCommand.
-        cmd = new MySqlCommand("INSERT INTO mytable (id,name) VALUES (@id,@name)", conn);
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15, "id" );
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15, "name" );
-
-        da.InsertCommand = cmd;
-
-        return da;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand">
-            <summary>
-      Gets or sets a SQL statement or stored procedure used to select records in the data source.
-    </summary><value>
-      A <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Fill(System.Data.DataSet)" /> to select records from the
-      database for placement in the <see cref="T:System.Data.DataSet" />.
-    </value><remarks>
-      <para>
-        When <B>SelectCommand</B> is assigned to a previously created <see cref="T:MySql.Data.MySqlClient.MySqlCommand" />,
-        the <B>MySqlCommand</B> is not cloned. The <B>SelectCommand</B> maintains a reference to the
-        previously created <B>MySqlCommand</B> object.
-      </para>
-      <para>
-        If the <B>SelectCommand</B> does not return any rows, no tables are added to the
-        <see cref="T:System.Data.DataSet" />, and no exception is raised.
-      </para>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets the
-      <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> and <B>InsertCommand</B> properties. It assumes you have already
-      created a <see cref="T:MySql.Data.MySqlClient.MySqlConnection" /> object.
-      <code lang="vbnet">
-        Public Shared Function CreateCustomerAdapter(conn As MySqlConnection) As MySqlDataAdapter
-
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter()
-        Dim cmd As MySqlCommand
-        Dim parm As MySqlParameter
-
-        ' Create the SelectCommand.
-        cmd = New MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn)
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15)
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15)
-
-        da.SelectCommand = cmd
-
-        ' Create the InsertCommand.
-        cmd = New MySqlCommand("INSERT INTO mytable (id,name) VALUES (@id, @name)", conn)
-
-        cmd.Parameters.Add( "@id", MySqlDbType.VarChar, 15, "id" )
-        cmd.Parameters.Add( "@name", MySqlDbType.VarChar, 15, "name" )
-        da.InsertCommand = cmd
-
-        Return da
-        End Function
-      </code>
-      <code lang="C#">
-        public static MySqlDataAdapter CreateCustomerAdapter(MySqlConnection conn)
-        {
-        MySqlDataAdapter da = new MySqlDataAdapter();
-        MySqlCommand cmd;
-        MySqlParameter parm;
-
-        // Create the SelectCommand.
-        cmd = new MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn);
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15);
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15);
-
-        da.SelectCommand = cmd;
-
-        // Create the InsertCommand.
-        cmd = new MySqlCommand("INSERT INTO mytable (id,name) VALUES (@id,@name)", conn);
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15, "id" );
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15, "name" );
-
-        da.InsertCommand = cmd;
-
-        return da;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateCommand">
-            <summary>
-      Gets or sets a SQL statement or stored procedure used to updated records in the data source.
-    </summary><value>
-      A <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to update records in the
-      database with data from the <see cref="T:System.Data.DataSet" />.
-    </value><remarks>
-      <para>
-        During <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" />, if this property is not set and primary key information
-        is present in the <see cref="T:System.Data.DataSet" />, the <B>UpdateCommand</B> can be generated
-        automatically if you set the <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> property and use the
-        <see cref="T:MySql.Data.MySqlClient.MySqlCommandBuilder" />.  Then, any additional commands that you do not set are
-        generated by the <B>MySqlCommandBuilder</B>. This generation logic requires key column
-        information to be present in the <B>DataSet</B>.
-      </para>
-      <para>
-        When <B>UpdateCommand</B> is assigned to a previously created <see cref="T:MySql.Data.MySqlClient.MySqlCommand" />,
-        the <B>MySqlCommand</B> is not cloned. The <B>UpdateCommand</B> maintains a reference
-        to the previously created <B>MySqlCommand</B> object.
-      </para>
-      <note>
-        If execution of this command returns rows, these rows may be merged with the DataSet
-        depending on how you set the <see cref="P:MySql.Data.MySqlClient.MySqlCommand.UpdatedRowSource" /> property of the <B>MySqlCommand</B> object.
-      </note>
-    </remarks><example>
-      The following example creates a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" /> and sets the
-      <see cref="P:MySql.Data.MySqlClient.MySqlDataAdapter.SelectCommand" /> and <B>UpdateCommand</B> properties. It assumes you have already
-      created a <see cref="T:MySql.Data.MySqlClient.MySqlConnection" /> object.
-      <code lang="vbnet">
-        Public Shared Function CreateCustomerAdapter(conn As MySqlConnection) As MySqlDataAdapter
-
-        Dim da As MySqlDataAdapter = New MySqlDataAdapter()
-        Dim cmd As MySqlCommand
-        Dim parm As MySqlParameter
-
-        ' Create the SelectCommand.
-        cmd = New MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn)
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15)
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15)
-
-        da.SelectCommand = cmd
-
-        ' Create the UpdateCommand.
-        cmd = New MySqlCommand("UPDATE mytable SET id=@id, name=@name WHERE id=@oldId", conn)
-
-        cmd.Parameters.Add( "@id", MySqlDbType.VarChar, 15, "id" )
-        cmd.Parameters.Add( "@name", MySqlDbType.VarChar, 15, "name" )
-
-        parm = cmd.Parameters.Add("@oldId", MySqlDbType.VarChar, 15, "id")
-        parm.SourceVersion = DataRowVersion.Original
-
-        da.UpdateCommand = cmd
-
-        Return da
-        End Function
-      </code>
-      <code lang="C#">
-        public static MySqlDataAdapter CreateCustomerAdapter(MySqlConnection conn)
-        {
-        MySqlDataAdapter da = new MySqlDataAdapter();
-        MySqlCommand cmd;
-        MySqlParameter parm;
-
-        // Create the SelectCommand.
-        cmd = new MySqlCommand("SELECT * FROM mytable WHERE id=@id AND name=@name", conn);
-
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15);
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15);
-
-        da.SelectCommand = cmd;
-
-        // Create the UpdateCommand.
-        cmd = new MySqlCommand("UPDATE mytable SET id=@id, name=@name WHERE id=@oldId", conn);
-        cmd.Parameters.Add("@id", MySqlDbType.VarChar, 15, "id" );
-        cmd.Parameters.Add("@name", MySqlDbType.VarChar, 15, "name" );
-
-        parm = cmd.Parameters.Add( "@oldId", MySqlDbType.VarChar, 15, "id" );
-        parm.SourceVersion = DataRowVersion.Original;
-
-        da.UpdateCommand = cmd;
-
-        return da;
-        }
-      </code>
-    </example>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.OpenConnectionIfClosed(System.Data.DataRowState,System.Collections.Generic.List{MySql.Data.MySqlClient.MySqlConnection})">
-            <summary>
-            Open connection if it was closed.
-            Necessary to workaround "connection must be open and valid" error
-            with batched updates.
-            </summary>
-            <param name="state">Row state</param>
-            <param name="openedConnections"> list of opened connections 
-            If connection is opened by this function, the list is updated
-            </param>
-            <returns>true if connection was opened</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.CreateRowUpdatedEvent(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)">
-            <summary>
-            Overridden. See <see cref="M:System.Data.Common.DbDataAdapter.CreateRowUpdatedEvent(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)"/>.
-            </summary>
-            <param name="dataRow"></param>
-            <param name="command"></param>
-            <param name="statementType"></param>
-            <param name="tableMapping"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.CreateRowUpdatingEvent(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)">
-            <summary>
-            Overridden. See <see cref="M:System.Data.Common.DbDataAdapter.CreateRowUpdatingEvent(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)"/>.
-            </summary>
-            <param name="dataRow"></param>
-            <param name="command"></param>
-            <param name="statementType"></param>
-            <param name="tableMapping"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.OnRowUpdating(System.Data.Common.RowUpdatingEventArgs)">
-            <summary>
-            Overridden. Raises the RowUpdating event.
-            </summary>
-            <param name="value">A MySqlRowUpdatingEventArgs that contains the event data.</param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.OnRowUpdated(System.Data.Common.RowUpdatedEventArgs)">
-            <summary>
-            Overridden. Raises the RowUpdated event.
-            </summary>
-            <param name="value">A MySqlRowUpdatedEventArgs that contains the event data. </param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataSet)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataSet">Dataset to use</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataTable)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataTable">Datatable to use</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataSet,System.String)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="srcTable">Source table</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataTable,System.Data.IDataReader)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataTable">Datatable to use</param>
-            <param name="dataReader">DataReader to use</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataTable,System.Data.IDbCommand,System.Data.CommandBehavior)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataTable">DataTable to use</param>
-            <param name="command">DbCommand to use</param>
-            <param name="behavior">Command Behavior</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Int32,System.Int32,System.Data.DataTable[])">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="startRecord">Start record</param>
-            <param name="maxRecords">Max records</param>
-            <param name="dataTables">DataTable[] to use</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataSet,System.Int32,System.Int32,System.String)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="startRecord">Start record</param>
-            <param name="maxRecords">Max records</param>
-            <param name="srcTable">Source table</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataSet,System.String,System.Data.IDataReader,System.Int32,System.Int32)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="srcTable">Source table</param>
-            <param name="dataReader">DataReader to use</param>
-            <param name="startRecord">Start record</param>
-            <param name="maxRecords">Max records</param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataTable[],System.Int32,System.Int32,System.Data.IDbCommand,System.Data.CommandBehavior)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataTables">DataTable[] to use</param>
-            <param name="startRecord">Start record</param>
-            <param name="maxRecords">Max records</param>
-            <param name="command">DbCommand to use</param>
-            <param name="behavior">Command Behavior</param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillAsync(System.Data.DataSet,System.Int32,System.Int32,System.String,System.Data.IDbCommand,System.Data.CommandBehavior)">
-            <summary>
-            Async version of Fill
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="startRecord">Start record</param>
-            <param name="maxRecords">Max records</param>
-            <param name="srcTable">Source table</param>
-            <param name="command">DbCommand to use</param>
-            <param name="behavior">Command Behavior</param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillSchemaAsync(System.Data.DataSet,System.Data.SchemaType)">
-            <summary>
-            Async version of FillSchema
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="schemaType">Schema Type</param>
-            <returns>DataTable[]</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillSchemaAsync(System.Data.DataSet,System.Data.SchemaType,System.String)">
-            <summary>
-            Async version of FillSchema
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="schemaType">Schema Type</param>
-            <param name="srcTable">Source Table</param>
-            <returns>DataTable[]</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillSchemaAsync(System.Data.DataSet,System.Data.SchemaType,System.String,System.Data.IDataReader)">
-            <summary>
-            Async version of FillSchema
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="schemaType">Schema Type</param>
-            <param name="srcTable">Source Table</param>
-            <param name="dataReader">DataReader to use</param>
-            <returns>DataTable[]</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillSchemaAsync(System.Data.DataSet,System.Data.SchemaType,System.Data.IDbCommand,System.String,System.Data.CommandBehavior)">
-            <summary>
-            Async version of FillSchema
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="schemaType">Schema Type</param>
-            <param name="command">DBCommand to use</param>
-            <param name="srcTable">Source Table</param>
-            <param name="behavior">Command Behavior</param>
-            <returns>DataTable[]</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillSchemaAsync(System.Data.DataTable,System.Data.SchemaType)">
-            <summary>
-            Async version of FillSchema
-            </summary>
-            <param name="dataTable">DataTable to use</param>
-            <param name="schemaType">Schema Type</param>
-            <returns>DataTable</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillSchemaAsync(System.Data.DataTable,System.Data.SchemaType,System.Data.IDataReader)">
-            <summary>
-            Async version of FillSchema
-            </summary>
-            <param name="dataTable">DataTable to use</param>
-            <param name="schemaType">Schema Type</param>
-            <param name="dataReader">DataReader to use</param>
-            <returns>DataTable</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.FillSchemaAsync(System.Data.DataTable,System.Data.SchemaType,System.Data.IDbCommand,System.Data.CommandBehavior)">
-            <summary>
-            Async version of FillSchema
-            </summary>
-            <param name="dataTable">DataTable to use</param>
-            <param name="schemaType">Schema Type</param>
-            <param name="command">DBCommand to use</param>
-            <param name="behavior">Command Behavior</param>
-            <returns>DataTable</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateAsync(System.Data.DataRow[])">
-            <summary>
-            Async version of Update
-            </summary>
-            <param name="dataRows">DataRow[] to use</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateAsync(System.Data.DataSet)">
-            <summary>
-            Async version of Update
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateAsync(System.Data.DataTable)">
-            <summary>
-            Async version of Update
-            </summary>
-            <param name="dataTable">DataTable to use</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateAsync(System.Data.DataRow[],System.Data.Common.DataTableMapping)">
-            <summary>
-            Async version of Update
-            </summary>
-            <param name="dataRows">DataRow[] to use</param>
-            <param name="tableMapping">Data Table Mapping</param>
-            <returns>int</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlDataAdapter.UpdateAsync(System.Data.DataSet,System.String)">
-            <summary>
-            Async version of Update
-            </summary>
-            <param name="dataSet">DataSet to use</param>
-            <param name="srcTable">Source Table</param>
-            <returns></returns>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlRowUpdatingEventHandler">
-            <summary>
-            Represents the method that will handle the <see cref="E:MySql.Data.MySqlClient.MySqlDataAdapter.RowUpdating"/> event of a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter"/>.
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlRowUpdatedEventHandler">
-            <summary>
-            Represents the method that will handle the <see cref="E:MySql.Data.MySqlClient.MySqlDataAdapter.RowUpdated"/> event of a <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter"/>.
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlRowUpdatingEventArgs">
-            <summary>
-            Provides data for the RowUpdating event. This class cannot be inherited.
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlRowUpdatingEventArgs.#ctor(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)">
-            <summary>
-            Initializes a new instance of the MySqlRowUpdatingEventArgs class.
-            </summary>
-            <param name="row">The <see cref="T:System.Data.DataRow"/> to 
-            <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)"/>.</param>
-            <param name="command">The <see cref="T:System.Data.IDbCommand"/> to execute during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)"/>.</param>
-            <param name="statementType">One of the <see cref="T:System.Data.StatementType"/> values that specifies the type of query executed.</param>
-            <param name="tableMapping">The <see cref="T:System.Data.Common.DataTableMapping"/> sent through an <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)"/>.</param>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.MySqlRowUpdatingEventArgs.Command">
-            <summary>
-            Gets or sets the MySqlCommand to execute when performing the Update.
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlRowUpdatedEventArgs">
-            <summary>
-            Provides data for the RowUpdated event. This class cannot be inherited.
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlRowUpdatedEventArgs.#ctor(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)">
-            <summary>
-            Initializes a new instance of the MySqlRowUpdatedEventArgs class.
-            </summary>
-            <param name="row">The <see cref="T:System.Data.DataRow"/> sent through an <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)"/>.</param>
-            <param name="command">The <see cref="T:System.Data.IDbCommand"/> executed when <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)"/> is called.</param>
-            <param name="statementType">One of the <see cref="T:System.Data.StatementType"/> values that specifies the type of query executed.</param>
-            <param name="tableMapping">The <see cref="T:System.Data.Common.DataTableMapping"/> sent through an <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)"/>.</param>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.MySqlRowUpdatedEventArgs.Command">
-            <summary>
-            Gets or sets the MySqlCommand executed when Update is called.
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlClientPermission.Add(System.String,System.String,System.Data.KeyRestrictionBehavior)">
-             <summary>
-             Adds a new connection string with set of restricted keywords to the MySqlClientPermission object 
-             </summary>
-            <param name="connectionString">Settings to be used for the connection</param>
-            <param name="restrictions">Keywords to define the restrictions</param>
-            <param name="behavior">KeyRestrictionBehavior to be used</param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlClientPermission.Copy">
-            <summary>
-            Returns MySqlClientPermission as an IPermission
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.AuthenticationPluginConfigurationElement">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.InterceptorConfigurationElement">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.GenericConfigurationElementCollection`1">
-            <summary>
-            
-            </summary>
-            <typeparam name="T"></typeparam>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlHelper">
-            <summary>
-            Helper class that makes it easier to work with the provider.
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDataRowAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteDataRow
-            </summary>
-            <param name="connectionString">Settings to be used for the connection</param>
-            <param name="commandText">Command to execute</param>
-            <param name="parms">Parameters to use for the command</param>
-            <returns>DataRow containing the first row of the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDataRow(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Executes a single SQL command and returns the first row of the resultset.  A new MySqlConnection object
-            is created, opened, and closed during this method.
-            </summary>
-            <param name="connectionString">Settings to be used for the connection</param>
-            <param name="commandText">Command to execute</param>
-            <param name="parms">Parameters to use for the command</param>
-            <returns>DataRow containing the first row of the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDataset(System.String,System.String)">
-            <summary>
-            Executes a single SQL command and returns the resultset in a <see cref="T:System.Data.DataSet"/>.  
-            A new MySqlConnection object is created, opened, and closed during this method.
-            </summary>
-            <param name="connectionString">Settings to be used for the connection</param>
-            <param name="commandText">Command to execute</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDataset(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Executes a single SQL command and returns the resultset in a <see cref="T:System.Data.DataSet"/>.  
-            A new MySqlConnection object is created, opened, and closed during this method.
-            </summary>
-            <param name="connectionString">Settings to be used for the connection</param>
-            <param name="commandText">Command to execute</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDataset(MySql.Data.MySqlClient.MySqlConnection,System.String)">
-            <summary>
-            Executes a single SQL command and returns the resultset in a <see cref="T:System.Data.DataSet"/>.  
-            The state of the <see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object remains unchanged after execution
-            of this method.
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command to execute</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDataset(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Executes a single SQL command and returns the resultset in a <see cref="T:System.Data.DataSet"/>.  
-            The state of the <see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object remains unchanged after execution
-            of this method.
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command to execute</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.UpdateDataSet(System.String,System.String,System.Data.DataSet,System.String)">
-            <summary>
-            Updates the given table with data from the given <see cref="T:System.Data.DataSet"/>
-            </summary>
-            <param name="connectionString">Settings to use for the update</param>
-            <param name="commandText">Command text to use for the update</param>
-            <param name="ds"><see cref="T:System.Data.DataSet"/> containing the new data to use in the update</param>
-            <param name="tablename">Tablename in the dataset to update</param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDatasetAsync(System.String,System.String)">
-            <summary>
-            Async version of ExecuteDataset
-            </summary>
-            <param name="connectionString">Settings to be used for the connection</param>
-            <param name="commandText">Command to execute</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDatasetAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteDataset
-            </summary>
-            <param name="connectionString">Settings to be used for the connection</param>
-            <param name="commandText">Command to execute</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDatasetAsync(MySql.Data.MySqlClient.MySqlConnection,System.String)">
-            <summary>
-            Async version of ExecuteDataset
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command to execute</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteDatasetAsync(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteDataset
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command to execute</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns><see cref="T:System.Data.DataSet"/> containing the resultset</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.UpdateDataSetAsync(System.String,System.String,System.Data.DataSet,System.String)">
-            <summary>
-            Async version of UpdateDataset
-            </summary>
-            <param name="connectionString">Settings to use for the update</param>
-            <param name="commandText">Command text to use for the update</param>
-            <param name="ds"><see cref="T:System.Data.DataSet"/> containing the new data to use in the update</param>
-            <param name="tablename">Tablename in the dataset to update</param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQuery(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Executes a single command against a MySQL database.  The <see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> is assumed to be
-            open when the method is called and remains open after the method completes.
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">SQL command to be executed</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQuery(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Executes a single command against a MySQL database.  A new <see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> is created
-            using the <see cref="P:MySql.Data.MySqlClient.MySqlConnection.ConnectionString"/> given.
-            </summary>
-            <param name="connectionString"><see cref="P:MySql.Data.MySqlClient.MySqlConnection.ConnectionString"/> to use</param>
-            <param name="commandText">SQL command to be executed</param>
-            <param name="parms">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(MySql.Data.MySqlClient.MySqlConnection,MySql.Data.MySqlClient.MySqlTransaction,System.String,MySql.Data.MySqlClient.MySqlParameter[],System.Boolean)">
-            <summary>
-            Executes a single command against a MySQL database, possibly inside an existing transaction.
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
-            <param name="transaction"><see cref="T:MySql.Data.MySqlClient.MySqlTransaction"/> object to use for the command</param>
-            <param name="commandText">Command text to use</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
-            <param name="externalConn">True if the connection should be preserved, false if not</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(System.String,System.String)">
-            <summary>
-            Executes a single command against a MySQL database.
-            </summary>
-            <param name="connectionString">Settings to use for this command</param>
-            <param name="commandText">Command text to use</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(MySql.Data.MySqlClient.MySqlConnection,System.String)">
-            <summary>
-            Executes a single command against a MySQL database.
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
-            <param name="commandText">Command text to use</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Executes a single command against a MySQL database.
-            </summary>
-            <param name="connectionString">Settings to use for this command</param>
-            <param name="commandText">Command text to use</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Executes a single command against a MySQL database.
-            </summary>
-            <param name="connection">Connection to use for the command</param>
-            <param name="commandText">Command text to use</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(System.String,System.String)">
-            <summary>
-            Execute a single command against a MySQL database.
-            </summary>
-            <param name="connectionString">Settings to use for the update</param>
-            <param name="commandText">Command text to use for the update</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Execute a single command against a MySQL database.
-            </summary>
-            <param name="connectionString">Settings to use for the command</param>
-            <param name="commandText">Command text to use for the command</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(MySql.Data.MySqlClient.MySqlConnection,System.String)">
-            <summary>
-            Execute a single command against a MySQL database.
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command text to use for the command</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Execute a single command against a MySQL database.
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command text to use for the command</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.EscapeString(System.String)">
-            <summary>
-            Escapes the string.
-            </summary>
-            <param name="value">The string to escape</param>
-            <returns>The string with all quotes escaped.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQueryAsync(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteNonQuery
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">SQL command to be executed</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
-            <returns>Rows affected</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQueryAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteNonQuery
-            </summary>
-            <param name="connectionString"><see cref="P:MySql.Data.MySqlClient.MySqlConnection.ConnectionString"/> to use</param>
-            <param name="commandText">SQL command to be executed</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
-            <returns>Rows affected</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(MySql.Data.MySqlClient.MySqlConnection,MySql.Data.MySqlClient.MySqlTransaction,System.String,MySql.Data.MySqlClient.MySqlParameter[],System.Boolean)">
-            <summary>
-            Async version of ExecuteReader
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
-            <param name="transaction"><see cref="T:MySql.Data.MySqlClient.MySqlTransaction"/> object to use for the command</param>
-            <param name="commandText">Command text to use</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
-            <param name="ExternalConn">True if the connection should be preserved, false if not</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(System.String,System.String)">
-            <summary>
-            Async version of ExecuteReader
-            </summary>
-            <param name="connectionString">Settings to use for this command</param>
-            <param name="commandText">Command text to use</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(MySql.Data.MySqlClient.MySqlConnection,System.String)">
-            <summary>
-            Async version of ExecuteReader
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
-            <param name="commandText">Command text to use</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteReader
-            </summary>
-            <param name="connectionString">Settings to use for this command</param>
-            <param name="commandText">Command text to use</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteReader
-            </summary>
-            <param name="connection">Connection to use for the command</param>
-            <param name="commandText">Command text to use</param>
-            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
-            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(System.String,System.String)">
-            <summary>
-            Async version of ExecuteScalar
-            </summary>
-            <param name="connectionString">Settings to use for the update</param>
-            <param name="commandText">Command text to use for the update</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteScalar
-            </summary>
-            <param name="connectionString">Settings to use for the command</param>
-            <param name="commandText">Command text to use for the command</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(MySql.Data.MySqlClient.MySqlConnection,System.String)">
-            <summary>
-            Async version of ExecuteScalar
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command text to use for the command</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
-            <summary>
-            Async version of ExecuteScalar
-            </summary>
-            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
-            <param name="commandText">Command text to use for the command</param>
-            <param name="commandParameters">Parameters to use for the command</param>
-            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
-        </member>
         <member name="T:MySql.Data.MySqlClient.MySqlParameter">
             <summary>
             Represents a parameter to a <see cref="T:MySql.Data.MySqlClient.MySqlCommand"/>, This class cannot be inherited.
@@ -4829,7 +3085,7 @@
             <param name="dbType">One of the <see cref="P:MySql.Data.MySqlClient.MySqlParameter.MySqlDbType"/> values. </param>
             <param name="size">The length of the parameter. </param>
         </member>
-        <member name="M:MySql.Data.MySqlClient.MySqlParameter.#ctor(System.String,MySql.Data.MySqlClient.MySqlDbType,System.Int32,System.Data.ParameterDirection,System.Boolean,System.Byte,System.Byte,System.String,System.Data.DataRowVersion,System.Object)">
+        <member name="M:MySql.Data.MySqlClient.MySqlParameter.#ctor(System.String,MySql.Data.MySqlClient.MySqlDbType,System.Int32,System.Data.ParameterDirection,System.Boolean,System.Byte,System.Byte,System.String,System.Object)">
             <summary>
             Initializes a new instance of the <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> class with the parameter name, the type of the parameter, the size of the parameter, a <see cref="T:System.Data.ParameterDirection"/>, the precision of the parameter, the scale of the parameter, the source column, a <see cref="T:System.Data.DataRowVersion"/> to use, and the value of the parameter.
             </summary>
@@ -4841,7 +3097,6 @@
             <param name="precision">The total number of digits to the left and right of the decimal point to which <see cref="P:MySql.Data.MySqlClient.MySqlParameter.Value"/> is resolved.</param>
             <param name="scale">The total number of decimal places to which <see cref="P:MySql.Data.MySqlClient.MySqlParameter.Value"/> is resolved. </param>
             <param name="sourceColumn">The name of the source column. </param>
-            <param name="sourceVersion">One of the <see cref="T:System.Data.DataRowVersion"/> values. </param>
             <param name="value">An <see cref="T:System.Object"/> that is the value of the <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/>. </param>
             <exception cref="T:System.ArgumentException"/>
         </member>
@@ -4889,13 +3144,13 @@
         </member>
         <member name="P:MySql.Data.MySqlClient.MySqlParameter.SourceColumn">
             <summary>
-            Gets or sets the name of the source column that is mapped to the <see cref="T:System.Data.DataSet"/> and used for loading or returning the <see cref="P:MySql.Data.MySqlClient.MySqlParameter.Value"/>.
+            Gets or sets the name of the source column that is mapped to the <see cref="!:System.Data.DataSet"/> and used for loading or returning the <see cref="P:MySql.Data.MySqlClient.MySqlParameter.Value"/>.
             </summary>
         </member>
         <member name="P:MySql.Data.MySqlClient.MySqlParameter.SourceColumnNullMapping">
             <summary>
             Sets or gets a value which indicates whether the source column is nullable. 
-            This allows <see cref="T:System.Data.Common.DbCommandBuilder"/> to correctly generate Update statements 
+            This allows <see cref="!:DbCommandBuilder"/> to correctly generate Update statements 
             for nullable columns. 
             </summary>
         </member>
@@ -4917,16 +3172,16 @@
         </member>
         <member name="T:MySql.Data.MySqlClient.MySqlParameterCollection">
             <summary>
-            Represents a collection of parameters relevant to a <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> as well as their respective mappings to columns in a <see cref="T:System.Data.DataSet" />. This class cannot be inherited.
+            Represents a collection of parameters relevant to a <see cref="T:MySql.Data.MySqlClient.MySqlCommand" /> as well as their respective mappings to columns in a <see cref="!:System.Data.DataSet" />. This class cannot be inherited.
             </summary>
             <remarks>
       The number of the parameters in the collection must be equal to the number of
       parameter placeholders within the command text, or an exception will be generated.
     </remarks><example>
       The following example creates multiple instances of <see cref="T:MySql.Data.MySqlClient.MySqlParameter" />
-      through the <B>MySqlParameterCollection</B> collection within the <see cref="T:MySql.Data.MySqlClient.MySqlDataAdapter" />.
+      through the <B>MySqlParameterCollection</B> collection within the <see cref="!:MySqlDataAdapter" />.
       These parameters are used to select data within the data source and place the data in
-      the <see cref="T:System.Data.DataSet" />. This code assumes that a <B>DataSet</B> and a <B>MySqlDataAdapter</B>
+      the <see cref="!:System.Data.DataSet" />. This code assumes that a <B>DataSet</B> and a <B>MySqlDataAdapter</B>
       have already been created with the appropriate schema, commands, and connection.
       <code lang="vbnet">
         Public Sub AddParameters()
@@ -5140,18 +3395,13 @@
             <see cref="T:MySql.Data.MySqlClient.MySqlParameterCollection"/>. 
             </summary>
         </member>
-        <member name="T:MySql.Data.MySqlClient.MySqlTransactionScope">
-            <summary>
-            Represents a single(not nested) TransactionScope
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.BaseCommandInterceptor">
+        <member name="T:MySql.Data.MySqlClient.Interceptors.BaseCommandInterceptor">
             <summary>
             BaseCommandInterceptor is the base class that should be used for all userland 
             command interceptors
             </summary>
         </member>
-        <member name="T:MySql.Data.MySqlClient.CommandInterceptor">
+        <member name="T:MySql.Data.MySqlClient.Interceptors.CommandInterceptor">
             <summary>
             CommandInterceptor is the "manager" class that keeps the list of registered interceptors
             for the given connection.
@@ -5175,7 +3425,7 @@
             for the given connection.
             </summary>
         </member>
-        <member name="T:MySql.Data.MySqlClient.Interceptor">
+        <member name="T:MySql.Data.MySqlClient.Interceptors.Interceptor">
             <summary>
             Interceptor is the base class for the "manager" classes such as ExceptionInterceptor,
             CommandInterceptor, etc
@@ -8673,6 +6923,214 @@
             <summary></summary>
             <remarks>ER_ERROR_LAST</remarks>
         </member>
+        <member name="T:MySql.Data.MySqlClient.MySqlHelper">
+            <summary>
+            Helper class that makes it easier to work with the provider.
+            </summary>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQuery(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Executes a single command against a MySQL database.  The <see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> is assumed to be
+            open when the method is called and remains open after the method completes.
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
+            <param name="commandText">SQL command to be executed</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQuery(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Executes a single command against a MySQL database.  A new <see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> is created
+            using the <see cref="P:MySql.Data.MySqlClient.MySqlConnection.ConnectionString"/> given.
+            </summary>
+            <param name="connectionString"><see cref="P:MySql.Data.MySqlClient.MySqlConnection.ConnectionString"/> to use</param>
+            <param name="commandText">SQL command to be executed</param>
+            <param name="parms">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
+            <returns></returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(MySql.Data.MySqlClient.MySqlConnection,MySql.Data.MySqlClient.MySqlTransaction,System.String,MySql.Data.MySqlClient.MySqlParameter[],System.Boolean)">
+            <summary>
+            Executes a single command against a MySQL database, possibly inside an existing transaction.
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
+            <param name="transaction"><see cref="T:MySql.Data.MySqlClient.MySqlTransaction"/> object to use for the command</param>
+            <param name="commandText">Command text to use</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
+            <param name="externalConn">True if the connection should be preserved, false if not</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(System.String,System.String)">
+            <summary>
+            Executes a single command against a MySQL database.
+            </summary>
+            <param name="connectionString">Settings to use for this command</param>
+            <param name="commandText">Command text to use</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(MySql.Data.MySqlClient.MySqlConnection,System.String)">
+            <summary>
+            Executes a single command against a MySQL database.
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
+            <param name="commandText">Command text to use</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Executes a single command against a MySQL database.
+            </summary>
+            <param name="connectionString">Settings to use for this command</param>
+            <param name="commandText">Command text to use</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReader(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Executes a single command against a MySQL database.
+            </summary>
+            <param name="connection">Connection to use for the command</param>
+            <param name="commandText">Command text to use</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(System.String,System.String)">
+            <summary>
+            Execute a single command against a MySQL database.
+            </summary>
+            <param name="connectionString">Settings to use for the update</param>
+            <param name="commandText">Command text to use for the update</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Execute a single command against a MySQL database.
+            </summary>
+            <param name="connectionString">Settings to use for the command</param>
+            <param name="commandText">Command text to use for the command</param>
+            <param name="commandParameters">Parameters to use for the command</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(MySql.Data.MySqlClient.MySqlConnection,System.String)">
+            <summary>
+            Execute a single command against a MySQL database.
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
+            <param name="commandText">Command text to use for the command</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalar(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Execute a single command against a MySQL database.
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
+            <param name="commandText">Command text to use for the command</param>
+            <param name="commandParameters">Parameters to use for the command</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.EscapeString(System.String)">
+            <summary>
+            Escapes the string.
+            </summary>
+            <param name="value">The string to escape</param>
+            <returns>The string with all quotes escaped.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQueryAsync(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Async version of ExecuteNonQuery
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
+            <param name="commandText">SQL command to be executed</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
+            <returns>Rows affected</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteNonQueryAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Async version of ExecuteNonQuery
+            </summary>
+            <param name="connectionString"><see cref="P:MySql.Data.MySqlClient.MySqlConnection.ConnectionString"/> to use</param>
+            <param name="commandText">SQL command to be executed</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command.</param>
+            <returns>Rows affected</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(MySql.Data.MySqlClient.MySqlConnection,MySql.Data.MySqlClient.MySqlTransaction,System.String,MySql.Data.MySqlClient.MySqlParameter[],System.Boolean)">
+            <summary>
+            Async version of ExecuteReader
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
+            <param name="transaction"><see cref="T:MySql.Data.MySqlClient.MySqlTransaction"/> object to use for the command</param>
+            <param name="commandText">Command text to use</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
+            <param name="ExternalConn">True if the connection should be preserved, false if not</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(System.String,System.String)">
+            <summary>
+            Async version of ExecuteReader
+            </summary>
+            <param name="connectionString">Settings to use for this command</param>
+            <param name="commandText">Command text to use</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(MySql.Data.MySqlClient.MySqlConnection,System.String)">
+            <summary>
+            Async version of ExecuteReader
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use for the command</param>
+            <param name="commandText">Command text to use</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Async version of ExecuteReader
+            </summary>
+            <param name="connectionString">Settings to use for this command</param>
+            <param name="commandText">Command text to use</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteReaderAsync(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Async version of ExecuteReader
+            </summary>
+            <param name="connection">Connection to use for the command</param>
+            <param name="commandText">Command text to use</param>
+            <param name="commandParameters">Array of <see cref="T:MySql.Data.MySqlClient.MySqlParameter"/> objects to use with the command</param>
+            <returns><see cref="T:MySql.Data.MySqlClient.MySqlDataReader"/> object ready to read the results of the command</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(System.String,System.String)">
+            <summary>
+            Async version of ExecuteScalar
+            </summary>
+            <param name="connectionString">Settings to use for the update</param>
+            <param name="commandText">Command text to use for the update</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(System.String,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Async version of ExecuteScalar
+            </summary>
+            <param name="connectionString">Settings to use for the command</param>
+            <param name="commandText">Command text to use for the command</param>
+            <param name="commandParameters">Parameters to use for the command</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(MySql.Data.MySqlClient.MySqlConnection,System.String)">
+            <summary>
+            Async version of ExecuteScalar
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
+            <param name="commandText">Command text to use for the command</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
+        <member name="M:MySql.Data.MySqlClient.MySqlHelper.ExecuteScalarAsync(MySql.Data.MySqlClient.MySqlConnection,System.String,MySql.Data.MySqlClient.MySqlParameter[])">
+            <summary>
+            Async version of ExecuteScalar
+            </summary>
+            <param name="connection"><see cref="T:MySql.Data.MySqlClient.MySqlConnection"/> object to use</param>
+            <param name="commandText">Command text to use for the command</param>
+            <param name="commandParameters">Parameters to use for the command</param>
+            <returns>The first column of the first row in the result set, or a null reference if the result set is empty.</returns>
+        </member>
         <member name="M:MySql.Data.MySqlClient.MySqlPacket.WriteInteger(System.Int64,System.Int32)">
             <summary>
             WriteInteger
@@ -8951,184 +7409,6 @@
             the parameterMap array list that includes all the paramter names in the
             order they appeared in the SQL
             </remarks>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.ReplicationConfigurationElement">
-            <summary>
-            Used to define a Replication configurarion element in configuration file
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.ReplicationServerGroupConfigurationElement">
-            <summary>
-            Used to define a Replication server group in configuration file
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.ReplicationServerConfigurationElement">
-            <summary>
-            Defines a Replication server in configuration file
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.Replication.ReplicationManager">
-            <summary>
-            Manager for Replication and Load Balancing features
-            </summary>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationManager.Groups">
-            <summary>
-            Returns Replication Server Group List
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationManager.AddGroup(System.String,System.Int32)">
-            <summary>
-            Adds a Default Server Group to the list
-            </summary>
-            <param name="name">Group name</param>
-            <param name="retryTime">Time between reconnections for failed servers</param>
-            <returns>Replication Server Group added</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationManager.AddGroup(System.String,System.String,System.Int32)">
-            <summary>
-            Adds a Server Group to the list
-            </summary>
-            <param name="name">Group name</param>
-            <param name="groupType">ServerGroup type reference</param>
-            <param name="retryTime">Time between reconnections for failed servers</param>
-            <returns>Server Group added</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationManager.GetServer(System.String,System.Boolean)">
-            <summary>
-            Gets the next server from a replication group
-            </summary>
-            <param name="groupName">Group name</param>
-            <param name="isMaster">True if the server to return must be a master</param>
-            <returns>Replication Server defined by the Load Balancing plugin</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationManager.GetGroup(System.String)">
-            <summary>
-            Gets a Server Group by name
-            </summary>
-            <param name="groupName">Group name</param>
-            <returns>Server Group if found, otherwise throws an MySqlException</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationManager.IsReplicationGroup(System.String)">
-            <summary>
-            Validates if the replication group name exists
-            </summary>
-            <param name="groupName">Group name to validate</param>
-            <returns>True if replication group name is found, otherwise false</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationManager.GetNewConnection(System.String,System.Boolean,MySql.Data.MySqlClient.MySqlConnection)">
-            <summary>
-            Assigns a new server driver to the connection object
-            </summary>
-            <param name="groupName">Group name</param>
-            <param name="master">True if the server connection to assign must be a master</param>
-            <param name="connection">MySqlConnection object where the new driver will be assigned</param>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.Replication.ReplicationRoundRobinServerGroup">
-            <summary>
-            Class that implements Round Robing Load Balancing technique
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationRoundRobinServerGroup.GetServer(System.Boolean)">
-            <summary>
-            Gets an available server based on Round Robin load balancing
-            </summary>
-            <param name="isMaster">True if the server to return must be a master</param>
-            <returns>Next available server</returns>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.Replication.ReplicationServer">
-            <summary>
-            Represents a server in Replication environment
-            </summary>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationServer.Name">
-            <summary>
-            Server name
-            </summary>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationServer.IsMaster">
-            <summary>
-            Defines if the server is master (True) or slave
-            </summary>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationServer.ConnectionString">
-            <summary>
-            Connection string used to connect to the server
-            </summary>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationServer.IsAvailable">
-            <summary>
-            Defines if the server is available to be considered in load balancing
-            </summary>
-        </member>
-        <member name="T:MySql.Data.MySqlClient.Replication.ReplicationServerGroup">
-            <summary>
-            Base class used to implement load balancing features
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.#ctor(System.String,System.Int32)">
-            <param name="name">Group name</param>
-            <param name="retryTime"></param>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.Name">
-            <summary>
-            Group name
-            </summary>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.RetryTime">
-            <summary>
-            Retry time between connections to failed servers
-            </summary>
-        </member>
-        <member name="P:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.Servers">
-            <summary>
-            Servers list in the group
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.AddServer(System.String,System.Boolean,System.String)">
-            <summary>
-            Adds a server into the group
-            </summary>
-            <param name="name">Server name</param>
-            <param name="isMaster">True if the server to add is master, False for slave server</param>
-            <param name="connectionString">Connection string used by this server</param>
-            <returns></returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.RemoveServer(System.String)">
-            <summary>
-            Removes a server from group
-            </summary>
-            <param name="name">Server name</param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.GetServer(System.String)">
-            <summary>
-            Gets a server by name
-            </summary>
-            <param name="name">Server name</param>
-            <returns>Replication server</returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.GetServer(System.Boolean)">
-            <summary>
-            Must be implemented. Defines the next server for a custom load balancing implementation.
-            </summary>
-            <param name="isMaster">Defines if the server to return is a master or any</param>
-            <returns>Next server based on the load balancing implementation.
-              Null if no available server is found.
-            </returns>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.HandleFailover(MySql.Data.MySqlClient.Replication.ReplicationServer)">
-            <summary>
-            Handles a failed connection to a server.
-            This method can be overrided to implement a custom failover handling
-            </summary>
-            <param name="server">The failed server</param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.Replication.ReplicationServerGroup.HandleFailover(MySql.Data.MySqlClient.Replication.ReplicationServer,System.Exception)">
-            <summary>
-            Handles a failed connection to a server.
-            </summary>
-            <param name="server">The failed server</param>
-            <param name="exception">Exception that caused the failover</param>
         </member>
         <member name="M:MySql.Data.MySqlClient.ResultSet.GetOrdinal(System.String)">
             <summary>
@@ -9595,17 +7875,6 @@
             </summary>
             <param name="quoteChar"></param>
             <returns></returns>
-        </member>
-        <member name="T:MySql.Data.Common.SharedMemory">
-            <summary>
-            Helper class to encapsulate shared memory functionality
-            Also cares of proper cleanup of file mapping object and cew
-            </summary>
-        </member>
-        <member name="T:MySql.Data.Common.SharedMemoryStream">
-            <summary>
-            Summary description for SharedMemoryStream.
-            </summary>
         </member>
         <member name="M:MySql.Data.Common.Platform.#ctor">
             <summary>

@@ -13,6 +13,7 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data.Odbc;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -34,6 +35,7 @@ namespace MagicMaids.Controllers
 			TempData["connstring"] = connstring;
 			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 			MySqlConnection connection = null;
+			//OdbcConnection connection = null;
 			try
 			{
 				stopwatch.Start();
@@ -59,6 +61,12 @@ namespace MagicMaids.Controllers
 
 					TempData["results"] = output.ToString();
 				}
+
+			}
+			catch(OdbcException oEx)
+			{
+				string json = JsonConvert.SerializeObject(ParseOdbcErrorCollection(oEx), settings);
+				TempData["results"] = json;
 
 			}
 			catch (Exception ex)
@@ -87,6 +95,20 @@ namespace MagicMaids.Controllers
 
 
 			return View();
+		}
+
+		private string ParseOdbcErrorCollection(OdbcException exception)
+		{
+			StringBuilder error = new StringBuilder();
+			for (int i = 0; i < exception.Errors.Count; i++)
+			{
+				error.Append("Index #" + i + "\n" +
+					   "Message: " + exception.Errors[i].Message + "\n" +
+					   "Native: " + exception.Errors[i].NativeError.ToString() + "\n" +
+					   "Source: " + exception.Errors[i].Source + "\n" +
+					   "SQL: " + exception.Errors[i].SQLState + "\n");
+			}
+			return error.ToString();
 		}
 
 

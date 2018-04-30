@@ -3166,26 +3166,6 @@
             Summary description for Field.
             </summary>
         </member>
-        <member name="T:MySql.Data.MySqlClient.CustomInstaller">
-            <summary>
-            We are adding a custom installer class to our assembly so our installer
-            can make proper changes to the machine.config file.
-            </summary>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.CustomInstaller.Install(System.Collections.IDictionary)">
-            <summary>
-            We override Install so we can add our assembly to the proper
-            machine.config files.
-            </summary>
-            <param name="stateSaver"></param>
-        </member>
-        <member name="M:MySql.Data.MySqlClient.CustomInstaller.Uninstall(System.Collections.IDictionary)">
-            <summary>
-            We override Uninstall so we can remove out assembly from the
-            machine.config files.
-            </summary>
-            <param name="savedState"></param>
-        </member>
         <member name="T:MySql.Data.MySqlClient.MySqlCommandBuilder">
             <summary>
       Automatically generates single-table commands used to reconcile changes made to a DataSet with the associated MySQL database. This class cannot be inherited.
