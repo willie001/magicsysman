@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+
 using NLog;
-using NLog.Common;
 using FluentValidation.Mvc;
-using System.Globalization;
-using System.Threading;
 using FluentValidation;
 using AutoMapper;
+
+using Newtonsoft.Json;
+using Dapper;
+using MySql.Data.MySqlClient;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
-using System.Configuration;
-using System.Web.Http;
-using Newtonsoft.Json;
-using LazyCache;
-using NodaTime;
-using Dapper;
 
 namespace MagicMaids
 {
@@ -31,6 +26,8 @@ namespace MagicMaids
 
         protected void Application_Start()
         {
+			MySqlConnection.ClearAllPools();
+
 			SimpleCRUD.SetDialect(SimpleCRUD.Dialect.MySQL);
 
 			// Removing all the view engines
@@ -64,6 +61,11 @@ namespace MagicMaids
 
 			};
         }
+
+		protected void Application_End()
+		{
+			MySqlConnection.ClearAllPools();
+		}
 
 		protected void Application_Error(object sender, EventArgs e)
 		{

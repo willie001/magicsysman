@@ -3,7 +3,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.EF6.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.SimpleCRUD.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/DelegateDecompiler.dll
@@ -41,7 +40,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebGrease.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.Data.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.WebData.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Antlr3.Runtime.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/FluentValidation.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/FluentValidation.Mvc.xml
@@ -72,6 +70,8 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Dapper.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Google.Protobuf.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MySql.Data.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/AutoMapper.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojResolveAssemblyReference.cache

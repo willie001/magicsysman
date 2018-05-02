@@ -31,27 +31,40 @@ namespace MagicMaids.Controllers
 				Formatting = Formatting.Indented
 			};
 
-			var connstring = MagicMaidsInitialiser.getConnectionString();
-			TempData["connstring"] = connstring;
 			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-			MySqlConnection connection = null;
-			//OdbcConnection connection = null;
 			try
 			{
 				stopwatch.Start();
 				StringBuilder output = new StringBuilder();
 
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
+					var connstring = db.getConnectionString();
+					TempData["connstring"] = connstring;
+
 					string stm = "SELECT VERSION() as version";
-					var rows = db.Query(stm).ToList();
+					var rows = db.getConnection().Query(stm).ToList();
 					string version = rows[0].version.ToString();
 					output.Append($"MySQL version : {version.ToString()}\n");
 
 					stm = "SELECT count(*) as testCount from systemsettings";
-					rows = db.Query(stm).ToList();
+					rows = db.getConnection().Query(stm).ToList();
 					string counter = rows[0].testCount.ToString();
-					output.Append($"Record Count : {counter.ToString()}\n");
+					output.Append($"Record Count : {counter}\n");
+
+					stm = @"SELECT IFNULL(usr,'All Users') user,IFNULL(hst,'All Hosts') host,COUNT(1) Connections 
+							FROM
+							(
+								SELECT user usr, LEFT(host, LOCATE(':', host) - 1) hst
+								FROM information_schema.processlist
+								WHERE user NOT IN('system user', 'root')
+							) A
+							WHERE hst = 'localhost'
+						 	GROUP BY usr,hst WITH ROLLUP";
+					
+					rows = db.getConnection().Query(stm).ToList();
+					string _connCounter = rows[0].Connections.ToString();
+					output.Append($"Open Connections : {_connCounter}\n");
 
 					output.Append("\n\n");
 					output.Append($"Date Time Now: {DateTime.Now.ToString()}\n");
@@ -61,12 +74,6 @@ namespace MagicMaids.Controllers
 
 					TempData["results"] = output.ToString();
 				}
-
-			}
-			catch(OdbcException oEx)
-			{
-				string json = JsonConvert.SerializeObject(ParseOdbcErrorCollection(oEx), settings);
-				TempData["results"] = json;
 
 			}
 			catch (Exception ex)
@@ -80,11 +87,6 @@ namespace MagicMaids.Controllers
 			}
 			finally
 			{
-				if (connection != null && connection.State == ConnectionState.Open)
-				{
-					connection.Close();
-				}
-
 				if (stopwatch != null && stopwatch.IsRunning)
 				{
 					stopwatch.Stop();
@@ -110,7 +112,6 @@ namespace MagicMaids.Controllers
 			}
 			return error.ToString();
 		}
-
 
 		public ActionResult Error404(string path)
 		{

@@ -96,15 +96,15 @@ namespace MagicMaids.Controllers
 		{
 			List<SystemSetting> _settings = new List<SystemSetting>();
 
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
 				if (incDisabled != null && incDisabled == 1)
 				{
-					_settings = db.GetList<SystemSetting>().ToList();
+					_settings = db.getConnection().GetList<SystemSetting>().ToList();
 				}
 				else
 				{
-					_settings = db.GetList<SystemSetting>(new { IsActive = 1 }).ToList();
+					_settings = db.getConnection().GetList<SystemSetting>(new { IsActive = 1 }).ToList();
 				}
 			}
 
@@ -133,9 +133,9 @@ namespace MagicMaids.Controllers
 			{
 				String _id = setting.Id;
 
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
-					SystemSetting _objToUpdate = db.Get<SystemSetting>(_id); 
+					SystemSetting _objToUpdate = db.getConnection().Get<SystemSetting>(_id); 
 					if (_objToUpdate == null)
 					{
 						ModelState.AddModelError(string.Empty, $"Setting [{_id.ToString()}] not found.  Please try again.");
@@ -146,7 +146,7 @@ namespace MagicMaids.Controllers
 					{
 						try
 						{
-							db.Update(UpdateAuditTracking(_objToUpdate));
+							db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
 
 							SystemSettings.Reset();
 
@@ -224,10 +224,10 @@ namespace MagicMaids.Controllers
 		{
 			List<SuburbZone> _entityList = new List<SuburbZone>();
 
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
 				string _where = (Helpers.IsValidGuid(FranchiseId)) ? "where FranchiseId = '" + FranchiseId.Value.ToString() + "'" : "";
-				_entityList = db.GetList<SuburbZone>(_where).ToList();
+				_entityList = db.getConnection().GetList<SuburbZone>(_where).ToList();
 			}
 			List<UpdateSuburbZonesVM> _editList = new List<UpdateSuburbZonesVM>();
 			foreach (SuburbZone _item in _entityList)
@@ -272,7 +272,7 @@ namespace MagicMaids.Controllers
 				{
 					SuburbZone _objToUpdate = null;
 
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
 						if (bIsNew)
 						{
@@ -294,13 +294,13 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.FranchiseId}'");
 							_sql.Append(")");
 
-							db.Execute(_sql.ToString());
+							db.getConnection().Execute(_sql.ToString());
 							//https://github.com/ericdc1/Dapper.SimpleCRUD/blob/master/Dapper.SimpleCRUD/SimpleCRUD.cs#L320
 							//var _key = db.Insert<SuburbZone>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
-							_objToUpdate = db.Get<SuburbZone>(_id);
+							_objToUpdate = db.getConnection().Get<SuburbZone>(_id);
 
 							if (_objToUpdate == null)
 							{
@@ -308,7 +308,7 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							db.Update(UpdateAuditTracking(UpdateSettings(_objToUpdate, formValues)));
+							db.getConnection().Update(UpdateAuditTracking(UpdateSettings(_objToUpdate, formValues)));
 						}
 
 						IAppCache cache = new CachingService();
@@ -447,15 +447,15 @@ namespace MagicMaids.Controllers
 		{
 			List<Rate> _entityList = new List<Rate>();
 
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
 				if (franchiseId.HasValue && Helpers.IsValidGuid(franchiseId))
 				{
-					_entityList = db.GetList<Rate>(new { franchiseId = franchiseId.Value.ToString() }).ToList();
+					_entityList = db.getConnection().GetList<Rate>(new { franchiseId = franchiseId.Value.ToString() }).ToList();
 				}
 				else
 				{
-					_entityList = db.GetList<Rate>().ToList();
+					_entityList = db.getConnection().GetList<Rate>().ToList();
 				}
 			}
 
@@ -502,7 +502,7 @@ namespace MagicMaids.Controllers
 				{
 					Rate _objToUpdate = null;
 
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
 						if (bIsNew)
 						{
@@ -522,13 +522,13 @@ namespace MagicMaids.Controllers
 							_sql.Append($"{(int)_objToUpdate.RateApplications},");
 							_sql.Append($"'{_objToUpdate.FranchiseId}'");
 							_sql.Append(")");
-							db.Execute(_sql.ToString());
+							db.getConnection().Execute(_sql.ToString());
 
 							//var newId = db.Insert<Rate>(_objToUpdate);
 						}
 						else
 						{
-							_objToUpdate = db.Get<Rate>(_id);
+							_objToUpdate = db.getConnection().Get<Rate>(_id);
 
 							if (_objToUpdate == null)
 							{
@@ -537,7 +537,7 @@ namespace MagicMaids.Controllers
 							}
 
 							_objToUpdate = UpdateRates(_objToUpdate, formValues, _selection);
-							db.Update(_objToUpdate);
+							db.getConnection().Update(_objToUpdate);
 						}
 
 						IAppCache cache = new CachingService();
@@ -621,17 +621,17 @@ namespace MagicMaids.Controllers
 		public static List<string> GetZoneListByFranchise(String FranchiseId, Boolean toLower)
 		{
 			List<String> _zoneList = new List<String>();
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
 				if (Helpers.IsValidGuid(FranchiseId))
 				{
-					_zoneList = db.Query<String>($"select concat(Zone,',',LinkedZones) from SuburbZones where FranchiseId='{FranchiseId}'").ToList();
+					_zoneList = db.getConnection().Query<String>($"select concat(Zone,',',LinkedZones) from SuburbZones where FranchiseId='{FranchiseId}'").ToList();
 				}
 
 				// load system default list
 				if (_zoneList.Count == 0)
 				{
-					_zoneList = db.Query<String>($"select concat(Zone,',',LinkedZones) from SuburbZones where FranchiseId is not null").ToList();
+					_zoneList = db.getConnection().Query<String>($"select concat(Zone,',',LinkedZones) from SuburbZones where FranchiseId is not null").ToList();
 				}
 			}
 
@@ -662,14 +662,14 @@ namespace MagicMaids.Controllers
 			}
 
 			List<String> _zoneList = new List<String>();
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				_zoneList = db.Query<String>($"select Zone+','+LinkedZones from SuburbZones where SuburbName like '%{Suburb}%' or PostCode = '{Suburb}'").ToList();
+				_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where SuburbName like '%{Suburb}%' or PostCode = '{Suburb}'").ToList();
 
 				// load system default list
 				if (_zoneList.Count == 0)
 				{
-					_zoneList = db.Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
+					_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
 				}
 			}
 

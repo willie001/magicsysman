@@ -17,7 +17,7 @@
 				<th style="width:10%" class="text-center"></th>
 			</thead>
 	        <tbody>
-				<tr ng-repeat="item in vmPost.listOfPostcodes">
+				<tr ng-repeat="item in vmPost.listOfPostcodes | orderBy:'SuburbName'">
 					<td>
 		            	<span editable-text="item.SuburbName" e-name="SuburbName" e-form="rowform" onbeforesave="vmPost.validateData($data, 'Suburb name')" e-required="">{{ item.SuburbName || &apos;Not set&apos; }}</span>
 		         	</td>

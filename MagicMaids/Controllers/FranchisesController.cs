@@ -52,9 +52,9 @@ namespace MagicMaids.Controllers
 			}
 								
 				
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				_data = db.Query<Franchise, Address, Address, Franchise>(sql.ToString(), (fr, phys, pos) => {
+				_data = db.getConnection().Query<Franchise, Address, Address, Franchise>(sql.ToString(), (fr, phys, pos) => {
 					fr.PhysicalAddress = phys;
 					fr.PostalAddress = pos;
 					return fr;
@@ -87,11 +87,11 @@ namespace MagicMaids.Controllers
 			List<Franchise> _data = new List<Franchise>();
 
 
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				_data = db.GetList<Franchise>(new {IsActive = true}).OrderByDescending(p => p.Name).ToList();
+				_data = db.getConnection().GetList<Franchise>(new {IsActive = true}).OrderByDescending(p => p.Name).ToList();
 
-				List<SystemSetting> _settings = db.GetList<SystemSetting>(new { IsActive = true }).ToList();
+				List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
 
 				foreach (Franchise _item in _data)
 				{
@@ -129,9 +129,9 @@ namespace MagicMaids.Controllers
 								inner join Addresses Po on C.PostalAddressRefId = Po.ID
 								where C.Id = '" + FranchiseId + "'";
 
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
-					_franchise = db.Query<Franchise, Address, Address, Franchise>(sql, (clnt, phys, post) => {
+					_franchise = db.getConnection().Query<Franchise, Address, Address, Franchise>(sql, (clnt, phys, post) => {
 						clnt.PhysicalAddress = phys;
 						clnt.PostalAddress = post;
 						return clnt;
@@ -165,10 +165,10 @@ namespace MagicMaids.Controllers
 			FranchiseSettingsVM _dataItem = null;
 
 			List<SystemSetting> _settings = new List<SystemSetting>();
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				_settings = db.GetList<SystemSetting>(new { IsActive = 1 }).ToList();
-				_franchise = db.Get<Franchise>(FranchiseId);
+				_settings = db.getConnection().GetList<SystemSetting>(new { IsActive = 1 }).ToList();
+				_franchise = db.getConnection().Get<Franchise>(FranchiseId);
 
 				if (_franchise == null)
 				{
@@ -231,7 +231,7 @@ namespace MagicMaids.Controllers
 				{
 					Franchise _objToUpdate = null;
 
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
 						if (bIsNew)
 						{
@@ -258,7 +258,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
 								_sql.Append(")");
-								db.Execute(_sql.ToString());
+								db.getConnection().Execute(_sql.ToString());
 							}
 
 							if (_objToUpdate.PostalAddress != null)
@@ -282,7 +282,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
 								_sql.Append(")");
-								db.Execute(_sql.ToString());
+								db.getConnection().Execute(_sql.ToString());
 							}
 
 							_sql.Clear();
@@ -326,7 +326,7 @@ namespace MagicMaids.Controllers
 							}
 							_sql.Append($"'{_objToUpdate.MetroRegion}'");
 							_sql.Append(")");
-							db.Execute(_sql.ToString());
+							db.getConnection().Execute(_sql.ToString());
 							//var newId = db.Insert<Franchise>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
@@ -336,7 +336,7 @@ namespace MagicMaids.Controllers
 								inner join Addresses Po on C.PostalAddressRefId = Po.ID
 								where C.ID = '" + _id + "'";
 
-							_objToUpdate = db.Query<Franchise, Address, Address, Franchise>(sql, (clnt, phys, post) => {
+							_objToUpdate = db.getConnection().Query<Franchise, Address, Address, Franchise>(sql, (clnt, phys, post) => {
 								clnt.PhysicalAddress = phys;
 								clnt.PostalAddress = post;
 								return clnt;
@@ -348,9 +348,9 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							db.Update(UpdateFranchise(_objToUpdate, dataItem));     // Foreign Key error on Addresses
-							db.Update(_objToUpdate.PhysicalAddress);
-							db.Update(_objToUpdate.PostalAddress);
+							db.getConnection().Update(UpdateFranchise(_objToUpdate, dataItem));     // Foreign Key error on Addresses
+							db.getConnection().Update(_objToUpdate.PhysicalAddress);
+							db.getConnection().Update(_objToUpdate.PostalAddress);
 						}
 
 						IAppCache cache = new CachingService();
@@ -503,9 +503,9 @@ namespace MagicMaids.Controllers
 				{
 					Franchise _objToUpdate = null;
 
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
-						_objToUpdate = db.Get<Franchise>(_id);
+						_objToUpdate = db.getConnection().Get<Franchise>(_id);
 
 						if (_objToUpdate == null)
 						{
@@ -515,7 +515,7 @@ namespace MagicMaids.Controllers
 
 						_objToUpdate.ManagementFeePercentage = dataItem.ManagementFeePercentage;
 						_objToUpdate.RoyaltyFeePercentage = dataItem.RoyaltyFeePercentage;
-						db.Update(UpdateAuditTracking(_objToUpdate));
+						db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
 					}
 					return JsonSuccessResponse("Franchise settings saved successfully", _objToUpdate);
 				}

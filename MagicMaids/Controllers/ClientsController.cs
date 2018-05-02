@@ -64,7 +64,7 @@ namespace MagicMaids.Controllers
 
 				try
 				{
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
 						StringBuilder sql = new StringBuilder(@"select * from Clients C 
 							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where 1=1");
@@ -108,7 +108,7 @@ namespace MagicMaids.Controllers
 
 						sql.Append(" order by C.LastName, C.FirstName ");
 
-						var _orderedResults = db.Query<Client, Address, Client>(sql.ToString(), (clnr, phys) => {
+						var _orderedResults = db.getConnection().Query<Client, Address, Client>(sql.ToString(), (clnr, phys) => {
 							clnr.PhysicalAddress = phys;
 							return clnr;
 						}).ToList();
@@ -154,14 +154,14 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
 					string sql = @"select * from Clients C 
 							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID
 								inner join Addresses Po on C.PostalAddressRefId = Po.ID
 								where C.ID = '" + ClientId + "'";
 
-					_client = db.Query<Client, Address, Address, Client>(sql, (cl, phys, post) => {
+					_client = db.getConnection().Query<Client, Address, Address, Client>(sql, (cl, phys, post) => {
 						cl.PhysicalAddress = phys;
 						cl.PostalAddress = post;
 						return cl;
@@ -228,7 +228,7 @@ namespace MagicMaids.Controllers
 				{
 					Client _objToUpdate = null;
 
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
 						if (bIsNew)
 						{
@@ -256,7 +256,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
 								_sql.Append(")");
-								db.Execute(_sql.ToString());
+								db.getConnection().Execute(_sql.ToString());
 							}
 
 							if (_objToUpdate.PostalAddress != null)
@@ -280,7 +280,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
 								_sql.Append(")");
-								db.Execute(_sql.ToString());
+								db.getConnection().Execute(_sql.ToString());
 							}
 
 							_sql.Clear();
@@ -305,7 +305,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.OtherNumber}',");
 							_sql.Append($"'{_objToUpdate.ClientType}'");
 							_sql.Append(")");
-							db.Execute(_sql.ToString());
+							db.getConnection().Execute(_sql.ToString());
 						}
 						else
 						{
@@ -314,7 +314,7 @@ namespace MagicMaids.Controllers
 								inner join Addresses Po on C.PostalAddressRefId = Po.ID
 								where C.ID = '" + _id + "'";
 
-							_objToUpdate = db.Query<Client, Address, Address, Client>(sql, (clnt, phys, post) => {
+							_objToUpdate = db.getConnection().Query<Client, Address, Address, Client>(sql, (clnt, phys, post) => {
 								clnt.PhysicalAddress = phys;
 								clnt.PostalAddress = post;
 								return clnt;
@@ -329,9 +329,9 @@ namespace MagicMaids.Controllers
 
 							_objToUpdate = UpdateClient(_objToUpdate, dataItem);
 
-							db.Update(dataItem);
-							db.Update(dataItem.PhysicalAddress);
-							db.Update(dataItem.PostalAddress);
+							db.getConnection().Update(dataItem);
+							db.getConnection().Update(dataItem.PhysicalAddress);
+							db.getConnection().Update(dataItem.PostalAddress);
 						}
 					}
 
@@ -478,9 +478,9 @@ namespace MagicMaids.Controllers
 				throw new InvalidOperationException("Error decrypting payment details.");
 			}
 
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				_entityList = db.Query<ClientMethod>($"Select * from Methods where Validated = '{_hash}' order by CreatedAt").ToList();
+				_entityList = db.getConnection().Query<ClientMethod>($"Select * from Methods where Validated = '{_hash}' order by CreatedAt").ToList();
 			}
 
 			List<ClientPaymentMethodVM> _editList = new List<ClientPaymentMethodVM>();
@@ -534,9 +534,9 @@ namespace MagicMaids.Controllers
 						Validated =  _hash,
 					};
 
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
-						var newId = db.Insert(UpdateAuditTracking(_objToUpdate)); 
+						var newId = db.getConnection().Insert(UpdateAuditTracking(_objToUpdate)); 
 					}
 					return JsonSuccessResponse("Customer payment method saved successfully", _objToUpdate);
 
@@ -588,9 +588,9 @@ namespace MagicMaids.Controllers
 				ClientMethod _objToUpdate = null;
 				try
 				{
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
-						_objToUpdate = db.Get<ClientMethod>(new { Id = dataItem.Id });
+						_objToUpdate = db.getConnection().Get<ClientMethod>(new { Id = dataItem.Id });
 
 						if (_objToUpdate == null)
 						{
@@ -623,7 +623,7 @@ namespace MagicMaids.Controllers
 
 						_objToUpdate.Details = Crypto.Encrypt(_ccDetails.ToString(), _hash);
 
-						db.Update(UpdateAuditTracking(_objToUpdate));
+						db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
 					}
 
 					return JsonSuccessResponse("Payment method saved successfully", _objToUpdate);
@@ -675,10 +675,10 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
 					
-					db.Delete<ClientMethod>(id);
+					db.getConnection().Delete<ClientMethod>(id);
 					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id = " + id);
 				}
 			}
@@ -711,9 +711,9 @@ namespace MagicMaids.Controllers
 
 			List<ClientLeave> _entityList = new List<ClientLeave>();
 
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				_entityList = db.Query<ClientLeave>($"Select * from ClientLeave where ClientRefId = '{ClientId}' order by StartDate desc, EndDate desc").ToList();
+				_entityList = db.getConnection().Query<ClientLeave>($"Select * from ClientLeave where ClientRefId = '{ClientId}' order by StartDate desc, EndDate desc").ToList();
 			}
 
 			List<ClientLeaveVM> _editList = new List<ClientLeaveVM>();
@@ -747,7 +747,7 @@ namespace MagicMaids.Controllers
 				{
 					ClientLeave _objToUpdate = null;
 
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
 						if (bIsNew)
 						{
@@ -756,18 +756,18 @@ namespace MagicMaids.Controllers
 							_objToUpdate.StartDate = formValues.StartDate;
 							_objToUpdate.EndDate = formValues.EndDate;
 
-							var newId = db.Insert(UpdateAuditTracking(_objToUpdate));
+							var newId = db.getConnection().Insert(UpdateAuditTracking(_objToUpdate));
 						}
 						else
 						{
-							_objToUpdate = db.Get<ClientLeave>(new {Id = _id});
+							_objToUpdate = db.getConnection().Get<ClientLeave>(new {Id = _id});
 							if (_objToUpdate == null)
 							{
 								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
 								return JsonFormResponse();
 							}
 
-							db.Update(UpdateAuditTracking(_objToUpdate));
+							db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
 						}
 
 						return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
@@ -830,9 +830,9 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
-					db.Delete<ClientLeave>(new {Id = id.Value});
+					db.getConnection().Delete<ClientLeave>(new {Id = id.Value});
 					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id=" + id.Value);
 				}
 			}

@@ -63,9 +63,9 @@ namespace MagicMaids.Controllers
 
 		private IEnumerable<T> GetListFromDb<T>()
 		{
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				return db.GetList<T>(); 
+				return db.getConnection().GetList<T>();
 			}
 		}
 

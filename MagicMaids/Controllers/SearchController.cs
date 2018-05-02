@@ -45,7 +45,7 @@ namespace MagicMaids.Controllers
 			{
 				try
 				{
-					using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+					using (DBManager db = new DBManager())
 					{
 						StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
 							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where 1=1");
@@ -62,7 +62,7 @@ namespace MagicMaids.Controllers
 
 						sql.Append(" order by LastName, FirstName");
 
-						var _orderedResults = db.Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) => {
+						var _orderedResults = db.getConnection().Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) => {
 							cl.PhysicalAddress = phys;
 							return cl;
 						}).ToList();

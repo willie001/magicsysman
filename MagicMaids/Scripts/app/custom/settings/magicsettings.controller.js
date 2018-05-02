@@ -226,8 +226,6 @@
 
 		function activate()
 		{
-			vm.listOfPostcodes = null;
-
            	//console.log("<POSTCODE FranchiseId> - " + angular.toJson($scope.FranchiseId));
            	vm.selectedFranchise = ($scope.FranchiseId) ? $scope.FranchiseId : null;
 		};
@@ -238,7 +236,8 @@
                 .success(function (data) {
                 	vm.listOfPostcodes = data.list;
                 	vm.nextNewGuid = data.nextGuid;
-                	//console.log("<POSTCODES loaded> - " + angular.toJson(vm.listOfPostcodes));
+
+                	console.log("<POSTCODES loaded> - " + angular.toJson(vm.listOfPostcodes));
 
                 }).error(function(err) {
 
@@ -254,22 +253,25 @@
           };
 
 	      vm.addData = function() {
-	        vm.inserted = {
-	          Id: vm.nextNewGuid,
+	      	
+	        newItem = {
 	          SuburbName: '',
 	          PostCode: '',
 	          Zone: '',
 	          LinkedZones: '',
-	          IsNewItem: true
+	          IsNewItem: true,
+	          Id: ''
+	          
 	        };
 
-            //console.log("<POSTCODE inserted> - " + angular.toJson(vm.inserted));
-
+            
             if (vm != null && vm.listOfPostcodes != null)
             {
             	//https://stackoverflow.com/questions/21997042/adding-row-on-the-top-using-angular-xeditable
-            	vm.listOfPostcodes.unshift(vm.inserted);
+            	vm.listOfPostcodes.unshift(newItem);
             }
+            //console.log("<POSTCODE inserted> - " + angular.toJson(vm.listOfPostcodes));
+
           };
 
           vm.removeSuburb = function(index) {
@@ -281,7 +283,7 @@
           vm.saveData = function(data, id, isNew) {
 			angular.extend(data, {
 					FranchiseId: vm.selectedFranchise,
-					Id: id,
+					Id: vm.nextNewGuid,
 					IsNewItem: isNew
 				});
 

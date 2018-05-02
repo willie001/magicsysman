@@ -14,6 +14,7 @@ namespace MagicMaids.ViewModels
 	public class UpdateSuburbZonesVM
 	{
 		#region Properties, Public
+
 		public Boolean IsNewItem
 		{
 			get;

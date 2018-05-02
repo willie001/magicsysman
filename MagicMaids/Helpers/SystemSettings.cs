@@ -191,9 +191,9 @@ namespace MagicMaids
 		{
 			Settings.Clear();
 
-			using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+			using (DBManager db = new DBManager())
 			{
-				List<EntityModels.SystemSetting> _settings = (System.Collections.Generic.List<MagicMaids.EntityModels.SystemSetting>)db.GetList<EntityModels.SystemSetting>();
+				List<EntityModels.SystemSetting> _settings = (System.Collections.Generic.List<MagicMaids.EntityModels.SystemSetting>)db.getConnection().GetList<EntityModels.SystemSetting>();
 
 				foreach (EntityModels.SystemSetting _setting in _settings)
 				{

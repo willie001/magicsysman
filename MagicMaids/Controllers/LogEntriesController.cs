@@ -57,9 +57,9 @@ namespace MagicMaids.Controllers
 				
 			try
 			{
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
-					_data = db.GetList<LogEntry>().OrderByDescending(l => l.LoggedDate).ToList();
+					_data = db.getConnection().GetList<LogEntry>().OrderByDescending(l => l.LoggedDate).ToList();
 				}
 
 				foreach (LogEntry _item in _data)
@@ -89,9 +89,9 @@ namespace MagicMaids.Controllers
 			}
 			else
 			{
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
-					_entry = db.Get<LogEntry>(Id);
+					_entry = db.getConnection().Get<LogEntry>(Id);
 				}
 
 				if (_entry == null)
@@ -118,9 +118,9 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
-					db.Delete<LogEntry>(id);
+					db.getConnection().Delete<LogEntry>(id);
 				}
 
 				return JsonSuccessResponse($"{_objDesc} deleted successfully", "Log Id = " + id);
@@ -148,9 +148,9 @@ namespace MagicMaids.Controllers
 
 			try
 			{
-				using (IDbConnection db = MagicMaidsInitialiser.getConnection())
+				using (DBManager db = new DBManager())
 				{
-					db.DeleteList<LogEntry>("where id > 0");
+					db.getConnection().DeleteList<LogEntry>("where id > 0");
 				}
 
 				return JsonSuccessResponse($"{_objDesc} deleted successfully");
