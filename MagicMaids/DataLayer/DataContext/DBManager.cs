@@ -12,6 +12,8 @@ namespace MagicMaids.DataAccess
 		#region Fields
 		private string _connectionString = "";
 		private MySqlConnection _connection;
+
+		public string debugInternal = "";
 		#endregion
 
 		#region Properties
@@ -19,6 +21,7 @@ namespace MagicMaids.DataAccess
 		{
 			get
 			{
+				debugInternal += "| g ";
 				return !(_connection.State == System.Data.ConnectionState.Closed) && _connection.Ping();
 			}
 		}
@@ -27,7 +30,9 @@ namespace MagicMaids.DataAccess
 		#region Constructor
 		public DBManager()
 		{
+			debugInternal += "| a1 ";
 			_connectionString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
+			debugInternal += "| a2 ";
 		}
 		#endregion
 
@@ -52,6 +57,7 @@ namespace MagicMaids.DataAccess
 
 		public MySqlConnection getConnection()
 		{
+			debugInternal += "| b ";
 			if (_connection != null && _connection.State == System.Data.ConnectionState.Broken)
 			{
 				_connection.Close();
@@ -59,13 +65,16 @@ namespace MagicMaids.DataAccess
 				_connection.ClearPoolAsync(_connection);
 			}
 
+			debugInternal += "| c ";
 			Open();
 
+			debugInternal += "| d ";
 			while(_connection.State == System.Data.ConnectionState.Connecting)
 			{
 				// do nothing while connecting
 			}
 
+			debugInternal += "| e ";
 			return _connection;
 		}
 
@@ -73,8 +82,11 @@ namespace MagicMaids.DataAccess
 		{
 			if (_connection == null || !Connected)
 			{
+				debugInternal += "| h ";
 				_connection = new MySqlConnection(getConnectionString());
+				debugInternal += "| i ";
 				_connection.Open();	
+				debugInternal += "| j ";
 			}
 		}
 
