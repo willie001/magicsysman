@@ -1,6 +1,5 @@
 ﻿#region Using
 using System;
-using System.Data;
 using System.Text;
 using System.Web.Mvc;
 
@@ -10,9 +9,7 @@ using Newtonsoft.Json;
 
 using Dapper;
 
-using MySql.Data.MySqlClient;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Data.Odbc;
 #endregion
 
@@ -97,13 +94,11 @@ namespace MagicMaids.Controllers
 			{
 				string json = JsonConvert.SerializeObject(ParseOdbcErrorCollection(exception), settings);
 				TempData["results"] = json;
-				LogHelper.LogRaven($"Error loading ODBC Connection Validator", nameof(ConnValidator), exception, null, null);
 			}
 			catch (Exception ex)
 			{
 				string json = JsonConvert.SerializeObject(ex, settings);
 				TempData["results"] = json;
-				LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
 			}
 			finally
 			{
