@@ -60,7 +60,7 @@ namespace MagicMaids.Controllers
 					var rows = db.getConnection().Query(stm).ToList();
 					debug += "| 4 " + db.debugInternal;
 				
-					string _connCounter = rows[0].Connections.ToString();
+					string _connCounter = (rows.Count > 0) ? rows[0].Connections.ToString() : "0";
 					debug += "| 5 " + db.debugInternal;
 				
 					output.Append($"Open Connections : {_connCounter}\n");
