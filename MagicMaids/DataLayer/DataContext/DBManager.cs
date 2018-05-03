@@ -1,6 +1,7 @@
 ﻿#region Using
 using System;
 using System.Configuration;
+using System.Data.Common;
 using System.Data.Odbc;
 using MySql.Data.MySqlClient;
 #endregion
@@ -11,18 +12,34 @@ namespace MagicMaids.DataAccess
 	{
 		#region Fields
 		private string _connectionString = "";
-		private MySqlConnection _connection;
+		//private MySqlConnection _connection;
+		private DbConnection _connection;
 
 		public string debugInternal = "";
 		#endregion
 
 		#region Properties
+		private bool IsOdbcConnection
+		{
+			get
+			{
+				return (_connectionString.ToLower().Contains("odbc"));
+			}
+		}
+
 		public bool Connected
 		{
 			get
 			{
 				debugInternal += "| g ";
-				return !(_connection.State == System.Data.ConnectionState.Closed) && _connection.Ping();
+				if (IsOdbcConnection)
+				{
+					return !(_connection.State == System.Data.ConnectionState.Closed);
+				}
+				else
+				{
+					return !(_connection.State == System.Data.ConnectionState.Closed) && ((MySqlConnection)_connection).Ping();
+				}
 			}
 		}
 		#endregion 
@@ -32,6 +49,8 @@ namespace MagicMaids.DataAccess
 		{
 			debugInternal += "| a1 ";
 			_connectionString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
+			Open();
+
 			debugInternal += "| a2 ";
 		}
 		#endregion
@@ -46,27 +65,33 @@ namespace MagicMaids.DataAccess
 		{
 			if (disposing)
 			{
-				if (_connection.State == System.Data.ConnectionState.Open)
+				if (_connection != null && _connection.State == System.Data.ConnectionState.Open)
 				{
 					_connection.Close();
 					_connection.Dispose();
-					_connection.ClearAllPoolsAsync();
+					if (!IsOdbcConnection)
+					{
+						((MySqlConnection)_connection).ClearAllPoolsAsync();
+					}
 				}
 			}
 		}
 
-		public MySqlConnection getConnection()
+		public DbConnection getConnection()
 		{
 			debugInternal += "| b ";
-			if (_connection != null && _connection.State == System.Data.ConnectionState.Broken)
-			{
-				_connection.Close();
-				_connection.Dispose();
-				_connection.ClearPoolAsync(_connection);
-			}
+			//if (_connection != null && _connection.State == System.Data.ConnectionState.Broken)
+			//{
+			//	_connection.Close();
+			//	_connection.Dispose();
+			//	if (!IsOdbcConnection)
+			//	{
+			//		((MySqlConnection)_connection).ClearPoolAsync((MySqlConnection)_connection);
+			//	}
+			//}
 
 			debugInternal += "| c ";
-			Open();
+			//Open();
 
 			debugInternal += "| d ";
 			while(_connection.State == System.Data.ConnectionState.Connecting)
@@ -83,7 +108,14 @@ namespace MagicMaids.DataAccess
 			if (_connection == null || !Connected)
 			{
 				debugInternal += "| h ";
-				_connection = new MySqlConnection(getConnectionString());
+				if (!IsOdbcConnection)
+				{
+					_connection = new MySqlConnection(getConnectionString());
+				}
+				else
+				{
+					_connection = new OdbcConnection(getConnectionString());
+				}
 				debugInternal += "| i ";
 				_connection.Open();	
 				debugInternal += "| j ";

@@ -43,7 +43,7 @@ namespace MagicMaids.Controllers
 				{
 					debug += "| 2 " + db.debugInternal;
 				
-					var connstring = db.getConnectionString();
+					var connstring = DBManager.getConnectionStringDisplay();
 					debug += "| 3 " + db.debugInternal;
 					TempData["connstring"] = connstring;
 
@@ -90,6 +90,12 @@ namespace MagicMaids.Controllers
 					TempData["results"] = output.ToString();
 				}
 
+			}
+			catch(OdbcException exception)
+			{
+				string json = JsonConvert.SerializeObject(ParseOdbcErrorCollection(exception), settings);
+				TempData["results"] = json;
+				LogHelper.LogRaven($"Error loading ODBC Connection Validator", nameof(ConnValidator), exception, null, null);
 			}
 			catch (Exception ex)
 			{

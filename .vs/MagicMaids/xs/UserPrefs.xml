@@ -1,29 +1,26 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/DBManager.cs">
     <Files>
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="835" Column="25" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1002" Column="1" />
       <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="518" Column="26" />
       <File FileName="MagicMaids/Views/Settings/_SettingsPostcodes.cshtml" Line="29" Column="11" />
-      <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="88" Column="1" />
-      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="111" Column="1" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="97" Column="32" />
-      <File FileName="MagicMaids/Web.config" Line="18" Column="75" />
+      <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="30" Column="4" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="74" Column="4" />
+      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="42" Column="1" />
+      <File FileName="MagicMaids/Web.config" Line="18" Column="33" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True" />
               <Node name="DataLayer" expanded="True">
-                <Node name="DataContext" expanded="True" />
-              </Node>
-              <Node name="Views" expanded="True">
-                <Node name="Settings" expanded="True" />
+                <Node name="DataContext" expanded="True">
+                  <Node name="DBManager.cs" selected="True" />
+                </Node>
               </Node>
               <Node name="Global.asax" expanded="True" />
-              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>
@@ -59,7 +56,9 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1002" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="330" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="235" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/DBManager.cs" relfile="MagicMaids/DataLayer/DataContext/DBManager.cs" line="61" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/DBManager.cs" relfile="MagicMaids/DataLayer/DataContext/DBManager.cs" line="76" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/PagesController.cs" relfile="MagicMaids/Controllers/PagesController.cs" line="42" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/DBManager.cs" relfile="MagicMaids/DataLayer/DataContext/DBManager.cs" line="99" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
