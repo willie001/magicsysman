@@ -88,6 +88,8 @@ namespace MagicMaids.Controllers
 					debug += "| 8 " + db.debugInternal;
 				
 					TempData["results"] = output.ToString();
+
+					db.Close();
 				}
 
 			}
@@ -101,10 +103,7 @@ namespace MagicMaids.Controllers
 			{
 				string json = JsonConvert.SerializeObject(ex, settings);
 				TempData["results"] = json;
-
-				//var result = Task.Run(() => {
-					LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
-				//});
+				LogHelper.LogRaven($"Error loading Connection Validator", nameof(ConnValidator), ex, null, null);
 			}
 			finally
 			{

@@ -49,7 +49,7 @@ namespace MagicMaids.DataAccess
 		{
 			debugInternal += "| a1 ";
 			_connectionString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
-			debugInternal += "| a3 ";
+			debugInternal += "| a2 ";
 		}
 		#endregion
 
@@ -118,6 +118,14 @@ namespace MagicMaids.DataAccess
 				debugInternal += "| i ";
 				_connection.Open();	
 				debugInternal += "| j ";
+			}
+		}
+
+		public void Close()
+		{
+			if (_connection != null || Connected)
+			{
+				Dispose();
 			}
 		}
 
