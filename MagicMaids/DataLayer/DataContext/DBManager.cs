@@ -49,9 +49,7 @@ namespace MagicMaids.DataAccess
 		{
 			debugInternal += "| a1 ";
 			_connectionString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
-			Open();
-
-			debugInternal += "| a2 ";
+			debugInternal += "| a3 ";
 		}
 		#endregion
 
@@ -63,6 +61,7 @@ namespace MagicMaids.DataAccess
 
 		public void Dispose(bool disposing)
 		{
+
 			if (disposing)
 			{
 				if (_connection != null && _connection.State == System.Data.ConnectionState.Open)
@@ -91,7 +90,7 @@ namespace MagicMaids.DataAccess
 			//}
 
 			debugInternal += "| c ";
-			//Open();
+			Open();
 
 			debugInternal += "| d ";
 			while(_connection.State == System.Data.ConnectionState.Connecting)
