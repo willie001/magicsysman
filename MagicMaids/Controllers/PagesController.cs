@@ -42,17 +42,7 @@ namespace MagicMaids.Controllers
 					var connstring = db.getConnectionString();
 					TempData["connstring"] = connstring;
 
-					string stm = "SELECT VERSION() as version";
-					var rows = db.getConnection().Query(stm).ToList();
-					string version = rows[0].version.ToString();
-					output.Append($"MySQL version : {version.ToString()}\n");
-
-					stm = "SELECT count(*) as testCount from systemsettings";
-					rows = db.getConnection().Query(stm).ToList();
-					string counter = rows[0].testCount.ToString();
-					output.Append($"Record Count : {counter}\n");
-
-					stm = @"SELECT IFNULL(usr,'All Users') user,IFNULL(hst,'All Hosts') host,COUNT(1) Connections 
+					string stm = @"SELECT IFNULL(usr,'All Users') user,IFNULL(hst,'All Hosts') host,COUNT(1) Connections 
 							FROM
 							(
 								SELECT user usr, LEFT(host, LOCATE(':', host) - 1) hst
@@ -61,8 +51,8 @@ namespace MagicMaids.Controllers
 							) A
 							WHERE hst = 'localhost'
 						 	GROUP BY usr,hst WITH ROLLUP";
-					
-					rows = db.getConnection().Query(stm).ToList();
+
+					var rows = db.getConnection().Query(stm).ToList();
 					string _connCounter = rows[0].Connections.ToString();
 					output.Append($"Open Connections : {_connCounter}\n");
 
@@ -71,6 +61,16 @@ namespace MagicMaids.Controllers
 					output.Append($"NodaTime UTC Now: {DateTimeWrapper.Now.ToString()}\n");
 					output.Append($"NodaTime LocalNow: {DateTimeWrapper.LocalNow.ToString()}\n");
 					output.Append($"NodaTime Now UTC: {DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString()}\n");
+
+					stm = "SELECT VERSION() as version";
+					rows = db.getConnection().Query(stm).ToList();
+					string version = rows[0].version.ToString();
+					output.Append($"MySQL version : {version.ToString()}\n");
+
+					stm = "SELECT count(*) as testCount from systemsettings";
+					rows = db.getConnection().Query(stm).ToList();
+					string counter = rows[0].testCount.ToString();
+					output.Append($"Record Count : {counter}\n");
 
 					TempData["results"] = output.ToString();
 				}

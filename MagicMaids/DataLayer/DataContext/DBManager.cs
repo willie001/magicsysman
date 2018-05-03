@@ -14,6 +14,16 @@ namespace MagicMaids.DataAccess
 		private MySqlConnection _connection;
 		#endregion
 
+		#region Properties
+		public bool Connected
+		{
+			get
+			{
+				return !(_connection.State == System.Data.ConnectionState.Closed) && _connection.Ping();
+			}
+		}
+		#endregion 
+
 		#region Constructor
 		public DBManager()
 		{
@@ -49,15 +59,7 @@ namespace MagicMaids.DataAccess
 				_connection.ClearPoolAsync(_connection);
 			}
 
-			if (_connection == null)
-			{
-				_connection = new MySqlConnection(getConnectionString());
-			}
-
-			if (_connection.State == System.Data.ConnectionState.Closed)
-			{
-				_connection.Open();	
-			}
+			Open();
 
 			while(_connection.State == System.Data.ConnectionState.Connecting)
 			{
@@ -65,6 +67,15 @@ namespace MagicMaids.DataAccess
 			}
 
 			return _connection;
+		}
+
+		public void Open()
+		{
+			if (_connection == null || !Connected)
+			{
+				_connection = new MySqlConnection(getConnectionString());
+				_connection.Open();	
+			}
 		}
 
 		public String getConnectionString()
