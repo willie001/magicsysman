@@ -57,10 +57,13 @@ namespace MagicMaids.Controllers
 					output.Append($"Open Connections : {_connCounter}\n");
 
 					output.Append("\n\n");
+
 					output.Append($"Date Time Now: {DateTime.Now.ToString()}\n");
 					output.Append($"NodaTime UTC Now: {DateTimeWrapper.Now.ToString()}\n");
 					output.Append($"NodaTime LocalNow: {DateTimeWrapper.LocalNow.ToString()}\n");
 					output.Append($"NodaTime Now UTC: {DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString()}\n");
+
+					output.Append("\n\n");
 
 					stm = "SELECT VERSION() as version";
 					rows = db.getConnection().Query(stm).ToList();
