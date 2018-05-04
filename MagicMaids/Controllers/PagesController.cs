@@ -85,8 +85,6 @@ namespace MagicMaids.Controllers
 					debug += "| 8 " + db.debugInternal;
 				
 					TempData["results"] = output.ToString();
-
-					db.Close();
 				}
 
 			}

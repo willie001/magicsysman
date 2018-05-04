@@ -1,14 +1,11 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Global.asax.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/DBManager.cs">
     <Files>
       <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="835" Column="25" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1002" Column="1" />
       <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="518" Column="26" />
       <File FileName="MagicMaids/Views/Settings/_SettingsPostcodes.cshtml" Line="29" Column="11" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="128" Column="15" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="57" Column="31" />
-      <File FileName="MagicMaids/Web.config" Line="12" Column="38" />
-      <File FileName="MagicMaids/Global.asax.cs" Line="29" Column="24" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,10 +13,13 @@
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
               <Node name="Controllers" expanded="True" />
-              <Node name="Views" expanded="True" />
-              <Node name="Global.asax" expanded="True">
-                <Node name="Global.asax.cs" selected="True" />
+              <Node name="DataLayer" expanded="True">
+                <Node name="DataContext" expanded="True">
+                  <Node name="DBManager.cs" selected="True" />
+                </Node>
               </Node>
+              <Node name="Views" expanded="True" />
+              <Node name="Global.asax" expanded="True" />
             </Node>
           </Node>
         </State>
