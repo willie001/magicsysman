@@ -103,7 +103,7 @@ namespace MagicMaids.Controllers
 				if (!String.IsNullOrWhiteSpace(debug))
 				{
 					string json = JsonConvert.SerializeObject(debug, settings);
-					TempData["results"] += "\n\nDebug Check : " + json;
+					//TempData["results"] += "\n\nDebug Check : " + json;
 				}
 
 				if (stopwatch != null && stopwatch.IsRunning)
