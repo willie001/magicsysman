@@ -147,10 +147,13 @@ namespace MagicMaids.Controllers
 			{
 				// create new item
 				_dataItem = new ClientDetailsVM();
+				_dataItem.Id = Guid.NewGuid().ToString();
 				_dataItem.IsNewItem = true;
 				_dataItem.IsActive = true;
-				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Physical };
-				_dataItem.PostalAddress = new UpdateAddressViewModel() { AddressType = AddressTypeSetting.Postal };
+				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Physical };
+				_dataItem.PostalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Postal };
+				_dataItem.PhysicalAddressRefId = _dataItem.PhysicalAddress.Id;
+				_dataItem.PostalAddressRefId = _dataItem.PostalAddress.Id;
 			}
 			else
 			{
@@ -329,9 +332,9 @@ namespace MagicMaids.Controllers
 
 							_objToUpdate = UpdateClient(_objToUpdate, dataItem);
 
-							db.getConnection().Update(dataItem);
-							db.getConnection().Update(dataItem.PhysicalAddress);
-							db.getConnection().Update(dataItem.PostalAddress);
+							db.getConnection().Update(_objToUpdate);
+							db.getConnection().Update(_objToUpdate.PhysicalAddress);
+							db.getConnection().Update(_objToUpdate.PostalAddress);
 						}
 					}
 
@@ -533,10 +536,24 @@ namespace MagicMaids.Controllers
 						IsActive = true,
 						Validated =  _hash,
 					};
+					_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
 					using (DBManager db = new DBManager())
 					{
-						var newId = db.getConnection().Insert(UpdateAuditTracking(_objToUpdate)); 
+						StringBuilder _sql = new StringBuilder();
+						_sql.Append("Insert into Methods (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+						_sql.Append("Details, Validated)");
+						_sql.Append(" values (");
+						_sql.Append($"'{_objToUpdate.Id}',");
+						_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
+						_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+						_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+						_sql.Append($"{_objToUpdate.IsActive},");
+						_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+						_sql.Append($"'{_objToUpdate.Details}',");
+						_sql.Append($"'{_objToUpdate.Validated}'");
+						_sql.Append(")");
+						db.getConnection().Execute(_sql.ToString());
 					}
 					return JsonSuccessResponse("Customer payment method saved successfully", _objToUpdate);
 
@@ -590,7 +607,8 @@ namespace MagicMaids.Controllers
 				{
 					using (DBManager db = new DBManager())
 					{
-						_objToUpdate = db.getConnection().Get<ClientMethod>(new { Id = dataItem.Id });
+						string sql = @"select * from Methods C  where C.ID = '" + dataItem.Id + "'";
+						_objToUpdate = db.getConnection().Query<ClientMethod>(sql).SingleOrDefault();
 
 						if (_objToUpdate == null)
 						{

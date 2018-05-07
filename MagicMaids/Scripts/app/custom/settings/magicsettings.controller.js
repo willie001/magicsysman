@@ -219,6 +219,7 @@
 	{
 		var vm = this;
 		vm.selectedFranchise = null;
+		vm.New = {};
 
 		$scope.$on('loadPostcode', loadPostCodes);
 
@@ -253,25 +254,11 @@
           };
 
 	      vm.addData = function() {
-	      	
-	        newItem = {
-	          SuburbName: '',
-	          PostCode: '',
-	          Zone: '',
-	          LinkedZones: '',
-	          IsNewItem: true,
-	          Id: ''
-	          
-	        };
+	      	vm.saveData(vm.New, '', true);
+          };
 
-            
-            if (vm != null && vm.listOfPostcodes != null)
-            {
-            	//https://stackoverflow.com/questions/21997042/adding-row-on-the-top-using-angular-xeditable
-            	vm.listOfPostcodes.unshift(newItem);
-            }
-            //console.log("<POSTCODE inserted> - " + angular.toJson(vm.listOfPostcodes));
-
+          vm.cancelAddData = function() {
+          	vm.New  = {};
           };
 
           vm.removeSuburb = function(index) {
@@ -281,11 +268,22 @@
           };
 
           vm.saveData = function(data, id, isNew) {
-			angular.extend(data, {
+           if (isNew)
+           {
+           		angular.extend(data, {
 					FranchiseId: vm.selectedFranchise,
 					Id: vm.nextNewGuid,
 					IsNewItem: isNew
 				});
+           }
+           else
+           {
+           		angular.extend(data, {
+					FranchiseId: vm.selectedFranchise,
+					Id: id,
+					IsNewItem: isNew
+				});
+           }
 
             //console.log("<POSTCODE data post> - " + angular.toJson(data));
        		return $http.post('/settings/savepostcodes', data).success(function (response) {
@@ -294,6 +292,7 @@
        			ShowUserMessages.show($scope, response, "Error updating suburb/zone.");
        			if (response.IsValid)
         		{	
+        			vm.New  = {};
            			loadPostCodes();
 				}
 

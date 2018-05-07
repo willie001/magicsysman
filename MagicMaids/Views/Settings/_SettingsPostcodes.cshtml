@@ -1,8 +1,34 @@
 ﻿<div ng-controller="PostCodesController as vmPost" class="container-fluid">
-	<div class="col-xs-12" style="padding-bottom: 5px">
-		<button type="button" class="btn btn-primary pull-right" ng-click="vmPost.addData()">
-			<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Suburb Zone
-		</button>
+	<div class="panel panel-flat" id="seachNewItem">
+		<div class="panel-heading bg-gray-dark">
+			<div class="panel-title">Add new suburb/zone:</div>
+        </div>
+		<div class="panel-wrapper">
+			<div class="panel-body bg-gray-dark" >
+				<div class="form-group">
+					<div class="col-xs-3">
+			         	<input type="text" placeholder="Suburb Name" class="form-control" name="SuburbName" ng-model="vmPost.New.SuburbName"/>
+			      	</div>	
+					<div class="col-xs-3">
+			         	<input type="text" placeholder="Post Code" class="form-control" name="PostCode" ng-model="vmPost.New.PostCode"/>
+			      	</div>	
+					<div class="col-xs-3">
+			         	<input type="text" placeholder="Zone" class="form-control" name="Zone" ng-model="vmPost.New.Zone"/>
+			      	</div>	
+					<div class="col-xs-3">
+			         	<input type="text" placeholder="Neighbour Zones" class="form-control" name="LinkedZones" ng-model="vmPost.New.LinkedZones"/>
+			      	</div>	<br/><br/>
+				</div>
+				<div class="form-group">
+		            <div class="col-xs-8">
+					</div>
+				    <div class="text-right col-xs-4">
+						<button type="submit" class="btn btn-default" ng-click="vmPost.cancelAddData()" >Clear</button>
+          				<button type="submit" class="btn btn-success" ng-click="vmPost.addData()">Add</button>
+					</div>		
+		        </div>	
+			</div>
+		</div>
 	</div>
 	<div ng-hide="vmPost.listOfPostcodes.length" class="EmptyResults p-lg text-center">
 		No suburb/zone found.  <a href="" ng-click="vmPost.addData()">Please add</a> a new suburb/zone.

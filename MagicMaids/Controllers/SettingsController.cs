@@ -226,7 +226,15 @@ namespace MagicMaids.Controllers
 
 			using (DBManager db = new DBManager())
 			{
-				string _where = (Helpers.IsValidGuid(FranchiseId)) ? "where FranchiseId = '" + FranchiseId.Value.ToString() + "'" : "";
+				string _where = "where FranchiseId ";
+				if (Helpers.IsValidGuid(FranchiseId))
+				{
+					_where += " = '" + FranchiseId.Value.ToString() + "'";
+				}
+				else
+				{
+					_where += " is null or LENGTH(FranchiseId)=0 or FranchiseId like '00000%'";
+				}
 				_entityList = db.getConnection().GetList<SuburbZone>(_where).ToList();
 			}
 			List<UpdateSuburbZonesVM> _editList = new List<UpdateSuburbZonesVM>();
