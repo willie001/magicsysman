@@ -483,7 +483,7 @@ namespace MagicMaids.Controllers
 
 			using (DBManager db = new DBManager())
 			{
-				_entityList = db.getConnection().Query<ClientMethod>($"Select * from Methods where Validated = '{_hash}' order by CreatedAt").ToList();
+				_entityList = db.getConnection().Query<ClientMethod>($"Select * from Methods where Validated = '{_hash}' order by CreatedAt desc").ToList();
 			}
 
 			List<ClientPaymentMethodVM> _editList = new List<ClientPaymentMethodVM>();
@@ -774,16 +774,38 @@ namespace MagicMaids.Controllers
 							_objToUpdate.StartDate = formValues.StartDate;
 							_objToUpdate.EndDate = formValues.EndDate;
 
-							var newId = db.getConnection().Insert(UpdateAuditTracking(_objToUpdate));
+							_objToUpdate = UpdateAuditTracking(_objToUpdate);
+
+							StringBuilder _sql = new StringBuilder();
+							_sql.Append("Insert into ClientLeave (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("ClientRefId, StartDate, EndDate)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_objToUpdate.Id}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+							_sql.Append($"{_objToUpdate.IsActive},");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+							_sql.Append($"'{_objToUpdate.ClientRefId}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.StartDate)}',");
+							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.EndDate)}'");
+							_sql.Append(")");
+							db.getConnection().Execute(_sql.ToString());
 						}
 						else
 						{
-							_objToUpdate = db.getConnection().Get<ClientLeave>(new {Id = _id});
+							string sql = @"select * from ClientLeave C where C.ID = '" + _id + "'";
+
+							_objToUpdate = db.getConnection().Query<ClientLeave>(sql).SingleOrDefault();
+
 							if (_objToUpdate == null)
 							{
 								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
 								return JsonFormResponse();
 							}
+
+							_objToUpdate.StartDate = formValues.StartDate;
+							_objToUpdate.EndDate = formValues.EndDate;
 
 							db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
 						}
@@ -850,7 +872,7 @@ namespace MagicMaids.Controllers
 			{
 				using (DBManager db = new DBManager())
 				{
-					db.getConnection().Delete<ClientLeave>(new {Id = id.Value});
+					db.getConnection().Delete<ClientLeave>(id.Value);
 					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id=" + id.Value);
 				}
 			}

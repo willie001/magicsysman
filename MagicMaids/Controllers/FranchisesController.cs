@@ -78,6 +78,21 @@ namespace MagicMaids.Controllers
 
 			IAppCache cache = new CachingService();
 			_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
+
+			if (_listFranchises == null || _listFranchises.Count == 0)
+			{
+				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				log.Log(LogLevel.Warn, "Error loading active franchises - Franchise cache will be reset and attempted again", nameof(GetActiveFranchises));
+
+				cache.Remove("Active_Franchises");
+				_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
+			}
+
+			if (_listFranchises == null || _listFranchises.Count == 0)
+			{
+				throw new ApplicationException($"Active franchise list could not be loaded.");
+			}
+
 			return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
@@ -86,13 +101,11 @@ namespace MagicMaids.Controllers
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 			List<Franchise> _data = new List<Franchise>();
 
-
 			using (DBManager db = new DBManager())
 			{
-				_data = db.getConnection().GetList<Franchise>(new {IsActive = true}).OrderByDescending(p => p.Name).ToList();
+				_data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
 
 				List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
-
 				foreach (Franchise _item in _data)
 				{
 					var _vm = new FranchiseSelectViewModel();
