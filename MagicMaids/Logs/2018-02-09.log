@@ -1,2 +1,0 @@
-2018-02-09 12:46:49.6331 FATAL Database connection not valid!!!: OOPS  System.Exception: OOPS
-  at MagicMaids.DataAccess.MagicMaidsInitialiser.CheckConnection (System.Data.Entity.DbContext context) [0x00002] in /Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/MagicMaidsInitialiser.cs:54 
