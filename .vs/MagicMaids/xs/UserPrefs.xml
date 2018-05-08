@@ -1,8 +1,11 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/ClientsController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="879" Column="24" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="401" Column="1" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="90" Column="27" />
+      <File FileName="MagicMaids/Controllers/LogEntriesController.cs" Line="16" Column="33" />
+      <File FileName="MagicMaids/NLog.config" Line="53" Column="50" />
+      <File FileName="MagicMaids/Web.config" Line="28" Column="59" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
