@@ -5,7 +5,6 @@
 
 //using MagicMaids.EntityModels;
 //using MySql.Data.MySqlClient;
-//using NLog;
 
 //#endregion
 

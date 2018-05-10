@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Web;
-using NLog;
 using NodaTime;
 using NodaTime.Extensions;
 

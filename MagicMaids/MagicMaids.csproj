@@ -289,6 +289,9 @@
     <Reference Include="MySql.Data">
       <HintPath>bin\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>bin\MySql.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />

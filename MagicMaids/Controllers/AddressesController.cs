@@ -5,8 +5,6 @@ using System.Web.Mvc;
 using LazyCache;
 using MagicMaids.DataAccess;
 using MagicMaids.EntityModels;
-
-using NLog;
 #endregion
 
 namespace MagicMaids.Controllers

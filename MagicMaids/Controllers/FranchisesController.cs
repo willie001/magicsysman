@@ -8,8 +8,6 @@ using MagicMaids.EntityModels ;
 using MagicMaids.ViewModels; 
 using MagicMaids.Validators;
 
-using NLog;
-
 using FluentValidation.Mvc;
 using MagicMaids.DataAccess;
 using LazyCache;
@@ -81,8 +79,8 @@ namespace MagicMaids.Controllers
 
 			if (_listFranchises == null || _listFranchises.Count == 0)
 			{
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Warn, "Error loading active franchises - Franchise cache will be reset and attempted again", nameof(GetActiveFranchises));
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Warning, "Error loading active franchises - Franchise cache will be reset and attempted again", nameof(GetActiveFranchises));
 
 				cache.Remove("Active_Franchises");
 				_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
@@ -400,14 +398,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving franchise", ex));
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving franchise", nameof(SaveFranchise), ex, dataItem, Helpers.ParseValidationErrors(ex));
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, "Error saving franchise", nameof(SaveFranchise), ex, dataItem, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveFranchise ), dataItem);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveFranchise ), dataItem);
 			}
 
 			return JsonFormResponse();
@@ -560,14 +558,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving franchise settings", ex));
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving franchise settings", nameof(SaveFranchise), ex, dataItem, Helpers.ParseValidationErrors(ex));
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, "Error saving franchise settings", nameof(SaveFranchise), ex, dataItem, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveFranchiseSettings), dataItem);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveFranchiseSettings), dataItem);
 			}
 
 			return JsonFormResponse();

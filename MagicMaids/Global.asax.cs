@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
-using NLog;
 using FluentValidation.Mvc;
 using FluentValidation;
 using AutoMapper;
@@ -113,15 +112,15 @@ namespace MagicMaids
 
 				//}
 				//var logger = LogManager.GetCurrentClassLogger();
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
+				LogHelper log = new LogHelper();
 				if (!String.IsNullOrWhiteSpace(currentController) )
 				{
 				//	logger.Log(LogLevel.Error, exception, $"Exception from {currentController}.{currentAction}");
-					log.Log(LogLevel.Error, $"Exception from {currentController}.{currentAction}", "", exception, null);
+					log.Log(LogHelper.LogLevels.Error, $"Exception from {currentController}.{currentAction}", "", exception, null);
 				}
 				else
 				{
-					log.Log(LogLevel.Error, $"Unhandled Exception", "", exception, null);
+					log.Log(LogHelper.LogLevels.Error, $"Unhandled Exception", "", exception, null);
 				//	logger.Log(LogLevel.Error, exception, $"Unhandled Exception");
 				}
 			}

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Dapper;
+using MagicMaids.DataAccess;
 using Newtonsoft.Json;
-using NLog;
-using NodaTime;
 using SharpRaven;
 using SharpRaven.Data;
 
@@ -20,11 +21,16 @@ namespace MagicMaids
 
 	public class LogHelper
 	{
-		private Logger internalLogger;
-
-		public LogHelper(Logger logger)
+		public enum LogLevels
 		{
-			internalLogger = logger;
+			Info,
+			Warning,
+			Debug,
+			Error
+		};
+
+		public LogHelper()
+		{
 		}
 
 		private static RavenClient LogClient
@@ -130,29 +136,81 @@ namespace MagicMaids
 			}
 		}
 
-		public void Log(LogLevel logLevel, String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
+		public void Log(LogLevels logLevel, String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
 			var result = Task.Run(() => {
 				return LogRaven(customMessage, callingMethod, ex, classInstance, validationErrors);
 			});
 
-			if (internalLogger == null)
-				internalLogger = LogManager.GetCurrentClassLogger();
-			
-			LogEventInfo eventInfo = new LogEventInfo(logLevel, internalLogger.Name, customMessage);
+			string _currentUser = "Not Set";
+			string _url = "";
+			string _server = "";
+			string _remote = "";
+			string _mvcAction = "";
+			string _requestUrl = "";
+			string _logger = "";
+			string _callSite = callingMethod;
+			string _event = "";
+			string _innerError = "";
+			string _error = "";
+			string _object = "";
+			//<parameter name="@Url" layout="${aspnet-request:serverVariable=HTTP_URL}" />
+			//< parameter name = "@ServerAddress" layout = "${aspnet-request:serverVariable=LOCAL_ADDR}" />
+				 //< parameter name = "@RemoteAddress" layout = "${aspnet-request:serverVariable=REMOTE_ADDR}:${aspnet-request:serverVariable=REMOTE_PORT}" />
+					//< parameter name = "@MvcAction" layout = "${aspnet-MVC-Action}" />
+
+			if (HttpContext.Current != null)
+			{
+				_currentUser = HttpContext.Current.User?.Identity?.Name;
+				_requestUrl = HttpContext.Current.Request.RawUrl;
+	
+			}
+
 			if (ex != null)
-				eventInfo.Exception = ex;
+			{
+				_error = ex.Message;
+
+				if (ex.InnerException!= null)
+				{
+					_innerError = ex.InnerException.Message;
+				}
+			}	
 
 			if (classInstance != null)
 			{
-				eventInfo.Properties["ObjectContextData"] = LogHelper.GetObjectData(classInstance);
+				_object = LogHelper.GetObjectData(classInstance);
 				if (!String.IsNullOrWhiteSpace(validationErrors))
-					eventInfo.Properties["ObjectContextData"] += $"; {validationErrors}";
+					_object += $"; {validationErrors}";
 			}
 
-			eventInfo.Properties["CustomCallSite"] = callingMethod;
-
-			internalLogger.Log(eventInfo);
+			StringBuilder _sql = new StringBuilder();
+			_sql.Append(@"insert into Logs (
+			      LoggedDate, Level, Message, UserName,
+			      URL, ServerAddress, RemoteAddress,
+				  RequestUrl, MvcAction,
+			      Logger, CallSite, 
+			      EventContext, InnerErrorMessage,
+				  Exception, ObjectContext
+			    ) values (");
+			_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(DateTimeWrapper.Now.ToDateTimeUtc())}',");
+			_sql.Append($"'{logLevel.ToString()}',");
+			_sql.Append($"'{customMessage}',");
+			_sql.Append($"'{_currentUser}',");
+			_sql.Append($"'{_url}',");
+			_sql.Append($"'{_server}',");
+			_sql.Append($"'{_remote}',");
+			_sql.Append($"'{_requestUrl}',");
+			_sql.Append($"'{_mvcAction}',");
+			_sql.Append($"'{_logger}',");
+			_sql.Append($"'{_callSite}',");
+			_sql.Append($"'{_event}',");
+			_sql.Append($"'{_innerError}',");
+			_sql.Append($"'{_error}',");
+			_sql.Append($"'{_object}')");
+			using (DBManager db = new DBManager())
+			{
+				db.getConnection().Execute(_sql.ToString());
+			}
 		}
 
 		public static string GetObjectData(object instanceClass)

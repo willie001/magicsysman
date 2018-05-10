@@ -12,7 +12,6 @@ using MagicMaids.DataAccess;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
 
-using NLog;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -105,14 +104,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, $"Error performing search ({ex.Message})");
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error performing search", nameof(SearchController), ex, null);
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, "Error performing search", nameof(SearchController), ex, null);
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SearchController), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SearchController), null);
 			}
 
 			return JsonFormResponse();

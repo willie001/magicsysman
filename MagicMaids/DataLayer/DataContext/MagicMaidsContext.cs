@@ -4,7 +4,6 @@
 //using System.Web;
 //using MagicMaids.EntityModels;
 //using MySql.Data.MySqlClient;
-//using NLog;
 //#endregion
 
 //namespace MagicMaids.DataAccess

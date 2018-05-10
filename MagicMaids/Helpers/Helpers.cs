@@ -7,8 +7,6 @@ using System.Web.Mvc;
 
 using MagicMaids.ViewModels;
 
-using NLog;
-
 using System.Text;
 using System.Collections;
 using System.Configuration;
@@ -75,7 +73,7 @@ namespace MagicMaids
 			return $"Validation failed for one or more entities: {results}";
 		}
 
-		public static void LogFormValidationErrors(Logger logger, ModelStateDictionary modelState, string callingMethod, Object classInstance = null)
+		public static void LogFormValidationErrors(ModelStateDictionary modelState, string callingMethod, Object classInstance = null)
 		{
 			var enableValidationLogging = System.Configuration.ConfigurationManager.AppSettings["EnableLoggingFormValidationErrors"];
 			if (String.IsNullOrWhiteSpace(enableValidationLogging))
@@ -109,8 +107,8 @@ namespace MagicMaids
 						_errors.Append($"{_item.Key}: {_item.Message}");
 
 					}
-					LogHelper _logger = new LogHelper(logger);
-					_logger.Log(NLog.LogLevel.Warn, "Form Validation Errors: " + _errors.ToString(), callingMethod, null, classInstance);
+					LogHelper _logger = new LogHelper();
+					_logger.Log(LogHelper.LogLevels.Warning, "Form Validation Errors: " + _errors.ToString(), callingMethod, null, classInstance);
 				}
 			}
 		}

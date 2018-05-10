@@ -8,8 +8,6 @@ using MagicMaids.DataAccess;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
 
-using NLog;
-
 using System.Globalization;
 using Newtonsoft.Json;
 using MagicMaids.Validators;
@@ -189,8 +187,8 @@ namespace MagicMaids.Controllers
 						{
 							ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving setting", ex));
 
-							LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-							log.Log(LogLevel.Error, "Error saving setting", nameof(SaveSettings), ex, setting, Helpers.ParseValidationErrors(ex));
+							LogHelper log = new LogHelper();
+							log.Log(LogHelper.LogLevels.Error, "Error saving setting", nameof(SaveSettings), ex, setting, Helpers.ParseValidationErrors(ex));
 						}
 					}
 				}
@@ -199,7 +197,7 @@ namespace MagicMaids.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveSettings), setting);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveSettings), setting);
 			}
 
 			return JsonFormResponse();
@@ -360,14 +358,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(SavePostCodes), ex, formValues, Helpers.ParseValidationErrors(ex));
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, $"Error saving {_objDesc.ToLower()}", nameof(SavePostCodes), ex, formValues, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SavePostCodes), formValues);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SavePostCodes), formValues);
 			}
 
 			return JsonFormResponse();
@@ -588,14 +586,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(Rate), ex, formValues, Helpers.ParseValidationErrors(ex));
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, $"Error saving {_objDesc.ToLower()}", nameof(Rate), ex, formValues, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(Rate), formValues);
+				Helpers.LogFormValidationErrors(ModelState, nameof(Rate), formValues);
 			}
 
 			return JsonFormResponse();

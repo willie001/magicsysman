@@ -7,7 +7,6 @@ using System.Web.Mvc;
 using MagicMaids.EntityModels;
 using MagicMaids.DataAccess;
 
-using NLog;
 using System.Data;
 using MySql.Data.MySqlClient;
 using Dapper;
@@ -69,8 +68,8 @@ namespace MagicMaids.Controllers
 			}
 			catch(Exception ex)
 			{
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, $"Error loading log entries", nameof(LogEntries), ex, null);
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, $"Error loading log entries", nameof(LogEntries), ex, null);
 			}
 
 			return new JsonNetResult() { Data = new { list = _vmList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -129,13 +128,13 @@ namespace MagicMaids.Controllers
 			{
 				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
 
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(LogEntry), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(LogEntry), null);
 			}
 
 			return JsonFormResponse();
@@ -159,13 +158,13 @@ namespace MagicMaids.Controllers
 			{
 				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
 
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(LogEntry), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(LogEntry), null);
 			}
 
 			return JsonFormResponse();

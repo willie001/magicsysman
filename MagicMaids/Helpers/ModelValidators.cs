@@ -7,7 +7,6 @@ using MagicMaids.ViewModels;
 using FluentValidation;
 using System.Collections.Generic;
 using System.Linq;
-using NLog;
 #endregion
 namespace MagicMaids.Validators
 {
@@ -431,8 +430,8 @@ namespace MagicMaids.Validators
 			}
 			catch(Exception ex)
 			{
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, "Error validating credit card expiry date:", nameof(IsExpiryValid), ex, c);
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, "Error validating credit card expiry date:", nameof(IsExpiryValid), ex, c);
 
 				return false;
 			}

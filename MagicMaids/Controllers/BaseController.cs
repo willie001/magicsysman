@@ -13,8 +13,6 @@ using MagicMaids.DataAccess;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
 
-using NLog;
-
 #endregion
 
 namespace MagicMaids.Controllers
@@ -27,7 +25,6 @@ namespace MagicMaids.Controllers
 		#region Constructor
 		public BaseController()
 		{
-			Log = LogManager.GetLogger(GetType().FullName);
 		}
 
         protected override void Dispose(bool disposing)
@@ -37,7 +34,6 @@ namespace MagicMaids.Controllers
         #endregion
 
         #region Properties, Protected
-        protected Logger Log { get; private set; }
 		#endregion
 
 		#region Methods, Protected

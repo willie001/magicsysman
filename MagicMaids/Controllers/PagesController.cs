@@ -11,7 +11,6 @@ using Dapper;
 
 using System.Linq;
 using System.Data.Odbc;
-using NLog;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -100,22 +99,23 @@ namespace MagicMaids.Controllers
 				TempData["timer"] = stopwatch.ElapsedMilliseconds.ToString() + " milliseconds";
 			}
 
-			try
-			{
-				TempData["debugger"] = "-----------------------\nDebug Test\n-----------------------";
-				LogManager.ThrowExceptions = true;
-				Logger logger = LogManager.GetCurrentClassLogger();
-				var _date = DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString();
-				LogEventInfo eventInfo = new LogEventInfo(LogLevel.Info, "Debug Logger Check", $"Testing the logger [{_date}]");
-				logger.Log(eventInfo);
-				LogManager.Flush();
-				TempData["debugger"] += $"\nLog Event completed [{_date}]";
-			}
-			catch(Exception ex)
-			{
-				string json = JsonConvert.SerializeObject(ex, settings);
-				TempData["debugger"] += json;
-			}
+			TempData["debugger"] = "-----------------------\n";
+			//try
+			//{
+			//	TempData["debugger"] = "-----------------------\nDebug Test\n-----------------------";
+			//	LogManager.ThrowExceptions = true;
+			//	Logger logger = LogManager.GetCurrentClassLogger();
+			//	var _date = DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString();
+			//	LogEventInfo eventInfo = new LogEventInfo(LogLevel.Info, "Debug Logger Check", $"Testing the logger [{_date}]");
+			//	logger.Log(eventInfo);
+			//	LogManager.Flush();
+			//	TempData["debugger"] += $"\nLog Event completed [{_date}]";
+			//}
+			//catch(Exception ex)
+			//{
+			//	string json = JsonConvert.SerializeObject(ex, settings);
+			//	TempData["debugger"] += json;
+			//}
 
 			return View();
 		}

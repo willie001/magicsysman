@@ -11,8 +11,6 @@ using System.Web.Mvc;
 
 using FluentValidation.Mvc;
 
-using NLog;
-
 using AutoMapper;
 using System.Data;
 using Dapper;
@@ -449,14 +447,14 @@ namespace MagicMaids.Controllers
 					//_msg = new InfoViewModel("Error saving cleaner", ex);
 					ModelState.AddModelError(string.Empty, $"Error saving cleaner ({ex.Message})");
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving cleaner", nameof(SaveCleanerDetails), ex, dataItem);
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, "Error saving cleaner", nameof(SaveCleanerDetails), ex, dataItem);
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveCleanerDetails), dataItem);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveCleanerDetails), dataItem);
 			}
 
 			return JsonFormResponse();
@@ -827,14 +825,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving team member", ex));
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving team member", nameof(SaveCleanerDetails), ex, dataItem, Helpers.ParseValidationErrors(ex));
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, "Error saving team member", nameof(SaveCleanerDetails), ex, dataItem, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveTeamMember), dataItem);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveTeamMember), dataItem);
 			}
 
 			return JsonFormResponse();
@@ -889,13 +887,13 @@ namespace MagicMaids.Controllers
 			{
 				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
 
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(CleanerTeam), ex, null);
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(CleanerTeam), ex, null);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(CleanerTeam), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(CleanerTeam), null);
 			}
 
 			return JsonFormResponse();
@@ -954,13 +952,13 @@ namespace MagicMaids.Controllers
 			{
 				ModelState.AddModelError(string.Empty, $"Error performing cleaner search ({ex.Message})");
 
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, "Error performing cleaner search", nameof(SearchCleaner), ex, null);
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, "Error performing cleaner search", nameof(SearchCleaner), ex, null);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SearchCleaner), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SearchCleaner), null);
 			}
 
 			return JsonFormResponse();
@@ -1145,14 +1143,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving team roster", ex));
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, "Error saving team roster", nameof(SaveCleanerRoster), ex, dataList, Helpers.ParseValidationErrors(ex));
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, "Error saving team roster", nameof(SaveCleanerRoster), ex, dataList, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveCleanerRoster), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveCleanerRoster), null);
 			}
 
 			return JsonFormResponse();
@@ -1264,14 +1262,14 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
 
-					LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-					log.Log(LogLevel.Error, $"Error saving {_objDesc.ToLower()}", nameof(SaveLeaveDates ), ex, formValues, Helpers.ParseValidationErrors(ex));
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, $"Error saving {_objDesc.ToLower()}", nameof(SaveLeaveDates ), ex, formValues, Helpers.ParseValidationErrors(ex));
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(SaveLeaveDates), formValues);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveLeaveDates), formValues);
 			}
 
 			return JsonFormResponse();
@@ -1300,13 +1298,13 @@ namespace MagicMaids.Controllers
 			{
 				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
 
-				LogHelper log = new LogHelper(LogManager.GetCurrentClassLogger());
-				log.Log(LogLevel.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(LogManager.GetCurrentClassLogger(), ModelState, nameof(LogEntry), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(LogEntry), null);
 			}
 
 			return JsonFormResponse();
