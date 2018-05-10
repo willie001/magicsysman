@@ -199,6 +199,96 @@
     <Reference Include="NLog.Web">
       <HintPath>..\packages\NLog.Web.4.5.3\lib\net35\NLog.Web.dll</HintPath>
     </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>bin\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>bin\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>bin\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper.SimpleCRUD">
+      <HintPath>bin\Dapper.SimpleCRUD.dll</HintPath>
+    </Reference>
+    <Reference Include="DelegateDecompiler">
+      <HintPath>bin\DelegateDecompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation">
+      <HintPath>bin\FluentValidation.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentValidation.Mvc">
+      <HintPath>bin\FluentValidation.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.AspNet">
+      <HintPath>bin\Glimpse.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Core">
+      <HintPath>bin\Glimpse.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Glimpse.Mvc5">
+      <HintPath>bin\Glimpse.Mvc5.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>bin\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="LazyCache">
+      <HintPath>bin\LazyCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Reflection">
+      <HintPath>bin\Mono.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>bin\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog">
+      <HintPath>bin\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Extended">
+      <HintPath>bin\NLog.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog.Web">
+      <HintPath>bin\NLog.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime">
+      <HintPath>bin\NodaTime.dll</HintPath>
+    </Reference>
+    <Reference Include="NodaTime.Serialization.JsonNet">
+      <HintPath>bin\NodaTime.Serialization.JsonNet.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpRaven">
+      <HintPath>bin\SharpRaven.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple">
+      <HintPath>bin\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>bin\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>bin\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="Version">
+      <HintPath>bin\Version.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>bin\WebActivator.dll</HintPath>
+    </Reference>
+    <Reference Include="WebActivatorEx">
+      <HintPath>bin\WebActivatorEx.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <HintPath>bin\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.WebData">
+      <HintPath>bin\WebMatrix.WebData.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>bin\MySql.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />

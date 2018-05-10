@@ -11,6 +11,7 @@ using Dapper;
 
 using System.Linq;
 using System.Data.Odbc;
+using NLog;
 #endregion
 
 namespace MagicMaids.Controllers
@@ -29,19 +30,15 @@ namespace MagicMaids.Controllers
 			};
 
 			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-			string debug = "";
 			try
 			{
 				stopwatch.Start();
 				StringBuilder output = new StringBuilder();
 
-				debug = "| 1 ";
 				using (DBManager db = new DBManager())
 				{
-					debug += "| 2 " + db.debugInternal;
 				
 					var connstring = DBManager.getConnectionStringDisplay();
-					debug += "| 3 " + db.debugInternal;
 					TempData["connstring"] = connstring;
 
 					string stm = @"SELECT IFNULL(usr,'All Users') user,IFNULL(hst,'All Hosts') host,COUNT(1) Connections 
@@ -55,10 +52,8 @@ namespace MagicMaids.Controllers
 						 	GROUP BY usr,hst WITH ROLLUP";
 
 					var rows = db.getConnection().Query(stm).ToList();
-					debug += "| 4 " + db.debugInternal;
 				
 					string _connCounter = (rows.Count > 0) ? rows[0].Connections.ToString() : "0";
-					debug += "| 5 " + db.debugInternal;
 				
 					output.Append($"Open Connections : {_connCounter}\n");
 
@@ -68,7 +63,6 @@ namespace MagicMaids.Controllers
 					output.Append($"NodaTime UTC Now: {DateTimeWrapper.Now.ToString()}\n");
 					output.Append($"NodaTime LocalNow: {DateTimeWrapper.LocalNow.ToString()}\n");
 					output.Append($"NodaTime Now UTC: {DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString()}\n");
-					debug += "| 6 " + db.debugInternal;
 				
 					output.Append("\n\n");
 
@@ -76,13 +70,11 @@ namespace MagicMaids.Controllers
 					rows = db.getConnection().Query(stm).ToList();
 					string version = rows[0].version.ToString();
 					output.Append($"MySQL version : {version.ToString()}\n");
-					debug += "| 7 " + db.debugInternal;
 				
 					stm = "SELECT count(*) as testCount from systemsettings";
 					rows = db.getConnection().Query(stm).ToList();
 					string counter = rows[0].testCount.ToString();
 					output.Append($"Record Count : {counter}\n");
-					debug += "| 8 " + db.debugInternal;
 				
 					TempData["results"] = output.ToString();
 				}
@@ -100,12 +92,6 @@ namespace MagicMaids.Controllers
 			}
 			finally
 			{
-				if (!String.IsNullOrWhiteSpace(debug))
-				{
-					string json = JsonConvert.SerializeObject(debug, settings);
-					//TempData["results"] += "\n\nDebug Check : " + json;
-				}
-
 				if (stopwatch != null && stopwatch.IsRunning)
 				{
 					stopwatch.Stop();
@@ -114,6 +100,21 @@ namespace MagicMaids.Controllers
 				TempData["timer"] = stopwatch.ElapsedMilliseconds.ToString() + " milliseconds";
 			}
 
+			try
+			{
+				TempData["debugger"] = "-----------------------\nDebug Test\n-----------------------";
+				LogManager.ThrowExceptions = true;
+				Logger logger = LogManager.GetCurrentClassLogger();
+				LogEventInfo eventInfo = new LogEventInfo(LogLevel.Info, "Debug Logger Check", "Testing the logger");
+				logger.Log(eventInfo);
+				LogManager.Flush();
+				TempData["debugger"] += "\nLog Event completed";
+			}
+			catch(Exception ex)
+			{
+				string json = JsonConvert.SerializeObject(ex, settings);
+				TempData["debugger"] += json;
+			}
 
 			return View();
 		}

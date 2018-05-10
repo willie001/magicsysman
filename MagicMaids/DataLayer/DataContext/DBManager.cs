@@ -47,9 +47,7 @@ namespace MagicMaids.DataAccess
 		#region Constructor
 		public DBManager()
 		{
-			debugInternal += "| a1 ";
 			_connectionString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
-			debugInternal += "| a2 ";
 		}
 		#endregion
 
@@ -78,7 +76,6 @@ namespace MagicMaids.DataAccess
 
 		public DbConnection getConnection()
 		{
-			debugInternal += "| b ";
 			//if (_connection != null && _connection.State == System.Data.ConnectionState.Broken)
 			//{
 			//	_connection.Close();
@@ -89,16 +86,12 @@ namespace MagicMaids.DataAccess
 			//	}
 			//}
 
-			debugInternal += "| c ";
 			Open();
-
-			debugInternal += "| d ";
 			while(_connection.State == System.Data.ConnectionState.Connecting)
 			{
 				// do nothing while connecting
 			}
 
-			debugInternal += "| e ";
 			return _connection;
 		}
 
@@ -115,9 +108,7 @@ namespace MagicMaids.DataAccess
 				{
 					_connection = new OdbcConnection(getConnectionString());
 				}
-				debugInternal += "| i ";
 				_connection.Open();	
-				debugInternal += "| j ";
 			}
 		}
 
