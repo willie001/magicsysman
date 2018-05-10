@@ -1,24 +1,21 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/LogHelpers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/FranchisesController.cs">
     <Files>
-      <File FileName="MagicMaids/NLog.config" Line="76" Column="6" />
       <File FileName="MagicMaids/Controllers/SearchController.cs" Line="114" Column="37" />
-      <File FileName="MagicMaids/Web.config" Line="20" Column="5" />
+      <File FileName="MagicMaids/Web.config" Line="127" Column="64" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="128" Column="24" />
-      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="208" Column="32" />
+      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="149" Column="1" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="118" Column="31" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="DataLayer" expanded="True" />
-              <Node name="Helpers" expanded="True">
-                <Node name="LogHelpers.cs" selected="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="FranchisesController.cs" selected="True" />
               </Node>
-              <Node name="Views" expanded="True">
-                <Node name="Settings" expanded="True" />
-              </Node>
+              <Node name="Views" expanded="True" />
               <Node name="Global.asax" expanded="True" />
             </Node>
           </Node>
@@ -30,7 +27,7 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SearchController.cs" relfile="MagicMaids/Controllers/SearchController.cs" line="38" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="138" column="54" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="145" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

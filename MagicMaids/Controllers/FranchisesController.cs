@@ -99,19 +99,34 @@ namespace MagicMaids.Controllers
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 			List<Franchise> _data = new List<Franchise>();
 
-			using (DBManager db = new DBManager())
+			String _debug = "| 1 ";
+			try
 			{
-				_data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
-
-				List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
-				foreach (Franchise _item in _data)
+				using (DBManager db = new DBManager())
 				{
-					var _vm = new FranchiseSelectViewModel();
-					_vm.PopulateVM(_item, _settings);
+					_debug += "| 2 ";
+					_data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
+					_debug += "| 3 ";
+					List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
+					_debug += "| 4 ";
+					foreach (Franchise _item in _data)
+					{
+						var _vm = new FranchiseSelectViewModel();
+						_debug += "| 5 ";
+						_vm.PopulateVM(_item, _settings);
+						_debug += "| 6 ";
 					_listFranchises.Add(_vm);
-				}
+					}
+				}	
+			}
+			catch(Exception ex)
+			{
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, "There has been an error when loading the active franchises", nameof(GetActiveFranchisesPrivate), ex, _debug, null);
 			}
 
+			_debug += "| 7 ";
+					
 			return _listFranchises;
 		}
 
