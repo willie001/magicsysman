@@ -73,44 +73,23 @@ namespace MagicMaids.Controllers
 		public JsonNetResult GetActiveFranchises()
 		{
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
-			try
-			{
-				using (DBManager db = new DBManager())
-				{
-					var _data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
-					List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
-					foreach (Franchise _item in _data)
-					{
-						var _vm = new FranchiseSelectViewModel();
-						_vm.PopulateVM(_item, _settings);
-					    _listFranchises.Add(_vm);
-					}
-				}	
-			}
-			catch(Exception ex)
-			{
-					LogHelper log = new LogHelper();
-					log.Log(LogHelper.LogLevels.Warning, "Error loading active franchises - " + ex.Message, nameof(GetActiveFranchises));
 
+			IAppCache cache = new CachingService();
+			_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
+
+			if (_listFranchises == null || _listFranchises.Count == 0)
+			{
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Warning, "Error loading active franchises - Franchise cache will be reset and attempted again", nameof(GetActiveFranchises));
+
+				cache.Remove("Active_Franchises");
+				_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
 			}
 
-
-			//IAppCache cache = new CachingService();
-			//_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
-
-			//if (_listFranchises == null || _listFranchises.Count == 0)
-			//{
-			//	LogHelper log = new LogHelper();
-			//	log.Log(LogHelper.LogLevels.Warning, "Error loading active franchises - Franchise cache will be reset and attempted again", nameof(GetActiveFranchises));
-
-			//	cache.Remove("Active_Franchises");
-			//	_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
-			//}
-
-			//if (_listFranchises == null || _listFranchises.Count == 0)
-			//{
-			//	throw new ApplicationException($"Active franchise list could not be loaded.");
-			//}
+			if (_listFranchises == null || _listFranchises.Count == 0)
+			{
+				throw new ApplicationException($"Active franchise list could not be loaded.");
+			}
 
 			return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
@@ -120,32 +99,20 @@ namespace MagicMaids.Controllers
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 			List<Franchise> _data = new List<Franchise>();
 
-			String _debug = "| 1 ";
-			try
+			using (DBManager db = new DBManager())
 			{
-				using (DBManager db = new DBManager())
+				StringBuilder sql = new StringBuilder(@"select * from Franchises C where IsActive = true");
+
+				_data = db.getConnection().Query<Franchise>(sql.ToString()).ToList();
+
+				List<SystemSetting> _settings = db.getConnection().Query<SystemSetting>("Select * from SystemSettings where IsActive = true").ToList();
+				foreach (Franchise _item in _data)
 				{
-					_debug += "| 2 ";
-					_data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
-					_debug += "| 3 ";
-					List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
-					_debug += "| 4 ";
-					foreach (Franchise _item in _data)
-					{
-						var _vm = new FranchiseSelectViewModel();
-						_debug += "| 5 ";
-						_vm.PopulateVM(_item, _settings);
-						_debug += "| 6 ";
+					var _vm = new FranchiseSelectViewModel();
+					_vm.PopulateVM(_item, _settings);
 					_listFranchises.Add(_vm);
-					}
-				}	
-			}
-			catch(Exception ex)
-			{
-				LogHelper log = new LogHelper();
-				log.Log(LogHelper.LogLevels.Error, "There has been an error when loading the active franchises - " + ex.Message, nameof(GetActiveFranchisesPrivate));
-				log.Log(LogHelper.LogLevels.Error, "There has been an error when loading the active franchises", nameof(GetActiveFranchisesPrivate), ex, _debug, null);
-			}
+				}
+			}	
 
 			return _listFranchises;
 		}
