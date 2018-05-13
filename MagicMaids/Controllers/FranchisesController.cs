@@ -75,7 +75,9 @@ namespace MagicMaids.Controllers
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 
 			IAppCache cache = new CachingService();
-			_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
+			_listFranchises = GetActiveFranchisesPrivate();
+				
+			//_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
 
 			if (_listFranchises == null || _listFranchises.Count == 0)
 			{
