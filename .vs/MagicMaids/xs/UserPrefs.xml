@@ -1,11 +1,13 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/FranchisesController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js">
     <Files>
       <File FileName="MagicMaids/Controllers/SearchController.cs" Line="114" Column="37" />
       <File FileName="MagicMaids/Web.config" Line="31" Column="52" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="128" Column="24" />
-      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="149" Column="1" />
-      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="86" Column="41" />
+      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="139" Column="15" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="73" Column="43" />
+      <File FileName="MagicMaids/Scripts/app/custom/settings/magicsettings.controller.js" Line="23" Column="6" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="150" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

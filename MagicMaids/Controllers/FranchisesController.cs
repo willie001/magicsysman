@@ -75,9 +75,7 @@ namespace MagicMaids.Controllers
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 
 			IAppCache cache = new CachingService();
-			_listFranchises = GetActiveFranchisesPrivate();
-				
-			//_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
+			_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
 
 			if (_listFranchises == null || _listFranchises.Count == 0)
 			{
@@ -90,7 +88,6 @@ namespace MagicMaids.Controllers
 
 			if (_listFranchises == null || _listFranchises.Count == 0)
 			{
-				_listFranchises = GetActiveFranchisesPrivate();
 				throw new ApplicationException($"Active franchise list could not be loaded.");
 			}
 

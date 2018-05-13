@@ -142,7 +142,7 @@
                 	vm.availableFranchises = data.list;
 
                 }).error(function(err) {
-                	
+                	console.log('<ACTIVE FRANCHISES ERROR> ' + angular.toJson(err));
                 }).finally(function() {
                 	HandleBusySpinner.stop($scope, panelName);
                 });
