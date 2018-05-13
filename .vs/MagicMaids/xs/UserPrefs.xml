@@ -2,26 +2,11 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/FranchisesController.cs">
     <Files>
       <File FileName="MagicMaids/Controllers/SearchController.cs" Line="114" Column="37" />
-      <File FileName="MagicMaids/Web.config" Line="127" Column="64" />
+      <File FileName="MagicMaids/Web.config" Line="31" Column="52" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="128" Column="24" />
       <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="149" Column="1" />
-      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="118" Column="31" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="86" Column="41" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="FranchisesController.cs" selected="True" />
-              </Node>
-              <Node name="Views" expanded="True" />
-              <Node name="Global.asax" expanded="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

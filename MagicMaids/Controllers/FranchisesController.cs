@@ -88,6 +88,7 @@ namespace MagicMaids.Controllers
 
 			if (_listFranchises == null || _listFranchises.Count == 0)
 			{
+				_listFranchises = GetActiveFranchisesPrivate();
 				throw new ApplicationException($"Active franchise list could not be loaded.");
 			}
 
@@ -125,8 +126,6 @@ namespace MagicMaids.Controllers
 				log.Log(LogHelper.LogLevels.Error, "There has been an error when loading the active franchises", nameof(GetActiveFranchisesPrivate), ex, _debug, null);
 			}
 
-			_debug += "| 7 ";
-					
 			return _listFranchises;
 		}
 
