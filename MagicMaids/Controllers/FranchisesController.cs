@@ -123,6 +123,7 @@ namespace MagicMaids.Controllers
 			catch(Exception ex)
 			{
 				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, "There has been an error when loading the active franchises - " + ex.Message, nameof(GetActiveFranchisesPrivate));
 				log.Log(LogHelper.LogLevels.Error, "There has been an error when loading the active franchises", nameof(GetActiveFranchisesPrivate), ex, _debug, null);
 			}
 
