@@ -138,11 +138,11 @@
 
 			$http.get('/settings/getactivefranchises')
                 .success(function (data) {
-                	console.log('<ACTIVE FRANCHISES> ' + angular.toJson(data.list));
+                	//console.log('<ACTIVE FRANCHISES> ' + angular.toJson(data.list));
                 	vm.availableFranchises = data.list;
 
                 }).error(function(err) {
-                	console.log('<ACTIVE FRANCHISES ERROR> ' + angular.toJson(err));
+                	//console.log('<ACTIVE FRANCHISES ERROR> ' + angular.toJson(err));
                 }).finally(function() {
                 	HandleBusySpinner.stop($scope, panelName);
                 });

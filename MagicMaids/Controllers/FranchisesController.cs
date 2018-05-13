@@ -74,22 +74,34 @@ namespace MagicMaids.Controllers
 		{
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
 
-			IAppCache cache = new CachingService();
-			_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
-
-			if (_listFranchises == null || _listFranchises.Count == 0)
+			using (DBManager db = new DBManager())
 			{
-				LogHelper log = new LogHelper();
-				log.Log(LogHelper.LogLevels.Warning, "Error loading active franchises - Franchise cache will be reset and attempted again", nameof(GetActiveFranchises));
+				var _data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
+				List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
+				foreach (Franchise _item in _data)
+				{
+					var _vm = new FranchiseSelectViewModel();
+					_vm.PopulateVM(_item, _settings);
+				    _listFranchises.Add(_vm);
+				}
+			}	
 
-				cache.Remove("Active_Franchises");
-				_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
-			}
+			//IAppCache cache = new CachingService();
+			//_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
 
-			if (_listFranchises == null || _listFranchises.Count == 0)
-			{
-				throw new ApplicationException($"Active franchise list could not be loaded.");
-			}
+			//if (_listFranchises == null || _listFranchises.Count == 0)
+			//{
+			//	LogHelper log = new LogHelper();
+			//	log.Log(LogHelper.LogLevels.Warning, "Error loading active franchises - Franchise cache will be reset and attempted again", nameof(GetActiveFranchises));
+
+			//	cache.Remove("Active_Franchises");
+			//	_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
+			//}
+
+			//if (_listFranchises == null || _listFranchises.Count == 0)
+			//{
+			//	throw new ApplicationException($"Active franchise list could not be loaded.");
+			//}
 
 			return new JsonNetResult() { Data = new { list = _listFranchises }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
