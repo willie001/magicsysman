@@ -73,18 +73,27 @@ namespace MagicMaids.Controllers
 		public JsonNetResult GetActiveFranchises()
 		{
 			List<FranchiseSelectViewModel> _listFranchises = new List<FranchiseSelectViewModel>();
-
-			using (DBManager db = new DBManager())
+			try
 			{
-				var _data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
-				List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
-				foreach (Franchise _item in _data)
+				using (DBManager db = new DBManager())
 				{
-					var _vm = new FranchiseSelectViewModel();
-					_vm.PopulateVM(_item, _settings);
-				    _listFranchises.Add(_vm);
-				}
-			}	
+					var _data = db.getConnection().GetList<Franchise>(new { IsActive = true }).OrderByDescending(p => p.Name).ToList();
+					List<SystemSetting> _settings = db.getConnection().GetList<SystemSetting>(new { IsActive = true }).ToList();
+					foreach (Franchise _item in _data)
+					{
+						var _vm = new FranchiseSelectViewModel();
+						_vm.PopulateVM(_item, _settings);
+					    _listFranchises.Add(_vm);
+					}
+				}	
+			}
+			catch(Exception ex)
+			{
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Warning, "Error loading active franchises - " + ex.Message, nameof(GetActiveFranchises));
+
+			}
+
 
 			//IAppCache cache = new CachingService();
 			//_listFranchises = cache.GetOrAdd("Active_Franchises", () => GetActiveFranchisesPrivate(), new TimeSpan(8, 0, 0));
