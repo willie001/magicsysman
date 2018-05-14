@@ -108,7 +108,7 @@ namespace MagicMaids
 
 					}
 					LogHelper _logger = new LogHelper();
-					_logger.Log(LogHelper.LogLevels.Warning, "Form Validation Errors: " + _errors.ToString(), callingMethod, null, classInstance);
+					_logger.Log(LogHelper.LogLevels.Warning, "Form Validation Errors", callingMethod, null, classInstance, _errors.ToString());
 				}
 			}
 		}

@@ -1,19 +1,18 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/LogHelpers.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/RequestWrapper.cs">
     <Files>
       <File FileName="MagicMaids/Controllers/SearchController.cs" Line="114" Column="37" />
-      <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="128" Column="24" />
-      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="143" Column="7" />
-      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="106" Column="1" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="141" Column="81" />
+      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="168" Column="20" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="87" Column="5" />
+      <File FileName="MagicMaids/Helpers/RequestWrapper.cs" Line="46" Column="24" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SearchController.cs" relfile="MagicMaids/Controllers/SearchController.cs" line="38" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="145" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="99" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="225" column="52" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="181" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
