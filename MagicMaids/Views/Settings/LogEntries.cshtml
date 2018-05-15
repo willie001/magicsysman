@@ -33,7 +33,7 @@
 			      	</thead>
 					<tbody>
 						<tr valign="top" ng-repeat="item in table.listOfLogs">
-							<td class="" ng-class="{'bg-warning': item.Level=='WARN',
+							<td class="" ng-class="{'bg-warning': item.Level=='WARNING',
 									'bg-danger': item.Level=='ERROR',
 									'bg-success': item.Level=='INFO'}">{{ item.Level }}</td>
 							<td>{{ item.LoggedDate }}</td>

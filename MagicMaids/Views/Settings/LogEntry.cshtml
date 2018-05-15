@@ -35,7 +35,7 @@
 		       </div>
 		       <div class="form-group">
 				<div class="col-xs-12 text-center"  >
-					<div class="box-placeholder b0" ng-class="{'bg-warning': form.logEntry.Level=='WARN',
+					<div class="box-placeholder b0" ng-class="{'bg-warning': form.logEntry.Level=='WARNING',
 						'bg-danger': form.logEntry.Level=='ERROR',
 						'bg-success': form.logEntry.Level=='INFO'}">
 						{{form.logEntry.Level}}
@@ -50,22 +50,22 @@
 
 				<div class="form-group col-xs-12" ng-show="form.logEntry.Exception.length > 0">
 					<label>Exception</label>
-	                <pre style="white-space: pre-wrap;">{{ form.logEntry.Exception }}</pre>
+	                <pre style="white-space: pre-wrap;"><small>{{ form.logEntry.Exception }}</small></pre>
 				</div>
 
 				<div class="form-group col-xs-12" ng-show="form.logEntry.InnerErrorMessage.length > 0">
 					<label>Inner Error Message</label>
-	                <pre style="white-space: pre-wrap;">{{ form.logEntry.InnerErrorMessage }}</pre>
+	                <pre style="white-space: pre-wrap;"><small>{{ form.logEntry.InnerErrorMessage }}</small></pre>
 				</div>
 
 				<div class="form-group col-xs-12" ng-show="form.logEntry.EventContext.length > 0">
 					<label>Event Context</label>
-	                <pre style="white-space: pre-wrap;">{{ form.logEntry.EventContext  }}</pre>
+	                <pre style="white-space: pre-wrap;"><small>{{ form.logEntry.EventContext  }}</small></pre>
 				</div>
 
 				<div class="form-group col-xs-12" ng-show="form.logEntry.ObjectContext.length > 0">
 					<label>Object Context</label>
-	                <pre style="white-space: pre-wrap;" >{{ parseJson(form.logEntry.ObjectContext) | json }}</pre>
+					<pre><small>{{ form.logEntry.ObjectContext }}</small></pre>
 				</div>
 
 				<div class="form-group col-xs-12" ng-show="form.logEntry.FormattedAddresses.length > 0">

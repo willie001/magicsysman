@@ -172,7 +172,8 @@ namespace MagicMaids
 
 				if (ex != null)
 				{
-					_error = GetObjectData(ex);
+					_error = GetObjectData(ex) + "\n";
+
 					if (ex.InnerException != null)
 					{
 						_innerError = GetObjectData(ex.InnerException);
@@ -181,14 +182,17 @@ namespace MagicMaids
 					RequestWrapper _request = new RequestWrapper(HttpContext.Current.Request);
 					_event = GetObjectData(_request);
 				}
+				if (!String.IsNullOrWhiteSpace(validationErrors))
+				{
+					_error += $"VALIDATION ERRORS:\n{validationErrors}";
+				}
 
 				_mvcAction = GetObjectData(HttpContext.Current.Request.RequestContext.RouteData.Values.Values);
 
 				if (classInstance != null)
 				{
 					_object = GetObjectData(classInstance);
-					if (!String.IsNullOrWhiteSpace(validationErrors))
-						_object += $"; {validationErrors}";
+
 				}
 
 				StringBuilder _sql = new StringBuilder();

@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 
 using MagicMaids.EntityModels;
+using Newtonsoft.Json;
 #endregion
 
 namespace MagicMaids
@@ -21,12 +22,12 @@ namespace MagicMaids
 
 			this.Id = _model.Id;
 			this.LoggedDate = _model.LoggedDate.ToLocalTime().ToString("dd MMM yyyy (H:mm:ss)");
-			this.Level = _model.Level;
+			this.Level = _model.Level.ToUpper();
 			this.Message = _model.Message;
 			this.Exception = _model.Exception;
 			this.InnerErrorMessage = _model.InnerErrorMessage;
 			this.EventContext = _model.EventContext;
-			this.ObjectContext  = _model.ObjectContext;
+			this.ObjectContext  = (String.IsNullOrWhiteSpace(_model.ObjectContext)) ? "" : JsonConvert.DeserializeObject(_model.ObjectContext).ToString();
 			this.UserName = _model.UserName;
 
 			FormatMetadata(_model);
