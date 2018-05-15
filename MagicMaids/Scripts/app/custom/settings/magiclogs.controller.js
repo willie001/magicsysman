@@ -115,7 +115,7 @@
         
             $http.get('/logentries/getLogEntry/?Id=' + Id)
                 .success(function (data) {
-                	//console.log("<LOGENTRY> - " + angular.toJson(data.item));
+                	console.log("<LOGENTRY> - " + angular.toJson(data.item));
             		vm.logEntry = data.item;
                 	$scope.Id = data.item.Id;
 
