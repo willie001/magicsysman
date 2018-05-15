@@ -90,7 +90,7 @@ namespace MagicMaids.Controllers
 			{
 				using (DBManager db = new DBManager())
 				{
-					_entry = db.getConnection().Get<LogEntry>(Id);
+					_entry = db.getConnection().Get<LogEntry>($"where id = {Id}");
 				}
 
 				if (_entry == null)
@@ -119,7 +119,7 @@ namespace MagicMaids.Controllers
 			{
 				using (DBManager db = new DBManager())
 				{
-					db.getConnection().Delete<LogEntry>($"where id > {id}");
+					db.getConnection().Delete<LogEntry>($"where id = {id}");
 				}
 
 				return JsonSuccessResponse($"{_objDesc} deleted successfully", "Log Id = " + id);
