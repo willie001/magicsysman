@@ -59,12 +59,20 @@ namespace MagicMaids.Controllers
 					output.Append("\n\n");
 
 					output.Append($"Date Time Now (Server - DateTime.Now): {DateTime.Now.ToString()}\n");
-					output.Append($"NodaTime Server (Server - DateTimeWrapper.LocalNow): {DateTimeWrapper.LocalNow.ToString()}\n");
+
+					output.Append($"NodaTime Server (Local - DateTimeWrapper.LocalNow): {DateTimeWrapper.LocalNow.ToString()}\n");
 					output.Append($"NodaTime UTC Now (DateTimeWrapper.Now): {DateTimeWrapper.Now.ToString()}\n");
 					output.Append($"NodaTime Now UTC (DateTimeWrapper.LocaltoUTC: {DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString()}\n");
 					output.Append($"NodaTime Now ToUtc (DateTimeWrapper.Now.ToDateTimeUtc: {DateTimeWrapper.Now.ToDateTimeUtc()}\n");
 				
 					output.Append("\n\n");
+
+					output.Append($"User Time Zone: {DateTimeWrapper.DisplayUserTimeZone}\n");
+					output.Append($"Time Zone Name: {DateTimeWrapper.TimeZoneName}\n");
+					output.Append($"Offset Minutes: {DateTimeWrapper.DisplayTimeZoneOffsetMins}\n");
+
+					output.Append("\n\n");
+
 
 					stm = "SELECT VERSION() as version";
 					rows = db.getConnection().Query(stm).ToList();

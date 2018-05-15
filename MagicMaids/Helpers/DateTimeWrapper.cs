@@ -11,6 +11,22 @@ namespace MagicMaids
 		private static Int32 TimeZoneOffsetMins;
 		public static String TimeZoneName;
 
+		public static string DisplayUserTimeZone
+		{
+			get
+			{
+				return UserTimeZone.ToString();	
+			}	
+		}
+
+		public static string DisplayTimeZoneOffsetMins
+		{
+			get
+			{
+				return TimeZoneOffsetMins.ToString();
+			}
+		}
+
 		public static string FormatClientDate(DateTime dt)
 		{
 			return dt.ToString("d MMM yyyy", CultureInfo.InvariantCulture);

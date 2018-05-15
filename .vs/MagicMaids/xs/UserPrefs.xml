@@ -1,9 +1,10 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/ViewModels/LogEntryVM.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/PagesController.cs">
     <Files>
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="61" Column="22" />
+      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="64" Column="90" />
       <File FileName="MagicMaids/Views/Settings/LogEntries.cshtml" Line="39" Column="30" />
-      <File FileName="MagicMaids/ViewModels/LogEntryVM.cs" Line="24" Column="51" />
+      <File FileName="MagicMaids/ViewModels/LogEntryVM.cs" Line="24" Column="79" />
+      <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="81" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
