@@ -62,6 +62,7 @@ namespace MagicMaids.Controllers
 					output.Append($"NodaTime Server (Server - DateTimeWrapper.LocalNow): {DateTimeWrapper.LocalNow.ToString()}\n");
 					output.Append($"NodaTime UTC Now (DateTimeWrapper.Now): {DateTimeWrapper.Now.ToString()}\n");
 					output.Append($"NodaTime Now UTC (DateTimeWrapper.LocaltoUTC: {DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString()}\n");
+					output.Append($"NodaTime Now ToUtc (DateTimeWrapper.Now.ToDateTimeUtc: {DateTimeWrapper.Now.ToDateTimeUtc()}\n");
 				
 					output.Append("\n\n");
 
