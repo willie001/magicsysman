@@ -90,7 +90,7 @@ namespace MagicMaids.Controllers
 			{
 				using (DBManager db = new DBManager())
 				{
-					_entry = db.getConnection().Get<LogEntry>($"where id = {Id}");
+					_entry = db.getConnection().Query<LogEntry>($"select * from Logs where id={Id}").SingleOrDefault();
 				}
 
 				if (_entry == null)
