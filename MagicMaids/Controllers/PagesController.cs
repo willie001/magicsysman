@@ -28,6 +28,15 @@ namespace MagicMaids.Controllers
 				Formatting = Formatting.Indented
 			};
 
+			if (HttpContext.Request.Cookies.AllKeys.Contains("timezoneoffset"))
+			{
+				Session["timezoneoffset"] = HttpContext.Request.Cookies["timezoneoffset"].Value;
+			}
+			if (HttpContext.Request.Cookies.AllKeys.Contains("timezonename"))
+			{
+				Session["timezonename"] = HttpContext.Request.Cookies["timezonename"].Value;
+			}
+
 			System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
 			try
 			{
