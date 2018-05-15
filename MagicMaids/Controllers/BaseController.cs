@@ -184,8 +184,8 @@ namespace MagicMaids.Controllers
 				}
 
 				_instance.UpdatedAt = DateTimeWrapper.Now.ToDateTimeUtc();
-				_instance.UpdatedBy = currentUser;
 				_instance.RowVersion = DateTimeWrapper.Now.ToDateTimeUtc();
+				_instance.UpdatedBy = currentUser;
 
 				dataInstance = (T)_instance;
 			}
