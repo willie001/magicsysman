@@ -19,17 +19,20 @@ namespace MagicMaids
 		#region Methods, Public
 		public static string FormatUserDate(this DateTime dt)
 		{
-			return dt.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+			var newDate = dt.ToString("d MMM yyyy", CultureInfo.InvariantCulture);
+			return newDate;
 		}
 
 		public static string FormatUserDateTime(this DateTime dt)
 		{
-			return dt.ToString("d MMM yyyy HH:mm:ss");
+			var newDate = dt.ToString("d MMM yyyy HH:mm:ss");
+			return newDate;
 		}
 
 		public static string FormatDatabaseDateTime(this DateTime dt)
 		{
-			return dt.ToString("yyyy-MM-dd HH:mm:ss:ff");
+			var newDate = dt.ToString("yyyy-MM-dd HH:mm:ss:ff");
+			return newDate;
 		}
 
 		public static string DisplayCultureSettings(string seperator = "\n")
@@ -51,8 +54,8 @@ namespace MagicMaids
 			output.Append($"{seperator}");
 
 			output.Append($"FROM USER LOCATION (BROWSER):{seperator}");
-			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {_serverDateTime.ToLocal()}{seperator}");
 			output.Append($"Current time at user location (CultureHelper.FormatLocalNow Method): {CultureHelper.FormatLocalNow()}{seperator}");
+			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {_serverDateTime.ToLocal()}{seperator}");
 
 			output.Append($"{seperator}");
 
@@ -87,6 +90,7 @@ namespace MagicMaids
 			_debugDetails.Append($"{DateTime.Now.ToString()}|");
 			_debugDetails.Append($"{DateTime.Now.ToLocal().ToString()}|");
 			_debugDetails.Append($"{DateTime.Now.ToLocal().FormatUserDateTime()}|");
+
 			return DateTime.Now.ToLocal().FormatUserDateTime();
 		}
 
