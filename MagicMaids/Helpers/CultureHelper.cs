@@ -15,6 +15,7 @@ namespace MagicMaids
 		//https://codeshare.co.uk/blog/how-to-show-utc-time-relative-to-the-users-local-time-on-a-net-website/
 		private static string DEFAULT_CULTURE = "au";
 		private static StringBuilder _debugDetails = new StringBuilder();
+		private static Int32 _debugCount = 0;
 
 		#region Methods, Public
 		public static string FormatUserDate(this DateTime dt)
@@ -87,16 +88,15 @@ namespace MagicMaids
 
 		public static string FormatLocalNow()
 		{
-			_debugDetails.Append($"{DateTime.Now.ToString()}|");
-			_debugDetails.Append($"{DateTime.Now.ToLocal().ToString()}|");
-			_debugDetails.Append($"{DateTime.Now.ToLocal().FormatUserDateTime()}|");
-
+			
 			return DateTime.Now.ToLocal().FormatUserDateTime();
 		}
 
 		public static DateTime ToLocal(this DateTime dateTime)
 		{
 			string timeZone = UserTimeZoneName();
+			_debugCount = 0;
+			_debugDetails.Append($"{_debugCount++} - {timeZone}|");
 
 			return dateTime.ToLocal(timeZone);
 		}
@@ -118,15 +118,21 @@ namespace MagicMaids
 		/// <returns>Local DateTime as Unspecified DateTimeKind.</returns>
 		public static DateTime ToLocal(this DateTime dateTime, string timezone)
 		{
+			_debugDetails.Append($"{_debugCount++} - {dateTime.Kind.ToString()}|");
+
 			if (dateTime.Kind == DateTimeKind.Local)
 			{
 				return dateTime;
 			}
 
+			_debugDetails.Append($"{_debugCount++} - {timezone.ToString()}|");
 			var zone = DateTimeZoneProviders.Tzdb[timezone];
 			Instant instant = dateTime.ToInstant();
+			_debugDetails.Append($"{_debugCount++} - {instant.ToString()}|");
 			ZonedDateTime inZone = instant.InZone(zone);
+			_debugDetails.Append($"{_debugCount++} - {inZone.ToString()}|");
 			DateTime unspecified = inZone.ToDateTimeUnspecified();
+			_debugDetails.Append($"{_debugCount++} - {unspecified.ToString()}|");
 
 			return unspecified;
 		}
