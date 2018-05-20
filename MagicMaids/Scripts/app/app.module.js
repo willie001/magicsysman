@@ -154,7 +154,7 @@
 				{
 					$scope.userMessages.splice(0, $scope.userMessages.length); // clear message array
 
-					if (msgs && msgs.MsgCssClass)
+					if (msgs != undefined && msgs.MsgCssClass)
 	            		$scope.userMessageType.push(msgs.MsgCssClass);
 					else
 						$scope.userMessageType.push('alert bg-warning-light');
