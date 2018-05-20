@@ -45,11 +45,11 @@ namespace MagicMaids
 
 			output.Append($"FROM SERVER LOCATION:{seperator}");
 			output.Append($"Current server DateTime (DateTime.Now): {_serverDateTime.ToString()}{seperator}");
-			output.Append($"Current NodeTime DateTime (CultureHelper.Now): {_nodeDateTime.ToString()}{seperator}");
 
 			output.Append($"{seperator}");
 
 			output.Append($"UTC:{seperator}");
+			output.Append($"Current NodeTime UTC (CultureHelper.Now): {_nodeDateTime.ToString()}{seperator}");
 			output.Append($"UTC for user's current date time (CultureHelper.ToUTC: {_serverDateTime.ToUTC()}{seperator}");
 
 			output.Append($"{seperator}");
@@ -89,7 +89,7 @@ namespace MagicMaids
 		public static string FormatLocalNow()
 		{
 			
-			return Now.ToDateTimeUtc().FormatUserDateTime();
+			return Now.ToDateTimeUtc().ToLocal().FormatUserDateTime();
 		}
 
 		public static DateTime ToLocal(this DateTime dateTime)
