@@ -1,26 +1,26 @@
 ﻿@if (Html.IsDebug())
 {
-	var date = DateTimeWrapper.UTCtoLocal(DateTime.Now);
+	var date = CultureHelper.FormatLocalNow();
 	var conn = MagicMaids.DataAccess.DBManager.getConnectionStringDisplay();
 
 	<div class="panel panel-flat " id="panelData" ng-show="userMessages && userMessageType[0] != 'alert alert-success'">
-        <div class="panel-heading">
-            <b>Debug Information: @date</b>
-        </div>
-	<div class="panel-heading">
-            <b>Connection String: @conn</b>
-        </div>
+		<div class="panel-heading">
+			<b>Debug Information: @date</b>
+		</div>
+		<div class="panel-heading">
+			<b>Connection String: @conn</b>
+		</div>
 		<div class="panel-body">
 			Main Message Type: {{ userMessageType[0] | json }}
-			<br/>
+			<br />
 			<pre>
 				{{userMessages | json}}
 			</pre>
 		</div>
-	</div><br/>
+	</div><br />
 }
-<div class="{{ userMessageType[0] }}" ng-show="userMessages" id="userMessagesDiv" >
+<div class="{{ userMessageType[0] }}" ng-show="userMessages" id="userMessagesDiv">
 	<ul style="list-style: none;">
-    	<span ng-repeat="infoMsg in userMessages track by $index" ><li>{{ infoMsg }}</li></span>
+		<span ng-repeat="infoMsg in userMessages track by $index"><li>{{ infoMsg }}</li></span>
 	</ul>
 </div>

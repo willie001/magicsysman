@@ -583,7 +583,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return DateTimeWrapper.FormatClientDate(_startDate);	
+				return _startDate.FormatUserDate();	
 			}
 		}
 		private DateTime _startDate;
@@ -610,7 +610,7 @@ namespace MagicMaids.ViewModels
 					return String.Empty;
 				}
 
-				return DateTimeWrapper.FormatClientDate(_endDate);	
+				return _endDate.FormatUserDate();	
 			}
 		}
 		private DateTime _endDate;

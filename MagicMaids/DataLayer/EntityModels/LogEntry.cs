@@ -28,11 +28,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_loggedDate);
+				return _loggedDate.ToUTC();
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				var convertedValue = value.ToUTC();
 				if (convertedValue != _loggedDate)
 				{
 					_loggedDate = convertedValue;

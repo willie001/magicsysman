@@ -30,11 +30,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_lastScheduledDate);
+				return _lastScheduledDate.ToLocal();;
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				var convertedValue = value.ToUTC();
 				if (convertedValue != _lastScheduledDate)
 				{
 					_lastScheduledDate = convertedValue;
@@ -47,18 +47,18 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_nexScheduled);
+				return _nextScheduled.ToLocal();
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
-				if (convertedValue != _nexScheduled)
+				var convertedValue = value.ToUTC();
+				if (convertedValue != _nextScheduled)
 				{
-					_nexScheduled = convertedValue;
+					_nextScheduled = convertedValue;
 				}
 			}
 		}
-		private DateTime _nexScheduled;
+		private DateTime _nextScheduled;
 
 		#endregion
 

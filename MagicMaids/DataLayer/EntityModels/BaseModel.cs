@@ -59,11 +59,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_createdDate);
+				return _createdDate.ToLocal();
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				var convertedValue = value.ToUTC();
 				if (convertedValue != _createdDate)
 				{
 					_createdDate = convertedValue;
@@ -78,12 +78,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _updatedDate;
-				//return DateTimeWrapper.UTCtoLocal(_updatedDate);
+				return _updatedDate.ToLocal();
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				var convertedValue = value.ToUTC();
 				if (convertedValue != _updatedDate)
 				{
 					_updatedDate = convertedValue;
@@ -122,11 +121,11 @@ namespace MagicMaids.EntityModels
         {
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_rowVersion);
+				return _rowVersion.ToLocal();
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				var convertedValue = value.ToUTC();
 				if (convertedValue != _rowVersion)
 				{
 					_rowVersion = convertedValue;

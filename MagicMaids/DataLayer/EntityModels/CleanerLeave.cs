@@ -17,11 +17,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_startDate);
+				return _startDate.ToLocal();
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				var convertedValue = value.ToUTC();
 				if (convertedValue != _startDate)
 				{
 					_startDate = convertedValue;
@@ -37,11 +37,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_endDate);
+				return _endDate.ToLocal();
 			}
 			set
 			{
-				var convertedValue = DateTimeWrapper.LocaltoUTC(value);
+				var convertedValue = value.ToUTC();
 				if (convertedValue != _endDate)
 				{
 					_endDate = convertedValue;

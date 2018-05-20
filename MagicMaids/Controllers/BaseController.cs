@@ -180,11 +180,11 @@ namespace MagicMaids.Controllers
 			{
 				if (_instance.CreatedAt.Year < 1950)
 				{
-					_instance.CreatedAt = DateTimeWrapper.Now.ToDateTimeUtc();
+					_instance.CreatedAt = DateTime.Now.ToUTC();
 				}
 
-				_instance.UpdatedAt = DateTimeWrapper.Now.ToDateTimeUtc();
-				_instance.RowVersion = DateTimeWrapper.Now.ToDateTimeUtc();
+				_instance.UpdatedAt = DateTime.Now.ToUTC();
+				_instance.RowVersion = DateTime.Now.ToUTC();
 				_instance.UpdatedBy = currentUser;
 
 				dataInstance = (T)_instance;

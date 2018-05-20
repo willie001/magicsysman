@@ -204,7 +204,7 @@ namespace MagicMaids
 			      EventContext, InnerErrorMessage,
 				  Exception, ObjectContext
 			    ) values (");
-				_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(DateTimeWrapper.Now.ToDateTimeUtc())}',");
+				_sql.Append($"'{DateTime.Now.ToUTC().FormatDatabaseDateTime()}',");
 				_sql.Append($"'{logLevel.ToString()}',");
 				_sql.Append($"'{customMessage}',");
 				_sql.Append($"'{_currentUser}',");

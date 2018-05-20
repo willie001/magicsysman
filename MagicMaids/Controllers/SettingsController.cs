@@ -288,11 +288,11 @@ namespace MagicMaids.Controllers
 							_sql.Append("RowVersion, SuburbName, PostCode, Zone, LinkedZones, FranchiseId)");
 							_sql.Append(" values (");
 							_sql.Append($"'{_objToUpdate.Id}',");
-							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
-							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+							_sql.Append($"'{_objToUpdate.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedAt.ToUTC().FormatUserDateTime()}',");
 							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
 							_sql.Append($"{_objToUpdate.IsActive},");
-							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+							_sql.Append($"'{_objToUpdate.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.SuburbName}',");
 							_sql.Append($"'{_objToUpdate.PostCode}',");
 							_sql.Append($"'{_objToUpdate.Zone}',");
@@ -518,11 +518,11 @@ namespace MagicMaids.Controllers
 							_sql.Append("RateCode, RateAmount, RateApplications, FranchiseId)");
 							_sql.Append(" values (");
 							_sql.Append($"'{_objToUpdate.Id}',");
-							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.CreatedAt)}',");
-							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.UpdatedAt)}',");
+							_sql.Append($"'{_objToUpdate.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedAt.ToUTC().FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
 							_sql.Append($"{_objToUpdate.IsActive},");
-							_sql.Append($"'{DateTimeWrapper.FormatDateTimeForDatabase(_objToUpdate.RowVersion)}',");
+							_sql.Append($"'{_objToUpdate.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.RateCode}',");
 							_sql.Append($"{_objToUpdate.RateAmount},");
 							_sql.Append($"{(int)_objToUpdate.RateApplications},");
@@ -617,7 +617,7 @@ namespace MagicMaids.Controllers
 			_objToUpdate.RateApplications = (RateApplicationsSettings)selection;
 			_objToUpdate.IsActive = dataItem.IsActive;
 			_objToUpdate.FranchiseId = dataItem.FranchiseId;
-			_objToUpdate.ActivationDate = DateTimeWrapper.Now.ToDateTimeUtc();
+			_objToUpdate.ActivationDate = DateTime.Now.ToUTC();
 
 			return UpdateAuditTracking(_objToUpdate);
 		}

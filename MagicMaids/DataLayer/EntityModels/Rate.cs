@@ -40,13 +40,13 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return DateTimeWrapper.UTCtoLocal(_activationDate);
+				return _activationDate.ToLocal();
 			}
 			set
 			{
 				if (value.HasValue)
 				{
-					var convertedValue = DateTimeWrapper.LocaltoUTC(value.Value);
+					var convertedValue = value.Value.ToUTC();
 					if (convertedValue != _activationDate)
 					{
 						_activationDate = convertedValue;

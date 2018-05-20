@@ -66,27 +66,13 @@ namespace MagicMaids.Controllers
 					output.Append($"Open Connections : {_connCounter}\n");
 
 					output.Append("\n\n");
-
-					output.Append($"Date Time Now (Server - DateTime.Now): {DateTime.Now.ToString()}\n");
-
-					output.Append($"NodaTime Server (Local - DateTimeWrapper.LocalNow): {DateTimeWrapper.LocalNow.ToString()}\n");
-					output.Append($"NodaTime UTC Now (DateTimeWrapper.Now): {DateTimeWrapper.Now.ToString()}\n");
-					output.Append($"NodaTime Now UTC (DateTimeWrapper.LocaltoUTC: {DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString()}\n");
-					output.Append($"NodaTime Now ToUtc (DateTimeWrapper.Now.ToDateTimeUtc: {DateTimeWrapper.Now.ToDateTimeUtc()}\n");
-				
+					output.Append(CultureHelper.DisplayCultureSettings("\n"));
 					output.Append("\n\n");
-
-					output.Append($"User Time Zone: {DateTimeWrapper.DisplayUserTimeZone}\n");
-					output.Append($"Time Zone Name: {DateTimeWrapper.TimeZoneName}\n");
-					output.Append($"Offset Minutes: {DateTimeWrapper.DisplayTimeZoneOffsetMins}\n");
-
-					output.Append("\n\n");
-
 
 					stm = "SELECT VERSION() as version";
 					rows = db.getConnection().Query(stm).ToList();
 					string version = rows[0].version.ToString();
-					output.Append($"MySQL version : {version.ToString()}\n");
+					output.Append($"MySQL version : {version}\n");
 				
 					stm = "SELECT count(*) as testCount from systemsettings";
 					rows = db.getConnection().Query(stm).ToList();
@@ -118,22 +104,6 @@ namespace MagicMaids.Controllers
 			}
 
 			TempData["debugger"] = "-----------------------\n";
-			//try
-			//{
-			//	TempData["debugger"] = "-----------------------\nDebug Test\n-----------------------";
-			//	LogManager.ThrowExceptions = true;
-			//	Logger logger = LogManager.GetCurrentClassLogger();
-			//	var _date = DateTimeWrapper.LocaltoUTC(DateTime.Now).ToString();
-			//	LogEventInfo eventInfo = new LogEventInfo(LogLevel.Info, "Debug Logger Check", $"Testing the logger [{_date}]");
-			//	logger.Log(eventInfo);
-			//	LogManager.Flush();
-			//	TempData["debugger"] += $"\nLog Event completed [{_date}]";
-			//}
-			//catch(Exception ex)
-			//{
-			//	string json = JsonConvert.SerializeObject(ex, settings);
-			//	TempData["debugger"] += json;
-			//}
 
 			return View();
 		}
