@@ -289,7 +289,7 @@ namespace MagicMaids.Controllers
 							_sql.Append(" values (");
 							_sql.Append($"'{_objToUpdate.Id}',");
 							_sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_objToUpdate.UpdatedAt.FormatUserDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
 							_sql.Append($"{_objToUpdate.IsActive},");
 							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
