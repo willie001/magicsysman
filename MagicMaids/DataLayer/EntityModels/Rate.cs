@@ -40,13 +40,13 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _activationDate.ToUser();
+				return _activationDate;
 			}
 			set
 			{
 				if (value.HasValue)
 				{
-					var convertedValue = value.Value.ToUTC();
+					var convertedValue = value.Value;
 					if (convertedValue != _activationDate)
 					{
 						_activationDate = convertedValue;

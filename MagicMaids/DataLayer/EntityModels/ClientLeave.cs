@@ -18,11 +18,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _startDate.ToUser();
+				return _startDate;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _startDate)
 				{
 					_startDate = convertedValue;
@@ -38,11 +38,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _endDate.ToUser();
+				return _endDate;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _endDate)
 				{
 					_endDate = convertedValue;

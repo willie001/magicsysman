@@ -414,10 +414,10 @@ namespace MagicMaids.ViewModels
 			Id = entityModel.Id;
 			ClientId = (Helpers.IsValidGuid(clientId)) ? clientId.Value.ToString() : "";
 
-			StartDate = entityModel.StartDate;
-			EndDate = entityModel.EndDate;
+			StartDate = entityModel.StartDate.ToUser();
+			EndDate = entityModel.EndDate.ToUser();
 
-			_adviseDate = entityModel.CreatedAt;
+			_adviseDate = entityModel.CreatedAt.ToUser();
 		}
 		#endregion
 	}

@@ -59,11 +59,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _createdDate.ToUser();
+				return _createdDate;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _createdDate)
 				{
 					_createdDate = convertedValue;
@@ -78,11 +78,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _updatedDate.ToUser();
+				return _updatedDate;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _updatedDate)
 				{
 					_updatedDate = convertedValue;
@@ -121,11 +121,11 @@ namespace MagicMaids.EntityModels
         {
 			get
 			{
-				return _rowVersion.ToUser();
+				return _rowVersion;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _rowVersion)
 				{
 					_rowVersion = convertedValue;

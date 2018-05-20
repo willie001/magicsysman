@@ -310,11 +310,11 @@ namespace MagicMaids.Controllers
 								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
 								_sql.Append(" values (");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.Id}',");
-								_sql.Append($"'{_objToUpdate.PhysicalAddress.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
-								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedAt.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.CreatedAt.FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedAt.FormatDatabaseDateTime()}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedBy}',");
 								_sql.Append($"{_objToUpdate.PhysicalAddress.IsActive},");
-								_sql.Append($"'{_objToUpdate.PhysicalAddress.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.RowVersion.FormatDatabaseDateTime()}',");
 								_sql.Append($"{(int)_objToUpdate.PhysicalAddress.AddressType},");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine1}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine2}',");
@@ -334,11 +334,11 @@ namespace MagicMaids.Controllers
 								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
 								_sql.Append(" values (");
 								_sql.Append($"'{_objToUpdate.PostalAddress.Id}',");
-								_sql.Append($"'{_objToUpdate.PostalAddress.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
-								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedAt.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.CreatedAt.FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedAt.FormatDatabaseDateTime()}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedBy}',");
 								_sql.Append($"{_objToUpdate.PostalAddress.IsActive},");
-								_sql.Append($"'{_objToUpdate.PostalAddress.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.RowVersion.FormatDatabaseDateTime()}',");
 								_sql.Append($"{(int)_objToUpdate.PostalAddress.AddressType},");
 								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine1}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine2}',");
@@ -358,11 +358,11 @@ namespace MagicMaids.Controllers
 							_sql.Append("GenderFlag, Ironing, PrimaryZone, SecondaryZone, ApprovedZone)");
 							_sql.Append(" values (");
 							_sql.Append($"'{_objToUpdate.Id}',");
-							_sql.Append($"'{_objToUpdate.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_objToUpdate.UpdatedAt.ToUTC().FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
 							_sql.Append($"{_objToUpdate.IsActive},");
-							_sql.Append($"'{_objToUpdate.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.CleanerCode}',");
 							_sql.Append($"'{_objToUpdate.Initials}',");
 							_sql.Append($"'{_objToUpdate.FirstName}',");
@@ -701,11 +701,11 @@ namespace MagicMaids.Controllers
 								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
 								_sql.Append(" values (");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.Id}',");
-								_sql.Append($"'{_objToUpdate.PhysicalAddress.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
-								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedAt.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.CreatedAt.FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedAt.FormatDatabaseDateTime()}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.UpdatedBy}',");
 								_sql.Append($"{_objToUpdate.PhysicalAddress.IsActive},");
-								_sql.Append($"'{_objToUpdate.PhysicalAddress.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PhysicalAddress.RowVersion.FormatDatabaseDateTime()}',");
 								_sql.Append($"{(int)_objToUpdate.PhysicalAddress.AddressType},");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine1}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.AddressLine2}',");
@@ -725,11 +725,11 @@ namespace MagicMaids.Controllers
 								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
 								_sql.Append(" values (");
 								_sql.Append($"'{_objToUpdate.PostalAddress.Id}',");
-								_sql.Append($"'{_objToUpdate.PostalAddress.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
-								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedAt.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.CreatedAt.FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedAt.FormatDatabaseDateTime()}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.UpdatedBy}',");
 								_sql.Append($"{_objToUpdate.PostalAddress.IsActive},");
-								_sql.Append($"'{_objToUpdate.PostalAddress.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
+								_sql.Append($"'{_objToUpdate.PostalAddress.RowVersion.FormatDatabaseDateTime()}',");
 								_sql.Append($"{(int)_objToUpdate.PostalAddress.AddressType},");
 								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine1}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.AddressLine2}',");
@@ -749,11 +749,11 @@ namespace MagicMaids.Controllers
 							_sql.Append("GenderFlag, Ironing)");
 							_sql.Append(" values (");
 							_sql.Append($"'{_objToUpdate.Id}',");
-							_sql.Append($"'{_objToUpdate.CreatedAt.ToUTC().FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_objToUpdate.UpdatedAt.ToUTC().FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
 							_sql.Append($"{_objToUpdate.IsActive},");
-							_sql.Append($"'{_objToUpdate.RowVersion.ToUTC().FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.PrimaryCleanerRefId}',");
 							_sql.Append($"'{_objToUpdate.FirstName}',");
 							_sql.Append($"'{_objToUpdate.LastName}',");
@@ -1054,8 +1054,8 @@ namespace MagicMaids.Controllers
 					{
 						roster = new CleanerRoster()
 						{
-							StartTime = item.StartTime,
-							EndTime = item.EndTime,
+							StartTime = item.StartTime.ToUTC(),
+							EndTime = item.EndTime.ToUTC(),
 							TeamCount = item.TeamCount,
 							Weekday = item.Weekday,
 							IsActive = item.IsActive,
@@ -1210,8 +1210,8 @@ namespace MagicMaids.Controllers
 						{
 							_objToUpdate = new CleanerLeave();
 							_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId.ToString();
-							_objToUpdate.StartDate = formValues.StartDate;
-							_objToUpdate.EndDate = formValues.EndDate;
+							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
 
 							db.getConnection().Insert<CleanerLeave>(UpdateAuditTracking(_objToUpdate));
 						}

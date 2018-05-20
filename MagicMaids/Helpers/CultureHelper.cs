@@ -125,8 +125,12 @@ namespace MagicMaids
 			{
 				return dateTime;
 			}
+			else if (dateTime.Kind == DateTimeKind.Unspecified)
+			{
+				dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+			}
 
-			_debugDetails.Append($"{_debugCount++} - {timezone.ToString()}|");
+			_debugDetails.Append($"{_debugCount++} - {timezone}|");
 			var zone = DateTimeZoneProviders.Tzdb[timezone];
 			Instant instant = dateTime.ToInstant();
 			_debugDetails.Append($"{_debugCount++} - {instant.ToString()}|");

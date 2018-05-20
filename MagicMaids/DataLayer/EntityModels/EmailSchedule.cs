@@ -30,11 +30,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _lastScheduledDate.ToUser();;
+				return _lastScheduledDate;;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _lastScheduledDate)
 				{
 					_lastScheduledDate = convertedValue;
@@ -47,11 +47,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _nextScheduled.ToUser();
+				return _nextScheduled;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _nextScheduled)
 				{
 					_nextScheduled = convertedValue;

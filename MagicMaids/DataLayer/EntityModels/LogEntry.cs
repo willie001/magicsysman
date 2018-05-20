@@ -28,11 +28,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _loggedDate.ToUser();
+				return _loggedDate;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _loggedDate)
 				{
 					_loggedDate = convertedValue;

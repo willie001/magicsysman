@@ -32,11 +32,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _startTime.ToUser();
+				return _startTime;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				if (convertedValue != _startTime)
 				{
 					_startTime = convertedValue;
@@ -51,11 +51,11 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _endTime.ToUser();
+				return _endTime;
 			}
 			set
 			{
-				var convertedValue = value.ToUTC();
+				var convertedValue = value;
 				{
 					_endTime = convertedValue;
 				}

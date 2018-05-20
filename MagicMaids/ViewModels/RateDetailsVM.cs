@@ -86,7 +86,7 @@ namespace MagicMaids.ViewModels
 			RateCode = entityModel.RateCode;
 			RateAmount = entityModel.RateAmount;
 			IsActive = entityModel.IsActive;
-			ActivationDate = entityModel.ActivationDate;
+			ActivationDate = entityModel.ActivationDate.Value.ToUser();
 			FranchiseId = entityModel.FranchiseId;
 
 			SelectedRatesValue = entityModel.RateApplications;
@@ -296,7 +296,7 @@ namespace MagicMaids.ViewModels
 			this.RateCode = entityModel.RateCode;
 			this.RateAmount = entityModel.RateAmount;
 			this.IsActive = entityModel.IsActive;
-			this.ActivationDate = entityModel.ActivationDate;
+			this.ActivationDate = entityModel.ActivationDate.Value.ToUser();
 			this.FranchiseId = (Helpers.IsValidGuid(entityModel.FranchiseId)) ? entityModel.FranchiseId.ToString() : "";
 		}
 		#endregion
