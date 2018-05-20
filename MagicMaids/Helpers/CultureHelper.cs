@@ -14,6 +14,7 @@ namespace MagicMaids
 	{
 		//https://codeshare.co.uk/blog/how-to-show-utc-time-relative-to-the-users-local-time-on-a-net-website/
 		private static string DEFAULT_CULTURE = "au";
+		private static StringBuilder _debugDetails = new StringBuilder();
 
 		#region Methods, Public
 		public static string FormatUserDate(this DateTime dt)
@@ -50,7 +51,7 @@ namespace MagicMaids
 			output.Append($"{seperator}");
 
 			output.Append($"FROM USER LOCATION (BROWSER):{seperator}");
-			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {_serverDateTime.ToLocalTime()}{seperator}");
+			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {_serverDateTime.ToLocal()}{seperator}");
 
 			output.Append($"{seperator}");
 
@@ -58,6 +59,12 @@ namespace MagicMaids
 			output.Append($"User Country Code: {CultureHelper.UserCountryCode()}{seperator}");
 			output.Append($"User Timezone Name: {CultureHelper.UserTimeZoneName()}{seperator}");
 			output.Append($"User Timezone Offset in minutes: {CultureHelper.UserTimeZoneOffsetMins().ToString()}{seperator}");
+
+			output.Append($"{seperator}");
+			output.Append($"DEBUG:{seperator}");
+			var _debug = _debugDetails.Replace("|", $"{seperator}");
+			output.Append($"{_debug}");
+			output.Append($"{seperator}");
 
 			return output.ToString();
 		}
@@ -76,6 +83,9 @@ namespace MagicMaids
 
 		public static string FormatLocalNow()
 		{
+			_debugDetails.Append($"{DateTime.Now.ToString()}|");
+			_debugDetails.Append($"{DateTime.Now.ToLocal().ToString()}|");
+			_debugDetails.Append($"{DateTime.Now.ToLocal().FormatUserDateTime()}|");
 			return DateTime.Now.ToLocal().FormatUserDateTime();
 		}
 

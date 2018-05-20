@@ -1,10 +1,7 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/BaseController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/CultureHelper.cs">
     <Files>
-      <File FileName="MagicMaids/Helpers/CultureHelper.cs" Line="87" Column="1" />
-      <File FileName="MagicMaids/Views/Partials/Footer.cshtml" Line="3" Column="1" />
-      <File FileName="MagicMaids/DataLayer/EntityModels/BaseModel.cs" Line="63" Column="1" />
-      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="186" Column="1" />
+      <File FileName="MagicMaids/Helpers/CultureHelper.cs" Line="54" Column="106" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -12,11 +9,11 @@
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SearchController.cs" relfile="MagicMaids/Controllers/SearchController.cs" line="38" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="229" column="52" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="164" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="285" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="319" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="177" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="336" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="171" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="292" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="326" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="184" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="343" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/ClientDetailsVM.cs" relfile="MagicMaids/ViewModels/ClientDetailsVM.cs" line="353" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/ClientDetailsVM.cs" relfile="MagicMaids/ViewModels/ClientDetailsVM.cs" line="380" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/ClientDetailsVM.cs" relfile="MagicMaids/ViewModels/ClientDetailsVM.cs" line="399" column="1" />
@@ -24,14 +21,10 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" relfile="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" line="39" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" relfile="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" line="54" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" relfile="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" line="58" column="40" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/BaseController.cs" relfile="MagicMaids/Controllers/BaseController.cs" line="186" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/Rate.cs" relfile="MagicMaids/DataLayer/EntityModels/Rate.cs" line="43" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/Rate.cs" relfile="MagicMaids/DataLayer/EntityModels/Rate.cs" line="47" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/LogEntry.cs" relfile="MagicMaids/DataLayer/EntityModels/LogEntry.cs" line="31" column="32" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/LogEntry.cs" relfile="MagicMaids/DataLayer/EntityModels/LogEntry.cs" line="35" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/BaseModel.cs" relfile="MagicMaids/DataLayer/EntityModels/BaseModel.cs" line="62" column="12" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/BaseModel.cs" relfile="MagicMaids/DataLayer/EntityModels/BaseModel.cs" line="81" column="34" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/EntityModels/BaseModel.cs" relfile="MagicMaids/DataLayer/EntityModels/BaseModel.cs" line="123" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="290" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="283" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/FranchisesController.cs" relfile="MagicMaids/Controllers/FranchisesController.cs" line="307" column="1" />
@@ -50,8 +43,8 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="728" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="752" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="144" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="262" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="250" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="269" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/CultureHelper.cs" relfile="MagicMaids/Helpers/CultureHelper.cs" line="257" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
