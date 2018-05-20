@@ -52,6 +52,7 @@ namespace MagicMaids
 
 			output.Append($"FROM USER LOCATION (BROWSER):{seperator}");
 			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {_serverDateTime.ToLocal()}{seperator}");
+			output.Append($"Current time at user location (CultureHelper.FormatLocalNow Method): {CultureHelper.FormatLocalNow()}{seperator}");
 
 			output.Append($"{seperator}");
 
