@@ -154,6 +154,9 @@
 				{
 					$scope.userMessages.splice(0, $scope.userMessages.length); // clear message array
 
+console.log("<X1 msgs> - " + angular.toJson(msgs));
+				
+					alert(msgs);
 					if (msgs.MsgCssClass)
 	            		$scope.userMessageType.push(msgs.MsgCssClass);
 					else

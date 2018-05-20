@@ -146,7 +146,7 @@
 				}
 
 			}).error(function (error) {
-        		console.log("<MAIN Search Errors> - " + angular.toJson(error));
+        		//console.log("<MAIN Search Errors> - " + angular.toJson(error));
         		HandleBusySpinner.stop($scope, panelName);
             	ShowUserMessages.show($scope, error, "Error performing search.");
             	vm.hasSearched = false;
