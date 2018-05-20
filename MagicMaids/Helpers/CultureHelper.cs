@@ -56,7 +56,7 @@ namespace MagicMaids
 
 			output.Append($"FROM USER LOCATION (BROWSER):{seperator}");
 			output.Append($"Current time at user location (CultureHelper.FormatLocalNow Method): {CultureHelper.FormatLocalNow()}{seperator}");
-			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {_serverDateTime.ToLocal()}{seperator}");
+			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {Now.ToDateTimeUtc().ToLocal()}{seperator}");
 
 			output.Append($"{seperator}");
 
@@ -89,7 +89,7 @@ namespace MagicMaids
 		public static string FormatLocalNow()
 		{
 			
-			return DateTime.Now.ToLocal().FormatUserDateTime();
+			return Now.ToDateTimeUtc().FormatUserDateTime();
 		}
 
 		public static DateTime ToLocal(this DateTime dateTime)
@@ -162,34 +162,6 @@ namespace MagicMaids
 
 			return utc;
 		}
-
-		//public static DateTime ConvertLocateDateToUTC(this DateTime dateTime)
-		//{
-		//	ZonedDateTime zonedDbDateTime;
-		//	var newDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 12, 0, 0);
-		//	return newDate.ConvertLocateDateToUTC();
-		//}
-
-
-		///// <summary>
-		///// An extension method for DateTime. It converts a Utc DateTime to a local date time using the user's time zone
-		///// </summary>
-		///// <param name="utcDateTime">The datetime object which the extension method is called from</param>
-		///// <param name="cachingTimeInMins">Caching time in minutes, used so you don't need to keep getting the timezone every time.</param>
-		///// <returns>A DateTime object local to the user</returns>
-		//public static DateTime ConvertUtcToLocalDateTime(this DateTime utcDateTime)
-		//{
-		//	IAppCache cache = new CachingService();
-
-		//	//I got this line from StackOverflow. It helped a lot at the end. https://stackoverflow.com/a/41662352/4782728
-		//	var newUtcDateTime = DateTime.SpecifyKind(utcDateTime, DateTimeKind.Utc);
-		//	DateTimeZone TimeZone = cache.GetOrAdd($"dateTimeZone-{UserCountryCode()}", () => GetDateTimeZone(), new TimeSpan(0, 30, 0));
-
-		//	DateTime objdate = Instant.FromDateTimeUtc(newUtcDateTime)
-		//			  .InZone(TimeZone)
-		//			  .ToDateTimeUnspecified();
-		//	return objdate;
-		//}
 		#endregion 
 
 		#region Methods, Private
@@ -303,7 +275,9 @@ namespace MagicMaids
 		/// <returns>A DateTimeZone from NodaTime based on the country code.</returns>
 		private static DateTimeZone GetDateTimeZone()
 		{
-			return GetDateTimeZoneFromCountryCode(UserCountryCode());
+			IAppCache cache = new CachingService();
+			DateTimeZone TimeZone = cache.GetOrAdd($"dateTimeZone-{UserCountryCode()}", () => GetDateTimeZoneFromCountryCode(UserCountryCode()), new TimeSpan(0, 30, 0));
+			return TimeZone;
 		}
 
 		/// <summary>
