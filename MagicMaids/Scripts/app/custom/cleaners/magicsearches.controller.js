@@ -146,7 +146,7 @@
 				}
 
 			}).error(function (error) {
-        		//console.log("<MAIN Search Errors> - " + angular.toJson(error));
+        		console.log("<MAIN Search Errors> - " + angular.toJson(error));
         		HandleBusySpinner.stop($scope, panelName);
             	ShowUserMessages.show($scope, error, "Error performing search.");
             	vm.hasSearched = false;
@@ -154,7 +154,7 @@
 		}
 
 		$scope.validateData = function(data, colName) {
-			console.log("<MAIN Search validate> - " + angular.toJson(data));
+			//console.log("<MAIN Search validate> - " + angular.toJson(data));
 			if (data.length == 0) {
               return colName + ' is mandatory';
             }
