@@ -59,7 +59,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _createdDate.ToLocal();
+				return _createdDate.ToUser();
 			}
 			set
 			{
@@ -78,7 +78,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _updatedDate.ToLocal();
+				return _updatedDate.ToUser();
 			}
 			set
 			{
@@ -121,7 +121,7 @@ namespace MagicMaids.EntityModels
         {
 			get
 			{
-				return _rowVersion.ToLocal();
+				return _rowVersion.ToUser();
 			}
 			set
 			{

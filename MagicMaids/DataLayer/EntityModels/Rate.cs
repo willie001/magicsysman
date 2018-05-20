@@ -40,7 +40,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _activationDate.ToLocal();
+				return _activationDate.ToUser();
 			}
 			set
 			{

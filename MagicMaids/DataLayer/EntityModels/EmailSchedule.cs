@@ -30,7 +30,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _lastScheduledDate.ToLocal();;
+				return _lastScheduledDate.ToUser();;
 			}
 			set
 			{
@@ -47,7 +47,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _nextScheduled.ToLocal();
+				return _nextScheduled.ToUser();
 			}
 			set
 			{

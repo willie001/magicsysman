@@ -32,7 +32,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _startTime.ToLocal();
+				return _startTime.ToUser();
 			}
 			set
 			{
@@ -51,7 +51,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _endTime.ToLocal();
+				return _endTime.ToUser();
 			}
 			set
 			{

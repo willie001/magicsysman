@@ -56,7 +56,7 @@ namespace MagicMaids
 
 			output.Append($"FROM USER LOCATION (BROWSER):{seperator}");
 			output.Append($"Current time at user location (CultureHelper.FormatLocalNow Method): {CultureHelper.FormatLocalNow()}{seperator}");
-			output.Append($"Current time at user location (CultureHelper.ToLocal Extension): {Now.ToDateTimeUtc().ToLocal()}{seperator}");
+			output.Append($"Current time at user location (CultureHelper.ToUser Extension): {Now.ToDateTimeUtc().ToUser()}{seperator}");
 
 			output.Append($"{seperator}");
 
@@ -89,16 +89,17 @@ namespace MagicMaids
 		public static string FormatLocalNow()
 		{
 			
-			return Now.ToDateTimeUtc().ToLocal().FormatUserDateTime();
+			return Now.ToDateTimeUtc().ToUser().FormatUserDateTime();
 		}
 
-		public static DateTime ToLocal(this DateTime dateTime)
+		public static DateTime ToUser(this DateTime dateTime)
 		{
 			string timeZone = UserTimeZoneName();
 			_debugCount = 0;
+			_debugDetails.Clear();
 			_debugDetails.Append($"{_debugCount++} - {timeZone}|");
 
-			return dateTime.ToLocal(timeZone);
+			return dateTime.ToUser(timeZone);
 		}
 
 		public static DateTime ToUTC(this DateTime dateTime)
@@ -116,7 +117,7 @@ namespace MagicMaids
 		/// <param name="dateTime">Non-local DateTime as UTC or Unspecified DateTimeKind.</param>
 		/// <param name="timezone">Timezone name (in TZDB format).</param>
 		/// <returns>Local DateTime as Unspecified DateTimeKind.</returns>
-		public static DateTime ToLocal(this DateTime dateTime, string timezone)
+		public static DateTime ToUser(this DateTime dateTime, string timezone)
 		{
 			_debugDetails.Append($"{_debugCount++} - {dateTime.Kind.ToString()}|");
 

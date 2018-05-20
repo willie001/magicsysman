@@ -28,7 +28,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				return _loggedDate.ToLocal();
+				return _loggedDate.ToUser();
 			}
 			set
 			{

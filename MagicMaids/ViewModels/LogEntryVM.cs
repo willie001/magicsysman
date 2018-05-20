@@ -21,7 +21,7 @@ namespace MagicMaids
 				return;
 
 			this.Id = _model.Id;
-			this.LoggedDate = _model.LoggedDate.ToLocalTime().ToString("dd MMM yyyy (HH:mm:ss)");
+			this.LoggedDate = _model.LoggedDate.ToUser().ToString("dd MMM yyyy (HH:mm:ss)");
 			this.Level = _model.Level.ToUpper();
 			this.Message = _model.Message;
 			this.Exception = _model.Exception;
