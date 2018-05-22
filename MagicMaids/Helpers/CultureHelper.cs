@@ -16,6 +16,7 @@ namespace MagicMaids
 		private static string DEFAULT_CULTURE = "au";
 		private static StringBuilder _debugDetails = new StringBuilder();
 		private static Int32 _debugCount = 0;
+		public static Boolean DateTimeInitialised = false;
 
 		#region Methods, Public
 		public static string FormatUserDate(this DateTime dt)
@@ -60,9 +61,13 @@ namespace MagicMaids
 
 			output.Append($"{seperator}");
 
+			var regionInfo = GetDateTimeZoneFromCountryCode();
+			var timeZoneName = regionInfo.ToString();
+
 			output.Append($"FROM BROWSER:{seperator}");
 			output.Append($"User Country Code: {CultureHelper.UserCountryCode()}{seperator}");
-			output.Append($"User Timezone Name: {CultureHelper.UserTimeZoneName()}{seperator}");
+			output.Append($"User Timezone Name (Browser): {CultureHelper.UserTimeZoneName()}{seperator}");
+			output.Append($"User Timezone Name (Country Code): {timeZoneName}{seperator}");
 			output.Append($"User Timezone Offset in minutes: {CultureHelper.UserTimeZoneOffsetMins().ToString()}{seperator}");
 
 			output.Append($"{seperator}");
@@ -88,24 +93,14 @@ namespace MagicMaids
 
 		public static string FormatLocalNow()
 		{
-			
-			return Now.ToDateTimeUtc().ToUser().FormatUserDateTime();
-		}
-
-		public static DateTime ToUser(this DateTime dateTime)
-		{
-			string timeZone = UserTimeZoneName();
-			_debugCount = 0;
-			_debugDetails.Clear();
-			_debugDetails.Append($"{_debugCount++} - {timeZone}|");
-
-			return dateTime.ToUser(timeZone);
-		}
-
-		public static DateTime ToUTC(this DateTime dateTime)
-		{
-			string timeZone = UserTimeZoneName();
-			return dateTime.ToUTC(timeZone);
+			if (!DateTimeInitialised)
+			{
+				return "";		
+			}
+			else
+			{
+				return Now.ToDateTimeUtc().ToUser().FormatUserDateTime();
+			}
 		}
 
 		/// <summary>
@@ -115,12 +110,9 @@ namespace MagicMaids
 		/// we want to convert UTC to local time somewhere in the world.
 		/// </summary>
 		/// <param name="dateTime">Non-local DateTime as UTC or Unspecified DateTimeKind.</param>
-		/// <param name="timezone">Timezone name (in TZDB format).</param>
 		/// <returns>Local DateTime as Unspecified DateTimeKind.</returns>
-		public static DateTime ToUser(this DateTime dateTime, string timezone)
+		public static DateTime ToUser(this DateTime dateTime)
 		{
-			_debugDetails.Append($"{_debugCount++} - {dateTime.Kind.ToString()}|");
-
 			if (dateTime.Kind == DateTimeKind.Local)
 			{
 				return dateTime;
@@ -130,14 +122,10 @@ namespace MagicMaids
 				dateTime = DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
 			}
 
-			_debugDetails.Append($"{_debugCount++} - {timezone}|");
-			var zone = DateTimeZoneProviders.Tzdb[timezone];
+			var zone = GetDateTimeZone();
 			Instant instant = dateTime.ToInstant();
-			_debugDetails.Append($"{_debugCount++} - {instant.ToString()}|");
 			ZonedDateTime inZone = instant.InZone(zone);
-			_debugDetails.Append($"{_debugCount++} - {inZone.ToString()}|");
 			DateTime unspecified = inZone.ToDateTimeUnspecified();
-			_debugDetails.Append($"{_debugCount++} - {unspecified.ToString()}|");
 
 			return unspecified;
 		}
@@ -151,14 +139,14 @@ namespace MagicMaids
 		/// <param name="dateTime">Local DateTime as UTC or Unspecified DateTimeKind.</param>
 		/// <param name="timezone">Timezone name (in TZDB format).</param>
 		/// <returns>UTC DateTime as UTC DateTimeKind.</returns>
-		public static DateTime ToUTC(this DateTime dateTime, string timezone)
+		public static DateTime ToUTC(this DateTime dateTime)
 		{
 			if (dateTime.Kind == DateTimeKind.Local)
 			{
 				return dateTime.ToUniversalTime();
 			}
 
-			var zone = DateTimeZoneProviders.Tzdb[timezone];
+			var zone = GetDateTimeZone();
 			LocalDateTime asLocal = dateTime.ToLocalDateTime();
 			ZonedDateTime asZoned = asLocal.InZoneLeniently(zone);
 			Instant instant = asZoned.ToInstant();
@@ -170,30 +158,22 @@ namespace MagicMaids
 		#endregion 
 
 		#region Methods, Private
-		private static OffsetDateTime GetOffsetDateTime(DateTime dateTime)
-		{
-			var offset = Offset.FromSeconds(-1 * UserTimeZoneOffsetMins() * 60);
-			var localDateTime = LocalDateTime.FromDateTime(dateTime);
-			return new OffsetDateTime(localDateTime, offset);
-		}
-
 		/// <summary>
 		/// Gets and sets the time zone name in the session to save keep resolving it from the browser every time.
 		/// </summary>
 		/// <returns>A two letter country code</returns>
 		private static string UserTimeZoneName()
 		{
-			const string sessionKeyName = "timezonename";
-			string timeZoneName = "";
+			if (!DateTimeInitialised)
+				return "";
 
-			if (HttpContext.Current.Session[sessionKeyName] == null)
+			const string sessionKeyName = "timezonename";
+			string timeZoneName = (string)HttpContext.Current.Session[sessionKeyName];
+
+			if (String.IsNullOrWhiteSpace(timeZoneName))
 			{
-				timeZoneName = ResolveCountry().ToString();
-				HttpContext.Current.Session[sessionKeyName] = timeZoneName;
-			}
-			else
-			{
-				timeZoneName = (string)HttpContext.Current.Session[sessionKeyName];
+				CultureHelper.DateTimeInitialised = false;
+				return "";
 			}
 
 			if (timeZoneName.Contains("%2F"))
@@ -207,34 +187,52 @@ namespace MagicMaids
 		}
 
 		/// <summary>
-		/// Gets and sets the time zone offset in the session to save keep resolving it from the browser every time.
+		/// Calls the method for getting the TimeZone from the country code, but sets the country code before calling it. 
+		/// Helps to do this when using caching and the delegate method would have had parameters.
 		/// </summary>
-		/// <returns>A numeric offset from UTC</returns>
-		private static Int32 UserTimeZoneOffsetMins()
+		/// <returns>A DateTimeZone from NodaTime based on the country code.</returns>
+		private static DateTimeZone GetDateTimeZone()
 		{
-			const string sessionKeyName = "timezoneoffset";
-			string timezoneOffset = "0";
+			IAppCache cache = new CachingService();
+			DateTimeZone TimeZone = cache.GetOrAdd($"dateTimeZone-{UserCountryCode()}", () => GetDateTimeZonePrivate(), new TimeSpan(0, 30, 0));
+			return TimeZone;
+		}
 
+		private static DateTimeZone GetDateTimeZonePrivate()
+		{
+			DateTimeZone _userTZ = null;
+			var _zone = UserTimeZoneName();
+
+			if (!String.IsNullOrWhiteSpace(_zone) && DateTimeZoneProviders.Tzdb.Ids.Contains(_zone))
+			{
+				_userTZ = DateTimeZoneProviders.Tzdb.GetZoneOrNull(_zone);
+			}
+
+			return _userTZ;
+		}
+
+		/// <summary>
+		/// Gets and sets the country code in the session to save keep resolving it from the browser every time.
+		/// </summary>
+		/// <returns>A two letter country code</returns>
+		private static string UserCountryCode()
+		{
+			const string sessionKeyName = "UserCountryCode";
+			string countryCode = "";
 
 			if (HttpContext.Current.Session[sessionKeyName] == null)
 			{
-				timezoneOffset = ResolveCountry().ToString();
-				HttpContext.Current.Session[sessionKeyName] = timezoneOffset;
+				countryCode = ResolveCountry().ToString();
+				HttpContext.Current.Session[sessionKeyName] = countryCode;
 			}
 			else
 			{
-				timezoneOffset = (string)HttpContext.Current.Session[sessionKeyName];
+				countryCode = (string)HttpContext.Current.Session[sessionKeyName];
 			}
 
-			Int32 offset = 0;
-			if (Int32.TryParse(timezoneOffset, out offset))
-			{
-				return offset;
-			}
+			return countryCode;
 
-			return 0;
 		}
-
 
 		/// <summary>
 		/// Gets the Culture from the browser. Found this here:
@@ -273,86 +271,49 @@ namespace MagicMaids
 			}
 		}
 
-		/// <summary>
-		/// Calls the method for getting the TimeZone from the country code, but sets the country code before calling it. 
-		/// Helps to do this when using caching and the delegate method would have had parameters.
-		/// </summary>
-		/// <returns>A DateTimeZone from NodaTime based on the country code.</returns>
-		private static DateTimeZone GetDateTimeZone()
+		private static OffsetDateTime GetOffsetDateTime(DateTime dateTime)
 		{
-			IAppCache cache = new CachingService();
-			DateTimeZone TimeZone = cache.GetOrAdd($"dateTimeZone-{UserCountryCode()}", () => GetDateTimeZoneFromCountryCode(UserCountryCode()), new TimeSpan(0, 30, 0));
-			return TimeZone;
+			var offset = Offset.FromSeconds(-1 * UserTimeZoneOffsetMins() * 60);
+			var localDateTime = LocalDateTime.FromDateTime(dateTime);
+			return new OffsetDateTime(localDateTime, offset);
 		}
 
 		/// <summary>
-		/// Gets and sets the country code in the session to save keep resolving it from the browser every time.
+		/// Gets and sets the time zone offset in the session to save keep resolving it from the browser every time.
 		/// </summary>
-		/// <returns>A two letter country code</returns>
-		private static string UserCountryCode()
+		/// <returns>A numeric offset from UTC</returns>
+		private static Int32 UserTimeZoneOffsetMins()
 		{
-			const string sessionKeyName = "UserCountryCode";
-			string countryCode = "";
+			const string sessionKeyName = "timezoneoffset";
+			string timezoneOffset = "0";
 
-			if (HttpContext.Current.Session[sessionKeyName] == null)
+			timezoneOffset = (string)HttpContext.Current.Session[sessionKeyName];
+			Int32 offset = 0;
+			if (Int32.TryParse(timezoneOffset, out offset))
 			{
-				countryCode = ResolveCountry().ToString();
-				HttpContext.Current.Session[sessionKeyName] = countryCode;
-			}
-			else
-			{
-				countryCode = (string)HttpContext.Current.Session[sessionKeyName];
+				return offset;
 			}
 
-			return countryCode;
-
+			return 0;
 		}
 
 		/// <summary>
 		/// Gets the time zone using the country code
 		/// I got this code from here https://stackoverflow.com/a/24907552/4782728. I'm so grateful as it really helped.
 		/// </summary>
-		/// <param name="countryCode">Two digit country code.</param>
 		/// <returns>A DateTimeZone from NodaTime based on the country code.</returns>
-		private static DateTimeZone GetDateTimeZoneFromCountryCode(string countryCode)
+		private static DateTimeZone GetDateTimeZoneFromCountryCode()
 		{
+			string countryCode = UserCountryCode();
 			var CountryInfo = (from location in TzdbDateTimeZoneSource.Default.ZoneLocations
 							   where location.CountryCode.Equals(countryCode,
 										  StringComparison.OrdinalIgnoreCase)
 							   select new { location.ZoneId, location.CountryName })
 							 .FirstOrDefault();
+			
 			DateTimeZone TimeZone = DateTimeZoneProviders.Tzdb[CountryInfo.ZoneId];
-
-			if (TimeZone == null)
-			{
-				TimeZone = ResolveUserTimeZone();
-			}
-
 			return TimeZone;
 		}
-
-		private static DateTimeZone ResolveUserTimeZone()
-		{
-			DateTimeZone _userTZ = null;
-			if (String.IsNullOrWhiteSpace(UserTimeZoneName()))
-			{
-				_userTZ = DateTimeZoneProviders.Tzdb.GetZoneOrNull("UTC");
-			}
-			else
-			{
-				if (DateTimeZoneProviders.Tzdb.Ids.Contains(UserTimeZoneName()))
-				{
-					_userTZ = DateTimeZoneProviders.Tzdb.GetZoneOrNull(UserTimeZoneName());
-				}
-				else
-				{
-					_userTZ = DateTimeZoneProviders.Tzdb.GetZoneOrNull("UTC");
-				}
-			}
-
-			return _userTZ;
-		}
-
 		#endregion 
 	}
 }

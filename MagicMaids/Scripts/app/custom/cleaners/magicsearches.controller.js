@@ -12,7 +12,6 @@
 	/***********************/
 	function MainSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies, moment, manageTimeZoneCookie)
 	{
-		
 		var vm = this;
 		var panelName = "panelMainResults";
 
@@ -27,6 +26,7 @@
 
 		function activate() {
 			HandleBusySpinner.start($scope, panelName);
+			manageTimeZoneCookie.set($cookies, moment, location);
 
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
 

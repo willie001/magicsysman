@@ -61,10 +61,10 @@
 
     	.factory('manageTimeZoneCookie', ['$cookies', 'moment', function($cookies, moment) {
     		var factory = {};
-
+	    		
     		factory.set = function($cookies, moment)
-    		{
-	    		var timezone_cookie = "timezoneoffset";
+			{
+				var timezone_cookie = "timezoneoffset";
 	      		var timezoneName_cookie = "timezonename";
 	      		if (!$cookies.get(timezone_cookie) || !$cookies.get(timezoneName_cookie)) { // if the timezone cookie not exists create one.
 	            

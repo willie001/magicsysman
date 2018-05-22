@@ -97,7 +97,12 @@ namespace MagicMaids.Controllers
 			}
 			if (HttpContext.Request.Cookies.AllKeys.Contains("timezonename"))
 			{
-				Session["timezonename"] = HttpContext.Request.Cookies["timezonename"].Value;
+				var timeZoneName = HttpContext.Request.Cookies["timezonename"].Value;
+				if (!String.IsNullOrWhiteSpace(timeZoneName))
+				{
+					Session["timezonename"] = timeZoneName;
+					CultureHelper.DateTimeInitialised = true;
+				}
 			}
 			base.OnActionExecuting(filterContext);
 		}

@@ -139,8 +139,18 @@ namespace MagicMaids
 
 		public void Log(LogLevels logLevel, String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
+			String _logDate = "";
 			try
 			{
+				_logDate = DateTime.Now.FormatDatabaseDateTime();
+			}
+			catch
+			{
+				_logDate = DateTime.Now.FormatDatabaseDateTime();
+			}
+
+			//try
+			//{
 				var result = Task.Run(() => {
 					return LogRaven(customMessage, callingMethod, ex, classInstance, validationErrors);
 				});
@@ -192,7 +202,6 @@ namespace MagicMaids
 				if (classInstance != null)
 				{
 					_object = GetObjectData(classInstance);
-
 				}
 
 				StringBuilder _sql = new StringBuilder();
@@ -204,7 +213,7 @@ namespace MagicMaids
 			      EventContext, InnerErrorMessage,
 				  Exception, ObjectContext
 			    ) values (");
-				_sql.Append($"'{DateTime.Now.ToUTC().FormatDatabaseDateTime()}',");
+				_sql.Append($"'{_logDate}',");
 				_sql.Append($"'{logLevel.ToString()}',");
 				_sql.Append($"'{customMessage}',");
 				_sql.Append($"'{_currentUser}',");
@@ -223,11 +232,11 @@ namespace MagicMaids
 				{
 					db.getConnection().Execute(_sql.ToString());
 				}
-			}
-			catch(Exception bigEx)
-			{
-				HttpContext.Current.Response.Write(bigEx.Message);
-			}
+			//}
+			//catch(Exception bigEx)
+			//{
+			//	HttpContext.Current.Response.Write(bigEx.Message);
+			//}
 		}
 
 		public static string GetObjectData(object instanceClass)
