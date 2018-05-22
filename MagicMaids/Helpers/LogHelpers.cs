@@ -146,7 +146,8 @@ namespace MagicMaids
 			}
 			catch
 			{
-				_logDate = DateTime.Now.FormatDatabaseDateTime();
+				_logDate = DateTime.Now.ToUTC().FormatDatabaseDateTime();
+				customMessage += " (*)";
 			}
 
 			//try
