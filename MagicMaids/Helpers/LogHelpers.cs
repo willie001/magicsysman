@@ -142,7 +142,7 @@ namespace MagicMaids
 			String _logDate = "";
 			try
 			{
-				_logDate = DateTime.Now.FormatDatabaseDateTime();
+				_logDate = CultureHelper.FormatLocalNow();
 			}
 			catch
 			{
