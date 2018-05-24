@@ -372,6 +372,7 @@
     <Compile Include="GlimpseSecurityPolicy.cs" />
     <Compile Include="Helpers\RequestWrapper.cs" />
     <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="Helpers\DateTimeWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />

@@ -769,8 +769,8 @@ namespace MagicMaids.Controllers
 						{
 							_objToUpdate = new ClientLeave();
 							_objToUpdate.ClientRefId = formValues.ClientId;
-							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
+							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
 
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
@@ -785,8 +785,8 @@ namespace MagicMaids.Controllers
 							_sql.Append($"{_objToUpdate.IsActive},");
 							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.ClientRefId}',");
-							_sql.Append($"'{_objToUpdate.StartDate.FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_objToUpdate.EndDate.FormatDatabaseDateTime()}'");
+							_sql.Append($"'{_objToUpdate.StartDate.ToString()}',");
+							_sql.Append($"'{_objToUpdate.EndDate.ToString()}'");
 							_sql.Append(")");
 							db.getConnection().Execute(_sql.ToString());
 						}
@@ -802,8 +802,8 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
+							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
 
 							db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
 						}

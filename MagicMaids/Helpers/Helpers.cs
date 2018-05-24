@@ -189,6 +189,27 @@ namespace MagicMaids
 			};
 		}
 
+		public static Boolean ToBoolean(object input)
+		{
+			if (input == null)
+			{
+				return false;
+			}
+
+			if (input.GetType().Equals(typeof(Boolean)))
+			{
+				return (bool)input;
+			}
+			else if (input.GetType().Equals(typeof(String)) || input.GetType().Equals(typeof(int)))
+			{
+				Boolean _val;
+				Boolean.TryParse(input.ToString(), out _val);
+				return _val;
+			}
+
+			return false;
+		}
+
 		public static Boolean IsValidNumericCommaString(String input)
 		{
 			if (String.IsNullOrWhiteSpace(input))

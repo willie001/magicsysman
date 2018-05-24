@@ -1054,8 +1054,8 @@ namespace MagicMaids.Controllers
 					{
 						roster = new CleanerRoster()
 						{
-							StartTime = item.StartTime.ToUTC(),
-							EndTime = item.EndTime.ToUTC(),
+							StartTime = item.StartTime.ToUTCDate(),
+							EndTime = item.EndTime.ToUTCDate(),
 							TeamCount = item.TeamCount,
 							Weekday = item.Weekday,
 							IsActive = item.IsActive,
@@ -1210,8 +1210,8 @@ namespace MagicMaids.Controllers
 						{
 							_objToUpdate = new CleanerLeave();
 							_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId.ToString();
-							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
+							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
 
 							db.getConnection().Insert<CleanerLeave>(UpdateAuditTracking(_objToUpdate));
 						}

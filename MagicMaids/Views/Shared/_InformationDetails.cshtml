@@ -1,6 +1,6 @@
 ﻿@if (Html.IsDebug())
 {
-	var date = CultureHelper.FormatLocalNow();
+	var date = DateTimeWrapper.DisplayLocalNow();
 	var conn = MagicMaids.DataAccess.DBManager.getConnectionStringDisplay();
 
 	<div class="panel panel-flat " id="panelData" ng-show="userMessages && userMessageType[0] != 'alert alert-success'">

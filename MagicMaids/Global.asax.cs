@@ -159,10 +159,8 @@ namespace MagicMaids
 								{
 									var physicalPath = Server.MapPath(relativePath);
 									var version = "?v=" +
-									new System.IO.FileInfo(physicalPath).LastWriteTime
-									.ToString("yyyyMMddhhmmss");
-									Context.Cache.Add(relativePath, version, null,
-									DateTime.Now.AddMinutes(1), TimeSpan.Zero,
+									new System.IO.FileInfo(physicalPath).LastWriteTime.ToString("yyyyMMddhhmmss");
+									Context.Cache.Add(relativePath, version, null, DateTimeWrapper.NowUtc.AddMinutes(1), TimeSpan.Zero,
 									System.Web.Caching.CacheItemPriority.Normal, null);
 									return version;
 								}

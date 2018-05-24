@@ -51,7 +51,7 @@ namespace MagicMaids
 		{
 			if (!String.IsNullOrWhiteSpace(newMessage))
 			{
-				messageToDate += $" {newMessage.Trim()} ({DateTime.Now.ToString("HH:mm:ss:ffff")})";
+				messageToDate += $" {newMessage.Trim()} ({DateTimeWrapper.NowUtc.FormatDatabaseDateTime()})";
 			}
 		}
 
@@ -142,11 +142,11 @@ namespace MagicMaids
 			String _logDate = "";
 			try
 			{
-				_logDate = CultureHelper.FormatLocalNow();
+				_logDate = DateTimeWrapper.NowUtc.FormatDatabaseDateTime();
 			}
 			catch
 			{
-				_logDate = DateTime.Now.ToUTC().FormatDatabaseDateTime();
+				_logDate = DateTime.Now.ToUniversalTime().FormatDatabaseDateTime();
 				customMessage += " (*)";
 			}
 

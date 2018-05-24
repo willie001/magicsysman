@@ -628,8 +628,8 @@ namespace MagicMaids.ViewModels
 			Id = entityModel.Id;
 			PrimaryCleanerRefId = (Helpers.IsValidGuid(cleanerId)) ? cleanerId.Value.ToString() : "";
 
-			StartDate = entityModel.StartDate.ToUser();
-			EndDate = entityModel.EndDate.ToUser();
+			StartDate = entityModel.StartDate.ToUserDate();
+			EndDate = entityModel.EndDate.ToUserDate();
 		}
 		#endregion
 	}

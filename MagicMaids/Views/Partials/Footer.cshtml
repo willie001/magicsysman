@@ -1,4 +1,4 @@
 @using VersionLibrary;
 
-<span>&copy; {{app.year}} - {{ app.name }} - version @(Html.Version()) - @CultureHelper.FormatLocalNow()</span>
+<span>&copy; {{app.year}} - {{ app.name }} - version @(Html.Version()) - @DateTimeWrapper.DisplayLocalNow()</span>
    

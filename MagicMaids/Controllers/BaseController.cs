@@ -101,7 +101,7 @@ namespace MagicMaids.Controllers
 				if (!String.IsNullOrWhiteSpace(timeZoneName))
 				{
 					Session["timezonename"] = timeZoneName;
-					CultureHelper.DateTimeInitialised = true;
+					DateTimeWrapper.DateTimeInitialised = true;
 				}
 			}
 			base.OnActionExecuting(filterContext);
@@ -181,15 +181,16 @@ namespace MagicMaids.Controllers
 
 			Type t = dataInstance.GetType();
 			var _instance = (IDataModel)dataInstance;
+			var _dateTimeStamp = DateTimeWrapper.NowUtc;
 			if (_instance != null)
 			{
 				if (_instance.CreatedAt.Year < 1950)
 				{
-					_instance.CreatedAt = DateTime.Now.ToUTC();
+					_instance.CreatedAt = _dateTimeStamp;
 				}
 
-				_instance.UpdatedAt = DateTime.Now.ToUTC();
-				_instance.RowVersion = DateTime.Now.ToUTC();
+				_instance.UpdatedAt = _dateTimeStamp;
+				_instance.RowVersion = _dateTimeStamp;
 				_instance.UpdatedBy = currentUser;
 
 				dataInstance = (T)_instance;
