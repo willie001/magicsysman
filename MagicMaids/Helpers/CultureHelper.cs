@@ -70,9 +70,7 @@ namespace MagicMaids
 		{
 			String countryCode = UserCountryCode();
 
-			IAppCache cache = new CachingService();
-			DateTimeZone TimeZone = cache.GetOrAdd($"dateTimeZone-{countryCode}", () => GetDateTimeZonePrivate(), new TimeSpan(0, 30, 0));
-
+			DateTimeZone TimeZone = GetDateTimeZonePrivate();
 			if (TimeZone == null)
 			{
 				// set default time zone
