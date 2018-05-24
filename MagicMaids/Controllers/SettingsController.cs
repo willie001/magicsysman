@@ -315,6 +315,21 @@ namespace MagicMaids.Controllers
 							}
 
 							db.getConnection().Update(UpdateAuditTracking(UpdateSettings(_objToUpdate, formValues)));
+
+							StringBuilder _sql = new StringBuilder();
+							_sql.Append("Update SuburbZones set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",SuburbName = '{_objToUpdate.SuburbName}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PostCode}'");
+							_sql.Append($",Zone = '{_objToUpdate.Zone}'");
+							_sql.Append($",LinkedZones = '{_objToUpdate.LinkedZones}'");
+							_sql.Append($",FranchiseId = '{_objToUpdate.FranchiseId}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
+							    
 						}
 
 						IAppCache cache = new CachingService();
