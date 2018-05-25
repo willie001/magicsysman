@@ -101,7 +101,6 @@ namespace MagicMaids.Controllers
 				if (!String.IsNullOrWhiteSpace(timeZoneName))
 				{
 					Session["timezonename"] = timeZoneName;
-					DateTimeWrapper.DateTimeInitialised = true;
 				}
 			}
 			base.OnActionExecuting(filterContext);

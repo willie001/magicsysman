@@ -1,4 +1,3 @@
 @using VersionLibrary;
-
-<span>&copy; {{app.year}} - {{ app.name }} - version @(Html.Version()) - @DateTimeWrapper.DisplayLocalNow()</span>
-   
+<span class="col-md-6">&copy; {{app.year}} - {{ app.name }} - version @(Html.Version())</span>
+<span class="text-right col-lg-6 col-md-6 col-xs-6">@DateTimeWrapper.DisplayLocalNow() (@CultureHelper.UserTimeZoneName())</span>

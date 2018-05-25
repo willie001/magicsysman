@@ -15,6 +15,7 @@ namespace MagicMaids
 	{
 		private static string DEFAULT_CULTURE = "au";
 		private static int DEFAULT_LCID = 3081;
+		private static string DEFAULT_TIMEZONE = "Australia/Perth";
 
 		internal static string DisplayCultureSettings(string seperator = "\n")
 		{
@@ -82,6 +83,38 @@ namespace MagicMaids
 			return TimeZone;
 		}
 
+		/// <summary>
+		/// Gets and sets the time zone name in the session to save keep resolving it from the browser every time.
+		/// </summary>
+		/// <returns>A two letter country code</returns>
+		public static string UserTimeZoneName()
+		{
+			const string sessionKeyName = "timezonename";
+			string timeZoneName = (string)HttpContext.Current.Session[sessionKeyName];
+			string countryCode = UserCountryCode();
+
+			if (String.IsNullOrWhiteSpace(timeZoneName) || String.IsNullOrWhiteSpace(countryCode))
+			{
+				HttpContext.Current.Session.Remove(sessionKeyName);
+				return DEFAULT_TIMEZONE;
+			}
+
+			if (timeZoneName.Contains("%2F"))
+			{
+				timeZoneName = timeZoneName.Replace("%2F", "/");
+				HttpContext.Current.Session[sessionKeyName] = timeZoneName;
+			}
+
+			if (!GetTimeZonesByCountryPrivate(countryCode).Contains(timeZoneName))
+			{
+				HttpContext.Current.Session.Remove(sessionKeyName);
+				return DEFAULT_TIMEZONE;
+			}
+
+			return timeZoneName;
+		}
+
+
 		private static DateTimeZone GetDateTimeZonePrivate()
 		{
 			DateTimeZone _userTZ = null;
@@ -101,9 +134,6 @@ namespace MagicMaids
 		/// <returns>A numeric offset from UTC</returns>
 		internal static Int32 UserTimeZoneOffsetMins()
 		{
-			if (!DateTimeWrapper.DateTimeInitialised)
-				return 0;
-
 			const string sessionKeyName = "timezoneoffset";
 			string timezoneOffset = "0";
 
@@ -118,33 +148,6 @@ namespace MagicMaids
 		}
 
 
-		/// <summary>
-		/// Gets and sets the time zone name in the session to save keep resolving it from the browser every time.
-		/// </summary>
-		/// <returns>A two letter country code</returns>
-		private static string UserTimeZoneName()
-		{
-			if (!DateTimeWrapper.DateTimeInitialised)
-				return "";
-
-			const string sessionKeyName = "timezonename";
-			string timeZoneName = (string)HttpContext.Current.Session[sessionKeyName];
-
-			if (String.IsNullOrWhiteSpace(timeZoneName))
-			{
-				DateTimeWrapper.DateTimeInitialised = false;
-				return "";
-			}
-
-			if (timeZoneName.Contains("%2F"))
-			{
-				timeZoneName = timeZoneName.Replace("%2F", "/");
-				HttpContext.Current.Session[sessionKeyName] = timeZoneName;
-				DateTimeWrapper.DateTimeInitialised = true;
-			}
-
-			return timeZoneName;
-		}
 
 		//https://codeshare.co.uk/blog/how-to-show-utc-time-relative-to-the-users-local-time-on-a-net-website/
 		private static IEnumerable<String> GetTimeZonesByCountry()

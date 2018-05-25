@@ -9,29 +9,6 @@ namespace MagicMaids
 {
 	public static class DateTimeWrapper
 	{
-		const string sessionKeyName = "userTimeZoneInitialised";
-
-		internal static Boolean DateTimeInitialised
-		{
-			get
-			{
-				if (HttpContext.Current == null)
-				{
-					return false;
-				}
-
-				var isInit = HttpContext.Current.Session[sessionKeyName];
-				return Helpers.ToBoolean(isInit);
-			}
-			set
-			{
-				if (HttpContext.Current != null)
-				{
-					HttpContext.Current.Session[sessionKeyName] = value;
-				}
-			}
-		}
-
 		/// <summary>
 		/// NodaTime's DateTime.Now
 		/// </summary>
@@ -55,14 +32,7 @@ namespace MagicMaids
 
 		public static string DisplayLocalNow()
 		{
-			if (!DateTimeInitialised)
-			{
-				return "";
-			}
-			else
-			{
-				return NowUtc.ToUser().FormatUserDateTime();
-			}
+			return NowUtc.ToUser().FormatUserDateTime();
 		}
 
 		public static string DisplayUtcNow()
