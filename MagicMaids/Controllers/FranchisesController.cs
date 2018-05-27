@@ -180,8 +180,13 @@ namespace MagicMaids.Controllers
 			List<SystemSetting> _settings = new List<SystemSetting>();
 			using (DBManager db = new DBManager())
 			{
-				_settings = db.getConnection().GetList<SystemSetting>(new { IsActive = 1 }).ToList();
-				_franchise = db.getConnection().Get<Franchise>(FranchiseId);
+				StringBuilder _sql = new StringBuilder();
+				_sql.Append("Select * from SystemSettings where IsActive = 1");
+				_settings = db.getConnection().Query<SystemSetting>(_sql.ToString()).ToList();
+
+				_sql.Clear();
+				_sql.Append($"select * from Franchises where ID = '{FranchiseId}'");
+				_franchise = db.getConnection().Query<Franchise>(_sql.ToString()).SingleOrDefault();
 
 				if (_franchise == null)
 				{
@@ -361,9 +366,59 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							db.getConnection().Update(UpdateFranchise(_objToUpdate, dataItem));     // Foreign Key error on Addresses
-							db.getConnection().Update(_objToUpdate.PhysicalAddress);
-							db.getConnection().Update(_objToUpdate.PostalAddress);
+							StringBuilder _sql = new StringBuilder();
+							_objToUpdate = UpdateFranchise(_objToUpdate, dataItem);
+
+							_sql.Append("Update Franchises set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",Name = '{_objToUpdate.Name}'");
+							_sql.Append($",TradingName = '{_objToUpdate.TradingName}'");
+							_sql.Append($",MasterFranchiseCode = '{_objToUpdate.MasterFranchiseCode}'");
+							_sql.Append($",EmailAddress = '{_objToUpdate.EmailAddress}'");
+							_sql.Append($",BusinessPhoneNumber = '{_objToUpdate.BusinessPhoneNumber}'");
+							_sql.Append($",MobileNumber = '{_objToUpdate.MobileNumber}'");
+							_sql.Append($",OtherNumber = '{_objToUpdate.OtherNumber}'");
+							_sql.Append($",CodeOfConductURL = '{_objToUpdate.CodeOfConductURL}'");
+							_sql.Append($",ManagementFeePercentage = {_objToUpdate.ManagementFeePercentage}");
+							_sql.Append($",RoyaltyFeePercentage = {_objToUpdate.RoyaltyFeePercentage}");
+							_sql.Append($",MetroRegion = '{_objToUpdate.MetroRegion}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
+
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PhysicalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PhysicalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PhysicalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PhysicalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PhysicalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
+
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PostalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PostalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PostalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PostalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PostalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
 						}
 
 						IAppCache cache = new CachingService();

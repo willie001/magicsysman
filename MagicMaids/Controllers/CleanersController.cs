@@ -404,14 +404,65 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
+							StringBuilder _sql = new StringBuilder();
 							_objToUpdate = UpdateCleaner(_objToUpdate, dataItem);
 
-							db.getConnection().Update(_objToUpdate);     
-							db.getConnection().Update(_objToUpdate.PhysicalAddress);
-							db.getConnection().Update(_objToUpdate.PostalAddress);
+							_sql.Append("Update Cleaners set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",CleanerCode = '{_objToUpdate.CleanerCode}'");
+							_sql.Append($",Initials = '{_objToUpdate.Initials}'");
+							_sql.Append($",FirstName = '{_objToUpdate.FirstName}'");
+							_sql.Append($",LastName = '{_objToUpdate.LastName}'");
+							_sql.Append($",Rating = {_objToUpdate.Rating}");
+							_sql.Append($",MasterFranchiseRefId = '{_objToUpdate.MasterFranchiseRefId}'");
+							_sql.Append($",EmailAddress = '{_objToUpdate.OtherNumber}'");
+							_sql.Append($",BusinessPhoneNumber = '{_objToUpdate.BusinessPhoneNumber}'");
+							_sql.Append($",MobileNumber = '{_objToUpdate.MobileNumber}'");
+							_sql.Append($",OtherNumber = '{_objToUpdate.OtherNumber}'");
+							_sql.Append($",Region = '{_objToUpdate.Region}'");
+							_sql.Append($",GenderFlag = '{_objToUpdate.GenderFlag}'");
+							_sql.Append($",Ironing = '{_objToUpdate.Ironing}'");
+							_sql.Append($",PrimaryZone = '{_objToUpdate.PrimaryZone}'");
+							_sql.Append($",SecondaryZone = '{_objToUpdate.SecondaryZone}'");
+							_sql.Append($",ApprovedZone = '{_objToUpdate.ApprovedZone}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
 
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PhysicalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PhysicalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PhysicalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PhysicalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PhysicalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
+
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PostalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PostalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PostalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PostalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PostalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
 						}
-
 					}
 					return JsonSuccessResponse("Cleaner saved successfully", _objToUpdate);
 				}
@@ -786,12 +837,56 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
+							StringBuilder _sql = new StringBuilder();
+
 							// no action on team member yet until it's deleted
 							_objToUpdate = UpdateCleanerTeam(_objToUpdate, dataItem);
 
-							db.getConnection().Update(_objToUpdate);
-							db.getConnection().Update(_objToUpdate.PhysicalAddress);
-							db.getConnection().Update(_objToUpdate.PostalAddress);
+							_sql.Append("Update CleanerTeam set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",FirstName = '{_objToUpdate.FirstName}'");
+							_sql.Append($",LastName = '{_objToUpdate.LastName}'");
+							_sql.Append($",EmailAddress = '{_objToUpdate.EmailAddress}'");
+							_sql.Append($",MobileNumber = '{_objToUpdate.MobileNumber}'");
+							_sql.Append($",GenderFlag = '{_objToUpdate.GenderFlag}'");
+							_sql.Append($",Ironing = {_objToUpdate.Ironing}");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
+
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PhysicalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PhysicalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PhysicalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PhysicalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PhysicalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
+
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PostalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PostalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PostalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PostalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PostalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
 
 						}
 					}
@@ -1096,6 +1191,7 @@ namespace MagicMaids.Controllers
 					{
 						// first delete the existing roster
 						List<CleanerRosteredTeam> _objChildToDelete = db.getConnection().GetList<CleanerRosteredTeam>().ToList();
+						StringBuilder _sql = new StringBuilder();
 						foreach (var _item in _objChildToDelete)
 						{
 							db.getConnection().Delete<CleanerRosteredTeam>(_item);
@@ -1110,11 +1206,38 @@ namespace MagicMaids.Controllers
 						// insert new roster
 						foreach (CleanerRoster _objToInsert in rosterList)
 						{
-							db.getConnection().Insert<CleanerRoster>(UpdateAuditTracking(_objToInsert));
+							var _obj = UpdateAuditTracking(_objToInsert);
+
+							_sql.Clear();
+							_sql.Append("Insert into CleanerRoster (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("PrimaryCleanerRefId, WeekDay, StartTime, EndTime, TeamCount)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_obj.Id}',");
+							_sql.Append($"'{_obj.CreatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_obj.UpdatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_obj.UpdatedBy}',");
+							_sql.Append($"{_obj.IsActive},");
+							_sql.Append($"'{_obj.RowVersion.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_obj.PrimaryCleanerRefId}',");
+							_sql.Append($"'{_obj.Weekday}',");
+							_sql.Append($"'{_obj.StartTime.ToUTCDate()}',");
+							_sql.Append($"'{_obj.EndTime.ToUTCDate()}',");
+							_sql.Append($"{_obj.TeamCount}");
+							_sql.Append(")");
+							db.getConnection().Execute(_sql.ToString());
 
 							foreach (CleanerRosteredTeam _objToInsertChild in _objToInsert.CleanerRosteredTeam)
 							{
-								db.getConnection().Insert<CleanerRosteredTeam>(UpdateAuditTracking(_objToInsertChild));
+								var _objRT = UpdateAuditTracking(_objToInsertChild);
+								_sql.Clear();
+								_sql.Append("Insert into CleanerRosteredTeam (Id, RosterRefId, TeamRefId, IsPrimary)");
+								_sql.Append(" values (");
+								_sql.Append($"'{_objRT.Id}',");
+								_sql.Append($"'{_objRT.RosterRefId}',");
+								_sql.Append($"'{_objRT.TeamRefId}',");
+								_sql.Append($"{_objRT.IsPrimary}");
+								_sql.Append(")");
+								db.getConnection().Execute(_sql.ToString());
 							}
 						}
 
@@ -1213,6 +1336,21 @@ namespace MagicMaids.Controllers
 							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
 							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
 
+							StringBuilder _sql = new StringBuilder();
+							_sql.Append("Insert into CleanerLeave (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("PrimaryCleanerRefId, StartDate, EndDate)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_objToUpdate.Id}',");
+							_sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+							_sql.Append($"{_objToUpdate.IsActive},");
+							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.PrimaryCleanerRefId}',");
+							_sql.Append($"{_objToUpdate.StartDate.ToUTCDate()},");
+							_sql.Append($"{_objToUpdate.EndDate.ToUTCDate()},");
+							_sql.Append(")");
+							db.getConnection().Execute(_sql.ToString());
 							db.getConnection().Insert<CleanerLeave>(UpdateAuditTracking(_objToUpdate));
 						}
 						else
@@ -1224,6 +1362,18 @@ namespace MagicMaids.Controllers
 								ModelState.AddModelError(string.Empty, $"{_objDesc} [{_id.ToString()}] not found.  Please try again.");
 								return JsonFormResponse();
 							}
+
+							StringBuilder _sql = new StringBuilder();
+							_sql.Append("Update CleanerLeave set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",PrimaryCleanerRefId = '{_objToUpdate.PrimaryCleanerRefId}'");
+							_sql.Append($",StartDate = '{_objToUpdate.StartDate.ToUTC()}'");
+							_sql.Append($",EndDate = '{_objToUpdate.EndDate.ToUTC()}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
 
 							db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
 						}

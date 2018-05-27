@@ -234,7 +234,6 @@ namespace MagicMaids.Controllers
 						if (bIsNew)
 						{
 							_objToUpdate = UpdateClient(null, dataItem);
-							//var newId = db.Insert(_objToUpdate); 
 
 							StringBuilder _sql = new StringBuilder();
 							if (_objToUpdate.PhysicalAddress != null)
@@ -327,12 +326,55 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-
+							StringBuilder _sql = new StringBuilder();
 							_objToUpdate = UpdateClient(_objToUpdate, dataItem);
 
-							db.getConnection().Update(_objToUpdate);
-							db.getConnection().Update(_objToUpdate.PhysicalAddress);
-							db.getConnection().Update(_objToUpdate.PostalAddress);
+							_sql.Append("Update Clients set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",FirstName = '{_objToUpdate.FirstName}'");
+							_sql.Append($",LastName = '{_objToUpdate.LastName}'");
+							_sql.Append($",EmailAddress = '{_objToUpdate.EmailAddress}'");
+							_sql.Append($",BusinessPhoneNumber = '{_objToUpdate.BusinessPhoneNumber}'");
+							_sql.Append($",MobileNumber = '{_objToUpdate.MobileNumber}'");
+							_sql.Append($",OtherNumber = '{_objToUpdate.OtherNumber}'");
+							_sql.Append($",ClientType = '{_objToUpdate.ClientType}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
+
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PhysicalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PhysicalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PhysicalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PhysicalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PhysicalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
+
+							_sql.Clear();
+							_sql.Append("Update Addresses set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",AddressLine1 = '{_objToUpdate.PostalAddress.AddressLine1}'");
+							_sql.Append($",AddressLine2 = '{_objToUpdate.PostalAddress.AddressLine2}'");
+							_sql.Append($",AddressLine3 = '{_objToUpdate.PostalAddress.AddressLine3}'");
+							_sql.Append($",Suburb = '{_objToUpdate.PostalAddress.Suburb}'");
+							_sql.Append($",State = '{_objToUpdate.PostalAddress.State}'");
+							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
+							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							db.getConnection().Execute(_sql.ToString());
 						}
 					}
 
@@ -638,8 +680,18 @@ namespace MagicMaids.Controllers
 						}
 
 						_objToUpdate.Details = Crypto.Encrypt(_ccDetails.ToString(), _hash);
+						_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
-						db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
+						StringBuilder _sql = new StringBuilder();
+						_sql.Append("Update Methods set ");
+						_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+						_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+						_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+						_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+						_sql.Append($",Details = '{_objToUpdate.Details}'");
+						_sql.Append($",Validated = '{_objToUpdate.Validated}'");
+						_sql.Append($" where Id = '{_objToUpdate.Id}'");
+						db.getConnection().Execute(_sql.ToString());
 					}
 
 					return JsonSuccessResponse("Payment method saved successfully", _objToUpdate);
@@ -804,8 +856,18 @@ namespace MagicMaids.Controllers
 
 							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
 							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
+							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
-							db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
+							StringBuilder _sql = new StringBuilder();
+							_sql.Append("Update CleanerLeave set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",StartDate = '{_objToUpdate.StartDate.ToUTC()}'");
+							_sql.Append($",EndDate = '{_objToUpdate.EndDate.ToUTC()}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
 						}
 
 						return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
