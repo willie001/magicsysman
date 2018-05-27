@@ -1,4 +1,3 @@
-/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/NLog.config
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/MagicMaids.pdb
@@ -21,5 +20,6 @@
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/System.Web.WebPages.Razor.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/WebMatrix.Data.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

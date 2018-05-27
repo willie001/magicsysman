@@ -144,6 +144,7 @@ namespace MagicMaids.Controllers
 					{
 						try
 						{
+							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 							StringBuilder _sql = new StringBuilder();
 							_sql.Append("Update SystemSettings set ");
 							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
