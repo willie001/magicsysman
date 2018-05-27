@@ -382,8 +382,14 @@ namespace MagicMaids.Controllers
 							_sql.Append($",MobileNumber = '{_objToUpdate.MobileNumber}'");
 							_sql.Append($",OtherNumber = '{_objToUpdate.OtherNumber}'");
 							_sql.Append($",CodeOfConductURL = '{_objToUpdate.CodeOfConductURL}'");
-							_sql.Append($",ManagementFeePercentage = {_objToUpdate.ManagementFeePercentage}");
-							_sql.Append($",RoyaltyFeePercentage = {_objToUpdate.RoyaltyFeePercentage}");
+							if (_objToUpdate.ManagementFeePercentage != null)
+							{
+								_sql.Append($",ManagementFeePercentage = {_objToUpdate.ManagementFeePercentage}");
+							}
+							if (_objToUpdate.RoyaltyFeePercentage != null)
+							{
+								_sql.Append($",RoyaltyFeePercentage = {_objToUpdate.RoyaltyFeePercentage}");
+							}
 							_sql.Append($",MetroRegion = '{_objToUpdate.MetroRegion}'");
 							_sql.Append($" where Id = '{_objToUpdate.Id}'");
 							db.getConnection().Execute(_sql.ToString());
@@ -401,7 +407,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",State = '{_objToUpdate.PhysicalAddress.State}'");
 							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
-							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							_sql.Append($" where Id = '{_objToUpdate.PhysicalAddress.Id}' ");
 							db.getConnection().Execute(_sql.ToString());
 
 							_sql.Clear();
@@ -417,7 +423,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",State = '{_objToUpdate.PostalAddress.State}'");
 							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
-							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							_sql.Append($" where Id = '{_objToUpdate.PostalAddress.Id}' ");
 							db.getConnection().Execute(_sql.ToString());
 						}
 

@@ -584,7 +584,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
 							_sql.Append($",RateCode = '{_objToUpdate.RateCode}'");
 							_sql.Append($",RateAmount = {_objToUpdate.RateAmount}");
-							_sql.Append($",RateApplications = '{_objToUpdate.RateApplications}'");
+							_sql.Append($",RateApplications = '{(int)_objToUpdate.RateApplications}'");
 							_sql.Append($",FranchiseId = '{_objToUpdate.FranchiseId}'");
 							_sql.Append($" where Id = '{_objToUpdate.Id}'");
 							db.getConnection().Execute(_sql.ToString());

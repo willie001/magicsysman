@@ -140,6 +140,7 @@ namespace MagicMaids
 		public void Log(LogLevels logLevel, String customMessage, String callingMethod, Exception ex = null, Object classInstance = null, String validationErrors = null)
 		{
 			String _logDate = "";
+			StringBuilder _sql = new StringBuilder();
 			try
 			{
 				_logDate = DateTimeWrapper.NowUtc.FormatDatabaseDateTime();
@@ -150,8 +151,8 @@ namespace MagicMaids
 				customMessage += " (*)";
 			}
 
-			//try
-			//{
+			try
+			{
 				var result = Task.Run(() => {
 					return LogRaven(customMessage, callingMethod, ex, classInstance, validationErrors);
 				});
@@ -205,7 +206,6 @@ namespace MagicMaids
 					_object = GetObjectData(classInstance);
 				}
 
-				StringBuilder _sql = new StringBuilder();
 				_sql.Append(@"insert into Logs (
 			      LoggedDate, Level, Message, UserName,
 			      URL, ServerAddress, RemoteAddress,
@@ -216,7 +216,7 @@ namespace MagicMaids
 			    ) values (");
 				_sql.Append($"'{_logDate}',");
 				_sql.Append($"'{logLevel.ToString()}',");
-				_sql.Append($"'{customMessage}',");
+				_sql.Append($"'{customMessage.Replace("'", "`")}',");
 				_sql.Append($"'{_currentUser}',");
 				_sql.Append($"'{_url}',");
 				_sql.Append($"'{_server}',");
@@ -225,19 +225,19 @@ namespace MagicMaids
 				_sql.Append($"'{_mvcAction}',");
 				_sql.Append($"'{_logger}',");
 				_sql.Append($"'{_callSite}',");
-				_sql.Append($"'{_event}',");
-				_sql.Append($"'{_innerError}',");
-				_sql.Append($"'{_error}',");
-				_sql.Append($"'{_object}')");
+				_sql.Append($"'{_event.Replace("'", "`")}',");
+				_sql.Append($"'{_innerError.Replace("'", "`")}',");
+				_sql.Append($"'{_error.Replace("'", "`")}',");
+				_sql.Append($"'{_object.Replace("'", "`")}')");
 				using (DBManager db = new DBManager())
 				{
 					db.getConnection().Execute(_sql.ToString());
 				}
-			//}
-			//catch(Exception bigEx)
-			//{
-			//	HttpContext.Current.Response.Write(bigEx.Message);
-			//}
+			}
+			catch(Exception bigEx)
+			{
+				HttpContext.Current.Response.Write(bigEx.Message);
+			}
 		}
 
 		public static string GetObjectData(object instanceClass)

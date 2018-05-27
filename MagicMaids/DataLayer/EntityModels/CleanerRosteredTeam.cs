@@ -18,7 +18,7 @@ namespace MagicMaids.EntityModels
 		{
 			get
 			{
-				if (!Helpers.IsValidGuid(_id.ToString()))
+				if (_id == null || !Helpers.IsValidGuid(_id))
 				{
 					_id = Guid.NewGuid().ToString();
 				}
@@ -27,7 +27,7 @@ namespace MagicMaids.EntityModels
 			}
 			set
 			{
-				if (value.ToString() != _id.ToString() && Helpers.IsValidGuid(value))
+				if (value != null && Helpers.IsValidGuid(value))
 				{
 					_id = value;
 				}

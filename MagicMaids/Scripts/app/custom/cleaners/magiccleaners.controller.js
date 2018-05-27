@@ -507,7 +507,7 @@
         		//console.log("<XX> - " + angular.toJson(vm.cleanerForm.$error));
             	$scope.submitted = false;
             	ShowUserMessages.show($scope, "Error updating cleaner details - please review validation errors", "Error updating details.");
-        		return false;
+        		//return false;
         	}
       	}
 	}

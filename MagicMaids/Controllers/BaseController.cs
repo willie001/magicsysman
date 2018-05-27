@@ -179,21 +179,30 @@ namespace MagicMaids.Controllers
 				currentUser = "TODO";
 
 			Type t = dataInstance.GetType();
-			var _instance = (IDataModel)dataInstance;
+			IDataModel _instance = null;
 			var _dateTimeStamp = DateTimeWrapper.NowUtc;
-			if (_instance != null)
+			try
 			{
-				if (_instance.CreatedAt.Year < 1950)
+				_instance = (IDataModel)dataInstance;
+				if (_instance != null)
 				{
-					_instance.CreatedAt = _dateTimeStamp;
+					if (_instance.CreatedAt.Year < 1950)
+					{
+						_instance.CreatedAt = _dateTimeStamp;
+					}
+
+					_instance.UpdatedAt = _dateTimeStamp;
+					_instance.RowVersion = _dateTimeStamp;
+					_instance.UpdatedBy = currentUser;
+
+					dataInstance = (T)_instance;
 				}
-
-				_instance.UpdatedAt = _dateTimeStamp;
-				_instance.RowVersion = _dateTimeStamp;
-				_instance.UpdatedBy = currentUser;
-
-				dataInstance = (T)_instance;
 			}
+			catch
+			{
+				
+			}
+
 			//Type t = dataInstance.GetType();
 			//if (t.IsGenericType)
 			//{

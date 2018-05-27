@@ -357,7 +357,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",State = '{_objToUpdate.PhysicalAddress.State}'");
 							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
-							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							_sql.Append($" where Id = '{_objToUpdate.PhysicalAddress.Id}' ");
 							db.getConnection().Execute(_sql.ToString());
 
 							_sql.Clear();
@@ -373,7 +373,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",State = '{_objToUpdate.PostalAddress.State}'");
 							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
-							_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+							_sql.Append($" where Id = '{_objToUpdate.PostalAddress.Id}' ");
 							db.getConnection().Execute(_sql.ToString());
 						}
 					}
