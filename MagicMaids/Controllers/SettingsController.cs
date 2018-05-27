@@ -133,7 +133,9 @@ namespace MagicMaids.Controllers
 
 				using (DBManager db = new DBManager())
 				{
-					SystemSetting _objToUpdate = db.getConnection().Get<SystemSetting>(_id); 
+					StringBuilder _sql = new StringBuilder();
+					_sql.Append($"Select * from SystemSettings where Id = '{_id}'");
+					SystemSetting _objToUpdate = db.getConnection().Query<SystemSetting>(_sql.ToString()).SingleOrDefault(); 
 					if (_objToUpdate == null)
 					{
 						ModelState.AddModelError(string.Empty, $"Setting [{_id.ToString()}] not found.  Please try again.");
@@ -145,7 +147,8 @@ namespace MagicMaids.Controllers
 						try
 						{
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
-							StringBuilder _sql = new StringBuilder();
+
+							_sql.Clear();
 							_sql.Append("Update SystemSettings set ");
 							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
 							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
@@ -317,7 +320,9 @@ namespace MagicMaids.Controllers
 						}
 						else
 						{
-							_objToUpdate = db.getConnection().Get<SuburbZone>(_id);
+							StringBuilder _sql = new StringBuilder();
+							_sql.Append($"Select * from SuburbZones where Id = '{_id}'");
+							_objToUpdate = db.getConnection().Query<SuburbZone>(_sql.ToString()).SingleOrDefault(); 
 
 							if (_objToUpdate == null)
 							{
@@ -326,8 +331,7 @@ namespace MagicMaids.Controllers
 							}
 
 							_objToUpdate = UpdateAuditTracking(UpdateSettings(_objToUpdate, formValues));
-
-							StringBuilder _sql = new StringBuilder();
+							_sql.Clear();
 							_sql.Append("Update SuburbZones set ");
 							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
 							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
@@ -560,7 +564,9 @@ namespace MagicMaids.Controllers
 						}
 						else
 						{
-							_objToUpdate = db.getConnection().Get<Rate>(_id);
+							StringBuilder _sql = new StringBuilder();
+							_sql.Append($"Select * from Rates where id = '{_id}'");
+							_objToUpdate = db.getConnection().Query<Rate>(_sql.ToString()).SingleOrDefault();
 
 							if (_objToUpdate == null)
 							{
@@ -569,7 +575,19 @@ namespace MagicMaids.Controllers
 							}
 
 							_objToUpdate = UpdateRates(_objToUpdate, formValues, _selection);
-							db.getConnection().Update(_objToUpdate);
+
+							_sql.Clear();
+							_sql.Append("Update Rates set ");
+							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
+							_sql.Append($",RateCode = '{_objToUpdate.RateCode}'");
+							_sql.Append($",RateAmount = {_objToUpdate.RateAmount}");
+							_sql.Append($",RateApplications = '{_objToUpdate.RateApplications}'");
+							_sql.Append($",FranchiseId = '{_objToUpdate.FranchiseId}'");
+							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							db.getConnection().Execute(_sql.ToString());
 						}
 
 						IAppCache cache = new CachingService();
