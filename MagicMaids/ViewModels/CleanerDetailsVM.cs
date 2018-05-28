@@ -425,12 +425,12 @@ namespace MagicMaids.ViewModels
 			if (cleanerId.Equals(Guid.Empty))
 				return;
 
-			Id = (Helpers.IsValidGuid(entityModel.Id)) ? entityModel.Id.ToString() : "";
+			Id = (Helpers.IsValidGuid(entityModel.Id)) ? entityModel.Id : "";
 
 			Weekday = entityModel.Weekday;
 			TeamCount = entityModel.TeamCount;
-			StartTime = entityModel.StartTime;
-			EndTime = entityModel.EndTime;
+			StartTime = new DateTime(entityModel.StartTime);
+			EndTime = new DateTime(entityModel.EndTime);
 			IsActive = true;
 
 			TeamMembers = new List<RosterTeamMembersVM>();
@@ -526,13 +526,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public DateTime StartTime
+		public long StartTime
 		{
 			get;
 			set;
 		}
 
-		public DateTime EndTime
+		public long EndTime
 		{
 			get;
 			set;
@@ -628,8 +628,8 @@ namespace MagicMaids.ViewModels
 			Id = entityModel.Id;
 			PrimaryCleanerRefId = (Helpers.IsValidGuid(cleanerId)) ? cleanerId.Value.ToString() : "";
 
-			StartDate = entityModel.StartDate.ToUserDate();
-			EndDate = entityModel.EndDate.ToUserDate();
+			StartDate = entityModel.StartDate.ToUser();
+			EndDate = entityModel.EndDate.ToUser();
 		}
 		#endregion
 	}

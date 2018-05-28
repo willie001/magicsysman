@@ -821,8 +821,8 @@ namespace MagicMaids.Controllers
 						{
 							_objToUpdate = new ClientLeave();
 							_objToUpdate.ClientRefId = formValues.ClientId;
-							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
+							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
 
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
@@ -837,8 +837,8 @@ namespace MagicMaids.Controllers
 							_sql.Append($"{_objToUpdate.IsActive},");
 							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.ClientRefId}',");
-							_sql.Append($"'{_objToUpdate.StartDate.ToString()}',");
-							_sql.Append($"'{_objToUpdate.EndDate.ToString()}'");
+							_sql.Append($"'{_objToUpdate.StartDate.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.EndDate.FormatDatabaseDateTime()}'");
 							_sql.Append(")");
 							db.getConnection().Execute(_sql.ToString());
 						}
@@ -854,8 +854,8 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
+							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
 							StringBuilder _sql = new StringBuilder();
@@ -864,8 +864,8 @@ namespace MagicMaids.Controllers
 							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
 							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
 							_sql.Append($",IsActive = {_objToUpdate.IsActive}");
-							_sql.Append($",StartDate = '{_objToUpdate.StartDate.ToUTC()}'");
-							_sql.Append($",EndDate = '{_objToUpdate.EndDate.ToUTC()}'");
+							_sql.Append($",StartDate = '{_objToUpdate.StartDate.FormatDatabaseDateTime()}'");
+							_sql.Append($",EndDate = '{_objToUpdate.EndDate.FormatDatabaseDateTime()}'");
 							_sql.Append($" where Id = '{_objToUpdate.Id}'");
 							db.getConnection().Execute(_sql.ToString());
 						}

@@ -40,16 +40,6 @@ namespace MagicMaids
 			return NowUtc.FormatUserDateTime();
 		}
 
-		public static DateTime ToUserDate(this DateTime utcDateTime)
-		{
-			return utcDateTime.ToUser().Date;
-		}
-
-		public static DateTime ToUTCDate(this DateTime localDateTime)
-		{
-			return localDateTime.ToUTC().Date;
-		}
-
 		/// <summary>
 		/// Converts a non-local-time DateTime to a local-time DateTime based on the
 		/// specified timezone. The returned object will be of Unspecified DateTimeKind 

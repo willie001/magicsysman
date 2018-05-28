@@ -42,8 +42,8 @@ namespace MagicMaids
 			output.Append($"{seperator}");
 
 			output.Append($"DATE ONLY - USER LOCATION:{seperator}");
-			output.Append($"Current date at user location (DateTimeWrapper.ToUserDate Method): {DateTimeWrapper.NowUtc.ToUserDate()}{seperator}");
-			output.Append($"Current date at UTC location (DateTimeWrapper.ToUtcDate Extension): {_nodeDateTime.ToDateTimeUtc().ToUTCDate()}{seperator}");
+			output.Append($"Current date at user location (DateTimeWrapper.ToUserDate Method): {DateTimeWrapper.NowUtc.ToUser().Date}{seperator}");
+			output.Append($"Current date at UTC location (DateTimeWrapper.ToUtcDate Extension): {_nodeDateTime.ToDateTimeUtc().ToUTC().Date}{seperator}");
 
 			output.Append($"{seperator}");
 

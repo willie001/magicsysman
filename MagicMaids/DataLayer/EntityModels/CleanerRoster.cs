@@ -27,8 +27,7 @@ namespace MagicMaids.EntityModels
 		}
 
 		[Required]
-		[DataType(DataType.Time)]
-		public DateTime StartTime
+		public long StartTime
 		{
 			get
 			{
@@ -43,11 +42,10 @@ namespace MagicMaids.EntityModels
 				}
 			}
 		}
-		private DateTime _startTime;
+		private long _startTime;
 
 		[Required]
-		[DataType(DataType.Time)]
-		public DateTime EndTime
+		public long EndTime
 		{
 			get
 			{
@@ -61,7 +59,7 @@ namespace MagicMaids.EntityModels
 				}
 			}
 		}
-		private DateTime _endTime;
+		private long _endTime;
 
 		#endregion
 

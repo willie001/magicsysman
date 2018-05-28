@@ -1081,37 +1081,26 @@ namespace MagicMaids.Controllers
 				return JsonFormResponse();
 			}
 
-			string sql = @"SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount,
-				 CT.ID, CT.FirstName, CT.LastName, CRT.IsPrimary 
-				 FROM CleanerRoster CR 
-				 inner JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 0 
-				 inner JOIN CleanerTeam CT on CT.ID = CRT.TeamRefId 
-				 WHERE CR.PrimaryCleanerRefId = '" + CleanerId + "' " +
-				 @" AND CR.IsActive = 1 
-				 UNION 
-				 SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, 
-				 C.ID, C.FirstName, C.LastName , CRT.IsPrimary 
-				 FROM CleanerRoster CR 
-				 INNER JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 1 
-				 INNER JOIN Cleaners C on C.ID = CRT.TeamRefId AND CRT.IsPrimary = 1 
-				 WHERE CR.PrimaryCleanerRefId = '" + CleanerId + "' " +
-				 @"ORDER BY WeekDay, StartTime, EndTime";
-			//using (var context = new MagicMaidsContext())
-			//{
-			//	var _results = context.Database.SqlQuery<RosterTeamMembersVM>(query).ToList();
-			//	List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
+			StringBuilder sql = new StringBuilder();
+			sql.Append("SELECT CR.ID RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, CT.ID, CT.FirstName, CT.LastName, CRT.IsPrimary ");
+			sql.Append(" FROM CleanerRoster CR ");
+			sql.Append(" inner JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 0 ");
+			sql.Append(" inner join CleanerTeam CT on CT.ID = CRT.TeamRefId ");
+			sql.Append($" WHERE CR.PrimaryCleanerRefId = '{CleanerId}' ");
+			sql.Append(" AND CR.IsActive = 1 ");
+			sql.Append(" UNION ");
+			sql.Append(" SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, C.ID, C.FirstName, C.LastName , CRT.IsPrimary ");
+			sql.Append(" FROM CleanerRoster CR ");
+			sql.Append(" INNER JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 1");
+			sql.Append(" INNER JOIN Cleaners C on C.ID = CRT.TeamRefId AND CRT.IsPrimary = 1 ");
+			sql.Append($" WHERE CR.PrimaryCleanerRefId = '{CleanerId}' ");
+			sql.Append(" ORDER BY WeekDay, StartTime, EndTime");
 
-			//	return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-			//}
 			using (DBManager db = new DBManager())
 			{
-				//var _results = db.Query<CleanerRoster, CleanerRosteredTeam, CleanerRoster>(sql, (r, ct) => {
-				//	r.CleanerRosteredTeam = ct;
-				//	return r;
-				//}).ToList();
-				var _results = db.getConnection().GetList<RosterTeamMembersVM>(sql.ToString()).ToList();
-
-				List<CleanerRosterVM> _rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
+				List<CleanerRosterVM> _rosterList = null;
+				var _results = db.getConnection().Query<RosterTeamMembersVM>(sql.ToString()).ToList();
+				_rosterList = CleanerRosterVM.PopulateCollection(CleanerId, _results);
 
 				return new JsonNetResult() { Data = new { list = _rosterList }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 			}
@@ -1160,8 +1149,8 @@ namespace MagicMaids.Controllers
 					{
 						roster = new CleanerRoster()
 						{
-							StartTime = item.StartTime.ToUTCDate(),
-							EndTime = item.EndTime.ToUTCDate(),
+							StartTime = new TimeSpan(item.StartTime.Hour, item.StartTime.Minute, 0).Ticks,
+							EndTime = new TimeSpan(item.EndTime.Hour, item.EndTime.Minute, 0).Ticks,
 							TeamCount = item.TeamCount,
 							Weekday = item.Weekday,
 							IsActive = item.IsActive,
@@ -1175,11 +1164,11 @@ namespace MagicMaids.Controllers
 							{
 								rosteredTeam = new CleanerRosteredTeam()
 								{
-									RosterRefId = roster.Id.ToString(),
+									RosterRefId = roster.Id,
 									IsPrimary = teamMember.IsPrimary,
-									TeamRefId = teamMember.Id.ToString()
+									TeamRefId = teamMember.Id
 								};
-								_checkList.Add(teamMember.Id.ToString());
+								_checkList.Add(teamMember.Id);
 								roster.CleanerRosteredTeam.Add(rosteredTeam);
 							}
 						}
@@ -1232,8 +1221,8 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_obj.RowVersion.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_obj.PrimaryCleanerRefId}',");
 							_sql.Append($"'{_obj.Weekday}',");
-							_sql.Append($"'{_obj.StartTime.ToUTCDateTime().FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_obj.EndTime.ToUTCDateTime().FormatDatabaseDateTime()}',");
+							_sql.Append($"{_obj.StartTime},");
+							_sql.Append($"{_obj.EndTime},");
 							_sql.Append($"{_obj.TeamCount}");
 							_sql.Append(")");
 							db.getConnection().Execute(_sql.ToString());
@@ -1345,8 +1334,8 @@ namespace MagicMaids.Controllers
 						{
 							_objToUpdate = new CleanerLeave();
 							_objToUpdate.PrimaryCleanerRefId = formValues.PrimaryCleanerRefId.ToString();
-							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
+							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
 
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
@@ -1376,8 +1365,8 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							_objToUpdate.StartDate = formValues.StartDate.ToUTCDate();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTCDate();
+							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
+							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
 
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
