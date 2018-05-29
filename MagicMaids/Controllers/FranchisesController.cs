@@ -589,7 +589,16 @@ namespace MagicMaids.Controllers
 
 						_objToUpdate.ManagementFeePercentage = dataItem.ManagementFeePercentage;
 						_objToUpdate.RoyaltyFeePercentage = dataItem.RoyaltyFeePercentage;
-						db.getConnection().Update(UpdateAuditTracking(_objToUpdate));
+
+						StringBuilder _sql = new StringBuilder();
+						_sql.Append("Update Franchises set ");
+						_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
+						_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
+						_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
+						_sql.Append($",ManagementFeePercentage = {_objToUpdate.ManagementFeePercentage}");
+						_sql.Append($",RoyaltyFeePercentage = {_objToUpdate.RoyaltyFeePercentage}");
+						_sql.Append($" where Id = '{_objToUpdate.Id}' ");
+						db.getConnection().Execute(_sql.ToString());
 					}
 					return JsonSuccessResponse("Franchise settings saved successfully", _objToUpdate);
 				}

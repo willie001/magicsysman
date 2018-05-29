@@ -1,25 +1,18 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/DBManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/FranchisesController.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="23" Column="3" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1110" Column="65" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="870" Column="1" />
-      <File FileName="MagicMaids/Properties/AssemblyInfo.cs" Line="27" Column="22" />
-      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="38" Column="1" />
-      <File FileName="MagicMaids/Views/Pages/ConnValidator.cshtml" Line="13" Column="39" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="49" Column="54" />
-      <File FileName="MagicMaids/Helpers/Helpers.cs" Line="383" Column="1" />
-      <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="133" Column="52" />
+      <File FileName="MagicMaids/Controllers/FranchisesController.cs" Line="413" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="FranchisesController.cs" selected="True" />
+              </Node>
               <Node name="DataLayer" expanded="True">
-                <Node name="DataContext" expanded="True">
-                  <Node name="DBManager.cs" selected="True" />
-                </Node>
+                <Node name="DataContext" expanded="True" />
               </Node>
               <Node name="Helpers" expanded="True" />
               <Node name="Properties" expanded="True" />
@@ -50,8 +43,6 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="239" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="383" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1383" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Helpers.cs" relfile="MagicMaids/Helpers/Helpers.cs" line="369" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/DataLayer/DataContext/DBManager.cs" relfile="MagicMaids/DataLayer/DataContext/DBManager.cs" line="133" column="52" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
