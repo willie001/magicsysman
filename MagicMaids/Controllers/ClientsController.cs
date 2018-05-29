@@ -745,8 +745,8 @@ namespace MagicMaids.Controllers
 			{
 				using (DBManager db = new DBManager())
 				{
-					
-					db.getConnection().Delete<ClientMethod>(id);
+					String _sql = $"delete from methods where id = '{id}'";
+					db.getConnection().Execute(_sql);
 					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id = " + id);
 				}
 			}
