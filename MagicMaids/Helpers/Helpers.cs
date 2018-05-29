@@ -344,6 +344,47 @@ namespace MagicMaids
 			// card types as it pertains to your application)
 			//return null;
 		}
+
+		public static string StringScrubber(this string inputString, string firstMatch, string secondMatch = "", string replaceString = " ")
+		{
+			if (String.IsNullOrWhiteSpace(inputString))
+			{
+				return inputString;
+			}
+
+			bool startMatch = !String.IsNullOrWhiteSpace(firstMatch);
+			bool endMatch = !String.IsNullOrWhiteSpace(secondMatch);
+			bool hasReplacement = !String.IsNullOrWhiteSpace(replaceString);
+
+			if (!hasReplacement)
+			{
+				replaceString = " ";
+			}
+
+			if (!startMatch && !endMatch)
+			{
+				return inputString;
+			}
+
+			int start = (startMatch) ? inputString.IndexOf(firstMatch, StringComparison.OrdinalIgnoreCase) + firstMatch.Length : 0;
+			int end = (endMatch) ? inputString.IndexOf(secondMatch, (start+1), StringComparison.OrdinalIgnoreCase) : inputString.Length - 1;
+
+			if (end <= start)
+			{
+				return inputString;
+			}
+
+			var replacementString = new StringBuilder(end - start)
+						.Insert(0, replaceString, (end - start))
+						.ToString();
+
+			var oldString = inputString.Substring(start, end - start);
+
+			StringBuilder output = new StringBuilder(inputString);
+			output.Replace(oldString, replacementString);
+
+			return output.ToString();
+		}
 #endregion
 	}
 }

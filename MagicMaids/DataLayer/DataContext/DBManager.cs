@@ -128,7 +128,9 @@ namespace MagicMaids.DataAccess
 		public static string getConnectionStringDisplay()
 		{
 			DBManager dB = new DBManager();
-			return dB.getConnectionString();
+			var _conn =  dB.getConnectionString();
+
+			return _conn.StringScrubber("Password=", ";", "*");
 		}
 
 		#endregion 
