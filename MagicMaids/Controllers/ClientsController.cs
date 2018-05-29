@@ -932,7 +932,9 @@ namespace MagicMaids.Controllers
 			{
 				using (DBManager db = new DBManager())
 				{
-					db.getConnection().Delete<ClientLeave>(id.Value);
+					String _sql = $"delete from clientleave where id = '{id}'";
+					db.getConnection().Execute(_sql);
+
 					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id=" + id.Value);
 				}
 			}
