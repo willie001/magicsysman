@@ -859,7 +859,7 @@ namespace MagicMaids.Controllers
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
 							StringBuilder _sql = new StringBuilder();
-							_sql.Append("Update CleanerLeave set ");
+							_sql.Append("Update ClientLeave set ");
 							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
 							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
 							_sql.Append($",UpdatedBy = '{_objToUpdate.UpdatedBy}'");
