@@ -482,16 +482,20 @@ namespace MagicMaids.Controllers
 		private List<RateListVM> GetRatesPrivate(Guid? franchiseId)
 		{
 			List<Rate> _entityList = new List<Rate>();
+			StringBuilder _sql = new StringBuilder();
 
 			using (DBManager db = new DBManager())
 			{
 				if (franchiseId.HasValue && Helpers.IsValidGuid(franchiseId))
 				{
-					_entityList = db.getConnection().GetList<Rate>(new { franchiseId = franchiseId.Value.ToString() }).ToList();
+					_sql.Append($"select * from rates where franchiseId = '{franchiseId.Value.ToString()}'");
+					_entityList = db.getConnection().Query<Rate>(_sql.ToString()).ToList();
+
 				}
 				else
 				{
-					_entityList = db.getConnection().GetList<Rate>().ToList();
+					_sql.Append("select * from rates");
+					_entityList = db.getConnection().Query<Rate>(_sql.ToString()).ToList();
 				}
 			}
 

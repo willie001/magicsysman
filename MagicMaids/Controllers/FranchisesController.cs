@@ -576,10 +576,12 @@ namespace MagicMaids.Controllers
 				try
 				{
 					Franchise _objToUpdate = null;
-
+					StringBuilder _sql = new StringBuilder();
+						
 					using (DBManager db = new DBManager())
 					{
-						_objToUpdate = db.getConnection().Get<Franchise>(_id);
+						_sql.Append($"select * from Franchises where Id = '{_id}'");
+						_objToUpdate = db.getConnection().Query<Franchise>(_sql.ToString()).SingleOrDefault();
 
 						if (_objToUpdate == null)
 						{
@@ -590,7 +592,7 @@ namespace MagicMaids.Controllers
 						_objToUpdate.ManagementFeePercentage = dataItem.ManagementFeePercentage;
 						_objToUpdate.RoyaltyFeePercentage = dataItem.RoyaltyFeePercentage;
 
-						StringBuilder _sql = new StringBuilder();
+						_sql.Clear();
 						_sql.Append("Update Franchises set ");
 						_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
 						_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
