@@ -1,16 +1,14 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/ClientsController.cs">
     <Files>
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="750" Column="6" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="937" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True">
-                <Node name="ClientsController.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
               <Node name="DataLayer" expanded="True">
                 <Node name="DataContext" expanded="True" />
               </Node>
@@ -28,6 +26,7 @@
                 <Node name="Cleaners" expanded="True" />
                 <Node name="Pages" expanded="True" />
               </Node>
+              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>
