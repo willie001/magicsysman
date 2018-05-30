@@ -1,32 +1,28 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/ClientsController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/SearchController.cs">
     <Files>
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="937" Column="6" />
+      <File FileName="MagicMaids/Web.config" Line="19" Column="8" />
+      <File FileName="MagicMaids/Controllers/SettingsController.cs" Line="165" Column="1" />
+      <File FileName="MagicMaids/Helpers/SystemSettings.cs" Line="128" Column="1" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1146" Column="7" />
+      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="432" Column="1" />
+      <File FileName="MagicMaids/Helpers/ModelValidators.cs" Line="479" Column="90" />
+      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="50" Column="38" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Controllers" expanded="True" />
+              <Node name="Packages" expanded="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="SearchController.cs" selected="True" />
+              </Node>
               <Node name="DataLayer" expanded="True">
                 <Node name="DataContext" expanded="True" />
               </Node>
               <Node name="Helpers" expanded="True" />
-              <Node name="Properties" expanded="True" />
-              <Node name="Scripts" expanded="True">
-                <Node name="app" expanded="True">
-                  <Node name="custom" expanded="True">
-                    <Node name="cleaners" expanded="True" />
-                  </Node>
-                </Node>
-              </Node>
               <Node name="ViewModels" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="Cleaners" expanded="True" />
-                <Node name="Pages" expanded="True" />
-              </Node>
-              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>
@@ -41,9 +37,13 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="150" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="239" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="383" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1383" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1386" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="597" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="475" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/SystemSettings.cs" relfile="MagicMaids/Helpers/SystemSettings.cs" line="128" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="165" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/CleanerDetailsVM.cs" relfile="MagicMaids/ViewModels/CleanerDetailsVM.cs" line="432" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/SystemSettings.cs" relfile="MagicMaids/Helpers/SystemSettings.cs" line="139" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

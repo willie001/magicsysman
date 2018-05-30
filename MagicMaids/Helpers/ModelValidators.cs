@@ -474,11 +474,9 @@ namespace MagicMaids.Validators
 			When(x => (x.OneOffJob == true || x.VacateClean == true), () =>
 			{
 				RuleFor(x => x.ServiceDate).GreaterThanOrEqualTo(DateTime.Now.AddDays(-1)).WithMessage("Service date can't be in the past.");
-				RuleFor(x => x.ServiceDate).LessThanOrEqualTo(DateTime.Now.AddDays(SystemSettings.BookingsDaysAllowed)).WithMessage($"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
 			});
 
 			RuleFor(x => x.ServiceLength).NotEmpty().WithMessage("Service duration is required.");
-			RuleFor(x => x.ServiceLength).GreaterThan(0).LessThanOrEqualTo(SystemSettings.WorkSessionMaxHours).WithMessage($"Service duration can not exceed {SystemSettings.WorkSessionMaxHours} hours.");
 		}
 
 		private bool IsJobSelected(SearchVM c)

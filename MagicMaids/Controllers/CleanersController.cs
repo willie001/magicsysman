@@ -1147,6 +1147,9 @@ namespace MagicMaids.Controllers
 
 					if (ModelState.IsValid)
 					{
+						var _testStart = new TimeSpan(item.StartTime.Hour, item.StartTime.Minute, 0).Ticks;
+						var _testEnd = new TimeSpan(item.EndTime.Hour, item.EndTime.Minute, 0).Ticks;
+
 						roster = new CleanerRoster()
 						{
 							StartTime = new TimeSpan(item.StartTime.Hour, item.StartTime.Minute, 0).Ticks,

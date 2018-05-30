@@ -40,6 +40,16 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"No search criteria specified.");
 			}
 
+			if (searchCriteria.ServiceLength > SystemSettings.WorkSessionMaxHours)
+			{
+				ModelState.AddModelError(string.Empty, $"Service duration can not exceed { SystemSettings.WorkSessionMaxHours} hours.");
+			}
+
+			if ((searchCriteria.OneOffJob || searchCriteria.VacateClean) && ((searchCriteria.ServiceDate-DateTime.Now.ToUTC()).TotalDays > SystemSettings.BookingsDaysAllowed))
+			{
+				ModelState.AddModelError(string.Empty, $"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
+			}
+
 			if (ModelState.IsValid)
 			{
 				try
