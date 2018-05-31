@@ -181,7 +181,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.StartDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.StartDate.ToUTC()).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc).WithMessage("Leave start date can not be in the past.");
+				RuleFor(x => x.StartDate.ToUTC().Date).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc.Date).WithMessage("Leave start date can not be in the past.");
 				RuleFor(x => x.EndDate)
 					.NotEmpty()
 					.Must((x, EndDate) => EndDate >= x.StartDate)
@@ -190,7 +190,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.EndDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.EndDate.ToUTC()).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc).WithMessage("Leave end date can not be in the past.");
+				RuleFor(x => x.EndDate.ToUTC().Date).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc.Date).WithMessage("Leave end date can not be in the past.");
 				RuleFor(x => x.StartDate)
 					.NotEmpty()
 					.Must((x, StartDate) => StartDate <= x.EndDate)
@@ -263,7 +263,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.StartDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.StartDate.ToUTC()).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc).WithMessage("Leave start date can not be in the past.");
+				RuleFor(x => x.StartDate.ToUTC().Date).GreaterThan(DateTimeWrapper.NowUtc.Date).WithMessage("Leave start date can not be in the past.");
 				RuleFor(x => x.EndDate)
 					.NotEmpty()
 					.Must((x, EndDate) => EndDate >= x.StartDate)
@@ -272,7 +272,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.EndDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.EndDate.ToUTC()).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc).WithMessage("Leave end date can not be in the past.");
+				RuleFor(x => x.EndDate.ToUTC().Date).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc.Date).WithMessage("Leave end date can not be in the past.");
 				RuleFor(x => x.StartDate)
 					.NotEmpty()
 					.Must((x, StartDate) => StartDate <= x.EndDate)
