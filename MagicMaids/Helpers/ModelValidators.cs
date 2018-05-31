@@ -181,7 +181,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.StartDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.StartDate).GreaterThan(DateTime.Now).WithMessage("Leave start date must be in the future.");
+				RuleFor(x => x.StartDate.ToUTC()).GreaterThan(DateTimeWrapper.NowUtc).WithMessage("Leave start date can not be in the past.");
 				RuleFor(x => x.EndDate)
 					.NotEmpty()
 					.Must((x, EndDate) => EndDate >= x.StartDate)
@@ -190,7 +190,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.EndDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.EndDate).GreaterThan(DateTime.Now).WithMessage("Leave end date must be in the future.");
+				RuleFor(x => x.EndDate.ToUTC()).GreaterThan(DateTimeWrapper.NowUtc).WithMessage("Leave end date can not be in the past.");
 				RuleFor(x => x.StartDate)
 					.NotEmpty()
 					.Must((x, StartDate) => StartDate <= x.EndDate)
@@ -263,7 +263,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.StartDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.StartDate).GreaterThan(DateTime.Now).WithMessage("Leave start date must be in the future.");
+				RuleFor(x => x.StartDate.ToUTC()).GreaterThan(DateTimeWrapper.NowUtc).WithMessage("Leave start date can not be in the past.");
 				RuleFor(x => x.EndDate)
 					.NotEmpty()
 					.Must((x, EndDate) => EndDate >= x.StartDate)
@@ -272,7 +272,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.EndDate.Year > 1950), () =>
 			{
-				RuleFor(x => x.EndDate).GreaterThan(DateTime.Now).WithMessage("Leave end date must be in the future.");
+				RuleFor(x => x.EndDate.ToUTC()).GreaterThan(DateTimeWrapper.NowUtc).WithMessage("Leave end date can not be in the past.");
 				RuleFor(x => x.StartDate)
 					.NotEmpty()
 					.Must((x, StartDate) => StartDate <= x.EndDate)
@@ -421,7 +421,7 @@ namespace MagicMaids.Validators
 					return false;
 				}
 
-				if (_year < DateTime.Now.Year)
+				if (_year < DateTimeWrapper.NowUtc.Year)
 				{
 					return false;
 				}
@@ -473,7 +473,7 @@ namespace MagicMaids.Validators
 
 			When(x => (x.OneOffJob == true || x.VacateClean == true), () =>
 			{
-				RuleFor(x => x.ServiceDate).GreaterThanOrEqualTo(DateTime.Now.AddDays(-1)).WithMessage("Service date can't be in the past.");
+				RuleFor(x => x.ServiceDate.ToUTC()).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc.AddDays(-1)).WithMessage("Service date can't be in the past.");
 			});
 
 			RuleFor(x => x.ServiceLength).NotEmpty().WithMessage("Service duration is required.");
