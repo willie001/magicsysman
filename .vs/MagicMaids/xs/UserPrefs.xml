@@ -1,23 +1,21 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/DataContext/DBManager.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/ModelValidators.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="13" Column="14" />
+      <File FileName="MagicMaids/Web.config" Line="35" Column="52" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1227" Column="37" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="432" Column="1" />
       <File FileName="MagicMaids/Controllers/SearchController.cs" Line="53" Column="27" />
-      <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="111" Column="17" />
+      <File FileName="MagicMaids/Helpers/ModelValidators.cs" Line="184" Column="70" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="DataLayer" expanded="True">
-                <Node name="DataContext" expanded="True">
-                  <Node name="DBManager.cs" selected="True" />
-                </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="Helpers" expanded="True">
+                <Node name="ModelValidators.cs" selected="True" />
               </Node>
-              <Node name="Helpers" expanded="True" />
               <Node name="ViewModels" expanded="True" />
               <Node name="Global.asax" expanded="True" />
             </Node>
