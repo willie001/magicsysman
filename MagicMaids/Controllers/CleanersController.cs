@@ -1324,6 +1324,7 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
+				StringBuilder _sql = new StringBuilder();
 				String _id = formValues.Id;
 				var bIsNew = formValues.IsNewItem;
 
@@ -1342,7 +1343,7 @@ namespace MagicMaids.Controllers
 
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
-							StringBuilder _sql = new StringBuilder();
+							_sql.Clear();
 							_sql.Append("Insert into CleanerLeave (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
 							_sql.Append("PrimaryCleanerRefId, StartDate, EndDate)");
 							_sql.Append(" values (");
@@ -1373,7 +1374,7 @@ namespace MagicMaids.Controllers
 
 							_objToUpdate = UpdateAuditTracking(_objToUpdate);
 
-							StringBuilder _sql = new StringBuilder();
+							_sql.Clear();
 							_sql.Append("Update CleanerLeave set ");
 							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
 							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
@@ -1420,8 +1421,13 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
 
+					if (_sql.Length > 0)
+					{
+						formValues.SqlString = _sql.ToString();
+					}
+
 					LogHelper log = new LogHelper();
-					log.Log(LogHelper.LogLevels.Error, $"Error saving {_objDesc.ToLower()}", nameof(SaveLeaveDates ), ex, formValues, Helpers.ParseValidationErrors(ex));
+					log.Log(LogHelper.LogLevels.Error, $"Error saving {_objDesc.ToLower()}", nameof(SaveLeaveDates), ex, formValues, Helpers.ParseValidationErrors(ex));
 				}
 			}
 

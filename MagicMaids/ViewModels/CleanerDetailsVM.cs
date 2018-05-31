@@ -261,7 +261,7 @@ namespace MagicMaids.ViewModels
 		#endregion
 	}
 
-	public class CleanerSearchVM
+	public class CleanerSearchVM: BaseViewModel
 	{
 		#region Properties, Public
 		public String SelectedFranchiseId
@@ -369,7 +369,7 @@ namespace MagicMaids.ViewModels
 	}
 
 	[Validator(typeof(CleanerRosterValidator))]
-	public class CleanerRosterVM
+	public class CleanerRosterVM: BaseViewModel
 	{
 		//Roster view model per day
 		#region Properties, Public
@@ -473,7 +473,7 @@ namespace MagicMaids.ViewModels
 		#endregion
 	}
 
-	public class RosterTeamMembersVM
+	public class RosterTeamMembersVM: BaseViewModel
 	{
 		//Team member's rostered view model
 		public String Id
@@ -540,7 +540,7 @@ namespace MagicMaids.ViewModels
 	}
 
 	[Validator(typeof(CleanerLeaveValidator))]
-	public class CleanerLeaveVM
+	public class CleanerLeaveVM: BaseViewModel
 	{
 		//Cleaner leave container view model
 		#region Properties, Public

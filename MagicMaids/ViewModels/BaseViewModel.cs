@@ -11,6 +11,6 @@ namespace MagicMaids
 			//}
 		}
 
-
+		public String SqlString { get; set; }
 	}
 }
