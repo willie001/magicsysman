@@ -1316,7 +1316,8 @@ namespace MagicMaids.Controllers
 		public ActionResult SaveLeaveDates(CleanerLeaveVM formValues)
 		{
 			string _objDesc = "Leave Dates";
-
+			StringBuilder _sql = new StringBuilder();
+				
 			if (formValues == null)
 			{
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
@@ -1324,7 +1325,6 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				StringBuilder _sql = new StringBuilder();
 				String _id = formValues.Id;
 				var bIsNew = formValues.IsNewItem;
 
@@ -1433,6 +1433,11 @@ namespace MagicMaids.Controllers
 
 			if (!ModelState.IsValid)
 			{
+				if (_sql.Length > 0)
+				{
+					formValues.SqlString = _sql.ToString();
+				}
+
 				Helpers.LogFormValidationErrors(ModelState, nameof(SaveLeaveDates), formValues);
 			}
 
