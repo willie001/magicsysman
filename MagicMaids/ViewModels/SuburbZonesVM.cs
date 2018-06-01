@@ -11,7 +11,7 @@ using MagicMaids.Validators;
 namespace MagicMaids.ViewModels
 {
 	[Validator(typeof(SuburbZoneValidator))]
-	public class UpdateSuburbZonesVM
+	public class UpdateSuburbZonesVM: BaseViewModel 
 	{
 		#region Properties, Public
 

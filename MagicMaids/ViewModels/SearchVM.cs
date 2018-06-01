@@ -7,7 +7,7 @@ using MagicMaids.Validators;
 namespace MagicMaids.ViewModels
 {
 	[Validator(typeof(SearchCleanerMatch))]
-	public class SearchVM
+	public class SearchVM: BaseViewModel 
 	{
 		#region Properties, Public
 		public string Suburb

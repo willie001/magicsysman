@@ -10,7 +10,7 @@ using MagicMaids.Validators;
 namespace MagicMaids.ViewModels
 {
 	[Validator(typeof(SettingsValidator))]
-	public class UpdateSettingsViewModel
+	public class UpdateSettingsViewModel: BaseViewModel 
 	{
 		#region Properties, Public
 		public String Id

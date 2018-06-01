@@ -8,6 +8,7 @@ namespace MagicMaids.ViewModels
 {
 	public interface IAddressViewModel
 	{
+		string SqlString { get; set;  }
 		string EmailAddress { get; set; }
 		string MobileNumber { get; set; }
 		string PhysicalAddressRefId { get; set; }
@@ -23,6 +24,8 @@ namespace MagicMaids.ViewModels
 	public class BaseContactVM: IAddressViewModel
 	{
 		#region Properties, Public
+		public string SqlString { get; set; }
+
 		public string EmailAddress
 		{
 			get;

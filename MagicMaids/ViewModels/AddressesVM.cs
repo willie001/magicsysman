@@ -9,7 +9,7 @@ using MagicMaids.Validators;
 
 namespace MagicMaids.ViewModels
 {
-	public class UpdateAddressViewModel
+	public class UpdateAddressViewModel: BaseViewModel 
 	{
 		#region Fields
 		private string _state;

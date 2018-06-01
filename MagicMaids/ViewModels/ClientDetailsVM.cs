@@ -13,7 +13,7 @@ using NodaTime;
 
 namespace MagicMaids.ViewModels
 {
-	public class ClientSearchVM
+	public class ClientSearchVM: BaseViewModel 
 	{
 		#region Properties, Public
 		public string Name
@@ -119,7 +119,7 @@ namespace MagicMaids.ViewModels
 	}
 
 	[Validator(typeof(ClientPaymentMethodValidator))]
-	public class ClientPaymentMethodVM
+	public class ClientPaymentMethodVM: BaseViewModel 
 	{
 		//Primary Client's container view model
 		#region Properties, Public
@@ -292,7 +292,7 @@ namespace MagicMaids.ViewModels
 		#endregion
 	}
 
-	public class ClientPaymentReferenceUpdateVM
+	public class ClientPaymentReferenceUpdateVM: BaseViewModel 
 	{
 		//Primary Client's container view model
 		#region Properties, Public
@@ -312,7 +312,7 @@ namespace MagicMaids.ViewModels
 	}
 
 	[Validator(typeof(ClientLeaveValidator))]
-	public class ClientLeaveVM
+	public class ClientLeaveVM: BaseViewModel 
 	{
 		//Cleaner leave container view model
 		#region Properties, Public

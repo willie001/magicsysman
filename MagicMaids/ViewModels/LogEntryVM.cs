@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace MagicMaids
 {
-	public class LogEntryViewModel
+	public class LogEntryViewModel: BaseViewModel 
 	{
 		#region Constructors
 		public LogEntryViewModel()

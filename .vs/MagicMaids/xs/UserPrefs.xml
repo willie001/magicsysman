@@ -1,10 +1,12 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/CleanersController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/ViewModels/CleanerDetailsVM.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="35" Column="52" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1430" Column="11" />
+      <File FileName="MagicMaids/Web.config" Line="25" Column="3" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1421" Column="81" />
       <File FileName="MagicMaids/Helpers/ModelValidators.cs" Line="267" Column="5" />
       <File FileName="MagicMaids/Helpers/Helpers.cs" Line="76" Column="34" />
+      <File FileName="MagicMaids/ViewModels/BaseContactVM.cs" Line="11" Column="33" />
+      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="432" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -16,7 +18,7 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="597" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="475" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/CleanerDetailsVM.cs" relfile="MagicMaids/ViewModels/CleanerDetailsVM.cs" line="432" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1325" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1326" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -230,6 +230,8 @@ namespace MagicMaids.Controllers
 				}
 			}
 
+			StringBuilder _sql = new StringBuilder();
+
 			if (ModelState.IsValid)
 			{
 				if (!String.IsNullOrWhiteSpace(dataItem.PrimaryZone) && (dataItem.PrimaryZoneList == null || dataItem.PrimaryZoneList.Count() == 0))
@@ -301,9 +303,9 @@ namespace MagicMaids.Controllers
 							_objToUpdate = UpdateCleaner(null, dataItem);
 							//var newId = db.Insert(UpdateAuditTracking(_objToUpdate)); 
 
-							StringBuilder _sql = new StringBuilder();
 							if (_objToUpdate.PhysicalAddress != null)
 							{
+								_sql.Clear();
 								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
 								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
 								_sql.Append(" values (");
@@ -322,6 +324,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
 								_sql.Append(")");
+								dataItem.SqlString = _sql.ToString();
 								db.getConnection().Execute(_sql.ToString());
 							}
 
@@ -346,6 +349,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
 								_sql.Append(")");
+								dataItem.SqlString = _sql.ToString();
 								db.getConnection().Execute(_sql.ToString());
 							}
 
@@ -380,6 +384,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.SecondaryZone}',");
 							_sql.Append($"'{_objToUpdate.ApprovedZone}'");
 							_sql.Append(")");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 						}
 						else
@@ -402,9 +407,9 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							StringBuilder _sql = new StringBuilder();
 							_objToUpdate = UpdateCleaner(_objToUpdate, dataItem);
 
+							_sql.Clear();
 							_sql.Append("Update Cleaners set ");
 							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
 							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
@@ -427,6 +432,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",SecondaryZone = '{_objToUpdate.SecondaryZone}'");
 							_sql.Append($",ApprovedZone = '{_objToUpdate.ApprovedZone}'");
 							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 
 							_sql.Clear();
@@ -443,6 +449,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
 							_sql.Append($" where Id = '{_objToUpdate.PhysicalAddress.Id}' ");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 
 							_sql.Clear();
@@ -459,6 +466,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
 							_sql.Append($" where Id = '{_objToUpdate.PostalAddress.Id}' ");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 						}
 					}
@@ -723,6 +731,8 @@ namespace MagicMaids.Controllers
 				}
 			}
 
+			StringBuilder _sql = new StringBuilder();
+							
 			if (ModelState.IsValid)
 			{
 				String _id = dataItem.Id;
@@ -743,9 +753,9 @@ namespace MagicMaids.Controllers
 							_objToUpdate = UpdateCleanerTeam(null, dataItem);
 							//var newId = db.Insert(_objToUpdate); 
 
-							StringBuilder _sql = new StringBuilder();
 							if (_objToUpdate.PhysicalAddress != null)
 							{
+								_sql.Clear();
 								_sql.Append("Insert into Addresses (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
 								_sql.Append("AddressType, AddressLine1, AddressLine2, AddressLine3, Suburb, State, PostCode, Country)");
 								_sql.Append(" values (");
@@ -764,6 +774,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PhysicalAddress.Country}'");
 								_sql.Append(")");
+								dataItem.SqlString = _sql.ToString();
 								db.getConnection().Execute(_sql.ToString());
 							}
 
@@ -788,6 +799,7 @@ namespace MagicMaids.Controllers
 								_sql.Append($"'{_objToUpdate.PostalAddress.PostCode}',");
 								_sql.Append($"'{_objToUpdate.PostalAddress.Country}'");
 								_sql.Append(")");
+								dataItem.SqlString = _sql.ToString();
 								db.getConnection().Execute(_sql.ToString());
 							}
 
@@ -813,6 +825,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.GenderFlag}',");
 							_sql.Append($"'{_objToUpdate.Ironing}'");
 							_sql.Append(")");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 						}
 						else
@@ -835,11 +848,11 @@ namespace MagicMaids.Controllers
 								return JsonFormResponse();
 							}
 
-							StringBuilder _sql = new StringBuilder();
 
 							// no action on team member yet until it's deleted
 							_objToUpdate = UpdateCleanerTeam(_objToUpdate, dataItem);
 
+							_sql.Clear();
 							_sql.Append("Update CleanerTeam set ");
 							_sql.Append($"UpdatedAt = '{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}'");
 							_sql.Append($",RowVersion = '{_objToUpdate.RowVersion.FormatDatabaseDateTime()}'");
@@ -852,6 +865,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",GenderFlag = '{_objToUpdate.GenderFlag}'");
 							_sql.Append($",Ironing = {_objToUpdate.Ironing}");
 							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 
 							_sql.Clear();
@@ -868,6 +882,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",PostCode = '{_objToUpdate.PhysicalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PhysicalAddress.Country}'");
 							_sql.Append($" where Id = '{_objToUpdate.PhysicalAddress.Id}' ");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 
 							_sql.Clear();
@@ -884,6 +899,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",PostCode = '{_objToUpdate.PostalAddress.PostCode}'");
 							_sql.Append($",Country = '{_objToUpdate.PostalAddress.Country}'");
 							_sql.Append($" where Id = '{_objToUpdate.PostalAddress.Id}' ");
+							dataItem.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 
 						}
@@ -1015,9 +1031,10 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"No search criteria specified.");
 			}
 
+			StringBuilder sql = new StringBuilder();
 			try
 			{
-				StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
+				sql.Append(@"select * from Cleaners C 
 							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where 1=1");
 				if (!searchCriteria.SelectedFranchiseId.Equals(Guid.Empty))
 				{
@@ -1039,7 +1056,6 @@ namespace MagicMaids.Controllers
 					sql.Append(" and C.IsActive = true");
 				}
 
-
 				sql.Append(" order by C.Rating desc, C.LastName, C.FirstName");
 
 				using (DBManager db = new DBManager())
@@ -1059,7 +1075,7 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"Error performing cleaner search ({ex.Message})");
 
 				LogHelper log = new LogHelper();
-				log.Log(LogHelper.LogLevels.Error, "Error performing cleaner search", nameof(SearchCleaner), ex, null);
+				log.Log(LogHelper.LogLevels.Error, "Error performing cleaner search", nameof(SearchCleaner), ex, sql.ToString());
 			}
 
 			if (!ModelState.IsValid)
@@ -1180,22 +1196,23 @@ namespace MagicMaids.Controllers
 				}
 			}
 
+			StringBuilder query = new StringBuilder();
+			StringBuilder _sql = new StringBuilder();
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					string query = "SELECT * "
+					query.Append(@"SELECT * "
 							+ "FROM CleanerRosteredTeam  "
 							+ "WHERE RosterRefId in ("
 							+ $"select Id from CleanerRoster where PrimaryCleanerRefId = '{CleanerId}'"
-							+ ")";
+					             + ")");
 
 					using (DBManager db = new DBManager())
 					{
 						// first delete the existing roster
 
-						List<CleanerRosteredTeam> _objChildToDelete = db.getConnection().Query<CleanerRosteredTeam>(query).ToList();
-						StringBuilder _sql = new StringBuilder();
+						List<CleanerRosteredTeam> _objChildToDelete = db.getConnection().Query<CleanerRosteredTeam>(query.ToString()).ToList();
 						foreach (var _item in _objChildToDelete)
 						{
 							_sql.Clear();
@@ -1271,13 +1288,13 @@ namespace MagicMaids.Controllers
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError("Error saving team roster", ex));
 
 					LogHelper log = new LogHelper();
-					log.Log(LogHelper.LogLevels.Error, "Error saving team roster", nameof(SaveCleanerRoster), ex, dataList, Helpers.ParseValidationErrors(ex));
+					log.Log(LogHelper.LogLevels.Error, "Error saving team roster", nameof(SaveCleanerRoster), ex, dataList, Helpers.ParseValidationErrors(ex) + "\n" + _sql.ToString());
 				}
 			}
 
 			if (!ModelState.IsValid)
 			{
-				Helpers.LogFormValidationErrors(ModelState, nameof(SaveCleanerRoster), null);
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveCleanerRoster), dataList);
 			}
 
 			return JsonFormResponse();
@@ -1357,11 +1374,12 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.StartDate.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_objToUpdate.EndDate.FormatDatabaseDateTime()}'");
 							_sql.Append(")");
+							formValues.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 						}
 						else
 						{
-							_objToUpdate = db.getConnection().Query<CleanerLeave>($"Select * from CleanerLeave where id = {_id}").SingleOrDefault();
+							_objToUpdate = db.getConnection().Query<CleanerLeave>($"Select * from CleanerLeave where id = '{_id}'").SingleOrDefault();
 
 							if (_objToUpdate == null)
 							{
@@ -1384,6 +1402,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",StartDate = '{_objToUpdate.StartDate.FormatDatabaseDateTime()}'");
 							_sql.Append($",EndDate = '{_objToUpdate.EndDate.FormatDatabaseDateTime()}'");
 							_sql.Append($" where Id = '{_objToUpdate.Id}'");
+							formValues.SqlString = _sql.ToString();
 							db.getConnection().Execute(_sql.ToString());
 						}
 					}
@@ -1421,11 +1440,6 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError(string.Empty, Helpers.FormatModelError($"Error saving {_objDesc.ToLower()}", ex));
 
-					if (_sql.Length > 0)
-					{
-						formValues.SqlString = _sql.ToString();
-					}
-
 					LogHelper log = new LogHelper();
 					log.Log(LogHelper.LogLevels.Error, $"Error saving {_objDesc.ToLower()}", nameof(SaveLeaveDates), ex, formValues, Helpers.ParseValidationErrors(ex));
 				}
@@ -1433,11 +1447,6 @@ namespace MagicMaids.Controllers
 
 			if (!ModelState.IsValid)
 			{
-				if (_sql.Length > 0)
-				{
-					formValues.SqlString = _sql.ToString();
-				}
-
 				Helpers.LogFormValidationErrors(ModelState, nameof(SaveLeaveDates), formValues);
 			}
 

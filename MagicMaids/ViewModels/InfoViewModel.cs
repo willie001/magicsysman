@@ -9,7 +9,7 @@ using System.Web.Mvc;
 namespace MagicMaids.ViewModels
 {
 	
-	public class InfoViewModel
+	public class InfoViewModel: BaseViewModel 
 	{
 		#region Constructors
 		public InfoViewModel()

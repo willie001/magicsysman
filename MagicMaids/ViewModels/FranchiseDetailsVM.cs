@@ -9,7 +9,7 @@ using MagicMaids.Validators;
 
 namespace MagicMaids.ViewModels
 {
-	public class FranchiseSelectViewModel
+	public class FranchiseSelectViewModel: BaseViewModel 
 	{
 		#region Properties, Public
 		public String Id

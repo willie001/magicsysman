@@ -11,7 +11,7 @@ using MagicMaids.Validators;
 namespace MagicMaids.ViewModels
 {
 
-	public class RateListVM
+	public class RateListVM: BaseViewModel 
 	{
 		#region Properties, Public
 		public Boolean IsNewItem
@@ -211,7 +211,7 @@ namespace MagicMaids.ViewModels
 		#endregion
 	}
 
-	public class SelectedRateItem
+	public class SelectedRateItem: BaseViewModel 
 	{
 		public int Id
 		{
@@ -227,7 +227,7 @@ namespace MagicMaids.ViewModels
 	}
 
 	[Validator(typeof(RateValidator))]
-	public class RateDetailsVM
+	public class RateDetailsVM: BaseViewModel 
 	{
 		#region Properties, Public
 		public Boolean IsNewItem
