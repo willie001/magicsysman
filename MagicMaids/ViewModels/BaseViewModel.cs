@@ -12,5 +12,21 @@ namespace MagicMaids
 		}
 
 		public String SqlString { get; set; }
+
+		public String LocalDate
+		{
+			get
+			{
+				return DateTimeWrapper.DisplayLocalNow();
+			}
+		}
+
+		public String UTCDate
+		{
+			get
+			{
+				return DateTimeWrapper.DisplayUtcNow();	
+			}
+		}
 	}
 }

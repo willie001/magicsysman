@@ -1334,7 +1334,7 @@ namespace MagicMaids.Controllers
 		{
 			string _objDesc = "Leave Dates";
 			StringBuilder _sql = new StringBuilder();
-				
+
 			if (formValues == null)
 			{
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");

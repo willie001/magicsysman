@@ -75,7 +75,7 @@ namespace MagicMaids
 
 		public static void LogFormValidationErrors(ModelStateDictionary modelState, string callingMethod, Object classInstance = null)
 		{
-			var enableValidationLogging = System.Configuration.ConfigurationManager.AppSettings["EnableLoggingFormValidationErrors"];
+			var enableValidationLogging = ConfigurationManager.AppSettings["EnableLoggingFormValidationErrors"];
 			if (String.IsNullOrWhiteSpace(enableValidationLogging))
 				return;
 
