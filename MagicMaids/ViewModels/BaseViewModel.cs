@@ -5,13 +5,10 @@ namespace MagicMaids
 	{
 		public BaseViewModel()
 		{
-			//if (!Helpers.IsValidGuid(Id))
-			//{
-			//	Id = Guid.NewGuid().ToString();
-			//}
 		}
 
 		public String SqlString { get; set; }
+		public String DebugData { get; set; }
 
 		public String LocalDate
 		{
