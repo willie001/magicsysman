@@ -37,6 +37,14 @@ namespace MagicMaids
 
 		public static void LogDebugDetails(String callingMethod, params string[] args)
 		{
+			Boolean enableDebugInfo = true;
+			Boolean.TryParse(ConfigurationManager.AppSettings["EnableAdditionalDebugInfo"], out enableDebugInfo);
+
+			if (!enableDebugInfo)
+			{
+				return;
+			}
+
 			LogHelper _logger = new LogHelper();
 			_logger.Log(LogLevels.Debug, "Debug Information", callingMethod, null, args, null);
 		}
