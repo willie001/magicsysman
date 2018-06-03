@@ -1334,9 +1334,9 @@ namespace MagicMaids.Controllers
 		{
 			string _objDesc = "Leave Dates";
 			StringBuilder _sql = new StringBuilder();
-
-			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start Leave: {formValues.StartDate.Date}", $"End Leave: {formValues.EndDate.Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.Date}");
-			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start Leave: {formValues.StartDate.ToUser().Date}", $"End Leave: {formValues.EndDate.ToUser().Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.ToUser().Date}");
+			  
+			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start Leave1: {formValues.StartDate.Date}", $"End Leave1: {formValues.EndDate.Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.Date}");
+			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start Leave2: {formValues.StartDate.ToUser().Date}", $"End Leave2: {formValues.EndDate.ToUser().Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.ToUser().Date}");
 
 			if (formValues == null)
 			{
