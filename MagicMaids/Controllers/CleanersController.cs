@@ -1335,10 +1335,10 @@ namespace MagicMaids.Controllers
 			string _objDesc = "Leave Dates";
 			StringBuilder _sql = new StringBuilder();
 			  
-			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start Leave 1: {formValues.StartDate.Date}", 
+			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start DateTIme: {formValues.StartDate}", $"Start Leave 1: {formValues.StartDate.Date}", 
 			                          $"End Leave 1: {formValues.EndDate.Date}", $"Start Leave 2: {formValues.StartDate.ToUser().Date}", 
 			                          $"End Leave 2: {formValues.EndDate.ToUser().Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.Date}",
-			                          $"Start User Kind: {formValues.StartDate.Kind.ToString()}", $"End User Kind: {formValues.StartDate.ToUser().Kind.ToString()}",
+			                          $"Start Kind: {formValues.StartDate.Kind.ToString()}", $"Start User Kind: {formValues.StartDate.ToUser().Kind.ToString()}",
 			                          $"Now Kind:  {DateTimeWrapper.NowUtc.Kind.ToString()}");
 
 			if (formValues == null)
