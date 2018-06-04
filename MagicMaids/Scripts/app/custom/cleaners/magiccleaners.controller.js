@@ -814,7 +814,7 @@
 		}
 
       	vm.saveData = function(data, id, isNew) {
-			//console.log("<LEAVE SAVE> - " + angular.toJson(data));
+			console.log("<LEAVE SAVE> - " + angular.toJson(data));
           	angular.extend(data, {
 					PrimaryCleanerRefId: CleanerId,
 					Id: id,

@@ -174,7 +174,8 @@ namespace MagicMaids
 			if (HttpContext.Current.Session[sessionKeyName] == null)
 			{
 				CultureInfo culture = ResolveCulture();
-				var regInfo = new RegionInfo(culture != null ? culture.LCID : DEFAULT_LCID);
+				var cultNum = (culture != null && culture.LCID != 127 && !culture.IsNeutralCulture) ? culture.LCID : DEFAULT_LCID;
+				var regInfo = new RegionInfo(cultNum);
 				countryCode = regInfo.ToString();
 				HttpContext.Current.Session[sessionKeyName] = countryCode;
 			}
