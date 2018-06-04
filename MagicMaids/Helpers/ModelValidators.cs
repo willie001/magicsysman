@@ -182,7 +182,6 @@ namespace MagicMaids.Validators
 			When(x => (x.StartDate.Year > 1950), () =>
 			{
 				// start date and end date already in UTC
-				RuleFor(x => x.StartDate.Date).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc.Date).WithMessage("Leave start date can not be in the past.");
 				RuleFor(x => x.EndDate)
 					.NotEmpty()
 					.Must((x, EndDate) => EndDate >= x.StartDate)
@@ -192,7 +191,6 @@ namespace MagicMaids.Validators
 			When(x => (x.EndDate.Year > 1950), () =>
 			{
 				// start date and end date already in UTC
-				RuleFor(x => x.EndDate.Date).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc.Date).WithMessage("Leave end date can not be in the past.");
 				RuleFor(x => x.StartDate)
 					.NotEmpty()
 					.Must((x, StartDate) => StartDate <= x.EndDate)

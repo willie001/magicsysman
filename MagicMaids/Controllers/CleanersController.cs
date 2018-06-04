@@ -1335,15 +1335,33 @@ namespace MagicMaids.Controllers
 			string _objDesc = "Leave Dates";
 			StringBuilder _sql = new StringBuilder();
 			  
-			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start DateTIme: {formValues.StartDate}", $"Start Leave 1: {formValues.StartDate.Date}", 
-			                          $"End Leave 1: {formValues.EndDate.Date}", $"Start Leave 2: {formValues.StartDate.ToUser().Date}", 
-			                          $"End Leave 2: {formValues.EndDate.ToUser().Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.Date}",
-			                          $"Start Kind: {formValues.StartDate.Kind.ToString()}", $"Start User Kind: {formValues.StartDate.ToUser().Kind.ToString()}",
-			                          $"Now Kind:  {DateTimeWrapper.NowUtc.Kind.ToString()}");
-
 			if (formValues == null)
 			{
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} data not found.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				var startDiff = (formValues.StartDate.Date-DateTimeWrapper.NowUtc.Date).TotalDays;
+				var endDiff = (formValues.EndDate.Date-DateTimeWrapper.NowUtc.Date).TotalDays;
+
+				LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start DateTime: {formValues.StartDate.ToString()}", $"Start Leave 1: {formValues.StartDate.Date}",
+									  $"End Leave 1: {formValues.EndDate.Date}", $"Start Leave 2: {formValues.StartDate.ToUser().Date}",
+									  $"End Leave 2: {formValues.EndDate.ToUser().Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.Date}",
+									  $"Start Kind: {formValues.StartDate.Kind.ToString()}", $"Start User Kind: {formValues.StartDate.ToUser().Kind.ToString()}",
+				                          $"Now Kind:  {DateTimeWrapper.NowUtc.Kind.ToString()}", $"Start Diff: {startDiff}", $"End Diff: {endDiff}");
+
+				if (startDiff < 0)
+				{
+					ModelState.AddModelError(string.Empty, "Leave start date can not be in the past.");
+				}
+				else
+				{
+					if (endDiff < 0)
+					{
+						ModelState.AddModelError(string.Empty, "Leave end date can not be in the past.");
+					}
+				}
 			}
 
 			if (ModelState.IsValid)
