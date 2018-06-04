@@ -66,7 +66,6 @@ namespace MagicMaids
 			return inZone.ToDateTimeUnspecified();
 		}
 
-
 		/// <summary>
 		/// Converts a local-time DateTime to UTC DateTime based on the specified
 		/// timezone. The returned object will be of UTC DateTimeKind. To be used
@@ -114,6 +113,22 @@ namespace MagicMaids
 			var offset = Offset.FromSeconds(-1 * CultureHelper.UserTimeZoneOffsetMins() * 60);
 			var localDateTime = LocalDateTime.FromDateTime(dateTime);
 			return new OffsetDateTime(localDateTime, offset);
+		}
+
+		public static bool IsPastDate(this DateTime compareDate, string callingMethod)
+		{
+			var localNow = DateTimeWrapper.NowUtc.Date.ToLocalDateTime();
+			var localCompare = compareDate.ToLocalDateTime();
+			var compareDiff = (compareDate.Date - DateTimeWrapper.NowUtc.Date).TotalDays;
+			var comparePeriod = Period.Between(localNow, localCompare, PeriodUnits.Days);
+
+			LogHelper.LogDebugDetails(callingMethod, $"Compare Date: {localCompare}", $"Compare ToUser: {compareDate.ToUser().Date}",
+								  $"Now (UTC): {DateTimeWrapper.NowUtc.Date}",
+		                          $"Start Kind: {compareDate.Kind.ToString()}", 
+								  $"Now Kind:  {DateTimeWrapper.NowUtc.Kind.ToString()}", 
+			                          $"Start Period: {comparePeriod.Days}");
+
+			return (comparePeriod.Days < 0);
 		}
 	}
 }

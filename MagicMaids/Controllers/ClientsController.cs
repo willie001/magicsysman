@@ -808,22 +808,13 @@ namespace MagicMaids.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var startDiff = (formValues.StartDate.Date - DateTimeWrapper.NowUtc.Date).TotalDays;
-				var endDiff = (formValues.EndDate.Date - DateTimeWrapper.NowUtc.Date).TotalDays;
-
-				LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start DateTime: {formValues.StartDate.ToString()}", $"Start Leave 1: {formValues.StartDate.Date}",
-									  $"End Leave 1: {formValues.EndDate.Date}", $"Start Leave 2: {formValues.StartDate.ToUser().Date}",
-									  $"End Leave 2: {formValues.EndDate.ToUser().Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.Date}",
-									  $"Start Kind: {formValues.StartDate.Kind.ToString()}", $"Start User Kind: {formValues.StartDate.ToUser().Kind.ToString()}",
-										  $"Now Kind:  {DateTimeWrapper.NowUtc.Kind.ToString()}", $"Start Diff: {startDiff}", $"End Diff: {endDiff}");
-
-				if (startDiff < -1)     // Not sure yet - but UTC stuffs this up and can't add "today" as start date
+				if (formValues.StartDate.IsPastDate("ClientsController.SaveLeaveDates"))       // Not sure yet - but UTC stuffs this up and can't add "today" as start date
 				{
 					ModelState.AddModelError(string.Empty, "Leave start date can not be in the past.");
 				}
 				else
 				{
-					if (endDiff < -1)
+					if (formValues.EndDate.IsPastDate("ClientsController.SaveLeaveDates"))
 					{
 						ModelState.AddModelError(string.Empty, "Leave end date can not be in the past.");
 					}
