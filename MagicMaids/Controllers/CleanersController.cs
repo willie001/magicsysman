@@ -1338,7 +1338,7 @@ namespace MagicMaids.Controllers
 			LogHelper.LogDebugDetails(nameof(SaveLeaveDates), $"Start Leave 1: {formValues.StartDate.Date}", 
 			                          $"End Leave 1: {formValues.EndDate.Date}", $"Start Leave 2: {formValues.StartDate.ToUser().Date}", 
 			                          $"End Leave 2: {formValues.EndDate.ToUser().Date}", $"Now (UTC): {DateTimeWrapper.NowUtc.Date}",
-			                          $"Start User Kind: {formValues.StartDate.ToUser().Kind.ToString()}", $"End User Kind: {formValues.EndDate.ToUser().Kind.ToString()}",
+			                          $"Start User Kind: {formValues.StartDate.Kind.ToString()}", $"End User Kind: {formValues.StartDate.ToUser().Kind.ToString()}",
 			                          $"Now Kind:  {DateTimeWrapper.NowUtc.Kind.ToString()}");
 
 			if (formValues == null)
