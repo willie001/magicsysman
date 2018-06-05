@@ -11,7 +11,7 @@
 		.controller('CleanerAvailabilityController', CleanerAvailabilityController)
 		.controller('CleanerLeaveController', CleanerLeaveController)
 		.factory('cleanerTeamFactory', function() {
-		var data = {
+			var data = {
 				Primary: {},
 				TeamList: [],
 				TeamSize: 0,
@@ -436,6 +436,7 @@
 							vm.cleanerTeam.splice(ix, 1);
 						}
 						loadTeamMembers();
+						location.reload();
 	            	});
 			}
 		}

@@ -944,14 +944,15 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
 			}
 
+			StringBuilder sql = new StringBuilder();
 			try
 			{
 				using (DBManager db = new DBManager())
 				{
-					string sql = @"delete from ClientLeave C where C.ID = '" + id.Value.ToString() + "'";
-					db.getConnection().Execute(sql);
+					sql.Append($"delete from ClientLeave where id = '{id.Value.ToString()}'");
+					db.getConnection().Execute(sql.ToString());
 
-					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id=" + id.Value);
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id=" + id.Value.ToString());
 				}
 			}
 			catch (Exception ex)
@@ -959,7 +960,7 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
 
 				LogHelper log = new LogHelper();
-				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, sql.ToString());
 			}
 
 			if (!ModelState.IsValid)

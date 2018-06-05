@@ -1140,6 +1140,11 @@ namespace MagicMaids.Controllers
 				modelValue.Errors.Clear();
 			}
 
+			if (ModelState.IsValid)
+			{
+				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster", LogHelper.GetObjectData(dataList));
+			}
+
 			List<CleanerRoster> rosterList = new List<CleanerRoster>();
 			CleanerRosteredTeam rosteredTeam;
 			CleanerRoster roster;
@@ -1480,13 +1485,15 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
 			}
 
+			StringBuilder sql = new StringBuilder();
 			try
 			{
 				using (DBManager db = new DBManager())
 				{
-					db.getConnection().Execute($"delete from CleanerLeave where id = '{id}'");
+					sql.Append($"delete from CleanerLeave where id = '{id.Value.ToString()}'");
+					db.getConnection().Execute(sql.ToString());
 
-					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id="+id.Value);
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id="+id.Value.ToString());
 				}
 			}
 			catch (Exception ex)
@@ -1494,7 +1501,7 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
 
 				LogHelper log = new LogHelper();
-				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, null);
+				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, sql.ToString());
 			}
 
 			if (!ModelState.IsValid)
