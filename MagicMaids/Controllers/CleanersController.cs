@@ -1201,6 +1201,11 @@ namespace MagicMaids.Controllers
 						rosterList.Add(roster);
 					}
 				}
+
+				if (!ModelState.IsValid)
+				{
+					break;
+				}
 			}
 
 			StringBuilder _sql = new StringBuilder();
