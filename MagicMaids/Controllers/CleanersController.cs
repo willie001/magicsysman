@@ -1203,13 +1203,12 @@ namespace MagicMaids.Controllers
 				}
 			}
 
-			StringBuilder query = new StringBuilder();
 			StringBuilder _sql = new StringBuilder();
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					query.Append(@"SELECT * "
+					_sql.Append(@"SELECT * "
 							+ "FROM CleanerRosteredTeam  "
 							+ "WHERE RosterRefId in ("
 							+ $"select Id from CleanerRoster where PrimaryCleanerRefId = '{CleanerId}'"
@@ -1219,7 +1218,7 @@ namespace MagicMaids.Controllers
 					{
 						// first delete the existing roster
 
-						List<CleanerRosteredTeam> _objChildToDelete = db.getConnection().Query<CleanerRosteredTeam>(query.ToString()).ToList();
+						List<CleanerRosteredTeam> _objChildToDelete = db.getConnection().Query<CleanerRosteredTeam>(_sql.ToString()).ToList();
 						foreach (var _item in _objChildToDelete)
 						{
 							_sql.Clear();
