@@ -1140,10 +1140,7 @@ namespace MagicMaids.Controllers
 				modelValue.Errors.Clear();
 			}
 
-			if (ModelState.IsValid)
-			{
-				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster", LogHelper.GetObjectData(dataList));
-			}
+			LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster", LogHelper.GetObjectData(dataList));
 
 			List<CleanerRoster> rosterList = new List<CleanerRoster>();
 			CleanerRosteredTeam rosteredTeam;
@@ -1170,9 +1167,6 @@ namespace MagicMaids.Controllers
 
 					if (ModelState.IsValid)
 					{
-						var _testStart = new TimeSpan(item.StartTime.Hour, item.StartTime.Minute, 0).Ticks;
-						var _testEnd = new TimeSpan(item.EndTime.Hour, item.EndTime.Minute, 0).Ticks;
-
 						roster = new CleanerRoster()
 						{
 							StartTime = new TimeSpan(item.StartTime.Hour, item.StartTime.Minute, 0).Ticks,
@@ -1204,6 +1198,7 @@ namespace MagicMaids.Controllers
 
 				if (!ModelState.IsValid)
 				{
+					LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster Failed", LogHelper.GetObjectData(item));
 					break;
 				}
 			}
