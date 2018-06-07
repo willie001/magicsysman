@@ -1151,6 +1151,9 @@ namespace MagicMaids.Controllers
 
 				if (item.IsActive)
 				{
+                  	var _startTicks = item.StartTime.ToTicks();;
+					var _endTicks = item.EndTime.ToTicks();
+
 					if (item.TeamCount <= 0 || item.TeamMembers == null || item.TeamMembers.Count() == 0)
 					{
 						ModelState.AddModelError("", $"At least 1 team member should be available on {item.Weekday}");
@@ -1160,7 +1163,7 @@ namespace MagicMaids.Controllers
 					{
 						ModelState.AddModelError("", $"Select valid start and end time for {item.Weekday}");
 					}
-					else if (item.EndTime <= item.StartTime)
+					else if (_endTicks <= _startTicks)
 					{
 						ModelState.AddModelError("", $"End time must be later than start time for {item.Weekday}");
 					}
@@ -1169,8 +1172,8 @@ namespace MagicMaids.Controllers
 					{
 						roster = new CleanerRoster()
 						{
-							StartTime = new TimeSpan(item.StartTime.Hour, item.StartTime.Minute, 0).Ticks,
-							EndTime = new TimeSpan(item.EndTime.Hour, item.EndTime.Minute, 0).Ticks,
+							StartTime = _startTicks,
+							EndTime = _endTicks,
 							TeamCount = item.TeamCount,
 							Weekday = item.Weekday,
 							IsActive = item.IsActive,
