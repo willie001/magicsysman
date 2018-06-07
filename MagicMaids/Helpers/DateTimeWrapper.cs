@@ -127,12 +127,10 @@ namespace MagicMaids
 
 		public static DateTime ToTime(this long timeMins)
 		{
-			var _dt = DateTimeWrapper.NowUtc;
-
 			var _hr = Convert.ToInt32(timeMins/60);
 			var _min = (int)timeMins - (_hr*60);
 
-			return new DateTime(_dt.Year, _dt.Month, _dt.Day, _hr, _min, 0);
+			return new DateTime(2000, 1, 1, _hr, _min, 0);
 		}
 
 		public static bool IsPastDate(this DateTime compareDate, string callingMethod)
