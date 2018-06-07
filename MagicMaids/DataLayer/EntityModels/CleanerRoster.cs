@@ -19,6 +19,12 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		public String DateKind
+		{
+			get;
+			set;
+		}
+
 		[Required]
 		public Int32 TeamCount
 		{
