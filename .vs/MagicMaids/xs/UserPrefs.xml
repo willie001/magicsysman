@@ -1,21 +1,24 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/DateTimeWrapper.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1154" Column="19" />
-      <File FileName="MagicMaids/Helpers/LogHelpers.cs" Line="38" Column="32" />
       <File FileName="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" Line="34" Column="1" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="425" Column="22" />
-      <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="118" Column="11" />
+      <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="95" Column="45" />
+      <File FileName="MagicMaids/Web.config" Line="25" Column="22" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MagicMaids" expanded="True">
             <Node name="MagicMaids" expanded="True">
-              <Node name="Packages" expanded="True" />
-              <Node name="Helpers" expanded="True">
-                <Node name="DateTimeWrapper.cs" selected="True" />
+              <Node name="Controllers" expanded="True" />
+              <Node name="DataLayer" expanded="True">
+                <Node name="EntityModels" expanded="True" />
               </Node>
+              <Node name="Helpers" expanded="True" />
+              <Node name="ViewModels" expanded="True" />
+              <Node name="Web.config" selected="True" />
             </Node>
           </Node>
         </State>

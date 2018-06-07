@@ -1198,13 +1198,9 @@ namespace MagicMaids.Controllers
 						rosterList.Add(roster);
 					}
 				}
-
-				if (!ModelState.IsValid)
-				{
-					LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster Failed", LogHelper.GetObjectData(item));
-					break;
-				}
 			}
+			LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - input", LogHelper.GetObjectData(dataList));
+			LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - processed", LogHelper.GetObjectData(rosterList));
 
 			StringBuilder _sql = new StringBuilder();
 			if (ModelState.IsValid)
