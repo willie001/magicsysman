@@ -115,13 +115,24 @@ namespace MagicMaids
 			return new OffsetDateTime(localDateTime, offset);
 		}
 
-		public static long ToTicks(this DateTime dateTimeLocal)
+		public static long ToMinutes(this DateTime dateTimeLocal)
 		{
 			var _dt = dateTimeLocal;
 
-			// strip seconds off
-			var _dtUTC = new DateTime(_dt.Year, _dt.Month, _dt.Day, _dt.Hour, _dt.Minute, 0).ToUTC();
-			return _dtUTC.Ticks;
+			var _hr = _dt.Hour;
+			var _min = _dt.Minute;
+
+			return (long)((_hr * 60) + _min);
+		}
+
+		public static DateTime ToTime(this long timeMins)
+		{
+			var _dt = DateTimeWrapper.NowUtc;
+
+			var _hr = Convert.ToInt32(timeMins/60);
+			var _min = (int)timeMins - (_hr*60);
+
+			return new DateTime(_dt.Year, _dt.Month, _dt.Day, _hr, _min, 0);
 		}
 
 		public static bool IsPastDate(this DateTime compareDate, string callingMethod)

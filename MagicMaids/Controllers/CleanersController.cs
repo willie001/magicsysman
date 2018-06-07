@@ -1151,8 +1151,8 @@ namespace MagicMaids.Controllers
 
 				if (item.IsActive)
 				{
-                  	var _startTicks = item.StartTime.ToTicks();;
-					var _endTicks = item.EndTime.ToTicks();
+                  	var _startTicks = item.StartTime.ToMinutes();;
+					var _endTicks = item.EndTime.ToMinutes();
 					var _dateKind = item.StartTime.Kind.ToString();
 
 					if (item.TeamCount <= 0 || item.TeamMembers == null || item.TeamMembers.Count() == 0)
