@@ -130,7 +130,9 @@ namespace MagicMaids
 			var _hr = Convert.ToInt32(timeMins/60);
 			var _min = (int)timeMins - (_hr*60);
 
-			return new DateTime(2000, 1, 1, _hr, _min, 0);
+			var _dt = new DateTime(2000, 1, 1, _hr, _min, 0);
+			_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Utc);
+			return _dt;
 		}
 
 		public static bool IsPastDate(this DateTime compareDate, string callingMethod)
