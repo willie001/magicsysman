@@ -1160,8 +1160,6 @@ namespace MagicMaids.Controllers
 						ModelState.AddModelError("", $"At least 1 team member should be available on {item.Weekday}");
 					}
 
-
-
 					if (item.StartTime == DateTime.MinValue || item.EndTime == DateTime.MinValue)
 					{
 						ModelState.AddModelError("", $"Select valid start and end time for {item.Weekday}");

@@ -38,11 +38,6 @@
 				"translate": "pageTitles.settings.USER_ACCOUNTS"
 			},
 			{
-				"text": "Templates",
-				"sref": "app.settings_templates",
-				"translate": "pageTitles.settings.TEMPLATES"
-			},
-			{
 				"text": "Global Settings",
 				"sref": "app.settings_master_settings",
 				"translate": "pageTitles.settings.MASTER_SETTINGS"
