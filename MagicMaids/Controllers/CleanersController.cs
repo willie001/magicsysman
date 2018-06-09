@@ -1151,14 +1151,16 @@ namespace MagicMaids.Controllers
 
 				if (item.IsActive)
 				{
-                  	var _startTicks = item.StartTime.ToMinutes();;
-					var _endTicks = item.EndTime.ToMinutes();
+                  	var _startTicks = item.StartTime.ToUTC().ToMinutes();;
+					var _endTicks = item.EndTime.ToUTC().ToMinutes();
 					var _dateKind = item.StartTime.Kind.ToString();
 
 					if (item.TeamCount <= 0 || item.TeamMembers == null || item.TeamMembers.Count() == 0)
 					{
 						ModelState.AddModelError("", $"At least 1 team member should be available on {item.Weekday}");
 					}
+
+
 
 					if (item.StartTime == DateTime.MinValue || item.EndTime == DateTime.MinValue)
 					{

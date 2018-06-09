@@ -3,59 +3,60 @@
 		<div class="col-xs-12">
 			<h4 class="page-header">Weekly Roster</h4>
 			<form class="form-validate form-horizontal" name="form.cleanerRosterForm" novalidate="">
-				 @Html.AntiForgeryToken() 
-				<div class="table-responsive"> 
+				@Html.AntiForgeryToken()
+				<div class="table-responsive">
 					<!--<pre>
 						form.cleanerRoster= {{form.cleanerRoster | json}}
 					</pre>-->
 					<table class="table table-bordered table-hover bg-white">
-				      	<tr style="font-weight: bold">
-				         	<td  class="text-center" width="20%">Week Day</td>
-							<td  class="text-center">Available?</td>
-				         	<td  class="text-center">Start Time</td>
-							<td  class="text-center">End Time</td>	
-							<td  style="width:50%" class="text-center">Cleaners</td>
-				      	</tr>
+						<tr style="font-weight: bold">
+							<td class="text-center" width="20%">Week Day</td>
+							<td class="text-center">Available?</td>
+							<td class="text-center">Start Time</td>
+							<td class="text-center">End Time</td>
+							<td style="width:50%" class="text-center">Cleaners</td>
+						</tr>
 						<tr ng-repeat="roster in form.cleanerRoster">
-							<td><input type="text" class="form-control no-border" ng-model="roster.Weekday" ng-readonly="true" /></td>
+							<td>
+								<input type="text" class="form-control no-border" ng-model="roster.Weekday" ng-readonly="true" />
+							</td>
 							<td align="center">
 								<div class="checkbox c-checkbox">
-			                  		<label>
-			                     		<input type="checkbox" checked="false" name="enableRosterDay" id="enableRosterDay" ng-model="roster.IsActive" ng-change="cleanerRosterChanged(roster)"/>
-			                     		<span class="fa fa-check"></span>
+									<label>
+										<input type="checkbox" checked="false" name="enableRosterDay" id="enableRosterDay" ng-model="roster.IsActive" ng-change="cleanerRosterChanged(roster)" />
+										<span class="fa fa-check"></span>
 									</label>
-			               		</div>
+								</div>
 							</td>
 							<td align="center">
-								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster)" ng-model="roster.StartTime" ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster)" ng-model="roster.StartTime" datetimepicker-neutral-timezone ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 							</td>
 							<td align="center">
-								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster)" ng-model="roster.EndTime"  ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster)" ng-model="roster.EndTime" datetimepicker-neutral-timezone ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 							</td>
 							<td align="left">
 								<ui-select multiple="" ng-change="cleanerRosterChanged(roster)" ng-model="roster.TeamMembers" theme="bootstrap" ng-disabled="roster.IsActive != true">
 									<ui-select-match placeholder="Select team.....">{{$item.DisplayName}}</ui-select-match>
 									<ui-select-choices repeat="item in getTeamList() | propsFilter: {DisplayName: $select.search} track by $index">
-									<div ng-bind-html="item.DisplayName | highlight: $select.search"></div>
+										<div ng-bind-html="item.DisplayName | highlight: $select.search"></div>
 									</ui-select-choices>
 								</ui-select>
 							</td>
 						</tr>
 					</table>
-					<br/>
+					<br />
 				</div>
 				<div class="form-group">
-		            <div class="col-xs-6">
-		            	<button type="submit" class="btn btn-default" ng-click="$state.go('app.cleaners')">Close</button>
+					<div class="col-xs-6">
+						<button type="submit" class="btn btn-default" ng-click="$state.go('app.cleaners')">Close</button>
 						<button type="submit" class="btn btn-success" ng-disabled="form.cleaner.$invalid || form.submitted == true" ng-click="form.saveData()">Save Roster</button>
-		            </div>
-				    <div class="text-right col-xs-6">
-					</div>		
-		        </div>	
+					</div>
+					<div class="text-right col-xs-6">
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>
-
 	<div ng-controller="CleanerLeaveController as leaveTable" class="container-fluid">
 		<div class="col-xs-12">
 			<h4 class="page-header">Leave Schedule</h4>
@@ -63,21 +64,20 @@
 				<button type="button" class="btn btn-primary pull-right" ng-click="leaveTable.addData()">
 					<em class="fa fa-plus-circle fa-fw mr-xs"></em>New Leave Dates
 				</button>
-
 			</div>
 			<div ng-hide="leaveTable.listOfLeave.length" class="EmptyResults p-xs text-center">
 				No leave dates found.  <a href="" ng-click="leaveTable.addData()">Please add</a> a new leave date range.
 			</div>
-			<div class="table-responsive col-xs-12" ng-show="leaveTable.listOfLeave.length"> 
+			<div class="table-responsive col-xs-12" ng-show="leaveTable.listOfLeave.length">
 				<table datatable="ng" class="table table-bordered table-hover bg-white">
-			      	<thead>
-			         	<th  style="width:35%" class="text-center">Start Date</th>
-			         	<th  style="width:35%" class="text-center">End Date</th>
-						<th  style="width:20%" class="text-center"></th>	
-						<th  style="width:10%" class="text-center"></th>
-			      	</thead>
+					<thead>
+					<th style="width:35%" class="text-center">Start Date</th>
+					<th style="width:35%" class="text-center">End Date</th>
+					<th style="width:20%" class="text-center"></th>
+					<th style="width:10%" class="text-center"></th>
+					</thead>
 					<tbody>
-						<tr ng-repeat="leave in leaveTable.listOfLeave">  
+						<tr ng-repeat="leave in leaveTable.listOfLeave">
 							<td>
 								<span editable-date="leave.StartDate" e-name="StartDate" e-form="rowform" onbeforesave="leaveTable.validateData($data, 'Start Date')" e-required="">{{ leave.StartDateFormatted || &apos;Not set&apos; }}</span>
 							</td>
@@ -85,33 +85,33 @@
 								<span editable-date="leave.EndDate" e-name="EndDate" e-form="rowform" onbeforesave="leaveTable.validateData($data, 'End Date')" e-required="">{{ leave.EndDateFormatted || &apos;Not set&apos; }}</span>
 							</td>
 							<td class="text-center">
-					           <div ng-show="!rowform.$visible && isFutureLeave(leave.EndDate) == true" class="buttons">
+								<div ng-show="!rowform.$visible && isFutureLeave(leave.EndDate) == true" class="buttons">
 									<button type="button" class="btn btn-warning" onclick="alert('Coming Soon!'); return false;" ng-click="searchCustomers(leave)">Find affected customers</button>
 								</div>
 							</td>
 							<td style="white-space: nowrap">
 								<!-- form-->
-					            <form editable-form="" name="rowform" onbeforesave="leaveTable.saveData($data, leave.Id, leave.IsNewItem)" ng-show="rowform.$visible" shown="leaveTable.inserted == leave" class="form-buttons form-inline">
-					               <button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-xs btn-success">
-					                  <em class="fa fa-save"></em>
-					               </button>
-					               <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-xs btn-default">
-					                  <em class="fa fa-times"></em>
-					               </button>
-					            </form>
-					            <div ng-show="!rowform.$visible" class="buttons">
-					               <button ng-click="rowform.$show();" title="Edit" class="btn btn-xs btn-info">
-					                  <em class="fa fa-pencil"></em>
-					               </button>
-					               <button  title="Delete" class="btn btn-xs btn-danger" ng-click="leaveTable.removeLeave(leave.Id, $index)">
-					                  <em class="fa fa-trash"></em>
-					               </button>
-					            </div>
-					         </td>
+								<form editable-form="" name="rowform" onbeforesave="leaveTable.saveData($data, leave.Id, leave.IsNewItem)" ng-show="rowform.$visible" shown="leaveTable.inserted == leave" class="form-buttons form-inline">
+									<button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-xs btn-success">
+										<em class="fa fa-save"></em>
+									</button>
+									<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-xs btn-default">
+										<em class="fa fa-times"></em>
+									</button>
+								</form>
+								<div ng-show="!rowform.$visible" class="buttons">
+									<button ng-click="rowform.$show();" title="Edit" class="btn btn-xs btn-info">
+										<em class="fa fa-pencil"></em>
+									</button>
+									<button title="Delete" class="btn btn-xs btn-danger" ng-click="leaveTable.removeLeave(leave.Id, $index)">
+										<em class="fa fa-trash"></em>
+									</button>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
-			</div>	
+			</div>
 		</div>
 	</div>
 </div>

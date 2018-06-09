@@ -596,7 +596,7 @@
 		{
 			$http.get('/cleaners/getcleanerroster/?CleanerId=' + Id)
                 .success(function (data) {
-                	//console.log("<cleanerRoster DATA> - " + angular.toJson(data));
+                	console.log("<cleanerRoster DATA> - " + angular.toJson(data));
                 	angular.forEach(vm.cleanerRoster, function(value, key) {
                 		var _day = value.Weekday;
                 		angular.forEach(data.list, function(value2, key2) {
@@ -616,7 +616,7 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	//console.log("<cleanerRoster> - " + angular.toJson(vm.cleanerRoster));
+                	console.log("<cleanerRoster DATA2> - " + angular.toJson(vm.cleanerRoster));
                 });
 
 		}
@@ -667,7 +667,7 @@
       	};
 
       	vm.saveData = function(data) {
-      		//console.log("<CLEANER ROSTER Data> - " + angular.toJson(vm.cleanerRoster));
+      		console.log("<CLEANER ROSTER Data> - " + angular.toJson(vm.cleanerRoster));
 		 	$scope.submitted = true;
 
 			if (vm.cleanerRosterForm.$valid) {

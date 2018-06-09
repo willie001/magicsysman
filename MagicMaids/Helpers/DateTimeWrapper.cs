@@ -115,9 +115,9 @@ namespace MagicMaids
 			return new OffsetDateTime(localDateTime, offset);
 		}
 
-		public static long ToMinutes(this DateTime dateTimeLocal)
+		public static long ToMinutes(this DateTime serverDatetime)
 		{
-			var _dt = dateTimeLocal;
+			var _dt = serverDatetime.ToUser();
 
 			var _hr = _dt.Hour;
 			var _min = _dt.Minute;

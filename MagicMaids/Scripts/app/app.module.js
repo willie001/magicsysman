@@ -46,7 +46,7 @@
             'magiccleaners',
             'toggle-switch',
           	'angular.filter',
-          	'cleave.js'
+			'cleave.js'
         ])
 
 		.filter('trustAsHtml',['$sce', function($sce) {
@@ -135,7 +135,26 @@
 		    return factory;
 		}])
 
+		.directive('datetimepickerNeutralTimezone', function() {
+		    return {
+		      restrict: 'A',
+		      priority: 1,
+		      require: 'ngModel',
+		      link: function (scope, element, attrs, ctrl) {
+		        ctrl.$formatters.push(function (value) {
+		          var date = new Date(Date.parse(value));
+		          date = new Date(date.getTime() + (60000 * date.getTimezoneOffset()));
+		          return date;
+		        });
 
+		        ctrl.$parsers.push(function (value) {
+		          var date = new Date(value.getTime() - (60000 * value.getTimezoneOffset()));
+		          return date;
+		        });
+		      }
+		  }
+		})
+			
 		.factory('ShowUserMessages', [function () {
 			var factory = {};
 
