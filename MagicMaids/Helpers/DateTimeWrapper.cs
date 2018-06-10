@@ -120,6 +120,8 @@ namespace MagicMaids
 			var _dt = serverDatetime;
 			if (_dt.Kind == DateTimeKind.Local)
 			{
+				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - offset", LogHelper.GetObjectData(_dt.GetOffsetDateTime()));
+			
 				_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
 				_dt = _dt.ToUTC().ToUser();
 				// TimePicker changes new times to Local Kind but it is UTC.
