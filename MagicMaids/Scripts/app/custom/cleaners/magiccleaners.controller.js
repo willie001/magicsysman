@@ -642,6 +642,8 @@
 
 				if (dateVal != null && dateVal != undefined)
 				{
+					alert(dateVal.getTime());
+					alert(dateVal.getTimezoneOffset());
 					return new Date(dateVal.getTime() + (60000 * dateVal.getTimezoneOffset()));;
 				}
     		}
