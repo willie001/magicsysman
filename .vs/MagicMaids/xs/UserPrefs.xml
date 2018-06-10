@@ -1,13 +1,14 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Global.asax.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/app.module.js">
     <Files>
       <File FileName="MagicMaids/Web.config" Line="25" Column="5" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1120" Column="66" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1130" Column="38" />
       <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="128" Column="26" />
       <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="599" Column="74" />
-      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="432" Column="44" />
-      <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="35" Column="55" />
+      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="425" Column="37" />
+      <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="33" Column="13" />
       <File FileName="MagicMaids/Global.asax.cs" Line="23" Column="1" />
+      <File FileName="MagicMaids/Scripts/app/app.module.js" Line="47" Column="29" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -22,8 +23,6 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="597" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1156" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1132" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1123" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1120" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
