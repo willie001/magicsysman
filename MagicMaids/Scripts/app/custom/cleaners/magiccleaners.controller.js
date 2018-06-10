@@ -642,9 +642,10 @@
 
 				if (dateVal != null && dateVal != undefined)
 				{
-					var _newDate = new Date(dateVal.getTime() + (60000 * dateVal.getTimezoneOffset()));
-    				console.log("<CLEANER ROSTER Change2> - " + angular.toJson(_newDate));
-    				return _newDate;
+					var date = new Date(dateVal);
+            		date.setMinutes(date.getTimezoneOffset());  // forces the "local" version of the date to match the intended UTC date
+					console.log("<CLEANER ROSTER Change2> - " + angular.toJson(date));
+					dateVal = date;
 				}
     		}
     	}
