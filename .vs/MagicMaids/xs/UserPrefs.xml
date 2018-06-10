@@ -1,9 +1,10 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs">
     <Files>
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1304" Column="86" />
-      <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="126" Column="1" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="651" Column="21" />
+      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1178" Column="14" />
+      <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="118" Column="22" />
+      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="682" Column="44" />
+      <File FileName="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" Line="28" Column="29" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">

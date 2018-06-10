@@ -1153,7 +1153,8 @@ namespace MagicMaids.Controllers
 				{
                   	var _startTicks = item.StartTime.ToMinutes();;
 					var _endTicks = item.EndTime.ToMinutes();
-					var _dateKind = item.StartTime.Kind.ToString();
+					var _dateKindFrom = item.StartTime.Kind.ToString();
+					var _dateKindTo = item.EndTime.Kind.ToString();
 
 					if (item.TeamCount <= 0 || item.TeamMembers == null || item.TeamMembers.Count() == 0)
 					{
@@ -1175,7 +1176,8 @@ namespace MagicMaids.Controllers
 						{
 							TimeOfDayFrom = _startTicks,
 							TimeOfDayTo = _endTicks,
-							DateKind = _dateKind,
+							DateKindFrom = _dateKindFrom,
+							DateKindTo = _dateKindTo,
 							TeamCount = item.TeamCount,
 							Weekday = item.Weekday,
 							IsActive = item.IsActive,

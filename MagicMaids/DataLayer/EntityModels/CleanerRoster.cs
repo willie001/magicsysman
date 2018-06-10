@@ -19,7 +19,13 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		public String DateKind
+		public String DateKindFrom
+		{
+			get;
+			set;
+		}
+
+		public String DateKindTo
 		{
 			get;
 			set;
