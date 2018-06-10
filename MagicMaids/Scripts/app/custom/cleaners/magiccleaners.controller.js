@@ -88,7 +88,7 @@
     CleanerSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder', '$cookies', 'moment', 'manageTimeZoneCookie'];
     CleanerDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages', 'ngDialog', 'cleanerTeamFactory'];
     CleanerAddressController.$inject = [];
-	CleanerAvailabilityController.$inject = ['$scope','$http','HandleBusySpinner', 'ShowUserMessages', 'cleanerTeamFactory'];
+	CleanerAvailabilityController.$inject = ['$scope','$http','HandleBusySpinner', 'ShowUserMessages', 'cleanerTeamFactory','moment'];
 	CleanerLeaveController.$inject = ['$scope','$filter','$http', 'HandleBusySpinner', 'ShowUserMessages','editableOptions', 'editableThemes'];
 
 	function MasterCleanerController($scope)
@@ -530,7 +530,7 @@
 	/****************************/
 	/*** CLEANER AVAILABILITY ***/
 	/****************************/
-	function CleanerAvailabilityController($scope, $http, HandleBusySpinner, ShowUserMessages, cleanerTeamFactory)
+	function CleanerAvailabilityController($scope, $http, HandleBusySpinner, ShowUserMessages, cleanerTeamFactory, moment)
 	{
 		var vm = this;
 		var panelName = "panelCleanerDetails";
@@ -643,7 +643,8 @@
 				if (dateVal != null && dateVal != undefined)
 				{
 					var _newDate = new Date(dateVal.getTime() + (60000 * dateVal.getTimezoneOffset()));
-					console.log("<CLEANER ROSTER Change> - " + angular.toJson(_newDate));
+					console.log("<CLEANER ROSTER Change> - " + angular.toJson(dateVal.getTimezoneOffset()));
+    				console.log("<CLEANER ROSTER Change> - " + angular.toJson(_newDate));
     				return _newDate;
 				}
     		}
