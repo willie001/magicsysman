@@ -629,7 +629,7 @@
 				val.TeamCount = null;
 				val.TeamMembers = [];
     		} else {
-    			console.log("<CLEANER ROSTER Change> - " + angular.toJson(dateVal));
+    			console.log("<CLEANER ROSTER Change1> - " + angular.toJson(val));
     		
     			if (val.TeamMembers)
     			{
@@ -643,8 +643,7 @@
 				if (dateVal != null && dateVal != undefined)
 				{
 					var _newDate = new Date(dateVal.getTime() + (60000 * dateVal.getTimezoneOffset()));
-					console.log("<CLEANER ROSTER Change> - " + angular.toJson(dateVal.getTimezoneOffset()));
-    				console.log("<CLEANER ROSTER Change> - " + angular.toJson(_newDate));
+    				console.log("<CLEANER ROSTER Change2> - " + angular.toJson(_newDate));
     				return _newDate;
 				}
     		}
