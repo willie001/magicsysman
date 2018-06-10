@@ -33,7 +33,7 @@ namespace MagicMaids.EntityModels
 		}
 
 		[Required]
-		public long StartTime
+		public long TimeOfDayFrom
 		{
 			get
 			{
@@ -51,7 +51,7 @@ namespace MagicMaids.EntityModels
 		private long _startTime;
 
 		[Required]
-		public long EndTime
+		public long TimeOfDayTo
 		{
 			get
 			{

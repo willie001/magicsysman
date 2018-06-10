@@ -63,7 +63,8 @@ namespace MagicMaids
                 .IncludeDirectory("~/Scripts/app/modules/forms", "*.js", true)
 	            .Include("~/Scripts/moment.js")
 	            .Include("~/Scripts/moment-timezone-with-data.js")
-				// Custom scripts
+				
+	            // Custom scripts
 	            .Include("~/Scripts/app/custom/custom.module.js")
                 .IncludeDirectory("~/Scripts/app/custom", "*.js", true)
 				);

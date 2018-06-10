@@ -117,7 +117,7 @@ namespace MagicMaids
 
 		public static long ToMinutes(this DateTime serverDatetime)
 		{
-			var _dt = serverDatetime.ToUser();
+			var _dt = serverDatetime;
 
 			var _hr = _dt.Hour;
 			var _min = _dt.Minute;
@@ -131,7 +131,7 @@ namespace MagicMaids
 			var _min = (int)timeMins - (_hr*60);
 
 			var _dt = new DateTime(2000, 1, 1, _hr, _min, 0);
-			_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Utc);
+			_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
 			return _dt;
 		}
 

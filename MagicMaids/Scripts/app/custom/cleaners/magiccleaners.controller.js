@@ -545,7 +545,7 @@
 		{
         	vm.isMeridian = true;
         	vm.hrStep = 1;
-        	vm.minStep = 1;
+        	vm.minStep = 5;
 
         	var days = 7;
 
@@ -596,7 +596,7 @@
 		{
 			$http.get('/cleaners/getcleanerroster/?CleanerId=' + Id)
                 .success(function (data) {
-                	console.log("<cleanerRoster DATA> - " + angular.toJson(data));
+                	//console.log("<cleanerRoster DATA> - " + angular.toJson(data));
                 	angular.forEach(vm.cleanerRoster, function(value, key) {
                 		var _day = value.Weekday;
                 		angular.forEach(data.list, function(value2, key2) {
@@ -616,7 +616,7 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	//console.log("<cleanerRoster DATA2> - " + angular.toJson(vm.cleanerRoster));
+                	console.log("<cleanerRoster DATA2> - " + angular.toJson(vm.cleanerRoster));
                 });
 
 		}
@@ -624,6 +624,7 @@
 		$scope.cleanerRosterChanged = function(val) {
     		if (!val.IsActive)
     		{
+				alert(val.StartTime);
 				val.StartTime =  undefined;
 				val.EndTime = undefined;
 				val.TeamCount = null;

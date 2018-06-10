@@ -144,10 +144,14 @@
 				    ctrl.$formatters.push(function (value) {
 						if (value == undefined)
 						{
-							return null;
+							return;
 						}
 						var date = new Date(Date.parse(value));
-	          			date = new Date(date.getTime() + (60000 * date.getTimezoneOffset()));
+	          			if (date.getFullYear() <= 1970)
+						{
+							return;
+						}
+						date = new Date(date.getTime() + (60000 * date.getTimezoneOffset()));
 	          			return date;
 		        });
 

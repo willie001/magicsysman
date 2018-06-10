@@ -1173,8 +1173,8 @@ namespace MagicMaids.Controllers
 					{
 						roster = new CleanerRoster()
 						{
-							StartTime = _startTicks,
-							EndTime = _endTicks,
+							TimeOfDayFrom = _startTicks,
+							TimeOfDayTo = _endTicks,
 							DateKind = _dateKind,
 							TeamCount = item.TeamCount,
 							Weekday = item.Weekday,
@@ -1248,8 +1248,8 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_obj.RowVersion.FormatDatabaseDateTime()}',");
 							_sql.Append($"'{_obj.PrimaryCleanerRefId}',");
 							_sql.Append($"'{_obj.Weekday}',");
-							_sql.Append($"{_obj.StartTime},");
-							_sql.Append($"{_obj.EndTime},");
+							_sql.Append($"{_obj.TimeOfDayFrom},");
+							_sql.Append($"{_obj.TimeOfDayTo},");
 							_sql.Append($"{_obj.TeamCount}");
 							_sql.Append(")");
 							db.getConnection().Execute(_sql.ToString());
