@@ -120,7 +120,8 @@ namespace MagicMaids
 			var _dt = serverDatetime;
 			if (_dt.Kind == DateTimeKind.Local)
 			{
-				// DateTime picker changes new times to Unspecified.
+				// DateTime picker changes new times to Local (server).
+				_dt = _dt.ToUser();
 				_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
 			}
 
