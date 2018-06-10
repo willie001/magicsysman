@@ -118,6 +118,7 @@ namespace MagicMaids
 		public static long ToMinutes(this DateTime serverDatetime)
 		{
 			var _dt = serverDatetime;
+			LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - kind", _dt.Kind.ToString());
 			if (_dt.Kind == DateTimeKind.Local)
 			{
 				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - Local", _dt.ToString());
