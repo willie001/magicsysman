@@ -554,8 +554,8 @@
         		var roster = {
         			Weekday : "",
         			IsActive : false,
-        			StartTime : null,
-        			EndTime : null,
+        			StartTime : undefined,
+        			EndTime : undefined,
         			TeamCount : null,
         			TeamMembers: []
         		};
@@ -596,7 +596,7 @@
 		{
 			$http.get('/cleaners/getcleanerroster/?CleanerId=' + Id)
                 .success(function (data) {
-                	//console.log("<cleanerRoster DATA> - " + angular.toJson(data));
+                	console.log("<cleanerRoster DATA> - " + angular.toJson(data));
                 	angular.forEach(vm.cleanerRoster, function(value, key) {
                 		var _day = value.Weekday;
                 		angular.forEach(data.list, function(value2, key2) {
@@ -624,8 +624,8 @@
 		$scope.cleanerRosterChanged = function(val) {
     		if (!val.IsActive)
     		{
-				val.StartTime =  null;
-				val.EndTime = null;
+				val.StartTime =  undefined;
+				val.EndTime = undefined;
 				val.TeamCount = null;
 				val.TeamMembers = [];
     		} else {
@@ -666,7 +666,7 @@
     		return (input.$dirty || vm.submitted) && input.$error[type];
       	};
 
-      	vm.saveData = function(data) {
+		vm.saveData = function(data) {
       		//console.log("<CLEANER ROSTER Data> - " + angular.toJson(vm.cleanerRoster));
 		 	$scope.submitted = true;
 

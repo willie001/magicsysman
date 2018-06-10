@@ -429,8 +429,8 @@ namespace MagicMaids.ViewModels
 
 			Weekday = entityModel.Weekday;
 			TeamCount = entityModel.TeamCount;
-			StartTime = entityModel.StartTime.ToTime();
-			EndTime = entityModel.EndTime.ToTime();
+			StartTime = entityModel.TimeOfDayFrom.ToTime();
+			EndTime = entityModel.TimeOfDayTo.ToTime();
 			IsActive = true;
 
 			TeamMembers = new List<RosterTeamMembersVM>();
@@ -526,13 +526,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public long StartTime
+		public long TimeOfDayFrom
 		{
 			get;
 			set;
 		}
 
-		public long EndTime
+		public long TimeOfDayTo
 		{
 			get;
 			set;

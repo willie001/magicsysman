@@ -1100,19 +1100,19 @@ namespace MagicMaids.Controllers
 			}
 
 			StringBuilder sql = new StringBuilder();
-			sql.Append("SELECT CR.ID RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, CT.ID, CT.FirstName, CT.LastName, CRT.IsPrimary ");
+			sql.Append("SELECT CR.ID RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime as TimeOfDayFrom, CR.EndTime as TimeOfDayTo, CR.TeamCount, CT.ID, CT.FirstName, CT.LastName, CRT.IsPrimary ");
 			sql.Append(" FROM CleanerRoster CR ");
 			sql.Append(" inner JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 0 ");
 			sql.Append(" inner join CleanerTeam CT on CT.ID = CRT.TeamRefId ");
 			sql.Append($" WHERE CR.PrimaryCleanerRefId = '{CleanerId}' ");
 			sql.Append(" AND CR.IsActive = 1 ");
 			sql.Append(" UNION ");
-			sql.Append(" SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime, CR.EndTime, CR.TeamCount, C.ID, C.FirstName, C.LastName , CRT.IsPrimary ");
+			sql.Append(" SELECT CR.ID as RosterID, CR.PrimaryCleanerRefId, CR.WeekDay, CR.StartTime as TimeOfDayFrom, CR.EndTime as TimeOfDayTo, CR.TeamCount, C.ID, C.FirstName, C.LastName , CRT.IsPrimary ");
 			sql.Append(" FROM CleanerRoster CR ");
 			sql.Append(" INNER JOIN CleanerRosteredTeam CRT on CR.ID = CRT.RosterRefId AND CRT.IsPrimary = 1");
 			sql.Append(" INNER JOIN Cleaners C on C.ID = CRT.TeamRefId AND CRT.IsPrimary = 1 ");
 			sql.Append($" WHERE CR.PrimaryCleanerRefId = '{CleanerId}' ");
-			sql.Append(" ORDER BY WeekDay, StartTime, EndTime");
+			sql.Append(" ORDER BY WeekDay, TimeOfDayFrom, TimeOfDayTo");
 
 			using (DBManager db = new DBManager())
 			{
