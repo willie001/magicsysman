@@ -639,6 +639,13 @@
     			{
     				val.TeamCount = 0;
     			}
+
+				if (dateVal != null && dateVal != undefined)
+				{
+					var _newDate = new Date(dateVal.getTime() + (60000 * dateVal.getTimezoneOffset()));
+					console.log("<CLEANER ROSTER Change> - " + angular.toJson(_newDate));
+    				return _newDate;
+				}
     		}
     	}
 
