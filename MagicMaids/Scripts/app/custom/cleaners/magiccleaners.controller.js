@@ -629,7 +629,7 @@
 				val.TeamCount = null;
 				val.TeamMembers = [];
     		} else {
-    			console.log("<CLEANER ROSTER Change1> - " + angular.toJson(val));
+    			//console.log("<CLEANER ROSTER Change1> - " + angular.toJson(val));
     		
     			if (val.TeamMembers)
     			{
@@ -642,10 +642,7 @@
 
 				if (dateVal != null && dateVal != undefined)
 				{
-					var date = new Date(dateVal);
-            		date.setMinutes(date.getTimezoneOffset());  // forces the "local" version of the date to match the intended UTC date
-					console.log("<CLEANER ROSTER Change2> - " + angular.toJson(date));
-					return date;
+					return new Date(dateVal.getTime() + (60000 * dateVal.getTimezoneOffset()));;
 				}
     		}
     	}
