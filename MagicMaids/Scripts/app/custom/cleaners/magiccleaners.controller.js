@@ -645,7 +645,7 @@
 					var date = new Date(dateVal);
             		date.setMinutes(date.getTimezoneOffset());  // forces the "local" version of the date to match the intended UTC date
 					console.log("<CLEANER ROSTER Change2> - " + angular.toJson(date));
-					dateVal = date;
+					return date;
 				}
     		}
     	}
