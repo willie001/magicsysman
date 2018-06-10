@@ -120,9 +120,10 @@ namespace MagicMaids
 			var _dt = serverDatetime;
 			if (_dt.Kind == DateTimeKind.Local)
 			{
+				_dt = _dt.ToUTC().ToUser();
 				// TimePicker changes new times to Local Kind but it is UTC.
-				_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
-				_dt = _dt.ToUser();
+				//_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
+				//_dt = _dt.ToUser();
 			}
 
 			var _hr = _dt.Hour;
