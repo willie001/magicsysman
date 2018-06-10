@@ -616,7 +616,7 @@
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	console.log("<cleanerRoster DATA2> - " + angular.toJson(vm.cleanerRoster));
+                	//console.log("<cleanerRoster DATA2> - " + angular.toJson(vm.cleanerRoster));
                 });
 
 		}
