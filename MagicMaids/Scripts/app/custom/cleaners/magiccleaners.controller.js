@@ -621,7 +621,7 @@
 
 		}
 
-		$scope.cleanerRosterChanged = function(val) {
+		$scope.cleanerRosterChanged = function(val, dateVal) {
 			if (!val.IsActive)
     		{
 				val.StartTime =  undefined;
@@ -629,7 +629,7 @@
 				val.TeamCount = null;
 				val.TeamMembers = [];
     		} else {
-    			console.log("<CLEANER ROSTER Change> - " + angular.toJson(vm.cleanerRoster));
+    			console.log("<CLEANER ROSTER Change> - " + angular.toJson(dateVal));
     		
     			if (val.TeamMembers)
     			{

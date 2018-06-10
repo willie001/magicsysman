@@ -29,10 +29,10 @@
 								</div>
 							</td>
 							<td align="center">
-								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster)" ng-model="roster.StartTime" ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster, roster.StartTime)" ng-model="roster.StartTime" ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 							</td>
 							<td align="center">
-								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster)" ng-model="roster.EndTime" ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+								<div uib-timepicker="uib-timepicker" mousewheel="false" ng-change="cleanerRosterChanged(roster, roster.EndTime)" ng-model="roster.EndTime" ng-disabled="roster.IsActive != true" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 							</td>
 							<td align="left">
 								<ui-select multiple="" ng-change="cleanerRosterChanged(roster)" ng-model="roster.TeamMembers" theme="bootstrap" ng-disabled="roster.IsActive != true">
