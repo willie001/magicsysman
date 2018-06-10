@@ -118,6 +118,11 @@ namespace MagicMaids
 		public static long ToMinutes(this DateTime serverDatetime)
 		{
 			var _dt = serverDatetime;
+			if (_dt.Kind == DateTimeKind.Local)
+			{
+				// DateTime picker changes new times to Unspecified.
+				_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
+			}
 
 			var _hr = _dt.Hour;
 			var _min = _dt.Minute;
