@@ -668,7 +668,7 @@
       	};
 
 		vm.saveData = function(data) {
-      		//console.log("<CLEANER ROSTER Data> - " + angular.toJson(vm.cleanerRoster));
+      		console.log("<CLEANER ROSTER Data> - " + angular.toJson(vm.cleanerRoster));
 		 	$scope.submitted = true;
 
 			if (vm.cleanerRosterForm.$valid) {
