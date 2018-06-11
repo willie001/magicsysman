@@ -1158,6 +1158,18 @@ namespace MagicMaids.Controllers
 					var _dateKindFrom = _start.Kind.ToString();
 					var _dateKindTo = _end.Kind.ToString();
 
+					roster = new CleanerRoster()
+					{
+						TimeOfDayFrom = _startTicks,
+						TimeOfDayTo = _endTicks,
+						DateKindFrom = _dateKindFrom,
+						DateKindTo = _dateKindTo,
+						TeamCount = item.TeamCount,
+						Weekday = item.Weekday,
+						IsActive = item.IsActive,
+						PrimaryCleanerRefId = CleanerId.Value.ToString()
+					};
+
 					if (item.TeamCount <= 0 || item.TeamMembers == null || item.TeamMembers.Count() == 0)
 					{
 						ModelState.AddModelError("", $"At least 1 team member should be available on {item.Weekday}");
@@ -1174,18 +1186,7 @@ namespace MagicMaids.Controllers
 
 					if (ModelState.IsValid)
 					{
-						roster = new CleanerRoster()
-						{
-							TimeOfDayFrom = _startTicks,
-							TimeOfDayTo = _endTicks,
-							DateKindFrom = _dateKindFrom,
-							DateKindTo = _dateKindTo,
-							TeamCount = item.TeamCount,
-							Weekday = item.Weekday,
-							IsActive = item.IsActive,
-							PrimaryCleanerRefId = CleanerId.Value.ToString()
-
-						};
+						
 						roster.CleanerRosteredTeam = new List<CleanerRosteredTeam>();
 						foreach (var teamMember in item.TeamMembers)
 						{
