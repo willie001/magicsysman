@@ -1151,8 +1151,8 @@ namespace MagicMaids.Controllers
 
 				if (item.IsActive)
 				{
-					var _start = item.StartTime;
-					var _end = item.EndTime;
+					var _start = item.StartTime.ToUser();
+					var _end = item.EndTime.ToUser();
 					var _startTicks = _start.ToMinutes();;
 					var _endTicks = _end.ToMinutes();
 					var _dateKindFrom = _start.Kind.ToString();

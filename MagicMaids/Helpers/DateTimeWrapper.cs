@@ -123,7 +123,7 @@ namespace MagicMaids
 			{
 				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - Local", _dt.ToString());
 
-				_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
+				//_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
 				_dt = _dt.ToUTC();
 
 				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - UTC", _dt.ToString());

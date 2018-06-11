@@ -640,10 +640,10 @@
     				val.TeamCount = 0;
     			}
 
-				if (dateVal != null && dateVal != undefined)
-				{
-					return new Date(dateVal.getTime() - (60000 * dateVal.getTimezoneOffset()));;
-				}
+				//if (dateVal != null && dateVal != undefined)
+				//{
+				//	return new Date(dateVal.getTime() - (60000 * dateVal.getTimezoneOffset()));;
+				//}
     		}
     	}
 
