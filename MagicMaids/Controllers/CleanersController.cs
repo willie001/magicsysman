@@ -1204,8 +1204,14 @@ namespace MagicMaids.Controllers
 						}
 						rosterList.Add(roster);
 					}
+					else
+					{
+						LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - roster item failed", LogHelper.GetObjectData(roster));
+
+					}
 				}
 			}
+
 			LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - input", LogHelper.GetObjectData(dataList));
 			LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - processed", LogHelper.GetObjectData(rosterList));
 
