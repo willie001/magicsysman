@@ -124,12 +124,12 @@ namespace MagicMaids
 				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - Local", _dt.ToString());
 
 				//_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
-				var _dt1 = _dt.ToUTC();
+				var _dtUtc = _dt.ToUTC();
 
-				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - UTC", _dt1.ToString());
+				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - UTC", _dtUtc.ToString());
 				// TimePicker changes new times to Local Kind but it is UTC.
-				_dt1 = _dt1.ToUser();
-				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - User", _dt1.ToString());
+				_dt = _dtUtc.ToUser();
+				LogHelper.LogDebugDetails("CleanersController.SaveCleanerRoster - User", _dt.ToString());
 			}
 
 			var _hr = _dt.Hour;
