@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
@@ -82,13 +83,15 @@ namespace MagicMaids
 					Bugsnag.AspNet.Client.Current.Notify(ex);
 				}
 
+				var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();
+
 				string _currentUser = "Not Set";
 				string _url = "";
 				string _server = "";
 				string _remote = "";
 				string _mvcAction = "";
 				string _requestUrl = "";
-				string _logger = "";
+				string _logger = version ?? "";
 				string _callSite = callingMethod;
 				string _event = "";
 				string _innerError = "";

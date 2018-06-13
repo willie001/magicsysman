@@ -1151,6 +1151,7 @@ namespace MagicMaids.Controllers
 
 				if (item.IsActive)
 				{
+					// keep the time zone provided by the control to allow us to grab only the hours
 					var _start = item.StartTime;
 					var _end = item.EndTime;
 					var _startTicks = _start.ToMinutes();;
