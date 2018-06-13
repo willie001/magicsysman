@@ -1162,6 +1162,8 @@ namespace MagicMaids.Controllers
 					{
 						TimeOfDayFrom = _startTicks,
 						TimeOfDayTo = _endTicks,
+						SavedDateTimeFrom = _start,
+						SavedDateTimeTo = _end,
 						DateKindFrom = _dateKindFrom,
 						DateKindTo = _dateKindTo,
 						TeamCount = item.TeamCount,

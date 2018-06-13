@@ -46,7 +46,7 @@ namespace MagicMaids
 			}
 
 			LogHelper _logger = new LogHelper();
-			_logger.Log(LogLevels.Debug, "Debug Information", callingMethod, null, args, null);
+			_logger.Log(LogLevels.Debug, $"{callingMethod} - Debug Information", callingMethod, null, args, null);
 		}
 
 		public static void FormatDebugMessage(ref string messageToDate, string newMessage)

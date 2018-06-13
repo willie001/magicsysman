@@ -31,6 +31,18 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		public DateTime SavedDateTimeFrom
+		{
+			get;
+			set;
+		}
+
+		public DateTime SavedDateTimeTo
+		{
+			get;
+			set;
+		}
+
 		[Required]
 		public Int32 TeamCount
 		{
