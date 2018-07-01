@@ -1,39 +1,21 @@
-﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|">
+﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
     <Files>
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1212" Column="25" />
-      <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="132" Column="38" />
-      <File FileName="MagicMaids/Scripts/app/custom/cleaners/magiccleaners.controller.js" Line="642" Column="5" />
-      <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="30" Column="13" />
-      <File FileName="MagicMaids/Web.config" Line="21" Column="105" />
-      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="422" Column="28" />
+      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="93" Column="1" />
+      <File FileName="MagicMaids/Web.config" Line="21" Column="55" />
+      <File FileName="MagicMaids/Controllers/AccountController.cs" Line="17" Column="4" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State name="__root__">
-          <Node name="MagicMaids" expanded="True">
-            <Node name="MagicMaids" expanded="True">
-              <Node name="Helpers" expanded="True" />
-              <Node name="Properties" expanded="True" />
-              <Node name="Views" expanded="True">
-                <Node name="Partials" expanded="True" />
-              </Node>
-              <Node name="Web.config" selected="True" />
-            </Node>
-          </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.MagicMaidsTesting PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/Helpers.cs" relfile="MagicMaids/Helpers/Helpers.cs" line="205" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SettingsController.cs" relfile="MagicMaids/Controllers/SettingsController.cs" line="597" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1187" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/App_Start/Startup.Auth.cs" relfile="MagicMaids/App_Start/Startup.Auth.cs" line="93" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/App_Start/Startup.Auth.cs" relfile="MagicMaids/App_Start/Startup.Auth.cs" line="110" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/App_Start/Startup.Auth.cs" relfile="MagicMaids/App_Start/Startup.Auth.cs" line="138" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

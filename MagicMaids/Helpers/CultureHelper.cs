@@ -90,6 +90,11 @@ namespace MagicMaids
 		public static string UserTimeZoneName()
 		{
 			const string sessionKeyName = "timezonename";
+		    if (HttpContext.Current == null)
+			{
+				return DEFAULT_TIMEZONE;
+			}
+
 			string timeZoneName = (string)HttpContext.Current.Session[sessionKeyName];
 			string countryCode = UserCountryCode();
 
@@ -170,6 +175,11 @@ namespace MagicMaids
 		{
 			const string sessionKeyName = "UserCountryCode";
 			string countryCode = "";
+
+			if (HttpContext.Current == null)
+			{
+				return "";	
+			}
 
 			if (HttpContext.Current.Session[sessionKeyName] == null)
 			{
