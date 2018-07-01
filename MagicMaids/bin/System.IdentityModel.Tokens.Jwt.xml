@@ -288,7 +288,7 @@
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtHeader.GetStandardClaim(System.String)">
             <summary>
             Gets a standard claim from the header.
-            A standard cliam is either a string or a value of another type serialized in JSON format.
+            A standard claim is either a string or a value of another type serialized in JSON format.
             </summary>
             <param name="claimType">The key of the claim.</param>
             <returns>The standard claim string; or null if not found.</returns>
@@ -751,9 +751,9 @@
             <exception cref="T:System.ArgumentNullException">'innerToken' is null.</exception>
             <exception cref="T:System.ArgumentNullException">'rawHeader' is null.</exception>
             <exception cref="T:System.ArgumentNullException">'rawEncryptedKey' is null.</exception>
-            <exception cref="T:System.ArgumentNullException">'rawInitialVector' is null or whitespace.</exception>
-            <exception cref="T:System.ArgumentNullException">'rawCiphertext' is null or whitespace.</exception>
-            <exception cref="T:System.ArgumentNullException">'rawAuthenticationTag' is null or whitespace.</exception>
+            <exception cref="T:System.ArgumentNullException">'rawInitialVector' is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException">'rawCiphertext' is null or empty.</exception>
+            <exception cref="T:System.ArgumentNullException">'rawAuthenticationTag' is null or empty.</exception>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.#ctor(System.IdentityModel.Tokens.Jwt.JwtHeader,System.IdentityModel.Tokens.Jwt.JwtPayload)">
             <summary>
@@ -815,13 +815,13 @@
             <summary>
             Gets the 'value' of the 'JWT ID' claim { jti, ''value' }.
             </summary>
-            <remarks>If the 'JWT ID' claim is not found, null is returned.</remarks>
+            <remarks>If the 'JWT ID' claim is not found, an empty string is returned.</remarks>
         </member>
         <member name="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.Issuer">
             <summary>
             Gets the 'value' of the 'issuer' claim { iss, 'value' }.
             </summary>
-            <remarks>If the 'issuer' claim is not found, null is returned.</remarks>
+            <remarks>If the 'issuer' claim is not found, an empty string is returned.</remarks>
         </member>
         <member name="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.Payload">
             <summary>
@@ -979,6 +979,11 @@
             Default claim type mapping for inbound claims.
             </summary>
         </member>
+        <member name="F:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultMapInboundClaims">
+            <summary>
+            Default value for the flag that determines whether or not the InboundClaimTypeMap is used.
+            </summary>
+        </member>
         <member name="F:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap">
             <summary>
             Default claim type mapping for outbound claims.
@@ -1002,6 +1007,13 @@
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler"/> class.
+            </summary>
+        </member>
+        <member name="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.MapInboundClaims">
+            <summary>
+            Gets or sets the <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.MapInboundClaims"/> property which is used when determining whether or not to map claim types that are extracted when validating a <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/>. 
+            <para>If this is set to true, the <see cref="P:System.Security.Claims.Claim.Type"/> is set to the JSON claim 'name' after translating using this mapping. Otherwise, no mapping occurs.</para>
+            <para>The default value is true.</para>
             </summary>
         </member>
         <member name="P:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.InboundClaimTypeMap">
@@ -1085,7 +1097,7 @@
             </remarks>
             <returns>
             <para>'false' if the token is null or whitespace.</para>
-            <para>'false' if token.Length * 2 >  <see cref="P:Microsoft.IdentityModel.Tokens.SecurityTokenHandler.MaximumTokenSizeInBytes"/>.</para>
+            <para>'false' if token.Length is greater than <see cref="P:Microsoft.IdentityModel.Tokens.SecurityTokenHandler.MaximumTokenSizeInBytes"/>.</para>
             <para>'true' if the token is in JSON compact serialization format.</para>
             </returns>
         </member>
@@ -1204,7 +1216,7 @@
             <param name="token">A 'JSON Web Token' (JWT) in JWS or JWE Compact Serialization Format.</param>
             <returns>A <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/></returns>
             <exception cref="T:System.ArgumentNullException">'token' is null or empty.</exception>
-            <exception cref="T:System.ArgumentException">'token.Length' > <see cref="P:Microsoft.IdentityModel.Tokens.SecurityTokenHandler.MaximumTokenSizeInBytes"/>.</exception>
+            <exception cref="T:System.ArgumentException">'token.Length' $gt; <see cref="P:Microsoft.IdentityModel.Tokens.SecurityTokenHandler.MaximumTokenSizeInBytes"/>.</exception>
             <exception cref="T:System.ArgumentException"><see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CanReadToken(System.String)"/></exception>
             <remarks><para>If the 'token' is in JWE Compact Serialization format, only the protected header will be deserialized.</para>
             This method is unable to decrypt the payload. Use <see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(System.String,Microsoft.IdentityModel.Tokens.TokenValidationParameters,Microsoft.IdentityModel.Tokens.SecurityToken@)"/>to obtain the payload.</remarks>
@@ -1216,7 +1228,7 @@
             <param name="token">A 'JSON Web Token' (JWT) in JWS or JWE Compact Serialization Format.</param>
             <returns>A <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/></returns>
             <exception cref="T:System.ArgumentNullException">'token' is null or empty.</exception>
-            <exception cref="T:System.ArgumentException">'token.Length * 2' > <see cref="P:Microsoft.IdentityModel.Tokens.SecurityTokenHandler.MaximumTokenSizeInBytes"/>.</exception>
+            <exception cref="T:System.ArgumentException">'token.Length' is greater than <see cref="P:Microsoft.IdentityModel.Tokens.SecurityTokenHandler.MaximumTokenSizeInBytes"/>.</exception>
             <exception cref="T:System.ArgumentException"><see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CanReadToken(System.String)"/></exception>
             <remarks><para>If the 'token' is in JWE Compact Serialization format, only the protected header will be deserialized.</para>
             This method is unable to decrypt the payload. Use <see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateToken(System.String,Microsoft.IdentityModel.Tokens.TokenValidationParameters,Microsoft.IdentityModel.Tokens.SecurityToken@)"/>to obtain the payload.</remarks>
@@ -1239,7 +1251,7 @@
             <param name="validatedToken">The <see cref="T:System.IdentityModel.Tokens.Jwt.JwtSecurityToken"/> that was validated.</param>
             <exception cref="T:System.ArgumentNullException"><paramref name="token"/> is null or whitespace.</exception>
             <exception cref="T:System.ArgumentNullException"><paramref name="validationParameters"/> is null.</exception>
-            <exception cref="T:System.ArgumentException"><paramref name="token"/>.Length > MamimumTokenSizeInBytes.</exception>
+            <exception cref="T:System.ArgumentException"><paramref name="token"/>.Length $gt; MamimumTokenSizeInBytes.</exception>
             <exception cref="T:System.ArgumentException"><paramref name="token"/> does not have 3 or 5 parts.</exception>
             <exception cref="T:System.ArgumentException"><see cref="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CanReadToken(System.String)"/> returns false.</exception>
             <exception cref="T:Microsoft.IdentityModel.Tokens.SecurityTokenDecryptionFailedException"><paramref name="token"/> was a JWE was not able to be decrypted.</exception>
@@ -1285,15 +1297,6 @@
             <exception cref="T:Microsoft.IdentityModel.Tokens.SecurityTokenEncryptionFailedException">both <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.InnerToken"/> and <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.InnerToken"/>.EncryptingCredentials are set.</exception>
             <exception cref="T:Microsoft.IdentityModel.Tokens.SecurityTokenEncryptionFailedException">if <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.InnerToken"/> is set and <see cref="P:System.IdentityModel.Tokens.Jwt.JwtSecurityToken.EncryptingCredentials"/> is not set.</exception>
             <returns>A JWE or JWS in 'Compact Serialization Format'.</returns>
-        </member>
-        <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.CreateEncodedSignature(System.String,Microsoft.IdentityModel.Tokens.SigningCredentials)">
-            <summary>
-            Produces a signature over the 'input'.
-            </summary>
-            <param name="input">String to be signed</param>
-            <param name="signingCredentials">The <see cref="T:Microsoft.IdentityModel.Tokens.SigningCredentials"/> that contain crypto specs used to sign the token.</param>
-            <returns>The bse64urlendcoded signature over the bytes obtained from UTF8Encoding.GetBytes( 'input' ).</returns>
-            <exception cref="T:System.ArgumentNullException">'input' or 'signingCredentials' is null.</exception>
         </member>
         <member name="M:System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler.ValidateSignature(System.Byte[],System.Byte[],Microsoft.IdentityModel.Tokens.SecurityKey,System.String,Microsoft.IdentityModel.Tokens.TokenValidationParameters)">
             <summary>

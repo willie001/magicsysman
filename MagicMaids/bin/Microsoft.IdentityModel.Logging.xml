@@ -24,6 +24,31 @@
             String that is used in place of any arguments to log messages if the 'ShowPII' flag is set to false.
             </summary>
         </member>
+        <member name="P:Microsoft.IdentityModel.Logging.IdentityModelEventSource.HeaderWritten">
+            <summary>
+            Indicates whether or the log message header (contains library version, date/time, and PII debugging information) has been written.
+            </summary>
+        </member>
+        <member name="F:Microsoft.IdentityModel.Logging.IdentityModelEventSource._versionLogMessage">
+            <summary>
+            The log message that indicates the current library version.
+            </summary>
+        </member>
+        <member name="F:Microsoft.IdentityModel.Logging.IdentityModelEventSource._dateLogMessage">
+            <summary>
+            The log message that indicates the date.
+            </summary>
+        </member>
+        <member name="F:Microsoft.IdentityModel.Logging.IdentityModelEventSource._piiOffLogMessage">
+            <summary>
+            The log message that is shown when PII is off.
+            </summary>
+        </member>
+        <member name="F:Microsoft.IdentityModel.Logging.IdentityModelEventSource._piiOnLogMessage">
+            <summary>
+            The log message that is shown when PII is off.
+            </summary>
+        </member>
         <member name="M:Microsoft.IdentityModel.Logging.IdentityModelEventSource.WriteAlways(System.String)">
             <summary>
             Writes an event log by using the provided string argument and current UTC time.

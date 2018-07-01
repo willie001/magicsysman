@@ -1,10 +1,23 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Startup.cs">
     <Files>
-      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="93" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="21" Column="55" />
-      <File FileName="MagicMaids/Controllers/AccountController.cs" Line="17" Column="4" />
+      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="1" Column="1" />
+      <File FileName="MagicMaids/Web.config" Line="79" Column="29" />
+      <File FileName="MagicMaids/Controllers/AccountController.cs" Line="1" Column="1" />
+      <File FileName="MagicMaids/Startup.cs" Line="6" Column="12" />
     </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MagicMaids" expanded="True">
+            <Node name="MagicMaids" expanded="True">
+              <Node name="Packages" expanded="True" />
+              <Node name="Startup.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MagicMaidsTesting PreferredExecutionTarget="MonoDevelop.Default" />
