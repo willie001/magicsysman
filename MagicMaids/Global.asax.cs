@@ -43,8 +43,6 @@ namespace MagicMaids
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
-			var ravenClient = new SharpRaven.RavenClient("https://ef70d575026049b4a56618bf643e5a38:acc6f63b39614a5fbb24e021b0d2e6ec@sentry.io/306347");
-
 			Mapper.Initialize(cfg =>  
 			{  
 			    cfg.CreateMap<Cleaner, CleanerDetailsVM>();  

@@ -17,18 +17,17 @@ namespace MagicMaids
 	public partial class Startup
 	{
 		// App config settings
-		//public static string ApplicationId = ConfigurationManager.AppSettings["ida:ApplicationId"];
 		public static string ClientId = ConfigurationManager.AppSettings["ida:ClientId"];
-        public static string ClientSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
-        public static string AadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];
-        public static string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
-        public static string RedirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
-        public static string ServiceUrl = ConfigurationManager.AppSettings["api:TaskServiceUrl"];
+		public static string ClientSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
+		public static string AadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];
+		public static string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
+		public static string RedirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
+		public static string ServiceUrl = ConfigurationManager.AppSettings["api:TaskServiceUrl"];
 
 		// B2C policy identifiers
 		public static string SignUpSignInPolicyId = ConfigurationManager.AppSettings["ida:SignUpSignInPolicyId"];
-		public static string ResetPasswordPolicyId = ConfigurationManager.AppSettings["ida:ResetPasswordPolicyId"];
 		public static string EditProfilePolicyId = ConfigurationManager.AppSettings["ida:EditPolicyId"];
+		public static string ResetPasswordPolicyId = ConfigurationManager.AppSettings["ida:ResetPasswordPolicyId"];
 
 		public static string DefaultPolicy = SignUpSignInPolicyId;
 
@@ -45,7 +44,9 @@ namespace MagicMaids
 		// Authorities
 		public static string Authority = String.Format(AadInstance, Tenant, DefaultPolicy);
 
-		// Configure the OWIN middleware
+		/*
+        * Configure the OWIN middleware 
+        */
 		public void ConfigureAuth(IAppBuilder app)
 		{
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
@@ -66,9 +67,9 @@ namespace MagicMaids
 					// Specify the callbacks for each type of notifications
 					Notifications = new OpenIdConnectAuthenticationNotifications
 					{
-						RedirectToIdentityProvider = OnRedirectToIdentityProvider,
+						//RedirectToIdentityProvider = OnRedirectToIdentityProvider,
 						AuthorizationCodeReceived = OnAuthorizationCodeReceived,
-						AuthenticationFailed = OnAuthenticationFailed,
+						//AuthenticationFailed = OnAuthenticationFailed,
 					},
 
 					// Specify the claim type that specifies the Name property.
@@ -78,8 +79,8 @@ namespace MagicMaids
 					},
 
 					// Specify the scope by appending all of the scopes requested into one string (separated by a blank space)
-					//Scope = $"openid profile offline_access {ReadTasksScope} {WriteTasksScope}"
-					Scope = $"openid profile offline_access"
+					// {ReadTasksScope} {WriteTasksScope}"
+					Scope = $"openid profile offline_access" 
 				}
 			);
 		}
