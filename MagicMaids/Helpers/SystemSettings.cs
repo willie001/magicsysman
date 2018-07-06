@@ -24,7 +24,6 @@ namespace MagicMaids
 		}
 		#endregion
 
-
 		#region Properties, Public
 		public static decimal ManagementFeePerc
 		{

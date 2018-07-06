@@ -8,8 +8,6 @@ using System.Web.Helpers;
 using Dapper;
 using MagicMaids.DataAccess;
 using Newtonsoft.Json;
-using SharpRaven;
-using SharpRaven.Data;
 
 namespace MagicMaids
 {

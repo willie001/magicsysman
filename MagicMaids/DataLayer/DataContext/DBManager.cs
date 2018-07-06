@@ -3,6 +3,7 @@ using System;
 using System.Configuration;
 using System.Data.Common;
 using System.Data.Odbc;
+using System.Web;
 using MySql.Data.MySqlClient;
 #endregion
 
@@ -47,8 +48,9 @@ namespace MagicMaids.DataAccess
 		#region Constructor
 		public DBManager()
 		{
-			_connectionString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
-		}
+            _connectionString = MagicMaids.ConfigEnvironment.GetConnectionString(HttpContext.Current, "MagicMaidsContext");
+            //	_connectionString = ConfigurationManager.ConnectionStrings["MagicMaidsContext"].ConnectionString;
+        }
 		#endregion
 
 		#region Methods
