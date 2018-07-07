@@ -32,7 +32,7 @@ namespace MagicMaids
 		{
 			get
 			{
-				if (GetEnvironmentPrefix() == "local.")
+				if (IsLocal)
 				{
 					return true;
 				}
@@ -46,6 +46,14 @@ namespace MagicMaids
 			get
 			{
 				return HttpContext.Current?.Request?.Url.AbsoluteUri;
+			}
+		}
+
+		public static bool IsLocal
+		{
+			get
+			{
+				return HttpContext.Current.Request.IsLocal;
 			}
 		}
 
@@ -66,7 +74,7 @@ namespace MagicMaids
                 return envPrefix;
             }
 
-			if (!CurrentHost.ToLower().Contains("localhost") && !CurrentHost.Contains("127.0.0.1"))
+			if (!IsLocal)
             {
 				envPrefix = "prod.";
             }
