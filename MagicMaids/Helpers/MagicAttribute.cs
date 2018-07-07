@@ -15,16 +15,16 @@ namespace MagicMaids
 			}
 
 			base.OnAuthorization(filterContext);
-			if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
-			{
-				filterContext.Result = new RedirectResult("~/User/Logon");
-				return;
-			}
+			//if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
+			//{
+			//	filterContext.Result = new RedirectResult("~/User/Logon");
+			//	return;
+			//}
 
-			if (filterContext.HttpContext.User.IsInRole("Regular user"))
-			{
-				filterContext.Result = new RedirectResult("~/Index/Subscribe");
-			}
+			//if (filterContext.HttpContext.User.IsInRole("Regular user"))
+			//{
+			//	filterContext.Result = new RedirectResult("~/Index/Subscribe");
+			//}
 		}
 	}
 }

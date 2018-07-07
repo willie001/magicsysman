@@ -70,9 +70,9 @@ namespace MagicMaids
 					// Specify the callbacks for each type of notifications
 					Notifications = new OpenIdConnectAuthenticationNotifications
 					{
-						//RedirectToIdentityProvider = OnRedirectToIdentityProvider,
+						RedirectToIdentityProvider = OnRedirectToIdentityProvider,
 						AuthorizationCodeReceived = OnAuthorizationCodeReceived,
-						//AuthenticationFailed = OnAuthenticationFailed,
+						AuthenticationFailed = OnAuthenticationFailed,
 					},
 
 					// Specify the claim type that specifies the Name property.
