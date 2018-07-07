@@ -1,11 +1,10 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/BaseController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Partials/TopNavbar.cshtml">
     <Files>
       <File FileName="MagicMaids/Web.config" Line="21" Column="39" />
       <File FileName="MagicMaids/Helpers/ConfigEnvironment.cs" Line="36" Column="6" />
       <File FileName="MagicMaids/DataLayer/DataContext/MagicMaidsContext.cs" Line="133" Column="23" />
-      <File FileName="MagicMaids/Controllers/BaseController.cs" Line="192" Column="58" />
-      <File FileName="MagicMaids/Views/Partials/TopNavbar.cshtml" Line="2" Column="1" />
+      <File FileName="MagicMaids/Views/Partials/TopNavbar.cshtml" Line="4" Column="46" />
       <File FileName="MagicMaids/Views/Shared/_InformationDetails.cshtml" Line="4" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
