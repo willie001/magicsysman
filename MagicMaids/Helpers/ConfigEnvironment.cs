@@ -8,31 +8,31 @@ namespace MagicMaids
 {
     public static class ConfigEnvironment
     {
-        public static string GetConnectionString(HttpContext context, string key)
+        public static string GetConnectionString(string key)
         {
-            if (context == null || context.Request == null || string.IsNullOrWhiteSpace(key))
+            if (string.IsNullOrWhiteSpace(key))
             {
                 return "";
             }
 
-            return ConfigurationManager.ConnectionStrings[$"{GetEnvironmentPrefix(context)}{key}"].ConnectionString;
+            return ConfigurationManager.ConnectionStrings[$"{GetEnvironmentPrefix()}{key}"].ConnectionString;
         }
 
-        public static string GetConfigValue(HttpContext context, string key)
+        public static string GetConfigValue(string key)
         {
-            if (context == null || context.Request == null || string.IsNullOrWhiteSpace(key))
+            if (string.IsNullOrWhiteSpace(key))
             {
                 return "";
             }
 
-            return ConfigurationManager.AppSettings[$"{GetEnvironmentPrefix(context)}{key}"];
+            return ConfigurationManager.AppSettings[$"{GetEnvironmentPrefix()}{key}"];
         }
 
 		internal static bool AllowAnonymous
 		{
 			get
 			{
-				if (GetEnvironmentPrefix(HttpContext.Current) == "local.")
+				if (GetEnvironmentPrefix() == "local.")
 				{
 					return true;
 				}
@@ -43,11 +43,10 @@ namespace MagicMaids
 
 		public static string CurrentHost
 		{
-			get;
-			set;
-			//{
-			//	return HttpContext.Current.Request.Url.Host;
-			//}
+			get
+			{
+				return HttpContext.Current?.Request?.Url.Host;
+			}
 		}
 
 		public static string Environment
@@ -60,14 +59,13 @@ namespace MagicMaids
 
 
         private static string envPrefix = "";
-        private static string GetEnvironmentPrefix(HttpContext context)
+        private static string GetEnvironmentPrefix()
         {
             if (!String.IsNullOrWhiteSpace(envPrefix))
             {
                 return envPrefix;
             }
 
-			CurrentHost = context.Request.Url.Host;
 			if (CurrentHost.ToLower().Contains("localhost") || CurrentHost.Contains("127.0.0.1"))
             {
 				envPrefix = "local.";
