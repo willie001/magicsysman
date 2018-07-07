@@ -1229,12 +1229,6 @@
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.min.js" />
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.js" />
     <Content Include="Scripts\moment-timezone-utils.js" />
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />

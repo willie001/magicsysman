@@ -41,6 +41,23 @@ namespace MagicMaids
 			}	
 		}
 
+		public static string CurrentHost
+		{
+			get
+			{
+				return HttpContext.Current.Request.Url.Host;
+			}
+		}
+
+		public static string Environment
+		{
+			get
+			{
+				return envPrefix;
+			}
+		}
+
+
         private static string envPrefix = "";
         private static string GetEnvironmentPrefix(HttpContext context)
         {

@@ -48,6 +48,8 @@ namespace MagicMaids.Controllers
 				
 					var connstring = DBManager.getConnectionStringDisplay();
 					TempData["connstring"] = connstring;
+					TempData["host"] = ConfigEnvironment.CurrentHost;;
+					TempData["environment"] = ConfigEnvironment.Environment;
 
 					string stm = @"SELECT IFNULL(usr,'All Users') user,IFNULL(hst,'All Hosts') host,COUNT(1) Connections 
 							FROM
