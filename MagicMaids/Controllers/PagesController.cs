@@ -15,6 +15,7 @@ using System.Data.Odbc;
 
 namespace MagicMaids.Controllers
 {
+	[AllowAnonymous]
     public class PagesController : Controller
     {
 		#region Methods, Public
