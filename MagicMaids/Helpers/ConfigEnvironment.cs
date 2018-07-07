@@ -43,10 +43,11 @@ namespace MagicMaids
 
 		public static string CurrentHost
 		{
-			get
-			{
-				return HttpContext.Current.Request.Url.Host;
-			}
+			get;
+			set;
+			//{
+			//	return HttpContext.Current.Request.Url.Host;
+			//}
 		}
 
 		public static string Environment
@@ -66,8 +67,8 @@ namespace MagicMaids
                 return envPrefix;
             }
 
-            string url = context.Request.Url.Host;
-            if (url.ToLower().Contains("localhost") || url.Contains("127.0.0.1"))
+			CurrentHost = context.Request.Url.Host;
+			if (CurrentHost.ToLower().Contains("localhost") || CurrentHost.Contains("127.0.0.1"))
             {
 				envPrefix = "local.";
             }

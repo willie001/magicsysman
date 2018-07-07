@@ -10,9 +10,13 @@
 <body>
 	<h3>Connection Validator - @DateTimeWrapper.DisplayLocalNow()</h3>
 
-	<div><pre>Connection string: @TempData["connstring"]</pre></div>
-	<div><pre>Host: @TempData["host"]</pre></div>
-	<div><pre>Environment: @TempData["environment"]</pre></div>
+	<div>
+		<pre>Connection string: @TempData["connstring"]</pre>
+		<pre>Host: @TempData["host"] </pre>
+		<pre>Environment: @TempData["environment"]</pre>
+		<pre>Anonymous allowed: @TempData["Anonymous"]</pre>
+	</div>
+
 	<div><pre>@TempData["results"]</pre></div>
 
 	<div><pre>Execution Time: @TempData["timer"]</pre></div>
