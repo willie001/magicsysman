@@ -67,7 +67,7 @@ namespace MagicMaids
 		protected void Application_Error(object sender, EventArgs e)
 		{
 			Boolean disableGlobalErrorHandling = false;
-			Boolean.TryParse(ConfigurationManager.AppSettings["DisableGlobalErrorHandling"], out disableGlobalErrorHandling);
+			Boolean.TryParse(ConfigEnvironment.GetConfigValue(HttpContext.Current, "DisableGlobalErrorHandling"), out disableGlobalErrorHandling);
 
 			if (disableGlobalErrorHandling)
 				return;

@@ -18,11 +18,11 @@ namespace MagicMaids
 	{
 
         // App config settings
-        public static string ClientId = MagicMaids.ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:ClientId"); //ConfigurationManager.AppSettings["ida:ClientId"];
+        public static string ClientId = ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:ClientId"); //ConfigurationManager.AppSettings["ida:ClientId"];
 
-        public static string ClientSecret = MagicMaids.ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:ClientSecret"); //ConfigurationManager.AppSettings["ida:ClientSecret"];
-        public static string Tenant = MagicMaids.ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:Tenant"); //ConfigurationManager.AppSettings["ida:Tenant"];
-        public static string RedirectUri = MagicMaids.ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:RedirectUri"); //ConfigurationManager.AppSettings["ida:RedirectUri"];
+        public static string ClientSecret = ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:ClientSecret"); //ConfigurationManager.AppSettings["ida:ClientSecret"];
+        public static string Tenant = ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:Tenant"); //ConfigurationManager.AppSettings["ida:Tenant"];
+        public static string RedirectUri = ConfigEnvironment.GetConfigValue(HttpContext.Current, "ida:RedirectUri"); //ConfigurationManager.AppSettings["ida:RedirectUri"];
 
         public static string ServiceUrl = ConfigurationManager.AppSettings["api:TaskServiceUrl"];
         public static string AadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];

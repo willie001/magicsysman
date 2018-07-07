@@ -37,7 +37,8 @@ namespace MagicMaids
 		public static void LogDebugDetails(String callingMethod, params string[] args)
 		{
 			Boolean enableDebugInfo = true;
-			Boolean.TryParse(ConfigurationManager.AppSettings["EnableAdditionalDebugInfo"], out enableDebugInfo);
+
+			Boolean.TryParse(ConfigEnvironment.GetConfigValue(HttpContext.Current, "EnableAdditionalDebugInfo"), out enableDebugInfo);
 
 			if (!enableDebugInfo)
 			{
@@ -62,7 +63,7 @@ namespace MagicMaids
 			StringBuilder _sql = new StringBuilder();
 
 			Boolean enableExternalErrorLogging = true;
-			Boolean.TryParse(ConfigurationManager.AppSettings["EnableExternalExceptionLogging"], out enableExternalErrorLogging);
+			Boolean.TryParse(ConfigEnvironment.GetConfigValue(HttpContext.Current, "EnableExternalExceptionLogging"), out enableExternalErrorLogging);
 
 			try
 			{

@@ -116,7 +116,7 @@ namespace MagicMaids
 		public static bool IsDebug(this HtmlHelper htmlhelper)
 		{
 			Boolean _displayDebugMessages = false;
-			Boolean.TryParse(ConfigurationManager.AppSettings["DisplayDebugHeaders"], out _displayDebugMessages);
+			Boolean.TryParse(ConfigEnvironment.GetConfigValue(HttpContext.Current, "DisplayDebugHeaders"), out _displayDebugMessages);
 
 			return _displayDebugMessages;
 		}
