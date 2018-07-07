@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IdentityModel.Claims;
 using System.Linq;
 using System.Net;
+using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -172,12 +174,6 @@ namespace MagicMaids.Controllers
 				return dataInstance;
 			}
 
-
-			string currentUser = HttpContext.User.Identity.Name;
-
-			if (String.IsNullOrWhiteSpace(currentUser))
-				currentUser = "TODO";
-
 			Type t = dataInstance.GetType();
 			IDataModel _instance = null;
 			var _dateTimeStamp = DateTimeWrapper.NowUtc;
@@ -193,7 +189,7 @@ namespace MagicMaids.Controllers
 
 					_instance.UpdatedAt = _dateTimeStamp;
 					_instance.RowVersion = _dateTimeStamp;
-					_instance.UpdatedBy = currentUser;
+					_instance.UpdatedBy = ClaimsPrincipal.Current?.UserName();
 
 					dataInstance = (T)_instance;
 				}

@@ -28,8 +28,20 @@ namespace MagicMaids
             return ConfigurationManager.AppSettings[$"{GetEnvironmentPrefix(context)}{key}"];
         }
 
-        private static string envPrefix = "";
+		internal static bool AllowAnonymous
+		{
+			get
+			{
+				if (GetEnvironmentPrefix(HttpContext.Current) == "local.")
+				{
+					return true;
+				}
 
+				return false;
+			}	
+		}
+
+        private static string envPrefix = "";
         private static string GetEnvironmentPrefix(HttpContext context)
         {
             if (!String.IsNullOrWhiteSpace(envPrefix))
@@ -40,7 +52,7 @@ namespace MagicMaids
             string url = context.Request.Url.Host;
             if (url.ToLower().Contains("localhost") || url.Contains("127.0.0.1"))
             {
-                envPrefix = "prod.";
+				envPrefix = "local.";
             }
             else
             {
