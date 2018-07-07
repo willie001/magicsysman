@@ -66,13 +66,13 @@ namespace MagicMaids
                 return envPrefix;
             }
 
-			if (CurrentHost.ToLower().Contains("localhost") || CurrentHost.Contains("127.0.0.1"))
+			if (!CurrentHost.ToLower().Contains("localhost") && !CurrentHost.Contains("127.0.0.1"))
             {
-				envPrefix = "local.";
+				envPrefix = "prod.";
             }
             else
             {
-                envPrefix = "prod.";
+                envPrefix = "local.";
             }
 
             return envPrefix;
