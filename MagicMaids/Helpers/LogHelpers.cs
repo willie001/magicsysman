@@ -178,7 +178,7 @@ namespace MagicMaids
 			JsonSerializerSettings settings = new JsonSerializerSettings
 			{
 				ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-				Formatting = Formatting.Indented,
+				Formatting = Formatting.Indented, 
 			 	NullValueHandling = NullValueHandling.Ignore
 			};
 
