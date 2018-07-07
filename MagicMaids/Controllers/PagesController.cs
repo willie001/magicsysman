@@ -15,12 +15,12 @@ using System.Data.Odbc;
 
 namespace MagicMaids.Controllers
 {
-	[AllowAnonymous]
-    public class PagesController : Controller
+	public class PagesController : Controller
     {
 		#region Methods, Public
 
 		[OutputCache(NoStore = true, Duration = 60, VaryByParam = "*")]
+		[AllowAnonymous]
 		public ActionResult ConnValidator()
 		{
 			JsonSerializerSettings settings = new JsonSerializerSettings
@@ -128,6 +128,7 @@ namespace MagicMaids.Controllers
 			return error.ToString();
 		}
 
+		[AllowAnonymous]
 		public ActionResult Error404(string path)
 		{
 			Response.StatusCode = 404;
@@ -137,6 +138,7 @@ namespace MagicMaids.Controllers
 			return View();
 		}
 
+		[AllowAnonymous]
 		public ActionResult Error500(string path)
 		{
 			Response.StatusCode = 500;
@@ -146,6 +148,7 @@ namespace MagicMaids.Controllers
 			return View();
 		}
 
+		[AllowAnonymous]
 		public ActionResult Error(int? errorCode, string path)
 		{
 			Response.StatusCode = errorCode ?? 0;
