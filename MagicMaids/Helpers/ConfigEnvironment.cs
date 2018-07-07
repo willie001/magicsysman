@@ -61,29 +61,20 @@ namespace MagicMaids
 		{
 			get
 			{
-				return envPrefix;
+				return GetEnvironmentPrefix();
 			}
 		}
 
-
-        private static string envPrefix = "";
         private static string GetEnvironmentPrefix()
         {
-            if (!String.IsNullOrWhiteSpace(envPrefix))
-            {
-                return envPrefix;
-            }
-
 			if (!IsLocal)
             {
-				envPrefix = "prod.";
+				return "prod.";
             }
             else
             {
-                envPrefix = "local.";
+                return "local.";
             }
-
-            return envPrefix;
         }
     }
 }
