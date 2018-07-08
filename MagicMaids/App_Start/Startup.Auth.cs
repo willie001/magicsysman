@@ -121,7 +121,7 @@ namespace MagicMaids
 			{
 				LogHelper log = new LogHelper();
 				log.Log(LogHelper.LogLevels.Error, "Error authenticating user", nameof(OnAuthenticationFailed), notification.Exception, null, null);
-				notification.Response.Redirect("/pages/Error?message=" + notification.Exception.Message);
+				//notification.Response.Redirect("/pages/Error?message=" + notification.Exception.Message);
 			}
 
 			return Task.FromResult(0);
