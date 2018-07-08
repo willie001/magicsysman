@@ -67,14 +67,12 @@ namespace MagicMaids
 
         private static string GetEnvironmentPrefix()
         {
-			if (!IsLocal)
+			if (IsLocal)
             {
-				return "prod.";
+				return "local.";
             }
-            else
-            {
-                return "local.";
-            }
+            
+			return "prod.";
         }
     }
 }
