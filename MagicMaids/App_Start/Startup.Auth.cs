@@ -18,11 +18,11 @@ namespace MagicMaids
 	{
 
         // App config settings
-        public static string ClientId = ConfigEnvironment.GetConfigValue("ida:ClientId"); //ConfigurationManager.AppSettings["ida:ClientId"];
+        public static string ClientId = ConfigEnvironment.GetConfigValue("ida:ClientId"); 			//ConfigurationManager.AppSettings["ida:ClientId"];
 
-        public static string ClientSecret = ConfigEnvironment.GetConfigValue("ida:ClientSecret"); //ConfigurationManager.AppSettings["ida:ClientSecret"];
-        public static string Tenant = ConfigEnvironment.GetConfigValue("ida:Tenant"); //ConfigurationManager.AppSettings["ida:Tenant"];
-        public static string RedirectUri = ConfigEnvironment.GetConfigValue("ida:RedirectUri"); //ConfigurationManager.AppSettings["ida:RedirectUri"];
+        public static string ClientSecret = ConfigEnvironment.GetConfigValue("ida:ClientSecret"); 	//ConfigurationManager.AppSettings["ida:ClientSecret"];
+        public static string Tenant = ConfigEnvironment.GetConfigValue("ida:Tenant"); 				//ConfigurationManager.AppSettings["ida:Tenant"];
+        public static string RedirectUri = ConfigEnvironment.GetConfigValue("ida:RedirectUri"); 	//ConfigurationManager.AppSettings["ida:RedirectUri"];
 
         public static string ServiceUrl = ConfigurationManager.AppSettings["api:TaskServiceUrl"];
         public static string AadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];
@@ -52,6 +52,8 @@ namespace MagicMaids
         */
 		public void ConfigureAuth(IAppBuilder app)
 		{
+			LogHelper.LogDebugDetails("ConfigureAuth", LogHelper.GetObjectData(ClientId));
+
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
 			app.UseCookieAuthentication(new CookieAuthenticationOptions());
