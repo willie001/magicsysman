@@ -52,7 +52,7 @@ namespace MagicMaids
         */
 		public void ConfigureAuth(IAppBuilder app)
 		{
-			LogHelper.LogDebugDetails("ConfigureAuth", LogHelper.GetObjectData(ClientId));
+			LogHelper.LogDebugDetails("ConfigureAuth - Client Id", LogHelper.GetObjectData(ClientId));
 
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
