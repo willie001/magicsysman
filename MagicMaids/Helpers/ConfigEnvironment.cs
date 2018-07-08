@@ -61,7 +61,10 @@ namespace MagicMaids
         {
 			get
 			{
-				if (ConfigEnvironment.IsLocal)
+				Boolean isLive =false;
+				Boolean.TryParse(ConfigurationManager.AppSettings["IsLive"], out isLive);
+				
+				if (ConfigEnvironment.IsLocal || !isLive)
 				{
 					return "local.";
 				}
