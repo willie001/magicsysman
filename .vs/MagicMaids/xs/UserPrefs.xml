@@ -1,12 +1,12 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Pages/ConnValidator.cshtml">
     <Files>
       <File FileName="MagicMaids/Helpers/MagicAttribute.cs" Line="14" Column="12" />
-      <File FileName="MagicMaids/Helpers/ConfigEnvironment.cs" Line="67" Column="3" />
+      <File FileName="MagicMaids/Helpers/ConfigEnvironment.cs" Line="70" Column="15" />
       <File FileName="MagicMaids/DataLayer/DataContext/DBManager.cs" Line="134" Column="27" />
-      <File FileName="MagicMaids/Controllers/PagesController.cs" Line="50" Column="50" />
       <File FileName="MagicMaids/Helpers/Helpers.cs" Line="370" Column="33" />
-      <File FileName="MagicMaids/Web.config" Line="23" Column="2" />
+      <File FileName="MagicMaids/Web.config" Line="16" Column="39" />
+      <File FileName="MagicMaids/Views/Pages/ConnValidator.cshtml" Line="15" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
