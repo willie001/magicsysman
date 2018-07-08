@@ -119,7 +119,7 @@ namespace MagicMaids
 			}
 			else
 			{
-				notification.Response.Redirect("/Home/Error?message=" + notification.Exception.Message);
+				notification.Response.Redirect("/pages/Error?message=" + notification.Exception.Message);
 			}
 
 			return Task.FromResult(0);
