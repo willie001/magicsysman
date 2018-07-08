@@ -52,6 +52,11 @@ namespace MagicMaids
         */
 		public void ConfigureAuth(IAppBuilder app)
 		{
+			ClientId = ConfigEnvironment.GetConfigValue("ida:ClientId");
+			ClientSecret = ConfigEnvironment.GetConfigValue("ida:ClientSecret");
+			Tenant = ConfigEnvironment.GetConfigValue("ida:Tenant");
+			RedirectUri = ConfigEnvironment.GetConfigValue("ida:RedirectUri");
+
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
 			app.UseCookieAuthentication(new CookieAuthenticationOptions());
