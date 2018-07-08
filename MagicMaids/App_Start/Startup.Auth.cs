@@ -52,8 +52,6 @@ namespace MagicMaids
         */
 		public void ConfigureAuth(IAppBuilder app)
 		{
-			LogHelper.LogDebugDetails("ConfigureAuth - Client Id", LogHelper.GetObjectData(ClientId));
-
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
 			app.UseCookieAuthentication(new CookieAuthenticationOptions());
