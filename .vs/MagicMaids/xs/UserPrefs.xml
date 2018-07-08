@@ -1,9 +1,8 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/App_Start/Startup.Auth.cs">
     <Files>
-      <File FileName="MagicMaids/Web.config" Line="46" Column="23" />
-      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="122" Column="53" />
-      <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="1218" Column="4" />
+      <File FileName="MagicMaids/Web.config" Line="29" Column="59" />
+      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="124" Column="1" />
       <File FileName="MagicMaids/Helpers/ConfigEnvironment.cs" Line="69" Column="18" />
     </Files>
   </MonoDevelop.Ide.Workbench>
