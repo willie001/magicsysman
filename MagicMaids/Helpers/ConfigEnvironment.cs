@@ -64,7 +64,7 @@ namespace MagicMaids
 				Boolean isLive =false;
 				Boolean.TryParse(ConfigurationManager.AppSettings["IsLive"], out isLive);
 
-				if (isLive || !ConfigEnvironment.IsLocal)
+				if (isLive)
 				{
 					return "prod.";
 				}	
