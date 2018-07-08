@@ -50,7 +50,7 @@ namespace MagicMaids.Controllers
 					var connstring = DBManager.getConnectionStringDisplay();
 					TempData["connstring"] = connstring;
 					TempData["host"] = ConfigEnvironment.CurrentHost;;
-					TempData["environment"] = ConfigEnvironment.Environment;
+					TempData["environment"] = ConfigEnvironment.EnvironmentPrefix;
 					TempData["Anonymous"] = ConfigEnvironment.AllowAnonymous.ToString();
 					TempData["IsLocal"] = ConfigEnvironment.IsLocal.ToString();
 					TempData["requestdata"] = ConfigEnvironment.CurrentHost;

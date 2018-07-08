@@ -347,6 +347,7 @@ namespace MagicMaids
 
 		public static string StringScrubber(this string inputString, string firstMatch, string secondMatch = "", string replaceString = " ")
 		{
+
 			if (String.IsNullOrWhiteSpace(inputString))
 			{
 				return inputString;
