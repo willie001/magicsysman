@@ -22,7 +22,6 @@ namespace MagicMaids
         public static string ClientSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
         public static string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
         public static string RedirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
-        public static string ServiceUrl = ConfigurationManager.AppSettings["api:TaskServiceUrl"];
         public static string AadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];
 
         // B2C policy identifiers
@@ -33,10 +32,6 @@ namespace MagicMaids
 		public static string DefaultPolicy = SignUpSignInPolicyId;
 
 		// API Scopes
-		//public static string ApiIdentifier = ConfigurationManager.AppSettings["api:ApiIdentifier"];
-		//public static string ReadTasksScope = ApiIdentifier + ConfigurationManager.AppSettings["api:ReadScope"];
-		//public static string WriteTasksScope = ApiIdentifier + ConfigurationManager.AppSettings["api:WriteScope"];
-		//public static string[] Scopes = new string[] { ReadTasksScope, WriteTasksScope };
 		public static string[] Scopes = new string[] { };
 
 		// OWIN auth middleware constants
