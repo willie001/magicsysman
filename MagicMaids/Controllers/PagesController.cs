@@ -52,8 +52,8 @@ namespace MagicMaids.Controllers
 					TempData["host"] = ConfigEnvironment.CurrentHost;;
 					TempData["environment"] = ConfigEnvironment.Environment;
 					TempData["Anonymous"] = ConfigEnvironment.AllowAnonymous.ToString();
-					TempData["IsLocal"] = System.Web.HttpContext.Current?.Request?.IsLocal.ToString();
-					TempData["requestdata"] = JsonConvert.SerializeObject(System.Web.HttpContext.Current?.Request?.Url);
+					TempData["IsLocal"] = ConfigEnvironment.IsLocal.ToString();
+					TempData["requestdata"] = ConfigEnvironment.CurrentHost;
 
 					string stm = @"SELECT IFNULL(usr,'All Users') user,IFNULL(hst,'All Hosts') host,COUNT(1) Connections 
 							FROM
