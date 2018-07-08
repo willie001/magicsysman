@@ -15,7 +15,7 @@ namespace MagicMaids
                 return "";
             }
 
-            return ConfigurationManager.ConnectionStrings[$"{GetEnvironmentPrefix()}{key}"].ConnectionString;
+			return ConfigurationManager.ConnectionStrings[$"{ConfigEnvironment.GetEnvironmentPrefix()}{key}"].ConnectionString;
         }
 
         public static string GetConfigValue(string key)
@@ -25,7 +25,7 @@ namespace MagicMaids
                 return "";
             }
 
-            return ConfigurationManager.AppSettings[$"{GetEnvironmentPrefix()}{key}"];
+			return ConfigurationManager.AppSettings[$"{ConfigEnvironment.GetEnvironmentPrefix()}{key}"];
         }
 
 		internal static bool AllowAnonymous
@@ -61,13 +61,13 @@ namespace MagicMaids
 		{
 			get
 			{
-				return GetEnvironmentPrefix();
+				return ConfigEnvironment.GetEnvironmentPrefix();
 			}
 		}
 
         private static string GetEnvironmentPrefix()
         {
-			if (IsLocal)
+			if (ConfigEnvironment.IsLocal)
             {
 				return "local.";
             }
