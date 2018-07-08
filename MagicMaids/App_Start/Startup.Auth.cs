@@ -19,11 +19,9 @@ namespace MagicMaids
 
         // App config settings
         public static string ClientId = ConfigurationManager.AppSettings["ida:ClientId"];
-
         public static string ClientSecret = ConfigurationManager.AppSettings["ida:ClientSecret"];
         public static string Tenant = ConfigurationManager.AppSettings["ida:Tenant"];
         public static string RedirectUri = ConfigurationManager.AppSettings["ida:RedirectUri"];
-
         public static string ServiceUrl = ConfigurationManager.AppSettings["api:TaskServiceUrl"];
         public static string AadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];
 
@@ -52,11 +50,6 @@ namespace MagicMaids
         */
 		public void ConfigureAuth(IAppBuilder app)
 		{
-			ClientId = ConfigEnvironment.GetConfigValue("ida:ClientId");
-			ClientSecret = ConfigEnvironment.GetConfigValue("ida:ClientSecret");
-			Tenant = ConfigEnvironment.GetConfigValue("ida:Tenant");
-			RedirectUri = ConfigEnvironment.GetConfigValue("ida:RedirectUri");
-
 			app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
 
 			app.UseCookieAuthentication(new CookieAuthenticationOptions());
