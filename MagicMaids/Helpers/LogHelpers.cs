@@ -38,7 +38,7 @@ namespace MagicMaids
 		{
 			Boolean enableDebugInfo = true;
 
-			Boolean.TryParse(ConfigEnvironment.GetConfigValue("EnableAdditionalDebugInfo"), out enableDebugInfo);
+			Boolean.TryParse(ConfigurationManager.AppSettings["EnableAdditionalDebugInfo"], out enableDebugInfo);
 
 			if (!enableDebugInfo)
 			{
@@ -63,7 +63,7 @@ namespace MagicMaids
 			StringBuilder _sql = new StringBuilder();
 
 			Boolean enableExternalErrorLogging = true;
-			Boolean.TryParse(ConfigEnvironment.GetConfigValue("EnableExternalExceptionLogging"), out enableExternalErrorLogging);
+			Boolean.TryParse(ConfigurationManager.AppSettings["EnableExternalExceptionLogging"], out enableExternalErrorLogging);
 
 			try
 			{

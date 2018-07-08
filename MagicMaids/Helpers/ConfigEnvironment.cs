@@ -8,25 +8,25 @@ namespace MagicMaids
 {
     public static class ConfigEnvironment
     {
-        public static string GetConnectionString(string key)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                return "";
-            }
+   //     public static string GetConnectionString(string key)
+   //     {
+   //         if (string.IsNullOrWhiteSpace(key))
+   //         {
+   //             return "";
+   //         }
 
-			return ConfigurationManager.ConnectionStrings[$"{ConfigEnvironment.EnvironmentPrefix}{key}"].ConnectionString;
-        }
+			//return ConfigurationManager.ConnectionStrings[$"{ConfigEnvironment.EnvironmentPrefix}{key}"].ConnectionString;
+   //     }
 
-        public static string GetConfigValue(string key)
-        {
-            if (string.IsNullOrWhiteSpace(key))
-            {
-                return "";
-            }
+   //     public static string GetConfigValue(string key)
+   //     {
+   //         if (string.IsNullOrWhiteSpace(key))
+   //         {
+   //             return "";
+   //         }
 
-			return ConfigurationManager.AppSettings[$"{ConfigEnvironment.EnvironmentPrefix}{key}"];
-        }
+			//return ConfigurationManager.AppSettings[$"{ConfigEnvironment.EnvironmentPrefix}{key}"];
+        //}
 
 		internal static bool AllowAnonymous
 		{
