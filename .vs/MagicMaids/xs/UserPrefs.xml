@@ -1,12 +1,14 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/App_Start/Startup.Auth.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Global.asax.cs">
     <Files>
-      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="58" Column="4" />
-      <File FileName="MagicMaids/Controllers/AccountController.cs" Line="47" Column="28" />
-      <File FileName="MagicMaids/Web.config" Line="56" Column="33" />
+      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="101" Column="5" />
+      <File FileName="MagicMaids/Controllers/AccountController.cs" Line="22" Column="54" />
+      <File FileName="MagicMaids/Web.config" Line="46" Column="31" />
       <File FileName="MagicMaids/Views/Partials/TopNavbar.cshtml" Line="38" Column="29" />
       <File FileName="MagicMaids/Helpers/MagicAttribute.cs" Line="12" Column="31" />
       <File FileName="MagicMaids/Helpers/ConfigEnvironment.cs" Line="45" Column="4" />
+      <File FileName="MagicMaids/Views/Shared/_Layout.cshtml" Line="22" Column="9" />
+      <File FileName="MagicMaids/Global.asax.cs" Line="29" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -18,10 +20,10 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/CleanersController.cs" relfile="MagicMaids/Controllers/CleanersController.cs" line="1187" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/App_Start/Startup.Auth.cs" relfile="MagicMaids/App_Start/Startup.Auth.cs" line="98" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/App_Start/Startup.Auth.cs" relfile="MagicMaids/App_Start/Startup.Auth.cs" line="145" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="86" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="71" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="49" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="33" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="91" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="76" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="54" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="38" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="17" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/App_Start/Startup.Auth.cs" relfile="MagicMaids/App_Start/Startup.Auth.cs" line="46" column="1" />
     </BreakpointStore>

@@ -14,6 +14,8 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
+using System.Web.Helpers;
+using System.Security.Claims;
 
 namespace MagicMaids
 {
@@ -40,6 +42,8 @@ namespace MagicMaids
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
+
+			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimsIdentity.DefaultNameClaimType;
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
