@@ -51,7 +51,7 @@ namespace MagicMaids
 			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(EditProfilePolicyId));
 			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(ResetPasswordPolicyId));
 			//app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(NewUserPolicyId));
-			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(DefaultPolicy));
+			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(SignInPolicyId));
 		}
 
 		private OpenIdConnectAuthenticationOptions CreateOptionsFromPolicy(string policy)

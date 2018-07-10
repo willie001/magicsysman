@@ -16,9 +16,14 @@ namespace MagicMaids.Controllers
 		{
 			if (!Request.IsAuthenticated)
 			{
+				HttpContext.GetOwinContext().Set("Policy", Startup.SignInPolicyId);
+
 				// to execute policy simply trigger OWIN challenge
-				HttpContext.GetOwinContext().Authentication.Challenge(
-					new AuthenticationProperties(){ RedirectUri = "/"}, Startup.SignInPolicyId );
+				//HttpContext.GetOwinContext().Authentication.Challenge(
+					//new AuthenticationProperties(){ RedirectUri = "/"}, Startup.SignInPolicyId );
+				var authenticationProperties = new AuthenticationProperties { RedirectUri = "/" };
+				HttpContext.GetOwinContext().Authentication.Challenge(authenticationProperties);
+
 				return;
 			}
 
@@ -28,18 +33,18 @@ namespace MagicMaids.Controllers
 		/*
          *  Called when requesting to sign Up
          */
-		public void NewUser()
-		{
-			if (!Request.IsAuthenticated)
-			{
-				// to execute policy simply trigger OWIN challenge
-				HttpContext.GetOwinContext().Authentication.Challenge(
-					new AuthenticationProperties() { RedirectUri = "/" }, Startup.NewUserPolicyId);
-				return;
-			}
+		//public void NewUser()
+		//{
+		//	if (!Request.IsAuthenticated)
+		//	{
+		//		// to execute policy simply trigger OWIN challenge
+		//		HttpContext.GetOwinContext().Authentication.Challenge(
+		//			new AuthenticationProperties() { RedirectUri = "/" }, Startup.NewUserPolicyId);
+		//		return;
+		//	}
 
-			Response.Redirect("/");
-		}
+		//	Response.Redirect("/");
+		//}
 
 		/*
          *  Called when requesting to edit a profile
