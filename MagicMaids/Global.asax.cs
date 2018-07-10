@@ -37,13 +37,14 @@ namespace MagicMaids
 			//Add Razor Engine (which we are using)
 			ViewEngines.Engines.Add(new CustomViewEngine());
 
+			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+
 			AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
 
-			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
