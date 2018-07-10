@@ -37,7 +37,7 @@ namespace MagicMaids
 			//Add Razor Engine (which we are using)
 			ViewEngines.Engines.Add(new CustomViewEngine());
 
-			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimsIdentity.DefaultNameClaimType;;
 
 			AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
