@@ -7,18 +7,34 @@ using Microsoft.Owin.Security;
 
 namespace MagicMaids.Controllers
 {
-	[AllowAnonymous]
     public class Account : Controller
     {
 		/*
-         *  Called when requesting to sign up or sign in
+         *  Called when requesting to sign in
          */
-		public void SignUpSignIn()
+		public void SignIn()
 		{
-			// Use the default policy to process the sign up / sign in flow
 			if (!Request.IsAuthenticated)
 			{
-				HttpContext.GetOwinContext().Authentication.Challenge();
+				// to execute policy simply trigger OWIN challenge
+				HttpContext.GetOwinContext().Authentication.Challenge(
+					new AuthenticationProperties(){ RedirectUri = "/"}, Startup.SignInPolicyId );
+				return;
+			}
+
+			Response.Redirect("/");
+		}
+
+		/*
+         *  Called when requesting to sign Up
+         */
+		public void NewUser()
+		{
+			if (!Request.IsAuthenticated)
+			{
+				// to execute policy simply trigger OWIN challenge
+				HttpContext.GetOwinContext().Authentication.Challenge(
+					new AuthenticationProperties() { RedirectUri = "/" }, Startup.NewUserPolicyId);
 				return;
 			}
 

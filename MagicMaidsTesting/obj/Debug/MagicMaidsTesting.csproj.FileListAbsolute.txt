@@ -78,9 +78,9 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/NodaTime.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/LazyCache.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Owin.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.OpenIdConnect.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.OpenIdConnect.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Identity.Client.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/FluentValidation.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/MySql.Data.dll
@@ -105,9 +105,9 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.Mvc.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.WebPages.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.OpenIdConnect.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Protocols.OpenIdConnect.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.OpenIdConnect.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Identity.Client.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.SimpleCRUD.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.SimpleCRUD.xml

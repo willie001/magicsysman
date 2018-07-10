@@ -81,6 +81,7 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaids/obj/Debug/MagicMaids
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.AspNet.Identity.Core.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.Identity.Client.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.IdentityModel.Logging.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.IdentityModel.Protocol.Extensions.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.IdentityModel.Protocols.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.IdentityModel.Tokens.dll
@@ -131,6 +132,7 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaids/obj/Debug/MagicMaids
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Bugsnag.AspNet.Mvc.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Google.Protobuf.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.AspNet.Identity.Core.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/bin/Microsoft.IdentityModel.Protocol.Extensions.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb

@@ -33,7 +33,13 @@
 				</a>
 			</li>
 			<li>
-				<a href="">Welcome @user</a>
+				<a id="profile-link">Welcome @user</a>
+			</li>
+			<li class="profile-link">
+				@Html.ActionLink("Edit Profile", "EditProfile", "Account")
+			</li>
+			<li class="profile-link">
+				@Html.ActionLink("Sign Out","SignOut","Account")
 			</li>
 		</ul>
 

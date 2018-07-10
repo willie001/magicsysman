@@ -25,14 +25,12 @@ namespace MagicMaids
         public static string AadInstance = ConfigurationManager.AppSettings["ida:AadInstance"];
 
         // B2C policy identifiers
-        public static string SignUpSignInPolicyId = ConfigurationManager.AppSettings["ida:SignUpSignInPolicyId"];
+		public static string SignInPolicyId = ConfigurationManager.AppSettings["ida:SignInPolicyId"];
 		public static string EditProfilePolicyId = ConfigurationManager.AppSettings["ida:EditPolicyId"];
 		public static string ResetPasswordPolicyId = ConfigurationManager.AppSettings["ida:ResetPasswordPolicyId"];
+		public static string NewUserPolicyId = ConfigurationManager.AppSettings["ida:NewUserPolicyId"];
 
-		public static string DefaultPolicy = SignUpSignInPolicyId;
-
-		// API Scopes
-		public static string[] Scopes = new string[] { };
+		public static string DefaultPolicy = SignInPolicyId;
 
 		// OWIN auth middleware constants
 		public const string ObjectIdElement = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
@@ -49,36 +47,46 @@ namespace MagicMaids
 
 			app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
-			app.UseOpenIdConnectAuthentication(
-				new OpenIdConnectAuthenticationOptions
+			// configure openId Connect middleware for each policy
+			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(DefaultPolicy));
+			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(EditProfilePolicyId));
+			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(ResetPasswordPolicyId));
+			app.UseOpenIdConnectAuthentication(CreateOptionsFromPolicy(NewUserPolicyId));
+		}
+
+		private OpenIdConnectAuthenticationOptions CreateOptionsFromPolicy(string policy)
+		{
+			return new OpenIdConnectAuthenticationOptions
+			{
+				// for each policy give OWIN policy-specific metadata address and set auth type 
+				// to ID of the policy
+				MetadataAddress = String.Format(AadInstance, Tenant, policy),
+				AuthenticationType = policy,
+
+				// These are standard OpenID Connect parameters, with values pulled from web.config
+				ClientId = ClientId,
+				RedirectUri = RedirectUri,
+				PostLogoutRedirectUri = RedirectUri,
+
+				// Specify the callbacks for each type of notifications
+				Notifications = new OpenIdConnectAuthenticationNotifications
 				{
-					// Generate the metadata address using the tenant and policy information
-					MetadataAddress = String.Format(AadInstance, Tenant, DefaultPolicy),
+					RedirectToIdentityProvider = OnRedirectToIdentityProvider,
+					AuthorizationCodeReceived = OnAuthorizationCodeReceived,
+					AuthenticationFailed = OnAuthenticationFailed,
+				},
 
-					// These are standard OpenID Connect parameters, with values pulled from web.config
-					ClientId = ClientId,
-					RedirectUri = RedirectUri,
-					PostLogoutRedirectUri = RedirectUri,
+				// Specify the claim type that specifies the Name property.
+				TokenValidationParameters = new TokenValidationParameters
+				{
+					NameClaimType = "name"
+				},
 
-					// Specify the callbacks for each type of notifications
-					Notifications = new OpenIdConnectAuthenticationNotifications
-					{
-						RedirectToIdentityProvider = OnRedirectToIdentityProvider,
-						AuthorizationCodeReceived = OnAuthorizationCodeReceived,
-						AuthenticationFailed = OnAuthenticationFailed,
-					},
-
-					// Specify the claim type that specifies the Name property.
-					TokenValidationParameters = new TokenValidationParameters
-					{
-						NameClaimType = "name"
-					},
-
-					// Specify the scope by appending all of the scopes requested into one string (separated by a blank space)
-					// {ReadTasksScope} {WriteTasksScope}"
-					Scope = $"openid profile offline_access" 
-				}
-			);
+				// Specify the scope by appending all of the scopes requested into one string (separated by a blank space)
+				// {ReadTasksScope} {WriteTasksScope}"
+				Scope = $"openid profile offline_access",
+				ResponseType = "id_token"
+			};
 		}
 
 		/*
@@ -121,7 +129,7 @@ namespace MagicMaids
 			{
 				LogHelper log = new LogHelper();
 				log.Log(LogHelper.LogLevels.Error, "Error authenticating user", nameof(OnAuthenticationFailed), notification.Exception, null, null);
-				//notification.Response.Redirect("/pages/Error?message=" + notification.Exception.Message);
+				notification.Response.Redirect("/pages/Error?message=" + notification.Exception.Message);
 			}
 
 			return Task.FromResult(0);
@@ -141,7 +149,7 @@ namespace MagicMaids
 			ConfidentialClientApplication cca = new ConfidentialClientApplication(ClientId, Authority, RedirectUri, new ClientCredential(ClientSecret), userTokenCache, null);
 			try
 			{
-				AuthenticationResult result = await cca.AcquireTokenByAuthorizationCodeAsync(code, Scopes);
+				//AuthenticationResult result = await cca.AcquireTokenByAuthorizationCodeAsync(code, Scopes);
 			}
 			catch (Exception ex)
 			{

@@ -278,9 +278,6 @@
     <Reference Include="NodaTime.Serialization.JsonNet">
       <HintPath>bin\NodaTime.Serialization.JsonNet.dll</HintPath>
     </Reference>
-    <Reference Include="SharpRaven">
-      <HintPath>bin\SharpRaven.dll</HintPath>
-    </Reference>
     <Reference Include="System.ValueTuple">
       <HintPath>bin\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -338,6 +335,9 @@
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocol.Extensions">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.4.403061554\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -1304,7 +1304,7 @@
     </VisualStudio>
     <MonoDevelop>
       <Properties>
-        <XspParameters Port="8080" Address="127.0.0.1" SslMode="ClientAccept" SslProtocol="Default" KeyType="None" CertFile="/Users/ebenventer/.localhost-ssl/localhost.crt" KeyFile="/Users/ebenventer/.localhost-ssl/localhost.key" PasswordOptions="None" Password="" Verbose="True" />
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="/Users/ebenventer/.localhost-ssl/localhost.crt" KeyFile="/Users/ebenventer/.localhost-ssl/localhost.key" PasswordOptions="None" Password="" Verbose="True" />
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
