@@ -43,7 +43,7 @@ namespace MagicMaids
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
 
-			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimsIdentity.DefaultNameClaimType;
+			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
