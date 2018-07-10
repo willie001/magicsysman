@@ -8,7 +8,7 @@
       <File FileName="MagicMaids/Helpers/MagicAttribute.cs" Line="12" Column="31" />
       <File FileName="MagicMaids/Helpers/ConfigEnvironment.cs" Line="45" Column="4" />
       <File FileName="MagicMaids/App_Start/FilterConfig.cs" Line="13" Column="10" />
-      <File FileName="MagicMaids/Helpers/Helpers.cs" Line="351" Column="1" />
+      <File FileName="MagicMaids/Helpers/Helpers.cs" Line="366" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
