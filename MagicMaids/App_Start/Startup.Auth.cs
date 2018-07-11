@@ -123,6 +123,8 @@ namespace MagicMaids
 			}
 			else if (notification.Exception.Message == "access_denied")
 			{
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Warning, "Access Denied", nameof(OnAuthenticationFailed), notification.Exception, null, null);
 				notification.Response.Redirect("/");
 			}
 			else
