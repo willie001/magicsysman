@@ -44,7 +44,7 @@ namespace MagicMaids
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
 
-			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.Email;
+			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 

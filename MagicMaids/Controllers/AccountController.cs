@@ -12,6 +12,7 @@ namespace MagicMaids.Controllers
 		/*
          *  Called when requesting to sign in
          */
+		[AllowAnonymous]
 		public void SignIn()
 		{
 			if (!Request.IsAuthenticated)
@@ -19,10 +20,10 @@ namespace MagicMaids.Controllers
 				HttpContext.GetOwinContext().Set("Policy", Startup.SignInPolicyId);
 
 				// to execute policy simply trigger OWIN challenge
-				//HttpContext.GetOwinContext().Authentication.Challenge(
-					//new AuthenticationProperties(){ RedirectUri = "/"}, Startup.SignInPolicyId );
-				var authenticationProperties = new AuthenticationProperties { RedirectUri = "/" };
-				HttpContext.GetOwinContext().Authentication.Challenge(authenticationProperties);
+				HttpContext.GetOwinContext().Authentication.Challenge(
+					new AuthenticationProperties(){ RedirectUri = "/"}, Startup.SignInPolicyId );
+				//var authenticationProperties = new AuthenticationProperties { RedirectUri = "/" };
+				//HttpContext.GetOwinContext().Authentication.Challenge(authenticationProperties);
 
 				return;
 			}
@@ -70,6 +71,7 @@ namespace MagicMaids.Controllers
 		/*
          *  Called when requesting to reset a password
          */
+		[AllowAnonymous]
 		public void ResetPassword()
 		{
 			// Let the middleware know you are trying to use the reset password policy (see OnRedirectToIdentityProvider in Startup.Auth.cs)
