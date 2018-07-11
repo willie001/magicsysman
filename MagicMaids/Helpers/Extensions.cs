@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
-using System.Web;
-using NodaTime;
-using NodaTime.Extensions;
 
 namespace MagicMaids
 {
