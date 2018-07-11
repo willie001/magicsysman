@@ -44,7 +44,10 @@ namespace MagicMaids
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
 
-			AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+			LogHelper log = new LogHelper();
+			log.Log(LogHelper.LogLevels.Warning, "ClaimsIdentity unpacked", nameof(Application_Start), null, ClaimsIdentity.DefaultNameClaimType, null);
+
+			AntiForgeryConfig.UniqueClaimTypeIdentifier = System.Security.Claims.ClaimTypes.NameIdentifier;
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
