@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using FluentValidation.Attributes;
 
 using MagicMaids.EntityModels;
@@ -305,12 +306,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Int32 SearchMatchScore
-		{
-			get;
-			set;
-		}
-
 		public string Initials
 		{
 			get;
@@ -365,6 +360,44 @@ namespace MagicMaids.ViewModels
 			get;
 			set;
 		}
+
+		public Boolean IsFirstJob
+		{
+			get
+			{
+				if (String.IsNullOrWhiteSpace(PreviousJobLocation))
+				{
+					return true;
+				}
+				return false;
+			}
+		}
+
+		public String PreviousJobLocation
+		{
+			get;
+			set;
+		}
+
+		public String NextJobLocation
+		{
+			get;
+			set;
+		}
+
+		public String DisplayLocation
+		{
+			get;
+			set;
+		}
+
+		public Int32 Rating
+		{
+			get;
+			set;
+		}
+
+
 		#endregion
 	}
 

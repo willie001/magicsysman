@@ -48,7 +48,8 @@ namespace MagicMaids.DataAccess
 		#region Constructor
 		public DBManager()
 		{
-			_connectionString = ConfigurationManager.ConnectionStrings[$"MagicMaidsContext"].ConnectionString;
+			//_connectionString = ConfigurationManager.ConnectionStrings[$"MagicMaidsContext"].ConnectionString;
+			_connectionString = ConfigEnvironment.GetConnectionString();
         }
 		#endregion
 

@@ -349,7 +349,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ConfigEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\CleanersController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
@@ -418,8 +417,10 @@
     <Compile Include="Startup.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\MSALSessionCache.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Helpers\MagicAttribute.cs" />
+    <Compile Include="Runtime\ConfigEnvironment.cs" />
+    <Compile Include="Runtime\MagicAttribute.cs" />
+    <Compile Include="Runtime\BookingFactory.cs" />
+    <Compile Include="Helpers\NamedColours.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -1270,6 +1271,7 @@
     <Folder Include="Vendor\jquery\src\traversing\var\" />
     <Folder Include="Vendor\jquery\src\var\" />
     <Folder Include="Vendor\oclazyload\dist\modules\" />
+    <Folder Include="Runtime\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -101,6 +101,7 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Bugsnag.ConfigurationSection.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/MagicMaids.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/MagicMaids.dll.config
+/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/nunit.framework.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/nunit.framework.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.Mvc.xml

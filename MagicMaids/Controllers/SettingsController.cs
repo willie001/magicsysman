@@ -710,32 +710,7 @@ namespace MagicMaids.Controllers
 
 		public static List<string> GetZoneListBySuburb(string Suburb)
 		{
-			if (String.IsNullOrWhiteSpace(Suburb))
-			{
-				return new List<string>();
-			}
-
-			List<String> _zoneList = new List<String>();
-			using (DBManager db = new DBManager())
-			{
-				_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where SuburbName like '%{Suburb}%' or PostCode = '{Suburb}'").ToList();
-
-				// load system default list
-				if (_zoneList.Count == 0)
-				{
-					_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
-				}
-			}
-
-
-			var _zoneCSV = String.Join(",", _zoneList);
-			_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
-						  .Distinct()
-						  .ToList();
-
-			_zoneList.Sort();
-
-			return _zoneList;
+			return BookingFactory.GetZoneListBySuburb(Suburb);
 		}
 		#endregion 
 	}

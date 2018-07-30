@@ -15,16 +15,17 @@
 		var vm = this;
 		var panelName = "panelMainResults";
 
-		vm.Search = {};
-		vm.SeachResults = {};
-		vm.hasSearched = false;
-
-		$scope.userMessages = [];
-		$scope.userMessageType = [];
-
 		activate();
 
 		function activate() {
+			vm.Search = {};
+			vm.SeachResults = {};
+			vm.Search.FilterZone = {};
+			vm.hasSearched = false;
+
+			$scope.userMessages = [];
+			$scope.userMessageType = [];
+
 			HandleBusySpinner.start($scope, panelName);
 			manageTimeZoneCookie.set($cookies, moment, location);
 
@@ -44,42 +45,18 @@
 			vm.Search.ServiceDate = new Date();
 			vm.Search.ServiceType = "W"
 			vm.Search.ServiceDayValue = "1";
-			vm.Search.changeServiceType = function() {
-				vm.Search.WeeklyJob = (vm.Search.ServiceType=="W") ? true : false;
-				vm.Search.FortnightlyJob = (vm.Search.ServiceType=="F") ? true : false;
-				vm.Search.OneOffJob = (vm.Search.ServiceType=="O") ? true : false;
-				vm.Search.VacateClean = (vm.Search.ServiceType=="V") ? true : false;
-			}
-			vm.Search.changeServiceDay = function() {
-				if (vm.Search.ServiceDayValue == 1)
-					vm.Search.ServiceDay = "Monday";
+			vm.Search.FilterZonesPrimary = true;
+			vm.Search.FilterZonesSecondary = true;
+			vm.Search.FilterZonesApproved = false;
+			vm.Search.FilterZonesOther = false;
 
-				if (vm.Search.ServiceDayValue == 2)
-					vm.Search.ServiceDay = "Tuesday";
-
-				if (vm.Search.ServiceDayValue == 3)
-					vm.Search.ServiceDay = "Wednesday";
-
-				if (vm.Search.ServiceDayValue == 4)
-					vm.Search.ServiceDay = "Thursday";
-
-				if (vm.Search.ServiceDayValue == 5)
-					vm.Search.ServiceDay = "Friday";
-
-				if (vm.Search.ServiceDayValue == 6)
-					vm.Search.ServiceDay = "Saturday";
-
-				if (vm.Search.ServiceDayValue == 7)
-					vm.Search.ServiceDay = "Sunday";
-			}
-			vm.Search.changeServiceType();
-			vm.Search.changeServiceDay();
+			changeServiceType();
+			changeServiceDay();
 
 			vm.date = [];
 			vm.date.clear = function () {
 	            vm.Search.ServiceDate = null;
           	};	
-
 
           	// Disable weekend selection
 	       	vm.date.disabled = function(date, mode) {
@@ -109,19 +86,66 @@
           	vm.date.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
           	vm.date.format = vm.date.formats[0];
 
-          	$scope.searchCriteria = false; // expand search panel on first load
+			var criteria = {};
+			$http.get('/search/GetSearchCriteria/')
+                .success(function (data) {
+                    criteria = data.item;
+					if (criteria.HasCriteria == true)
+					{
+						vm.Search = criteria;
+						changeServiceType();
+						changeServiceDay();
+						vm.Search.FilterRating = vm.Search.FilterRating.toString();	// does not like it if the value is integer
+						$scope.searchMatches();
+					}
+					//console.log("<SEARCH Criteria> - " + angular.toJson(data.item));
 			
+                }).error(function(err) {
+                }).finally(function() {
+                });
+
+          	$scope.searchCriteria = false; // expand search panel on first load
+		}
+
+		function changeServiceType()
+		{
+			//alert(vm.Search.ServiceType);
+			vm.Search.WeeklyJob = (vm.Search.ServiceType=="W") ? true : false;
+			vm.Search.FortnightlyJob = (vm.Search.ServiceType=="F") ? true : false;
+			vm.Search.OneOffJob = (vm.Search.ServiceType=="O") ? true : false;
+			vm.Search.VacateClean = (vm.Search.ServiceType=="V") ? true : false;
+		}
+
+		function changeServiceDay()
+		{
+			if (vm.Search.ServiceDayValue == 1)
+				vm.Search.ServiceDay = "Monday";
+
+			if (vm.Search.ServiceDayValue == 2)
+				vm.Search.ServiceDay = "Tuesday";
+
+			if (vm.Search.ServiceDayValue == 3)
+				vm.Search.ServiceDay = "Wednesday";
+
+			if (vm.Search.ServiceDayValue == 4)
+				vm.Search.ServiceDay = "Thursday";
+
+			if (vm.Search.ServiceDayValue == 5)
+				vm.Search.ServiceDay = "Friday";
+
+			if (vm.Search.ServiceDayValue == 6)
+				vm.Search.ServiceDay = "Saturday";
+
+			if (vm.Search.ServiceDayValue == 7)
+				vm.Search.ServiceDay = "Sunday";
+
+			vm.Search.ServiceDayValue = vm.Search.ServiceDayValue.toString();	// does not like it if the value is integer
 		}
 
 		$scope.clearForm = function() {
-				vm.Search = {};
-				vm.SearchResults = {};
-				vm.hasSearched = false;
-
-				$scope.searchCriteria = false;
-					
-				activate();
-			}
+			$http.delete('/search/clearsearchcriteria');
+			activate();
+		}
 
 		$scope.searchMatches = function() {
 			ShowUserMessages.clear($scope);

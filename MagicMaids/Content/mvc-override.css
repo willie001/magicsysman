@@ -27,10 +27,14 @@ label.star {
   transition: all .2s;
 }
 
+.starRating {
+	color: #919DA8 !important;
+}
+
 input.star:checked ~ label.star:before {
-  content: '\f005';
-  color: #FD4;
-  transition: all .25s;
+	content: '\f005';
+	color: #FD4;
+	transition: all .25s;
 }
 
 input.star-6:checked ~ label.star:before {

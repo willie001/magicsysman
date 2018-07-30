@@ -83,8 +83,9 @@ namespace MagicMaids.Controllers
 					stm = "SELECT count(*) as testCount from systemsettings";
 					rows = db.getConnection().Query(stm).ToList();
 					string counter = rows[0].testCount.ToString();
-					output.Append($"Record Count : {counter}\n");
-				
+					output.Append($"Record Count : {counter}\n\n");
+					output.Append(RenderTestWeeks());
+
 					TempData["results"] = output.ToString();
 				}
 
@@ -112,6 +113,44 @@ namespace MagicMaids.Controllers
 			TempData["debugger"] = "-----------------------\n";
 
 			return View();
+		}
+
+		private string RenderTestWeeks()
+		{
+			StringBuilder _weeks = new StringBuilder();
+			var _year = DateTime.Now.Year;
+
+			_weeks.Append($"---------- {_year} -------------\n");
+			_weeks.Append(RenderTestWeeks(_year, 1, 1));
+			_weeks.Append("\n");
+			_weeks.Append(RenderTestWeeks(_year, 12, 22));
+			_weeks.Append($"---------- {_year+1} -------------\n");
+			_weeks.Append(RenderTestWeeks(_year+1, 1, 1));
+			_weeks.Append("\n");
+			_weeks.Append(RenderTestWeeks(_year+1, 12, 22));
+			_weeks.Append("-----------------------\n");
+			return _weeks.ToString();
+		}
+
+		private string RenderTestWeeks(int year, int month, int day)
+		{
+			StringBuilder _weeks = new StringBuilder();
+
+			var _hitMonday = false;
+			var _expected = NamedColours.WeeksOdd;
+			for (int i = day; i <= day+9; i++)
+			{
+				var _test = new DateTime(year, month, i);
+				var _day = _test.DayOfWeek;
+				if (_day == DayOfWeek.Monday && i > 1)
+				{
+					_expected = (_expected == NamedColours.WeeksEven) ? NamedColours.WeeksOdd : NamedColours.WeeksEven;
+					_hitMonday = !_hitMonday ;
+				}
+
+				_weeks.Append($"{_test.ToShortDateString()} [{_test.DayOfWeek.ToString()}] expected to be '{_expected}'\n");
+			}
+			return _weeks.ToString();
 		}
 
 		private string ParseOdbcErrorCollection(OdbcException exception)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 
 using AutoMapper;
@@ -32,6 +33,30 @@ namespace MagicMaids.Controllers
 		#endregion
 
 		#region Service Functions
+		[HttpGet]
+		public JsonResult GetSearchCriteria()
+		{
+			SearchVM searchCriteria = new SearchVM();
+			searchCriteria = searchCriteria.RestoreSearchCookieCriteria("cleanerMatch");
+
+			return new JsonNetResult() { Data = new { item = searchCriteria }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+		[HttpDelete]
+		public void ClearSearchCriteria()
+		{
+			var cookieName = "SearchCriteria_cleanerMatch";
+			if (Response.Cookies[cookieName] != null)
+			{
+				HttpCookie cookie = Request.Cookies[cookieName];
+				Response.Cookies.Remove(cookieName);
+				cookie.Expires = DateTime.Now.AddDays(-10);  // or any other time in the past
+				cookie.Value = null;
+				Response.Cookies.Set(cookie);
+				Request.Cookies.Set(cookie);
+			}
+		}
+
 		[HttpPost]
 		public ActionResult MatchCleaners(SearchVM searchCriteria)
 		{
@@ -54,10 +79,13 @@ namespace MagicMaids.Controllers
 			{
 				try
 				{
+					searchCriteria.HasCriteria = true;
+					searchCriteria.StoreSearchCookieCiteria("cleanerMatch");
+
 					using (DBManager db = new DBManager())
 					{
 						StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
-							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where 1=1");
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where C.IsActive=1");
 
 						if (searchCriteria.RequireIroning)
 						{
@@ -67,6 +95,11 @@ namespace MagicMaids.Controllers
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
 						{
 							sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%' or Ph.PostCode = '{searchCriteria.Suburb}')");
+						}
+
+						if (searchCriteria.FilterRating > 0)
+						{
+							sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
 						}
 
 						sql.Append(" order by LastName, FirstName");
@@ -102,12 +135,10 @@ namespace MagicMaids.Controllers
 							{
 								_item.ApprovedZoneList = new List<string>();
 							}
-
-							_item.SearchMatchScore = CalculateSearchMatchScore(searchCriteria, _item);
-
 						}
 
-						return new JsonNetResult() { Data = new { SearchResults = _vmResults }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+						BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
+						return new JsonNetResult() { Data = new { SearchResults = resultsProcessor.GetProcessedResults() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 					}
 				}
 				catch (Exception ex)
@@ -129,41 +160,6 @@ namespace MagicMaids.Controllers
 		#endregion
 
 
-		#region Methods, Private
-		private Int32 CalculateSearchMatchScore(SearchVM searchCriteria, CleanerJobMatchVM item)
-		{
-			if (item == null || searchCriteria == null)
-			{
-				return 0;
-			}
 
-			string searchArea = searchCriteria.Suburb.Trim().ToLower();
-			string cleanerSuburb = item.PhysicalAddress.Suburb.Trim().ToLower();
-			string cleanerPostCode = item.PhysicalAddress.PostCode.Trim();
-
-			var zoneList = SettingsController.GetZoneListBySuburb(searchArea);
-
-			if (zoneList.Intersect(item.PrimaryZoneList).Count() > 0)
-			{
-				return 100;		// primary zone matching
-			}
-
-			if (zoneList.Intersect(item.SecondaryZoneList).Count() > 0)
-			{
-				return 75;     // secondary zone matching
-			}
-
-			if (zoneList.Intersect(item.ApprovedZoneList).Count() > 0)
-			{
-				return 50;     // secondary zone matching
-			}
-
-
-			return 0;
-
-		}
-
-
-		#endregion
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using NodaTime;
+using NodaTime.Calendars;
 using NodaTime.Extensions;
 
 using System;
@@ -163,5 +164,36 @@ namespace MagicMaids
 
 			return (comparePeriod.Days < 0);
 		}
+
+		public static string WeekYearStyle(this DateTime matchDate) {
+			if (matchDate < DateTime.MinValue || matchDate > DateTime.MaxValue)
+			{
+				return "";
+			}
+
+			// We'll use BCL, but if the date is before first monday I'll force it to week 1
+			//https://nodatime.org/2.2.x/userguide/weekyears
+			var utcDate = matchDate.ToUTC();
+
+			CalendarWeekRule weekRule = CalendarWeekRule.FirstDay;
+			DayOfWeek firstWeekDay = DayOfWeek.Monday;
+			Calendar calendar = System.Threading.Thread.CurrentThread.CurrentCulture.Calendar;
+
+			int currentWeek = calendar.GetWeekOfYear(utcDate, weekRule, firstWeekDay);
+
+			if (currentWeek % 2 == 0)
+			{
+				return NamedColours.WeeksEven;
+			}
+
+			return NamedColours.WeeksOdd;
+		}
+
+		public static string WeekDayStyle(this DateTime matchDate)
+		{
+			var colour = matchDate.WeekYearStyle();
+			return $"<span class='{colour}'>{matchDate.DayOfWeek}</span>";
+		}
 	}
+
 }

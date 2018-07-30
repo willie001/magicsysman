@@ -1,7 +1,7 @@
 @using System.Security.Claims;
 @using MagicMaids;
 @{
-	var user = "test"; // ClaimsPrincipal.Current.UserName();
+	var user = ClaimsPrincipal.Current.UserName();
 }
 
 <!-- START Top Navbar-->
@@ -35,12 +35,6 @@
 			<li>
 				<a id="profile-link">Welcome @user</a>
 			</li>
-			<li class="profile-link">
-				@Html.ActionLink("Edit Profile", "EditProfile", "Account")
-			</li>
-			<li class="profile-link">
-				@Html.ActionLink("Sign Out","SignOut","Account")
-			</li>
 		</ul>
 
 		<!-- END Left navbar-->
@@ -48,10 +42,16 @@
 		<ul class="nav navbar-nav navbar-right">
 			<!-- Search icon-->
 			<!--<li>
-			   <a search-open="">
-				  <em class="icon-magnifier"></em>
-			   </a>
-			</li>-->
+	   <a search-open="">
+		  <em class="icon-magnifier"></em>
+	   </a>
+	</li>-->
+			<li class="profile-link">
+				@Html.ActionLink("Edit Profile", "EditProfile", "Account")
+			</li>
+			<li class="profile-link">
+				@Html.ActionLink("Sign Out","SignOut","Account")
+			</li>
 			<li class="visible-lg">
 				<a href="" toggle-fullscreen="toggle-fullscreen">
 					<em class="fa fa-expand"></em>
@@ -59,10 +59,10 @@
 			</li>
 			<!-- START Offsidebar button-->
 			<!--<li>
-			   <a href="" ng-click="app.offsidebarOpen = !app.offsidebarOpen">
-				  <em class="icon-notebook"></em>
-			   </a>
-			</li>-->
+	   <a href="" ng-click="app.offsidebarOpen = !app.offsidebarOpen">
+		  <em class="icon-notebook"></em>
+	   </a>
+	</li>-->
 			<!-- END Offsidebar menu-->
 		</ul>
 		<!-- END Right Navbar-->

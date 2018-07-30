@@ -19,7 +19,7 @@ using System.Security.Claims;
 
 namespace MagicMaids
 {
-    public class Global : System.Web.HttpApplication
+	public class Global : System.Web.HttpApplication
     {
 		protected void Application_BeginRequest()
 		{
@@ -44,8 +44,8 @@ namespace MagicMaids
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             FluentValidationModelValidatorProvider.Configure();
 
-			LogHelper log = new LogHelper();
-			log.Log(LogHelper.LogLevels.Warning, "ClaimsIdentity unpacked", nameof(Application_Start), null, ClaimsIdentity.DefaultNameClaimType, null);
+			//LogHelper log = new LogHelper();
+			//log.Log(LogHelper.LogLevels.Warning, "ClaimsIdentity unpacked", nameof(Application_Start), null, ClaimsIdentity.DefaultNameClaimType, null);
 
 			AntiForgeryConfig.UniqueClaimTypeIdentifier = System.Security.Claims.ClaimTypes.NameIdentifier;
 
