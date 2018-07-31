@@ -42,21 +42,6 @@ namespace MagicMaids.Controllers
 			return new JsonNetResult() { Data = new { item = searchCriteria }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
-		[HttpDelete]
-		public void ClearSearchCriteria()
-		{
-			var cookieName = "SearchCriteria_cleanerMatch";
-			if (Response.Cookies[cookieName] != null)
-			{
-				HttpCookie cookie = Request.Cookies[cookieName];
-				Response.Cookies.Remove(cookieName);
-				cookie.Expires = DateTime.Now.AddDays(-10);  // or any other time in the past
-				cookie.Value = null;
-				Response.Cookies.Set(cookie);
-				Request.Cookies.Set(cookie);
-			}
-		}
-
 		[HttpPost]
 		public ActionResult MatchCleaners(SearchVM searchCriteria)
 		{

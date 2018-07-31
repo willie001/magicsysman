@@ -92,7 +92,6 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.Cookies.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Tokens.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Protocols.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Host.SystemWeb.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Web.Infrastructure.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.Razor.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.WebPages.Razor.dll
@@ -118,7 +117,6 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.Cookies.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Tokens.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Protocols.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Host.SystemWeb.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.Razor.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.WebPages.Razor.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.WebPages.Deployment.xml

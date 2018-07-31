@@ -52,8 +52,9 @@
 						</label>
 			          	<div class="col-xs-4">
 							<p class="input-group" ng-if="form.Search.OneOffJob || form.Search.VacateClean">
-	                          <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
-	                          date-disabled="form.date.disabled(date, mode)" close-text="Close" />
+	                          <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" 
+	                          		is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
+	                          		date-disabled="form.date.disabled(date, mode)" close-text="Close" />
 	                          <span class="input-group-btn">
 	                             <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
 	                                <em class="fa fa-calendar"></em>
@@ -61,7 +62,7 @@
 	                          </span>
 	                       	</p>
 							<p class="input-group" ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">
-								<select class="form-control" name="ServiceDay" ng-model="form.Search.ServiceDayValue" ng-change="form.changeServiceDay()">
+								<select class="form-control" name="ServiceDay" ng-model="form.Search.ServiceDayValue" ng-change="changeServiceDay()">
 									<option value="1">Monday</option>
 									<option value="2">Tuesday</option>
 									<option value="3">Wednesday</option>
@@ -141,12 +142,10 @@
 			<div class="table-responsive" ng-show="form.SearchResults.length" >
 				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
 					<thead style="font-weight: bold">
-			         	<th  class="text-center">Cleaner Name</th>
-			         	<th  class="text-center">Zone</th>
-			         	<th  class="text-center">Email Address</th>
-			         	<th  class="text-center">Phone Numbers</th>
-						<th  class="text-center">Location Details</th>
+			         	<th  class="text-center">Cleaner</th>
 						<th class="text-center" ng-hide="true" >Rating</th>
+			         	<th  class="text-center">Gap</th>
+						<th  class="text-center">Locality</th>
 						<th style="width:5%" class="text-center"></th>
 					</thead>  
 			      	<tbody>
@@ -154,14 +153,17 @@
 							<td>
 								{{cleaner.FirstName}} {{ cleaner.LastName }}<br />
 								<span uib-rating ng-model="cleaner.Rating" max="6" read-only="true" state-on="'fas fa-star'" state-off="'fa fa-star-o'" class="starRating"></span>
+								<br /><br />
+								<div style="font-size: smaller;" >
+									<b>Contact Details:</b><br />
+									<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br/>
+									<span ng-bind-html="cleaner.FormattedContactNumbers"></span>
+								</div>
 							</td>
-							<td>{{cleaner.PrimaryZone}}</td>
-							<td style="white-space: nowrap">
-								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a>
-			               	</td>
-							<td style="white-space: nowrap" ng-bind-html="cleaner.FormattedContactNumbers"></td>
-							<td style="white-space: nowrap" ng-bind-html="cleaner.DisplayLocation"></td>
 							<td class="text-center" ng-hide="true">{{cleaner.Rating}}</td>
+							<td style="white-space: nowrap"><i>gaps will be listed here</i>
+			               	</td>
+							<td style="white-space: nowrap" ng-bind-html="cleaner.DisplayLocation"></td>
 							<td style="white-space: nowrap">
 					            <!-- form-->
 								<div class="buttons">
