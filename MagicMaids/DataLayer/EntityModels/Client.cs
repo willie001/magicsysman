@@ -77,18 +77,6 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		public String PostalAddressRefId
-		{
-			get;
-			set;
-		}
-
-		[ForeignKey("PostalAddressRefId")]
-		public Address PostalAddress
-		{
-			get;
-			set;
-		}
 		#endregion
 	}
 }

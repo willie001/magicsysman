@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 using AutoMapper;
 using Dapper;
+using LazyCache;
 using MagicMaids.DataAccess;
 using MagicMaids.EntityModels;
 using MagicMaids.ViewModels;
@@ -42,6 +43,14 @@ namespace MagicMaids.Controllers
 			return new JsonNetResult() { Data = new { item = searchCriteria }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 		}
 
+		[HttpGet]
+		public JsonResult GetSearchSuburbs()
+		{
+			IAppCache cache = new CachingService();
+			List<String> suburbs = (List<string>)cache.GetOrAdd("SuburbNames", () => GetSuburbNames(), new TimeSpan(1, 0, 0));
+			return new JsonNetResult() { Data = new { item = suburbs }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
 		[HttpPost]
 		public ActionResult MatchCleaners(SearchVM searchCriteria)
 		{
@@ -55,7 +64,7 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"Service duration can not exceed { SystemSettings.WorkSessionMaxHours} hours.");
 			}
 
-			if ((searchCriteria.OneOffJob || searchCriteria.VacateClean) && ((searchCriteria.ServiceDate-DateTime.Now.ToUTC()).TotalDays > SystemSettings.BookingsDaysAllowed))
+			if ((searchCriteria.OneOffJob || searchCriteria.VacateClean) && ((searchCriteria.ServiceDate - DateTime.Now.ToUTC()).TotalDays > SystemSettings.BookingsDaysAllowed))
 			{
 				ModelState.AddModelError(string.Empty, $"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
 			}
@@ -87,16 +96,22 @@ namespace MagicMaids.Controllers
 							sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
 						}
 
+						if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
+						{
+							sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDateFormatted}' between DATE(StartDate) and DATE(EndDate))");
+						}
+
 						sql.Append(" order by LastName, FirstName");
 
-						var _orderedResults = db.getConnection().Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) => {
+						var _orderedResults = db.getConnection().Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) =>
+						{
 							cl.PhysicalAddress = phys;
 							return cl;
 						}).ToList();
 
-						var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerJobMatchVM>>(_orderedResults);
+						var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerMatchResultVM>>(_orderedResults);
 
-						foreach(CleanerJobMatchVM _item in _vmResults)
+						foreach (CleanerMatchResultVM _item in _vmResults)
 						{
 							_item.PrimaryZoneList = new List<string>(new string[] { _item.PrimaryZone });
 							if (!String.IsNullOrWhiteSpace(_item.SecondaryZone))
@@ -109,7 +124,7 @@ namespace MagicMaids.Controllers
 							{
 								_item.SecondaryZoneList = new List<string>();
 							}
-								
+
 							if (!String.IsNullOrWhiteSpace(_item.ApprovedZone))
 							{
 								_item.ApprovedZoneList = _item.ApprovedZone.Split(new char[] { ',', ';' })
@@ -123,7 +138,8 @@ namespace MagicMaids.Controllers
 						}
 
 						BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
-						return new JsonNetResult() { Data = new { SearchResults = resultsProcessor.GetProcessedResults() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+						var results = resultsProcessor.GetProcessedResults().ToList<CleanerMatchResultVM>().Where(x => x != null);
+						return new JsonNetResult() { Data = new { SearchResults = results }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 					}
 				}
 				catch (Exception ex)
@@ -144,7 +160,18 @@ namespace MagicMaids.Controllers
 		}
 		#endregion
 
+		#region Methods, Private
+		private IList<String> GetSuburbNames()
+		{
+			List<String> suburbs = new List<string>();
+			using (DBManager db = new DBManager())
+			{
+				suburbs = db.getConnection().Query<String>($"select distinct SuburbName from SuburbZones order by SuburbName").ToList();
+			}
+			return suburbs;
 
+		}
+		#endregion 
 
 	}
 }

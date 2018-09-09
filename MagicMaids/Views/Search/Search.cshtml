@@ -22,9 +22,10 @@
 				<form class="form-horizontal">
 					<div class="form-group">
 			          	<label class="col-xs-2 control-label">Suburb/Postcode</label>
-			          	<div class="col-xs-4">
-			             	<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
-			          	</div>
+						<div class="col-xs-4">
+							<input class="form-control" type="text" ng-model="form.Search.Suburb" placeholder="Suburb" uib-typeahead="address for address in form.SuburbList | filter:$viewValue | limitTo:10" uib-typeahead-loading="loadingLocations" />
+							<i class="glyphicon glyphicon-refresh" ng-show="loadingLocations"></i>
+						</div>
 						<label class="col-xs-2 control-label">Duration (hours)</label>
 			          	<div class="col-xs-2" style="white-space: nowrap">
 							<input type="text" ng-model="form.Search.ServiceLength" class="form-control" placeholder="Hours" maxlength="4"/>
@@ -32,7 +33,7 @@
 				  		<div class="col-xs-2">
 							<div class="checkbox c-checkbox">
 		                  		<label>
-		                     		<input type="checkbox" checked="false" name="RequireIroning" id="CopyToPostal" ng-model="form.Search.RequireIroning"/>
+		                     		<input type="checkbox" checked="false" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning"/>
 		                     		<span class="fa fa-check"></span>Requires Ironing?
 								</label>
 		               		</div>
@@ -41,8 +42,8 @@
 					<div class="form-group">
 			          	<label class="col-xs-2 control-label">Service request</label>
 			          	<div class="col-xs-4">
-			             	<label class="radio radio-inline"><input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType" ng-change="changeServiceType()" checked="" />Weekly</label>
-	                  		<label class="radio-inline"><input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType" ng-change="changeServiceType()"/>Fortnightly</label>
+			             	<label class="radio-inline"><input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType" ng-change="changeServiceType()"/>Fortnightly</label>
+	                  		<label class="radio radio-inline"><input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType" ng-change="changeServiceType()" checked="" />Weekly</label>
 	                  		<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="O" ng-model="form.Search.ServiceType" ng-change="changeServiceType()"/>One-off</label>
 							<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="V" ng-model="form.Search.ServiceType" ng-change="changeServiceType()"/>Vacate Clean</label>
 			          	</div>
@@ -76,7 +77,15 @@
 			          	
 			       	</div>
 					<div class="form-group">
-						<label class="col-xs-2 control-label">Zones to match</label>
+						<label class="col-xs-2 control-label">Has the customer used us before?</label>
+						<div class="col-xs-10">
+							<label class="radio-inline"><input id="inlineRpt" name="repeatCustomer" type="radio" value="Y" ng-model="form.Search.RepeatCustomer" />Yes - Return Customer</label>
+							<label class="radio radio-inline"><input id="inlineNew" name="repeatCustomer" type="radio" value="N" ng-model="form.Search.RepeatCustomer" checked="" />No - New Customer</label>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-xs-2 control-label">Filter cleaner zones</label>
 						<div class="col-xs-4">
 							<label class="checkbox checkbox-inline">
 								<input type="checkbox" checked="true" name="IsActive" ng-model="form.client.IsActive" />
@@ -89,9 +98,9 @@
 							<label class="checkbox-inline">
 								<input id="chkZoneApproved" name="chkZoneApproved" type="checkbox" ng-model="form.Search.FilterZonesApproved"  />Approved
 							</label>
-							<label class="checkbox-inline">
+							@*<label class="checkbox-inline">
 								<input id="chkOther" name="chkOther" type="checkbox" ng-model="form.Search.FilterZonesOther"  />Other
-							</label>
+							</label>*@
 						</div>
 						<label class="col-xs-2 control-label">Filter rating</label>
 						<div class="col-xs-1">
@@ -113,14 +122,6 @@
 							<button type="button" class="btn btn-default" ng-click="clearForm()">Reset</button>
 							<button type="button" class="btn btn-info" ng-click="searchMatches()">Search</button>
 						</div>
-						<div class="text-right col-xs-5">
-							<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-primary">
-								<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
-							</button>
-							<button type="button" ng-click="$state.go('app.cleaner_details')" class="btn btn-primary">
-								<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Cleaner
-							</button>
-						</div>
 					</div>
 				</form>
 			</div>
@@ -140,37 +141,65 @@
 				No cleaners found with the current search criteria.
 			</div>
 			<div class="table-responsive" ng-show="form.SearchResults.length" >
-				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
-					<thead style="font-weight: bold">
-			         	<th  class="text-center">Cleaner</th>
-						<th class="text-center" ng-hide="true" >Rating</th>
-			         	<th  class="text-center">Gap</th>
-						<th  class="text-center">Locality</th>
-						<th style="width:5%" class="text-center"></th>
-					</thead>  
-			      	<tbody>
-						<tr valign="top" ng-repeat="cleaner in form.SearchResults">
-							<td>
+				<table datatable="ng" class="table table-bordered table-hover bg-white ctable no-horizontal-gutter" dt-options="dtOptions" >
+					<thead style="font-weight: bold"  class="no-horizontal-gutter">
+						<th class="text-center">Cleaner</th>
+						<th class="text-center">Contact Details</th>
+						<th class="text-center" width="5%">Diary</th>
+						<th class="text-center" ng-hide="true">Rating</th>
+						<th class="text-center">Team</th>
+						<th class="text-center">Base Suburb</th>
+						<th class="text-center">Zone Class</th>
+						<th class="text-center">Day</th>
+						<th class="text-center">Availability</th>
+					</thead>
+					<tbody style="padding: 0px; margin: 0px">
+						<tr valign="top" ng-repeat="cleaner in form.SearchResults" id="bootstrap-overrides" >
+							<td class="no-horizontal-gutter">
 								{{cleaner.FirstName}} {{ cleaner.LastName }}<br />
 								<span uib-rating ng-model="cleaner.Rating" max="6" read-only="true" state-on="'fas fa-star'" state-off="'fa fa-star-o'" class="starRating"></span>
-								<br /><br />
-								<div style="font-size: smaller;" >
+								@*<div style="font-size: smaller;">
 									<b>Contact Details:</b><br />
-									<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br/>
+									<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br />
 									<span ng-bind-html="cleaner.FormattedContactNumbers"></span>
+								</div>*@
+							</td>
+							<td class="no-horizontal-gutter">
+								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br />
+								<span ng-bind-html="cleaner.FormattedContactNumbers"></span>
+							</td>
+							<td class="text-center" style="white-space: nowrap">
+								<!-- form-->
+								<div class="buttons">
+									<a onclick="alert('Diary coming soon'); return false;"
+										<button title="Diary" class="btn btn-xs btn-info">Diary</button>
+									</a>
 								</div>
 							</td>
-							<td class="text-center" ng-hide="true">{{cleaner.Rating}}</td>
-							<td style="white-space: nowrap"><i>gaps will be listed here</i>
-			               	</td>
-							<td style="white-space: nowrap" ng-bind-html="cleaner.DisplayLocation"></td>
-							<td style="white-space: nowrap">
-					            <!-- form-->
-								<div class="buttons">
-								   <a ui-sref="app.cleaner_details({ CleanerId: cleaner.Id })">
-					               <button title="Select" class="btn btn-xs btn-info">Select</button></a>
-					            </div>
-					         </td>
+							<td class="text-center no-horizontal-gutter" ng-hide="true">{{cleaner.Rating}}</td>
+							<td class="text-center no-horizontal-gutter">{{cleaner.TeamSize}}</td>
+							<td class="{{cleaner.StyleHomeBase}} text-center no-horizontal-gutter">{{cleaner.DisplayHomeBase}}</td>
+							<td class="colourMatch_Green text-center no-horizontal-gutter">Secondary</td>
+							<td class="{{cleaner.StyleWeekday}} text-center no-horizontal-gutter">{{cleaner.SelectedRosterDay}}</td>
+							<td class="text-center">
+								<!-- form-->
+								<div class="row text-center">
+									<ul id="image-list" class="row list-unstyled">
+										<li ng-repeat="job in cleaner.ScheduledJobs" class="col-md-2 availableButton">
+											<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
+												<a ng-click="checkCustomerState(cleaner, job);">
+													<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
+												</a>
+											</div>
+											<div ng-if="job.JobStatus != 'AVAILABLE'">
+												<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
+													<span class="btn bg-danger-light availableButtonBusy">{{job.JobSuburb}}<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</span>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -178,14 +207,15 @@
 			<br/>
 			<div class="form-group">
 				<div class="pull-right">
-					<table class="dataTable">
-						<tr>
-							<td>Location match:&nbsp; </td>
-							<td width="5px" class="text-center bg-warning-light">Approved</td>
-							<td width="5px" class="text-center bg-green-light">Secondary</td>
-							<td width="5px" class="text-center bg-primary-light">Primary/First Job</td>
-						</tr>
-					</table>
+					<div class="dataTable" id="bootstrap-overrides">
+						<div class="row is-flex">
+							<div class="text-center col-xs" style="color: white;"><em>Zone Legend</em></div>
+							<div class="text-center colourMatch_Blue small col-xs">Primary zone</div>
+							<div class="text-center colourMatch_Green small col-xs">Secondary zone</div>
+							<div class="text-center colourMatch_Orange small col-xs">Approved zone</div>
+							<div class="text-center colourMatch_Blue small col-xs">1st Job</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

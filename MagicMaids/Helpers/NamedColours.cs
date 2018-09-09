@@ -3,13 +3,15 @@ namespace MagicMaids
 {
 	public static class NamedColours
 	{
-		public static string FirstJobColor = "bg-primary-light";
-		public static string PrimaryJobColor = "bg-primary-light";
-		public static string SecondaryJobColor = "bg-green-light";
-		public static string ApprovedJobColor = "bg-warning-light";
+		public static string FirstJobColor = "colourMatch_Blue";
+		public static string PrimaryJobColor = "colourMatch_Blue";
+		public static string SecondaryJobColor = "colourMatch_Green";
+		public static string ApprovedJobColor = "colourMatch_Orange";
 
-		public static string WeeksOdd = "bg-primary";
-		public static string WeeksEven = "bg-yellow";
+		public static string WeeksOdd = "colourMatch_Blue";
+		public static string WeeksEven = "colourMatch_Yellow";
+
+		public static string AvailableGapButton = "colourMatch_Green";
 
 	}
 }

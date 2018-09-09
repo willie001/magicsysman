@@ -37,7 +37,6 @@ namespace MagicMaids
 			//Add Razor Engine (which we are using)
 			ViewEngines.Engines.Add(new CustomViewEngine());
 
-
 			AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -51,13 +50,9 @@ namespace MagicMaids
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
-			Mapper.Initialize(cfg =>  
-			{  
-			    cfg.CreateMap<Cleaner, CleanerDetailsVM>();  
-				cfg.CreateMap<Address, UpdateAddressViewModel>();
-				cfg.CreateMap<Client, ClientDetailsVM>(); 
-				cfg.CreateMap<Cleaner, CleanerJobMatchVM>();  
-			});  
+			AutoMapperConfigurator configurator = new AutoMapperConfigurator();
+			Mapper.Initialize(configurator.GetConfiguration());
+			Mapper.AssertConfigurationIsValid();
 
 			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
 			{

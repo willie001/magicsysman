@@ -77,3 +77,104 @@ label.star:before {
 	box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
 }
 
+.no-horizontal-gutter !important {
+	padding-top: 0;
+	padding-bottom: 0;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#bootstrap-overrides .row  {
+	margin: 0;
+}
+
+#bootstrap-overrides td {
+	padding: 1px 0px 0px 3px;
+}
+
+.bg-secondary {
+	background-color: #6c757d;
+	color: #fff !important;
+}
+
+.bg-secondary:hover {
+	background-color: #dde6e9;
+	color: #6c757d !important;
+}
+
+li.availableButton {
+	padding-bottom: 4px;
+}
+
+button.availableButton {
+	height: 55px;
+}
+
+.availableButtonBusy {
+	height: 55px;
+	cursor: none;
+	padding-bottom: 2px;
+}
+
+.colourMatch_Yellow {
+	background-color: #fffd38;
+	color: #000;
+}
+
+.colourMatch_Blue {
+	background-color: #6efffe;
+	color: #000;
+}
+
+.colourMatch_Green {
+	background-color: #66ff66;
+	color: #000;
+}
+
+.colourMatch_Orange {
+	background-color: #febc02;
+	color: #000;
+}
+
+/****** FLEXBOX ********/
+.row.is-flex {
+	display: flex;
+	flex-wrap: wrap;
+	background-color: #6c757d;
+}
+
+	.row.is-flex > [class*='col-'] {
+		display: flex;
+		flex-direction: column;
+		margin-right: 1px;
+	}
+
+/*
+* And with max cross-browser enabled.
+* Nobody should ever write this by hand. 
+* Use a preprocesser with autoprefixing.
+*/
+.row.is-flex {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	background-color: #6c757d;
+}
+
+	.row.is-flex > [class*='col-'] {
+		display: -webkit-box;
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: vertical;
+		-webkit-box-direction: normal;
+		-webkit-flex-direction: column;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		margin-right: 1px;
+	}
+/***********************/

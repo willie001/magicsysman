@@ -186,7 +186,6 @@
 	function CleanerDetailsController($scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages, ngDialog, cleanerTeamFactory)
 	{
 		var vm = this;
-		var _postalType = 1;
 		var _physicalType = 0;
 		var panelName = "panelCleanerDetails";
 		var Id = $scope.CleanerId;
@@ -264,9 +263,6 @@
                 	//console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
                 	vm.addressTypes = data.item;
 
-                	var result = $filter('filter')(vm.addressTypes, {name:'Postal'})[0];
-                	_postalType = result.id;
-
                 	result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
                 	_physicalType = result.id;
 
@@ -274,8 +270,6 @@
                 	
                 }).finally(function() {
                 	loadFranchiseZones();
-                	$scope.CopyToPostal = $scope.DataRecordStatus.IsNewDataRecord;
-
                 	HandleBusySpinner.stop($scope, panelName);
                 });
 		}
@@ -332,7 +326,6 @@
 				$scope.teamMember = {};
 				$scope.teamMember.IsNewItem = true;
 				$scope.teamMember.PhysicalAddress = {};
-				$scope.teamMember.PostalAddress = {};
 			}
 
 			//console.log("<CLEANER scope> - " + angular.toJson($scope.teamMember));
@@ -347,14 +340,12 @@
 						IsActive: true
 					});
 
-					if ($scope.teamMember.PostalAddress.State == null && $scope.teamMember.PhysicalAddress.State == null)
+					if ($scope.teamMember.PhysicalAddress.State == null)
 					{
-						$scope.teamMember.PostalAddress = angular.copy(vm.cleaner.PostalAddress);
 						$scope.teamMember.PhysicalAddress = angular.copy(vm.cleaner.PhysicalAddress);
 
 						// new addresses need new GUID. Currently set to parent address ID
 						// so it will have to be reset in save
-						$scope.teamMember.PostalAddress.IsNewItem =  true;
 						$scope.teamMember.PhysicalAddress.IsNewItem = true;
 					}
 			}
@@ -458,15 +449,6 @@
 						MasterFranchiseRefId: vm.cleaner.SelectedFranchise.Id
 					});
 			};
-
-			var chkCopy = document.getElementById('CopyToPostal').checked;
-		 	if (chkCopy == true)
-		 	{
-		 		var guid = vm.cleaner.PostalAddress.Id;
-		 		vm.cleaner.PostalAddress = angular.copy(vm.cleaner.PhysicalAddress);
-		 		vm.cleaner.PostalAddress.AddressType = _postalType;
-		 		vm.cleaner.PostalAddress.Id = guid;
-		 	}
 
 			//console.log("<CLEANER Data> - " + angular.toJson(vm.cleaner));
 			if (vm.cleanerForm.$valid) {
@@ -639,11 +621,6 @@
     			{
     				val.TeamCount = 0;
     			}
-
-				//if (dateVal != null && dateVal != undefined)
-				//{
-				//	return new Date(dateVal.getTime() - (60000 * dateVal.getTimezoneOffset()));;
-				//}
     		}
     	}
 

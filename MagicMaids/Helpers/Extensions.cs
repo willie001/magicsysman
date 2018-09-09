@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using Dapper;
+using LazyCache;
+using MagicMaids.DataAccess;
 using MagicMaids.ViewModels;
 using Newtonsoft.Json;
 
@@ -65,6 +69,59 @@ namespace MagicMaids
 			}
 
 			return criteria;
+		}
+
+		/// <summary>
+		/// Returns list of zones for a given suburb
+		/// </summary>
+		/// <returns>The zone list by suburb.</returns>
+		/// <param name="suburbName">Suburb name.</param>
+		public static List<string> GetZoneListBySuburb(this string suburbName)
+		{
+			if (String.IsNullOrWhiteSpace(suburbName))
+			{
+				return new List<string>();
+			}
+
+			IAppCache cache = new CachingService();
+			List<string> zoneList = cache.GetOrAdd($"SuburbZones_{suburbName}", () => GetZoneList(suburbName), new TimeSpan(0, 20, 0));
+
+			if (zoneList.Count == 0)
+			{
+				cache.Remove($"SuburbZones_{suburbName}");
+			}
+
+			return zoneList;
+		}
+
+		private static List<string> GetZoneList(string suburbName)
+		{
+			if (String.IsNullOrWhiteSpace(suburbName))
+			{
+				return null;
+			}
+
+			List<String> _zoneList = new List<String>();
+			using (DBManager db = new DBManager())
+			{
+				_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where SuburbName like '%{suburbName}%' or PostCode = '{suburbName}'").ToList();
+
+				// load system default list
+				if (_zoneList.Count == 0)
+				{
+					_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
+				}
+			}
+
+
+			var _zoneCSV = String.Join(",", _zoneList);
+			_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
+						  .Distinct()
+						  .ToList();
+
+			_zoneList.Sort();
+
+			return _zoneList;
 		}
 	}
 

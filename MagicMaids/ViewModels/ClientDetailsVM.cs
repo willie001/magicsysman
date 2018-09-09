@@ -113,7 +113,7 @@ namespace MagicMaids.ViewModels
 			this.IsActive = entityModel.IsActive;
 			this.ClientType = entityModel.ClientType;
 
-			base.FormatContactDetails(entityModel.PhysicalAddress, entityModel.PostalAddress);
+			base.FormatContactDetails(entityModel.PhysicalAddress);
 		}
 		#endregion
 	}

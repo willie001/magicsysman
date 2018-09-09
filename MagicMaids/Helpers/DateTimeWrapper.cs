@@ -109,6 +109,18 @@ namespace MagicMaids
 			return newDate;
 		}
 
+		public static string FormatDatabaseDate(this DateTime dt)
+		{
+			var newDate = dt.ToString("yyyy/MM/dd", CultureInfo.InvariantCulture);
+			return newDate;
+		}
+
+		public static string FormatTime(this DateTime dt)
+		{
+			var newDate = dt.ToString("HH:mm", CultureInfo.InvariantCulture);
+			return newDate;
+		}
+
 		public static OffsetDateTime GetOffsetDateTime(this DateTime dateTime)
 		{
 			var offset = Offset.FromSeconds(-1 * CultureHelper.UserTimeZoneOffsetMins() * 60);
@@ -189,11 +201,6 @@ namespace MagicMaids
 			return NamedColours.WeeksOdd;
 		}
 
-		public static string WeekDayStyle(this DateTime matchDate)
-		{
-			var colour = matchDate.WeekYearStyle();
-			return $"<span class='{colour}'>{matchDate.DayOfWeek}</span>";
-		}
 	}
 
 }

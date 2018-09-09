@@ -84,19 +84,6 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		public String PostalAddressRefId
-		{
-			get;
-			set;
-		}
-
-		[ForeignKey("PostalAddressRefId")]
-		public Address PostalAddress
-		{
-			get;
-			set;
-		}
-
 		public virtual ICollection<CleanerRosteredTeam> CleanerRosteredTeam
 		{
 			get;

@@ -157,18 +157,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public String PostalAddressRefId
-		{
-			get;
-			set;
-		}
-
-		public UpdateAddressViewModel PostalAddress
-		{
-			get;
-			set;
-		}
-
 		public bool HasAnyPhoneNumbers
 		{
 			get
@@ -190,26 +178,13 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				if (PhysicalAddress == null && PostalAddress == null)
+				if (PhysicalAddress == null)
 					return false;
 
-				if (HasValidPostalAddress || HasValidPhysicalAddress)
+				if (HasValidPhysicalAddress)
 					return true;
 				else
 					return false;
-			}
-		}
-
-		public bool HasValidPostalAddress
-		{
-			get
-			{
-				if (PostalAddress == null)
-				{
-					return false;
-				}
-
-				return PostalAddress.IsValidAddress;
 			}
 		}
 
@@ -253,13 +228,6 @@ namespace MagicMaids.ViewModels
 				this.PhysicalAddress = _vm;
 			}
 			this.PhysicalAddressRefId = entityModel.PhysicalAddressRefId;
-			if (entityModel.PostalAddress != null)
-			{
-				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
-				_vm.PopulateVM(entityModel.PostalAddress);
-				this.PostalAddress = _vm;
-			}
-			this.PostalAddressRefId = entityModel.PostalAddressRefId;
 
 			FormatContactNumbers(entityModel);
 		}

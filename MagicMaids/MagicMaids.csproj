@@ -317,18 +317,6 @@
     <Reference Include="Dapper">
       <HintPath>..\packages\Dapper.1.50.5\lib\net451\Dapper.dll</HintPath>
     </Reference>
-    <Reference Include="Bugsnag">
-      <HintPath>..\packages\Bugsnag.2.1.0\lib\net45\Bugsnag.dll</HintPath>
-    </Reference>
-    <Reference Include="Bugsnag.ConfigurationSection">
-      <HintPath>..\packages\Bugsnag.ConfigurationSection.2.1.0\lib\net45\Bugsnag.ConfigurationSection.dll</HintPath>
-    </Reference>
-    <Reference Include="Bugsnag.AspNet">
-      <HintPath>..\packages\Bugsnag.AspNet.2.1.0\lib\net45\Bugsnag.AspNet.dll</HintPath>
-    </Reference>
-    <Reference Include="Bugsnag.AspNet.Mvc">
-      <HintPath>..\packages\Bugsnag.AspNet.Mvc.2.1.0\lib\net45\Bugsnag.AspNet.Mvc.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="Google.Protobuf">
       <HintPath>..\packages\Google.Protobuf.3.6.0\lib\net45\Google.Protobuf.dll</HintPath>
@@ -338,6 +326,18 @@
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Protocol.Extensions">
       <HintPath>..\packages\Microsoft.IdentityModel.Protocol.Extensions.1.0.4.403061554\lib\net45\Microsoft.IdentityModel.Protocol.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Bugsnag">
+      <HintPath>..\packages\Bugsnag.2.2.0\lib\net45\Bugsnag.dll</HintPath>
+    </Reference>
+    <Reference Include="Bugsnag.ConfigurationSection">
+      <HintPath>..\packages\Bugsnag.ConfigurationSection.2.2.0\lib\net45\Bugsnag.ConfigurationSection.dll</HintPath>
+    </Reference>
+    <Reference Include="Bugsnag.AspNet">
+      <HintPath>..\packages\Bugsnag.AspNet.2.2.0\lib\net45\Bugsnag.AspNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Bugsnag.AspNet.Mvc">
+      <HintPath>..\packages\Bugsnag.AspNet.Mvc.2.2.0\lib\net45\Bugsnag.AspNet.Mvc.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +421,12 @@
     <Compile Include="Runtime\MagicAttribute.cs" />
     <Compile Include="Runtime\BookingFactory.cs" />
     <Compile Include="Helpers\NamedColours.cs" />
+    <Compile Include="Runtime\AvailabilityFactory.cs" />
+    <Compile Include="ViewModels\JobBookingsVM.cs" />
+    <Compile Include="App_Start\AutomapperConfig.cs" />
+    <Compile Include="Resolvers\TimeOfDayResolver.cs" />
+    <Compile Include="DataLayer\EntityModels\JobBooking.cs" />
+    <Compile Include="Helpers\Exceptions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\app\app-rtl.css" />
@@ -1272,6 +1278,7 @@
     <Folder Include="Vendor\jquery\src\var\" />
     <Folder Include="Vendor\oclazyload\dist\modules\" />
     <Folder Include="Runtime\" />
+    <Folder Include="Resolvers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

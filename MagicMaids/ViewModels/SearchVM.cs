@@ -57,9 +57,21 @@ namespace MagicMaids.ViewModels
 
 		public String ServiceDay
 		{
-			get;
-			set;
+			get
+			{
+				if (OneOffJob || VacateClean)
+				{
+					return ServiceDate.DayOfWeek.ToString();
+				}
+
+				return _serviceDay;
+			}
+			set
+			{
+				_serviceDay = value;
+			}
 		}
+		private String _serviceDay;
 
 		public Int32 ServiceDayValue
 		{
@@ -73,7 +85,21 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Decimal ServiceLength
+		public String ServiceDateFormatted
+		{
+			get
+			{
+				if (ServiceDate.Year > 1900)
+				{
+					return ServiceDate.FormatUserDate();
+					//return $"{ServiceDate.ToUTC().Year}/{ServiceDate.ToUTC().Month}/{ServiceDate.ToUTC().Day}";
+				}
+
+				return "";
+			}
+		}
+
+		public Int32 ServiceLength
 		{
 			get;
 			set;
@@ -104,6 +130,12 @@ namespace MagicMaids.ViewModels
 		}
 
 		public Int32 FilterRating
+		{
+			get;
+			set;
+		}
+
+		public String RepeatCustomer
 		{
 			get;
 			set;

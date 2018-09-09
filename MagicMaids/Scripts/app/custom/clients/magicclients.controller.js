@@ -8,16 +8,18 @@
     	.controller('ClientSearchController', ClientSearchController)
     	.controller('ClientDetailsController', ClientDetailsController)
     	.controller('ClientPaymentController', ClientPaymentController)
-    	.controller('ClientLeaveController', ClientLeaveController);
+    	.controller('ClientLeaveController', ClientLeaveController)
+    	.controller('ClientBookingController', ClientBookingController);
 
-    MasterClientController.$inject = ['$scope'];
-    MasterClientController.$inject = ['$scope','$location','$route','$state'];
-    ClientSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','$cookies', 'moment','manageTimeZoneCookie'];
-    ClientDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
+    MasterClientController.$inject = ['$scope','savedJobBookingFactory'];
+    MasterClientHeaderController.$inject = ['$scope','$location','$route','$state'];
+    ClientSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','$cookies', 'moment','manageTimeZoneCookie','savedJobBookingFactory'];
+    ClientDetailsController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages','savedJobBookingFactory'];
     ClientPaymentController.$inject = ['$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
     ClientLeaveController.$inject = ['$scope','$filter','$http', 'HandleBusySpinner', 'ShowUserMessages','editableOptions', 'editableThemes'];
-
-    function MasterClientController($scope)
+	ClientBookingController.$inject = ['$document','$scope','$filter', '$http','$q','$location','$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages','savedJobBookingFactory','$timeout'];
+    
+    function MasterClientController($scope, savedJobBookingFactory)
     {
    		var vm = this;
    		vm.ClientId = $scope.ClientId;
@@ -28,6 +30,15 @@
 
 		$scope.isLoadingResults;
 		$scope.DataRecordStatus = { IsNewDataRecord: true};
+
+		$scope.selectedCleaner = savedJobBookingFactory.getCleaner();
+		$scope.selectedCleanerJob = savedJobBookingFactory.getJob();
+		//console.log("<Cleaner PICKED -  job> - " + angular.toJson($scope.selectedCleaner));
+		
+        $scope.cancelJobBooking = function() {
+			savedJobBookingFactory.set(null,null);
+			location.reload();
+        };
     }
 
     function MasterClientHeaderController($scope, $location, $route, $state)
@@ -45,7 +56,7 @@
     /***********************/
 	/*** CLIENT SEARCH   ***/
 	/***********************/
-	function ClientSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, $cookies, moment, manageTimeZoneCookie)
+	function ClientSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, $cookies, moment, manageTimeZoneCookie, savedJobBookingFactory)
 	{
 		var vm = this;
 		var panelName = "panelClientResults";
@@ -54,6 +65,11 @@
 		vm.Search = {};
 		vm.SeachResults = {};
 		vm.hasSearched = false;
+		vm.Search.IncludeInactive = true;
+
+		// track selected cleaner and job for booking underway
+		vm.selectedCleanerJob = {};
+		vm.selectedCleaner = {};
 
 		$scope.userMessages = [];
 		$scope.userMessageType = [];
@@ -67,7 +83,17 @@
 			$scope.panelClientSearch = false;
 
 			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [5, 'desc']);
+
+			vm.selectedCleaner = savedJobBookingFactory.getCleaner();
+			vm.selectedCleanerJob = savedJobBookingFactory.getJob();
+			//console.log("<Cleaner PICKED -  cleaner> - " + angular.toJson(vm.selectedCleaner));
+			//console.log("<JOB PICKED -  job> - " + angular.toJson(vm.selectedCleanerJob));
 		}
+
+		$scope.cancelJobBooking = function() {
+			savedJobBookingFactory.set(null,null);
+			location.reload();
+        };
 
 		$scope.clearForm = function() {
 				vm.Search = {};
@@ -111,10 +137,9 @@
     /**********************/
 	/*** CLIENT DETAILS ***/
 	/**********************/
-	function ClientDetailsController($scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages)
+	function ClientDetailsController($scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages, savedJobBookingFactory)
 	{
 		var vm = this;
-		var _postalType = 1;
 		var _physicalType = 0;
 		var panelName = "panelClientDetails";
 		var Id = $scope.ClientId;
@@ -139,6 +164,7 @@
                 	vm.client = data.item;
                 	$scope.ClientId = vm.client.Id;
                 	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
+					savedJobBookingFactory.setClientName(vm.client.FirstName + ' ' + vm.client.LastName);
 
                 }).error(function(err) {
                 	
@@ -150,17 +176,12 @@
                 	//console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
                 	vm.addressTypes = data.item;
 
-                	var result = $filter('filter')(vm.addressTypes, {name:'Postal'})[0];
-                	_postalType = result.id;
-
-                	result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
+                	let result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
                 	_physicalType = result.id;
 
                 }).error(function(err) {
                 	
                 }).finally(function() {
-                	$scope.CopyToPostal = $scope.DataRecordStatus.IsNewDataRecord;
-
                 	HandleBusySpinner.stop($scope, panelName);
                 });
 		}
@@ -175,21 +196,13 @@
 			//console.log("<CLIENT SAVE> - " + angular.toJson(vm.client));
       		$scope.submitted = true;
 
-			var chkCopy = document.getElementById('CopyToPostal').checked;
-		 	if (chkCopy == true)
-		 	{
-		 		var guid = vm.client.PostalAddress.Id;
-		 		vm.client.PostalAddress = angular.copy(vm.client.PhysicalAddress);
-		 		vm.client.PostalAddress.AddressType = _postalType;
-		 		vm.client.PostalAddress.Id = guid;
-		 	}
-
 			//console.log("<CLIENT Data> - " + angular.toJson(vm.client));
 			if (vm.clientForm.$valid) {
                 HandleBusySpinner.start($scope, panelName);
 	
             	return $http.post('/clients/saveclientdetails', vm.client).success(function (response) {
             		HandleBusySpinner.stop($scope, panelName);
+					savedJobBookingFactory.setClientName(vm.client.FirstName + ' ' + vm.client.LastName);
             		$scope.submitted = false;
 	                	
         			// Add your success stuff here
@@ -520,10 +533,97 @@
             }).error(function (error) {
 
                 ShowUserMessages.show($scope, error, "Error updating leave dates.");
-
+				
             });
         }
 
+	}
+
+	/***************************/
+	/*** CLIENT JOB BOOKINGS ***/
+	/***************************/
+	function ClientBookingController($document, $scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages, savedJobBookingFactory, $timeout)
+	{
+		var vm = this;
+		var ClientId = $scope.ClientId;
+		var panelName = "panelClientDetails";
+		var panelBookingInfo = "panelBookingInfo";
+		vm.JobBookings = {};
+		vm.isMeridian = true;
+    	vm.hrStep = 1;
+    	vm.minStep = 5;
+
+		if ($rootScope.childMessage)
+		{
+			ShowUserMessages.show($scope, $rootScope.childMessage, "Error updating details.");
+            $rootScope.childMessage = null; 	
+		}
+
+		activate();
+
+		vm.selectedCleaner = savedJobBookingFactory.getCleaner();
+		vm.selectedCleanerJob = savedJobBookingFactory.getJob();
+		vm.clientName = savedJobBookingFactory.getClientName();
+		vm.searchCriteria = savedJobBookingFactory.getCriteria();
+
+		vm.minSelection = vm.selectedCleanerJob.StartTimeForControl;
+		vm.maxSelection = vm.selectedCleanerJob.EndTimeForControl;
+
+		//console.log("<Cleaner PICKED -  job> - " + angular.toJson(vm.selectedCleaner));
+		//console.log("<Job PICKED -  job> - " + angular.toJson(vm.selectedCleanerJob));
+		//console.log("<Criteria PICKED -  job> - " + angular.toJson(vm.searchCriteria));
+
+		function removeDisabledInTimepicker() {
+	     	return $timeout(function () {
+         		$document.find('.uib-time input').removeAttr('disabled');
+	     	}, 0);
+	   	}
+
+		removeDisabledInTimepicker();
+
+		function activate() {
+			if (!ClientId)
+				return;
+
+			HandleBusySpinner.start($scope, panelName);
+		}
+
+		vm.saveData = function(data) {
+      		console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
+		 	$scope.submitted = true;
+
+			/*if (vm.cleanerRosterForm.$valid) {
+
+                HandleBusySpinner.start($scope, panelName);
+	
+            	return $http.post('/cleaners/saveCleanerRoster/?CleanerId='+Id, vm.cleanerRoster).success(function (response) {
+                	// Add your success stuff here
+                	HandleBusySpinner.stop($scope, panelName);
+                	$scope.submitted = false;
+                	ShowUserMessages.show($scope, response, "Error updating roster details.");
+
+                	if (response.IsValid)
+            		{	
+                		vm.cleanerRoster = response.DataItem;
+					}
+
+            	}).error(function (error) {
+            		HandleBusySpinner.stop($scope, panelName);
+            		$scope.submitted = false;
+                	ShowUserMessages.show($scope, error, "Error updating roster details.");
+
+            	});
+
+
+        	}
+        	else
+        	{
+        		//console.log("<XX> - " + angular.toJson(vm.cleanerRosterForm.$error));
+            	$scope.submitted = false;
+            	ShowUserMessages.show($scope, "Error updating roster details - please review validation errors", "Error updating roster details.");
+        		return false;
+        	}*/
+      	}
 	}
 
 })();

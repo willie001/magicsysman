@@ -11,6 +11,17 @@
 	<small>Create or edit customer details</small>
 </div>
 <div ng-controller="MasterClientController as client">
+	<div class="panel panel-flat bg-purple" ng-if="selectedCleaner.LastName != null" id="panelBookingInfo">
+		<div class="panel-body">
+			<div class="col-md-6">
+				Booking in progress for <u>{{selectedCleaner.FirstName}} {{selectedCleaner.LastName}}</u> - {{selectedCleanerJob.JobDescription}}
+			</div>
+			<div class="col-md-6 pull-right text-right">
+				<button class="btn btn-default" ng-click="cancelJobBooking()">Cancel Booking</button>
+			</div>
+		</div>
+	</div>
+
 	@Html.Partial("_InformationDetails")
 
 	<div class="panel panel-primary">
@@ -36,7 +47,7 @@
 			        	Html.RenderPartial("_CustomerDetails");   
 			    	}
 				</uib-tab>
-			  	<uib-tab index="1">
+			  	<uib-tab index="1"  disable="DataRecordStatus.IsNewDataRecord">
 			     	<uib-tab-heading>Bookings</uib-tab-heading>
 					@{
 			        	Html.RenderPartial("_CustomerBookings");   

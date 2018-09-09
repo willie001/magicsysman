@@ -434,7 +434,6 @@
 	function FranchiseDetailController($scope, $filter, $http, $q, $location, $rootScope, HandleBusySpinner, ShowUserMessages)
 	{
 		var vm = this;
-		var _postalType = 1;
 		var _physicalType = 0;
 		var panelName = "panelDataMasterSettings";
 		var Id = $scope.FranchiseId;
@@ -460,7 +459,6 @@
                 	vm.franchise = data.item;
                 	$scope.FranchiseId = vm.franchise.Id;
                 	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
-                	$scope.CopyToPostal = $scope.DataRecordStatus.IsNewDataRecord;
            
                 }).error(function(err) {
                 	
@@ -472,9 +470,6 @@
                 .success(function (data) {
                 	//console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
                 	vm.addressTypes = data.item;
-
-                	var result = $filter('filter')(vm.addressTypes, {name:'Postal'})[0];
-                	_postalType = result.id;
 
                 	result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
                 	_physicalType = result.id;
@@ -495,15 +490,6 @@
       	vm.saveData = function(data) {
       		//console.log("<FRANCHISE Data> - " + angular.toJson(vm.franchise));
 		 	$scope.submitted = true;
-
-		 	var chkCopy = document.getElementById('CopyToPostal').checked;
-		 	if (chkCopy == true)
-		 	{
-		 		var guid = vm.franchise.PostalAddress.Id;
-		 		vm.franchise.PostalAddress = angular.copy(vm.franchise.PhysicalAddress);
-		 		vm.franchise.PostalAddress.AddressType = _postalType;
-		 		vm.franchise.PostalAddress.Id = guid;
-		 	}
 
 			if (vm.franchiseForm.$valid) {
 

@@ -3,119 +3,126 @@
     Layout = null;
 }
 @model IEnumerable<MagicMaids.EntityModels.Client>
-
+	
 <div class="content-heading">
     {{ 'pageTitles.clients.CLIENT_SEARCH' | translate }}
 </div>
-
+	
 <div ng-controller="ClientSearchController as form">
+	<div class="panel panel-flat bg-purple" ng-if="form.selectedCleaner.LastName != null">
+		<div class="panel-body">
+			<div class="col-md-6">
+				Booking in progress for <u>{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</u> - {{form.selectedCleanerJob.JobDescription}}
+			</div>
+			<div class="col-md-6 pull-right text-right">
+				<button class="btn btn-default" ng-click="cancelJobBooking()">Cancel Booking</button>
+			</div>
+		</div>
+	</div>
 	@Html.Partial("_InformationDetails")
-
 	<div class="panel panel-default" id="panelClientSearch">
 		<div class="panel-heading">
-            <paneltool tool-collapse="tool-collapse" ></paneltool>
+			<paneltool tool-collapse="tool-collapse"></paneltool>
 			<div class="panel-title">&nbsp</div>
-        </div>
+		</div>
 		<div uib-collapse="panelClientSearch" class="panel-wrapper">
 			<div class="panel-body">
 				<form class="form-horizontal">
 					<div class="form-group">
-			          	<label class="col-xs-2 control-label">Name</label>
-			          	<div class="col-xs-4">
-			             	<input type="text" placeholder="Customer name" class="form-control" ng-model="form.Search.Name" />
-			          	</div>
-			          	<label class="col-xs-2 control-label">Cleaner</label>
-			          	<div class="col-xs-4">
-			             	<input type="text" placeholder="Cleaner name" class="form-control" ng-model="form.Search.Cleaner" disabled="true" />
-			          	</div>
-			       	</div>
-					<div class="form-group">
-			          	<label class="col-xs-2 control-label">Address</label>
-			          	<div class="col-xs-4">
-			             	<input type="text" placeholder="Street address" class="form-control" ng-model="form.Search.Address" />
-			          	</div>
-			          	<label class="col-xs-2 control-label">Suburb/Postcode</label>
-			          	<div class="col-xs-4">
-			             	<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
-			          	</div>
-			       	</div>
-					<div class="form-group">
-			          	<label class="col-xs-2 control-label">Phone</label>
-			          	<div class="col-xs-4">
-			             	<input type="text" placeholder="Phone" class="form-control" ng-model="form.Search.Phone" />
-			          	</div>
-						<label class="col-xs-2 control-label"></label>
-				  		<div class="col-xs-4">
-				         	<div class="checkbox c-checkbox">
-		                  		<label>
-		                     		<input type="checkbox" checked="false" name="IncludeInactive" id="IncludeInactive" ng-model="form.Search.IncludeInactive"/>
-		                     		<span class="fa fa-check"></span>Include inactive customers in results
-								</label>
-		               		</div>
-				      	</div>
+						<label class="col-xs-2 control-label">Name</label>
+						<div class="col-xs-4">
+							<input type="text" placeholder="Customer name" class="form-control" ng-model="form.Search.Name" />
+						</div>
+						<label class="col-xs-2 control-label">Cleaner</label>
+						<div class="col-xs-4">
+							<input type="text" placeholder="Cleaner name" class="form-control" ng-model="form.Search.Cleaner" disabled="true" />
+						</div>
 					</div>
 					<div class="form-group">
-			           	<div class="col-xs-offset-2 col-xs-5">
+						<label class="col-xs-2 control-label">Address</label>
+						<div class="col-xs-4">
+							<input type="text" placeholder="Street address" class="form-control" ng-model="form.Search.Address" />
+						</div>
+						<label class="col-xs-2 control-label">Suburb/Postcode</label>
+						<div class="col-xs-4">
+							<input type="text" placeholder="Suburb" class="form-control" ng-model="form.Search.Suburb" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-xs-2 control-label">Phone</label>
+						<div class="col-xs-4">
+							<input type="text" placeholder="Phone" class="form-control" ng-model="form.Search.Phone" />
+						</div>
+						<label class="col-xs-2 control-label"></label>
+						<div class="col-xs-4">
+							<div class="checkbox c-checkbox">
+								<label>
+									<input type="checkbox" checked="false" name="IncludeInactive" id="IncludeInactive" ng-model="form.Search.IncludeInactive" />
+									<span class="fa fa-check"></span>Include inactive customers in results
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-xs-offset-2 col-xs-5">
 							<!-- buttons-->
 							<button type="button" class="btn btn-default" ng-click="clearForm()">Clear</button>
 							<button type="button" class="btn btn-info" ng-click="searchClients()">Search</button>
-			           	</div>
+						</div>
 						<div class="text-right col-xs-5">
 							<button type="button" ng-click="$state.go('app.client_details')" class="btn btn-primary">
-	      						<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
+								<em class="fa fa-plus-circle fa-fw mr-sm"></em>New Customer
 							</button>
 							<button type="button" ng-click="$state.go('app.cleaners')" class="btn btn-warning">Return to Cleaners</button>
-						</div>	
-			        </div>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
 	</div>
-
 	<div class="panel panel-transparent" id="panelClientResults" ng-show="form.hasSearched">
 		<div class="panel-heading">
 			<div class="form-group">
 				<div class="pull-right">
 					<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
-	          	</div>
-            </div>Search Results
+				</div>
+			</div>Search Results
 		</div>
 		<div class="panel-body">
 			<div ng-hide="form.SearchResults.length" class="EmptyResults p-xs text-center">
 				No customers found with the current search criteria.
 			</div>
-			<div class="table-responsive" ng-show="form.SearchResults.length" >
+			<div class="table-responsive" ng-show="form.SearchResults.length">
 				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
 					<thead style="font-weight: bold">
-			         	<th  class="text-center">Client Name</th>
-						<th style="width:5%" class="text-center"></th>
-			         	<th  class="text-center">Email Address</th>
-			         	<th  class="text-center">Phone Numbers</th>
-						<th  class="text-center">Suburb</th>
-						<th style="width:5%" class="text-center">Active</th>
-
-					</thead>  
-			      	<tbody>
+					<th class="text-center">Client Name</th>
+					<th style="width:5%" class="text-center"></th>
+					<th class="text-center">Email Address</th>
+					<th class="text-center">Phone Numbers</th>
+					<th class="text-center">Suburb</th>
+					<th style="width:5%" class="text-center">Active</th>
+					</thead>
+					<tbody>
 						<tr valign="top" ng-repeat="client in form.SearchResults">
 							<td>{{client.FirstName}} {{ client.LastName }}</td>
 							<td style="white-space: nowrap" class="text-center">
-					            <!-- form-->
-								
-					            <div class="buttons">
-							   		<a ui-sref="app.client_details({ ClientId: client.Id })">
-					               		<button title="Edit customer details" class="btn btn-sm btn-info">Edit Customer</button>
+								<!-- form-->
+
+								<div class="buttons">
+									<a ui-sref="app.client_details({ ClientId: client.Id })">
+										<button title="Edit customer details" class="btn btn-sm btn-info">Edit Customer</button>
 									</a>
-					            </div>
-					         </td>
+								</div>
+							</td>
 							<td style="white-space: nowrap">
 								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ client.EmailAddress }}">{{ client.EmailAddress }}</a>
-			               	</td>
+							</td>
 							<td style="white-space: nowrap" ng-bind-html="client.FormattedContactNumbers"></td>
 							<td>{{client.PhysicalAddress.Suburb}}</td>
 							<td class="text-center">
 								{{ client.IsActive ? 'Yes' : 'No' }}
-			               	</td>
-							
+							</td>
+
 						</tr>
 					</tbody>
 				</table>

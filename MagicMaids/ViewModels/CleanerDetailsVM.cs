@@ -178,7 +178,7 @@ namespace MagicMaids.ViewModels
 				.Distinct()
 				.ToList();
 			}
-			base.FormatContactDetails(entityModel.PhysicalAddress, entityModel.PostalAddress);
+			base.FormatContactDetails(entityModel.PhysicalAddress);
 		}
 		#endregion
 	}
@@ -257,7 +257,7 @@ namespace MagicMaids.ViewModels
 			GenderFlag = entityModel.GenderFlag;
 			PrimaryCleanerRefId = (Helpers.IsValidGuid(cleanerId)) ? cleanerId.Value.ToString() : "";
 
-			base.FormatContactDetails(entityModel.PhysicalAddress, entityModel.PostalAddress);
+			base.FormatContactDetails(entityModel.PhysicalAddress);
 		}
 		#endregion
 	}
@@ -297,7 +297,7 @@ namespace MagicMaids.ViewModels
 		#endregion
 	}
 
-	public class CleanerJobMatchVM: BaseContactVM
+	public class CleanerMatchResultVM: BaseContactVM
 	{
 		#region Properties, Public
 		public String Id
@@ -373,7 +373,19 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
+		public String StylePreviousJobLocation
+		{
+			get;
+			set;
+		}
+
 		public String PreviousJobLocation
+		{
+			get;
+			set;
+		}
+
+		public String StyleNextJobLocation
 		{
 			get;
 			set;
@@ -385,7 +397,18 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public String DisplayLocation
+		public String StyleHomeBase
+		{
+			get;
+			set;
+		}
+
+		public String StyleWeekday
+		{
+			get;
+			set;
+		}
+		public String DisplayHomeBase
 		{
 			get;
 			set;
@@ -397,6 +420,29 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public Int32 TeamSize
+		{
+			get;
+			set;
+		}
+
+		public IList<CleanerRosterVM> CleanerRosters
+		{
+			get;
+			set;
+		}
+
+		public IList<JobBookingsVM> ScheduledJobs
+		{
+			get;
+			set;
+		}
+
+		public String SelectedRosterDay
+		{
+			get;
+			set;
+		}
 
 		#endregion
 	}
@@ -436,6 +482,18 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public long TimeOfDayFrom
+		{
+			get;
+			set;
+		}
+
+		public long TimeOfDayTo
+		{
+			get;
+			set;
+		}
+
 		public Boolean IsActive
 		{
 			get;
@@ -447,6 +505,8 @@ namespace MagicMaids.ViewModels
 			get;
 			set;
 		}
+
+
 		#endregion
 
 		#region Methods, Public
@@ -462,6 +522,8 @@ namespace MagicMaids.ViewModels
 
 			Weekday = entityModel.Weekday;
 			TeamCount = entityModel.TeamCount;
+			TimeOfDayFrom = entityModel.TimeOfDayFrom;
+			TimeOfDayTo = entityModel.TimeOfDayTo;
 			StartTime = entityModel.TimeOfDayFrom.ToTime();
 			EndTime = entityModel.TimeOfDayTo.ToTime();
 			IsActive = true;
@@ -666,4 +728,6 @@ namespace MagicMaids.ViewModels
 		}
 		#endregion
 	}
+
+
 }

@@ -67,20 +67,19 @@ namespace MagicMaids.Validators
 		{
 			RuleFor(x => x.Id).NotNull();
 
-			RuleFor(x => x.AddressLine1).NotEmpty().WithMessage(x => $"{x.AddressType} 1st address line is required.");
-			RuleFor(x => x.Suburb).NotEmpty().WithMessage(x => $"{x.AddressType} Suburb is required.");
-			RuleFor(x => x.State).NotEmpty().WithMessage(x => $"{x.AddressType} State is required.");
-			RuleFor(x => x.PostCode).NotEmpty().WithMessage(x => $"{x.AddressType} Post code is required.");
-			RuleFor(x => x.Country).NotEmpty().WithMessage(x => $"{x.AddressType} Country is required.");
+			RuleFor(x => x.AddressLine1).NotEmpty().WithMessage(x => "Street number is required.");
+			RuleFor(x => x.AddressLine2).NotEmpty().WithMessage(x => "Street name is required.");
+			RuleFor(x => x.AddressLine3).NotEmpty().WithMessage(x => "Street type is required.");
+			RuleFor(x => x.Suburb).NotEmpty().WithMessage(x => "Suburb is required.");
+			RuleFor(x => x.State).NotEmpty().WithMessage(x => "State is required.");
 
-			RuleFor(x => x.AddressLine1).Length(5, 250).WithName("1st address line");
+			RuleFor(x => x.AddressLine1).Length(1, 7).WithName("Street number");
 			RuleFor(x => x.Suburb).Length(4, 100);
 			RuleFor(x => x.State).Length(2, 20);
-			RuleFor(x => x.PostCode).Length(2, 5).WithName("Post code");
 			RuleFor(x => x.Country).Length(5, 250);
 
-			RuleFor(x => x.AddressLine2).MaximumLength(250).WithName("2nd address line");
-			RuleFor(x => x.AddressLine3).MaximumLength(250).WithName("3rd address line");
+			RuleFor(x => x.AddressLine2).MaximumLength(250).WithName("Street Name");
+			RuleFor(x => x.AddressLine3).MaximumLength(250).WithName("Street Type");
 		}
 	}
 

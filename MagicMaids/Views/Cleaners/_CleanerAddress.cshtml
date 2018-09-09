@@ -1,88 +1,53 @@
 ﻿<div class="container-fluid" ng-controller="CleanerAddressController as form">
 	<form class="form-horizontal">
-	   <div class="form-group">
-     		<div class="col-xs-6">
+		<div class="form-group">
+			<div class="col-xs-12">
 				<div class="panel panel-primary" id="panelPhysical">
-					<div class="panel-heading">Physical Address</div>
- 					<div class="panel-body">
+					<div class="panel-heading">Address</div>
+					<div class="panel-body">
 						<div class="col-xs-12">
 							<div class="form-group">
-								<input type="text"  placeholder="Address line 1" class="form-control" name="Phys_AddressLine1" ng-model="form.PhysicalAddress.AddressLine1"/>
+								<span class="col-xs-3">
+									<input type="text" placeholder="Street #" class="form-control" maxlength="7" name="Phys_AddressLine1" ng-model="form.PhysicalAddress.AddressLine1" autofocus="true" />
+								</span>
+								<span class="col-xs-6">
+									<input type="text" placeholder="Street Name" class="form-control" name="Phys_AddressLine2" ng-model="form.PhysicalAddress.AddressLine2" />
+								</span>
+								<span class="col-xs-3">
+									<input type="text" placeholder="Street Type" class="form-control" name="Phys_AddressLine3" ng-model="form.PhysicalAddress.AddressLine3" />
+								</span>
 							</div>
 							<div class="form-group">
-								<input type="text"  placeholder="Address line 2" class="form-control" name="Phys_AddressLine2" ng-model="form.PhysicalAddress.AddressLine2"/>
+								<span class="col-xs-12">
+									<input type="text" placeholder="Suburb" class="form-control" name="Phys_Suburb" ng-model="form.PhysicalAddress.Suburb" />
+								</span>
 							</div>
 							<div class="form-group">
-								<input type="text"  placeholder="Suburb" class="form-control" name="Phys_Suburb" ng-model="form.PhysicalAddress.Suburb"/>
-							</div>
-							<div class="form-group">
-								<select class="form-control" name="Phys_State" ng-model="form.PhysicalAddress.State"  ng-init="State='WA'">
-				                    <option value="">Select State</option>	
-		                			<option value="ACT">ACT</option>
-									<option value="NT">NT</option>
-									<option value="QLD">QLD</option>
-									<option value="SA">SA</option>
-									<option value="TAS">TAS</option>
-									<option value="VIC">VIC</option>
-									<option value="WA">WA</option>
-			                  	</select>	
+								<span class="col-xs-6">
+									<select class="form-control" name="Phys_State" ng-model="form.PhysicalAddress.State" ng-init="Phys_State='WA'">
+										<option value="">Select State</option>
+										<option value="ACT">ACT</option>
+										<option value="NT">NT</option>
+										<option value="QLD">QLD</option>
+										<option value="SA">SA</option>
+										<option value="TAS">TAS</option>
+										<option value="VIC">VIC</option>
+										<option value="WA">WA</option>
+									</select>
+								</span>
+								<span class="col-xs-6">
+									<input type="text" placeholder="Postcode" class="form-control" name="Phys_PostCode" ng-model="form.PhysicalAddress.PostCode" />
+								</span>
 							</div>
 							<div class="form-group">
 								<div class="col-xs-6 nopadding">
-									<input type="text" placeholder="Postcode" class="form-control" name="Phys_PostCode" ng-model="form.PhysicalAddress.PostCode"/>
+
 								</div>
 								<div class="col-xs-6"></div>
 							</div>
-							<div class="form-group">
-								<input type="text"  placeholder="Country" class="form-control" name="Phys_Country"  ng-model="form.PhysicalAddress.Country" disabled="true" ng-init="Phys_Country='Australia'"/>
+							<div class="form-group" ng-show="false">
+								<input type="text" placeholder="Country" class="form-control" name="Phys_Country" ng-model="form.PhysicalAddress.Country" disabled="true" ng-init="Phys_Country='Australia'" />
 							</div>
-							<div class="checkbox c-checkbox">
-		                  		<label>
-		                     		<input type="checkbox" checked="false" name="CopyToPostal" id="CopyToPostal" ng-model="CopyToPostal"/>
-		                     		<span class="fa fa-check"></span>Use same address for postal address
-								</label>
-		               		</div>
-						</div>
-					</div>
-				</div>
-			</div>
-				
-			<div class="col-xs-6">
-				<div class="panel panel-green" id="panelPostal" ng-show="!CopyToPostal">
-					<div class="panel-heading">Postal Address</div>
- 					<div class="panel-body">
-						<div class="col-xs-12">
-							<div class="form-group">
-								<input type="text"  placeholder="Address line 1" class="form-control" name="Post_AddressLine1" ng-model="form.PostalAddress.AddressLine1"/>
-							</div>
-							<div class="form-group">
-								<input type="text"  placeholder="Address line 2" class="form-control" name="Post_AddressLine2" ng-model="form.PostalAddress.AddressLine2"/>
-							</div>
-							<div class="form-group">
-								<input type="text"  placeholder="Suburb" class="form-control" name="Post_Suburb" ng-model="form.PostalAddress.Suburb"/>
-							</div>
-							<div class="form-group">
-								<select  class="form-control" name="Post_State" ng-model="form.PostalAddress.State" ng-init="State='WA'">
-				                    <option value="">Select State</option>	
-		                			<option value="ACT">ACT</option>
-									<option value="NT">NT</option>
-									<option value="QLD">QLD</option>
-									<option value="SA">SA</option>
-									<option value="TAS">TAS</option>
-									<option value="VIC">VIC</option>
-									<option value="WA">WA</option>
-			                  	</select>	
-							</div>
-							<div class="form-group">
-								<div class="col-xs-6 nopadding">
-									<input type="text" placeholder="Postcode" class="form-control" name="Post_PostCode" ng-model="form.PostalAddress.PostCode"/>
-								</div>
-								<div class="col-xs-6"></div>
-							</div>
-							<div class="form-group">
-								<input type="text"  placeholder="Country" class="form-control" name="Post_Country" ng-model="form.PostalAddress.Country" ng-init="Post_Country='Australia'" disabled="true"/>
-							</div>
-							<div class="checkbox c-checkbox"></div>
 						</div>
 					</div>
 				</div>

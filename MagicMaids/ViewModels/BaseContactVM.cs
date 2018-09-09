@@ -12,12 +12,9 @@ namespace MagicMaids.ViewModels
 		string EmailAddress { get; set; }
 		string MobileNumber { get; set; }
 		string PhysicalAddressRefId { get; set; }
-		string PostalAddressRefId { get; set; }
-		UpdateAddressViewModel PostalAddress { get; set; }
 		UpdateAddressViewModel PhysicalAddress { get; set; }
 		Boolean HasAnyPhoneNumbers { get; }
 		Boolean HasAnyValidAddress { get; }
-		Boolean HasValidPostalAddress { get; }
 		Boolean HasValidPhysicalAddress { get; }
 	}
 
@@ -62,18 +59,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public String PostalAddressRefId
-		{
-			get;
-			set;
-		}
-
-		public UpdateAddressViewModel PostalAddress
-		{
-			get;
-			set;
-		}
-
 		public bool HasAnyPhoneNumbers
 		{
 			get
@@ -95,26 +80,13 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				if (PhysicalAddress == null && PostalAddress == null)
+				if (PhysicalAddress == null)
 					return false;
 
-				if (HasValidPostalAddress || HasValidPhysicalAddress)
+				if (HasValidPhysicalAddress)
 					return true;
 				else
 					return false;
-			}
-		}
-
-		public bool HasValidPostalAddress
-		{
-			get
-			{
-				if (PostalAddress == null)
-				{
-					return false;
-				}
-
-				return PostalAddress.IsValidAddress;
 			}
 		}
 
@@ -150,7 +122,7 @@ namespace MagicMaids.ViewModels
 		#endregion
 
 		#region Methods, Protected
-		protected void FormatContactDetails(Address physicalAddress, Address postalAddress)
+		protected void FormatContactDetails(Address physicalAddress)
 		{
 			if (physicalAddress != null)
 			{
@@ -158,14 +130,6 @@ namespace MagicMaids.ViewModels
 				_vm.PopulateVM(physicalAddress);
 				this.PhysicalAddress = _vm;
 				this.PhysicalAddressRefId = physicalAddress.Id;
-			}
-
-			if (postalAddress != null)
-			{
-				UpdateAddressViewModel _vm = new UpdateAddressViewModel();
-				_vm.PopulateVM(postalAddress);
-				this.PostalAddress = _vm;
-				this.PostalAddressRefId = postalAddress.Id;
 			}
 
 			FormatContactNumbers();

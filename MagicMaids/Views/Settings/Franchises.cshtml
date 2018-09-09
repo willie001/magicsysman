@@ -43,8 +43,7 @@
 				         	<th style="width:10%" class="text-center">Franchise Code</th>
 				         	<th style="width:10%" class="text-center">Contact Numbers</th>
 				         	<th style="width:10%" class="text-center">Email</th>
-							<th style="width:20%" class="text-center">Physical Address</th>
-							<th style="width:20%" class="text-center">Postal Address</th>
+							<th style="width:20%" class="text-center">Address</th>
 							<th style="width:5%" class="text-center">Active</th>
 							<th style="width:5%" class="text-center"></th>
 				      	</tr>
@@ -63,9 +62,6 @@
 			               	</td>
 							<td>
 								<address ng-bind-html="franchise.PhysicalAddress.FormattedAddress"></address>
-			               	</td>
-							<td>
-								<address ng-bind-html="franchise.PostalAddress.FormattedAddress"></address>
 			               	</td>
 							<td class="text-center">
 								{{ franchise.IsActive ? 'Yes' : 'No' }}

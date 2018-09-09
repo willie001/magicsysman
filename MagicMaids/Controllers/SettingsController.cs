@@ -352,6 +352,8 @@ namespace MagicMaids.Controllers
 						if (Helpers.IsValidGuid(_objToUpdate.FranchiseId))
 							cacheName += $"_{_objToUpdate.FranchiseId}";
 						cache.Remove(cacheName);
+						cache.Remove($"SuburbNames");
+			
 					}
 
 					return JsonSuccessResponse($"{_objDesc} saved successfully", _objToUpdate);
@@ -710,7 +712,7 @@ namespace MagicMaids.Controllers
 
 		public static List<string> GetZoneListBySuburb(string Suburb)
 		{
-			return BookingFactory.GetZoneListBySuburb(Suburb);
+			return Suburb.GetZoneListBySuburb();
 		}
 		#endregion 
 	}

@@ -55,6 +55,100 @@
 			  };
 			}])
 
+		.factory('savedJobBookingFactory', ['$cookies', function($cookies) {
+			// factory method good to pass values in SPA but browser refresh destroys state so better 
+			// to user localStorage or cookies
+			var keyCleaner = "cleanermatchCookie";
+			var keyJob = "jobmatchCookie";
+
+			// variables only persisted across tabs - no need for cookies
+			var clientName = "";
+
+			function set(cleaner, job) {
+				if (cleaner == null)
+				{
+					clientName = "";
+					$cookies.remove(keyCleaner);
+				}
+				else
+				{
+					$cookies.put(keyCleaner, JSON.stringify(cleaner));
+				}
+
+				if (job == null)
+				{
+					clientName = "";
+					$cookies.remove(keyJob);
+				}
+				else
+				{
+					$cookies.put(keyJob, JSON.stringify(job));
+				}
+			}
+
+			function setClientName(name)
+			{
+				// only bother to set if there is an active job booking underway
+				if (getCleaner())
+				{
+					clientName = name;
+				}
+			}
+
+			function getClientName()
+			{
+				return clientName;
+			}
+
+            function getCleaner() {
+				var cleanerCookie = $cookies.get(keyCleaner);
+				if (cleanerCookie)
+				{
+					return JSON.parse(cleanerCookie);
+				}
+				else
+				{
+					return null;
+				}
+			}
+
+			function getJob() {
+				var jobCookie = $cookies.get(keyJob);
+				if (jobCookie)
+				{
+					return JSON.parse(jobCookie);
+				}
+				else
+				{
+					return null;
+				}
+			}
+
+			function getCriteria()
+            {
+				var jobCriteria = $cookies.get("SearchCriteria_cleanerMatch");
+				if (jobCriteria)
+				{
+					return JSON.parse(jobCriteria);
+				}
+				else
+				{
+					return null;
+				}
+            }
+
+
+			return {
+				set: set,
+				getCleaner: getCleaner, 
+				getJob: getJob,
+				setClientName: setClientName,
+				getClientName: getClientName,
+				getCriteria: getCriteria
+            }
+
+        }])
+
 		.factory('moment', ['$window',  function($window) {
       		return $window.moment;
     	}])

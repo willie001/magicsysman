@@ -5,12 +5,12 @@
     	.module("magicsearches",[])
     	.controller('MainSearchController', MainSearchController);
 
-    	MainSearchController.$inject = ['$scope', '$http', 'HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','editableOptions', 'editableThemes', '$cookies', 'moment','manageTimeZoneCookie'];
+    	MainSearchController.$inject = ['$scope', '$http', '$state','HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','editableOptions', 'editableThemes', '$cookies', 'moment','manageTimeZoneCookie','savedJobBookingFactory'];
     
     /***********************/
 	/***   MAIN SEARCH   ***/
 	/***********************/
-	function MainSearchController($scope, $http, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies, moment, manageTimeZoneCookie)
+	function MainSearchController($scope, $http, $state, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies, moment, manageTimeZoneCookie, savedJobBookingFactory)
 	{
 		var vm = this;
 		var panelName = "panelMainResults";
@@ -49,10 +49,45 @@
 
 		$scope.clearForm = function() {
 			var cookieName = "SearchCriteria_cleanerMatch";
+			savedJobBookingFactory.set(null, null);
 			if ($cookies.get(cookieName)) { // browser supports cookie
 				$cookies.remove(cookieName);
 				activate();
 			}	
+		}
+
+		$scope.getLocation = function(val) {
+    		return $http.get('/search/getsearchsuburbs', {
+	          	params: {
+	            	address: val,
+	            	sensor: false
+	          	}
+    		}).then(function(res){
+	      		var addresses = [];
+	      		angular.forEach(res.data.item, function(value){
+	    			/*jshint -W106*/
+	        		addresses.push(value);
+	      		});
+	      		vm.SuburbList = addresses;
+				//console.log("<SEARCH Suburb List> - " + angular.toJson(vm.SuburbList));
+	      		
+    		});
+		}
+
+		$scope.checkCustomerState = function(selectedCleaner, selectedJob) {
+			//console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
+			//console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
+
+			savedJobBookingFactory.set(selectedCleaner, selectedJob);
+
+			if (vm.Search.RepeatCustomer == "N")
+			{
+				$state.go("app.client_details");
+			}
+			else
+			{
+				$state.go("app.clients");
+			}
 		}
 
 		activate();
@@ -62,6 +97,9 @@
 			vm.SeachResults = {};
 			vm.Search.FilterZone = {};
 			vm.hasSearched = false;
+			vm.SuburbList = [];
+
+			$scope.getLocation();
 
 			$scope.userMessages = [];
 			$scope.userMessageType = [];
@@ -89,6 +127,7 @@
 			vm.Search.FilterZonesSecondary = true;
 			vm.Search.FilterZonesApproved = false;
 			vm.Search.FilterZonesOther = false;
+			vm.Search.RepeatCustomer = "Y";
 
 			$scope.changeServiceType();
 			$scope.changeServiceDay();
@@ -144,12 +183,11 @@
 			
                 }).error(function(err) {
                 }).finally(function() {
-                });
+				});
 
-          	$scope.searchCriteria = false; // expand search panel on first load
+			$scope.searchCriteria = false; // expand search panel on first load
 		}
 
-		
 		$scope.searchMatches = function() {
 			ShowUserMessages.clear($scope);
 			vm.hasSearched = true;
@@ -157,6 +195,7 @@
 
             //console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
 			$http.post('/search/matchcleaners', vm.Search).success(function (response) {
+				//console.log("<MAIN Search Results> - " + angular.toJson(response));
 				if (!response.IsValid && response.IsValid !== undefined)
         		{	
 	   				HandleBusySpinner.stop($scope, panelName);
@@ -167,8 +206,7 @@
 				{
 					$scope.searchCriteria = true;
 					vm.SearchResults = response.SearchResults;
-					//console.log("<MAIN Search Results> - " + angular.toJson(response));
-       				HandleBusySpinner.stop($scope, panelName);
+					HandleBusySpinner.stop($scope, panelName);
 				}
 
 			}).error(function (error) {

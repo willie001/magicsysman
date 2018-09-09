@@ -35,18 +35,21 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		// street number
 		public string AddressLine1
 		{
 			get;
 			set;
 		}
 
+		// street name
 		public string AddressLine2
 		{
 			get;
 			set;
 		}
 
+		// street type
 		public string AddressLine3
 		{
 			get;
@@ -145,15 +148,15 @@ namespace MagicMaids.ViewModels
 			if (entityModel == null)
 				return;
 
-			this.Id = entityModel.Id.ToString();
-			this.AddressLine1 = entityModel.AddressLine1;
-			this.AddressLine2 = entityModel.AddressLine2;
-			this.AddressLine3 = entityModel.AddressLine3;
-			this.AddressType = entityModel.AddressType;
-			this.Suburb = entityModel.Suburb;
-			this.State = entityModel.State;
-			this.Country = entityModel.Country;
-			this.PostCode = entityModel.PostCode;
+			Id = entityModel.Id;
+			AddressLine1 = entityModel.AddressLine1;
+			AddressLine2 = entityModel.AddressLine2;
+			AddressLine3 = entityModel.AddressLine3;
+			AddressType = entityModel.AddressType;
+			Suburb = entityModel.Suburb;
+			State = entityModel.State;
+			Country = entityModel.Country;
+			PostCode = entityModel.PostCode;
 
 			FormatAddress(entityModel);
 		}
@@ -170,21 +173,24 @@ namespace MagicMaids.ViewModels
 
 			System.Text.StringBuilder _output = new System.Text.StringBuilder();
 
+			// street number
 			if (!String.IsNullOrWhiteSpace(entityModel.AddressLine1))
 			{
 				if (_output.Length > 0) _output.Append("<br/>");
 				_output.Append(entityModel.AddressLine1);
 			}
 
+			// street name
 			if (!String.IsNullOrWhiteSpace(entityModel.AddressLine2))
 			{
-				if (_output.Length > 0) _output.Append("<br/>");
+				if (_output.Length > 0) _output.Append(" ");
 				_output.Append(entityModel.AddressLine2);
 			}
 
+			//street type
 			if (!String.IsNullOrWhiteSpace(entityModel.AddressLine3))
 			{
-				if (_output.Length > 0) _output.Append("<br/>");
+				if (_output.Length > 0) _output.Append(" ");
 				_output.Append(entityModel.AddressLine3);
 			}
 
