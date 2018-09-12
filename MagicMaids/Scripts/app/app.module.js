@@ -61,6 +61,12 @@
 			var keyCleaner = "cleanermatchCookie";
 			var keyJob = "jobmatchCookie";
 
+			var today = new Date();
+    		var expiresValue = new Date(today);
+
+   			 //Set 'expires' option in 5 minute
+    		expiresValue.setMinutes(today.getMinutes() + 5); 
+
 			// variables only persisted across tabs - no need for cookies
 			var clientName = "";
 
@@ -72,7 +78,7 @@
 				}
 				else
 				{
-					$cookies.put(keyCleaner, JSON.stringify(cleaner));
+					$cookies.put(keyCleaner, JSON.stringify(cleaner), {'expires' : expiresValue});
 				}
 
 				if (job == null)
@@ -82,7 +88,7 @@
 				}
 				else
 				{
-					$cookies.put(keyJob, JSON.stringify(job));
+					$cookies.put(keyJob, JSON.stringify(job), {'expires' : expiresValue});
 				}
 			}
 

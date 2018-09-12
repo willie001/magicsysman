@@ -566,8 +566,14 @@
 		vm.clientName = savedJobBookingFactory.getClientName();
 		vm.searchCriteria = savedJobBookingFactory.getCriteria();
 
-		vm.minSelection = vm.selectedCleanerJob.StartTimeForControl;
-		vm.maxSelection = vm.selectedCleanerJob.EndTimeForControl;
+		if (vm.selectedCleaner)
+		{
+			vm.minSelection = vm.selectedCleanerJob.StartTimeForControl;
+		}
+		if (vm.selectedCleanerJob)
+		{
+			vm.maxSelection = vm.selectedCleanerJob.EndTimeForControl;
+		}
 
 		//console.log("<Cleaner PICKED -  job> - " + angular.toJson(vm.selectedCleaner));
 		//console.log("<Job PICKED -  job> - " + angular.toJson(vm.selectedCleanerJob));

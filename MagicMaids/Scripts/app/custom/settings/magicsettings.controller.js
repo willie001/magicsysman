@@ -471,7 +471,7 @@
                 	//console.log('<ADDRESS TYPES> ' + angular.toJson(data.item));
                 	vm.addressTypes = data.item;
 
-                	result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
+                	var result = $filter('filter')(vm.addressTypes, {name:'Physical'})[0];
                 	_physicalType = result.id;
 
                 }).error(function(err) {

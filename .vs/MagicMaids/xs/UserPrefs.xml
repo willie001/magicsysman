@@ -1,15 +1,17 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/scripts/app/app.module.js">
     <Files>
       <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="52" Column="53" />
       <File FileName="MagicMaids/scripts/app/custom/cleaners/magiccleaners.controller.js" Line="652" Column="14" />
       <File FileName="MagicMaids/Views/Clients/_CustomerDetails.cshtml" Line="2" Column="69" />
-      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="592" Column="75" />
+      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="577" Column="3" />
       <File FileName="MagicMaids/Views/Cleaners/_CleanerAvailability.cshtml" Line="15" Column="29" />
       <File FileName="MagicMaids/Controllers/CleanersController.cs" Line="989" Column="28" />
       <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="92" Column="7" />
       <File FileName="MagicMaids/DataLayer/EntityModels/CleanerRoster.cs" Line="11" Column="15" />
-      <File FileName="MagicMaids/Web.config" Line="1" Column="1" />
+      <File FileName="MagicMaids/Web.config" Line="51" Column="51" />
+      <File FileName="MagicMaids/scripts/app/custom/settings/magicsettings.controller.js" Line="474" Column="22" />
+      <File FileName="MagicMaids/scripts/app/app.module.js" Line="22" Column="27" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

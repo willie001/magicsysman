@@ -136,3 +136,5 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaids/obj/Debug/MagicMaids
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CoreCompileInputs.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.pdb
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csprojAssemblyReference.cache
+/Users/ebenventer/Projects/MagicMaids/MagicMaids/obj/Debug/MagicMaids.csproj.CopyComplete
