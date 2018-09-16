@@ -76,7 +76,7 @@ namespace MagicMaids
 		/// </summary>
 		/// <returns>The zone list by suburb.</returns>
 		/// <param name="suburbName">Suburb name.</param>
-		public static List<string> GetZoneListBySuburb(this string suburbName)
+		public static List<string> GetZoneListBySuburb(this string suburbName, Boolean withDefaults)
 		{
 			if (String.IsNullOrWhiteSpace(suburbName))
 			{
@@ -89,6 +89,10 @@ namespace MagicMaids
 			if (zoneList.Count == 0)
 			{
 				cache.Remove($"SuburbZones_{suburbName}");
+				if (withDefaults)
+				{
+					zoneList = cache.GetOrAdd($"SuburbZones_Defaults", () => GetDefaultZoneList(), new TimeSpan(0, 20, 0));
+				}
 			}
 
 			return zoneList;
@@ -105,14 +109,13 @@ namespace MagicMaids
 			using (DBManager db = new DBManager())
 			{
 				_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where SuburbName like '%{suburbName}%' or PostCode = '{suburbName}'").ToList();
-
-				// load system default list
-				if (_zoneList.Count == 0)
-				{
-					_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
-				}
 			}
 
+
+			if (_zoneList.Count == 0)
+			{
+				return _zoneList;
+			}
 
 			var _zoneCSV = String.Join(",", _zoneList);
 			_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
@@ -120,7 +123,28 @@ namespace MagicMaids
 						  .ToList();
 
 			_zoneList.Sort();
+			return _zoneList;
+		}
 
+		private static List<string> GetDefaultZoneList()
+		{
+			List<String> _zoneList = new List<String>();
+			using (DBManager db = new DBManager())
+			{
+				_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
+			}
+
+			if (_zoneList.Count == 0)
+			{
+				return _zoneList;
+			}
+
+			var _zoneCSV = String.Join(",", _zoneList);
+			_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
+						  .Distinct()
+						  .ToList();
+
+			_zoneList.Sort();
 			return _zoneList;
 		}
 	}

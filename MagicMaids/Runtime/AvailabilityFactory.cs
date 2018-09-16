@@ -287,7 +287,7 @@ namespace MagicMaids
 			}
 
 			// #1.2
-			var prevZoneList = Cleaner.PreviousJobLocation.GetZoneListBySuburb();
+			var prevZoneList = Cleaner.PreviousJobLocation.GetZoneListBySuburb(false);
 			if (prevZoneList.Intersect(ServiceZone).Any())
 			{
 				// #1.2.1
@@ -330,7 +330,7 @@ namespace MagicMaids
 				return "";
 			}
 
-			var suburbZone = suburb.GetZoneListBySuburb();
+			var suburbZone = suburb.GetZoneListBySuburb(false);
 
 			if (Cleaner.PrimaryZoneList.Intersect(suburbZone).Any())
 			{

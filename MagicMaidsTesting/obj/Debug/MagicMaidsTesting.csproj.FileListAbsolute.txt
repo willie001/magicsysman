@@ -122,7 +122,8 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.Web.WebPages.Deployment.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/System.IdentityModel.Tokens.Jwt.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Bugsnag.ConfigurationSection.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/obj/Debug/MagicMaidsTesting.csprojResolveAssemblyReference.cache
+/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/obj/Debug/MagicMaidsTesting.csprojAssemblyReference.cache
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/obj/Debug/MagicMaidsTesting.csproj.CoreCompileInputs.cache
+/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/obj/Debug/MagicMaidsTesting.csproj.CopyComplete
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/obj/Debug/MagicMaidsTesting.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/obj/Debug/MagicMaidsTesting.pdb

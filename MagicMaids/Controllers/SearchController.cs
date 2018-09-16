@@ -76,68 +76,76 @@ namespace MagicMaids.Controllers
 					searchCriteria.HasCriteria = true;
 					searchCriteria.StoreSearchCookieCiteria("cleanerMatch");
 
-					using (DBManager db = new DBManager())
-					{
-						StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
+					StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
 							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where C.IsActive=1");
 
-						if (searchCriteria.RequireIroning)
-						{
-							sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
-						}
+					if (searchCriteria.RequireIroning)
+					{
+						sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
+					}
 
-						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
-						{
-							sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%' or Ph.PostCode = '{searchCriteria.Suburb}')");
-						}
+					if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
+					{
+						sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%' or Ph.PostCode = '{searchCriteria.Suburb}')");
+					}
 
-						if (searchCriteria.FilterRating > 0)
-						{
-							sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
-						}
+					if (searchCriteria.FilterRating > 0)
+					{
+						sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
+					}
 
-						if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
-						{
-							sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDateFormatted}' between DATE(StartDate) and DATE(EndDate))");
-						}
+					if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
+					{
+						sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDateFormatted}' between DATE(StartDate) and DATE(EndDate))");
+					}
 
-						sql.Append(" order by LastName, FirstName");
+					sql.Append(" order by LastName, FirstName");
 
+					List<CleanerMatchResultVM> _vmResults;
+ 					using (DBManager db = new DBManager())
+					{
 						var _orderedResults = db.getConnection().Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) =>
 						{
 							cl.PhysicalAddress = phys;
 							return cl;
 						}).ToList();
 
-						var _vmResults = Mapper.Map<List<Cleaner>, List<CleanerMatchResultVM>>(_orderedResults);
+						_vmResults = Mapper.Map<List<Cleaner>, List<CleanerMatchResultVM>>(_orderedResults);
+					}
 
-						foreach (CleanerMatchResultVM _item in _vmResults)
+					foreach (CleanerMatchResultVM _item in _vmResults)
+					{
+						_item.PrimaryZoneList = new List<string>(new string[] { _item.PrimaryZone });
+						if (!String.IsNullOrWhiteSpace(_item.SecondaryZone))
 						{
-							_item.PrimaryZoneList = new List<string>(new string[] { _item.PrimaryZone });
-							if (!String.IsNullOrWhiteSpace(_item.SecondaryZone))
-							{
-								_item.SecondaryZoneList = _item.SecondaryZone.Split(new char[] { ',', ';' })
-									.Distinct()
-									.ToList();
-							}
-							else
-							{
-								_item.SecondaryZoneList = new List<string>();
-							}
-
-							if (!String.IsNullOrWhiteSpace(_item.ApprovedZone))
-							{
-								_item.ApprovedZoneList = _item.ApprovedZone.Split(new char[] { ',', ';' })
-									.Distinct()
-									.ToList();
-							}
-							else
-							{
-								_item.ApprovedZoneList = new List<string>();
-							}
+							_item.SecondaryZoneList = _item.SecondaryZone.Split(new char[] { ',', ';' })
+								.Distinct()
+								.ToList();
+						}
+						else
+						{
+							_item.SecondaryZoneList = new List<string>();
 						}
 
-						BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
+						if (!String.IsNullOrWhiteSpace(_item.ApprovedZone))
+						{
+							_item.ApprovedZoneList = _item.ApprovedZone.Split(new char[] { ',', ';' })
+								.Distinct()
+								.ToList();
+						}
+						else
+						{
+							_item.ApprovedZoneList = new List<string>();
+						}
+					}
+
+					BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
+					if (!resultsProcessor.ValidSearchZone)
+					{
+						ModelState.AddModelError(string.Empty, $"No zones for suburb '{searchCriteria.Suburb.ToUpper()}' has been defined.");
+					}
+					else
+					{
 						var results = resultsProcessor.GetProcessedResults().ToList<CleanerMatchResultVM>().Where(x => x != null);
 						return new JsonNetResult() { Data = new { SearchResults = results }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 					}

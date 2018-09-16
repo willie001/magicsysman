@@ -712,7 +712,7 @@ namespace MagicMaids.Controllers
 
 		public static List<string> GetZoneListBySuburb(string Suburb)
 		{
-			return Suburb.GetZoneListBySuburb();
+			return Suburb.GetZoneListBySuburb(true);
 		}
 		#endregion 
 	}

@@ -27,10 +27,20 @@ namespace MagicMaids
 
 			if (criteria != null)
 			{
-				SearchZoneList = criteria.Suburb.GetZoneListBySuburb();
+				SearchZoneList = criteria.Suburb.GetZoneListBySuburb(false);
 			}
 		}
 		#endregion
+
+		#region Properties, Public
+		public bool ValidSearchZone
+		{
+			get
+			{
+				return (SearchZoneList.Count > 0);
+			}
+		}
+		#endregion 
 
 		#region Properties, Private
 		private List<String> SearchZoneList
@@ -182,7 +192,7 @@ namespace MagicMaids
 				cleaner.StyleHomeBase = NamedColours.FirstJobColor;
 			}
 
-			var cleanerBaseZoneList = cleaner.PhysicalAddress.Suburb.GetZoneListBySuburb();
+			var cleanerBaseZoneList = cleaner.PhysicalAddress.Suburb.GetZoneListBySuburb(false);
 			if (applyColor(cleanerBaseZoneList, SearchZoneList))
 			{
 				cleaner.StyleHomeBase = NamedColours.PrimaryJobColor;
@@ -246,8 +256,8 @@ namespace MagicMaids
 				return "";
 			}
 
-			var prevZoneList = cleaner.PreviousJobLocation.GetZoneListBySuburb();
-			var nextZoneList = cleaner.NextJobLocation.GetZoneListBySuburb();
+			var prevZoneList = cleaner.PreviousJobLocation.GetZoneListBySuburb(false);
+			var nextZoneList = cleaner.NextJobLocation.GetZoneListBySuburb(false);
 
 			// if search suburb is in cleaner primary zone and prev/next job is also in primary zone
 			if (applyColor(cleaner.PrimaryZoneList, SearchZoneList))
