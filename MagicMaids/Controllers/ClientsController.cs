@@ -422,6 +422,22 @@ namespace MagicMaids.Controllers
 			return _objToUpdate;
 		}
 
+		[HttpPost]
+		public ActionResult SaveClientBooking(ClientPaymentMethodVM dataItem)
+		{
+			if (dataItem == null)
+			{
+				ModelState.AddModelError(string.Empty, "Valid client booking not found.");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(ModelState, nameof(SaveClientBooking), dataItem);
+			}
+
+			return JsonFormResponse();
+		}
+
 		[HttpGet]
 		public ActionResult GetClientPaymentMethods(Guid? ClientId)
 		{

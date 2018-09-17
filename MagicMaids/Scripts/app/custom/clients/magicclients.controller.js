@@ -164,7 +164,6 @@
                 	vm.client = data.item;
                 	$scope.ClientId = vm.client.Id;
                 	$scope.DataRecordStatus.IsNewDataRecord = data.item.IsNewItem;
-					savedJobBookingFactory.setClientName(vm.client.FirstName + ' ' + vm.client.LastName);
 
                 }).error(function(err) {
                 	
@@ -202,7 +201,6 @@
 	
             	return $http.post('/clients/saveclientdetails', vm.client).success(function (response) {
             		HandleBusySpinner.stop($scope, panelName);
-					savedJobBookingFactory.setClientName(vm.client.FirstName + ' ' + vm.client.LastName);
             		$scope.submitted = false;
 	                	
         			// Add your success stuff here
@@ -563,7 +561,6 @@
 
 		vm.selectedCleaner = savedJobBookingFactory.getCleaner();
 		vm.selectedCleanerJob = savedJobBookingFactory.getJob();
-		vm.clientName = savedJobBookingFactory.getClientName();
 		vm.searchCriteria = savedJobBookingFactory.getCriteria();
 
 		if (vm.selectedCleaner)
@@ -595,28 +592,31 @@
 		}
 
 		vm.saveData = function(data) {
-      		console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
+			alert('In progress...');
+			return false;
+			vm.selectedCleanerJob.ClientId = $scope.ClientId;
+      		//console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
 		 	$scope.submitted = true;
 
-			/*if (vm.cleanerRosterForm.$valid) {
+			if (vm.cleanerRosterForm.$valid) {
 
                 HandleBusySpinner.start($scope, panelName);
 	
-            	return $http.post('/cleaners/saveCleanerRoster/?CleanerId='+Id, vm.cleanerRoster).success(function (response) {
+            	return $http.post('/clients/saveclientbooking/?CleanerId='+Id, vm.selectedCleanerJob).success(function (response) {
                 	// Add your success stuff here
                 	HandleBusySpinner.stop($scope, panelName);
                 	$scope.submitted = false;
-                	ShowUserMessages.show($scope, response, "Error updating roster details.");
+                	ShowUserMessages.show($scope, response, "Error updating booking details.");
 
                 	if (response.IsValid)
             		{	
-                		vm.cleanerRoster = response.DataItem;
+                		vm.selectedCleanerJob = response.DataItem;
 					}
 
             	}).error(function (error) {
             		HandleBusySpinner.stop($scope, panelName);
             		$scope.submitted = false;
-                	ShowUserMessages.show($scope, error, "Error updating roster details.");
+                	ShowUserMessages.show($scope, error, "Error updating booking details.");
 
             	});
 
@@ -626,9 +626,9 @@
         	{
         		//console.log("<XX> - " + angular.toJson(vm.cleanerRosterForm.$error));
             	$scope.submitted = false;
-            	ShowUserMessages.show($scope, "Error updating roster details - please review validation errors", "Error updating roster details.");
+            	ShowUserMessages.show($scope, "Error updating booking details - please review validation errors", "Error updating booking details.");
         		return false;
-        	}*/
+        	}
       	}
 	}
 

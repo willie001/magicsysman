@@ -142,7 +142,7 @@ namespace MagicMaids.Controllers
 					BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
 					if (!resultsProcessor.ValidSearchZone)
 					{
-						ModelState.AddModelError(string.Empty, $"No zones for suburb '{searchCriteria.Suburb.ToUpper()}' has been defined.");
+						ModelState.AddModelError(string.Empty, $"The suburb '{searchCriteria.Suburb.ToUpper()}' does not have any zones defined yet.");
 					}
 					else
 					{

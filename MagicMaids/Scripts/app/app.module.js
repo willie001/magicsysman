@@ -67,13 +67,9 @@
    			 //Set 'expires' option in 5 minute
     		expiresValue.setMinutes(today.getMinutes() + 5); 
 
-			// variables only persisted across tabs - no need for cookies
-			var clientName = "";
-
 			function set(cleaner, job) {
 				if (cleaner == null)
 				{
-					clientName = "";
 					$cookies.remove(keyCleaner);
 				}
 				else
@@ -83,27 +79,12 @@
 
 				if (job == null)
 				{
-					clientName = "";
 					$cookies.remove(keyJob);
 				}
 				else
 				{
 					$cookies.put(keyJob, JSON.stringify(job), {'expires' : expiresValue});
 				}
-			}
-
-			function setClientName(name)
-			{
-				// only bother to set if there is an active job booking underway
-				if (getCleaner())
-				{
-					clientName = name;
-				}
-			}
-
-			function getClientName()
-			{
-				return clientName;
 			}
 
             function getCleaner() {
@@ -148,8 +129,6 @@
 				set: set,
 				getCleaner: getCleaner, 
 				getJob: getJob,
-				setClientName: setClientName,
-				getClientName: getClientName,
 				getCriteria: getCriteria
             }
 

@@ -108,7 +108,7 @@ namespace MagicMaids
 			List<String> _zoneList = new List<String>();
 			using (DBManager db = new DBManager())
 			{
-				_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where SuburbName like '%{suburbName}%' or PostCode = '{suburbName}'").ToList();
+				_zoneList = db.getConnection().Query<String>($"select concat(Zone, ',', LinkedZones) from SuburbZones where SuburbName like '%{suburbName}%' or PostCode = '{suburbName}'").ToList();
 			}
 
 
@@ -131,7 +131,7 @@ namespace MagicMaids
 			List<String> _zoneList = new List<String>();
 			using (DBManager db = new DBManager())
 			{
-				_zoneList = db.getConnection().Query<String>($"select Zone+','+LinkedZones from SuburbZones where FranchiseId is not null").ToList();
+				_zoneList = db.getConnection().Query<String>($"select concat(Zone, ',', LinkedZones) from SuburbZones where FranchiseId is not null").ToList();
 			}
 
 			if (_zoneList.Count == 0)

@@ -77,7 +77,7 @@
           .state('app.client_details', {
               url: '/clientdetails/:ClientId?',
               controller: function($scope, $stateParams) {
-            		$scope.ClientId = $stateParams.ClientId;
+				  $scope.ClientId = $stateParams.ClientId;
             	},
     		  title: 'Customer Details',
               templateUrl: helper.basepath('Clients/ClientDetails'),
