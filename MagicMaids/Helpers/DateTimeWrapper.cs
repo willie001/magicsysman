@@ -153,12 +153,40 @@ namespace MagicMaids
 
 		public static DateTime ToTime(this long timeMins)
 		{
-			var _hr = Convert.ToInt32(timeMins/60);
-			var _min = (int)timeMins - (_hr*60);
+			return Convert.ToInt32(timeMins).ToTime();
+		}
+
+		public static DateTime ToTime(this Int32 timeMins)
+		{
+			var _hr = timeMins / 60;
+			var _min = timeMins - (_hr * 60);
 
 			var _dt = new DateTime(2000, 1, 1, _hr, _min, 0);
 			_dt = DateTime.SpecifyKind(_dt, DateTimeKind.Unspecified);
 			return _dt;
+		}
+
+		public static String ToTimeDuration(this Int32 timeMins)
+		{
+			var _hr = timeMins / 60;
+			var _min = timeMins - (_hr * 60);
+
+			if (_hr == 0)
+			{
+				return $"{_min} minutes";
+			}
+
+			if (_hr == 1)
+			{
+				return $"1 hour {_min} minutes";
+			}
+
+			if (_min == 0)
+			{
+				return $"{_hr} hours";
+			}
+
+			return $"{_hr} hours {_min} minutes";
 		}
 
 		public static bool IsPastDate(this DateTime compareDate, string callingMethod)

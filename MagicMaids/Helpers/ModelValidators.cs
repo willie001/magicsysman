@@ -475,7 +475,7 @@ namespace MagicMaids.Validators
 				RuleFor(x => x.ServiceDate.ToUTC()).GreaterThanOrEqualTo(DateTimeWrapper.NowUtc.AddDays(-1)).WithMessage("Service date can't be in the past.");
 			});
 
-			RuleFor(x => x.ServiceLength).NotEmpty().WithMessage("Service duration is required.");
+			RuleFor(x => x.ServiceLengthMins).NotEmpty().WithMessage("Service duration is required.");
 		}
 
 		private bool IsJobSelected(SearchVM c)

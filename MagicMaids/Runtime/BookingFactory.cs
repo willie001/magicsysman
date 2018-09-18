@@ -100,7 +100,7 @@ namespace MagicMaids
 			FormatStyleForWeekday(item);
 
 			// All data loaded - calculate cleaner's current availability
-			AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceDate, criteria.ServiceLength, JobType, SearchZoneList);
+			AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceDate, criteria.ServiceLengthMins, JobType, SearchZoneList);
 			try
 			{
 				item.ScheduledJobs = factory.GetCleanerDaySchedule();

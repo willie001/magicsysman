@@ -24,21 +24,19 @@
 			          	<label class="col-xs-2 control-label">Suburb/Postcode</label>
 						<div class="col-xs-4">
 							<input class="form-control" type="text" ng-model="form.Search.Suburb" placeholder="Suburb" uib-typeahead="address for address in form.SuburbList | filter:$viewValue | limitTo:10" uib-typeahead-loading="loadingLocations" />
-							<i class="glyphicon glyphicon-refresh" ng-show="loadingLocations"></i>
+							<i class="glyphicon glyphicon-refresh" ng-show="loadingLocations"></i><br/>
+							  <div class="checkbox c-checkbox">
+							  	<label>
+							  		<input type="checkbox" checked="false" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning" />
+							  		<span class="fa fa-check"></span>Requires Ironing?
+							  	</label>
+							  </div>
 						</div>
-						<label class="col-xs-2 control-label">Duration (hours)</label>
-			          	<div class="col-xs-2" style="white-space: nowrap">
-							<input type="text" ng-model="form.Search.ServiceLength" class="form-control" placeholder="Hours" maxlength="4"/>
+						<label class="col-xs-2 control-label"><br/>Duration (hh:mm)</label>
+			          	<div class="col-xs-4" style="white-space: nowrap">
+							<div uib-timepicker="uib-timepicker" mousewheel="false" ng-model="form.Search.ServiceLengthForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 			          	</div>
-				  		<div class="col-xs-2">
-							<div class="checkbox c-checkbox">
-		                  		<label>
-		                     		<input type="checkbox" checked="false" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning"/>
-		                     		<span class="fa fa-check"></span>Requires Ironing?
-								</label>
-		               		</div>
-				      	</div>
-			       	</div>
+					</div>
 					<div class="form-group">
 			          	<label class="col-xs-2 control-label">Service request</label>
 			          	<div class="col-xs-4">

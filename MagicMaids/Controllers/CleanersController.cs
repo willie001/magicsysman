@@ -237,7 +237,7 @@ namespace MagicMaids.Controllers
 				{
 					ModelState.AddModelError("", "Secondary zone should not contain the primary zone.");
 				}
-				else if (!String.IsNullOrWhiteSpace(dataItem.ApprovedZone) && dataItem.PrimaryZoneList.Except(dataItem.ApprovedZoneList).Count() == 0)
+				else if (!String.IsNullOrWhiteSpace(dataItem.ApprovedZone) && dataItem.ApprovedZoneList != null && dataItem.PrimaryZoneList.Except(dataItem.ApprovedZoneList).Count() == 0)
 				{
 					ModelState.AddModelError("", "Approved zone should not contain the primary zone.");
 				}
@@ -252,10 +252,13 @@ namespace MagicMaids.Controllers
 						ModelState.AddModelError("", $"The following secondary zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
 					}
 
-					_missingItems = dataItem.ApprovedZoneList.Select(x => x.ToLower()).Except(_matchList);
-					if (_missingItems.Count() > 0)
+					if (dataItem.ApprovedZoneList != null)
 					{
-						ModelState.AddModelError("", $"The following approved zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
+						_missingItems = dataItem.ApprovedZoneList.Select(x => x.ToLower()).Except(_matchList);
+						if (_missingItems.Count() > 0)
+						{
+							ModelState.AddModelError("", $"The following approved zones have not been defined for current franchise ({String.Join(",", _missingItems)}).");
+						}
 					}
 				}
 

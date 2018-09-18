@@ -59,7 +59,7 @@ namespace MagicMaids.Controllers
 				ModelState.AddModelError(string.Empty, $"No search criteria specified.");
 			}
 
-			if (searchCriteria.ServiceLength > SystemSettings.WorkSessionMaxHours)
+			if (searchCriteria.ServiceLengthMins > SystemSettings.WorkSessionMaxHours * 60)
 			{
 				ModelState.AddModelError(string.Empty, $"Service duration can not exceed { SystemSettings.WorkSessionMaxHours} hours.");
 			}
@@ -84,10 +84,10 @@ namespace MagicMaids.Controllers
 						sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
 					}
 
-					if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
-					{
-						sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%' or Ph.PostCode = '{searchCriteria.Suburb}')");
-					}
+					//if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
+					//{
+					//	sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%' or Ph.PostCode = '{searchCriteria.Suburb}')");
+					//}
 
 					if (searchCriteria.FilterRating > 0)
 					{

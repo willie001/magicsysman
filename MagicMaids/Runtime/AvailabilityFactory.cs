@@ -15,7 +15,7 @@ namespace MagicMaids
 		#region Fields
 		private CleanerMatchResultVM Cleaner;
 		private DateTime ServiceDate;
-		private Int32 ServiceGap;
+		private Int32 ServiceGapMinutes;
 		private IList<String> ServiceZone;
 		private JobTypeEnum JobType;
 
@@ -23,13 +23,13 @@ namespace MagicMaids
 		#endregion
 
 		#region Constructor
-		public AvailabilityFactory(CleanerMatchResultVM cleaner, DateTime serviceDate, Int32 serviceGap, JobTypeEnum serviceType, IList<String> serviceZone)
+		public AvailabilityFactory(CleanerMatchResultVM cleaner, DateTime serviceDate, Int32 serviceGapMins, JobTypeEnum serviceType, IList<String> serviceZone)
 		{
 			Cleaner = cleaner ?? throw new ArgumentException("No cleaner specified.", nameof(Cleaner));
 
-			if (serviceGap <= 0)
+			if (serviceGapMins <= 0)
 			{
-				throw new ArgumentException("Invalid service gap requested.", nameof(ServiceGap));
+				throw new ArgumentException("Invalid service gap requested.", nameof(ServiceGapMinutes));
 			}
 
 			if (serviceZone == null || serviceZone.Count == 0)
@@ -38,7 +38,7 @@ namespace MagicMaids
 			}	
 
 			ServiceDate = serviceDate;
-			ServiceGap = serviceGap * 60;
+			ServiceGapMinutes = serviceGapMins;
 			ServiceZone = serviceZone;
 			JobType = serviceType;
 		}
@@ -273,17 +273,17 @@ namespace MagicMaids
 				// #1.1.1
 				if (cleanerPrimaryZoneList.Intersect(ServiceZone).Any())
 				{
-					return ServiceGap + SystemSettings.GapSameZoneMinutes;
+					return ServiceGapMinutes + SystemSettings.GapSameZoneMinutes;
 				}
 
 				// #1.1.2
 				var cleanerSecondaryZoneList = Cleaner.SecondaryZoneList;
 				if (cleanerSecondaryZoneList.Intersect(ServiceZone).Any())
 				{
-					return ServiceGap + SystemSettings.GapSecondaryZoneMinutes;
+					return ServiceGapMinutes + SystemSettings.GapSecondaryZoneMinutes;
 				}
 
-				return ServiceGap + SystemSettings.GapOtherZoneMinutes;
+				return ServiceGapMinutes + SystemSettings.GapOtherZoneMinutes;
 			}
 
 			// #1.2
@@ -291,11 +291,11 @@ namespace MagicMaids
 			if (prevZoneList.Intersect(ServiceZone).Any())
 			{
 				// #1.2.1
-				return ServiceGap + SystemSettings.GapSameZoneMinutes;
+				return ServiceGapMinutes + SystemSettings.GapSameZoneMinutes;
 			}
 
 			// #1.2.2
-			return ServiceGap + SystemSettings.GapOtherZoneMinutes;	
+			return ServiceGapMinutes + SystemSettings.GapOtherZoneMinutes;	
 		}
 
 		// adds a new available timeslot 
@@ -305,8 +305,6 @@ namespace MagicMaids
 
 			if (gapSize < minJobSizeMins+AdjustedGapMins)
 				return;
-
-
 
 			list.Add(new JobBookingsVM()
 			{

@@ -117,9 +117,11 @@
             editableThemes.bs3.cancelTpl = '<button type="button" class="btn btn-default" ng-click="$form.$cancel()">'+
                                            '<span class="fa fa-times text-muted"></span>'+
                                          '</button>';
-
+                                         
 			vm.Search.Ironing = false;
-			vm.Search.ServiceLength = 2;
+			var _dfltGap = 2;
+			vm.Search.ServiceLengthMins = _dfltGap*60;
+			vm.Search.ServiceLengthForControl = new Date(2001, 1, 1, _dfltGap, 0);
 			vm.Search.ServiceDate = new Date();
 			vm.Search.ServiceType = "W"
 			vm.Search.ServiceDayValue = "1";
@@ -128,6 +130,10 @@
 			vm.Search.FilterZonesApproved = false;
 			vm.Search.FilterZonesOther = false;
 			vm.Search.RepeatCustomer = "Y";
+
+			vm.isMeridian = true;
+    		vm.hrStep = 1;
+    		vm.minStep = 5;
 
 			$scope.changeServiceType();
 			$scope.changeServiceDay();

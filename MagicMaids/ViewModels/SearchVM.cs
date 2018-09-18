@@ -11,6 +11,13 @@ namespace MagicMaids.ViewModels
 	[Validator(typeof(SearchCleanerMatch))]
 	public class SearchVM : BaseViewModel
 	{
+		#region Constructor
+		public SearchVM()
+		{
+			ServiceLengthMins = 120;
+		}
+		#endregion 
+
 		#region Properties, Public
 		public string Suburb
 		{
@@ -99,7 +106,30 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
-		public Int32 ServiceLength
+		public Int32 ServiceLengthMins
+		{
+			get 
+			{
+				return Convert.ToInt32(ServiceLengthForControl.ToMinutes());
+			}
+			set
+			{
+				_serviceLength = value;
+				ServiceLengthForControl = _serviceLength.ToTime();
+			}
+		}
+		private Int32 _serviceLength;
+
+		public String ServiceLengthFormatted
+		{
+			get
+			{
+				return ServiceLengthMins.ToTimeDuration();
+			}
+		}
+
+		// need to be get/set plain to allow control to set it
+		public DateTime ServiceLengthForControl
 		{
 			get;
 			set;
