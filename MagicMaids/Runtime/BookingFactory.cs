@@ -115,6 +115,10 @@ namespace MagicMaids
 
 				return null;
 			}
+			catch (NoSuitableGapAvailable nex2)
+			{
+				item.CustomErrorMessage = nex2.Message;
+			}
 			catch
 			{
 				throw;

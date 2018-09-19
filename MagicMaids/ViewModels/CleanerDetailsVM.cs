@@ -444,6 +444,12 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public String CustomErrorMessage
+		{
+			get;
+			set;
+		}
+
 		#endregion
 	}
 

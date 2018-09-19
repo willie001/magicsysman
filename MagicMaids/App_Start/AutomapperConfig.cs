@@ -60,7 +60,8 @@ namespace MagicMaids
 				.ForMember(dest => dest.SelectedRosterDay, source => source.Ignore())
 				.ForMember(dest => dest.CleanerRosters, source => source.Ignore())
 				.ForMember(dest => dest.ScheduledJobs, source => source.Ignore())
-				
+				.ForMember(dest => dest.CustomErrorMessage, source => source.Ignore())
+
 				.ReverseMap();
 
 			cfg.CreateMap<CleanerRoster, CleanerRosterVM>()

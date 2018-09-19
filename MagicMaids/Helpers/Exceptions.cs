@@ -9,4 +9,13 @@ namespace MagicMaids
 			
 		}
 	}
+
+	[Serializable]
+	public class NoSuitableGapAvailable : Exception
+	{
+		public NoSuitableGapAvailable(string WeekDay, Int32 gapSize) : base($"No {gapSize} minute slots available on {WeekDay}")
+		{
+
+		}
+	}
 }

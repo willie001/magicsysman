@@ -96,7 +96,10 @@ namespace MagicMaids.Controllers
 
 					if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
 					{
+						// not on leave
 						sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDateFormatted}' between DATE(StartDate) and DATE(EndDate))");
+						// and rostered for weekday
+						sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
 					}
 
 					sql.Append(" order by LastName, FirstName");

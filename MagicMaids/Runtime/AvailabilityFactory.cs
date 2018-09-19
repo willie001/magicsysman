@@ -19,7 +19,7 @@ namespace MagicMaids
 		private IList<String> ServiceZone;
 		private JobTypeEnum JobType;
 
-		const Int32 minJobSizeMins = 5;
+		const Int32 minJobSizeMins = 0;
 		#endregion
 
 		#region Constructor
@@ -153,7 +153,11 @@ namespace MagicMaids
 			{
 				// no jobs - all day is available
 				AddAvailableTimeSlot(dayList, dayStart, dayEnd);
-				return dayList;
+			}
+
+			if (dayList.Count == 0)
+			{
+				throw new NoSuitableGapAvailable(ServiceWeekDay, minJobSizeMins + AdjustedGapMins);
 			}
 
 			return dayList;
@@ -267,23 +271,24 @@ namespace MagicMaids
 
 			if (isFirstJob)
 			{
-				// #1.1
-				var cleanerPrimaryZoneList = Cleaner.PrimaryZoneList;
+				return ServiceGapMinutes;
+				//// #1.1
+				//var cleanerPrimaryZoneList = Cleaner.PrimaryZoneList;
 
-				// #1.1.1
-				if (cleanerPrimaryZoneList.Intersect(ServiceZone).Any())
-				{
-					return ServiceGapMinutes + SystemSettings.GapSameZoneMinutes;
-				}
+				//// #1.1.1
+				//if (cleanerPrimaryZoneList.Intersect(ServiceZone).Any())
+				//{
+				//	return ServiceGapMinutes + SystemSettings.GapSameZoneMinutes;
+				//}
 
-				// #1.1.2
-				var cleanerSecondaryZoneList = Cleaner.SecondaryZoneList;
-				if (cleanerSecondaryZoneList.Intersect(ServiceZone).Any())
-				{
-					return ServiceGapMinutes + SystemSettings.GapSecondaryZoneMinutes;
-				}
+				//// #1.1.2
+				//var cleanerSecondaryZoneList = Cleaner.SecondaryZoneList;
+				//if (cleanerSecondaryZoneList.Intersect(ServiceZone).Any())
+				//{
+				//	return ServiceGapMinutes + SystemSettings.GapSecondaryZoneMinutes;
+				//}
 
-				return ServiceGapMinutes + SystemSettings.GapOtherZoneMinutes;
+				//return ServiceGapMinutes + SystemSettings.GapOtherZoneMinutes;
 			}
 
 			// #1.2

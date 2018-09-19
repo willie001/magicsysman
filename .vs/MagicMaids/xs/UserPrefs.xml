@@ -1,14 +1,15 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Runtime/AvailabilityFactory.cs">
     <Files>
-      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="19" Column="81" />
+      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="80" Column="14" />
       <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="568" Column="63" />
-      <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="108" Column="1" />
+      <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="121" Column="5" />
+      <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="160" Column="15" />
       <File FileName="MagicMaids/ViewModels/SearchVM.cs" Line="127" Column="1" />
       <File FileName="MagicMaids/scripts/app/custom/cleaners/magicsearches.controller.js" Line="204" Column="7" />
-      <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="26" Column="10" />
-      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="105" Column="1" />
-      <File FileName="MagicMaids/Web.config" Line="90" Column="105" />
+      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="83" Column="7" />
+      <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="447" Column="35" />
+      <File FileName="MagicMaids/Views/Search/Search.cshtml" Line="185" Column="40" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -32,11 +33,13 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="18" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/Runtime/BookingFactory_Tests.cs" relfile="MagicMaidsTesting/Runtime/BookingFactory_Tests.cs" line="44" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/JobBookingsVM.cs" relfile="MagicMaids/ViewModels/JobBookingsVM.cs" line="179" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/AvailabilityFactory.cs" relfile="MagicMaids/Runtime/AvailabilityFactory.cs" line="331" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/AvailabilityFactory.cs" relfile="MagicMaids/Runtime/AvailabilityFactory.cs" line="336" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/ConfigEnvironment.cs" relfile="MagicMaids/Runtime/ConfigEnvironment.cs" line="57" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/ConfigEnvironment.cs" relfile="MagicMaids/Runtime/ConfigEnvironment.cs" line="70" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="259" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="263" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="428" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/AvailabilityFactory.cs" relfile="MagicMaids/Runtime/AvailabilityFactory.cs" line="295" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="116" column="17" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

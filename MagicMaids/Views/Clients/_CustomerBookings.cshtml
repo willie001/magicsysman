@@ -73,11 +73,7 @@
 										<ul id="image-list" class="row list-unstyled">
 											<li ng-repeat="job in form.selectedCleaner.ScheduledJobs" class="col-md-2 availableButton">
 												<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
-													@*<a ng-click="checkCustomerState(cleaner, job);">
-													*@
 													<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
-													@*
-													</a>*@
 												</div>
 												<div ng-if="job.JobStatus != 'AVAILABLE'">
 													<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">

@@ -182,20 +182,25 @@
 							<td class="text-center">
 								<!-- form-->
 								<div class="row text-center">
-									<ul id="image-list" class="row list-unstyled">
-										<li ng-repeat="job in cleaner.ScheduledJobs" class="col-md-2 availableButton">
-											<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
-												<a ng-click="checkCustomerState(cleaner, job);">
-													<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
-												</a>
-											</div>
-											<div ng-if="job.JobStatus != 'AVAILABLE'">
-												<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
-													<span class="btn bg-danger-light availableButtonBusy">{{job.JobSuburb}}<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</span>
+									<div ng-if="cleaner.CustomErrorMessage">
+										<i>{{ cleaner.CustomErrorMessage }}</i>
+									</div>
+									<div ng-if="!cleaner.CustomErrorMessage">
+										<ul id="image-list" class="row list-unstyled">
+											<li ng-repeat="job in cleaner.ScheduledJobs" class="col-md-2 availableButton">
+												<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
+													<a ng-click="checkCustomerState(cleaner, job);">
+														<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
+													</a>
 												</div>
-											</div>
-										</li>
-									</ul>
+												<div ng-if="job.JobStatus != 'AVAILABLE'">
+													<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
+														<span class="btn bg-danger-light availableButtonBusy">{{job.JobSuburb}}<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</span>
+													</div>
+												</div>
+											</li>
+										</ul>
+									</div>
 								</div>
 							</td>
 						</tr>
