@@ -37,7 +37,7 @@
 									'bg-danger': item.Level=='ERROR',
 									'bg-success': item.Level=='INFO'}">{{ item.Level }}</td>
 							<td>{{ item.LoggedDate }}</td>
-							<td>{{ item.Message.substr(0,120) }}</td>
+							<td>{{ item.Message.substr(0,120) }}<br/><small>{{item.Exception}}</small></td>
 							<td style="white-space: nowrap; font-size: 11px;" ng-bind-html="item.FormattedAddresses"></td>
 							<td style="white-space: nowrap">
 					            <!-- form-->

@@ -22,6 +22,20 @@
 			vm.Search.VacateClean = (vm.Search.ServiceType=="V") ? true : false;
 		}
 
+		$scope.changeZoneFilter = function() {
+			if (vm.Search.FilterZonesNone == true)
+			{
+				// ensure only vacate or once off selected for ALL zone filter - need specific date
+				if (vm.Search.ServiceType == "W" || vm.Search.ServiceType == "F")
+				{
+					vm.Search.ServiceType = "O";
+					vm.Search.WeeklyJob = false;
+					vm.Search.FortnightlyJon = false;
+					vm.Search.OneOffJob = true;
+				}
+			}
+		}
+
 		$scope.changeServiceDay = function() {
 			if (vm.Search.ServiceDayValue == 1)
 				vm.Search.ServiceDay = "Monday";

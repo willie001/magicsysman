@@ -135,6 +135,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		// Sets to true to remove zone filtering (all cleaners)
+		public Boolean FilterZonesNone
+		{
+			get;
+			set;
+		}
+
 		public Boolean FilterZonesPrimary
 		{
 			get;

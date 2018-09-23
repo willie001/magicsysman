@@ -592,7 +592,7 @@
 		}
 
 		vm.saveData = function(data) {
-			alert('In progress...');
+			alert('coming soon');
 			return false;
 			vm.selectedCleanerJob.ClientId = $scope.ClientId;
       		//console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));

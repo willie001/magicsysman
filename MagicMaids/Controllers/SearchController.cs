@@ -84,11 +84,6 @@ namespace MagicMaids.Controllers
 						sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
 					}
 
-					//if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
-					//{
-					//	sql.Append($" and (Ph.Suburb like '%{searchCriteria.Suburb}%' or Ph.PostCode = '{searchCriteria.Suburb}')");
-					//}
-
 					if (searchCriteria.FilterRating > 0)
 					{
 						sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
@@ -97,7 +92,7 @@ namespace MagicMaids.Controllers
 					if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
 					{
 						// not on leave
-						sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDateFormatted}' between DATE(StartDate) and DATE(EndDate))");
+						sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
 						// and rostered for weekday
 						sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
 					}

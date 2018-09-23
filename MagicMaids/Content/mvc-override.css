@@ -178,3 +178,8 @@ button.availableButton {
 		margin-right: 1px;
 	}
 /***********************/
+
+.strikethrough {
+	text-decoration: line-through;
+	color: lightgray;
+}

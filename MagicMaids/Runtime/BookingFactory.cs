@@ -88,7 +88,7 @@ namespace MagicMaids
 
 		private CleanerMatchResultVM PopulateCleanerAvailability(CleanerMatchResultVM item)
 		{
-			if (!ApplyZoneFilter(item))
+			if (!criteria.FilterZonesNone && !ApplyZoneFilter(item))
 			{
 				return null;
 			}
@@ -147,7 +147,7 @@ namespace MagicMaids
 		/// Checks if the search criteria has zone filters and if it applies to the current 
 		/// cleaner's zones
 		/// </summary>
-		/// <returns><c>true</c>, if zone filter was applyed, <c>false</c> otherwise.</returns>
+		/// <returns><c>true</c>, if zone filter was applied, <c>false</c> otherwise.</returns>
 		private Boolean ApplyZoneFilter(CleanerMatchResultVM item)
 		{
 			if (item == null)

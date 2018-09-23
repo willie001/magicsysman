@@ -254,12 +254,7 @@ namespace MagicMaids
 		/// <remarks>
 		/// Business rules:
 		/// 1. 		Is this the cleaner's first job of the day?
-		/// 1.1 	YES: then is cleaner's primary zone in search job zone?
-		/// 1.1.1 		YES: then apply SAME zone gap start
-		/// 1.1.2 		NO: is cleaner's secondary zone in search job zone?
-		/// 1.1.2.1 		YES: apply SECONDARY zone gap start
-		/// 1.1.2.2 		NO: apply OTHER zone gap start
-		/// 
+		/// 1.1 	YES: Don't apply any travel gap in the beginning
 		/// 1.2 	NO: then is cleaner's previous job zone in search job zone?
 		/// 1.2.1 		YES: then apply SAME zone gap start
 		/// 1.2.2		NO: apply OTHER zone gap start
@@ -271,24 +266,8 @@ namespace MagicMaids
 
 			if (isFirstJob)
 			{
+				// #1.1
 				return ServiceGapMinutes;
-				//// #1.1
-				//var cleanerPrimaryZoneList = Cleaner.PrimaryZoneList;
-
-				//// #1.1.1
-				//if (cleanerPrimaryZoneList.Intersect(ServiceZone).Any())
-				//{
-				//	return ServiceGapMinutes + SystemSettings.GapSameZoneMinutes;
-				//}
-
-				//// #1.1.2
-				//var cleanerSecondaryZoneList = Cleaner.SecondaryZoneList;
-				//if (cleanerSecondaryZoneList.Intersect(ServiceZone).Any())
-				//{
-				//	return ServiceGapMinutes + SystemSettings.GapSecondaryZoneMinutes;
-				//}
-
-				//return ServiceGapMinutes + SystemSettings.GapOtherZoneMinutes;
 			}
 
 			// #1.2
