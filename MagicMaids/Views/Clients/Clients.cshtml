@@ -99,7 +99,7 @@
 					<th style="width:5%" class="text-center"></th>
 					<th class="text-center">Email Address</th>
 					<th class="text-center">Phone Numbers</th>
-					<th class="text-center">Suburb</th>
+					<th class="text-center">Address</th>
 					<th style="width:5%" class="text-center">Active</th>
 					</thead>
 					<tbody>
@@ -118,7 +118,7 @@
 								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ client.EmailAddress }}">{{ client.EmailAddress }}</a>
 							</td>
 							<td style="white-space: nowrap" ng-bind-html="client.FormattedContactNumbers"></td>
-							<td>{{client.PhysicalAddress.Suburb}}</td>
+							<td style="white-space: nowrap" ng-bind-html="client.PhysicalAddress.FormattedAddress"></td>
 							<td class="text-center">
 								{{ client.IsActive ? 'Yes' : 'No' }}
 							</td>

@@ -105,7 +105,7 @@ namespace MagicMaids
 
 		public static string FormatDatabaseDateTime(this DateTime dt)
 		{
-			var newDate = dt.ToString("yyyy-MM-dd HH:mm:ss:ffff");
+			var newDate = dt.ToString("yyyy-MM-dd HH:mm:ss.ffff");
 			return newDate;
 		}
 

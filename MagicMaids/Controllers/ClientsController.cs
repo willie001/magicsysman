@@ -422,12 +422,107 @@ namespace MagicMaids.Controllers
 			return _objToUpdate;
 		}
 
+		private JobBooking UpdateBooking(JobBooking _objToUpdate, JobBookingsVM dataItem)
+		{
+
+			if (dataItem == null)
+			{
+				return _objToUpdate;
+			}
+
+			if (_objToUpdate == null)
+			{
+				_objToUpdate = new JobBooking();
+			}
+
+			_objToUpdate.ClientRefId = dataItem.ClientId;
+			_objToUpdate.PrimaryCleanerRefId = dataItem.CleanerId;
+			_objToUpdate.StartTime = dataItem.StartTimeForControl.ToMinutes();
+			_objToUpdate.EndTime = dataItem.EndTimeForControl.ToMinutes();
+			_objToUpdate.IsActive = true;
+			_objToUpdate.JobDate = dataItem.JobDate.Value.ToUTC();
+			_objToUpdate.JobStatus = BookingStatus.CONFIRMED;
+			_objToUpdate.JobSuburb = dataItem.JobSuburb;
+			_objToUpdate.JobType = dataItem.JobType;
+			_objToUpdate.WeekDay = dataItem.WeekDay;
+			_objToUpdate.TeamSize = dataItem.TeamSize;
+
+			_objToUpdate = UpdateAuditTracking(_objToUpdate);
+
+			return _objToUpdate;
+		}
+
 		[HttpPost]
-		public ActionResult SaveClientBooking(ClientPaymentMethodVM dataItem)
+		public ActionResult SaveClientBooking(JobBookingsVM dataItem)
 		{
 			if (dataItem == null)
 			{
 				ModelState.AddModelError(string.Empty, "Valid client booking not found.");
+			}
+
+			var originalStart = dataItem.StartTime;
+			var originalEnd = dataItem.EndTime;
+			var newStart = dataItem.StartTimeForControl.ToMinutes();
+			var newEnd = dataItem.EndTimeForControl.ToMinutes();
+
+			if (originalStart > newStart || originalEnd < newEnd)
+			{
+				ModelState.AddModelError(string.Empty, "Booking times do not fall within selected available gap for cleaner.");
+			}
+
+			if (ModelState.IsValid)
+			{
+				var bIsNew = (dataItem.IsNewItem);
+
+				try
+				{
+					JobBooking _objToUpdate = null;
+					using (DBManager db = new DBManager())
+					{
+						if (bIsNew)
+						{
+							_objToUpdate = UpdateBooking(null, dataItem);
+							StringBuilder _sql = new StringBuilder();
+
+							_sql.Append("Insert into JobBooking (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+							_sql.Append("PrimaryCleanerRefId, ClientRefId, JobType, JobStatus, JobDate, WeekDay, StartTime, EndTime, JobSuburb, TeamSize)");
+							_sql.Append(" values (");
+							_sql.Append($"'{_objToUpdate.Id}',");
+							_sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
+							_sql.Append($"{_objToUpdate.IsActive},");
+							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
+							_sql.Append($"'{_objToUpdate.PrimaryCleanerRefId}',");
+							_sql.Append($"'{_objToUpdate.ClientRefId}',");
+							_sql.Append($"'{_objToUpdate.JobType}',");
+							_sql.Append($"'{_objToUpdate.JobStatus}',");
+							_sql.Append($"'{_objToUpdate.JobDate.Value.FormatDatabaseDate()}',");
+							_sql.Append($"'{_objToUpdate.WeekDay}',");
+							_sql.Append($"{_objToUpdate.StartTime},");
+							_sql.Append($"{_objToUpdate.EndTime},");
+							_sql.Append($"'{_objToUpdate.JobSuburb.ToUpper()}',");
+							_sql.Append($"{_objToUpdate.TeamSize}");
+							_sql.Append(")");
+
+							db.getConnection().Execute(_sql.ToString());
+						}
+						else
+						{
+
+						}
+					}
+
+					return JsonSuccessResponse("Customer booking saved successfully", _objToUpdate);
+				}
+				catch (Exception ex)
+				{
+					//_msg = new InfoViewModel("Error saving cleaner", ex);
+					ModelState.AddModelError(string.Empty, $"Error saving customer booking ({ex.Message})");
+
+					LogHelper log = new LogHelper();
+					log.Log(LogHelper.LogLevels.Error, "Error saving customer booking", nameof(SaveClientBooking), ex, dataItem);
+				}
 			}
 
 			if (!ModelState.IsValid)

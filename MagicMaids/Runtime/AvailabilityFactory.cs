@@ -242,6 +242,7 @@ namespace MagicMaids
 			foreach (JobBooking _item in _entityList)
 			{
 				var _vm = new JobBookingsVM();
+				_vm.IsNewItem = true;
 				_vm.PopulateVM(new Guid(Cleaner.Id), _item);
 				_vm.JobColourCode = CalculateSuburbColourCode(_item.JobSuburb);
 				yield return _vm;
@@ -253,6 +254,9 @@ namespace MagicMaids
 		/// </summary>
 		/// <remarks>
 		/// Business rules:
+		/// 0. Service Gap devided by # of team members is gap we use here. Assuming 2 cleaners cleans twice as fast as 1, etc.
+		///    Rounding the number to upper INT becomes the gap.
+		///    I'll assume travel time is not factored as seperate - both cleaners in this example travel together
 		/// 1. 		Is this the cleaner's first job of the day?
 		/// 1.1 	YES: Don't apply any travel gap in the beginning
 		/// 1.2 	NO: then is cleaner's previous job zone in search job zone?
@@ -263,11 +267,11 @@ namespace MagicMaids
 		private Int32 AdjustGap()
 		{
 			var isFirstJob = Cleaner.IsFirstJob;
-
+			var virtualServiceGap = (CleanerTeamSize == 1) ? ServiceGapMinutes : (int)Math.Ceiling((decimal)ServiceGapMinutes / CleanerTeamSize);
 			if (isFirstJob)
 			{
 				// #1.1
-				return ServiceGapMinutes;
+				return virtualServiceGap;
 			}
 
 			// #1.2
@@ -275,11 +279,11 @@ namespace MagicMaids
 			if (prevZoneList.Intersect(ServiceZone).Any())
 			{
 				// #1.2.1
-				return ServiceGapMinutes + SystemSettings.GapSameZoneMinutes;
+				return virtualServiceGap + SystemSettings.GapSameZoneMinutes;
 			}
 
 			// #1.2.2
-			return ServiceGapMinutes + SystemSettings.GapOtherZoneMinutes;	
+			return virtualServiceGap + SystemSettings.GapOtherZoneMinutes;	
 		}
 
 		// adds a new available timeslot 
@@ -300,8 +304,8 @@ namespace MagicMaids
 				JobSuburb = "",
 				JobType = JobType,
 				WeekDay = ServiceWeekDay,
-				JobColourCode = CalculateSuburbColourCode("")
-					
+				JobColourCode = CalculateSuburbColourCode(""),
+				IsNewItem = true
 			});
 		}
 

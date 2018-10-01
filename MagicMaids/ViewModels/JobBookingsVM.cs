@@ -44,6 +44,12 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public Boolean IsNewItem
+		{
+			get;
+			set;
+		}
+
 		public String CleanerId
 		{
 			get;
@@ -81,6 +87,12 @@ namespace MagicMaids.ViewModels
 		}
 
 		public string WeekDay
+		{
+			get;
+			set;
+		}
+
+		public Int32 TeamSize
 		{
 			get;
 			set;
@@ -193,6 +205,7 @@ namespace MagicMaids.ViewModels
 			WeekDay = entityModel.WeekDay;
 			JobDate = entityModel.JobDate;
 			JobSuburb = entityModel.JobSuburb;
+			TeamSize = entityModel.TeamSize;
 		}
 		#endregion
 	}

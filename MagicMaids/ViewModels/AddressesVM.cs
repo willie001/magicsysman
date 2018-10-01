@@ -136,9 +136,20 @@ namespace MagicMaids.ViewModels
 
 		public string FormattedAddress
 		{
-			get;
-			private set;
+			get
+			{
+				if (String.IsNullOrWhiteSpace(_formattedAddress) && IsValidAddress)
+				{
+					FormatAddress();
+				}
+				return _formattedAddress;
+			}
+			private set
+			{
+				_formattedAddress = value;
+			}
 		}
+		private string _formattedAddress;
 
 		#endregion
 
@@ -158,64 +169,62 @@ namespace MagicMaids.ViewModels
 			Country = entityModel.Country;
 			PostCode = entityModel.PostCode;
 
-			FormatAddress(entityModel);
+			FormatAddress();
 		}
 		#endregion
 
 		#region Methods, Private
-		private void FormatAddress(Address entityModel)
+		private void FormatAddress()
 		{
-			if (entityModel == null)
-			{
-				FormattedAddress = string.Empty;
-				return;
-			}
-
 			System.Text.StringBuilder _output = new System.Text.StringBuilder();
+			String _seperator = "<br/>";
 
 			// street number
-			if (!String.IsNullOrWhiteSpace(entityModel.AddressLine1))
+			if (!String.IsNullOrWhiteSpace(AddressLine1))
 			{
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append(entityModel.AddressLine1);
+				if (_output.Length > 0) _output.Append(_seperator);
+				_output.Append(AddressLine1);
 			}
 
 			// street name
-			if (!String.IsNullOrWhiteSpace(entityModel.AddressLine2))
+			if (!String.IsNullOrWhiteSpace(AddressLine2))
 			{
 				if (_output.Length > 0) _output.Append(" ");
-				_output.Append(entityModel.AddressLine2);
+				_output.Append(AddressLine2);
 			}
 
 			//street type
-			if (!String.IsNullOrWhiteSpace(entityModel.AddressLine3))
+			if (!String.IsNullOrWhiteSpace(AddressLine3))
 			{
 				if (_output.Length > 0) _output.Append(" ");
-				_output.Append(entityModel.AddressLine3);
+				_output.Append(AddressLine3);
 			}
 
-			if (!String.IsNullOrWhiteSpace(entityModel.Suburb))
+			if (!String.IsNullOrWhiteSpace(Suburb))
 			{
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append(entityModel.Suburb);
+				if (_output.Length > 0) _output.Append(_seperator);
+				_seperator = (_seperator == "<br/>") ? ", " : _seperator;
+				_output.Append(Suburb);
 			}
 
-			if (!String.IsNullOrWhiteSpace(entityModel.State))
+			if (!String.IsNullOrWhiteSpace(State))
 			{
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append(entityModel.State);
+				if (_output.Length > 0) _output.Append(_seperator);
+				_seperator = (_seperator == "<br/>") ? ", " : _seperator;
+				_output.Append(State);
 			}
 
-			if (!String.IsNullOrWhiteSpace(entityModel.PostCode))
+			if (!String.IsNullOrWhiteSpace(PostCode))
 			{
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append(entityModel.PostCode);
+				if (_output.Length > 0) _output.Append(_seperator);
+				_output.Append(PostCode);
 			}
 
-			if (!String.IsNullOrWhiteSpace(entityModel.Country))
+			if (!String.IsNullOrWhiteSpace(Country) && !Country.Equals("Australia", StringComparison.InvariantCultureIgnoreCase))
 			{
-				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append(entityModel.Country);
+				_seperator = (_seperator == ", ") ? "<br/>" : _seperator;
+				if (_output.Length > 0) _output.Append(_seperator);
+				_output.Append(Country);
 			}
 
 			FormattedAddress  = _output.ToString();

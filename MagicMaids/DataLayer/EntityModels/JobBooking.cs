@@ -75,6 +75,13 @@ namespace MagicMaids.EntityModels
 			}
 		}
 		private long _endTime;
+
+		[Required]
+		public Int32 TeamSize
+		{
+			get;
+			set;
+		}
 		#endregion
 
 		#region Properties, Foreign Key
