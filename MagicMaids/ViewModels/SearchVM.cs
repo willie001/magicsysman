@@ -99,7 +99,6 @@ namespace MagicMaids.ViewModels
 				if (ServiceDate.Year > 1900)
 				{
 					return ServiceDate.FormatUserDate();
-					//return $"{ServiceDate.ToUTC().Year}/{ServiceDate.ToUTC().Month}/{ServiceDate.ToUTC().Day}";
 				}
 
 				return "";

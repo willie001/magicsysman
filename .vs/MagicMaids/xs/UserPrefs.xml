@@ -1,13 +1,18 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Clients/_CustomerBookings.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/EntityModels/JobBooking.cs">
     <Files>
-      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="39" Column="57" />
-      <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="103" Column="84" />
-      <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="247" Column="66" />
+      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="53" Column="81" />
+      <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="103" Column="79" />
+      <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="300" Column="23" />
       <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="600" Column="1" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="142" Column="55" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="406" Column="55" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="419" Column="8" />
-      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="11" Column="14" />
+      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="206" Column="33" />
+      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="95" Column="124" />
+      <File FileName="MagicMaids/Views/Search/Search.cshtml" Line="194" Column="105" />
+      <File FileName="MagicMaids/ViewModels/SearchVM.cs" Line="89" Column="27" />
+      <File FileName="MagicMaids/Helpers/ModelValidators.cs" Line="475" Column="31" />
+      <File FileName="MagicMaids/DataLayer/EntityModels/JobBooking.cs" Line="32" Column="30" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />

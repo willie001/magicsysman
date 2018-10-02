@@ -29,7 +29,7 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-		public DateTime? JobDate
+		public DateTime? JobDateUTC
 		{
 			get;
 			set;

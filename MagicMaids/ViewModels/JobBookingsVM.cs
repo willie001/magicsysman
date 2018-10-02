@@ -68,7 +68,7 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public DateTime? JobDate
+		public DateTime? JobDateUTC
 		{
 			get;
 			set;
@@ -78,9 +78,9 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				if (JobDate.HasValue)
+				if (JobDateUTC.HasValue)
 				{
-					return JobDate.Value.FormatUserDate();
+					return JobDateUTC.Value.FormatUserDate();
 				}
 				return "";
 			}
@@ -174,7 +174,7 @@ namespace MagicMaids.ViewModels
 			{
 				if (JobType == JobTypeEnum.OneOff || JobType == JobTypeEnum.Vacate)
 				{
-					return $"{WeekDay} on {JobDate.Value.FormatUserDate()} ({StartTimeOfDay}-{EndTimeOfDay})";
+					return $"{WeekDay} on {JobDateUTC.Value.FormatUserDate()} ({StartTimeOfDay}-{EndTimeOfDay})";
 				}
 				else
 				{
@@ -203,7 +203,7 @@ namespace MagicMaids.ViewModels
 			JobType = entityModel.JobType;
 			JobStatus = entityModel.JobStatus;
 			WeekDay = entityModel.WeekDay;
-			JobDate = entityModel.JobDate;
+			JobDateUTC = entityModel.JobDateUTC;
 			JobSuburb = entityModel.JobSuburb;
 			TeamSize = entityModel.TeamSize;
 		}

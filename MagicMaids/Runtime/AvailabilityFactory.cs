@@ -14,7 +14,7 @@ namespace MagicMaids
 	{
 		#region Fields
 		private CleanerMatchResultVM Cleaner;
-		private DateTime ServiceDate;
+		private DateTime ServiceDateUTC;	//UTC
 		private Int32 ServiceGapMinutes;
 		private IList<String> ServiceZone;
 		private JobTypeEnum JobType;
@@ -35,9 +35,9 @@ namespace MagicMaids
 			if (serviceZone == null || serviceZone.Count == 0)
 			{
 				throw new ArgumentException("Invalid service suburb/zone requested.", nameof(ServiceZone));
-			}	
+			}
 
-			ServiceDate = serviceDate;
+			ServiceDateUTC = serviceDate.ToUTC();
 			ServiceGapMinutes = serviceGapMins;
 			ServiceZone = serviceZone;
 			JobType = serviceType;
@@ -49,9 +49,9 @@ namespace MagicMaids
 		{
 			get
 			{
-				if (ServiceDate.Year > 1950)
+				if (ServiceDateUTC.Year > 1950)
 				{
-					return ServiceDate.DayOfWeek.ToString();
+					return ServiceDateUTC.DayOfWeek.ToString();
 				}
 
 				// periodic cleans
@@ -228,9 +228,9 @@ namespace MagicMaids
 			{
 				_sql.Append($" and WeekDay = '{ServiceWeekDay}'");
 			}
-			if (ServiceDate.Year >= DateTime.Now.Year)
+			if (ServiceDateUTC.Year >= DateTime.Now.ToUTC().Year)
 			{
-				_sql.Append($" and DATE(JobDate) = DATE('{ServiceDate}') ");
+				_sql.Append($" and DATE(JobDate) = DATE('{ServiceDateUTC.FormatDatabaseDate()}') ");
 			}
 			_sql.Append(" order by JobDate, WeekDay, StartTime, EndTime");
 
@@ -299,7 +299,7 @@ namespace MagicMaids
 				StartTime = startTime,
 				EndTime = endTime,
 				CleanerId = Cleaner.Id,
-				JobDate = ServiceDate,
+				JobDateUTC = ServiceDateUTC,
 				JobStatus = BookingStatus.AVAILABLE,
 				JobSuburb = "",
 				JobType = JobType,
