@@ -1,18 +1,14 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/DataLayer/EntityModels/JobBooking.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Clients/_CustomerBookings.cshtml">
     <Files>
-      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="53" Column="81" />
+      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="125" Column="28" />
       <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="103" Column="79" />
       <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="300" Column="23" />
-      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="600" Column="1" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="406" Column="55" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="475" Column="67" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="419" Column="8" />
-      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="206" Column="33" />
-      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="95" Column="124" />
-      <File FileName="MagicMaids/Views/Search/Search.cshtml" Line="194" Column="105" />
-      <File FileName="MagicMaids/ViewModels/SearchVM.cs" Line="89" Column="27" />
-      <File FileName="MagicMaids/Helpers/ModelValidators.cs" Line="475" Column="31" />
-      <File FileName="MagicMaids/DataLayer/EntityModels/JobBooking.cs" Line="32" Column="30" />
+      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="101" Column="28" />
+      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="77" Column="37" />
+      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="618" Column="83" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -30,7 +26,6 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="39" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/AccountController.cs" relfile="MagicMaids/Controllers/AccountController.cs" line="18" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/Runtime/BookingFactory_Tests.cs" relfile="MagicMaidsTesting/Runtime/BookingFactory_Tests.cs" line="44" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/ViewModels/JobBookingsVM.cs" relfile="MagicMaids/ViewModels/JobBookingsVM.cs" line="191" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/ConfigEnvironment.cs" relfile="MagicMaids/Runtime/ConfigEnvironment.cs" line="57" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/ConfigEnvironment.cs" relfile="MagicMaids/Runtime/ConfigEnvironment.cs" line="70" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="263" column="1" />

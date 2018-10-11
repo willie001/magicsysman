@@ -98,6 +98,24 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public String CleanerTeam
+		{
+			get
+			{
+				if (String.IsNullOrWhiteSpace(_cleanerTeam))
+				{
+					return "";
+				}
+
+				return (_cleanerTeam.Contains("|")) ? _cleanerTeam.Replace("|", "<br/>") : _cleanerTeam;
+			}
+			set
+			{
+				_cleanerTeam = value;
+			}
+		}
+		private String _cleanerTeam;
+
 		public long StartTime
 		{
 			get => _startTime;

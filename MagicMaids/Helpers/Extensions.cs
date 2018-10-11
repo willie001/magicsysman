@@ -43,10 +43,39 @@ namespace MagicMaids
 				Value = Uri.EscapeDataString(criteria.ToString())
 			};
 
-			cookieCriteria.Expires = DateTime.Now.AddMinutes(15);
+			cookieCriteria.Expires = DateTime.Now.AddMinutes(5);
 			HttpContext.Current.Response.Cookies.Add(cookieCriteria);
 		}
 
+		public static void ClearJobMatchCookies()
+		{
+			var criteriaCookie = "SearchCriteria_cleanerMatch";
+			var jobMatchCookie = "jobmatchCookie";
+			var cleanerMatchCookie = "cleanermatchCookie";
+
+			ExpireCookie(criteriaCookie);
+			ExpireCookie(jobMatchCookie);
+			ExpireCookie(cleanerMatchCookie);
+		}
+
+		private static void ExpireCookie(String cookieName)
+		{
+			if (String.IsNullOrWhiteSpace(cookieName))
+			{
+				return;
+			}
+
+			HttpCookie currentUserCookie = HttpContext.Current.Request.Cookies[cookieName];
+			if (currentUserCookie == null)
+			{
+				return;
+			}
+
+			HttpContext.Current.Response.Cookies.Remove(cookieName);
+			currentUserCookie.Expires = DateTime.Now.AddDays(-10);
+			currentUserCookie.Value = null;
+			HttpContext.Current.Response.SetCookie(currentUserCookie);
+		}
 
 		public static SearchVM RestoreSearchCookieCriteria(this SearchVM criteria, string cookieName)
 		{

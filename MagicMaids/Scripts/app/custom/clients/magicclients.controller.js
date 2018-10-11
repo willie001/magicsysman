@@ -543,7 +543,7 @@
 	function ClientBookingController($document, $scope, $filter, $http, $q, $location, $rootScope, $state, HandleBusySpinner, ShowUserMessages, savedJobBookingFactory, $timeout)
 	{
 		var vm = this;
-		var ClientId = $scope.ClientId;
+			var ClientId = $scope.ClientId;
 		var panelName = "panelClientDetails";
 		var panelBookingInfo = "panelBookingInfo";
 		vm.JobBookings = {};
@@ -562,7 +562,8 @@
 		vm.selectedCleaner = savedJobBookingFactory.getCleaner();
 		vm.selectedCleanerJob = savedJobBookingFactory.getJob();
 		vm.searchCriteria = savedJobBookingFactory.getCriteria();
-
+		vm.listOfExistingBookings = [];
+	
 		if (vm.selectedCleaner)
 		{
 			vm.minSelection = vm.selectedCleanerJob.StartTimeForControl;
@@ -589,7 +590,36 @@
 				return;
 
 			HandleBusySpinner.start($scope, panelName);
+
+			loadJobBookings();
 		}
+
+		function loadJobBookings()
+		{
+			if (!ClientId)
+				return;
+
+			HandleBusySpinner.start($scope, panelName);
+			
+			$http.get('/clients/getjobbookings?ClientId='+ClientId)
+				.success(function (data) {
+					vm.listOfExistingBookings = data.list;
+                	
+                }).error(function(err) {
+
+                }).finally(function() {
+
+                	//console.log("<LEAVE loaded PRE> - " + angular.toJson(vm.listOfLeave));
+					angular.forEach(vm.listOfExistingBookings, function(value, key) {
+						value.StartDate = new Date(value.StartDate);
+						value.EndDate = new Date(value.EndDate);
+						
+					});
+					console.log("<Cleaner JobList> - " + angular.toJson(vm.listOfExistingBookings));
+                	HandleBusySpinner.stop($scope, panelName);
+			
+                });
+		};
 
 		vm.saveData = function() {
 			vm.selectedCleanerJob.ClientId = $scope.ClientId;
@@ -603,12 +633,18 @@
         	return $http.post('/clients/saveclientbooking/', vm.selectedCleanerJob).success(function (response) {
             	// Add your success stuff here
             	HandleBusySpinner.stop($scope, panelName);
-            	$scope.submitted = false;
-            	ShowUserMessages.show($scope, response, "Error updating booking details.");
+				$scope.submitted = false;
 
+            	ShowUserMessages.show($scope, response, "Error updating booking details.");
             	if (response.IsValid)
         		{	
-            		vm.selectedCleanerJob = response.DataItem;
+					vm.selectedCleanerJob = response.DataItem;
+					vm.selectedCleaner.LastName = null;
+					var msgElement = document.getElementById('panelBookingInfo');
+					if (msgElement) 
+						msgElement.style.display = 'none';
+
+					loadJobBookings();
 				}
 
         	}).error(function (error) {

@@ -452,6 +452,38 @@ namespace MagicMaids.Controllers
 			return _objToUpdate;
 		}
 
+		public ActionResult GetJobBookings(Guid? ClientId)
+		{
+			if (ClientId == null)
+			{
+				ModelState.AddModelError(string.Empty, $"Client Id [{ClientId.ToString()}] not provided.  Please try again.");
+				return JsonFormResponse();
+			}
+
+			List<JobBookingsVM> _editList = new List<JobBookingsVM>();
+
+			using (DBManager db = new DBManager())
+			{
+				StringBuilder _sql = new StringBuilder();
+				_sql.Append("Select J.*, ClientRefId as ClientId, PrimaryCleanerRefId as CleanerId, JobDate as JobDateUTC, ");
+				_sql.Append("(select concat(FirstName, ' ', LastName, '|') ");
+				_sql.Append("from CleanerTeam CT ");
+				_sql.Append("inner join CleanerRosteredTeam CRT on CT.Id = CRT.TeamRefId ");
+				_sql.Append("inner join CleanerRoster CR on CR.Id = CRT.RosterRefId ");
+				_sql.Append("Where CR.PrimaryCleanerRefId = J.PrimaryCleanerRefId ");
+				_sql.Append("and CT.PrimaryCleanerRefId = J.PrimaryCleanerRefId ");
+				_sql.Append("and upper(CR.WeekDay) = upper(J.WeekDay)) as CleanerTeam ");
+				_sql.Append("from JobBooking J ");
+				_sql.Append($"where J.ClientRefId = '{ClientId}' ");
+				_sql.Append("order by JobDate desc, StartTime");
+
+				_editList = db.getConnection().Query<JobBookingsVM>(_sql.ToString()).ToList();
+			}
+
+			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
+
 		[HttpPost]
 		public ActionResult SaveClientBooking(JobBookingsVM dataItem)
 		{
@@ -512,6 +544,8 @@ namespace MagicMaids.Controllers
 
 						}
 					}
+
+					Extensions.ClearJobMatchCookies();
 
 					return JsonSuccessResponse("Customer booking saved successfully", _objToUpdate);
 				}
