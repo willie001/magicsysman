@@ -183,3 +183,15 @@ button.availableButton {
 	text-decoration: line-through;
 	color: lightgray;
 }
+
+#jobAvailabilityButtons li a {
+	text-decoration: none;
+	display: block;
+}
+
+#jobAvailabilityButtons li {
+	float: left;
+	list-style: none;
+	text-align: center;
+	margin-right: 8px;
+}

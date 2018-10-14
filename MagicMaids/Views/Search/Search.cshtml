@@ -169,11 +169,6 @@
 							<td class="no-horizontal-gutter">
 								{{cleaner.FirstName}} {{ cleaner.LastName }}<br />
 								<span uib-rating ng-model="cleaner.Rating" max="6" read-only="true" state-on="'fas fa-star'" state-off="'fa fa-star-o'" class="starRating"></span>
-								@*<div style="font-size: smaller;">
-									<b>Contact Details:</b><br />
-									<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br />
-									<span ng-bind-html="cleaner.FormattedContactNumbers"></span>
-								</div>*@
 							</td>
 							<td class="no-horizontal-gutter">
 								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br />
@@ -199,8 +194,8 @@
 										<i>{{ cleaner.CustomErrorMessage }}</i>
 									</div>
 									<div ng-if="!cleaner.CustomErrorMessage">
-										<ul id="image-list" class="row list-unstyled">
-											<li ng-repeat="job in cleaner.ScheduledJobs" class="col-md-2 availableButton">
+										<ul id="jobAvailabilityButtons" class="row list-unstyled">
+											<li ng-repeat="job in cleaner.ScheduledJobs" class="availableButton">
 												<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
 													<a ng-click="checkCustomerState(cleaner, job);">
 														<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>

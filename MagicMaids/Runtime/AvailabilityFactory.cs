@@ -133,13 +133,10 @@ namespace MagicMaids
 					if (item.StartTime > previousEndTime)
 					{
 						AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? dayStart : previousEndTime), item.StartTime);
-						previousEndTime = item.StartTime;
 					}
-					else
-					{
-						dayList.Add(item);
-						previousEndTime = item.EndTime;
-					}
+						
+					dayList.Add(item);
+					previousEndTime = item.EndTime;
 				}
 			}
 

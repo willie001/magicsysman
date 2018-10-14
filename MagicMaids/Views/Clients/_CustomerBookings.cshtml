@@ -6,93 +6,93 @@
 			First match a cleaner for the job. Click <a ng-click="$state.go('app.mainsearch')">here</a> to proceed.
 		</div>
 		<div ng-if="selectedCleaner.LastName != null">
-			<form class="form-validate form-horizontal" name="form.clientForm" ng-submit="form.saveData()" novalidate="">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="panel panel-info" id="panelJobDetails">
-							<div class="panel-heading">
-								Requested job details
+			<div class="row">
+				<div class="col-md-6">
+					<div class="panel panel-info" id="panelJobDetails">
+						<div class="panel-heading">
+							Requested job details
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3 text-bold">Requested Gap</div>
+								<div class="col-md-9">{{form.searchCriteria.ServiceLengthFormatted}}</div>
 							</div>
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-3 text-bold">Requested Gap</div>
-									<div class="col-md-9">{{form.searchCriteria.ServiceLengthFormatted}}</div>
+							<div class="row">
+								<div class="col-md-3 text-bold">Service Request</div>
+								<div class="col-md-9">
+									<span ng-if="form.searchCriteria.WeeklyJob==true">Weekly</span>
+									<span ng-if="form.searchCriteria.FortnightlyJob==true">Fortnightly</span>
+									<span ng-if="form.searchCriteria.OneOffJob==true">One-off</span>
+									<span ng-if="form.searchCriteria.VacateClean==true">Vacate Clean</span>
 								</div>
-								<div class="row">
-									<div class="col-md-3 text-bold">Service Request</div>
-									<div class="col-md-9">
-										<span ng-if="form.searchCriteria.WeeklyJob==true">Weekly</span>
-										<span ng-if="form.searchCriteria.FortnightlyJob==true">Fortnightly</span>
-										<span ng-if="form.searchCriteria.OneOffJob==true">One-off</span>
-										<span ng-if="form.searchCriteria.VacateClean==true">Vacate Clean</span>
-									</div>
+							</div>
+							<div class="row">
+								<div class="col-md-3 text-bold">Requires Ironing?</div>
+								<div class="col-md-9">
+									<span ng-if="form.searchCriteria.RequireIroning==true">Yes</span>
+									<span ng-if="form.searchCriteria.RequireIroning==false">No</span>
 								</div>
-								<div class="row">
-									<div class="col-md-3 text-bold">Requires Ironing?</div>
-									<div class="col-md-9">
-										<span ng-if="form.searchCriteria.RequireIroning==true">Yes</span>
-										<span ng-if="form.searchCriteria.RequireIroning==false">No</span>
-									</div>
+							</div>
+							<div class="row">
+								<div class="col-md-3 text-bold">Service Date</div>
+								<div class="col-md-9">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
+							</div>
+							<hr />
+							<div class="row">
+								<div class="col-md-4 text-bold">
+									Adjust start time<br />
+									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.StartTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 								</div>
-								<div class="row">
-									<div class="col-md-3 text-bold">Service Date</div>
-									<div class="col-md-9">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
+								<div class="col-md-4 text-bold">
+									Adjust finish time<br/>
+								    <div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+									
 								</div>
-								<hr />
-								<div class="row">
-									<div class="col-md-4 text-bold">
-										Adjust start time<br />
-										<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.StartTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-									</div>
-									<div class="col-md-4 text-bold">
-										Adjust finish time<br/>
-									    <div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-										
-									</div>
-									<div  class="col-md-4"><br/><br/><br/><br/>
-										<button type="submit" class="btn btn-success">Confirm Booking</button>
-									</div>
+								<div  class="col-md-4"><br/><br/><br/><br/>
+								  	<form class="form-validate form-horizontal" name="form.clientForm" ng-submit="form.saveData()" novalidate="">
+									  	<button type="submit" class="btn btn-success">Confirm Booking</button>
+									</form>
 								</div>
+							</div>
 
-							</div>
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="panel panel-green" id="panelCleanerDetails">
-							<div class="panel-heading">
-								Selected cleaner & available slots for {{form.selectedCleanerJob.JobDateFormatted}}
+				</div>
+				<div class="col-md-6">
+					<div class="panel panel-green" id="panelCleanerDetails">
+						<div class="panel-heading">
+							Selected cleaner & available slots for {{form.selectedCleanerJob.JobDateFormatted}}
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3 text-bold">Cleaner Name</div>
+								<div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
 							</div>
-							<div class="panel-body">
-								<div class="row">
-									<div class="col-md-3 text-bold">Cleaner Name</div>
-									<div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3 text-bold">Team Size Available</div>
-									<div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
-								</div>
-								<hr />
-								<div class="row">
-									<div class="col-md-12">
-										<ul id="image-list" class="row list-unstyled">
-											<li ng-repeat="job in form.selectedCleaner.ScheduledJobs" class="col-md-2 availableButton">
-												<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
-													<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
+							<div class="row">
+								<div class="col-md-3 text-bold">Team Size Available</div>
+								<div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
+							</div>
+							<hr />
+							<div class="row">
+								<div class="col-md-12">
+									<ul id="jobAvailabilityButtons" class="row list-unstyled" style="padding-left: 4px;">
+										<li ng-repeat="job in form.selectedCleaner.ScheduledJobs" class="availableButton">
+											<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
+												<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
+											</div>
+											<div ng-if="job.JobStatus != 'AVAILABLE'">
+												<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
+													<span class="btn bg-danger-light availableButtonBusy">{{job.JobSuburb}}<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</span>
 												</div>
-												<div ng-if="job.JobStatus != 'AVAILABLE'">
-													<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
-														<span class="btn bg-danger-light availableButtonBusy">{{job.JobSuburb}}<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</span>
-													</div>
-												</div>
-											</li>
-										</ul>
-									</div>
+											</div>
+										</li>
+									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</form>
+			</div>
 		</div>
 
 	</div>
@@ -119,7 +119,7 @@
 						<td>{{job.JobDateFormatted}}</td>
 						<td>{{job.WeekDay}}</td>
 						<td>{{job.StartTimeOfDay}} - {{job.EndTimeOfDay}}</td>
-						<td>{{job.JobType}}</td>
+						<td>{{job.JobTypeName}}</td>
 						<td>{{job.JobStatus}}</td>
 						<td>{{job.JobSuburb}}</td>
 						<td><div ng-bind-html="job.CleanerTeam | trustAsHtml"></div></td>

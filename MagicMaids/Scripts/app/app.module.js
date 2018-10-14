@@ -70,11 +70,13 @@
 			function set(cleaner, job) {
 				if (cleaner == null)
 				{
-					$cookies.remove(keyCleaner);
+					sessionStorage.removeItem(keyCleaner);
+					//$cookies.remove(keyCleaner);
 				}
 				else
 				{
-					$cookies.put(keyCleaner, JSON.stringify(cleaner), {'expires' : expiresValue});
+					sessionStorage.setItem(keyCleaner, JSON.stringify(cleaner));
+					//$cookies.put(keyCleaner, JSON.stringify(cleaner), {'expires' : expiresValue});
 				}
 
 				if (job == null)
@@ -88,7 +90,8 @@
 			}
 
             function getCleaner() {
-				var cleanerCookie = $cookies.get(keyCleaner);
+				var cleanerCookie = sessionStorage.getItem(keyCleaner);
+				//var cleanerCookie = $cookies.get(keyCleaner);
 				if (cleanerCookie)
 				{
 					return JSON.parse(cleanerCookie);

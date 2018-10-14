@@ -1,15 +1,20 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Clients/_CustomerBookings.cshtml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Controllers/ClientsController.cs">
     <Files>
-      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="125" Column="28" />
-      <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="103" Column="79" />
-      <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="300" Column="23" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="475" Column="67" />
+      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="125" Column="45" />
+      <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="63" Column="1" />
+      <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="131" Column="1" />
       <File FileName="MagicMaids/ViewModels/CleanerDetailsVM.cs" Line="419" Column="8" />
-      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="101" Column="28" />
-      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="77" Column="37" />
-      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="618" Column="83" />
+      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="109" Column="28" />
+      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="85" Column="87" />
+      <File FileName="MagicMaids/Views/Search/Search.cshtml" Line="192" Column="14" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="531" Column="52" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MagicMaidsTesting PreferredExecutionTarget="MonoDevelop.Default" />

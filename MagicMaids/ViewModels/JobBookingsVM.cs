@@ -68,6 +68,14 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public String JobTypeName
+		{
+			get
+			{
+				return JobType.ToString();
+			}
+		}
+
 		public DateTime? JobDateUTC
 		{
 			get;
@@ -107,7 +115,7 @@ namespace MagicMaids.ViewModels
 					return "";
 				}
 
-				return (_cleanerTeam.Contains("|")) ? _cleanerTeam.Replace("|", "<br/>") : _cleanerTeam;
+				return (_cleanerTeam.Contains(",")) ? _cleanerTeam.Replace(",", "<br/>") : _cleanerTeam;
 			}
 			set
 			{
@@ -190,7 +198,7 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				if (JobType == JobTypeEnum.OneOff || JobType == JobTypeEnum.Vacate)
+				if (JobDateUTC != null && (JobType == JobTypeEnum.OneOff || JobType == JobTypeEnum.Vacate))
 				{
 					return $"{WeekDay} on {JobDateUTC.Value.FormatUserDate()} ({StartTimeOfDay}-{EndTimeOfDay})";
 				}

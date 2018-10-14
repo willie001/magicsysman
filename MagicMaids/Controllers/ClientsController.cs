@@ -442,7 +442,7 @@ namespace MagicMaids.Controllers
 			_objToUpdate.IsActive = true;
 			_objToUpdate.JobDateUTC = dataItem.JobDateUTC.Value;
 			_objToUpdate.JobStatus = BookingStatus.CONFIRMED;
-			_objToUpdate.JobSuburb = dataItem.JobSuburb;
+			_objToUpdate.JobSuburb = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dataItem.JobSuburb.ToLower());
 			_objToUpdate.JobType = dataItem.JobType;
 			_objToUpdate.WeekDay = dataItem.WeekDay;
 			_objToUpdate.TeamSize = dataItem.TeamSize;
@@ -466,13 +466,24 @@ namespace MagicMaids.Controllers
 			{
 				StringBuilder _sql = new StringBuilder();
 				_sql.Append("Select J.*, ClientRefId as ClientId, PrimaryCleanerRefId as CleanerId, JobDate as JobDateUTC, ");
-				_sql.Append("(select concat(FirstName, ' ', LastName, '|') ");
-				_sql.Append("from CleanerTeam CT ");
-				_sql.Append("inner join CleanerRosteredTeam CRT on CT.Id = CRT.TeamRefId ");
-				_sql.Append("inner join CleanerRoster CR on CR.Id = CRT.RosterRefId ");
-				_sql.Append("Where CR.PrimaryCleanerRefId = J.PrimaryCleanerRefId ");
-				_sql.Append("and CT.PrimaryCleanerRefId = J.PrimaryCleanerRefId ");
-				_sql.Append("and upper(CR.WeekDay) = upper(J.WeekDay)) as CleanerTeam ");
+				_sql.Append("(");
+				_sql.Append("select group_concat(CleanerName) as TeamList from ( ");
+				_sql.Append("select concat(FirstName, ' ', LastName) as CleanerName, CR.PrimaryCleanerRefId, WeekDay ");
+				_sql.Append("from CleanerRoster CR ");
+				_sql.Append("inner join CleanerRosteredTeam CRT on CRT.RosterRefId = CR.Id ");
+				_sql.Append("inner join CleanerTeam CT on CT.Id = CRT.TeamRefId ");
+				_sql.Append("where CRT.IsPrimary = 0 ");
+				_sql.Append("group by FirstName, LastName, CR.PrimaryCleanerRefId, WeekDay ");
+				_sql.Append("UNION ");
+				_sql.Append("select concat(FirstName, ' ', LastName) as CleanerName, CR.PrimaryCleanerRefId, WeekDay ");
+				_sql.Append("from CleanerRoster CR ");
+				_sql.Append("inner join CleanerRosteredTeam CRT on CRT.RosterRefId = CR.Id ");
+				_sql.Append("inner join Cleaners CT on CT.Id = CRT.TeamRefId ");
+				_sql.Append("where CRT.IsPrimary = 1 ");
+				_sql.Append("group by FirstName, LastName, CR.PrimaryCleanerRefId, WeekDay ");
+				_sql.Append(") as TeamList where TeamList.PrimaryCleanerRefId = J.PrimaryCleanerRefId ");
+				_sql.Append("and upper(TeamList.WeekDay) = upper(J.WeekDay) ");
+				_sql.Append(") as CleanerTeam ");
 				_sql.Append("from JobBooking J ");
 				_sql.Append($"where J.ClientRefId = '{ClientId}' ");
 				_sql.Append("order by JobDate desc, StartTime");
@@ -533,7 +544,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.WeekDay}',");
 							_sql.Append($"{_objToUpdate.StartTime},");
 							_sql.Append($"{_objToUpdate.EndTime},");
-							_sql.Append($"'{_objToUpdate.JobSuburb.ToUpper()}',");
+							_sql.Append($"'{_objToUpdate.JobSuburb}',");
 							_sql.Append($"{_objToUpdate.TeamSize}");
 							_sql.Append(")");
 
