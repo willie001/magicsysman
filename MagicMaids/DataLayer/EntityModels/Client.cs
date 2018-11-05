@@ -61,6 +61,11 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		public string KeyLocation
+		{
+			get;
+			set;
+		}
 		#endregion
 
 		#region Properties, Foreign Key

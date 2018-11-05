@@ -495,6 +495,11 @@ namespace MagicMaids.Controllers
 		}
 
 
+		public ActionResult RefreshBookingTimes(JobBookingsVM booking)
+		{
+			return new JsonNetResult() { Data = new { item = booking }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+		}
+
 		[HttpPost]
 		public ActionResult SaveClientBooking(JobBookingsVM dataItem)
 		{
@@ -573,6 +578,43 @@ namespace MagicMaids.Controllers
 			if (!ModelState.IsValid)
 			{
 				Helpers.LogFormValidationErrors(ModelState, nameof(SaveClientBooking), dataItem);
+			}
+
+			return JsonFormResponse();
+		}
+
+		[HttpPost]
+		public ActionResult DeleteJobBooking(Guid? id)
+		{
+			string _objDesc = "Job Booking";
+
+			if (!id.HasValue)
+			{
+				ModelState.AddModelError(string.Empty, $"Valid {_objDesc.ToLower()} record not found.");
+			}
+
+			StringBuilder sql = new StringBuilder();
+			try
+			{
+				using (DBManager db = new DBManager())
+				{
+					sql.Append($"delete from JobBooking where id = '{id.Value.ToString()}'");
+					db.getConnection().Execute(sql.ToString());
+
+					return JsonSuccessResponse($"{_objDesc} deleted successfully", "Id=" + id.Value.ToString());
+				}
+			}
+			catch (Exception ex)
+			{
+				ModelState.AddModelError(string.Empty, $"Error deleting {_objDesc.ToLower()} ({ex.Message})");
+
+				LogHelper log = new LogHelper();
+				log.Log(LogHelper.LogLevels.Error, $"Error deleting {_objDesc.ToLower()}", nameof(LogEntry), ex, sql.ToString());
+			}
+
+			if (!ModelState.IsValid)
+			{
+				Helpers.LogFormValidationErrors(ModelState, nameof(LogEntry), null);
 			}
 
 			return JsonFormResponse();

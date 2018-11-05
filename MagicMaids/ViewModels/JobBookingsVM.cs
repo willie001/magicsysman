@@ -27,8 +27,7 @@ namespace MagicMaids.ViewModels
 
 	public class JobBookingsVM : BaseViewModel
 	{
-		private long _startTime;
-		private long _endTime;
+			
 		#region Constructor
 		public JobBookingsVM()
 		{
@@ -106,6 +105,16 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public string ManHours
+		{
+			get
+			{
+
+				return ((int)(EndTime - StartTime)).ToTimeDuration();
+			}
+		}
+
+
 		public String CleanerTeam
 		{
 			get
@@ -130,17 +139,22 @@ namespace MagicMaids.ViewModels
 			set
 			{
 				_startTime = value;
-				StartTimeForControl = _startTime.ToTime();
+				_startForControl = _startTime.ToTime();
 			}
 		}
+		private long _startTime;
 
 		// need to be get/set plain to allow control to set it
 		public DateTime StartTimeForControl
 		{
-			get;
-			set;
+			get => _startForControl;
+			set
+			{
+				_startForControl = value;
+				_startTime = _startForControl.ToMinutes();
+			}
 		}
-
+		private DateTime _startForControl;
 
 		public long EndTime
 		{
@@ -148,16 +162,22 @@ namespace MagicMaids.ViewModels
 			set
 			{
 				_endTime = value;
-				EndTimeForControl = _endTime.ToTime();
+				_endForControl = _endTime.ToTime();
 			}
 		}
+		private long _endTime;
 
 		// need to be get/set plain to allow control to set it
 		public DateTime EndTimeForControl
 		{
-			get;
-			set;
+			get => _endForControl;
+			set
+			{
+				_endForControl = value;
+				_endTime = _endForControl.ToMinutes();
+			}
 		}
+		private DateTime _endForControl;
 
 		public string StartTimeOfDay
 		{

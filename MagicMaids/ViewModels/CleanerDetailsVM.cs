@@ -449,7 +449,6 @@ namespace MagicMaids.ViewModels
 			get;
 			set;
 		}
-
 		#endregion
 	}
 

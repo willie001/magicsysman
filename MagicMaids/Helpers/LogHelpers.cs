@@ -79,7 +79,7 @@ namespace MagicMaids
 			{
 				if (logLevel == LogLevels.Error && enableExternalErrorLogging)
 				{
-					Bugsnag.AspNet.Client.Current.Notify(ex);
+					//Bugsnag.AspNet.Client.Current.Notify(ex);
 				}
 
 				var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString();

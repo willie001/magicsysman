@@ -95,6 +95,12 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public string KeyLocation
+		{
+			get;
+			set;
+		}
+
 		#endregion
 
 		#region Methods, Public

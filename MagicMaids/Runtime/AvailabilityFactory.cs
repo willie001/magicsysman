@@ -67,6 +67,13 @@ namespace MagicMaids
 			}
 		}
 
+		// number of timeslots available and matching gap searched for
+		public Int32 SuitableTimeSlots
+		{
+			get;
+			set;
+		}
+
 		/// <summary>
 		/// The Adjusted availability gap - calculated from the search's service gap requirement
 		/// + the cleaner's travel time allowance for the zone.
@@ -99,6 +106,7 @@ namespace MagicMaids
 			var dayList = new List<JobBookingsVM>();
 			long dayStart = 0;
 			long dayEnd = 0;
+			SuitableTimeSlots = 0;
 
 			var cleanerRoster = GetCleanerRoster();
 			foreach (CleanerRosterVM item in cleanerRoster)
@@ -291,6 +299,7 @@ namespace MagicMaids
 			if (gapSize < minJobSizeMins+AdjustedGapMins)
 				return;
 
+			SuitableTimeSlots++;
 			list.Add(new JobBookingsVM()
 			{
 				StartTime = startTime,

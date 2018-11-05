@@ -89,7 +89,7 @@
 				}
 			}
 
-            function getCleaner() {
+			function getCleaner() {
 				var cleanerCookie = sessionStorage.getItem(keyCleaner);
 				//var cleanerCookie = $cookies.get(keyCleaner);
 				if (cleanerCookie)

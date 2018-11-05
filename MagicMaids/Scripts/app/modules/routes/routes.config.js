@@ -81,7 +81,7 @@
             	},
     		  title: 'Customer Details',
               templateUrl: helper.basepath('Clients/ClientDetails'),
-              resolve: helper.resolveFor('ngDialog','ui.select','xeditable')
+			  resolve: helper.resolveFor('ui.select','xeditable','ngDialog'),
           })
 
           .state('app.cleaners', {

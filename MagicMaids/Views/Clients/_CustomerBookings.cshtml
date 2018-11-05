@@ -1,7 +1,6 @@
 ﻿<div ng-controller="ClientBookingController as form" class="container-fluid">
 	<div class="container-fluid">
 		<h4 class="page-header">New Booking</h4>
-
 		<div class="form-group" ng-if="selectedCleaner.LastName == null">
 			First match a cleaner for the job. Click <a ng-click="$state.go('app.mainsearch')">here</a> to proceed.
 		</div>
@@ -16,6 +15,14 @@
 							<div class="row">
 								<div class="col-md-3 text-bold">Requested Gap</div>
 								<div class="col-md-9">{{form.searchCriteria.ServiceLengthFormatted}}</div>
+							</div>
+							<div class="row">
+								<div class="col-md-3 text-bold">Cleaner Name</div>
+								<div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
+							</div>
+							<div class="row">
+								<div class="col-md-3 text-bold">Team Size Available</div>
+								<div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
 							</div>
 							<div class="row">
 								<div class="col-md-3 text-bold">Service Request</div>
@@ -44,14 +51,13 @@
 									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.StartTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 								</div>
 								<div class="col-md-4 text-bold">
-									Adjust finish time<br/>
-								    <div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-									
+									Adjust finish time<br />
+									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+
 								</div>
-								<div  class="col-md-4"><br/><br/><br/><br/>
-								  	<form class="form-validate form-horizontal" name="form.clientForm" ng-submit="form.saveData()" novalidate="">
-									  	<button type="submit" class="btn btn-success">Confirm Booking</button>
-									</form>
+								<div class="col-md-4">
+									<br /><br /><br /><br />
+								   <button type="submit" class="btn btn-success" ng-click="confirmBooking();">Confirm Booking</button>
 								</div>
 							</div>
 
@@ -59,42 +65,9 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="panel panel-green" id="panelCleanerDetails">
-						<div class="panel-heading">
-							Selected cleaner & available slots for {{form.selectedCleanerJob.JobDateFormatted}}
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-3 text-bold">Cleaner Name</div>
-								<div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 text-bold">Team Size Available</div>
-								<div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
-							</div>
-							<hr />
-							<div class="row">
-								<div class="col-md-12">
-									<ul id="jobAvailabilityButtons" class="row list-unstyled" style="padding-left: 4px;">
-										<li ng-repeat="job in form.selectedCleaner.ScheduledJobs" class="availableButton">
-											<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
-												<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
-											</div>
-											<div ng-if="job.JobStatus != 'AVAILABLE'">
-												<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
-													<span class="btn bg-danger-light availableButtonBusy">{{job.JobSuburb}}<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</span>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<div class="container-fluid">
@@ -106,7 +79,6 @@
 			<table datatable="ng" class="table table-bordered table-hover bg-white">
 				<thead>
 				<th class="text-center">Job Date</th>  
-				<th class="text-center">Week day</th>
 				<th class="text-center">Job Time</th>
 				<th class="text-center">Job Type</th>
 				<th class="text-center">Status</th>
@@ -116,31 +88,21 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="job in form.listOfExistingBookings">
-						<td>{{job.JobDateFormatted}}</td>
-						<td>{{job.WeekDay}}</td>
+						<td>{{job.JobDateFormatted}} ({{job.WeekDay}})</td>
 						<td>{{job.StartTimeOfDay}} - {{job.EndTimeOfDay}}</td>
 						<td>{{job.JobTypeName}}</td>
 						<td>{{job.JobStatus}}</td>
 						<td>{{job.JobSuburb}}</td>
 						<td><div ng-bind-html="job.CleanerTeam | trustAsHtml"></div></td>
 						<td style="white-space: nowrap">
-							<!-- form-->
-							@*<form editable-form="" name="rowform" onbeforesave="leaveTable.saveData($data, leave.Id, leave.IsNewItem)" ng-show="rowform.$visible" shown="leaveTable.inserted == leave" class="form-buttons form-inline">
-								<button type="submit" ng-disabled="rowform.$waiting" title="Save" class="btn btn-sm btn-success">
-									<em class="fa fa-save"></em>
-								</button>
-								<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" title="Cancel" class="btn btn-sm btn-default">
-									<em class="fa fa-times"></em>
-								</button>
-							</form>
-							<div ng-show="!rowform.$visible" class="buttons">
-								<button ng-click="rowform.$show();" title="Edit" class="btn btn-sm btn-info">
+							<div class="buttons">
+								@*<button ng-click="checkCustomerState(form.selectedCleaner, job);" title="Edit" class="btn btn-sm btn-info">
 									<em class="fa fa-pencil"></em>
-								</button>
-								<button title="Delete" class="btn btn-sm btn-danger" ng-click="leaveTable.removeLeave(leave.Id, $index)">
+								</button>*@
+								<button title="Delete" class="btn btn-sm btn-danger" ng-click="form.removeBooking(job.Id, $index)">
 									<em class="fa fa-trash"></em>
 								</button>
-							</div>*@
+							</div>
 						</td>
 					</tr>
 				</tbody>

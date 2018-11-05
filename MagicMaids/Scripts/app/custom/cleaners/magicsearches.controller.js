@@ -89,8 +89,8 @@
 		}
 
 		$scope.checkCustomerState = function(selectedCleaner, selectedJob) {
-			console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
-			console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
+			//console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
+			//console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
 
 			savedJobBookingFactory.set(selectedCleaner, selectedJob);
 

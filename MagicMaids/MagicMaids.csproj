@@ -1,12 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>
-    </ProductVersion>
+    <ProductVersion></ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B97F03C5-8E84-46BA-AC9A-F07362843C6A}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -100,8 +98,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Net.Http.WebRequest">
-    </Reference>
+    <Reference Include="System.Net.Http.WebRequest"></Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Drawing.Design" />
@@ -612,7 +609,6 @@
     <Content Include="Vendor\angular-jqcloud\angular-jqcloud.js" />
     <Content Include="Vendor\angular-knob\src\angular-knob.js" />
     <Content Include="Vendor\angular-summernote\dist\angular-summernote.js" />
-    <Content Include="Vendor\angular-sweetalert\SweetAlert.js" />
     <Content Include="Vendor\angular-ui-calendar\src\calendar.js" />
     <None Include="Vendor\angular-ui-grid\README.md" />
     <None Include="Vendor\angular-ui-grid\bower.json" />
@@ -833,8 +829,6 @@
     <Content Include="Vendor\summernote\dist\plugin\hello\summernote-ext-hello.min.js" />
     <Content Include="Vendor\summernote\dist\plugin\specialchars\summernote-ext-specialchars.js" />
     <Content Include="Vendor\summernote\dist\plugin\specialchars\summernote-ext-specialchars.min.js" />
-    <Content Include="Vendor\sweetalert\dist\sweetalert.css" />
-    <Content Include="Vendor\sweetalert\dist\sweetalert.min.js" />
     <Content Include="Vendor\whirl\dist\whirl.css" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Scripts\app\modules\elements\carousel.controller.js" />
@@ -846,7 +840,6 @@
     <Content Include="Scripts\app\modules\elements\nestable.controller.js" />
     <Content Include="Scripts\app\modules\elements\scroll.directive.js" />
     <Content Include="Scripts\app\modules\elements\sortable.controller.js" />
-    <Content Include="Scripts\app\modules\elements\sweetalert.controller.js" />
     <Content Include="Scripts\app\modules\elements\toaster.controller.js" />
     <Content Include="Scripts\app\modules\elements\tour.controller.js" />
     <Content Include="Scripts\app\modules\extras\article.controller.js" />
@@ -1236,6 +1229,7 @@
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.min.js" />
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.js" />
     <Content Include="Scripts\moment-timezone-utils.js" />
+    <Content Include="Views\Clients\BookingConfirmation.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
@@ -1305,8 +1299,7 @@
           <IISUrl>http://localhost:9090</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <CustomServerUrl></CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

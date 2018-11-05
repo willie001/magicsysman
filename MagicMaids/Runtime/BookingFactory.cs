@@ -62,9 +62,7 @@ namespace MagicMaids
 			{
 				yield return PopulateCleanerAvailability(item);
 			}
-
 		}
-
 
 		#endregion
 
@@ -106,6 +104,11 @@ namespace MagicMaids
 				item.ScheduledJobs = factory.GetCleanerDaySchedule();
 				item.TeamSize = factory.CleanerTeamSize;
 				item.SelectedRosterDay = factory.ServiceWeekDay;
+
+				if (factory.SuitableTimeSlots == 0)
+				{
+					return null;
+				}
 
 			}
 			catch(NoTeamRosteredException nex)

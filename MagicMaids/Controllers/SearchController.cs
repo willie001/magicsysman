@@ -52,21 +52,32 @@ namespace MagicMaids.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult MatchCleaners(SearchVM searchCriteria)
+		public ActionResult MatchCleaners(SearchVM searchCriteria, String CleanerId = null)
 		{
-			if (searchCriteria == null)
+			Boolean searchByCriteria = true;
+			if (!String.IsNullOrWhiteSpace(CleanerId))
 			{
-				ModelState.AddModelError(string.Empty, $"No search criteria specified.");
+				searchByCriteria = false;
+				ModelState.Clear();
 			}
 
-			if (searchCriteria.ServiceLengthMins > SystemSettings.WorkSessionMaxHours * 60)
+			// if specific id peovided ignore the criteria and find the cleaner
+			if (searchByCriteria)
 			{
-				ModelState.AddModelError(string.Empty, $"Service duration can not exceed { SystemSettings.WorkSessionMaxHours} hours.");
-			}
+				if (searchCriteria == null)
+				{
+					ModelState.AddModelError(string.Empty, $"No search criteria specified.");
+				}
 
-			if ((searchCriteria.OneOffJob || searchCriteria.VacateClean) && ((searchCriteria.ServiceDate - DateTime.Now.ToUTC()).TotalDays > SystemSettings.BookingsDaysAllowed))
-			{
-				ModelState.AddModelError(string.Empty, $"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
+				if (searchCriteria.ServiceLengthMins > SystemSettings.WorkSessionMaxHours * 60)
+				{
+					ModelState.AddModelError(string.Empty, $"Service duration can not exceed { SystemSettings.WorkSessionMaxHours} hours.");
+				}
+
+				if ((searchCriteria.OneOffJob || searchCriteria.VacateClean) && ((searchCriteria.ServiceDate - DateTime.Now.ToUTC()).TotalDays > SystemSettings.BookingsDaysAllowed))
+				{
+					ModelState.AddModelError(string.Empty, $"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
+				}
 			}
 
 			if (ModelState.IsValid)
@@ -79,22 +90,29 @@ namespace MagicMaids.Controllers
 					StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
 							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where C.IsActive=1");
 
-					if (searchCriteria.RequireIroning)
+					if (searchByCriteria)
 					{
-						sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
-					}
+						if (searchCriteria.RequireIroning)
+						{
+							sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
+						}
 
-					if (searchCriteria.FilterRating > 0)
-					{
-						sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
-					}
+						if (searchCriteria.FilterRating > 0)
+						{
+							sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
+						}
 
-					if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
+						if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
+						{
+							// not on leave
+							sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
+							// and rostered for weekday
+							sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
+						}
+					}
+					else
 					{
-						// not on leave
-						sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
-						// and rostered for weekday
-						sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
+						sql.Append($" and C.ID = '{CleanerId}'");
 					}
 
 					sql.Append(" order by LastName, FirstName");
@@ -137,14 +155,22 @@ namespace MagicMaids.Controllers
 						}
 					}
 
-					BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
-					if (!resultsProcessor.ValidSearchZone)
+					if (searchByCriteria)
 					{
-						ModelState.AddModelError(string.Empty, $"The suburb '{searchCriteria.Suburb.ToUpper()}' does not have any zones defined yet.");
+						BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
+						if (!resultsProcessor.ValidSearchZone)
+						{
+							ModelState.AddModelError(string.Empty, $"The suburb '{searchCriteria.Suburb.ToUpper()}' does not have any zones defined yet.");
+						}
+						else
+						{
+							var results = resultsProcessor.GetProcessedResults().ToList<CleanerMatchResultVM>().Where(x => x != null);
+							return new JsonNetResult() { Data = new { SearchResults = results }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+						}
 					}
 					else
 					{
-						var results = resultsProcessor.GetProcessedResults().ToList<CleanerMatchResultVM>().Where(x => x != null);
+						var results = _vmResults[0];
 						return new JsonNetResult() { Data = new { SearchResults = results }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 					}
 				}

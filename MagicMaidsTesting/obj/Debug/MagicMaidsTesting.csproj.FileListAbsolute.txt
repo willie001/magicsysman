@@ -86,9 +86,9 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/MySql.Data.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.SimpleCRUD.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/FluentValidation.Mvc.dll
+/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Bugsnag.AspNet.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Bugsnag.dll
-/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.Cookies.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Tokens.dll
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Protocols.dll
@@ -111,9 +111,9 @@ C:/Users/eventer/Downloads/MagicMaids/MagicMaids/MagicMaidsTesting/obj/Debug/Mag
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Identity.Client.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.SimpleCRUD.pdb
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.SimpleCRUD.xml
+/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Bugsnag.AspNet.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Bugsnag.xml
-/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Dapper.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.Owin.Security.Cookies.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Tokens.xml
 /Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/bin/Debug/Microsoft.IdentityModel.Protocols.xml

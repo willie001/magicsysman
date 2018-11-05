@@ -1,0 +1,53 @@
+﻿<div ng-controller="BookingConfirmationController as form" class="container-fluid">
+	<p>
+		Review the details below before confirming the booking.
+	</p>
+	<div class="row">
+		<div class="col-md-3 text-bold">Customer</div>
+		<div class="col-md-9">{{form.client.FirstName}} {{form.client.LastName}}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Address</div>
+		<div class="col-md-9" ng-bind-html="form.client.PhysicalAddress.FormattedAddress"></div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Payment Details</div>
+		<div class="col-md-9">{{form.Cards[0].CardNumber}} (<b>Expiry:</b> {{form.Cards[0].FormattedExpiryDate}})</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Service</div>
+		<div class="col-md-9">{{form.selectedCleanerJob.JobTypeName}}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Booking Date</div>
+		<div class="col-md-9">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Booking Time</div>
+		<div class="col-md-9">{{form.selectedCleanerJob.StartTimeForControl}} to {{form.selectedCleanerJob.EndTimeForControl}}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Cleaner</div>
+		<div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Team Size</div>
+		<div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3 text-bold">Man hours</div>
+		<div class="col-md-9">{{form.selectedCleanerJob.ManHours}}</div>
+	</div>
+	<div class="row">
+		<br />
+	</div>
+	<div clsass="row">
+		<span class="text-left">
+			<button type="button" ng-click="closeThisDialog(0);" class="btn btn-warning">Edit Booking</button>
+		</span>
+		<span class="pull-right">
+			<button type="button" ng-click="cancelJobBooking();" class="btn btn-default">Cancel Booking</button>
+			<button type="button" ng-click="saveBooking();" class="btn btn-success">Confirm Booking</button>	
+		</span>
+	</div>
+</div>
