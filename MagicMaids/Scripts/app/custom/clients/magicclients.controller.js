@@ -591,7 +591,6 @@
 			$scope.confirmBooking = function() { 
 				$scope.newStartTime = vm.selectedCleanerJob.StartTimeForControl;
 				$scope.newEndTime = vm.selectedCleanerJob.EndTimeForControl;
-
             	ngDialog.open({ 
             		templateUrl: 'views/clients/BookingConfirmation.html', 
             		controller: 'BookingConfirmationController', 
@@ -715,43 +714,32 @@
 	{
 		var vm = this;
 		var ClientId = $scope.ClientId;
-
+		vm.selectedCleanerJob = savedJobBookingFactory.getJob();
+	
 		$scope.cancelJobBooking = function() {
 			savedJobBookingFactory.set(null,null);
 			location.reload();
         };
 	
-		vm.selectedCleaner = savedJobBookingFactory.getCleaner();
-		vm.selectedCleanerJob = savedJobBookingFactory.getJob();
+		activate();
+		
 		vm.selectedCleanerJob.StartTimeForControl = $scope.newStartTime;
 		vm.selectedCleanerJob.EndTimeForControl = $scope.newEndTime;
 
-		activate();
-
 		function activate() {
 			var config = {
- 				params: vm.selectedCleanerJob,
- 				headers : {'Accept' : 'application/json'}
+				params: vm.selectedCleanerJob,
+				headers : {'Accept' : 'application/json'}
 			};
 
 			$http.get('/clients/RefreshBookingTimes/', config)
                 .success(function (data) {
-
-					angular.extend(vm.selectedCleanerJob, {
-						StartTimeForControl: data.item.StartTimeForControl,
-						EndTimeForControl: data.item.EndTimeForControl,
-						StartTime: data.item.StartTime,
-						EndTime: data.item.EndTime
-					});
-					//vm.selectedCleanerJob.StartTimeForControl = data.item.StartTimeForControl;
-					//vm.selectedCleanerJob.EndTimeForControl = data.item.EndTimeForControl;
-					//vm.selectedCleanerJob.StartTime = data.item.StartTime;
-					//vm.selectedCleanerJob.EndTime = data.item.EndTime;
-
+					vm.selectedCleanerJob.StartTimeOfDayPopupDisplay=data.item.StartTimeOfDay;
+					vm.selectedCleanerJob.EndTimeOfDayPopupDisplay=data.item.EndTimeOfDay;
 					//console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
                 }).error(function(err) {
                 }).finally(function() {
-                });
+            });
 
         	$http.get('/clients/getclient/?ClientId=' + ClientId)
                 .success(function (data) {

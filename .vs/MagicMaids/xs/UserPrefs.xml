@@ -2,9 +2,10 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Clients/BookingConfirmation.html">
     <Files>
       <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="51" Column="208" />
-      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="740" Column="49" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="520" Column="4" />
-      <File FileName="MagicMaids/Views/Clients/BookingConfirmation.html" Line="35" Column="50" />
+      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="737" Column="54" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="500" Column="1" />
+      <File FileName="MagicMaids/Views/Clients/BookingConfirmation.html" Line="27" Column="114" />
+      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="195" Column="8" />
     </Files>
     <Pads>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -34,7 +35,10 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SearchController.cs" relfile="MagicMaids/Controllers/SearchController.cs" line="174" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="82" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="168" column="6" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="521" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="556" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="532" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="450" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="445" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

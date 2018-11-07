@@ -187,6 +187,19 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
+		// Created this property for the dialog to display formatted time changed from parent form
+		// for some reason the readonly property StartTimeOfDay does not update on the dialog
+		public string StartTimeOfDayPopupDisplay
+		{
+			get;
+			set;
+		}
+		public string EndTimeOfDayPopupDisplay
+		{
+			get;
+			set;
+		}
+
 		public string EndTimeOfDay
 		{
 			get
