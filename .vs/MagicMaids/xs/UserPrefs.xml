@@ -1,17 +1,12 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Views/Clients/BookingConfirmation.html">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/scripts/app/custom/clients/magicclients.controller.js">
     <Files>
       <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="51" Column="208" />
-      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="737" Column="54" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="500" Column="1" />
-      <File FileName="MagicMaids/Views/Clients/BookingConfirmation.html" Line="27" Column="114" />
-      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="195" Column="8" />
+      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="595" Column="38" />
+      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="524" Column="5" />
+      <File FileName="MagicMaids/Views/Clients/BookingConfirmation.html" Line="27" Column="112" />
+      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="182" Column="31" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MagicMaidsTesting PreferredExecutionTarget="MonoDevelop.Default" />

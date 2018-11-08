@@ -1229,7 +1229,7 @@
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.min.js" />
     <Content Include="Scripts\moment-timezone-with-data-2012-2022.js" />
     <Content Include="Scripts\moment-timezone-utils.js" />
-    <Content Include="Views\Clients\BookingConfirmation.html" />
+    <Content Include="static\BookingConfirmation.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />

@@ -592,7 +592,7 @@
 				$scope.newStartTime = vm.selectedCleanerJob.StartTimeForControl;
 				$scope.newEndTime = vm.selectedCleanerJob.EndTimeForControl;
             	ngDialog.open({ 
-            		templateUrl: 'views/clients/BookingConfirmation.html', 
+            		templateUrl: 'static/BookingConfirmation.html', 
             		controller: 'BookingConfirmationController', 
 					className: 'ngdialog-theme-default',
 					scope: $scope,
