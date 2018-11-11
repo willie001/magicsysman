@@ -665,6 +665,7 @@
 						$scope.searchCriteria = true;
 						//console.log("<MAIN Search Results> - " + angular.toJson(response.SearchResults));
 						selectedCleaner = response.SearchResults;
+						selectedJob.CleanerId = cleanerId;
 						savedJobBookingFactory.set(selectedCleaner, selectedJob);
 						HandleBusySpinner.stop($scope, panelName);
 					}
@@ -715,7 +716,11 @@
 		var vm = this;
 		var ClientId = $scope.ClientId;
 		vm.selectedCleanerJob = savedJobBookingFactory.getJob();
-	
+		vm.selectedCleaner = savedJobBookingFactory.getCleaner();
+		vm.selectedCleanerJob.ClientId = ClientId;
+		//console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
+		//console.log("<CLEANER Data> - " + angular.toJson(vm.selectedCleaner));
+
 		$scope.cancelJobBooking = function() {
 			savedJobBookingFactory.set(null,null);
 			location.reload();
@@ -744,6 +749,11 @@
         	$http.get('/clients/getclient/?ClientId=' + ClientId)
                 .success(function (data) {
                 	vm.client = data.item;
+					if (vm.selectedCleanerJob.JobSuburb == '')
+					{
+						vm.selectedCleanerJob.JobSuburb = vm.client.PhysicalAddress.Suburb;
+						//console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
+					}
                 }).error(function(err) {
                 }).finally(function() {
                 });
@@ -767,7 +777,8 @@
 					vm.selectedCleanerJob = response.DataItem;
 					vm.selectedCleaner = null;
 					savedJobBookingFactory.set(null, null);
-					closeThisDialog(0);
+					$scope.closeThisDialog(0);
+					location.reload();
 				}
 
         	}).error(function (error) {

@@ -89,9 +89,10 @@
 		}
 
 		$scope.checkCustomerState = function(selectedCleaner, selectedJob) {
-			//console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
-			//console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
+			console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
+			console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
 
+			selectedJob.TeamSize = selectedCleaner.TeamSize;
 			savedJobBookingFactory.set(selectedCleaner, selectedJob);
 
 			if (vm.Search.RepeatCustomer == "N")
