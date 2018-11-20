@@ -168,6 +168,10 @@ namespace MagicMaids
 				if (_systemSettings == null)
 				{
 					_systemSettings = new Dictionary<SettingEnum, object>();
+
+				}
+				if (_systemSettings.Count == 0 && !HasInitialised)
+				{
 					Init();
 				}
 
@@ -176,6 +180,7 @@ namespace MagicMaids
 
 		}
 		private static Dictionary<SettingEnum, object> _systemSettings;
+		private static Boolean HasInitialised = false;
 		#endregion
 
 		#region Methods, Public
@@ -188,7 +193,7 @@ namespace MagicMaids
 		#region Methods, Private
 		private static void Init()
 		{
-			Settings.Clear();
+			_systemSettings.Clear();
 
 			using (DBManager db = new DBManager())
 			{
@@ -199,7 +204,7 @@ namespace MagicMaids
 					SettingEnum _enum;
 					if (Enum.TryParse(_setting.CodeIdentifier.Trim(), true, out _enum)) 
 					{
-						Settings.Add(_enum, _setting.SettingValue);
+						_systemSettings.Add(_enum, _setting.SettingValue);
 					}
 				}
 			}
@@ -207,10 +212,12 @@ namespace MagicMaids
 			FluentValidationModelValidatorProvider.Configure();
 
 
-			if (Settings.Count == 0)
+			if (_systemSettings.Count == 0)
 			{
 				throw new ApplicationException("Error loading global system settings.");
 			}
+
+			HasInitialised = true;
 		}
 
 		private static void SetSingleProperty(SettingEnum setting, String value)

@@ -186,7 +186,9 @@
 							<td class="text-center no-horizontal-gutter">{{cleaner.TeamSize}}</td>
 							<td class="{{cleaner.StyleHomeBase}} text-center no-horizontal-gutter">{{cleaner.DisplayHomeBase}}</td>
 							<td class="colourMatch_Green text-center no-horizontal-gutter">Secondary</td>
-							<td class="{{cleaner.StyleWeekday}} text-center no-horizontal-gutter">{{cleaner.SelectedRosterDay}}</td>
+							<td class="{{cleaner.StyleWeekday}} text-center no-horizontal-gutter">
+								{{cleaner.SelectedRosterDay}}
+							</td>
 							<td class="text-center">
 								<!-- form-->
 								<div class="row text-center">
@@ -194,6 +196,9 @@
 										<i>{{ cleaner.CustomErrorMessage }}</i>
 									</div>
 									<div ng-if="!cleaner.CustomErrorMessage">
+										<span ng-if="cleaner.CleanerOnLeave">
+											<i>Cleaner has leave scheduled: {{cleaner.LeaveDates}}</i>
+										</span>
 										<ul id="jobAvailabilityButtons" class="row list-unstyled">
 											<li ng-repeat="job in cleaner.ScheduledJobs" class="availableButton">
 												<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">

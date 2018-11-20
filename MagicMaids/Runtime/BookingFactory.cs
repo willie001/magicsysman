@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Dapper;
-using LazyCache;
-using MagicMaids.DataAccess;
 using MagicMaids.ViewModels;
 using System.Runtime.CompilerServices;
 
@@ -98,7 +94,7 @@ namespace MagicMaids
 			FormatStyleForWeekday(item);
 
 			// All data loaded - calculate cleaner's current availability
-			AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceDate, criteria.ServiceLengthMins, JobType, SearchZoneList);
+			AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceDate, criteria.ServiceLengthMins, JobType, SearchZoneList, (DayOfWeek)criteria.ServiceDayValue);
 			try
 			{
 				item.ScheduledJobs = factory.GetCleanerDaySchedule();
@@ -110,6 +106,15 @@ namespace MagicMaids
 					return null;
 				}
 
+				if (JobType == JobTypeEnum.Fortnighly || JobType == JobTypeEnum.Weekly)
+				{
+					var leaveDates = AvailabilityFactory.GetCleanerLeaveDates(new Guid(item.Id), true).FirstOrDefault<CleanerLeaveVM>();
+					if (leaveDates != null)
+					{
+						item.CleanerOnLeave = ((DayOfWeek)criteria.ServiceDayValue).IsDayInRange(leaveDates.StartDate, leaveDates.EndDate);
+						item.LeaveDates = $"{leaveDates.StartDateFormatted} - {leaveDates.EndDateFormatted}";
+					}
+				}
 			}
 			catch(NoTeamRosteredException nex)
 			{
@@ -130,6 +135,7 @@ namespace MagicMaids
 			factory = null;
 			return item;
 		}
+
 
 		/// <summary>
 		///  Creates formatted output for the Locality field in the results for home, previous or following job
@@ -235,9 +241,10 @@ namespace MagicMaids
 			{
 				cleaner.StyleWeekday = criteria.ServiceDate.WeekYearStyle();
 			}
-
-			// todo fortnightly / weekly match
-
+			else
+			{
+				cleaner.StyleWeekday = DateTimeWrapper.FindNextDateForDay((DayOfWeek)criteria.ServiceDayValue).WeekYearStyle();
+			}
 
 			return;
 

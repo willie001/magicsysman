@@ -94,6 +94,11 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+		public Boolean CleanerOnLeave
+		{
+			get;
+			set;
+		}
 		#endregion
 
 		#region Properties, Foreign Key

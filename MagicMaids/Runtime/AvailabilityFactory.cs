@@ -18,14 +18,18 @@ namespace MagicMaids
 		private Int32 ServiceGapMinutes;
 		private IList<String> ServiceZone;
 		private JobTypeEnum JobType;
+		private DayOfWeek ServiceDay;
+
 
 		const Int32 minJobSizeMins = 0;
 		#endregion
 
 		#region Constructor
-		public AvailabilityFactory(CleanerMatchResultVM cleaner, DateTime serviceDate, Int32 serviceGapMins, JobTypeEnum serviceType, IList<String> serviceZone)
+		public AvailabilityFactory(CleanerMatchResultVM cleaner, DateTime serviceDate, Int32 serviceGapMins, JobTypeEnum serviceType, IList<String> serviceZone, DayOfWeek serviceDay)
 		{
 			Cleaner = cleaner ?? throw new ArgumentException("No cleaner specified.", nameof(Cleaner));
+			ServiceDay = serviceDay;
+			JobType = serviceType;
 
 			if (serviceGapMins <= 0)
 			{
@@ -37,10 +41,19 @@ namespace MagicMaids
 				throw new ArgumentException("Invalid service suburb/zone requested.", nameof(ServiceZone));
 			}
 
-			ServiceDateUTC = serviceDate.ToUTC();
+			if (serviceDate != default(DateTime))
+			{
+				ServiceDateUTC = serviceDate.ToUTC();
+			}
+			else if(JobType == JobTypeEnum.Fortnighly || JobType == JobTypeEnum.Weekly)
+			{
+				// calculate next date
+				ServiceDateUTC = DateTimeWrapper.FindNextDateForDay((DayOfWeek)ServiceDay);
+			}
+
 			ServiceGapMinutes = serviceGapMins;
 			ServiceZone = serviceZone;
-			JobType = serviceType;
+
 		}
 		#endregion
 
@@ -53,9 +66,10 @@ namespace MagicMaids
 				{
 					return ServiceDateUTC.DayOfWeek.ToString();
 				}
-
-				// periodic cleans
-				return "";
+				else
+				{
+					return ServiceDay.ToString();
+				}
 			}
 		}
 

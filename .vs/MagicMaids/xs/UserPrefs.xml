@@ -1,15 +1,18 @@
 ﻿<Properties StartupConfiguration="{B97F03C5-8E84-46BA-AC9A-F07362843C6A}|" NuGet.AddPackagesDialog.IncludePrerelease="True">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Web.config">
+  <MonoDevelop.Ide.Workbench ActiveDocument="MagicMaids/Helpers/DateTimeWrapper.cs">
     <Files>
-      <File FileName="MagicMaids/Views/Clients/_CustomerBookings.cshtml" Line="51" Column="208" />
-      <File FileName="MagicMaids/scripts/app/custom/clients/magicclients.controller.js" Line="4" Column="6" />
-      <File FileName="MagicMaids/Controllers/ClientsController.cs" Line="562" Column="1" />
-      <File FileName="MagicMaids/static/BookingConfirmation.html" Line="39" Column="50" />
-      <File FileName="MagicMaids/ViewModels/JobBookingsVM.cs" Line="182" Column="31" />
-      <File FileName="MagicMaids/scripts/app/custom/cleaners/magicsearches.controller.js" Line="95" Column="52" />
-      <File FileName="MagicMaids/App_Start/Startup.Auth.cs" Line="117" Column="34" />
-      <File FileName="MagicMaids/Web.config" Line="1" Column="1" />
+      <File FileName="MagicMaids/Controllers/SearchController.cs" Line="176" Column="39" />
+      <File FileName="MagicMaids/Runtime/BookingFactory.cs" Line="114" Column="55" />
+      <File FileName="MagicMaids/Runtime/AvailabilityFactory.cs" Line="30" Column="1" />
+      <File FileName="MagicMaids/Views/Search/Search.cshtml" Line="196" Column="50" />
+      <File FileName="MagicMaids/ViewModels/SearchVM.cs" Line="87" Column="3" />
+      <File FileName="MagicMaids/Helpers/DateTimeWrapper.cs" Line="250" Column="46" />
     </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MagicMaidsTesting PreferredExecutionTarget="MonoDevelop.Default" />
@@ -28,12 +31,12 @@
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaidsTesting/Runtime/BookingFactory_Tests.cs" relfile="MagicMaidsTesting/Runtime/BookingFactory_Tests.cs" line="44" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/ConfigEnvironment.cs" relfile="MagicMaids/Runtime/ConfigEnvironment.cs" line="57" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/ConfigEnvironment.cs" relfile="MagicMaids/Runtime/ConfigEnvironment.cs" line="70" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="266" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="119" column="1" />
-      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/SearchController.cs" relfile="MagicMaids/Controllers/SearchController.cs" line="174" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="273" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Runtime/BookingFactory.cs" relfile="MagicMaids/Runtime/BookingFactory.cs" line="124" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="82" column="1" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/LogHelpers.cs" relfile="MagicMaids/Helpers/LogHelpers.cs" line="168" column="6" />
       <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Controllers/ClientsController.cs" relfile="MagicMaids/Controllers/ClientsController.cs" line="660" column="1" />
+      <Breakpoint file="/Users/ebenventer/Projects/MagicMaids/MagicMaids/Helpers/DateTimeWrapper.cs" relfile="MagicMaids/Helpers/DateTimeWrapper.cs" line="252" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

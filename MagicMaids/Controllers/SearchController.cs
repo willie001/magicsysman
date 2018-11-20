@@ -64,6 +64,11 @@ namespace MagicMaids.Controllers
 			// if specific id peovided ignore the criteria and find the cleaner
 			if (searchByCriteria)
 			{
+				if (searchCriteria.WeeklyJob || searchCriteria.WeeklyJob)
+				{
+					searchCriteria.ServiceDate = DateTime.MinValue;
+				}
+
 				if (searchCriteria == null)
 				{
 					ModelState.AddModelError(string.Empty, $"No search criteria specified.");
@@ -106,9 +111,13 @@ namespace MagicMaids.Controllers
 						{
 							// not on leave
 							sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
-							// and rostered for weekday
-							sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
 						}
+						else
+						{
+
+						}
+						// and rostered for weekday
+						sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
 					}
 					else
 					{

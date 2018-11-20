@@ -1,6 +1,5 @@
 ﻿#region Using
 using System;
-using System.Collections.Generic;
 using FluentValidation.Attributes;
 using MagicMaids.Validators;
 using Newtonsoft.Json;

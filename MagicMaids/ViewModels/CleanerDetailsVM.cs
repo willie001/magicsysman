@@ -432,11 +432,6 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public IList<JobBookingsVM> ScheduledJobs
-		{
-			get;
-			set;
-		}
 
 		public String SelectedRosterDay
 		{
@@ -445,6 +440,24 @@ namespace MagicMaids.ViewModels
 		}
 
 		public String CustomErrorMessage
+		{
+			get;
+			set;
+		}
+
+		public IList<JobBookingsVM> ScheduledJobs
+		{
+			get;
+			set;
+		}
+
+		public bool CleanerOnLeave
+		{
+			get;
+			set;
+		}
+
+		public string LeaveDates
 		{
 			get;
 			set;

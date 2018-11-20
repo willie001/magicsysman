@@ -229,6 +229,50 @@ namespace MagicMaids
 			return NamedColours.WeeksOdd;
 		}
 
+		public static DateTime FindNextDateForDay(DayOfWeek WeekDay)
+		{
+			var _date = DateTime.Now.ToUTC();
+			if (_date.DayOfWeek == WeekDay)
+			{
+				return _date;
+			}
+
+			int daysToAdd = ((int)WeekDay - (int)_date.DayOfWeek + 7) % 7;
+			return _date.AddDays(daysToAdd);
+		}
+
+		public static bool IsDayInRange(this DayOfWeek WeekDay, DateTime startDate, DateTime endDate)
+		{
+			// Todo fix for sunday conversion
+			var dayValue = (int)WeekDay;
+			if (dayValue == 7)
+				dayValue = 0;
+
+			var correctedDayOfWeek = (DayOfWeek)dayValue;
+
+			if (startDate == default(DateTime) || endDate == default(DateTime))
+			{
+				return false;
+			}
+
+			if (endDate < startDate)
+			{
+				return false;
+			}
+
+			DateTime dt = startDate.ToUser();
+			while(dt <= endDate.ToUser())
+			{
+				if (dt.DayOfWeek.Equals(correctedDayOfWeek))
+				{
+					return true;
+				}
+				dt = dt.AddDays(1);
+			}
+
+			return false;
+		}
+
 	}
 
 }
