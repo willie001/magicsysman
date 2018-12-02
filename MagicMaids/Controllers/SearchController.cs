@@ -141,6 +141,8 @@ namespace MagicMaids.Controllers
 					foreach (CleanerMatchResultVM _item in _vmResults)
 					{
 						_item.PrimaryZoneList = new List<string>(new string[] { _item.PrimaryZone });
+						_item.SelectedRosterDay = searchCriteria.ServiceDay.ToDayOfWeek();
+						_item.SelectedServiceDate = (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob) ? DateTimeWrapper.FindNextDateForDay(_item.SelectedRosterDay) : searchCriteria.ServiceDate;
 						if (!String.IsNullOrWhiteSpace(_item.SecondaryZone))
 						{
 							_item.SecondaryZoneList = _item.SecondaryZone.Split(new char[] { ',', ';' })

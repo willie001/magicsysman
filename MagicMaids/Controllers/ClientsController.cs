@@ -440,7 +440,7 @@ namespace MagicMaids.Controllers
 			_objToUpdate.StartTime = dataItem.StartTimeForControl.ToMinutes();
 			_objToUpdate.EndTime = dataItem.EndTimeForControl.ToMinutes();
 			_objToUpdate.IsActive = true;
-			_objToUpdate.JobDateUTC = dataItem.JobDateUTC.Value;
+			_objToUpdate.JobDate = dataItem.JobDateUTC.Value;
 			_objToUpdate.JobStatus = BookingStatus.CONFIRMED;
 			_objToUpdate.JobSuburb = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dataItem.JobSuburb.ToLower());
 			_objToUpdate.JobType = dataItem.JobType;
@@ -545,7 +545,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.ClientRefId}',");
 							_sql.Append($"'{_objToUpdate.JobType}',");
 							_sql.Append($"'{_objToUpdate.JobStatus}',");
-							_sql.Append($"'{_objToUpdate.JobDateUTC.Value.FormatDatabaseDate()}',");
+							_sql.Append($"'{_objToUpdate.JobDate.Value.FormatDatabaseDate()}',");
 							_sql.Append($"'{_objToUpdate.WeekDay}',");
 							_sql.Append($"{_objToUpdate.StartTime},");
 							_sql.Append($"{_objToUpdate.EndTime},");

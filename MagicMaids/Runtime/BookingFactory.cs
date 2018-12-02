@@ -94,12 +94,11 @@ namespace MagicMaids
 			FormatStyleForWeekday(item);
 
 			// All data loaded - calculate cleaner's current availability
-			AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceDate, criteria.ServiceLengthMins, JobType, SearchZoneList, (DayOfWeek)criteria.ServiceDayValue);
+			AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceLengthMins, JobType, SearchZoneList);
 			try
 			{
 				item.ScheduledJobs = factory.GetCleanerDaySchedule();
 				item.TeamSize = factory.CleanerTeamSize;
-				item.SelectedRosterDay = factory.ServiceWeekDay;
 
 				if (factory.SuitableTimeSlots == 0)
 				{
@@ -112,7 +111,7 @@ namespace MagicMaids
 					if (leaveDates != null)
 					{
 						item.CleanerOnLeave = ((DayOfWeek)criteria.ServiceDayValue).IsDayInRange(leaveDates.StartDate, leaveDates.EndDate);
-						item.LeaveDates = $"{leaveDates.StartDateFormatted} - {leaveDates.EndDateFormatted}";
+						item.LeaveDates = DateTimeWrapper.FormatDateRange(leaveDates.StartDate,leaveDates.EndDate);
 					}
 				}
 			}

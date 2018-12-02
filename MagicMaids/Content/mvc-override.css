@@ -195,3 +195,23 @@ button.availableButton {
 	text-align: center;
 	margin-right: 8px;
 }
+
+.ClashDates_Leave {
+	background: #FBE065;
+	font-style: italic;
+	text-align: left;
+}
+
+.ClashDates_OneOffSingle {
+	background: #ffebcc;
+	color: black;
+	font-style: italic;
+	text-align: left;
+}
+
+.ClashDates_OneOffMultiple {
+	background: #e0ccff;
+	color black;
+	font-style: italic;
+	text-align: left;
+}

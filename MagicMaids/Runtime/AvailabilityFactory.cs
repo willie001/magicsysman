@@ -14,7 +14,7 @@ namespace MagicMaids
 	{
 		#region Fields
 		private CleanerMatchResultVM Cleaner;
-		private DateTime ServiceDateUTC;	//UTC
+		public DateTime ServiceDateUTC;	//UTC
 		private Int32 ServiceGapMinutes;
 		private IList<String> ServiceZone;
 		private JobTypeEnum JobType;
@@ -25,11 +25,9 @@ namespace MagicMaids
 		#endregion
 
 		#region Constructor
-		public AvailabilityFactory(CleanerMatchResultVM cleaner, DateTime serviceDate, Int32 serviceGapMins, JobTypeEnum serviceType, IList<String> serviceZone, DayOfWeek serviceDay)
+		public AvailabilityFactory(CleanerMatchResultVM cleaner, Int32 serviceGapMins, JobTypeEnum serviceType, IList<String> serviceZone)
 		{
 			Cleaner = cleaner ?? throw new ArgumentException("No cleaner specified.", nameof(Cleaner));
-			ServiceDay = serviceDay;
-			JobType = serviceType;
 
 			if (serviceGapMins <= 0)
 			{
@@ -41,15 +39,17 @@ namespace MagicMaids
 				throw new ArgumentException("Invalid service suburb/zone requested.", nameof(ServiceZone));
 			}
 
-			if (serviceDate != default(DateTime))
+			ServiceDay = cleaner.SelectedRosterDay;
+			if (cleaner.SelectedServiceDate.HasValue && cleaner.SelectedServiceDate != default(DateTime))
 			{
-				ServiceDateUTC = serviceDate.ToUTC();
+				ServiceDateUTC = cleaner.SelectedServiceDate.Value.ToUTC();
 			}
-			else if(JobType == JobTypeEnum.Fortnighly || JobType == JobTypeEnum.Weekly)
+			else if (JobType == JobTypeEnum.Fortnighly || JobType == JobTypeEnum.Weekly)
 			{
 				// calculate next date
 				ServiceDateUTC = DateTimeWrapper.FindNextDateForDay((DayOfWeek)ServiceDay);
 			}
+			JobType = serviceType;
 
 			ServiceGapMinutes = serviceGapMins;
 			ServiceZone = serviceZone;
@@ -58,20 +58,6 @@ namespace MagicMaids
 		#endregion
 
 		#region Properties
-		public String ServiceWeekDay
-		{
-			get
-			{
-				if (ServiceDateUTC.Year > 1950)
-				{
-					return ServiceDateUTC.DayOfWeek.ToString();
-				}
-				else
-				{
-					return ServiceDay.ToString();
-				}
-			}
-		}
 
 		public Int32 CleanerTeamSize
 		{
@@ -125,9 +111,9 @@ namespace MagicMaids
 			var cleanerRoster = GetCleanerRoster();
 			foreach (CleanerRosterVM item in cleanerRoster)
 			{
-				if (item.Weekday.Equals(ServiceWeekDay, StringComparison.InvariantCultureIgnoreCase))
+				if (item.Weekday.Equals(ServiceDay.ToString(), StringComparison.InvariantCultureIgnoreCase))
 				{
-					Cleaner.SelectedRosterDay = ServiceWeekDay;
+					Cleaner.SelectedRosterDay = ServiceDay;
 					Cleaner.TeamSize = item.TeamCount;
 					dayStart = item.TimeOfDayFrom;
 					dayEnd = item.TimeOfDayTo;
@@ -138,7 +124,7 @@ namespace MagicMaids
 			if (dayStart == 0)
 			{
 				// not found for the specific day
-				throw new NoTeamRosteredException(Cleaner.FirstName + ' ' + Cleaner.LastName, ServiceWeekDay);
+				throw new NoTeamRosteredException(Cleaner.FirstName + ' ' + Cleaner.LastName, ServiceDay.ToString());
 			}
 
 			long previousEndTime = 0;
@@ -150,7 +136,7 @@ namespace MagicMaids
 					break;
 				}
 
-				if (item.WeekDay == ServiceWeekDay)
+				if (item.WeekDay == ServiceDay.ToString())
 				{
 					if (item.StartTime > previousEndTime)
 					{
@@ -176,7 +162,7 @@ namespace MagicMaids
 
 			if (dayList.Count == 0)
 			{
-				throw new NoSuitableGapAvailable(ServiceWeekDay, minJobSizeMins + AdjustedGapMins);
+				throw new NoSuitableGapAvailable(ServiceDay.ToString(), minJobSizeMins + AdjustedGapMins);
 			}
 
 			return dayList;
@@ -243,14 +229,11 @@ namespace MagicMaids
 			List<JobBooking> _entityList = new List<JobBooking>();
 			StringBuilder _sql = new StringBuilder($"Select * from JobBooking where PrimaryCleanerRefId = '{Cleaner.Id}'");
 			_sql.Append($" and JobStatus in ('{BookingStatus.CONFIRMED}', '{BookingStatus.PENDING}')");
-			if (!String.IsNullOrWhiteSpace(ServiceWeekDay))
+			if (!String.IsNullOrWhiteSpace(ServiceDay.ToString()))
 			{
-				_sql.Append($" and WeekDay = '{ServiceWeekDay}'");
+				_sql.Append($" and WeekDay = '{ServiceDay.ToString()}'");
 			}
-			if (ServiceDateUTC.Year >= DateTime.Now.ToUTC().Year)
-			{
-				_sql.Append($" and DATE(JobDate) = DATE('{ServiceDateUTC.FormatDatabaseDate()}') ");
-			}
+			_sql.Append($" and JobDate > '{DateTime.UtcNow.AddDays(-1).FormatDatabaseDate()}'");
 			_sql.Append(" order by JobDate, WeekDay, StartTime, EndTime");
 
 			using (DBManager db = new DBManager())
@@ -323,7 +306,7 @@ namespace MagicMaids
 				JobStatus = BookingStatus.AVAILABLE,
 				JobSuburb = "",
 				JobType = JobType,
-				WeekDay = ServiceWeekDay,
+				WeekDay = ServiceDay.ToString(),
 				JobColourCode = CalculateSuburbColourCode(""),
 				IsNewItem = true
 			});

@@ -187,7 +187,7 @@
 							<td class="{{cleaner.StyleHomeBase}} text-center no-horizontal-gutter">{{cleaner.DisplayHomeBase}}</td>
 							<td class="colourMatch_Green text-center no-horizontal-gutter">Secondary</td>
 							<td class="{{cleaner.StyleWeekday}} text-center no-horizontal-gutter">
-								{{cleaner.SelectedRosterDay}}
+								{{cleaner.DisplaySelectedRosterDay}}
 							</td>
 							<td class="text-center">
 								<!-- form-->
@@ -196,11 +196,16 @@
 										<i>{{ cleaner.CustomErrorMessage }}</i>
 									</div>
 									<div ng-if="!cleaner.CustomErrorMessage">
-										<span ng-if="cleaner.CleanerOnLeave">
-											<i>Cleaner has leave scheduled: {{cleaner.LeaveDates}}</i>
-										</span>
+										<div ng-if="cleaner.CleanerOnLeave && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_Leave">Leave: {{cleaner.LeaveDates}}</div>
+										<div ng-if="cleaner.SheduledClashCount == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle">
+											One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})
+										</div>
+										<div ng-if="cleaner.SheduledClashCount == 2  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffMultiple">
+											One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})<br />
+											One-Off: {{cleaner.ClashingJobsForServiceDay[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[1].EndTimeOfDay}})
+										</div>
 										<ul id="jobAvailabilityButtons" class="row list-unstyled">
-											<li ng-repeat="job in cleaner.ScheduledJobs" class="availableButton">
+											<li ng-repeat="job in cleaner.ScheduledJobsForServiceDay" class="availableButton">
 												<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
 													<a ng-click="checkCustomerState(cleaner, job);">
 														<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
@@ -208,7 +213,10 @@
 												</div>
 												<div ng-if="job.JobStatus != 'AVAILABLE'">
 													<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
-														<span class="btn bg-danger-light availableButtonBusy">{{job.JobSuburb}}<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</span>
+														<span class="btn bg-danger-light availableButtonBusy">
+															{{job.JobSuburb}}&nbsp;&nbsp;<i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnightly'"></i>
+															<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}
+														</span>
 													</div>
 												</div>
 											</li>

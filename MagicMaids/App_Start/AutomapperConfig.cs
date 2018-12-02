@@ -55,6 +55,7 @@ namespace MagicMaids
 				.ForMember(dest => dest.PreviousJobLocation, source => source.Ignore())
 				.ForMember(dest => dest.StyleNextJobLocation, source => source.Ignore())
 				.ForMember(dest => dest.NextJobLocation, source => source.Ignore())
+				.ForMember(dest => dest.SelectedServiceDate, source => source.Ignore())
 
 				.ForMember(dest => dest.TeamSize, source => source.Ignore())
 				.ForMember(dest => dest.SelectedRosterDay, source => source.Ignore())

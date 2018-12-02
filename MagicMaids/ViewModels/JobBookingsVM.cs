@@ -262,7 +262,7 @@ namespace MagicMaids.ViewModels
 			JobType = entityModel.JobType;
 			JobStatus = entityModel.JobStatus;
 			WeekDay = entityModel.WeekDay;
-			JobDateUTC = entityModel.JobDateUTC;
+			JobDateUTC = entityModel.JobDate;
 			JobSuburb = entityModel.JobSuburb;
 			TeamSize = entityModel.TeamSize;
 		}

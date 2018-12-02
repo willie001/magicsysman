@@ -4,12 +4,21 @@ using NodaTime.Extensions;
 
 using System;
 using System.Globalization;
+using System.Text;
 using System.Web;
 
 namespace MagicMaids
 {
 	public static class DateTimeWrapper
 	{
+		[Flags]
+		private enum DateTimeParts
+		{
+			Day = 0x01,
+			Month = 0x02,
+			Year = 0x04,
+		}
+
 		/// <summary>
 		/// NodaTime's DateTime.Now
 		/// </summary>
@@ -229,6 +238,24 @@ namespace MagicMaids
 			return NamedColours.WeeksOdd;
 		}
 
+		public static DayOfWeek ToDayOfWeek(this string dayOfWeek)
+		{
+			if (Enum.IsDefined(typeof(DayOfWeek), dayOfWeek))
+			{
+				DayOfWeek equivalentDay = (DayOfWeek)Enum.Parse(typeof(DayOfWeek), dayOfWeek, true);
+				return equivalentDay;
+			}
+			else
+			{
+				throw new ArgumentException("Invalid week day");
+			}
+		}
+
+		public static DateTime FindNextDateForDay(string dayOfWeek)
+		{
+			return FindNextDateForDay(dayOfWeek.ToDayOfWeek());
+		}
+
 		public static DateTime FindNextDateForDay(DayOfWeek WeekDay)
 		{
 			var _date = DateTime.Now.ToUTC();
@@ -271,6 +298,56 @@ namespace MagicMaids
 			}
 
 			return false;
+		}
+
+		public static string FormatDateRange(DateTime startDate, DateTime endDate)
+		{
+
+			if (endDate.Date < startDate.Date)
+			{
+				endDate = startDate;
+			}
+
+			string result;
+			if (startDate.Date == endDate.Date)
+			{
+				result = FormatDateTime(startDate, DateTimeParts.Day | DateTimeParts.Month | DateTimeParts.Year);
+			}
+			else if (startDate.Year == endDate.Year && startDate.Month == endDate.Month)
+			{
+				result = $"{FormatDateTime(startDate, DateTimeParts.Day)}-{FormatDateTime(endDate, DateTimeParts.Day | DateTimeParts.Month | DateTimeParts.Year)}";
+			}
+			else if (startDate.Year == endDate.Year)
+			{
+				result = $"{FormatDateTime(startDate, DateTimeParts.Day | DateTimeParts.Month)}-{FormatDateTime(endDate, DateTimeParts.Day | DateTimeParts.Month | DateTimeParts.Year)}";
+			}
+			else
+			{
+				result = $"{FormatDateTime(startDate, DateTimeParts.Day | DateTimeParts.Month | DateTimeParts.Year)}-{FormatDateTime(endDate, DateTimeParts.Day | DateTimeParts.Month | DateTimeParts.Year)}";
+			}
+
+			return  result;
+		}
+
+		/// <summary>
+		/// Formats a single date/time value using the current settings.
+		/// </summary>
+		private static string FormatDateTime(DateTime dt, DateTimeParts parts)
+		{
+			StringBuilder sb = new StringBuilder();
+
+			if (parts.HasFlag(DateTimeParts.Day))
+			{
+				if (parts.HasFlag(DateTimeParts.Month))
+				{
+					sb.Append("d MMM");
+				}
+				else sb.Append("%d");
+			}
+			if (parts.HasFlag(DateTimeParts.Year))
+				sb.Append(" yyyy");
+
+			return dt.ToString(sb.ToString());
 		}
 
 	}

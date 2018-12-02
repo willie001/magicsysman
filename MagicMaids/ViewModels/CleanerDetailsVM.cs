@@ -432,8 +432,21 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+		public DayOfWeek SelectedRosterDay
+		{
+			get;
+			set;
+		}
 
-		public String SelectedRosterDay
+		public string DisplaySelectedRosterDay
+		{
+			get
+			{
+				return SelectedRosterDay.ToString();
+			}
+		}
+
+		public DateTime? SelectedServiceDate
 		{
 			get;
 			set;
@@ -449,6 +462,55 @@ namespace MagicMaids.ViewModels
 		{
 			get;
 			set;
+		}
+
+		public Int32 SheduledClashCount
+		{
+			get
+			{
+				return ClashingJobsForServiceDay.Count;
+			}
+		}
+
+		public IList<JobBookingsVM> ClashingJobsForServiceDay
+		{
+			get
+			{
+				if (!SelectedServiceDate.Equals(default(DateTime)) && ScheduledJobs != null)
+				{
+					return  ScheduledJobs.Where<JobBookingsVM>(x =>
+						x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
+						&& x.JobDateUTC.Value.ToUser().Date != SelectedServiceDate.Value.Date
+						&& (x.JobStatus == BookingStatus.CONFIRMED || x.JobStatus == BookingStatus.PENDING)
+					)
+					.ToList();
+				}
+
+				return new List<JobBookingsVM>();
+			}
+		}
+
+		public IList<JobBookingsVM> ScheduledJobsForServiceDay {
+			get
+			{
+				if (!SelectedServiceDate.Equals(default(DateTime)) && ScheduledJobs != null)
+				{
+					var list =  ScheduledJobs.Where<JobBookingsVM>(x => 
+						x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
+						&& (
+							((x.JobType == JobTypeEnum.OneOff || x.JobType == JobTypeEnum.Vacate) &&
+								x.JobDateUTC.Value.ToUser().Date.Equals(SelectedServiceDate.Value.Date) )
+							|| 
+							(x.JobType == JobTypeEnum.Weekly || x.JobType == JobTypeEnum.Fortnighly)
+						)
+					)
+					.ToList();
+
+					return list;
+				}
+
+				return new List<JobBookingsVM>();
+			}
 		}
 
 		public bool CleanerOnLeave
