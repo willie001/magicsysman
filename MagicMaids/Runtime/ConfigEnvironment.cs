@@ -32,6 +32,7 @@ namespace MagicMaids
 		{
 			get
 			{
+				return true;		// Willie hierdie sal die Authentication afsit.
 				if (IsLocal)
 				{
 					return true;

@@ -345,7 +345,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.OtherNumber}',");
 							_sql.Append($"'{_objToUpdate.Region}',");
 							_sql.Append($"'{_objToUpdate.GenderFlag}',");
-							_sql.Append($"'{_objToUpdate.Ironing}',");
+							_sql.Append($"{_objToUpdate.Ironing},");
 							_sql.Append($"'{_objToUpdate.PrimaryZone}',");
 							_sql.Append($"'{_objToUpdate.SecondaryZone}',");
 							_sql.Append($"'{_objToUpdate.ApprovedZone}'");
@@ -391,7 +391,7 @@ namespace MagicMaids.Controllers
 							_sql.Append($",OtherNumber = '{_objToUpdate.OtherNumber}'");
 							_sql.Append($",Region = '{_objToUpdate.Region}'");
 							_sql.Append($",GenderFlag = '{_objToUpdate.GenderFlag}'");
-							_sql.Append($",Ironing = '{_objToUpdate.Ironing}'");
+							_sql.Append($",Ironing = {_objToUpdate.Ironing}");
 							_sql.Append($",PrimaryZone = '{_objToUpdate.PrimaryZone}'");
 							_sql.Append($",SecondaryZone = '{_objToUpdate.SecondaryZone}'");
 							_sql.Append($",ApprovedZone = '{_objToUpdate.ApprovedZone}'");

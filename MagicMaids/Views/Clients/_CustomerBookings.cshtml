@@ -43,21 +43,29 @@
 							<div class="row">
 								<div class="col-md-3 text-bold">Service Date</div>
 								<div class="col-md-9">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
+
 							</div>
 							<hr />
 							<div class="row">
-								<div class="col-md-4 text-bold">
-									Adjust start time<br />
+								<div class="col-md-3">Adjust start time</div>
+								<div class="col-md-3"></div>
+								<div class="col-md-3">Adjust finish time</div>
+								<div class="col-md-3"></div>
+							</div>
+							<div class="row">
+								<div class="col-md-3 text-bold">
 									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.StartTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
 								</div>
-								<div class="col-md-4 text-bold">
-									Adjust finish time<br />
-									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-
+								<div class="col-md-3">
+									<br /><br />
+									<button type="submit" class="btn btn-info">Set End Time >> </button>
 								</div>
-								<div class="col-md-4">
+								<div class="col-md-3 text-bold">
+									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+								</div>
+								<div class="col-md-3">
 									<br /><br /><br /><br />
-								   <button type="submit" class="btn btn-success" ng-click="confirmBooking();">Confirm Booking</button>
+									<button type="submit" class="btn btn-success" ng-click="confirmBooking();">Confirm Booking</button>
 								</div>
 							</div>
 

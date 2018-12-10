@@ -69,7 +69,30 @@ namespace MagicMaids.Controllers
 						
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Name))
 						{
-							sql.Append($" and (C.FirstName like '{searchCriteria.Name}%' or C.LastName like '{searchCriteria.Name}%')" );
+							var nameList = searchCriteria.Name.Split(' ').ToList();
+							if (nameList.Count == 1)
+							{
+								sql.Append($" and (C.FirstName like '{searchCriteria.Name}%' or C.LastName like '{searchCriteria.Name}%')");
+							}
+							else if (nameList.Count == 2)
+							{
+								sql.Append($" and (C.FirstName like '{nameList[0].Trim()}%' and C.LastName like '{nameList[1].Trim()}%')");
+							}
+							else
+							{
+								sql.Append($" and (");
+								var addOr = false;
+								foreach (var name in nameList)
+								{
+									if (addOr)
+									{
+										sql.Append(" or ");
+									}
+									sql.Append($"C.FirstName like '{name.Trim()}%'  or C.LastName like '{name.Trim()}%' ");
+									addOr = true;
+								}
+								sql.Append($")");
+							}
 						}
 
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Phone))
