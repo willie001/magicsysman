@@ -24,3 +24,11 @@ https://bugs.mysql.com/bug.php?id=76597
 
 Connection issues persisting:
 https://docs.plesk.com/en-US/12.5/administrator-guide/website-management/websites-and-domains/advanced-extended-website-management/using-virtual-directories-windows/configuring-aspnet-for-virtual-directories.65219/
+
+Deployment Pipeline
+Config - The web.config is generic and no specific environment settings are contained in this file.
+
+A directory called Config contains the respective config files for app settings and connection strings. 
+This directory is added to the git.ignore file to ensure that it is not pushed to the TEST and PROD systems.
+
+When creating a new instance make sure you add the Config directory and config files manually.
