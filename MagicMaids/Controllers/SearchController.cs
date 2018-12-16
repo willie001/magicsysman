@@ -125,7 +125,7 @@ namespace MagicMaids.Controllers
 					}
 
 					sql.Append(" order by LastName, FirstName");
-
+                                        
 					List<CleanerMatchResultVM> _vmResults;
  					using (DBManager db = new DBManager())
 					{

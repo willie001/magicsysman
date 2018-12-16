@@ -32,7 +32,7 @@ namespace MagicMaids
 		{
 			get
 			{
-				return true;		// Willie hierdie sal die Authentication afsit.
+				//return true;		// Willie hierdie sal die Authentication afsit.
 				if (IsLocal)
 				{
 					return true;

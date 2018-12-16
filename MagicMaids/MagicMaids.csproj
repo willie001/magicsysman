@@ -4,7 +4,8 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion></ProductVersion>
+    <ProductVersion>
+    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{B97F03C5-8E84-46BA-AC9A-F07362843C6A}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -98,7 +99,8 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="System.Net.Http.WebRequest"></Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Drawing.Design" />
@@ -610,6 +612,8 @@
     <Content Include="Vendor\angular-knob\src\angular-knob.js" />
     <Content Include="Vendor\angular-summernote\dist\angular-summernote.js" />
     <Content Include="Vendor\angular-ui-calendar\src\calendar.js" />
+    <Content Include="Config\connstrings.config" />
+    <Content Include="Config\appSettings.config" />
     <None Include="Vendor\angular-ui-grid\README.md" />
     <None Include="Vendor\angular-ui-grid\bower.json" />
     <None Include="Vendor\angular-ui-grid\package.json" />
@@ -1271,8 +1275,6 @@
     <Folder Include="Vendor\jquery\src\traversing\var\" />
     <Folder Include="Vendor\jquery\src\var\" />
     <Folder Include="Vendor\oclazyload\dist\modules\" />
-    <Folder Include="Runtime\" />
-    <Folder Include="Resolvers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1299,7 +1301,8 @@
           <IISUrl>http://localhost:9090</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl></CustomServerUrl>
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
