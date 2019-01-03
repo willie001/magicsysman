@@ -102,12 +102,8 @@ namespace MagicMaids.Controllers
 
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Address))
 						{
-							sql.Append($" and (Ph.AddressLine1 like '%{searchCriteria.Address}%'");
-							sql.Append($" or Ph.AddressLine2 like '{searchCriteria.Address}%'");
-							sql.Append($" or Ph.AddressLine3 like '{searchCriteria.Address}%'");
-							sql.Append($" or Ph.State like '{searchCriteria.Address}%'");
-							sql.Append($" or Ph.Country like '{searchCriteria.Address}%')");
-						}
+                            sql.Append($" and (CONCAT_WS(' ', Ph.AddressLine1, Ph.AddressLine2, Ph.AddressLine3, Ph.State, Ph.Country) LIKE '%{searchCriteria.Address}%')");
+                        }
 
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Suburb))
 						{
@@ -129,9 +125,11 @@ namespace MagicMaids.Controllers
 
 						sql.Append(" order by C.LastName, C.FirstName ");
 
-						var _orderedResults = db.getConnection().Query<Client, Address, Client>(sql.ToString(), (clnr, phys) => {
-							clnr.PhysicalAddress = phys;
-							return clnr;
+
+
+						var _orderedResults = db.getConnection().Query<Client, Address, Client>(sql.ToString(), (client, physicalAddress) => {
+                            client.PhysicalAddress = physicalAddress;
+							return client;
 						}).ToList();
 
 						var _vmResults = Mapper.Map<List<Client>, List<ClientDetailsVM>>(_orderedResults);

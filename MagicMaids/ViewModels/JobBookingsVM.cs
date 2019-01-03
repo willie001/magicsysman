@@ -25,6 +25,14 @@ namespace MagicMaids.ViewModels
 		Vacate
 	}
 
+    public enum ZoneMatch
+    {
+        Primary,
+        Secondary,
+        Approved,
+        None
+    }
+
 	public class JobBookingsVM : BaseViewModel
 	{
 			

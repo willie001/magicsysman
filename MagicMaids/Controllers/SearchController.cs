@@ -64,7 +64,7 @@ namespace MagicMaids.Controllers
 			// if specific id peovided ignore the criteria and find the cleaner
 			if (searchByCriteria)
 			{
-				if (searchCriteria.WeeklyJob || searchCriteria.WeeklyJob)
+				if (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob )
 				{
 					searchCriteria.ServiceDate = DateTime.MinValue;
 				}

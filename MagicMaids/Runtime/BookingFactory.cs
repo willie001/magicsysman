@@ -93,9 +93,10 @@ namespace MagicMaids
 			FormatStyleForHome(item);
 			FormatStyleForWeekday(item);
 
-			// All data loaded - calculate cleaner's current availability
-			AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceLengthMins, JobType, SearchZoneList);
-			try
+            // All data loaded - calculate cleaner's current availability
+            AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceLengthMins, JobType, SearchZoneList);
+            
+            try
 			{
 				item.ScheduledJobs = factory.GetCleanerDaySchedule();
 				item.TeamSize = factory.CleanerTeamSize;
@@ -184,6 +185,35 @@ namespace MagicMaids
 
 			return false;
 		}
+
+        private ZoneMatch GetZoneMatch(CleanerMatchResultVM item)
+        {
+            if (item == null)
+            {
+                return ZoneMatch.None;
+            }
+
+            var matchPrimary = criteria.FilterZonesPrimary;
+            var matchSecondary = criteria.FilterZonesSecondary;
+            var matchApproved = criteria.FilterZonesApproved;
+
+            matchPrimary = matchPrimary && item.PrimaryZoneList.Intersect(SearchZoneList).Any();
+            matchSecondary = matchSecondary && item.SecondaryZoneList.Intersect(SearchZoneList).Any();
+            matchApproved = matchApproved && item.ApprovedZoneList.Intersect(SearchZoneList).Any();
+
+            if (matchPrimary)
+            {
+                return ZoneMatch.Primary; 
+            } else if (matchSecondary  )
+            {
+                return ZoneMatch.Secondary; 
+            } else if ( matchApproved )
+            {
+                return ZoneMatch.Approved; 
+            }
+
+            return ZoneMatch.None ;
+        }
 
 		/// <summary>
 		/// Sets formatting style for the cleaner's home suburb
