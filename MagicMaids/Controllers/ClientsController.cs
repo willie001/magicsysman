@@ -118,16 +118,10 @@ namespace MagicMaids.Controllers
 
 						if (!String.IsNullOrWhiteSpace(searchCriteria.Cleaner))
 						{
-                            // todo add sub query
-                            // https://stackoverflow.com/questions/2066084/in-operator-in-linq?answertab=active#tab-top
-                            // https://stackoverflow.com/questions/23685375/subquery-with-entity-framework
-
                             sql.Append($" and (C.ID in (SELECT jb.ClientRefId FROM cleaners c INNER JOIN jobbooking jb ON c.ID = jb.PrimaryCleanerRefId WHERE CONCAT_WS(' ', c.FirstName, c.LastName) LIKE '%{searchCriteria.Cleaner}%' GROUP BY jb.ClientRefId))");
 						}
 
 						sql.Append(" order by C.LastName, C.FirstName ");
-
-
 
 						var _orderedResults = db.getConnection().Query<Client, Address, Client>(sql.ToString(), (client, physicalAddress) => {
                             client.PhysicalAddress = physicalAddress;
@@ -189,7 +183,7 @@ namespace MagicMaids.Controllers
 
 					if (_client == null)
 					{
-						ModelState.AddModelError(string.Empty, $"Customer [{ClientId.ToString()}] not found.  Please try again.");
+						ModelState.AddModelError(string.Empty, $"Customer [{ClientId.ToString()}] not found. Please try again.");
 						return JsonFormResponse();
 					}
 				}
