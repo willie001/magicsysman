@@ -54,35 +54,13 @@ namespace MagicMaids.Controllers
 		[HttpPost]
 		public ActionResult MatchCleaners(SearchVM searchCriteria, String CleanerId = null)
 		{
-			Boolean searchByCriteria = true;
-			if (!String.IsNullOrWhiteSpace(CleanerId))
-			{
-				searchByCriteria = false;
-				ModelState.Clear();
-			}
-
-			// if specific id peovided ignore the criteria and find the cleaner
+			Boolean searchByCriteria = SetSearchByCriteria(CleanerId);
+			
+			// if specific id provided ignore the criteria and find the cleaner
 			if (searchByCriteria)
 			{
-				if (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob )
-				{
-					searchCriteria.ServiceDate = DateTime.MinValue;
-				}
-
-				if (searchCriteria == null)
-				{
-					ModelState.AddModelError(string.Empty, $"No search criteria specified.");
-				}
-
-				if (searchCriteria.ServiceLengthMins > SystemSettings.WorkSessionMaxHours * 60)
-				{
-					ModelState.AddModelError(string.Empty, $"Service duration can not exceed { SystemSettings.WorkSessionMaxHours} hours.");
-				}
-
-				if ((searchCriteria.OneOffJob || searchCriteria.VacateClean) && ((searchCriteria.ServiceDate - DateTime.Now.ToUTC()).TotalDays > SystemSettings.BookingsDaysAllowed))
-				{
-					ModelState.AddModelError(string.Empty, $"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
-				}
+                SetServiceDate(ref searchCriteria);
+                ValidateSearchCriteria(searchCriteria);
 			}
 
 			if (ModelState.IsValid)
@@ -214,6 +192,43 @@ namespace MagicMaids.Controllers
 			return suburbs;
 
 		}
+
+        private Boolean SetSearchByCriteria(String  CleanerId)
+        {
+            if (!String.IsNullOrWhiteSpace(CleanerId))
+            {               
+                ModelState.Clear();
+                return false;
+            }
+
+            return true;
+        }
+
+        private void SetServiceDate(ref SearchVM searchCriteria)
+        {
+            if (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob)
+            {
+                searchCriteria.ServiceDate = DateTime.MinValue;
+            }
+        }
+
+        private void ValidateSearchCriteria(SearchVM searchCriteria)
+        {
+            if (searchCriteria == null)
+            {
+                ModelState.AddModelError(string.Empty, $"No search criteria specified.");
+            }
+
+            if (searchCriteria.ServiceLengthMins > SystemSettings.WorkSessionMaxHours * 60)
+            {
+                ModelState.AddModelError(string.Empty, $"Service duration can not exceed { SystemSettings.WorkSessionMaxHours} hours.");
+            }
+
+            if ((searchCriteria.OneOffJob || searchCriteria.VacateClean) && ((searchCriteria.ServiceDate - DateTime.Now.ToUTC()).TotalDays > SystemSettings.BookingsDaysAllowed))
+            {
+                ModelState.AddModelError(string.Empty, $"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
+            }
+        }
 		#endregion 
 
 	}
