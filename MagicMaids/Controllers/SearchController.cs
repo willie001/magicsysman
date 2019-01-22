@@ -55,8 +55,7 @@ namespace MagicMaids.Controllers
 		public ActionResult MatchCleaners(SearchVM searchCriteria, String CleanerId = null)
 		{
 			Boolean searchByCriteria = SetSearchByCriteria(CleanerId);
-			
-			// if specific id provided ignore the criteria and find the cleaner
+						
 			if (searchByCriteria)
 			{
                 SetServiceDate(ref searchCriteria);
@@ -70,83 +69,13 @@ namespace MagicMaids.Controllers
 					searchCriteria.HasCriteria = true;
 					searchCriteria.StoreSearchCookieCiteria("cleanerMatch");
 
-					StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
-							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where C.IsActive=1");
+                    List<CleanerMatchResultVM> CleanerMatchResultList = GetCleanerMatchResults(searchCriteria, searchByCriteria, CleanerId);
+
+                    SetCleanerMatchProperties(ref CleanerMatchResultList, searchCriteria);     
 
 					if (searchByCriteria)
 					{
-						if (searchCriteria.RequireIroning)
-						{
-							sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
-						}
-
-						if (searchCriteria.FilterRating > 0)
-						{
-							sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
-						}
-
-						if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
-						{
-							// not on leave
-							sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
-						}
-						else
-						{
-
-						}
-						// and rostered for weekday
-						sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
-					}
-					else
-					{
-						sql.Append($" and C.ID = '{CleanerId}'");
-					}
-
-					sql.Append(" order by LastName, FirstName");
-                                        
-					List<CleanerMatchResultVM> _vmResults;
- 					using (DBManager db = new DBManager())
-					{
-						var _orderedResults = db.getConnection().Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) =>
-						{
-							cl.PhysicalAddress = phys;
-							return cl;
-						}).ToList();
-
-						_vmResults = Mapper.Map<List<Cleaner>, List<CleanerMatchResultVM>>(_orderedResults);
-					}
-
-					foreach (CleanerMatchResultVM _item in _vmResults)
-					{
-						_item.PrimaryZoneList = new List<string>(new string[] { _item.PrimaryZone });
-						_item.SelectedRosterDay = searchCriteria.ServiceDay.ToDayOfWeek();
-						_item.SelectedServiceDate = (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob) ? DateTimeWrapper.FindNextDateForDay(_item.SelectedRosterDay) : searchCriteria.ServiceDate;
-						if (!String.IsNullOrWhiteSpace(_item.SecondaryZone))
-						{
-							_item.SecondaryZoneList = _item.SecondaryZone.Split(new char[] { ',', ';' })
-								.Distinct()
-								.ToList();
-						}
-						else
-						{
-							_item.SecondaryZoneList = new List<string>();
-						}
-
-						if (!String.IsNullOrWhiteSpace(_item.ApprovedZone))
-						{
-							_item.ApprovedZoneList = _item.ApprovedZone.Split(new char[] { ',', ';' })
-								.Distinct()
-								.ToList();
-						}
-						else
-						{
-							_item.ApprovedZoneList = new List<string>();
-						}
-					}
-
-					if (searchByCriteria)
-					{
-						BookingFactory resultsProcessor = new BookingFactory(_vmResults, searchCriteria);
+						BookingFactory resultsProcessor = new BookingFactory(CleanerMatchResultList, searchCriteria);
 						if (!resultsProcessor.ValidSearchZone)
 						{
 							ModelState.AddModelError(string.Empty, $"The suburb '{searchCriteria.Suburb.ToUpper()}' does not have any zones defined yet.");
@@ -159,7 +88,7 @@ namespace MagicMaids.Controllers
 					}
 					else
 					{
-						var results = _vmResults[0];
+						var results = CleanerMatchResultList[0];
 						return new JsonNetResult() { Data = new { SearchResults = results }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 					}
 				}
@@ -229,7 +158,97 @@ namespace MagicMaids.Controllers
                 ModelState.AddModelError(string.Empty, $"Services can't be booked more than {SystemSettings.BookingsDaysAllowed} days in advance.");
             }
         }
-		#endregion 
 
-	}
+        private StringBuilder BuildCleanerMatchSQL(SearchVM searchCriteria, Boolean searchByCriteria, String CleanerId)
+        {
+            StringBuilder sql = new StringBuilder(@"select * from Cleaners C 
+							 	inner join Addresses Ph on C.PhysicalAddressRefId = Ph.ID where C.IsActive=1");
+
+            if (searchByCriteria)
+            {
+                if (searchCriteria.RequireIroning)
+                {
+                    sql.Append($" and Ironing = {searchCriteria.RequireIroning}");
+                }
+
+                if (searchCriteria.FilterRating > 0)
+                {
+                    sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
+                }
+
+                if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
+                {
+                    // not on leave
+                    sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
+                }
+                else
+                {
+
+                }
+                // and rostered for weekday
+                sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
+            }
+            else
+            {
+                sql.Append($" and C.ID = '{CleanerId}'");
+            }
+
+            sql.Append(" order by LastName, FirstName");
+
+            return sql;
+        }
+
+        private List<CleanerMatchResultVM> GetCleanerMatchResults(SearchVM searchCriteria, Boolean searchByCriteria, String CleanerId)
+        {
+            StringBuilder sql = BuildCleanerMatchSQL(searchCriteria, searchByCriteria, CleanerId);
+
+            List<CleanerMatchResultVM> _vmResults;
+            using (DBManager db = new DBManager())
+            {
+                var _orderedResults = db.getConnection().Query<Cleaner, Address, Cleaner>(sql.ToString(), (cl, phys) =>
+                {
+                    cl.PhysicalAddress = phys;
+                    return cl;
+                }).ToList();
+
+                _vmResults = Mapper.Map<List<Cleaner>, List<CleanerMatchResultVM>>(_orderedResults);
+            }
+
+            return _vmResults;
+        }
+
+        private void SetCleanerMatchProperties(ref List<CleanerMatchResultVM> CleanerMatchResultList, SearchVM searchCriteria)
+        {
+            foreach (CleanerMatchResultVM CleanerMatchResult in CleanerMatchResultList)
+            {
+                CleanerMatchResult.PrimaryZoneList = new List<string>(new string[] { CleanerMatchResult.PrimaryZone });
+                CleanerMatchResult.SelectedRosterDay = searchCriteria.ServiceDay.ToDayOfWeek();
+                CleanerMatchResult.SelectedServiceDate = (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob) ? DateTimeWrapper.FindNextDateForDay(CleanerMatchResult.SelectedRosterDay) : searchCriteria.ServiceDate;
+                if (!String.IsNullOrWhiteSpace(CleanerMatchResult.SecondaryZone))
+                {
+                    CleanerMatchResult.SecondaryZoneList = CleanerMatchResult.SecondaryZone.Split(new char[] { ',', ';' })
+                        .Distinct()
+                        .ToList();
+                }
+                else
+                {
+                    CleanerMatchResult.SecondaryZoneList = new List<string>();
+                }
+
+                if (!String.IsNullOrWhiteSpace(CleanerMatchResult.ApprovedZone))
+                {
+                    CleanerMatchResult.ApprovedZoneList = CleanerMatchResult.ApprovedZone.Split(new char[] { ',', ';' })
+                        .Distinct()
+                        .ToList();
+                }
+                else
+                {
+                    CleanerMatchResult.ApprovedZoneList = new List<string>();
+                }
+            }
+        }
+
+        #endregion
+
+    }
 }

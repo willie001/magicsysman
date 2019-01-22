@@ -15,7 +15,7 @@ namespace MagicMaids
 		#region Fields
 		private CleanerMatchResultVM Cleaner;
 		public DateTime ServiceDateUTC;	//UTC
-		private Int32 ServiceGapMinutes;
+		private Int32 ServiceLenghtMinutes;
 		private IList<String> ServiceZone;
 		private JobTypeEnum JobType;
 		private DayOfWeek ServiceDay;
@@ -25,21 +25,10 @@ namespace MagicMaids
 		#endregion
 
 		#region Constructor
-		public AvailabilityFactory(CleanerMatchResultVM cleaner, Int32 serviceGapMins, JobTypeEnum serviceType, IList<String> serviceZone)
+		public AvailabilityFactory(CleanerMatchResultVM cleaner, Int32 serviceLenghtMins, JobTypeEnum serviceType, IList<String> serviceZone)
 		{
-			Cleaner = cleaner ?? throw new ArgumentException("No cleaner specified.", nameof(Cleaner));
-
-			if (serviceGapMins <= 0)
-			{
-				throw new ArgumentException("Invalid service gap requested.", nameof(ServiceGapMinutes));
-			}
-
-			if (serviceZone == null || serviceZone.Count == 0)
-			{
-				throw new ArgumentException("Invalid service suburb/zone requested.", nameof(ServiceZone));
-			}
-
-			ServiceDay = cleaner.SelectedRosterDay;
+            ValidateConstructorArguments(cleaner, serviceLenghtMins, serviceZone);
+            
 			if (cleaner.SelectedServiceDate.HasValue && cleaner.SelectedServiceDate != default(DateTime))
 			{
 				ServiceDateUTC = cleaner.SelectedServiceDate.Value.ToUTC();
@@ -49,9 +38,10 @@ namespace MagicMaids
 				// calculate next date
 				ServiceDateUTC = DateTimeWrapper.FindNextDateForDay((DayOfWeek)ServiceDay);
 			}
-			JobType = serviceType;
 
-			ServiceGapMinutes = serviceGapMins;
+            ServiceDay = cleaner.SelectedRosterDay;
+            JobType = serviceType;
+			ServiceLenghtMinutes = serviceLenghtMins;
 			ServiceZone = serviceZone;
 
 		}
@@ -108,43 +98,43 @@ namespace MagicMaids
 			long dayEnd = 0;
 			SuitableTimeSlots = 0;
 
-			var cleanerRoster = GetCleanerRoster();
-			foreach (CleanerRosterVM item in cleanerRoster)
+			var cleanerRosterList = GetCleanerRoster(); //Cleaner roster is the times that the cleaner team are available
+			foreach (CleanerRosterVM cleanerRosterItem in cleanerRosterList)
 			{
-				if (item.Weekday.Equals(ServiceDay.ToString(), StringComparison.InvariantCultureIgnoreCase))
+				if (cleanerRosterItem.Weekday.Equals(ServiceDay.ToString(), StringComparison.InvariantCultureIgnoreCase))
 				{
 					Cleaner.SelectedRosterDay = ServiceDay;
-					Cleaner.TeamSize = item.TeamCount;
-					dayStart = item.TimeOfDayFrom;
-					dayEnd = item.TimeOfDayTo;
+					Cleaner.TeamSize = cleanerRosterItem.TeamCount;
+					dayStart = cleanerRosterItem.TimeOfDayFrom;
+					dayEnd = cleanerRosterItem.TimeOfDayTo;
 					break;
 				}
 			}
 
 			if (dayStart == 0)
 			{
-				// not found for the specific day
+				// Cleaner team is not available on this day
 				throw new NoTeamRosteredException(Cleaner.FirstName + ' ' + Cleaner.LastName, ServiceDay.ToString());
 			}
 
 			long previousEndTime = 0;
-			var existingSchedule = GetCleanerFutureBookings();
-			foreach(JobBookingsVM item in existingSchedule)
+			var existingScheduleList = GetCleanerFutureBookings();
+			foreach(JobBookingsVM existingScheduleItem in existingScheduleList)
 			{
 				if (previousEndTime == dayEnd)
 				{
 					break;
 				}
 
-				if (item.WeekDay == ServiceDay.ToString())
+				if (existingScheduleItem.WeekDay == ServiceDay.ToString())
 				{
-					if (item.StartTime > previousEndTime)
+					if (existingScheduleItem.StartTime > previousEndTime) //This might be it
 					{
-						AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? dayStart : previousEndTime), item.StartTime);
+						AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? dayStart : previousEndTime), existingScheduleItem.StartTime);
 					}
 						
-					dayList.Add(item);
-					previousEndTime = item.EndTime;
+					dayList.Add(existingScheduleItem);
+					previousEndTime = existingScheduleItem.EndTime;
 				}
 			}
 
@@ -269,7 +259,7 @@ namespace MagicMaids
 		private Int32 AdjustGap()
 		{
 			var isFirstJob = Cleaner.IsFirstJob;
-			var virtualServiceGap = (CleanerTeamSize == 1) ? ServiceGapMinutes : (int)Math.Ceiling((decimal)ServiceGapMinutes / CleanerTeamSize);
+			var virtualServiceGap = (CleanerTeamSize == 1) ? ServiceLenghtMinutes : (int)Math.Ceiling((decimal)ServiceLenghtMinutes / CleanerTeamSize);
 			if (isFirstJob)
 			{
 				// #1.1
@@ -293,7 +283,7 @@ namespace MagicMaids
 		{
 			var gapSize = endTime - startTime;
 
-			if (gapSize < minJobSizeMins+AdjustedGapMins)
+			if (gapSize < minJobSizeMins + AdjustedGapMins)
 				return;
 
 			SuitableTimeSlots++;
@@ -334,6 +324,21 @@ namespace MagicMaids
 			return NamedColours.ApprovedJobColor;
 
 		}
+
+        private void ValidateConstructorArguments(CleanerMatchResultVM cleaner, Int32 serviceLenghtMins, IList<String> serviceZone)
+        {
+            Cleaner = cleaner ?? throw new ArgumentException("No cleaner specified.", nameof(Cleaner));
+
+            if (serviceLenghtMins <= 0)
+            {
+                throw new ArgumentException("Invalid service gap requested.", nameof(ServiceLenghtMinutes));
+            }
+
+            if (serviceZone == null || serviceZone.Count == 0)
+            {
+                throw new ArgumentException("Invalid service suburb/zone requested.", nameof(ServiceZone));
+            }
+        }
 		#endregion
 	}
 }

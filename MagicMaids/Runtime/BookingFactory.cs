@@ -54,9 +54,9 @@ namespace MagicMaids
 				resultsList = new List<CleanerMatchResultVM>();
 			}
 
-			foreach (CleanerMatchResultVM item in resultsList)
+			foreach (CleanerMatchResultVM CleanerMatchResult in resultsList)
 			{
-				yield return PopulateCleanerAvailability(item);
+				yield return PopulateCleanerAvailability(CleanerMatchResult);
 			}
 		}
 
@@ -80,60 +80,60 @@ namespace MagicMaids
 			}
 		}
 
-		private CleanerMatchResultVM PopulateCleanerAvailability(CleanerMatchResultVM item)
+		private CleanerMatchResultVM PopulateCleanerAvailability(CleanerMatchResultVM CleanerMatchResult)
 		{
-			if (!criteria.FilterZonesNone && !ApplyZoneFilter(item))
+			if (!criteria.FilterZonesNone && !ApplyZoneFilter(CleanerMatchResult))
 			{
 				return null;
 			}
 
-			item.DisplayHomeBase = String.IsNullOrWhiteSpace(item.PhysicalAddress.Suburb) ? "no booking" : item.PhysicalAddress.Suburb;
+			CleanerMatchResult.DisplayHomeBase = String.IsNullOrWhiteSpace(CleanerMatchResult.PhysicalAddress.Suburb) ? "no booking" : CleanerMatchResult.PhysicalAddress.Suburb;
 
 			// Style Formatting
-			FormatStyleForHome(item);
-			FormatStyleForWeekday(item);
+			FormatStyleForHome(CleanerMatchResult);
+			FormatStyleForWeekday(CleanerMatchResult);
 
             // All data loaded - calculate cleaner's current availability
-            AvailabilityFactory factory = new AvailabilityFactory(item, criteria.ServiceLengthMins, JobType, SearchZoneList);
+            AvailabilityFactory Availability = new AvailabilityFactory(CleanerMatchResult, criteria.ServiceLengthMins, JobType, SearchZoneList);
             
             try
 			{
-				item.ScheduledJobs = factory.GetCleanerDaySchedule();
-				item.TeamSize = factory.CleanerTeamSize;
+				CleanerMatchResult.ScheduledJobs = Availability.GetCleanerDaySchedule();
+				CleanerMatchResult.TeamSize = Availability.CleanerTeamSize;
 
-				if (factory.SuitableTimeSlots == 0)
+				if (Availability.SuitableTimeSlots == 0)
 				{
 					return null;
 				}
 
 				if (JobType == JobTypeEnum.Fortnighly || JobType == JobTypeEnum.Weekly)
 				{
-					var leaveDates = AvailabilityFactory.GetCleanerLeaveDates(new Guid(item.Id), true).FirstOrDefault<CleanerLeaveVM>();
+					var leaveDates = AvailabilityFactory.GetCleanerLeaveDates(new Guid(CleanerMatchResult.Id), true).FirstOrDefault<CleanerLeaveVM>();
 					if (leaveDates != null)
 					{
-						item.CleanerOnLeave = ((DayOfWeek)criteria.ServiceDayValue).IsDayInRange(leaveDates.StartDate, leaveDates.EndDate);
-						item.LeaveDates = DateTimeWrapper.FormatDateRange(leaveDates.StartDate,leaveDates.EndDate);
+						CleanerMatchResult.CleanerOnLeave = ((DayOfWeek)criteria.ServiceDayValue).IsDayInRange(leaveDates.StartDate, leaveDates.EndDate);
+						CleanerMatchResult.LeaveDates = DateTimeWrapper.FormatDateRange(leaveDates.StartDate,leaveDates.EndDate);
 					}
 				}
 			}
 			catch(NoTeamRosteredException nex)
 			{
 				LogHelper log = new LogHelper();
-				log.Log(LogHelper.LogLevels.Warning, $"Cleaner not rostered - but should not be checked", nameof(PopulateCleanerAvailability), nex, item, null);
+				log.Log(LogHelper.LogLevels.Warning, $"Cleaner not rostered - but should not be checked", nameof(PopulateCleanerAvailability), nex, CleanerMatchResult, null);
 
 				return null;
 			}
 			catch (NoSuitableGapAvailable nex2)
 			{
-				item.CustomErrorMessage = nex2.Message;
+				CleanerMatchResult.CustomErrorMessage = nex2.Message;
 			}
 			catch
 			{
 				throw;
 			}
 
-			factory = null;
-			return item;
+			Availability = null;
+			return CleanerMatchResult;
 		}
 
 
