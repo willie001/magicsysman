@@ -181,11 +181,8 @@ namespace MagicMaids.Controllers
                     // not on leave
                     sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
                 }
-                else
-                {
-
-                }
-                // and rostered for weekday
+                
+                // and rostered for weekday ????
                 sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
             }
             else

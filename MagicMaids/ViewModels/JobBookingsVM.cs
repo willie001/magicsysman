@@ -250,6 +250,20 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
+        public String JobWeekYearStyle
+        {
+            get
+            {
+                if (JobType == JobTypeEnum.Fortnighly)
+                {
+                    return DateTimeWrapper.WeekYearStyle(JobDateUTC);
+                } else
+                {
+                    return null;
+                }
+            }
+        }
+
 		#endregion
 
 		#region Methods, Public

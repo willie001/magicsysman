@@ -238,7 +238,32 @@ namespace MagicMaids
 			return NamedColours.WeeksOdd;
 		}
 
-		public static DayOfWeek ToDayOfWeek(this string dayOfWeek)
+        public static string WeekYearStyle(this DateTime? matchDateUTC)
+        {
+            if (matchDateUTC == null || matchDateUTC < DateTime.MinValue || matchDateUTC > DateTime.MaxValue)
+            {
+                return "";
+            }
+
+            // We'll use BCL, but if the date is before first monday I'll force it to week 1
+            //https://nodatime.org/2.2.x/userguide/weekyears
+            var utcDate = DateTime.Parse(matchDateUTC.ToString());
+
+            CalendarWeekRule weekRule = CalendarWeekRule.FirstDay;
+            DayOfWeek firstWeekDay = DayOfWeek.Monday;
+            Calendar calendar = System.Threading.Thread.CurrentThread.CurrentCulture.Calendar;
+
+            int currentWeek = calendar.GetWeekOfYear(utcDate, weekRule, firstWeekDay);
+
+            if (currentWeek % 2 == 0)
+            {
+                return NamedColours.WeeksEven;
+            }
+
+            return NamedColours.WeeksOdd;
+        }
+
+        public static DayOfWeek ToDayOfWeek(this string dayOfWeek)
 		{
 			if (Enum.IsDefined(typeof(DayOfWeek), dayOfWeek))
 			{
