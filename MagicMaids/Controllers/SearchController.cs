@@ -221,6 +221,7 @@ namespace MagicMaids.Controllers
                 CleanerMatchResult.PrimaryZoneList = new List<string>(new string[] { CleanerMatchResult.PrimaryZone });
                 CleanerMatchResult.SelectedRosterDay = searchCriteria.ServiceDay.ToDayOfWeek();
                 CleanerMatchResult.SelectedServiceDate = (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob) ? DateTimeWrapper.FindNextDateForDay(CleanerMatchResult.SelectedRosterDay) : searchCriteria.ServiceDate;
+
                 if (!String.IsNullOrWhiteSpace(CleanerMatchResult.SecondaryZone))
                 {
                     CleanerMatchResult.SecondaryZoneList = CleanerMatchResult.SecondaryZone.Split(new char[] { ',', ';' })

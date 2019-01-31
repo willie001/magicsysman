@@ -123,7 +123,7 @@ namespace MagicMaids
             
             foreach (JobBookingsVM existingScheduleItem in existingScheduleListAll)
             {
-                if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle == Cleaner.StyleWeekday) //DateTimeWrapper.WeekYearStyle(Cleaner.SelectedServiceDate)
+                if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle == DateTimeWrapper.WeekYearStyle(Cleaner.SelectedServiceDate)) //Cleaner.StyleWeekday
                 {
                     existingScheduleListFiltered.Add(existingScheduleItem);
                 } 

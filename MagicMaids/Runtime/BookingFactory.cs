@@ -268,11 +268,11 @@ namespace MagicMaids
 
 			if (criteria.OneOffJob || criteria.VacateClean)
 			{
-				cleaner.StyleWeekday = criteria.ServiceDate.WeekYearStyle();
+				cleaner.StyleWeekday = criteria.ServiceDate.Date.WeekYearStyle();
 			}
 			else
 			{
-				cleaner.StyleWeekday = DateTimeWrapper.FindNextDateForDay((DayOfWeek)criteria.ServiceDayValue).WeekYearStyle();
+				cleaner.StyleWeekday = DateTimeWrapper.FindNextDateForDay((DayOfWeek)criteria.ServiceDayValue).Date.WeekYearStyle();
 			}
 
 			return;

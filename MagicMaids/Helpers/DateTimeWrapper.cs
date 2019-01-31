@@ -222,13 +222,13 @@ namespace MagicMaids
 
 			// We'll use BCL, but if the date is before first monday I'll force it to week 1
 			//https://nodatime.org/2.2.x/userguide/weekyears
-			var utcDate = matchDate.ToUTC();
+			//var utcDate = matchDate.ToUTC(); This will select the previous day and set the wrong week for Mondays
 
 			CalendarWeekRule weekRule = CalendarWeekRule.FirstDay;
 			DayOfWeek firstWeekDay = DayOfWeek.Monday;
 			Calendar calendar = System.Threading.Thread.CurrentThread.CurrentCulture.Calendar;
 
-			int currentWeek = calendar.GetWeekOfYear(utcDate, weekRule, firstWeekDay);
+			int currentWeek = calendar.GetWeekOfYear(matchDate, weekRule, firstWeekDay);
 
 			if (currentWeek % 2 == 0)
 			{

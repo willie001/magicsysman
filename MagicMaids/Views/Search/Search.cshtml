@@ -10,209 +10,235 @@
 
 
 <div ng-controller="MainSearchController as form">
-	@Html.Partial("_InformationDetails")
+    @Html.Partial("_InformationDetails")
 
-	<div class="panel panel-default" id="searchCriteria">
-		<div class="panel-heading">
-            <paneltool tool-collapse="tool-collapse" ></paneltool>
-			<div class="panel-title">&nbsp</div>
+    <div class="panel panel-default" id="searchCriteria">
+        <div class="panel-heading">
+            <paneltool tool-collapse="tool-collapse"></paneltool>
+            <div class="panel-title">&nbsp</div>
         </div>
-		<div uib-collapse="searchCriteria" class="panel-wrapper">
-			<div class="panel-body">
-				<form class="form-horizontal">
-					<div class="form-group">
-			          	<label class="col-xs-2 control-label">Suburb/Postcode</label>
-						<div class="col-xs-4">
-							<input class="form-control" type="text" ng-model="form.Search.Suburb" placeholder="Suburb" uib-typeahead="address for address in form.SuburbList | filter:$viewValue | limitTo:10" uib-typeahead-loading="loadingLocations" />
-							<i class="glyphicon glyphicon-refresh" ng-show="loadingLocations"></i><br/>
-							  <div class="checkbox c-checkbox">
-							  	<label>
-							  		<input type="checkbox" checked="false" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning" />
-							  		<span class="fa fa-check"></span>Requires Ironing?
-							  	</label>
-							  </div>
-						</div>
-						<label class="col-xs-2 control-label"><br/>Duration (hh:mm)</label>
-			          	<div class="col-xs-4" style="white-space: nowrap">
-							<div uib-timepicker="uib-timepicker" mousewheel="false" ng-model="form.Search.ServiceLengthForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-			          	</div>
-					</div>
-					<div class="form-group">
-			          	<label class="col-xs-2 control-label">Service request</label>
-						<div class="col-xs-4">
-							<label class="radio-inline">
-								<input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType"
-									   ng-change="changeServiceType()" ng-disabled="form.Search.FilterZonesNone == true"/>
-								<span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Fortnightly</span>
-							</label>
-							<label class="radio radio-inline">
-								<input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType"
-									   ng-change="changeServiceType()" checked="" ng-disabled="form.Search.FilterZonesNone == true"/>
-								<span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Weekly</span>
-							</label>
-							<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="O" ng-model="form.Search.ServiceType" ng-change="changeServiceType()" />One-off</label>
-							<label class="radio-inline"><input id="inlineOne" name="serviceType" type="radio" value="V" ng-model="form.Search.ServiceType" ng-change="changeServiceType()" />Vacate Clean</label>
-						</div>
-						<label class="col-xs-2 control-label">
-							<span ng-if="form.Search.OneOffJob || form.Search.VacateClean">Date required</span>
-							<span ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">Preferred day</span>
-						</label>
-			          	<div class="col-xs-4">
-							<p class="input-group" ng-if="form.Search.OneOffJob || form.Search.VacateClean">
-	                          <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate" 
-	                          		is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
-	                          		date-disabled="form.date.disabled(date, mode)" close-text="Close" />
-	                          <span class="input-group-btn">
-	                             <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
-	                                <em class="fa fa-calendar"></em>
-	                             </button>
-	                          </span>
-	                       	</p>
-							<p class="input-group" ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">
-								<select class="form-control" name="ServiceDay" ng-model="form.Search.ServiceDayValue" ng-change="changeServiceDay()">
-									<option value="1">Monday</option>
-									<option value="2">Tuesday</option>
-									<option value="3">Wednesday</option>
-									<option value="4">Thursday</option>
-									<option value="5">Friday</option>
-									<option value="6">Saturday</option>
-									<option value="7">Sunday</option>
-								</select>
-							</p>
-						</div>
-			          	
-			       	</div>
-					<div class="form-group">
-						<label class="col-xs-2 control-label">Has the customer used us before?</label>
-						<div class="col-xs-10">
-							<label class="radio-inline"><input id="inlineRpt" name="repeatCustomer" type="radio" value="Y" ng-model="form.Search.RepeatCustomer" />Yes - Return Customer</label>
-							<label class="radio radio-inline"><input id="inlineNew" name="repeatCustomer" type="radio" value="N" ng-model="form.Search.RepeatCustomer" checked="" />No - New Customer</label>
-						</div>
-					</div>
+        <div uib-collapse="searchCriteria" class="panel-wrapper">
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Suburb/Postcode</label>
+                        <div class="col-xs-4">
+                            <input class="form-control" type="text" ng-model="form.Search.Suburb" placeholder="Suburb" uib-typeahead="address for address in form.SuburbList | filter:$viewValue | limitTo:10" uib-typeahead-loading="loadingLocations" />
+                            <i class="glyphicon glyphicon-refresh" ng-show="loadingLocations"></i><br />
+                            <div class="checkbox c-checkbox">
+                                <label>
+                                    <input type="checkbox" checked="false" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning" />
+                                    <span class="fa fa-check"></span>Requires Ironing?
+                                </label>
+                            </div>
+                        </div>
+                        <label class="col-xs-2 control-label"><br />Duration (hh:mm)</label>
+                        <div class="col-xs-4" style="white-space: nowrap">
+                            <div uib-timepicker="uib-timepicker" mousewheel="false" ng-model="form.Search.ServiceLengthForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Service request</label>
+                        <div class="col-xs-4">
+                            <label class="radio-inline">
+                                <input id="inlineFortnight" name="serviceType" type="radio" value="F" ng-model="form.Search.ServiceType"
+                                       ng-change="changeServiceType()" ng-disabled="form.Search.FilterZonesNone == true" />
+                                <span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Fortnightly</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input id="serviceWeekly" name="serviceType" type="radio" value="W" ng-model="form.Search.ServiceType"
+                                       ng-change="changeServiceType()" checked="" ng-disabled="form.Search.FilterZonesNone == true" />
+                                <span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Weekly</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input id="inlineOne" name="serviceType" type="radio" value="O" ng-model="form.Search.ServiceType" ng-change="changeServiceType()" />One-off
+                            </label>
+                            <label class="radio-inline">
+                                <input id="inlineOne" name="serviceType" type="radio" value="V" ng-model="form.Search.ServiceType" ng-change="changeServiceType()" />Vacate Clean
+                            </label>
+                        </div>
+                        <label class="col-xs-2 control-label">
+                            <span ng-if="form.Search.OneOffJob || form.Search.VacateClean">Date required</span>
+                            <span ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">Preferred day</span>
+                        </label>
+                        <div class="col-xs-4">
+                            <p class="input-group" ng-if="form.Search.OneOffJob || form.Search.VacateClean">
+                                <input class="form-control" type="text" name="date" required="" uib-datepicker-popup="{{form.date.format}}" ng-model="form.Search.ServiceDate"
+                                       is-open="form.date.opened" min-date="form.date.minDate" max-date="'form.date.maxDate'" uib-datepicker-options="form.date.dateOptions"
+                                       date-disabled="form.date.disabled(date, mode)" close-text="Close" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" ng-click="form.date.open($event)">
+                                        <em class="fa fa-calendar"></em>
+                                    </button>
+                                </span>
+                            </p>
+                            <p class="input-group" ng-if="!form.Search.OneOffJob && !form.Search.VacateClean">
+                                <select class="form-control" name="ServiceDay" ng-model="form.Search.ServiceDayValue" ng-change="changeServiceDay()">
+                                    <option value="1">Monday</option>
+                                    <option value="2">Tuesday</option>
+                                    <option value="3">Wednesday</option>
+                                    <option value="4">Thursday</option>
+                                    <option value="5">Friday</option>
+                                    <option value="6">Saturday</option>
+                                    <option value="7">Sunday</option>
+                                </select>
+                            </p>
+                        </div>
 
-					<div class="form-group">
-						<label class="col-xs-2 control-label">Filter cleaner zones</label>
-						<div class="col-xs-4">
-							<label class="checkbox checkbox-inline">
-								<input type="checkbox" checked="true" name="IsActive" ng-model="form.client.IsActive" />
-								<input id="chkZonePrimary" name="chkZonePrimary" type="checkbox" ng-model="form.Search.FilterZonesPrimary" 
-									ng-disabled="form.Search.FilterZonesNone == true" />
-									<span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Primary</span> 
-							</label>
-							<label class="checkbox-inline">
-								<input id="chkZoneSecondary" name="chkZoneSecondary" type="checkbox" ng-model="form.Search.FilterZonesSecondary"
-									ng-disabled="form.Search.FilterZonesNone == true" />
-									<span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Secondary</span>
-							</label>
-							<label class="checkbox-inline">
-								<input id="chkZoneApproved" name="chkZoneApproved" type="checkbox" ng-model="form.Search.FilterZonesApproved"   
-									ng-disabled="form.Search.FilterZonesNone == true" />
-									<span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Approved</span>
-							</label>
-							<label class="checkbox-inline">
-								<input id="chkZoneNoFilter" name="chkZoneNoFilter" type="checkbox" ng-model="form.Search.FilterZonesNone" ng-change="changeZoneFilter()"/>Ignore Zones
-							</label>
-						</div>
-						<label class="col-xs-2 control-label">Filter rating</label>
-						<div class="col-xs-1">
-							<select class="form-control" name="Rating" ng-model="form.Search.FilterRating">
-								<option value="5" selected="selected">5+</option>
-								<option value="4">4+</option>
-								<option value="3">3+</option>
-								<option value="2">2+</option>
-								<option value="0">None</option>
-							</select>
-						</div>
-						<div class="col-xs-3">
-						</div>
-					</div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Has the customer used us before?</label>
+                        <div class="col-xs-10">
+                            <label class="radio-inline"><input id="inlineRpt" name="repeatCustomer" type="radio" value="Y" ng-model="form.Search.RepeatCustomer" />Yes - Return Customer</label>
+                            <label class="radio radio-inline"><input id="inlineNew" name="repeatCustomer" type="radio" value="N" ng-model="form.Search.RepeatCustomer" checked="" />No - New Customer</label>
+                        </div>
+                    </div>
 
-					<div class="form-group">
-						<div class="col-xs-offset-2 col-xs-5">
-							<!-- buttons-->
-							<button type="button" class="btn btn-default" ng-click="clearForm()">Reset</button>
-							<button type="button" class="btn btn-info" ng-click="searchMatches()">Search</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+                    <div class="form-group">
+                        <label class="col-xs-2 control-label">Filter cleaner zones</label>
+                        <div class="col-xs-4">
+                            <label class="checkbox checkbox-inline">
+                                <input type="checkbox" checked="true" name="IsActive" ng-model="form.client.IsActive" />
+                                <input id="chkZonePrimary" name="chkZonePrimary" type="checkbox" ng-model="form.Search.FilterZonesPrimary"
+                                       ng-disabled="form.Search.FilterZonesNone == true" />
+                                <span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Primary</span>
+                            </label>
+                            <label class="checkbox-inline">
+                                <input id="chkZoneSecondary" name="chkZoneSecondary" type="checkbox" ng-model="form.Search.FilterZonesSecondary"
+                                       ng-disabled="form.Search.FilterZonesNone == true" />
+                                <span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Secondary</span>
+                            </label>
+                            <label class="checkbox-inline">
+                                <input id="chkZoneApproved" name="chkZoneApproved" type="checkbox" ng-model="form.Search.FilterZonesApproved"
+                                       ng-disabled="form.Search.FilterZonesNone == true" />
+                                <span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Approved</span>
+                            </label>
+                            <label class="checkbox-inline">
+                                <input id="chkZoneNoFilter" name="chkZoneNoFilter" type="checkbox" ng-model="form.Search.FilterZonesNone" ng-change="changeZoneFilter()" />Ignore Zones
+                            </label>
+                        </div>
+                        <label class="col-xs-2 control-label">Filter rating</label>
+                        <div class="col-xs-1">
+                            <select class="form-control" name="Rating" ng-model="form.Search.FilterRating">
+                                <option value="5" selected="selected">5+</option>
+                                <option value="4">4+</option>
+                                <option value="3">3+</option>
+                                <option value="2">2+</option>
+                                <option value="0">None</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3">
+                        </div>
+                    </div>
 
-	<div class="panel panel-transparent" id="panelMainResults" ng-show="form.hasSearched">
-		<div class="panel-heading">
-			<div class="form-group">
-				<div class="pull-right">
-					<paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
-	          	</div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-2 col-xs-5">
+                            <!-- buttons-->
+                            <button type="button" class="btn btn-default" ng-click="clearForm()">Reset</button>
+                            <button type="button" class="btn btn-info" ng-click="searchMatches()">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-transparent" id="panelMainResults" ng-show="form.hasSearched">
+        <div class="panel-heading">
+            <div class="form-group">
+                <div class="pull-right">
+                    <paneltool tool-refresh="traditional" ng-show="isLoadingResults"></paneltool>
+                </div>
             </div>Search Results
-		</div>
-		<div class="panel-body">
-			<div ng-hide="form.SearchResults.length" class="EmptyResults p-lg text-center">
-				No cleaners found with the current search criteria.
-			</div>
-			<div class="table-responsive" ng-show="form.SearchResults.length" >
-				<table datatable="ng" class="table table-bordered table-hover bg-white ctable no-horizontal-gutter" dt-options="dtOptions" >
-					<thead style="font-weight: bold"  class="no-horizontal-gutter">
-						<th class="text-center">Cleaner</th>
-						<th class="text-center">Contact Details</th>
-						<th class="text-center" width="5%">Diary</th>
-						<th class="text-center" ng-hide="true">Rating</th>
-						<th class="text-center">Team</th>
-						<th class="text-center">Base Suburb</th>
-						<th class="text-center">Zone Class</th>
-						<th class="text-center">Day</th>
-						<th class="text-center">Availability</th>
-					</thead>
-					<tbody style="padding: 0px; margin: 0px">
-						<tr valign="top" ng-repeat="cleaner in form.SearchResults" id="bootstrap-overrides" >
-							<td class="no-horizontal-gutter">
-								{{cleaner.FirstName}} {{ cleaner.LastName }}<br />
-								<span uib-rating ng-model="cleaner.Rating" max="6" read-only="true" state-on="'fas fa-star'" state-off="'fa fa-star-o'" class="starRating"></span>
-							</td>
-							<td class="no-horizontal-gutter">
-								<span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br />
-								<span ng-bind-html="cleaner.FormattedContactNumbers"></span>
-							</td>
-							<td class="text-center" style="white-space: nowrap">
-								<!-- form-->
-								<div class="buttons">
-									<a onclick="alert('Diary coming soon'); return false;"
+        </div>
+        <div class="panel-body">
+            <div ng-hide="form.SearchResults.length" class="EmptyResults p-lg text-center">
+                No cleaners found with the current search criteria.
+            </div>
+            <div class="table-responsive" ng-show="form.SearchResults.length">
+                <table datatable="ng" class="table table-bordered table-hover bg-white ctable no-horizontal-gutter" dt-options="dtOptions" style="width: 95%;">
+                    <thead style="font-weight: bold" class="no-horizontal-gutter">
+                        <tr>
+                            <th class="text-left" style="width: 10%;">
+                                Cleaner
+                            </th>
+                            <th class="text-left" style="width: 10%;">
+                                Contact Details
+                            </th>
+                            <th class="text-left" style="width: 5%;">
+                                Diary
+                            </th>
+                            <th class="text-left" style="width: 5%;">
+                                Team
+                            </th>
+                            <th class="text-left" style="width: 7%;">
+                                Base Suburb
+                            </th>
+                            <th class="text-left" style="width: 7%;">
+                                Zone Class
+                            </th>
+                            <th class="text-left" style="width: 6%;">
+                                Day
+                            </th>
+                            <th class="text-left" style="width: 50%;">
+                                Availability
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody style="padding: 0px; margin: 0px">
+                        <tr valign="top" ng-repeat="cleaner in form.SearchResults" id="bootstrap-overrides">
+                            <td>
+                                {{cleaner.FirstName}} {{ cleaner.LastName }}<br />
+                                <span uib-rating ng-model="cleaner.Rating" max="6" read-only="true" state-on="'fas fa-star'" state-off="'fa fa-star-o'" class="starRating"></span>
+                            </td>
+                            <td>
+                                <span class="fa fa-envelope"></span>&nbsp;<a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a><br />
+                                <span ng-bind-html="cleaner.FormattedContactNumbers"></span>
+                            </td>
+                            <td class="text-left" style="white-space: nowrap">
+                                <!-- form-->
+                                <div class="buttons">
+                                    <a onclick="alert('Diary coming soon'); return false;"
 										<button title="Diary" class="btn btn-xs btn-info">Diary</button>
 									</a>
-								</div>
-							</td>
-							<td class="text-center no-horizontal-gutter" ng-hide="true">{{cleaner.Rating}}</td>
-							<td class="text-center no-horizontal-gutter">{{cleaner.TeamSize}}</td>
-							<td class="{{cleaner.StyleHomeBase}} text-center no-horizontal-gutter">{{cleaner.DisplayHomeBase}}</td>
-							<td class="colourMatch_Green text-center no-horizontal-gutter">Secondary</td>
-							<td class="{{cleaner.StyleWeekday}} text-center no-horizontal-gutter">
-								{{cleaner.DisplaySelectedRosterDay}}
-							</td>
-							<td class="text-center">
-								<!-- form-->
-								<div class="row text-center">
-									<div ng-if="cleaner.CustomErrorMessage">
-										<i>{{ cleaner.CustomErrorMessage }}</i>
-									</div>
-									<div ng-if="!cleaner.CustomErrorMessage">
-										<div ng-if="cleaner.CleanerOnLeave && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_Leave">Leave: {{cleaner.LeaveDates}}</div>
-										<div ng-if="cleaner.SheduledClashCount == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle">
-											One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})
-										</div>
-										<div ng-if="cleaner.SheduledClashCount == 2  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffMultiple">
-											One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})<br />
-											One-Off: {{cleaner.ClashingJobsForServiceDay[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[1].EndTimeOfDay}})
-										</div>
-										<ul id="jobAvailabilityButtons" class="row list-unstyled">
-											<li ng-repeat="job in cleaner.ScheduledJobsForServiceDay" class="availableButton">
-												<div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
-													<a ng-click="checkCustomerState(cleaner, job);">
-														<button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
-													</a>
-												</div>
-												<div ng-if="job.JobStatus != 'AVAILABLE'">
-													<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
+                                </div>
+                            </td>
+                            <td class="text-left">
+                                {{cleaner.TeamSize}}
+                            </td>
+                            <td class="{{cleaner.StyleHomeBase}} text-left">
+                                {{cleaner.DisplayHomeBase}}
+                            </td>
+                            <td class="colourMatch_Green text-left">
+                                Secondary
+                            </td>
+                            <td class="{{cleaner.StyleWeekday}} text-left">
+                                {{cleaner.DisplaySelectedRosterDay}}
+                            </td>
+                            <td class="text-left">
+                                <!-- form-->
+                                <div class="row text-center">
+                                    <div ng-if="cleaner.CustomErrorMessage">
+                                        <i>{{ cleaner.CustomErrorMessage }}</i>
+                                    </div>
+                                    <div ng-if="!cleaner.CustomErrorMessage">
+                                        <div ng-if="cleaner.CleanerOnLeave && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_Leave">Leave: {{cleaner.LeaveDates}}</div>
+                                        <div ng-if="cleaner.SheduledClashCount == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle">
+                                            One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})
+                                        </div>
+                                        <div ng-if="cleaner.SheduledClashCount == 2  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffMultiple">
+                                            One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})<br />
+                                            One-Off: {{cleaner.ClashingJobsForServiceDay[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[1].EndTimeOfDay}})
+                                        </div>
+                                        <ul id="jobAvailabilityButtons" class="row list-unstyled">
+                                            <li ng-repeat="job in cleaner.ScheduledJobsForServiceDay" class="availableButton">
+                                                <div ng-if="job.JobStatus == 'AVAILABLE'" class="text-center">
+                                                    <a ng-click="checkCustomerState(cleaner, job);">
+                                                        <button title="Select" class="btn bg-secondary btn-oval availableButton">{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}</button>
+                                                    </a>
+                                                </div>
+                                                <div ng-if="job.JobStatus != 'AVAILABLE'">
+                                                    <div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
                                                         <span class="btn bg-danger-light availableButtonBusy">
                                                             {{job.JobSuburb}}&nbsp;&nbsp;
                                                             <i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnighly'"></i>&nbsp;
@@ -220,31 +246,31 @@
                                                             <span ng-if="job.JobTypeName == 'Fortnighly'">F</span>
                                                             <br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}
                                                         </span>
-													</div>
-												</div>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<br/>
-			<div class="form-group">
-				<div class="pull-right">
-					<div class="dataTable" id="bootstrap-overrides">
-						<div class="row is-flex">
-							<div class="text-center col-xs" style="color: white;"><em>Zone Legend</em></div>
-							<div class="text-center colourMatch_Blue small col-xs">Primary zone</div>
-							<div class="text-center colourMatch_Green small col-xs">Secondary zone</div>
-							<div class="text-center colourMatch_Orange small col-xs">Approved zone</div>
-							<div class="text-center colourMatch_Blue small col-xs">1st Job</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <br />
+            <div class="form-group">
+                <div class="pull-right">
+                    <div class="dataTable" id="bootstrap-overrides">
+                        <div class="row is-flex">
+                            <div class="text-center col-xs" style="color: white;"><em>Zone Legend</em></div>
+                            <div class="text-center colourMatch_Blue small col-xs">Primary zone</div>
+                            <div class="text-center colourMatch_Green small col-xs">Secondary zone</div>
+                            <div class="text-center colourMatch_Orange small col-xs">Approved zone</div>
+                            <div class="text-center colourMatch_Blue small col-xs">1st Job</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
