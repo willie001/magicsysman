@@ -213,10 +213,13 @@
 												</div>
 												<div ng-if="job.JobStatus != 'AVAILABLE'">
 													<div class="text-center {{job.JobColourCode}}" style="padding-left: 12px;">
-														<span class="btn bg-danger-light availableButtonBusy">
-															{{job.JobSuburb}}&nbsp;&nbsp;<i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnightly'"></i>
-															<br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}
-														</span>
+                                                        <span class="btn bg-danger-light availableButtonBusy">
+                                                            {{job.JobSuburb}}&nbsp;&nbsp;
+                                                            <i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnighly'"></i>&nbsp;
+                                                            <span ng-if="job.JobTypeName == 'Weekly'">W</span>
+                                                            <span ng-if="job.JobTypeName == 'Fortnighly'">F</span>
+                                                            <br />{{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}
+                                                        </span>
 													</div>
 												</div>
 											</li>

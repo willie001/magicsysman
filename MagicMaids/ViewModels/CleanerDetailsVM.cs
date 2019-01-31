@@ -480,7 +480,7 @@ namespace MagicMaids.ViewModels
 				{
 					return  ScheduledJobs.Where<JobBookingsVM>(x =>
 						x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
-						&& x.JobDateUTC.Value.ToUser().Date != SelectedServiceDate.Value.Date
+						&& x.JobDateUTC.Value.ToUser().Date == SelectedServiceDate.Value.Date
 						&& (x.JobStatus == BookingStatus.CONFIRMED || x.JobStatus == BookingStatus.PENDING)
 					)
 					.ToList();

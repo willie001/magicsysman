@@ -118,9 +118,22 @@ namespace MagicMaids
             }
 
             long previousEndTime = 0;
-            var existingScheduleList = GetCleanerFutureBookings();
+            var existingScheduleListAll = GetCleanerFutureBookings();
+            var existingScheduleListFiltered = new List<JobBookingsVM>();
+            
+            foreach (JobBookingsVM existingScheduleItem in existingScheduleListAll)
+            {
+                if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle == Cleaner.StyleWeekday) //DateTimeWrapper.WeekYearStyle(Cleaner.SelectedServiceDate)
+                {
+                    existingScheduleListFiltered.Add(existingScheduleItem);
+                } 
+                else if (existingScheduleItem.JobType != JobTypeEnum.Fortnighly)
+                {
+                    existingScheduleListFiltered.Add(existingScheduleItem);
+                }
+            }
 
-            foreach (JobBookingsVM existingScheduleItem in existingScheduleList)
+            foreach (JobBookingsVM existingScheduleItem in existingScheduleListFiltered)
             {
 
                 if (previousEndTime == rosterDayEnd)
@@ -133,29 +146,26 @@ namespace MagicMaids
                 if (existingScheduleItem.WeekDay == ServiceDay.ToString())
                 {
 
+                    
+
+                                           
+                            AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
+                                        
+
                     //if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle != DateTimeWrapper.WeekYearStyle(Cleaner.SelectedServiceDate))
                     //{
-                    //    AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
+                    //    //AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
+                        
+
                     //}
-                    //else 
-
-                    if (existingScheduleItem.StartTime > previousEndTime) //This might be it
-                    {
-                        AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
-                    }
-
-                    if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle != DateTimeWrapper.WeekYearStyle(Cleaner.SelectedServiceDate))
-                    {
-                        AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);                       
-                    }
-                    else
-                    {
-                        dayList.Add(existingScheduleItem);
-                        previousEndTime = existingScheduleItem.EndTime;
-                    }
-
+                    //else
+                    //{
                         
-                        
+                    //}
+
+                    dayList.Add(existingScheduleItem);
+                    previousEndTime = existingScheduleItem.EndTime;
+
 
 
                 }
