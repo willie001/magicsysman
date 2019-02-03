@@ -231,11 +231,43 @@ button.availableButton {
 .Jobs_Available {
     margin-bottom: 5px;
     text-align: left;
+    border: 1px solid dimgray;
+    border-radius: 4px;
+    padding-left: 27px;
+    background-color: darkslategray;
+    text-decoration: none;
+    color: antiquewhite;
+    transition: background-color linear 0.2s;
+    display: block;
+    
 }
 
+    .Jobs_Available:hover {
+        background-color: dimgray;
+        text-decoration: none;
+        color: antiquewhite;
+        
+    }
+
 .Jobs_Not_Available {
+    margin-bottom: 5px;
     text-align: left;
     cursor: default;
+    border: 1px solid dimgray;
+    border-radius: 4px;
+    /*background-color: #f47f7f;*/
+    display: block;
+    color: antiquewhite;
+    
+}
+
+
+
+.Jobs_Not_Available_Div {
+    background-color: #f47f7f;
+    padding-left: 15px;
+    border-radius: 4px;
+    height: -webkit-fill-available;
 }
 
 .Display_ServiceDate {
@@ -248,6 +280,7 @@ button.availableButton {
 
 .Week_Job_Container {
     padding-left: 12px;
+    padding-right: 12px;
 }
 
 td {

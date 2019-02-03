@@ -135,11 +135,12 @@ namespace MagicMaids
 
             if (NextWeek)
             {
-                serviceDate = Cleaner.SelectedServiceDate;
+                serviceDate = Cleaner.SelectedServiceDateNextWeek;
             }
             else
             {
-                serviceDate = Cleaner.SelectedServiceDateNextWeek;
+                serviceDate = Cleaner.SelectedServiceDate;
+                
             }
 
             foreach (JobBookingsVM existingScheduleItem in jobList)
@@ -251,9 +252,9 @@ namespace MagicMaids
             DateTime bookingDate;
 
             if (NextWeek)
-            { bookingDate = DateTime.UtcNow.AddDays(7); }
+            { bookingDate = DateTime.UtcNow.AddDays(6); }
             else
-            { bookingDate = DateTime.UtcNow; }
+            { bookingDate = DateTime.UtcNow.AddDays(-1); }
 
             List<JobBooking> _entityList = new List<JobBooking>();
             StringBuilder _sql = new StringBuilder($"Select * from JobBooking where PrimaryCleanerRefId = '{Cleaner.Id}'");

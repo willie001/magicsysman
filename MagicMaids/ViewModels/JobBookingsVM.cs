@@ -216,6 +216,31 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
+        public string ControlHeight
+        {
+            get
+            {
+                long duration = EndTime - StartTime;
+
+                if (duration > 60 && duration <= 120)
+                { duration = duration + 10; }
+                else if (duration > 120 && duration <= 180)
+                { duration = duration + 20; }
+                else if (duration > 180 && duration <= 240)
+                { duration = duration + 30; }
+                else if (duration > 240 && duration <= 300)
+                { duration = duration + 40; }
+                else if (duration > 300 && duration <= 360)
+                { duration = duration + 50; }
+                else if (duration > 360 && duration <= 420)
+                { duration = duration + 60; }
+                else if (duration > 420 && duration <= 480)
+                { duration = duration + 70; }
+
+                return (duration / 2).ToString() + "px";
+            }
+        }
+
 		[JsonConverter(typeof(StringEnumConverter))]
 		public BookingStatus JobStatus
 		{

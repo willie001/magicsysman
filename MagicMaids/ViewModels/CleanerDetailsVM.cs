@@ -514,12 +514,14 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				if (!SelectedServiceDate.Equals(default(DateTime)) && ScheduledJobs != null)
+				if (!SelectedServiceDate.Equals(default(DateTime)) 
+                    && ScheduledJobs != null)
 				{
 					return  ScheduledJobs.Where<JobBookingsVM>(x =>
 						x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
 						&& x.JobDateUTC.Value.ToUser().Date == SelectedServiceDate.Value.Date
 						&& (x.JobStatus == BookingStatus.CONFIRMED || x.JobStatus == BookingStatus.PENDING)
+                        && (x.JobType == JobTypeEnum.OneOff || x.JobType == JobTypeEnum.Vacate)
 					)
 					.ToList();
 				}
