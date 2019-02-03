@@ -214,7 +214,7 @@ namespace MagicMaids
 			return (comparePeriod.Days < 0);
 		}
 
-		public static string WeekYearStyle(this DateTime matchDate) {
+		public static string WeekYearStyle(this DateTime matchDate, Boolean nextWeek = false) {
 			if (matchDate < DateTime.MinValue || matchDate > DateTime.MaxValue)
 			{
 				return "";
@@ -223,6 +223,8 @@ namespace MagicMaids
 			// We'll use BCL, but if the date is before first monday I'll force it to week 1
 			//https://nodatime.org/2.2.x/userguide/weekyears
 			//var utcDate = matchDate.ToUTC(); This will select the previous day and set the wrong week for Mondays
+
+            if (nextWeek) { matchDate = matchDate.AddDays(7); }
 
 			CalendarWeekRule weekRule = CalendarWeekRule.FirstDay;
 			DayOfWeek firstWeekDay = DayOfWeek.Monday;

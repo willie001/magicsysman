@@ -51,7 +51,8 @@ namespace MagicMaids
 				.ForMember(dest => dest.DisplayHomeBase, source => source.Ignore())
 				.ForMember(dest => dest.StyleHomeBase, source => source.Ignore())
 				.ForMember(dest => dest.StyleWeekday, source => source.Ignore())
-				.ForMember(dest => dest.StylePreviousJobLocation, source => source.Ignore())
+                .ForMember(dest => dest.StyleWeekdayNextWeek, source => source.Ignore())
+                .ForMember(dest => dest.StylePreviousJobLocation, source => source.Ignore())
 				.ForMember(dest => dest.PreviousJobLocation, source => source.Ignore())
 				.ForMember(dest => dest.StyleNextJobLocation, source => source.Ignore())
 				.ForMember(dest => dest.NextJobLocation, source => source.Ignore())
@@ -61,7 +62,10 @@ namespace MagicMaids
 				.ForMember(dest => dest.SelectedRosterDay, source => source.Ignore())
 				.ForMember(dest => dest.CleanerRosters, source => source.Ignore())
 				.ForMember(dest => dest.ScheduledJobs, source => source.Ignore())
-				.ForMember(dest => dest.CustomErrorMessage, source => source.Ignore())
+                .ForMember(dest => dest.ScheduledJobsNextWeek, source => source.Ignore())
+                .ForMember(dest => dest.ScheduledJobsForServiceDayNextWeek, source => source.Ignore())                
+
+                .ForMember(dest => dest.CustomErrorMessage, source => source.Ignore())
 
 				.ForMember(dest => dest.CleanerOnLeave, source => source.Ignore())
 				.ForMember(dest => dest.LeaveDates, source => source.Ignore())

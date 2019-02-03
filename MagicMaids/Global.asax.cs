@@ -50,8 +50,8 @@ namespace MagicMaids
 
 			ValidatorOptions.CascadeMode = CascadeMode.StopOnFirstFailure;
 
-			AutoMapperConfigurator configurator = new AutoMapperConfigurator();
-			Mapper.Initialize(configurator.GetConfiguration());
+			AutoMapperConfigurator configurator = new AutoMapperConfigurator();            
+			Mapper.Initialize(configurator.GetConfiguration());            
 			Mapper.AssertConfigurationIsValid();
 
 			JsonConvert.DefaultSettings = () => new JsonSerializerSettings
@@ -74,10 +74,9 @@ namespace MagicMaids
 
 		protected void Application_Error(object sender, EventArgs e)
 		{
-			Boolean disableGlobalErrorHandling = false;
-			Boolean.TryParse(ConfigurationManager.AppSettings["DisableGlobalErrorHandling"], out disableGlobalErrorHandling);
+            Boolean.TryParse(ConfigurationManager.AppSettings["DisableGlobalErrorHandling"], out bool disableGlobalErrorHandling);
 
-			if (disableGlobalErrorHandling)
+            if (disableGlobalErrorHandling)
 				return;
 			
 			Exception exception = Server.GetLastError();

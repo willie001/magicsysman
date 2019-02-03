@@ -77,11 +77,11 @@ label.star:before {
 	box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
 }
 
-.no-horizontal-gutter !important {
-	padding-top: 0;
-	padding-bottom: 0;
-	margin-top: 0;
-	margin-bottom: 0;
+.no-horizontal-gutter {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
 }
 
 #bootstrap-overrides .row  {
@@ -197,21 +197,59 @@ button.availableButton {
 }
 
 .ClashDates_Leave {
-	background: #FBE065;
-	font-style: italic;
-	text-align: left;
+    background: #FBE065;
+    font-style: italic;
+    text-align: left;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 5px;
+    cursor: default;
 }
 
 .ClashDates_OneOffSingle {
-	background: #ffebcc;
-	color: black;
-	font-style: italic;
-	text-align: left;
+    background: #ffebcc;
+    color: black;
+    font-style: italic;
+    text-align: left;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 5px;
+    cursor: default;
 }
 
 .ClashDates_OneOffMultiple {
-	background: #e0ccff;
-	color black;
-	font-style: italic;
-	text-align: left;
+    background: #e0ccff;
+    color: black;
+    font-style: italic;
+    text-align: left;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    padding-left: 5px;
+    cursor: default;
+}
+
+.Jobs_Available {
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.Jobs_Not_Available {
+    text-align: left;
+    cursor: default;
+}
+
+.Display_ServiceDate {
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.Week_Job_Container {
+    padding-left: 12px;
+}
+
+td {
+    vertical-align: top !important;
 }

@@ -408,7 +408,14 @@ namespace MagicMaids.ViewModels
 			get;
 			set;
 		}
-		public String DisplayHomeBase
+
+        public String StyleWeekdayNextWeek
+        {
+            get;
+            set;
+        }
+
+        public String DisplayHomeBase
 		{
 			get;
 			set;
@@ -452,7 +459,32 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public String CustomErrorMessage
+        public DateTime? SelectedServiceDateNextWeek
+        {
+            get
+            {
+                return SelectedServiceDate.Value.AddDays(7);
+            }
+            
+        }
+
+        public String DisplayServiceDate
+        {
+            get
+            {
+                return SelectedServiceDate.Value.ToString("dd MMM yyyy");
+            }
+        }
+
+        public String DisplayServiceDateNextWeek
+        {
+            get
+            {
+                return SelectedServiceDateNextWeek.Value.ToString("dd MMM yyyy");
+            }
+        }
+
+        public String CustomErrorMessage
 		{
 			get;
 			set;
@@ -464,7 +496,13 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
-		public Int32 SheduledClashCount
+        public IList<JobBookingsVM> ScheduledJobsNextWeek
+        {
+            get;
+            set;
+        }
+
+        public Int32 SheduledClashCount
 		{
 			get
 			{
@@ -513,7 +551,31 @@ namespace MagicMaids.ViewModels
 			}
 		}
 
-		public bool CleanerOnLeave
+        public IList<JobBookingsVM> ScheduledJobsForServiceDayNextWeek
+        {
+            get
+            {
+                if (!SelectedServiceDate.Equals(default(DateTime)) && ScheduledJobsNextWeek != null)
+                {
+                    var list = ScheduledJobsNextWeek.Where<JobBookingsVM>(x =>
+                       x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
+                       && (
+                           ((x.JobType == JobTypeEnum.OneOff || x.JobType == JobTypeEnum.Vacate) &&
+                               x.JobDateUTC.Value.ToUser().Date.Equals(SelectedServiceDate.Value.AddDays(7).Date))
+                           ||
+                           (x.JobType == JobTypeEnum.Weekly || x.JobType == JobTypeEnum.Fortnighly)
+                       )
+                    )
+                    .ToList();
+
+                    return list;
+                }
+
+                return new List<JobBookingsVM>();
+            }
+        }
+
+        public bool CleanerOnLeave
 		{
 			get;
 			set;

@@ -99,6 +99,7 @@ namespace MagicMaids
             try
 			{
 				CleanerMatchResult.ScheduledJobs = Availability.GetCleanerDaySchedule();
+                CleanerMatchResult.ScheduledJobsNextWeek = Availability.GetCleanerDaySchedule(true);
 				CleanerMatchResult.TeamSize = Availability.CleanerTeamSize;
 
 				if (Availability.SuitableTimeSlots == 0)
@@ -235,17 +236,17 @@ namespace MagicMaids
 			}
 
 			var cleanerBaseZoneList = cleaner.PhysicalAddress.Suburb.GetZoneListBySuburb(false);
-			if (applyColor(cleanerBaseZoneList, SearchZoneList))
+			if (ApplyColor(cleanerBaseZoneList, SearchZoneList))
 			{
 				cleaner.StyleHomeBase = NamedColours.PrimaryJobColor;
 			}
 
-			if (applyColor(cleanerBaseZoneList, cleaner.SecondaryZoneList))
+			if (ApplyColor(cleanerBaseZoneList, cleaner.SecondaryZoneList))
 			{
 				cleaner.StyleHomeBase = NamedColours.SecondaryJobColor;
 			}
 
-			if (applyColor(cleanerBaseZoneList, cleaner.ApprovedZoneList))
+			if (ApplyColor(cleanerBaseZoneList, cleaner.ApprovedZoneList))
 			{
 				cleaner.StyleHomeBase = NamedColours.ApprovedJobColor;
 			}
@@ -269,11 +270,13 @@ namespace MagicMaids
 			if (criteria.OneOffJob || criteria.VacateClean)
 			{
 				cleaner.StyleWeekday = criteria.ServiceDate.Date.WeekYearStyle();
-			}
+                cleaner.StyleWeekdayNextWeek = criteria.ServiceDate.Date.WeekYearStyle(true);
+            }
 			else
 			{
 				cleaner.StyleWeekday = DateTimeWrapper.FindNextDateForDay((DayOfWeek)criteria.ServiceDayValue).Date.WeekYearStyle();
-			}
+                cleaner.StyleWeekdayNextWeek = DateTimeWrapper.FindNextDateForDay((DayOfWeek)criteria.ServiceDayValue).Date.WeekYearStyle(true);
+            }
 
 			return;
 
@@ -303,39 +306,39 @@ namespace MagicMaids
 			var nextZoneList = cleaner.NextJobLocation.GetZoneListBySuburb(false);
 
 			// if search suburb is in cleaner primary zone and prev/next job is also in primary zone
-			if (applyColor(cleaner.PrimaryZoneList, SearchZoneList))
+			if (ApplyColor(cleaner.PrimaryZoneList, SearchZoneList))
 			{
-				if (forPrevJob && applyColor(cleaner.PrimaryZoneList, prevZoneList))
+				if (forPrevJob && ApplyColor(cleaner.PrimaryZoneList, prevZoneList))
 				{
 					return NamedColours.PrimaryJobColor;
 				}
-				else if (!forPrevJob && applyColor(cleaner.PrimaryZoneList, nextZoneList))
+				else if (!forPrevJob && ApplyColor(cleaner.PrimaryZoneList, nextZoneList))
 				{
 					return NamedColours.PrimaryJobColor;
 				}
 			}
 
 			// if search suburb is in cleaner secondary zone and prev/next job is also in secondary zone
-			if (applyColor(cleaner.SecondaryZoneList, SearchZoneList))
+			if (ApplyColor(cleaner.SecondaryZoneList, SearchZoneList))
 			{
-				if (forPrevJob && applyColor(cleaner.SecondaryZoneList, prevZoneList))
+				if (forPrevJob && ApplyColor(cleaner.SecondaryZoneList, prevZoneList))
 				{
 					return NamedColours.SecondaryJobColor;
 				}
-				else if (!forPrevJob && applyColor(cleaner.SecondaryZoneList, nextZoneList))
+				else if (!forPrevJob && ApplyColor(cleaner.SecondaryZoneList, nextZoneList))
 				{
 					return NamedColours.SecondaryJobColor;
 				}
 			}
 
 			// if search suburb is in cleaner approved zone and prev/next job is also in approved zone
-			if (applyColor(cleaner.ApprovedZoneList, SearchZoneList))
+			if (ApplyColor(cleaner.ApprovedZoneList, SearchZoneList))
 			{
-				if (forPrevJob && applyColor(cleaner.ApprovedZoneList, prevZoneList))
+				if (forPrevJob && ApplyColor(cleaner.ApprovedZoneList, prevZoneList))
 				{
 					return NamedColours.ApprovedJobColor;
 				}
-				else if (!forPrevJob && applyColor(cleaner.ApprovedZoneList, nextZoneList))
+				else if (!forPrevJob && ApplyColor(cleaner.ApprovedZoneList, nextZoneList))
 				{
 					return NamedColours.ApprovedJobColor;
 				}
@@ -352,7 +355,7 @@ namespace MagicMaids
 		/// <returns><c>true</c>, if color was applied, <c>false</c> otherwise.</returns>
 		/// <param name="cleanerZoneList">Cleaner zone list.</param>
 		/// <param name="compareList">Compare list.</param>
-		private Boolean applyColor(List<String> cleanerZoneList, List<String> compareList)
+		private Boolean ApplyColor(List<String> cleanerZoneList, List<String> compareList)
 		{
 			if (cleanerZoneList.Intersect(compareList).Any())
 			{

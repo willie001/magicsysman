@@ -15,6 +15,7 @@ namespace MagicMaids
         #region Fields
         private CleanerMatchResultVM Cleaner;
         public DateTime ServiceDateUTC; //UTC
+        public DateTime ServiceDateUTCNextWeek;
         private Int32 ServiceLenghtMinutes;
         private IList<String> ServiceZone;
         private JobTypeEnum JobType;
@@ -38,6 +39,8 @@ namespace MagicMaids
                 // calculate next date
                 ServiceDateUTC = DateTimeWrapper.FindNextDateForDay((DayOfWeek)ServiceDay);
             }
+
+            ServiceDateUTCNextWeek = ServiceDateUTC.AddDays(7);
 
             ServiceDay = cleaner.SelectedRosterDay;
             JobType = serviceType;
@@ -91,9 +94,9 @@ namespace MagicMaids
         /// Gets the list of bookings combined with available time slots for the day
         /// </summary>
         /// <returns>The cleaner availability.</returns>
-        internal IList<JobBookingsVM> GetCleanerDaySchedule()
+        internal IList<JobBookingsVM> GetCleanerDaySchedule(Boolean NextWeek = false)
         {
-            var dayList = new List<JobBookingsVM>();
+            
             long rosterDayStart = 0;
             long rosterDayEnd = 0;
             SuitableTimeSlots = 0;
@@ -116,17 +119,35 @@ namespace MagicMaids
                 // Cleaner team is not available on this day
                 throw new NoTeamRosteredException(Cleaner.FirstName + ' ' + Cleaner.LastName, ServiceDay.ToString());
             }
-
-            long previousEndTime = 0;
-            var existingScheduleListAll = GetCleanerFutureBookings();
-            var existingScheduleListFiltered = new List<JobBookingsVM>();
             
-            foreach (JobBookingsVM existingScheduleItem in existingScheduleListAll)
+            var existingScheduleListAll = GetCleanerFutureBookings(NextWeek);
+            var dayList = BuildDaylist(existingScheduleListAll, rosterDayStart, rosterDayEnd, NextWeek);
+
+            return dayList;
+        }
+
+        private List<JobBookingsVM> BuildDaylist(IEnumerable<JobBookingsVM> jobList, long rosterDayStart, long rosterDayEnd, Boolean NextWeek)
+        {
+            var dayList = new List<JobBookingsVM>();
+            var existingScheduleListFiltered = new List<JobBookingsVM>();
+            long previousEndTime = 0;
+            DateTime? serviceDate;
+
+            if (NextWeek)
             {
-                if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle == DateTimeWrapper.WeekYearStyle(Cleaner.SelectedServiceDate)) //Cleaner.StyleWeekday
+                serviceDate = Cleaner.SelectedServiceDate;
+            }
+            else
+            {
+                serviceDate = Cleaner.SelectedServiceDateNextWeek;
+            }
+
+            foreach (JobBookingsVM existingScheduleItem in jobList)
+            {
+                if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle == DateTimeWrapper.WeekYearStyle(serviceDate)) //Cleaner.StyleWeekday
                 {
                     existingScheduleListFiltered.Add(existingScheduleItem);
-                } 
+                }
                 else if (existingScheduleItem.JobType != JobTypeEnum.Fortnighly)
                 {
                     existingScheduleListFiltered.Add(existingScheduleItem);
@@ -141,33 +162,11 @@ namespace MagicMaids
                     break;
                 }
 
-
-
                 if (existingScheduleItem.WeekDay == ServiceDay.ToString())
                 {
-
-                    
-
-                                           
-                            AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
-                                        
-
-                    //if (existingScheduleItem.JobType == JobTypeEnum.Fortnighly && existingScheduleItem.JobWeekYearStyle != DateTimeWrapper.WeekYearStyle(Cleaner.SelectedServiceDate))
-                    //{
-                    //    //AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
-                        
-
-                    //}
-                    //else
-                    //{
-                        
-                    //}
-
+                    AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
                     dayList.Add(existingScheduleItem);
                     previousEndTime = existingScheduleItem.EndTime;
-
-
-
                 }
             }
 
@@ -247,8 +246,15 @@ namespace MagicMaids
         /// Gets the cleaner future job bookings.
         /// </summary>
         /// <returns>The cleaner future bookings.</returns>
-        private IEnumerable<JobBookingsVM> GetCleanerFutureBookings()
+        private IEnumerable<JobBookingsVM> GetCleanerFutureBookings(Boolean NextWeek = false)
         {
+            DateTime bookingDate;
+
+            if (NextWeek)
+            { bookingDate = DateTime.UtcNow.AddDays(7); }
+            else
+            { bookingDate = DateTime.UtcNow; }
+
             List<JobBooking> _entityList = new List<JobBooking>();
             StringBuilder _sql = new StringBuilder($"Select * from JobBooking where PrimaryCleanerRefId = '{Cleaner.Id}'");
             _sql.Append($" and JobStatus in ('{BookingStatus.CONFIRMED}', '{BookingStatus.PENDING}')");
@@ -256,7 +262,7 @@ namespace MagicMaids
             {
                 _sql.Append($" and WeekDay = '{ServiceDay.ToString()}'");
             }
-            _sql.Append($" and (JobDate > '{DateTime.UtcNow.AddDays(-1).FormatDatabaseDate()}' or JobType in ('Fortnighly', 'Weekly'))");
+            _sql.Append($" and (JobDate > '{bookingDate.FormatDatabaseDate()}' or JobType in ('Fortnighly', 'Weekly'))");
             _sql.Append(" order by JobDate, WeekDay, StartTime, EndTime");
 
             using (DBManager db = new DBManager())

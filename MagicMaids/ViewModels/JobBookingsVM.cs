@@ -264,10 +264,25 @@ namespace MagicMaids.ViewModels
             }
         }
 
-		#endregion
+        public String JobWeekYearStyleNextWeek
+        {
+            get
+            {
+                if (JobType == JobTypeEnum.Fortnighly)
+                {
+                    return DateTimeWrapper.WeekYearStyle(JobDateUTC.Value.AddDays(7));
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
 
-		#region Methods, Public
-		public void PopulateVM(Guid? cleanerId, JobBooking entityModel)
+        #endregion
+
+        #region Methods, Public
+        public void PopulateVM(Guid? cleanerId, JobBooking entityModel)
 		{
 			if (entityModel == null)
 				return;
