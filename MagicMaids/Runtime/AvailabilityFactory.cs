@@ -252,9 +252,9 @@ namespace MagicMaids
             DateTime bookingDate;
 
             if (NextWeek)
-            { bookingDate = DateTime.UtcNow.AddDays(6); }
+            { bookingDate = DateTime.UtcNow.AddDays(7); }
             else
-            { bookingDate = DateTime.UtcNow.AddDays(-1); }
+            { bookingDate = DateTime.UtcNow; }
 
             List<JobBooking> _entityList = new List<JobBooking>();
             StringBuilder _sql = new StringBuilder($"Select * from JobBooking where PrimaryCleanerRefId = '{Cleaner.Id}'");
