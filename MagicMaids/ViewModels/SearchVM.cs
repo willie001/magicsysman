@@ -89,11 +89,11 @@ namespace MagicMaids.ViewModels
 		{
 			get
             {
-                return _serviceDate.ToUser();
+                return _serviceDate;
             }
 			set
             {
-                _serviceDate = value;
+                _serviceDate = value.ToUser();
             }
 		}
 
