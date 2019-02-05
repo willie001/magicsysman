@@ -217,18 +217,11 @@ namespace MagicMaids.Controllers
         private void SetCleanerMatchProperties(ref List<CleanerMatchResultVM> CleanerMatchResultList, SearchVM searchCriteria)
         {
             foreach (CleanerMatchResultVM CleanerMatchResult in CleanerMatchResultList)
-            {
-
-                DateTime cstTime = searchCriteria.ServiceDate;
-                if (searchCriteria.ServiceDate != null)
-                {
-                    TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("W. Australia Standard Time");
-                    cstTime = TimeZoneInfo.ConvertTimeFromUtc(searchCriteria.ServiceDate.ToUTC(), cstZone);
-                }
+            {               
 
                 CleanerMatchResult.PrimaryZoneList = new List<string>(new string[] { CleanerMatchResult.PrimaryZone });
                 CleanerMatchResult.SelectedRosterDay = searchCriteria.ServiceDay.ToDayOfWeek();
-                CleanerMatchResult.SelectedServiceDate = (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob) ? DateTimeWrapper.FindNextDateForDay(CleanerMatchResult.SelectedRosterDay) : cstTime;
+                CleanerMatchResult.SelectedServiceDate = (searchCriteria.WeeklyJob || searchCriteria.FortnightlyJob) ? DateTimeWrapper.FindNextDateForDay(CleanerMatchResult.SelectedRosterDay) : searchCriteria.ServiceDate;
 
                 if (!String.IsNullOrWhiteSpace(CleanerMatchResult.SecondaryZone))
                 {

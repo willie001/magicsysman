@@ -67,7 +67,7 @@ namespace MagicMaids.ViewModels
 			{
 				if (OneOffJob || VacateClean)
 				{
-					return ServiceDate.DayOfWeek.ToString();
+					return ServiceDate.ToUser().DayOfWeek.ToString();
 				}
 
 				return _serviceDay;

@@ -286,15 +286,14 @@ namespace MagicMaids
 		public static DateTime FindNextDateForDay(DayOfWeek WeekDay)
 		{
             var _date = DateTime.Now.ToUTC();
-            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("W. Australia Standard Time");
-            DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(_date, cstZone);
-            if (cstTime.DayOfWeek == WeekDay)
+            
+            if (_date.DayOfWeek == WeekDay)
 			{
 				return _date;
 			}
 
-			int daysToAdd = ((int)WeekDay - (int)cstTime.DayOfWeek + 7) % 7;
-			return cstTime.AddDays(daysToAdd);
+			int daysToAdd = ((int)WeekDay - (int)_date.DayOfWeek + 7) % 7;
+			return _date.AddDays(daysToAdd);
 		}
 
 		public static bool IsDayInRange(this DayOfWeek WeekDay, DateTime startDate, DateTime endDate)

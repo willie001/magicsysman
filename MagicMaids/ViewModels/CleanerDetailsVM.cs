@@ -456,23 +456,8 @@ namespace MagicMaids.ViewModels
         public DateTime? SelectedServiceDate
         {
             get;
-            set;
-            
-            //get
-            //{
-            //    return SelectedServiceDate;
-            //}
-
-            //set
-            //{
-            //    if (SelectedServiceDate != null)
-            //    {
-            //        DateTime _selectedDate = Convert.ToDateTime(SelectedServiceDate);
-            //        TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("W. Australia Standard Time");
-            //        DateTime cstTime = TimeZoneInfo.ConvertTimeFromUtc(_selectedDate, cstZone);
-            //        SelectedServiceDate = cstTime;
-            //    }
-            //}
+            set;            
+           
         }
 
         public DateTime? SelectedServiceDateNextWeek
