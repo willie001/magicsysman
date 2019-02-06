@@ -131,17 +131,19 @@ namespace MagicMaids
             var dayList = new List<JobBookingsVM>();
             var existingScheduleListFiltered = new List<JobBookingsVM>();
             long previousEndTime = 0;
-            DateTime? serviceDate;
+            DateTime serviceDate;
 
             if (NextWeek)
             {
-                serviceDate = Cleaner.SelectedServiceDateNextWeek;
+                serviceDate = Cleaner.SelectedServiceDateNextWeek ?? DateTime.Now;
             }
             else
             {
-                serviceDate = Cleaner.SelectedServiceDate;
+                serviceDate = Cleaner.SelectedServiceDate ?? DateTime.Now;
                 
             }
+
+            serviceDate = serviceDate.ToUser();
 
             foreach (JobBookingsVM existingScheduleItem in jobList)
             {
