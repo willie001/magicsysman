@@ -214,7 +214,10 @@
 			vm.hasSearched = true;
             HandleBusySpinner.start($scope, panelName);
 
-            //console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
+            console.log(vm.Search.ServiceDate);
+            
+
+            console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
 			$http.post('/search/matchcleaners', vm.Search).success(function (response) {
 				//console.log("<MAIN Search Results> - " + angular.toJson(response));
 				if (!response.IsValid && response.IsValid !== undefined)

@@ -87,13 +87,13 @@ namespace MagicMaids.ViewModels
 
 		public DateTime ServiceDate
 		{
-			get
+            get
             {
                 return _serviceDate;
             }
-			set
+            set
             {
-                _serviceDate = value.ToUser();
+                _serviceDate = value;
             }
 		}
 
