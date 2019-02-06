@@ -285,7 +285,7 @@ namespace MagicMaids
 
 		public static DateTime FindNextDateForDay(DayOfWeek WeekDay)
 		{
-            var _date = DateTime.Now.ToUser();
+            var _date = DateTime.Now.ToUTC().ToUser();
             
             if (_date.DayOfWeek == WeekDay)
 			{
