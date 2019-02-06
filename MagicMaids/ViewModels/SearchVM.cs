@@ -67,7 +67,7 @@ namespace MagicMaids.ViewModels
 			{
 				if (OneOffJob || VacateClean)
 				{
-					return ServiceDate.DayOfWeek.ToString();
+					return ServiceDateUser.DayOfWeek.ToString();
 				}
 
 				return _serviceDay;
@@ -87,17 +87,30 @@ namespace MagicMaids.ViewModels
 
 		public DateTime ServiceDate
 		{
-            get
-            {
-                return _serviceDate;
-            }
-            set
-            {
-                _serviceDate = value;
-            }
+            get;            
+            set;            
 		}
 
-        private DateTime _serviceDate;
+        public DateTime ServiceDateUTC
+        {
+            get
+            {
+                if (ServiceDate != DateTime.MinValue)
+                {
+                    return ServiceDate.ToUTC();
+                }
+                return ServiceDate;
+            }
+        }
+
+        public DateTime ServiceDateUser
+        {
+            get
+            {
+                return ServiceDateUTC.ToUser();
+            }
+        }
+        
 
 		public String ServiceDateFormatted
 		{

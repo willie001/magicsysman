@@ -269,8 +269,8 @@ namespace MagicMaids
 
 			if (criteria.OneOffJob || criteria.VacateClean)
 			{
-				cleaner.StyleWeekday = criteria.ServiceDate.Date.WeekYearStyle();
-                cleaner.StyleWeekdayNextWeek = criteria.ServiceDate.Date.WeekYearStyle(true);
+				cleaner.StyleWeekday = criteria.ServiceDateUser.Date.WeekYearStyle();
+                cleaner.StyleWeekdayNextWeek = criteria.ServiceDateUser.Date.WeekYearStyle(true);
             }
 			else
 			{
