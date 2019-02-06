@@ -559,13 +559,13 @@ namespace MagicMaids.ViewModels
         {
             get
             {
-                if (!SelectedServiceDate.Equals(default(DateTime)) && ScheduledJobsNextWeek != null)
+                if (!SelectedServiceDateNextWeek.Equals(default(DateTime)) && ScheduledJobsNextWeek != null)
                 {
                     var list = ScheduledJobsNextWeek.Where<JobBookingsVM>(x =>
                        x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
                        && (
                            ((x.JobType == JobTypeEnum.OneOff || x.JobType == JobTypeEnum.Vacate) &&
-                               x.JobDateUTC.Value.ToUser().Date.Equals(SelectedServiceDate.Value.AddDays(7).Date))
+                               x.JobDateUTC.Value.AddDays(7).ToUser().Date.Equals(SelectedServiceDate.Value.AddDays(7).Date))
                            ||
                            (x.JobType == JobTypeEnum.Weekly || x.JobType == JobTypeEnum.Fortnighly)
                        )

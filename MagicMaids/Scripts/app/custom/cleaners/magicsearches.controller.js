@@ -215,9 +215,8 @@
             HandleBusySpinner.start($scope, panelName);
 
             console.log(vm.Search.ServiceDate);
-            
-
             console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
+
 			$http.post('/search/matchcleaners', vm.Search).success(function (response) {
 				//console.log("<MAIN Search Results> - " + angular.toJson(response));
 				if (!response.IsValid && response.IsValid !== undefined)
@@ -230,7 +229,8 @@
 				{
 					$scope.searchCriteria = true;
 					vm.SearchResults = response.SearchResults;
-					HandleBusySpinner.stop($scope, panelName);
+                    HandleBusySpinner.stop($scope, panelName);
+                    console.log(vm.SearchResults);
 				}
 
 			}).error(function (error) {
@@ -238,7 +238,9 @@
         		HandleBusySpinner.stop($scope, panelName);
             	ShowUserMessages.show($scope, error, "Error performing search.");
             	vm.hasSearched = false;
-        	});   	
+                });   
+
+            
 		}
 
 		$scope.validateData = function(data, colName) {
