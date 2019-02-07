@@ -167,7 +167,7 @@ namespace MagicMaids
 
                 if (existingScheduleItem.WeekDay == ServiceDay.ToString())
                 {
-                    AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime);
+                    AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime, serviceDate);
                     dayList.Add(existingScheduleItem);
                     previousEndTime = existingScheduleItem.EndTime;
                 }
@@ -176,13 +176,13 @@ namespace MagicMaids
             // adds the last gap of the day as available
             if (previousEndTime > 0 && previousEndTime < rosterDayEnd)
             {
-                AddAvailableTimeSlot(dayList, previousEndTime, rosterDayEnd);
+                AddAvailableTimeSlot(dayList, previousEndTime, rosterDayEnd, serviceDate);
             }
 
             if (dayList.Count == 0)
             {
                 // no jobs - all day is available
-                AddAvailableTimeSlot(dayList, rosterDayStart, rosterDayEnd);
+                AddAvailableTimeSlot(dayList, rosterDayStart, rosterDayEnd, serviceDate);
             }
 
             if (dayList.Count == 0)
@@ -259,9 +259,9 @@ namespace MagicMaids
             //{ bookingDate = DateTime.Now; }
 
             if (NextWeek)
-            { bookingDate = ServiceDateUTC.ToUser().AddDays(7); }
+            { bookingDate = ServiceDateUTC.ToUser().AddDays(7).Date; }
             else
-            { bookingDate = ServiceDateUTC.ToUser(); }
+            { bookingDate = ServiceDateUTC.ToUser().Date; }
 
             List<JobBooking> _entityList = new List<JobBooking>();
             StringBuilder _sql = new StringBuilder($"Select * from JobBooking where PrimaryCleanerRefId = '{Cleaner.Id}'");
@@ -270,7 +270,7 @@ namespace MagicMaids
             {
                 _sql.Append($" and WeekDay = '{ServiceDay.ToString()}'");
             }
-            _sql.Append($" and (JobDate > '{bookingDate.FormatDatabaseDate()}' or JobType in ('Fortnighly', 'Weekly'))");
+            _sql.Append($" and (JobDate = '{bookingDate.FormatDatabaseDate()}' or JobType in ('Fortnighly', 'Weekly'))");
             _sql.Append(" order by JobDate, WeekDay, StartTime, EndTime");
 
             using (DBManager db = new DBManager())
@@ -326,7 +326,7 @@ namespace MagicMaids
         }
 
         // adds a new available timeslot 
-        private void AddAvailableTimeSlot(IList<JobBookingsVM> list, long startTime, long endTime)
+        private void AddAvailableTimeSlot(IList<JobBookingsVM> list, long startTime, long endTime, DateTime serviceDate)
         {
             var gapSize = endTime - startTime;
 
@@ -340,6 +340,7 @@ namespace MagicMaids
                 EndTime = endTime,
                 CleanerId = Cleaner.Id,
                 JobDateUTC = ServiceDateUTC,
+                JobDate = serviceDate,
                 JobStatus = BookingStatus.AVAILABLE,
                 JobSuburb = "",
                 JobType = JobType,

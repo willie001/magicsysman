@@ -89,19 +89,51 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+        public DateTime JobDate
+        {
+            get;
+            set;
+        }
+
 		public String JobDateFormatted
 		{
-			get
-			{
-				if (JobDateUTC.HasValue)
-				{
-					return JobDateUTC.Value.FormatUserDate();
-				}
-				return "";
-			}
-		}
+            //get
+            //{
+            //    if (JobDateUTC.HasValue)
+            //    {
+            //        return JobDateUTC.Value.FormatUserDate();
+            //    }
+            //    return "";
+            //}
 
-		public string WeekDay
+            get
+            {
+                if (JobDate == DateTime.MinValue)
+                {
+                    return JobDate.FormatUserDate();
+                }
+                return JobDate.ToUTC().FormatUserDate();
+            }
+        }
+
+        public String JobDateFormattedForList
+        {
+            get
+            {
+                if (JobDateUTC.HasValue)
+                {
+                    return JobDateUTC.Value.FormatUserDate();
+                }
+                return "";
+            }
+
+            //get
+            //{
+            //    return JobDate.ToUTC().FormatUserDate();
+            //}
+        }
+
+        public string WeekDay
 		{
 			get;
 			set;
@@ -236,6 +268,14 @@ namespace MagicMaids.ViewModels
                 { duration = duration + 60; }
                 else if (duration > 420 && duration <= 480)
                 { duration = duration + 70; }
+                else if (duration > 480 && duration <= 540)
+                { duration = duration + 80; }
+                else if (duration > 540 && duration <= 600)
+                { duration = duration + 90; }
+                else if (duration > 600 && duration <= 660)
+                { duration = duration + 100; }
+                else if (duration > 660 && duration <= 720)
+                { duration = duration + 110; }
 
                 return (duration / 2).ToString() + "px";
             }
@@ -264,9 +304,9 @@ namespace MagicMaids.ViewModels
 		{
 			get
 			{
-				if (JobDateUTC != null && (JobType == JobTypeEnum.OneOff || JobType == JobTypeEnum.Vacate))
+				if ((JobDate != null || JobDate != DateTime.MinValue) && (JobType == JobTypeEnum.OneOff || JobType == JobTypeEnum.Vacate))
 				{
-					return $"{WeekDay} on {JobDateUTC.Value.FormatUserDate()} ({StartTimeOfDay}-{EndTimeOfDay})";
+					return $"{WeekDay} on {JobDate.FormatUserDate()} ({StartTimeOfDay}-{EndTimeOfDay})";
 				}
 				else
 				{

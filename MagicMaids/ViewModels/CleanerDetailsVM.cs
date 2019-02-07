@@ -565,7 +565,7 @@ namespace MagicMaids.ViewModels
                        x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
                        && (
                            ((x.JobType == JobTypeEnum.OneOff || x.JobType == JobTypeEnum.Vacate) &&
-                               x.JobDateUTC.Value.AddDays(7).ToUser().Date.Equals(SelectedServiceDate.Value.AddDays(7).Date))
+                               x.JobDateUTC.Value.ToUser().Date.Equals(SelectedServiceDate.Value.AddDays(7).Date))
                            ||
                            (x.JobType == JobTypeEnum.Weekly || x.JobType == JobTypeEnum.Fortnighly)
                        )

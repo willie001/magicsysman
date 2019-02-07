@@ -67,7 +67,7 @@ namespace MagicMaids.Controllers
 				try
 				{
 					searchCriteria.HasCriteria = true;
-					//searchCriteria.StoreSearchCookieCiteria("cleanerMatch");
+					searchCriteria.StoreSearchCookieCiteria("cleanerMatch");
 
                     List<CleanerMatchResultVM> CleanerMatchResultList = GetCleanerMatchResults(searchCriteria, searchByCriteria, CleanerId);
 

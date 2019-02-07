@@ -1,121 +1,123 @@
 ﻿<div ng-controller="ClientBookingController as form" class="container-fluid">
-	<div class="container-fluid">
-		<h4 class="page-header">New Booking</h4>
-		<div class="form-group" ng-if="selectedCleaner.LastName == null">
-			First match a cleaner for the job. Click <a ng-click="$state.go('app.mainsearch')">here</a> to proceed.
-		</div>
-		<div ng-if="selectedCleaner.LastName != null">
-			<div class="row">
-				<div class="col-md-6">
-					<div class="panel panel-info" id="panelJobDetails">
-						<div class="panel-heading">
-							Requested job details
-						</div>
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-md-3 text-bold">Requested Gap</div>
-								<div class="col-md-9">{{form.searchCriteria.ServiceLengthFormatted}}</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 text-bold">Cleaner Name</div>
-								<div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 text-bold">Team Size Available</div>
-								<div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 text-bold">Service Request</div>
-								<div class="col-md-9">
-									<span ng-if="form.searchCriteria.WeeklyJob==true">Weekly</span>
-									<span ng-if="form.searchCriteria.FortnightlyJob==true">Fortnightly</span>
-									<span ng-if="form.searchCriteria.OneOffJob==true">One-off</span>
-									<span ng-if="form.searchCriteria.VacateClean==true">Vacate Clean</span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 text-bold">Requires Ironing?</div>
-								<div class="col-md-9">
-									<span ng-if="form.searchCriteria.RequireIroning==true">Yes</span>
-									<span ng-if="form.searchCriteria.RequireIroning==false">No</span>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 text-bold">Service Date</div>
-								<div class="col-md-9">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
+    <div class="container-fluid">
+        <h4 class="page-header">New Booking</h4>
+        <div class="form-group" ng-if="selectedCleaner.LastName == null">
+            First match a cleaner for the job. Click <a ng-click="$state.go('app.mainsearch')">here</a> to proceed.
+        </div>
+        <div ng-if="selectedCleaner.LastName != null">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="panel panel-info" id="panelJobDetails">
+                        <div class="panel-heading">
+                            Requested job details
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 text-bold">Requested Gap</div>
+                                <div class="col-md-9">{{form.searchCriteria.ServiceLengthFormatted}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 text-bold">Cleaner Name</div>
+                                <div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 text-bold">Team Size Available</div>
+                                <div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 text-bold">Service Request</div>
+                                <div class="col-md-9">
+                                    <span ng-if="form.searchCriteria.WeeklyJob==true">Weekly</span>
+                                    <span ng-if="form.searchCriteria.FortnightlyJob==true">Fortnightly</span>
+                                    <span ng-if="form.searchCriteria.OneOffJob==true">One-off</span>
+                                    <span ng-if="form.searchCriteria.VacateClean==true">Vacate Clean</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 text-bold">Requires Ironing?</div>
+                                <div class="col-md-9">
+                                    <span ng-if="form.searchCriteria.RequireIroning==true">Yes</span>
+                                    <span ng-if="form.searchCriteria.RequireIroning==false">No</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 text-bold">Service Date</div>
+                                <div class="col-md-9">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
 
-							</div>
-							<hr />
-							<div class="row">
-								<div class="col-md-3">Adjust start time</div>
-								<div class="col-md-3"></div>
-								<div class="col-md-3">Adjust finish time</div>
-								<div class="col-md-3"></div>
-							</div>
-							<div class="row">
-								<div class="col-md-3 text-bold">
-									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.StartTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-								</div>
-								<div class="col-md-3">
-									<br /><br />
-									<button type="submit" class="btn btn-info">Set End Time >> </button>
-								</div>
-								<div class="col-md-3 text-bold">
-									<div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-								</div>
-								<div class="col-md-3">
-									<br /><br /><br /><br />
-									<button type="submit" class="btn btn-success" ng-click="confirmBooking();">Confirm Booking</button>
-								</div>
-							</div>
+                            </div>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-3">Adjust start time</div>
+                                <div class="col-md-3"></div>
+                                <div class="col-md-3">Adjust finish time</div>
+                                <div class="col-md-3"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3 text-bold">
+                                    <div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.StartTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <br /><br />
+                                    <button type="submit" class="btn btn-info">Set End Time >> </button>
+                                </div>
+                                <div class="col-md-3 text-bold">
+                                    <div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <br /><br /><br /><br />
+                                    <button type="submit" class="btn btn-success" ng-click="confirmBooking();">Confirm Booking</button>
+                                </div>
+                            </div>
 
-						</div>
-					</div>
-				</div>
-				<div class="col-md-6">
-				</div>
-			</div>
-		</div>
-	</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<div class="container-fluid">
-		<h4 class="page-header">Existing Bookings</h4>
-		<div ng-hide="form.listOfExistingBookings.length" class="EmptyResults p-xs text-center">
-			No job bookings found yet. Click <a ng-click="$state.go('app.mainsearch')">here</a> to make a booking.
-		</div>
-		<div class="table-responsive col-xs-12" ng-show="form.listOfExistingBookings.length">
-			<table datatable="ng" class="table table-bordered table-hover bg-white">
-				<thead>
-				<th class="text-center">Job Date</th>  
-				<th class="text-center">Job Time</th>
-				<th class="text-center">Job Type</th>
-				<th class="text-center">Status</th>
-				<th class="text-center">Suburb</th>
-				<th class="text-center">Cleaners</th>
-				<th style="width:10%" class="text-center"></th>
-				</thead>
-				<tbody>
-					<tr ng-repeat="job in form.listOfExistingBookings">
-						<td>{{job.JobDateFormatted}} ({{job.WeekDay}})</td>
-						<td>{{job.StartTimeOfDay}} - {{job.EndTimeOfDay}}</td>
-						<td>{{job.JobTypeName}}</td>
-						<td>{{job.JobStatus}}</td>
-						<td>{{job.JobSuburb}}</td>
-						<td><div ng-bind-html="job.CleanerTeam | trustAsHtml"></div></td>
-						<td style="white-space: nowrap">
-							<div class="buttons">
-								@*<button ng-click="checkCustomerState(form.selectedCleaner, job);" title="Edit" class="btn btn-sm btn-info">
-									<em class="fa fa-pencil"></em>
-								</button>*@
-								<button title="Delete" class="btn btn-sm btn-danger" ng-click="form.removeBooking(job.Id, $index)">
-									<em class="fa fa-trash"></em>
-								</button>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+    <div class="container-fluid">
+        <h4 class="page-header">Existing Bookings</h4>
+        <div ng-hide="form.listOfExistingBookings.length" class="EmptyResults p-xs text-center">
+            No job bookings found yet. Click <a ng-click="$state.go('app.mainsearch')">here</a> to make a booking.
+        </div>
+        <div class="table-responsive col-xs-12" ng-show="form.listOfExistingBookings.length">
+            <table datatable="ng" class="table table-bordered table-hover bg-white">
+                <thead>
+                    <tr>
+                        <th class="text-center">Job Date</th>
+                        <th class="text-center">Job Time</th>
+                        <th class="text-center">Job Type</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Suburb</th>
+                        <th class="text-center">Cleaners</th>
+                        <th style="width:10%" class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="job in form.listOfExistingBookings">
+                        <td>{{job.JobDateFormattedForList}} ({{job.WeekDay}})</td>
+                        <td>{{job.StartTimeOfDay}} - {{job.EndTimeOfDay}}</td>
+                        <td>{{job.JobTypeName}}</td>
+                        <td>{{job.JobStatus}}</td>
+                        <td>{{job.JobSuburb}}</td>
+                        <td><div ng-bind-html="job.CleanerTeam | trustAsHtml"></div></td>
+                        <td style="white-space: nowrap">
+                            <div class="buttons">
+                                @*<button ng-click="checkCustomerState(form.selectedCleaner, job);" title="Edit" class="btn btn-sm btn-info">
+                                        <em class="fa fa-pencil"></em>
+                                    </button>*@
+                                <button title="Delete" class="btn btn-sm btn-danger" ng-click="form.removeBooking(job.Id, $index)">
+                                    <em class="fa fa-trash"></em>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-	</div>
+    </div>
 </div>

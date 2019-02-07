@@ -238,7 +238,7 @@
                                             One-Off: {{cleaner.ClashingJobsForServiceDay[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[1].EndTimeOfDay}})
                                         </div>
 
-                                        <div ng-repeat="job in cleaner.ScheduledJobsForServiceDay">
+                                        <div ng-repeat="job in cleaner.ScheduledJobs">
 
                                             <a ng-if="job.JobStatus == 'AVAILABLE'" ng-click="checkCustomerState(cleaner, job);" style="height: {{ job.ControlHeight}} !important;" class="Jobs_Available">
                                                 <div>
@@ -293,7 +293,7 @@
                                             One-Off: {{cleaner.ClashingJobsForServiceDay[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[1].EndTimeOfDay}})
                                         </div>
 
-                                        <div ng-repeat="job in cleaner.ScheduledJobsForServiceDayNextWeek">
+                                        <div ng-repeat="job in cleaner.ScheduledJobsNextWeek">
 
                                             <a ng-if="job.JobStatus == 'AVAILABLE'" ng-click="checkCustomerState(cleaner, job);" style="height: {{ job.ControlHeight}} !important;" class="Jobs_Available">
                                                 <div>
