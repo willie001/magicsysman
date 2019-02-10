@@ -225,18 +225,18 @@
 
                                     <div ng-if="!cleaner.CustomErrorMessage">
 
-                                        <div ng-if="cleaner.CleanerOnLeave && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_Leave">
+                                        <div ng-if="cleaner.CleanerOnLeave" class="ClashDates_Leave">
                                             Leave: {{cleaner.LeaveDates}}
                                         </div>
 
-                                        <div ng-if="cleaner.SheduledClashCount == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle btn btn-block">
+                                        @*<div ng-if="cleaner.SheduledClashCount == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle btn btn-block">
                                             One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})
                                         </div>
 
                                         <div ng-if="cleaner.SheduledClashCount == 2  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffMultiple btn btn-block">
                                             One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})<br />
                                             One-Off: {{cleaner.ClashingJobsForServiceDay[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[1].EndTimeOfDay}})
-                                        </div>
+                                        </div>*@
 
                                         <div ng-repeat="job in cleaner.ScheduledJobs">
 
@@ -248,11 +248,13 @@
 
                                             <div ng-if="job.JobStatus != 'AVAILABLE'" class="Jobs_Not_Available {{job.JobColourCode}}" style="height: {{ job.ControlHeight}};">
                                                 <div class="" style="padding-left: 12px;">
-                                                    <div class="Jobs_Not_Available_Div">
+                                                    <div class="Jobs_Not_Available_Div  {{job.JobTypeClass}}">
                                                         {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}&nbsp;&nbsp;
                                                         <strong>
                                                             <span ng-if="job.JobTypeName == 'Weekly'">W</span>
                                                             <span ng-if="job.JobTypeName == 'Fortnighly'">F</span>
+                                                            <span ng-if="job.JobTypeName == 'OneOff'">O</span>
+                                                            <span ng-if="job.JobTypeName == 'Vacate'">V</span>
                                                         </strong>&nbsp;
                                                         <i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnighly'"></i>&nbsp;&nbsp;
                                                         {{job.JobSuburb}}
@@ -280,18 +282,18 @@
 
                                     <div ng-if="!cleaner.CustomErrorMessage">
 
-                                        <div ng-if="cleaner.CleanerOnLeave && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_Leave">
+                                        <div ng-if="cleaner.CleanerOnLeave" class="ClashDates_Leave">
                                             Leave: {{cleaner.LeaveDates}}
                                         </div>
 
-                                        <div ng-if="cleaner.SheduledClashCount == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle btn btn-block">
-                                            One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})
+                                        @*<div ng-if="cleaner.SheduledClashCountNextWeek == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle btn btn-block">
+                                            One-Off: {{cleaner.ClashingJobsForServiceDayNextWeek[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDayNextWeek[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDayNextWeek[0].EndTimeOfDay}})
                                         </div>
 
-                                        <div ng-if="cleaner.SheduledClashCount == 2  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffMultiple btn btn-block">
-                                            One-Off: {{cleaner.ClashingJobsForServiceDay[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[0].EndTimeOfDay}})<br />
-                                            One-Off: {{cleaner.ClashingJobsForServiceDay[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDay[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDay[1].EndTimeOfDay}})
-                                        </div>
+                                        <div ng-if="cleaner.SheduledClashCountNextWeek == 2  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffMultiple btn btn-block">
+                                            One-Off: {{cleaner.ClashingJobsForServiceDayNextWeek[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDayNextWeek[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDayNextWeek[0].EndTimeOfDay}})<br />
+                                            One-Off: {{cleaner.ClashingJobsForServiceDayNextWeek[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDayNextWeek[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDayNextWeek[1].EndTimeOfDay}})
+                                        </div>*@
 
                                         <div ng-repeat="job in cleaner.ScheduledJobsNextWeek">
 
@@ -303,11 +305,13 @@
 
                                             <div ng-if="job.JobStatus != 'AVAILABLE'" class="Jobs_Not_Available {{job.JobColourCode}}" style="height: {{ job.ControlHeight}};">
                                                 <div class="" style="padding-left: 12px;">
-                                                    <div class="Jobs_Not_Available_Div">
+                                                    <div class="Jobs_Not_Available_Div {{job.JobTypeClass}}">
                                                         {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}&nbsp;&nbsp;
                                                         <strong>
                                                             <span ng-if="job.JobTypeName == 'Weekly'">W</span>
                                                             <span ng-if="job.JobTypeName == 'Fortnighly'">F</span>
+                                                            <span ng-if="job.JobTypeName == 'OneOff'">O</span>
+                                                            <span ng-if="job.JobTypeName == 'Vacate'">V</span>
                                                         </strong>&nbsp;
                                                         <i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnighly'"></i>&nbsp;&nbsp;
                                                         {{job.JobSuburb}}

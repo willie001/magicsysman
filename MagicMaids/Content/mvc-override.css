@@ -286,3 +286,13 @@ button.availableButton {
 td {
     vertical-align: top !important;
 }
+
+.Repeat_Job {
+    background-color: #f47f7f;
+    color: antiquewhite;
+}
+
+.One_Off_Job {
+    background: #ffebcc;
+    color: darkslategrey;
+}

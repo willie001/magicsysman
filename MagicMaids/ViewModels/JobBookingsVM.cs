@@ -300,6 +300,21 @@ namespace MagicMaids.ViewModels
 			set;
 		}
 
+        public String JobTypeClass
+        {
+            get
+            {
+                if (JobType == JobTypeEnum.Fortnighly || JobType == JobTypeEnum.Weekly)
+                {
+                    return "Repeat_Job";
+                }
+                else
+                {
+                    return "One_Off_Job";
+                }
+            }
+        }
+
 		public String JobDescription
 		{
 			get

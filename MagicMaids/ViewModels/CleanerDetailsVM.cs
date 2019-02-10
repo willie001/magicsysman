@@ -511,6 +511,14 @@ namespace MagicMaids.ViewModels
             }
         }
 
+        public Int32 SheduledClashCountNextWeek
+        {
+            get
+            {
+                return ClashingJobsForServiceDayNextWeek.Count;
+            }
+        }
+
         public IList<JobBookingsVM> ClashingJobsForServiceDay
         {
             get
@@ -521,6 +529,26 @@ namespace MagicMaids.ViewModels
                     return ScheduledJobs.Where<JobBookingsVM>(x =>
                        x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
                        && x.JobDateUTC.Value.ToUser().Date == SelectedServiceDate.Value.Date
+                       && (x.JobStatus == BookingStatus.CONFIRMED || x.JobStatus == BookingStatus.PENDING)
+                       && (x.JobType == JobTypeEnum.OneOff || x.JobType == JobTypeEnum.Vacate)
+                    )
+                    .ToList();
+                }
+
+                return new List<JobBookingsVM>();
+            }
+        }
+
+        public IList<JobBookingsVM> ClashingJobsForServiceDayNextWeek
+        {
+            get
+            {
+                if (!SelectedServiceDateNextWeek.Equals(default(DateTime))
+                    && ScheduledJobsNextWeek != null)
+                {
+                    return ScheduledJobsNextWeek.Where<JobBookingsVM>(x =>
+                       x.WeekDay.ToLower() == SelectedRosterDay.ToString().ToLower()
+                       && x.JobDateUTC.Value.AddDays(7).ToUser().Date == SelectedServiceDateNextWeek.Value.Date
                        && (x.JobStatus == BookingStatus.CONFIRMED || x.JobStatus == BookingStatus.PENDING)
                        && (x.JobType == JobTypeEnum.OneOff || x.JobType == JobTypeEnum.Vacate)
                     )

@@ -176,11 +176,11 @@ namespace MagicMaids.Controllers
                     sql.Append($" and C.Rating >= {searchCriteria.FilterRating}");
                 }
 
-                if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
-                {
-                    // not on leave
-                    sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
-                }
+                //if (searchCriteria.OneOffJob || searchCriteria.VacateClean)
+                //{
+                //    // not on leave
+                //    sql.Append($" and C.ID not in (select distinct PrimaryCleanerRefId from CleanerLeave where '{searchCriteria.ServiceDate.ToUTC().FormatDatabaseDate()}' between DATE(StartDate) and DATE(EndDate))");
+                //}
                 
                 // and rostered for weekday ????
                 sql.Append($" and C.ID in (select distinct PrimaryCleanerRefId from CleanerRoster where Upper(WeekDay) = Upper('{searchCriteria.ServiceDay}'))");
