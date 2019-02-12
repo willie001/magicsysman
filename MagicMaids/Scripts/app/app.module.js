@@ -65,7 +65,7 @@
     		var expiresValue = new Date(today);
 
    			 //Set 'expires' option in 5 minute
-    		expiresValue.setMinutes(today.getMinutes() + 5); 
+    		expiresValue.setMinutes(today.getMinutes() + 10); 
 
 			function set(cleaner, job) {
 				if (cleaner == null)

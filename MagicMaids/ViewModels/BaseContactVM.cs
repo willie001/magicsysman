@@ -144,22 +144,22 @@ namespace MagicMaids.ViewModels
 			if (!String.IsNullOrWhiteSpace(this.BusinessPhoneNumber))
 			{
 				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span class='fa fa-phone'></span>&nbsp;");
-				_output.Append(this.BusinessPhoneNumber);
+				_output.Append("<div><i class='fa fa-phone' style='margin-right: 25px;'></i>&nbsp;");
+				_output.Append(this.BusinessPhoneNumber + "</div>");
 			}
 
 			if (!String.IsNullOrWhiteSpace(this.MobileNumber))
 			{
 				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span class='fa fa-mobile'></span>&nbsp;");
-				_output.Append(this.MobileNumber);
+				_output.Append("<div><i class='fa fa-mobile' style='margin-right: 25px;'></i>&nbsp;");
+				_output.Append(this.MobileNumber + "</div>");
 			}
 
 			if (!String.IsNullOrWhiteSpace(this.OtherNumber))
 			{
 				if (_output.Length > 0) _output.Append("<br/>");
-				_output.Append("<span class='fa fa-fax'></span>&nbsp;");
-				_output.Append(this.OtherNumber);
+				_output.Append("<div><i class='fa fa-fax' style='margin-right: 25px;'></i>&nbsp;");
+				_output.Append(this.OtherNumber + "</div>");
 			}
 
 			FormattedContactNumbers = _output.ToString();

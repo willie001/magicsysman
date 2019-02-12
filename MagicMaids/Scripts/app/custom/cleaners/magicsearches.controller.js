@@ -227,7 +227,7 @@
 				}
 				else
 				{
-					$scope.searchCriteria = true;
+					$scope.searchCriteria = false;
 					vm.SearchResults = response.SearchResults;
                     HandleBusySpinner.stop($scope, panelName);
                     console.log(vm.SearchResults);
