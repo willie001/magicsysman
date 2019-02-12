@@ -79,14 +79,16 @@
 			<div class="table-responsive" ng-show="form.SearchResults.length" >
 				<table datatable="ng" class="table table-bordered table-hover bg-white ctable" dt-options="dtOptions">
 					<thead style="font-weight: bold">
-			         	<th  class="text-center">Cleaner Name</th>
-						<th style="width:5%" class="text-center"></th>
-			         	<th  class="text-center">Zone</th>
-			         	<th  class="text-center">Email Address</th>
-			         	<th  class="text-center">Phone Numbers</th>
-						<th  class="text-center">Suburb</th>
-						<th class="text-center" ng-hide="true" >Rating</th>
-						<th style="width:5%" class="text-center">Active</th>
+                        <tr>
+                            <th class="text-center">Cleaner Name</th>
+                            <th style="width:5%" class="text-center"></th>
+                            <th class="text-center">Zone</th>
+                            <th class="text-center">Email Address</th>
+                            <th class="text-center">Phone Numbers</th>
+                            <th class="text-center">Suburb</th>
+                            <th class="text-center" ng-hide="true">Rating</th>
+                            <th style="width:5%" class="text-center">Active</th>
+                        </tr>
 					</thead>  
 			      	<tbody>
 						<tr valign="top" ng-repeat="cleaner in form.SearchResults">
