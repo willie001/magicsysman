@@ -271,7 +271,7 @@ namespace MagicMaids
                 _sql.Append($" and WeekDay = '{ServiceDay.ToString()}'");
             }
             _sql.Append($" and (JobDate = '{bookingDate.FormatDatabaseDate()}' or JobType in ('Fortnighly', 'Weekly'))");
-            _sql.Append(" order by JobDate, WeekDay, StartTime, EndTime");
+            _sql.Append(" order by StartTime, EndTime, JobDate, WeekDay");
 
             using (DBManager db = new DBManager())
             {
