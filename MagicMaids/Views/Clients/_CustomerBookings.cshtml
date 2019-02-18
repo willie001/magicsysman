@@ -13,20 +13,24 @@
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-md-3 text-bold">Requested Gap</div>
-                                <div class="col-md-9">{{form.searchCriteria.ServiceLengthFormatted}}</div>
+                                <div class="col-md-4 text-bold">Requested Gap</div>
+                                <div class="col-md-8">{{form.searchCriteria.ServiceLengthFormatted}}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 text-bold">Cleaner Name</div>
-                                <div class="col-md-9">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
+                                <div class="col-md-4 text-bold">Cleaner Name</div>
+                                <div class="col-md-8">{{form.selectedCleaner.FirstName}} {{form.selectedCleaner.LastName}}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 text-bold">Team Size Available</div>
-                                <div class="col-md-9">{{form.selectedCleaner.TeamSize}}</div>
+                                <div class="col-md-4 text-bold">Team Size Available</div>
+                                <div class="col-md-8">{{form.selectedCleaner.TeamSize}}</div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 text-bold">Service Request</div>
-                                <div class="col-md-9">
+                                <div class="col-md-4 text-bold">Actual Job Duration</div>
+                                <div class="col-md-8">{{ form.actualJobDurationMin }} minutes (Requested Gap / Team Size)</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-bold">Service Request</div>
+                                <div class="col-md-8">
                                     <span ng-if="form.searchCriteria.WeeklyJob==true">Weekly</span>
                                     <span ng-if="form.searchCriteria.FortnightlyJob==true">Fortnightly</span>
                                     <span ng-if="form.searchCriteria.OneOffJob==true">One-off</span>
@@ -34,15 +38,15 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 text-bold">Requires Ironing?</div>
-                                <div class="col-md-9">
+                                <div class="col-md-4 text-bold">Requires Ironing?</div>
+                                <div class="col-md-8">
                                     <span ng-if="form.searchCriteria.RequireIroning==true">Yes</span>
                                     <span ng-if="form.searchCriteria.RequireIroning==false">No</span>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 text-bold">Service Date</div>
-                                <div class="col-md-9">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
+                                <div class="col-md-4 text-bold">Service Date</div>
+                                <div class="col-md-8">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
 
                             </div>
                             <hr />
@@ -53,17 +57,13 @@
                                 <div class="col-md-3"></div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 text-bold">
-                                    <div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.StartTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
+                                <div class="col-md-4 text-bold">
+                                    <div ng-if="!!timePickerData.startTime" readonly-input="true" uib-timepicker="uib-timepicker" min="timePickerData.minSelectionStart" max="timePickerData.maxSelectionStart" ng-model="timePickerData.startTime" show-meridian="false"></div>
+                                </div>                                
+                                <div class="col-md-4 text-bold">
+                                    <div ng-if="!!timePickerData.endTime" ng-disabled="true" readonly-input="true" uib-timepicker="uib-timepicker" min="timePickerData.minSelectionEnd" max="timePickerData.maxSelectionEnd" ng-model="timePickerData.endTime" show-meridian="false"></div>
                                 </div>
-                                <div class="col-md-3">
-                                    <br /><br />
-                                    <button type="submit" class="btn btn-info">Set End Time >> </button>
-                                </div>
-                                <div class="col-md-3 text-bold">
-                                    <div uib-timepicker="uib-timepicker" ng-change="removeDisabledInTimepicker()" mousewheel="false" min="form.minSelection" max="form.maxSelection" ng-model="form.selectedCleanerJob.EndTimeForControl" hour-step="form.hrStep" minute-step="form.minStep" show-meridian="false"></div>
-                                </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <br /><br /><br /><br />
                                     <button type="submit" class="btn btn-success" ng-click="confirmBooking();">Confirm Booking</button>
                                 </div>

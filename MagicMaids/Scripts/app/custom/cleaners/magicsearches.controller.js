@@ -89,8 +89,8 @@
 		}
 
 		$scope.checkCustomerState = function(selectedCleaner, selectedJob) {
-			console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
-			console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
+			//console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
+			//console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
 
 			selectedJob.TeamSize = selectedCleaner.TeamSize;
 			savedJobBookingFactory.set(selectedCleaner, selectedJob);
@@ -214,8 +214,8 @@
 			vm.hasSearched = true;
             HandleBusySpinner.start($scope, panelName);
 
-            console.log(vm.Search);
-            console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
+            //console.log(vm.Search);
+            //console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
 
 			$http.post('/search/matchcleaners', vm.Search).success(function (response) {
 				//console.log("<MAIN Search Results> - " + angular.toJson(response));
