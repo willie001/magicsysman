@@ -101,6 +101,8 @@ namespace MagicMaids
                 CleanerMatchResult.ScheduledJobs = Availability.GetCleanerDaySchedule();
                 CleanerMatchResult.ScheduledJobsNextWeek = Availability.GetCleanerDaySchedule(true);
                 CleanerMatchResult.TeamSize = Availability.CleanerTeamSize;
+                CleanerMatchResult = ParseJobLocation(CleanerMatchResult);
+                
 
                 if (Availability.SuitableTimeSlots == 0)
                 {
@@ -144,14 +146,14 @@ namespace MagicMaids
         /// </summary>
         /// <returns>The location.</returns>
         /// <param name="item">Item.</param>
-        //private CleanerMatchResultVM ParseJobLocation(CleanerMatchResultVM item)
-        //{
-        //item.StylePreviousJobLocation = FormatStyleForJobZone(true, item);
-        //item.StyleNextJobLocation = FormatStyleForJobZone(false, item);
-        //item.PreviousJobLocation = item.IsFirstJob ? "" : item.PreviousJobLocation;
-        //item.NextJobLocation = String.IsNullOrWhiteSpace(item.NextJobLocation) ? "no booking" : item.NextJobLocation;
-        //	return item;
-        //}
+        private CleanerMatchResultVM ParseJobLocation(CleanerMatchResultVM item)
+        {
+            item.StylePreviousJobLocation = FormatStyleForJobZone(true, item);
+            item.StyleNextJobLocation = FormatStyleForJobZone(false, item);
+            item.PreviousJobLocation = item.IsFirstJob ? "" : item.PreviousJobLocation;
+            item.NextJobLocation = String.IsNullOrWhiteSpace(item.NextJobLocation) ? "no booking" : item.NextJobLocation;
+            return item;
+        }
 
         /// <summary>
         /// Checks if the search criteria has zone filters and if it applies to the current 

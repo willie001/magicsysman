@@ -15,7 +15,7 @@
     <div class="panel panel-default" id="searchCriteria">
         <div class="panel-heading">
             <paneltool tool-collapse="tool-collapse"></paneltool>
-            <div class="panel-title">&nbsp</div>
+            <div class="panel-title">Search Criteria</div>
         </div>
         <div uib-collapse="searchCriteria" class="panel-wrapper">
             <div class="panel-body">
@@ -25,10 +25,10 @@
                         <div class="col-xs-4">
                             <input class="form-control" type="text" ng-model="form.Search.Suburb" placeholder="Suburb" uib-typeahead="address for address in form.SuburbList | filter:$viewValue | limitTo:10" uib-typeahead-loading="loadingLocations" />
                             <i class="glyphicon glyphicon-refresh" ng-show="loadingLocations"></i><br />
-                            <div class="checkbox c-checkbox">
-                                <label>
+                            <div>
+                                <label class="checkbox checkbox-inline">
                                     <input type="checkbox" checked="false" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning" />
-                                    <span class="fa fa-check"></span>Requires Ironing?
+                                    Requires Ironing?
                                 </label>
                             </div>
                         </div>
@@ -87,15 +87,15 @@
 
                     </div>
                     <div class="form-group">
-                        <label class="col-xs-2 control-label">Has the customer used us before?</label>
+                        <label class="col-xs-2 control-label">Return customer?</label>
                         <div class="col-xs-10">
-                            <label class="radio-inline"><input id="inlineRpt" name="repeatCustomer" type="radio" value="Y" ng-model="form.Search.RepeatCustomer" />Yes - Return Customer</label>
-                            <label class="radio radio-inline"><input id="inlineNew" name="repeatCustomer" type="radio" value="N" ng-model="form.Search.RepeatCustomer" checked="" />No - New Customer</label>
+                            <label class="radio-inline"><input id="inlineRpt" name="repeatCustomer" type="radio" value="Y" ng-model="form.Search.RepeatCustomer" />Yes</label>
+                            <label class="radio radio-inline"><input id="inlineNew" name="repeatCustomer" type="radio" value="N" ng-model="form.Search.RepeatCustomer" checked="" />No</label>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-xs-2 control-label">Filter cleaner zones</label>
+                        <label class="col-xs-2 control-label">Cleaner zones</label>
                         <div class="col-xs-4">
                             <label class="checkbox checkbox-inline">
                                 <input type="checkbox" checked="true" name="IsActive" ng-model="form.client.IsActive" />

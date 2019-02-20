@@ -556,12 +556,8 @@
             $scope.timePickerData.maxSelectionStart = new Date(vm.selectedCleanerJob.EndTimeForControl).setMinutes(-$scope.timePickerData.actualJobDurationMin).toString();
             $scope.timePickerData.minSelectionEnd = new Date(vm.selectedCleanerJob.StartTimeForControl).setMinutes($scope.timePickerData.actualJobDurationMin).toString;
             $scope.timePickerData.maxSelectionEnd = new Date(vm.selectedCleanerJob.EndTimeForControl);
-            $scope.timePickerData.startTime = new Date(vm.selectedCleanerJob.StartTimeForControl);
-            //$scope.timePickerData.endTime = new Date($scope.timePickerData.startTime).setMinutes($scope.timePickerData.actualJobDurationMin);
-            $scope.timePickerData.endTime = addMinutes($scope.timePickerData.startTime, $scope.timePickerData.actualJobDurationMin);
-
-            //console.log($scope.timePickerData.startTime);
-            //console.log($scope.timePickerData.endTime);
+            $scope.timePickerData.startTime = new Date(vm.selectedCleanerJob.StartTimeForControl);            
+            $scope.timePickerData.endTime = addMinutes($scope.timePickerData.startTime, $scope.timePickerData.actualJobDurationMin);            
 
         } else {
             //Some data is missing, show message
@@ -574,9 +570,9 @@
             vm.selectedCleanerJob.EndTimeForControl = $scope.timePickerData.endTime;             
         });
                                   
-        //console.log("<Cleaner PICKED -  job> - " + angular.toJson(vm.selectedCleaner));
-        //console.log("<Job PICKED -  job> - " + angular.toJson(vm.selectedCleanerJob));
-        //console.log("<Criteria PICKED -  job> - " + angular.toJson(vm.searchCriteria));
+        console.log(vm.selectedCleaner);
+        console.log(vm.selectedCleanerJob);
+        console.log(vm.searchCriteria);
 
         function removeDisabledInTimepicker() {
             return $timeout(function () {
