@@ -293,8 +293,14 @@ namespace MagicMaids.ViewModels
 			get;
 			set;
 		}
+                
+        public String NextJobSuburb
+        {
+            get;
+            set;
+        }
 
-		public String JobColourCode
+        public String JobColourCode
 		{
 			get;
 			set;

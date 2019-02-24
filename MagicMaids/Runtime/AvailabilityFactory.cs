@@ -325,6 +325,19 @@ namespace MagicMaids
             return virtualServiceGap + SystemSettings.GapOtherZoneMinutes;
         }
 
+        private long CalculateTravelGap(String previousSuburb)
+        {
+            long travelGap = 0;
+            
+            var prevZoneList = previousSuburb.GetZoneListBySuburb(false);
+            if (prevZoneList.Intersect(ServiceZone).Any())
+            {               
+                return travelGap + SystemSettings.GapSameZoneMinutes;
+            }
+           
+            return travelGap + SystemSettings.GapSecondaryZoneMinutes;
+        }
+
         // adds a new available timeslot 
         private void AddAvailableTimeSlot(IList<JobBookingsVM> list, long startTime, long endTime, DateTime serviceDate)
         {
@@ -333,19 +346,30 @@ namespace MagicMaids
             if (gapSize < minJobSizeMins + AdjustedGapMins)
                 return;
 
+            String prevSuburb = "";
+
+            if (list.Count > 0)
+            {
+                prevSuburb = list[list.Count - 1].JobSuburb;
+            }
+
+            long travelGap = 0;
+
+            if (prevSuburb != "") { travelGap = CalculateTravelGap(prevSuburb); };
+
             SuitableTimeSlots++;
             list.Add(new JobBookingsVM()
             {
-                StartTime = startTime,
-                EndTime = endTime,
+                StartTime = startTime + travelGap,
+                EndTime = endTime + travelGap,
                 CleanerId = Cleaner.Id,
                 JobDateUTC = ServiceDateUTC,
                 JobDate = serviceDate,
                 JobStatus = BookingStatus.AVAILABLE,
-                JobSuburb = "",
+                JobSuburb = Cleaner.SearchSuburb,                 
                 JobType = JobType,
                 WeekDay = ServiceDay.ToString(),
-                JobColourCode = CalculateSuburbColourCode(""),
+                JobColourCode = "",
                 IsNewItem = true
             });
         }

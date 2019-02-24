@@ -98,11 +98,11 @@ namespace MagicMaids
 
             try
             {
+                CleanerMatchResult.SearchSuburb = criteria.Suburb; 
                 CleanerMatchResult.ScheduledJobs = Availability.GetCleanerDaySchedule();
                 CleanerMatchResult.ScheduledJobsNextWeek = Availability.GetCleanerDaySchedule(true);
                 CleanerMatchResult.TeamSize = Availability.CleanerTeamSize;
-                CleanerMatchResult = ParseJobLocation(CleanerMatchResult);
-                
+                                
 
                 if (Availability.SuitableTimeSlots == 0)
                 {
@@ -146,14 +146,14 @@ namespace MagicMaids
         /// </summary>
         /// <returns>The location.</returns>
         /// <param name="item">Item.</param>
-        private CleanerMatchResultVM ParseJobLocation(CleanerMatchResultVM item)
-        {
-            item.StylePreviousJobLocation = FormatStyleForJobZone(true, item);
-            item.StyleNextJobLocation = FormatStyleForJobZone(false, item);
-            item.PreviousJobLocation = item.IsFirstJob ? "" : item.PreviousJobLocation;
-            item.NextJobLocation = String.IsNullOrWhiteSpace(item.NextJobLocation) ? "no booking" : item.NextJobLocation;
-            return item;
-        }
+        //private CleanerMatchResultVM ParseJobLocation(CleanerMatchResultVM item)
+        //{
+        //    item.StylePreviousJobLocation = FormatStyleForJobZone(true, item);
+        //    item.StyleNextJobLocation = FormatStyleForJobZone(false, item);
+        //    item.PreviousJobLocation = item.IsFirstJob ? "" : item.PreviousJobLocation;
+        //    item.NextJobLocation = String.IsNullOrWhiteSpace(item.NextJobLocation) ? "no booking" : item.NextJobLocation;
+        //    return item;
+        //}
 
         /// <summary>
         /// Checks if the search criteria has zone filters and if it applies to the current 
@@ -293,63 +293,63 @@ namespace MagicMaids
         /// <returns>The style for job zone.</returns>
         /// <param name="forPrevJob">If set to <c>true</c> for previous job.</param>
         /// <param name="cleaner">Cleaner.</param>
-        private String FormatStyleForJobZone(bool forPrevJob, CleanerMatchResultVM cleaner)
-        {
-            String searchJobLocation = (criteria == null ? "" : criteria.Suburb);
-            if (String.IsNullOrWhiteSpace(searchJobLocation))
-            {
-                return "";
-            }
+        //private String FormatStyleForJobZone(bool forPrevJob, CleanerMatchResultVM cleaner)
+        //{
+        //    String searchJobLocation = (criteria == null ? "" : criteria.Suburb);
+        //    if (String.IsNullOrWhiteSpace(searchJobLocation))
+        //    {
+        //        return "";
+        //    }
 
-            if (cleaner == null)
-            {
-                return "";
-            }
+        //    if (cleaner == null)
+        //    {
+        //        return "";
+        //    }
 
-            var prevZoneList = cleaner.PreviousJobLocation.GetZoneListBySuburb(false);
-            var nextZoneList = cleaner.NextJobLocation.GetZoneListBySuburb(false);
+        //    var prevZoneList = cleaner.PreviousJobLocation.GetZoneListBySuburb(false);
+        //    var nextZoneList = cleaner.NextJobLocation.GetZoneListBySuburb(false);
 
-            // if search suburb is in cleaner primary zone and prev/next job is also in primary zone
-            if (ApplyColor(cleaner.PrimaryZoneList, SearchZoneList))
-            {
-                if (forPrevJob && ApplyColor(cleaner.PrimaryZoneList, prevZoneList))
-                {
-                    return NamedColours.PrimaryJobColor;
-                }
-                else if (!forPrevJob && ApplyColor(cleaner.PrimaryZoneList, nextZoneList))
-                {
-                    return NamedColours.PrimaryJobColor;
-                }
-            }
+        //    // if search suburb is in cleaner primary zone and prev/next job is also in primary zone
+        //    if (ApplyColor(cleaner.PrimaryZoneList, SearchZoneList))
+        //    {
+        //        if (forPrevJob && ApplyColor(cleaner.PrimaryZoneList, prevZoneList))
+        //        {
+        //            return NamedColours.PrimaryJobColor;
+        //        }
+        //        else if (!forPrevJob && ApplyColor(cleaner.PrimaryZoneList, nextZoneList))
+        //        {
+        //            return NamedColours.PrimaryJobColor;
+        //        }
+        //    }
 
-            // if search suburb is in cleaner secondary zone and prev/next job is also in secondary zone
-            if (ApplyColor(cleaner.SecondaryZoneList, SearchZoneList))
-            {
-                if (forPrevJob && ApplyColor(cleaner.SecondaryZoneList, prevZoneList))
-                {
-                    return NamedColours.SecondaryJobColor;
-                }
-                else if (!forPrevJob && ApplyColor(cleaner.SecondaryZoneList, nextZoneList))
-                {
-                    return NamedColours.SecondaryJobColor;
-                }
-            }
+        //    // if search suburb is in cleaner secondary zone and prev/next job is also in secondary zone
+        //    if (ApplyColor(cleaner.SecondaryZoneList, SearchZoneList))
+        //    {
+        //        if (forPrevJob && ApplyColor(cleaner.SecondaryZoneList, prevZoneList))
+        //        {
+        //            return NamedColours.SecondaryJobColor;
+        //        }
+        //        else if (!forPrevJob && ApplyColor(cleaner.SecondaryZoneList, nextZoneList))
+        //        {
+        //            return NamedColours.SecondaryJobColor;
+        //        }
+        //    }
 
-            // if search suburb is in cleaner approved zone and prev/next job is also in approved zone
-            if (ApplyColor(cleaner.ApprovedZoneList, SearchZoneList))
-            {
-                if (forPrevJob && ApplyColor(cleaner.ApprovedZoneList, prevZoneList))
-                {
-                    return NamedColours.ApprovedJobColor;
-                }
-                else if (!forPrevJob && ApplyColor(cleaner.ApprovedZoneList, nextZoneList))
-                {
-                    return NamedColours.ApprovedJobColor;
-                }
-            }
+        //    // if search suburb is in cleaner approved zone and prev/next job is also in approved zone
+        //    if (ApplyColor(cleaner.ApprovedZoneList, SearchZoneList))
+        //    {
+        //        if (forPrevJob && ApplyColor(cleaner.ApprovedZoneList, prevZoneList))
+        //        {
+        //            return NamedColours.ApprovedJobColor;
+        //        }
+        //        else if (!forPrevJob && ApplyColor(cleaner.ApprovedZoneList, nextZoneList))
+        //        {
+        //            return NamedColours.ApprovedJobColor;
+        //        }
+        //    }
 
-            return "";
-        }
+        //    return "";
+        //}
 
 
 

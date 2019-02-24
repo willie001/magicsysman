@@ -421,6 +421,12 @@ namespace MagicMaids.ViewModels
             set;
         }
 
+        public String SearchSuburb
+        {
+            get;
+            set;
+        }
+
         public Int32 Rating
         {
             get;

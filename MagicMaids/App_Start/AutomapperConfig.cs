@@ -63,7 +63,8 @@ namespace MagicMaids
 				.ForMember(dest => dest.CleanerRosters, source => source.Ignore())
 				.ForMember(dest => dest.ScheduledJobs, source => source.Ignore())
                 .ForMember(dest => dest.ScheduledJobsNextWeek, source => source.Ignore())
-                .ForMember(dest => dest.ScheduledJobsForServiceDayNextWeek, source => source.Ignore())                
+                .ForMember(dest => dest.ScheduledJobsForServiceDayNextWeek, source => source.Ignore())
+                .ForMember(dest => dest.SearchSuburb, source => source.Ignore())
 
                 .ForMember(dest => dest.CustomErrorMessage, source => source.Ignore())
 
