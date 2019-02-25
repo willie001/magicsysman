@@ -20,6 +20,7 @@ namespace MagicMaids
         private IList<String> ServiceZone;
         private JobTypeEnum JobType;
         private DayOfWeek ServiceDay;
+        private long RosterDayEndTime;
 
 
         const Int32 minJobSizeMins = 0;
@@ -110,6 +111,7 @@ namespace MagicMaids
                     Cleaner.TeamSize = cleanerRosterItem.TeamCount;
                     rosterDayStart = cleanerRosterItem.TimeOfDayFrom;
                     rosterDayEnd = cleanerRosterItem.TimeOfDayTo;
+                    RosterDayEndTime = cleanerRosterItem.TimeOfDayTo;
                     break;
                 }
             }
@@ -359,14 +361,16 @@ namespace MagicMaids
             }
 
             long travelGap = 0;
-
+            
             if (prevSuburb != "") { travelGap = CalculateTravelGap(prevSuburb); };
+            if (endTime + travelGap < RosterDayEndTime) { endTime = endTime + travelGap; };
+
 
             SuitableTimeSlots++;
             list.Add(new JobBookingsVM()
             {
                 StartTime = startTime + travelGap,
-                EndTime = endTime + travelGap,
+                EndTime = endTime,
                 CleanerId = Cleaner.Id,
                 JobDateUTC = ServiceDateUTC,
                 JobDate = serviceDate,
