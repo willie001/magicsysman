@@ -329,6 +329,11 @@ namespace MagicMaids
         {
             long travelGap = 0;
             
+            if (!Cleaner.PrimaryZoneList.Intersect(ServiceZone).Any() && !Cleaner.SecondaryZoneList.Intersect(ServiceZone).Any())
+            {
+                return travelGap + SystemSettings.GapOtherZoneMinutes;
+            }
+
             var prevZoneList = previousSuburb.GetZoneListBySuburb(false);
             if (prevZoneList.Intersect(ServiceZone).Any())
             {               
