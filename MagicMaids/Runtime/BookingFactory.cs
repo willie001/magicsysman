@@ -90,7 +90,9 @@ namespace MagicMaids
             CleanerMatchResult.DisplayHomeBase = String.IsNullOrWhiteSpace(CleanerMatchResult.PhysicalAddress.Suburb) ? "no booking" : CleanerMatchResult.PhysicalAddress.Suburb;
 
             // Style Formatting
-            FormatStyleForHome(CleanerMatchResult);
+            // StyleHomebase should always be the primary zone colour
+            //FormatStyleForHome(CleanerMatchResult);
+            CleanerMatchResult.StyleHomeBase = NamedColours.PrimaryJobColor;
             FormatStyleForWeekday(CleanerMatchResult);
 
             // All data loaded - calculate cleaner's current availability

@@ -321,6 +321,13 @@ td {
         margin-right: 5px;
     }
 
+.Zone {
+    padding: 2px;
+    border: 1px solid dimgray;
+    border-radius: 4px;
+    margin-bottom: 2px;
+}
+
 table {
     font-size: 12px;
 }
