@@ -559,10 +559,12 @@
             $scope.timePickerData.startTime = new Date(vm.selectedCleanerJob.StartTimeForControl);            
             $scope.timePickerData.endTime = addMinutes($scope.timePickerData.startTime, $scope.timePickerData.actualJobDurationMin);            
 
-        } else {
-            //Some data is missing, show message
-            ShowUserMessages.show($scope, $rootScope.childMessage, "Could not load all job booking data. Please refresh the Booking.");
         }
+
+        //else {
+        //    //Some data is missing, show message
+        //    ShowUserMessages.show($scope, $rootScope.childMessage, "Could not load all job booking data. Please refresh the Booking.");
+        //}
 
         $scope.$watch('timePickerData.startTime', function (newVal, oldVal) {
             $scope.timePickerData.endTime = addMinutes(newVal, $scope.timePickerData.actualJobDurationMin);
@@ -570,9 +572,9 @@
             vm.selectedCleanerJob.EndTimeForControl = $scope.timePickerData.endTime;             
         });
                                   
-        console.log(vm.selectedCleaner);
-        console.log(vm.selectedCleanerJob);
-        console.log(vm.searchCriteria);
+        //console.log(vm.selectedCleaner);
+        //console.log(vm.selectedCleanerJob);
+        //console.log(vm.searchCriteria);
 
         function removeDisabledInTimepicker() {
             return $timeout(function () {

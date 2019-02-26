@@ -3,6 +3,8 @@
     Brings clarity by adding independent styles required for MVC projects
 */
 
+
+
 .preloader-progress {
   background-image: url(/Images/preloader/preloader.empty.png);
 }
@@ -231,17 +233,20 @@ button.availableButton {
 }
 
 .Jobs_Available {
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;*/
+    margin-right: 7px;
     text-align: left;
     border: 1px solid dimgray;
     border-radius: 4px;
-    padding-left: 27px;
+    padding-left: 10px;
+    padding-right: 10px;
     background-color: darkslategray;
     text-decoration: none;
     color: antiquewhite;
     transition: background-color linear 0.2s;
-    display: block;
-    
+    height: 40px;
+    display: inline-block;
+    vertical-align: top;
 }
 
     .Jobs_Available:hover {
@@ -252,37 +257,43 @@ button.availableButton {
     }
 
 .Jobs_Not_Available {
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;*/
+    margin-right: 7px;
     text-align: left;
     cursor: default;
     border: 1px solid dimgray;
     border-radius: 4px;
-    /*background-color: #f47f7f;*/
-    display: block;
+    display: inline-block;
     color: antiquewhite;
-    
+    height: 40px;
+    vertical-align: top;
 }
 
-
+.Job_Repeater {
+    display: inline-block;
+}
 
 .Jobs_Not_Available_Div {
     background-color: #f47f7f;
-    padding-left: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-radius: 4px;
     height: -webkit-fill-available;
 }
 
 .Display_ServiceDate {
-    padding: 10px 20px 10px 20px;
+    /*padding: 10px 20px 10px 20px;*/
     border-radius: 5px;
     font-weight: 700;
-    text-align: center;
+    text-align: left;
     margin-bottom: 5px;
+    
 }
 
 .Week_Job_Container {
     padding-left: 12px;
     padding-right: 12px;
+    display: inline-block;
 }
 
 td {
@@ -299,57 +310,18 @@ td {
     color: darkslategrey;
 }
 
-.cardContainer {
-    position: relative;
-    width: 300px;
-    height: 400px;
-    min-width: 300px;
-    min-height: 400px;
-    margin: 4px;
-    /*-webkit-perspective: 1000px;
-    perspective: 1000px;*/
-}
-
-.card {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-}
-
-    .card .side {
-        /*-webkit-backface-visibility: hidden;
-        backface-visibility: hidden;*/
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        border-radius: 5px;
-        background-color: white;
-    }
-
-    .card .info {
-        padding-left: 16px;
-        padding-right: 16px;
-        padding-bottom: 16px;
-    }
-
-
-.back {
-    position: relative;    
-}
-
-    .back h3 {
-        margin-top: 2px;
-        margin-bottom: 18px;
-    }          
-
 .ContactDetails {
-    margin-bottom: 10px;
-    padding: 5px;
+    /*margin-bottom: 10px;*/
+    padding: 2px;
     /*font-size: 15px;*/
 }
 
     .ContactDetails .Icon {
         width: 20px;
-        margin-right: 15px;
+        margin-right: 5px;
     }
+
+table {
+    font-size: 12px;
+}
 
