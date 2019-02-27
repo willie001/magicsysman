@@ -169,7 +169,7 @@ namespace MagicMaids
 
                 if (existingScheduleItem.WeekDay == ServiceDay.ToString())
                 {
-                    AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime, serviceDate);
+                    AddAvailableTimeSlot(dayList, (previousEndTime == 0 ? rosterDayStart : previousEndTime), existingScheduleItem.StartTime, serviceDate, existingScheduleListFiltered);
                     dayList.Add(existingScheduleItem);
                     previousEndTime = existingScheduleItem.EndTime;
                 }
@@ -178,13 +178,13 @@ namespace MagicMaids
             // adds the last gap of the day as available
             if (previousEndTime > 0 && previousEndTime < rosterDayEnd)
             {
-                AddAvailableTimeSlot(dayList, previousEndTime, rosterDayEnd, serviceDate);
+                AddAvailableTimeSlot(dayList, previousEndTime, rosterDayEnd, serviceDate, existingScheduleListFiltered);
             }
 
             if (dayList.Count == 0)
             {
                 // no jobs - all day is available
-                AddAvailableTimeSlot(dayList, rosterDayStart, rosterDayEnd, serviceDate);
+                AddAvailableTimeSlot(dayList, rosterDayStart, rosterDayEnd, serviceDate, existingScheduleListFiltered);
             }
 
             if (dayList.Count == 0)
@@ -346,7 +346,7 @@ namespace MagicMaids
         }
 
         // adds a new available timeslot 
-        private void AddAvailableTimeSlot(IList<JobBookingsVM> list, long startTime, long endTime, DateTime serviceDate)
+        private void AddAvailableTimeSlot(IList<JobBookingsVM> list, long startTime, long endTime, DateTime serviceDate, List<JobBookingsVM> existingJobs)
         {
             var gapSize = endTime - startTime;
 
@@ -363,10 +363,35 @@ namespace MagicMaids
             long travelGap = 0;
             
             if (prevSuburb != "") { travelGap = CalculateTravelGap(prevSuburb); };
-            if (endTime + travelGap < RosterDayEndTime) { endTime = endTime + travelGap; };
+            
 
+
+            if (endTime != RosterDayEndTime)
+            {
+                if (existingJobs.Count > 0)
+                {
+                    JobBookingsVM nextJob = new JobBookingsVM();
+
+                    //Find next job by comparing the end time with the job start time
+                    foreach (JobBookingsVM job in existingJobs)
+                    {
+                        if (job.WeekDay == ServiceDay.ToString())
+                        {
+                            if (job.StartTime == endTime)
+                            {
+                                nextJob = job;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    //Calculate travel gap according to nextJob suburb                                        
+                    endTime = endTime - CalculateTravelGap(nextJob.JobSuburb);
+                }
+            }
 
             SuitableTimeSlots++;
+
             list.Add(new JobBookingsVM()
             {
                 StartTime = startTime + travelGap,
