@@ -390,13 +390,14 @@ namespace MagicMaids
                 }
             }
 
+            startTime = startTime + travelGap;
             if (startTime == endTime) return;
 
             SuitableTimeSlots++;
 
             list.Add(new JobBookingsVM()
             {
-                StartTime = startTime + travelGap,
+                StartTime = startTime,
                 EndTime = endTime,
                 CleanerId = Cleaner.Id,
                 JobDateUTC = ServiceDateUTC,
