@@ -390,6 +390,8 @@ namespace MagicMaids
                 }
             }
 
+            if (startTime == endTime) return;
+
             SuitableTimeSlots++;
 
             list.Add(new JobBookingsVM()
