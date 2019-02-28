@@ -159,16 +159,13 @@
                 <table datatable="ng" class="table table-bordered table-hover bg-white ctable no-horizontal-gutter" dt-options="dtOptions" style="width: 95%;">
                     <thead style="font-weight: bold" class="no-horizontal-gutter">
                         <tr>
-                            <th class="text-left" style="width: 15%;">
+                            <th class="text-left" style="width: 12%;">
                                 Cleaner Details
-                            </th>
-                            @*<th class="text-left" style="width: 15%;">
-                                Contact Details
-                            </th>*@
-                            <th class="text-left" style="width: 15%;">
+                            </th>                            
+                            <th class="text-left" style="width: 12%;">
                                 Zones
                             </th>
-                            <th class="text-left" style="width: 70%;">
+                            <th class="text-left" style="width: 76%;">
                                 
                             </th>
                            
@@ -185,26 +182,8 @@
                                 </div>
                                 <div class="ContactDetails">
                                     <strong>Team Size:</strong> {{cleaner.TeamSize}}
-                                </div>
-                                @*<div class="reviews">
-                                    <span uib-rating ng-model="cleaner.Rating" max="6" read-only="true" state-on="'fas fa-star'" state-off="'fa fa-star-o'" class="starRating"></span>
-                                </div>*@ 
-                            </td>
-
-                            @*<td class="text-left">
-                                <div class="ContactDetails">
-                                    <i class="fa fa-envelope Icon"></i><a href="mailto:{{ cleaner.EmailAddress }}">{{ cleaner.EmailAddress }}</a>
-                                </div>
-                                <div class="ContactDetails" ng-if=" cleaner.BusinessPhoneNumber || !cleaner.BusinessPhoneNumber == ''">
-                                    <i class="fa fa-phone Icon"></i>{{ cleaner.BusinessPhoneNumber }}
-                                </div>
-                                <div class="ContactDetails" ng-if=" cleaner.MobileNumber || !cleaner.MobileNumber == ''">
-                                    <i class="fa fa-mobile Icon"></i>{{ cleaner.MobileNumber }}
-                                </div>
-                                <div class="ContactDetails" ng-if=" cleaner.OtherNumber || !cleaner.OtherNumber == ''">
-                                    <i class="fa fa-fax Icon"></i>{{ cleaner.OtherNumber }}
-                                </div>
-                            </td>*@
+                                </div>                               
+                            </td>                          
 
                             <td>
                                 <div class="{{cleaner.StyleHomeBase}} Zone">
