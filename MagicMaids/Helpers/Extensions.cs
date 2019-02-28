@@ -113,19 +113,20 @@ namespace MagicMaids
             }
 
             SuburbZone suburbDetails = new SuburbZone();
+            string sql = "Select * from suburbzones where SuburbName = @SuburbName";
 
-            LogHelper log = new LogHelper();
-            log.Log(LogHelper.LogLevels.Info, "Suburb object: " + suburbName, nameof(GetSuburbDetails));
-
-
-
-            using (DBManager db = new DBManager())
+            try
             {
-                suburbDetails = db.getConnection().QueryFirstOrDefault<SuburbZone>("Select * from suburbzones where SuburbName = @SuburbName", new { SuburbName = suburbName });
+                using (DBManager db = new DBManager())
+                {
+                    suburbDetails = db.getConnection().QueryFirstOrDefault<SuburbZone>(sql, new { SuburbName = suburbName });
+                }
             }
-
-           
-
+            catch (Exception ex)
+            {
+                LogHelper log = new LogHelper();
+                log.Log(LogHelper.LogLevels.Error, "Error performing cleaner search", nameof(GetSuburbDetails), ex, sql.ToString());
+            } 
             
             return suburbDetails;
         }
