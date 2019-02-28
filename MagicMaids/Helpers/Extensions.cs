@@ -8,6 +8,7 @@ using LazyCache;
 using MagicMaids.DataAccess;
 using MagicMaids.ViewModels;
 using Newtonsoft.Json;
+using MagicMaids.EntityModels;
 
 namespace MagicMaids
 {
@@ -99,6 +100,27 @@ namespace MagicMaids
 
 			return criteria;
 		}
+
+        /// <summary>
+        /// Returns a SuburbZone object
+        /// </summary>
+        /// <param name="suburbName"></param>
+        public static SuburbZone GetSuburbDetails(this string suburbName)
+        {
+            if (String.IsNullOrWhiteSpace(suburbName))
+            {
+                return new SuburbZone();
+            }
+
+            SuburbZone suburbDetails = new SuburbZone();
+
+            using (DBManager db = new DBManager())
+            {
+                suburbDetails = db.getConnection().QueryFirstOrDefault<SuburbZone>("Select * from suburbzones where SuburbName = @SuburbName", new { SuburbName = suburbName });
+            }
+
+            return suburbDetails;
+        }
 
 		/// <summary>
 		/// Returns list of zones for a given suburb

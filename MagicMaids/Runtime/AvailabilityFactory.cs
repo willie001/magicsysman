@@ -327,20 +327,26 @@ namespace MagicMaids
             return virtualServiceGap + SystemSettings.GapOtherZoneMinutes;
         }
 
-        private long CalculateTravelGap(String previousSuburb)
+        private long CalculateTravelGap(String comparisonSuburb)
         {
-            long travelGap = 0;
-            
-            //if (!Cleaner.PrimaryZoneList.Intersect(ServiceZone).Any() && !Cleaner.SecondaryZoneList.Intersect(ServiceZone).Any())
-            //{
-            //    return travelGap + SystemSettings.GapOtherZoneMinutes;
-            //}
+            long travelGap = 0;                 
 
-            var prevZoneList = previousSuburb.GetZoneListBySuburb(false);
-            if (prevZoneList.Intersect(ServiceZone).Any())
-            {               
+            //1. if searchZone = comparisonZone then return GapSameZoneMinutes
+            //2. if searchNeighbouringZones.intersect comparisonZone then return GapSecondaryZoneMinutes
+            //3. else return GapOtherZoneMinutes
+
+            SuburbZone searchSuburbDetails = Cleaner.SearchSuburb.GetSuburbDetails();
+            SuburbZone comparisonSuburbDetails = comparisonSuburb.GetSuburbDetails();
+
+            if (searchSuburbDetails.Zone == comparisonSuburbDetails.Zone)
+            {
                 return travelGap + SystemSettings.GapSameZoneMinutes;
             }
+
+            if (searchSuburbDetails.LinkedZones.Contains(comparisonSuburbDetails.Zone))
+            {
+                return travelGap + SystemSettings.GapSecondaryZoneMinutes;
+            }           
            
             return travelGap + SystemSettings.GapOtherZoneMinutes;
         }

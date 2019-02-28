@@ -234,17 +234,17 @@ button.availableButton {
 
 .Jobs_Available {
     /*margin-bottom: 5px;*/
-    margin-right: 7px;
+    margin-right: 4px;
     text-align: left;
     border: 1px solid dimgray;
     border-radius: 4px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
     background-color: darkslategray;
     text-decoration: none;
     color: antiquewhite;
     transition: background-color linear 0.2s;
-    height: 40px;
+    height: 20px;
     display: inline-block;
     vertical-align: top;
 }
@@ -258,14 +258,14 @@ button.availableButton {
 
 .Jobs_Not_Available {
     /*margin-bottom: 5px;*/
-    margin-right: 7px;
+    margin-right: 4px;
     text-align: left;
     cursor: default;
     border: 1px solid dimgray;
     border-radius: 4px;
     display: inline-block;
     color: antiquewhite;
-    height: 40px;
+    height: 20px;
     vertical-align: top;
 }
 
@@ -275,8 +275,8 @@ button.availableButton {
 
 .Jobs_Not_Available_Div {
     background-color: #f47f7f;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
     border-radius: 4px;
     height: -webkit-fill-available;
 }
@@ -286,14 +286,15 @@ button.availableButton {
     border-radius: 5px;
     font-weight: 700;
     text-align: left;
-    margin-bottom: 5px;
+    margin-bottom: 2px;
     
 }
 
 .Week_Job_Container {
-    padding-left: 12px;
-    padding-right: 12px;
-    display: inline-block;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-bottom: 3px;
+    display: block;    
 }
 
 td {
@@ -322,7 +323,7 @@ td {
     }
 
 .Zone {
-    padding: 2px;
+    padding-left: 2px;
     border: 1px solid dimgray;
     border-radius: 4px;
     margin-bottom: 2px;
