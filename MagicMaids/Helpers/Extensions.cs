@@ -112,14 +112,20 @@ namespace MagicMaids
                 return new SuburbZone();
             }
 
-            SuburbZone suburbDetails = new SuburbZone();
+            List<SuburbZone> suburbDetailsList = new List<SuburbZone>();
             string sql = "Select * from suburbzones where SuburbName = @SuburbName";
 
             using (DBManager db = new DBManager())
             {
-                suburbDetails = db.getConnection().QueryFirstOrDefault<SuburbZone>(sql, new { SuburbName = suburbName });
+                suburbDetailsList = db.getConnection().Query<SuburbZone>(sql, new { SuburbName = suburbName }).ToList();
             }
 
+            SuburbZone suburbDetails = new SuburbZone();
+
+            if (suburbDetailsList.Count != 0)
+            {
+                suburbDetails = suburbDetailsList[0];
+            }
 
             return suburbDetails;
         }

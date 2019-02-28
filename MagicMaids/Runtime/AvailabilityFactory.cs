@@ -335,14 +335,8 @@ namespace MagicMaids
             //2. if searchNeighbouringZones.intersect comparisonZone then return GapSecondaryZoneMinutes
             //3. else return GapOtherZoneMinutes
 
-            LogHelper log = new LogHelper();
-            //log.Log(LogHelper.LogLevels.Info, "Search Suburb: " + Cleaner.SearchSuburb, nameof(CalculateTravelGap));
-            //log.Log(LogHelper.LogLevels.Info, "Comparison Suburb: " + comparisonSuburb, nameof(CalculateTravelGap));
-
             SuburbZone searchSuburbDetails = Cleaner.SearchSuburb.GetSuburbDetails();
             SuburbZone comparisonSuburbDetails = comparisonSuburb.GetSuburbDetails();
-
-
 
             if (searchSuburbDetails.Zone == comparisonSuburbDetails.Zone)
             {
