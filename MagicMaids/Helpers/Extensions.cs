@@ -12,94 +12,94 @@ using MagicMaids.EntityModels;
 
 namespace MagicMaids
 {
-	public static class Extensions
-	{
-		public static string UserName(this ClaimsPrincipal user)
-		{
-			if (user == null)
-			{
-				return "guest";
-			}
+    public static class Extensions
+    {
+        public static string UserName(this ClaimsPrincipal user)
+        {
+            if (user == null)
+            {
+                return "guest";
+            }
 
-			var displayName = user.FindFirst(ClaimsPrincipal.Current.Identities.First().NameClaimType);
-			var currentUser = displayName != null ? displayName.Value : string.Empty;
+            var displayName = user.FindFirst(ClaimsPrincipal.Current.Identities.First().NameClaimType);
+            var currentUser = displayName != null ? displayName.Value : string.Empty;
 
-			if (String.IsNullOrWhiteSpace(currentUser))
-				return "guest";
+            if (String.IsNullOrWhiteSpace(currentUser))
+                return "guest";
 
-			return currentUser;
-		}
+            return currentUser;
+        }
 
 
-		public static void StoreSearchCookieCiteria(this SearchVM criteria, string cookieName)
-		{
-			var cookie = "SearchCriteria";
-			if (!String.IsNullOrWhiteSpace(cookieName))
-			{
-				cookie += $"_{cookieName}";
-			}
+        public static void StoreSearchCookieCiteria(this SearchVM criteria, string cookieName)
+        {
+            var cookie = "SearchCriteria";
+            if (!String.IsNullOrWhiteSpace(cookieName))
+            {
+                cookie += $"_{cookieName}";
+            }
 
-			HttpCookie cookieCriteria = new HttpCookie(cookie)
-			{
-				Value = Uri.EscapeDataString(criteria.ToString())
-			};
+            HttpCookie cookieCriteria = new HttpCookie(cookie)
+            {
+                Value = Uri.EscapeDataString(criteria.ToString())
+            };
 
-			cookieCriteria.Expires = DateTime.Now.AddMinutes(5);
-			HttpContext.Current.Response.Cookies.Add(cookieCriteria);
-		}
+            cookieCriteria.Expires = DateTime.Now.AddMinutes(5);
+            HttpContext.Current.Response.Cookies.Add(cookieCriteria);
+        }
 
-		public static void ClearJobMatchCookies()
-		{
-			var criteriaCookie = "SearchCriteria_cleanerMatch";
-			var jobMatchCookie = "jobmatchCookie";
-			var cleanerMatchCookie = "cleanermatchCookie";
+        public static void ClearJobMatchCookies()
+        {
+            var criteriaCookie = "SearchCriteria_cleanerMatch";
+            var jobMatchCookie = "jobmatchCookie";
+            var cleanerMatchCookie = "cleanermatchCookie";
 
-			ExpireCookie(criteriaCookie);
-			ExpireCookie(jobMatchCookie);
-			ExpireCookie(cleanerMatchCookie);
-		}
+            ExpireCookie(criteriaCookie);
+            ExpireCookie(jobMatchCookie);
+            ExpireCookie(cleanerMatchCookie);
+        }
 
-		private static void ExpireCookie(String cookieName)
-		{
-			if (String.IsNullOrWhiteSpace(cookieName))
-			{
-				return;
-			}
+        private static void ExpireCookie(String cookieName)
+        {
+            if (String.IsNullOrWhiteSpace(cookieName))
+            {
+                return;
+            }
 
-			HttpCookie currentUserCookie = HttpContext.Current.Request.Cookies[cookieName];
-			if (currentUserCookie == null)
-			{
-				return;
-			}
+            HttpCookie currentUserCookie = HttpContext.Current.Request.Cookies[cookieName];
+            if (currentUserCookie == null)
+            {
+                return;
+            }
 
-			HttpContext.Current.Response.Cookies.Remove(cookieName);
-			currentUserCookie.Expires = DateTime.Now.AddDays(-10);
-			currentUserCookie.Value = null;
-			HttpContext.Current.Response.SetCookie(currentUserCookie);
-		}
+            HttpContext.Current.Response.Cookies.Remove(cookieName);
+            currentUserCookie.Expires = DateTime.Now.AddDays(-10);
+            currentUserCookie.Value = null;
+            HttpContext.Current.Response.SetCookie(currentUserCookie);
+        }
 
-		public static SearchVM RestoreSearchCookieCriteria(this SearchVM criteria, string cookieName)
-		{
-			var cookie = "SearchCriteria";
-			if (!String.IsNullOrWhiteSpace(cookieName))
-			{
-				cookie += $"_{cookieName}";
-			}
+        public static SearchVM RestoreSearchCookieCriteria(this SearchVM criteria, string cookieName)
+        {
+            var cookie = "SearchCriteria";
+            if (!String.IsNullOrWhiteSpace(cookieName))
+            {
+                cookie += $"_{cookieName}";
+            }
 
-			HttpCookie cookieCriteria = HttpContext.Current.Request.Cookies[cookie];
+            HttpCookie cookieCriteria = HttpContext.Current.Request.Cookies[cookie];
 
-			if (cookieCriteria != null)
-			{
-				var cookieVal = cookieCriteria.Value;
-				if (!String.IsNullOrWhiteSpace(cookieVal))
-				{
-					cookieVal = Uri.UnescapeDataString(cookieVal);
-					criteria = JsonConvert.DeserializeObject<SearchVM>(cookieVal);
-				}
-			}
+            if (cookieCriteria != null)
+            {
+                var cookieVal = cookieCriteria.Value;
+                if (!String.IsNullOrWhiteSpace(cookieVal))
+                {
+                    cookieVal = Uri.UnescapeDataString(cookieVal);
+                    criteria = JsonConvert.DeserializeObject<SearchVM>(cookieVal);
+                }
+            }
 
-			return criteria;
-		}
+            return criteria;
+        }
 
         /// <summary>
         /// Returns a SuburbZone object
@@ -115,98 +115,91 @@ namespace MagicMaids
             SuburbZone suburbDetails = new SuburbZone();
             string sql = "Select * from suburbzones where SuburbName = @SuburbName";
 
-            try
+            using (DBManager db = new DBManager())
             {
-                using (DBManager db = new DBManager())
-                {
-                    suburbDetails = db.getConnection().QueryFirstOrDefault<SuburbZone>(sql, new { SuburbName = suburbName });
-                }
+                suburbDetails = db.getConnection().QueryFirstOrDefault<SuburbZone>(sql, new { SuburbName = suburbName });
             }
-            catch (Exception ex)
-            {
-                LogHelper log = new LogHelper();
-                log.Log(LogHelper.LogLevels.Error, "Error performing cleaner search", nameof(GetSuburbDetails), ex, sql.ToString());
-            } 
-            
+
+
             return suburbDetails;
         }
 
-		/// <summary>
-		/// Returns list of zones for a given suburb
-		/// </summary>
-		/// <returns>The zone list by suburb.</returns>
-		/// <param name="suburbName">Suburb name.</param>
-		public static List<string> GetZoneListBySuburb(this string suburbName, Boolean withDefaults)
-		{
-			if (String.IsNullOrWhiteSpace(suburbName))
-			{
-				return new List<string>();
-			}
+        /// <summary>
+        /// Returns list of zones for a given suburb
+        /// </summary>
+        /// <returns>The zone list by suburb.</returns>
+        /// <param name="suburbName">Suburb name.</param>
+        public static List<string> GetZoneListBySuburb(this string suburbName, Boolean withDefaults)
+        {
+            if (String.IsNullOrWhiteSpace(suburbName))
+            {
+                return new List<string>();
+            }
 
-			IAppCache cache = new CachingService();
-			List<string> zoneList = cache.GetOrAdd($"SuburbZones_{suburbName}", () => GetZoneList(suburbName), new TimeSpan(0, 20, 0));
+            IAppCache cache = new CachingService();
+            List<string> zoneList = cache.GetOrAdd($"SuburbZones_{suburbName}", () => GetZoneList(suburbName), new TimeSpan(0, 20, 0));
 
-			if (zoneList.Count == 0)
-			{
-				cache.Remove($"SuburbZones_{suburbName}");
-				if (withDefaults)
-				{
-					zoneList = cache.GetOrAdd($"SuburbZones_Defaults", () => GetDefaultZoneList(), new TimeSpan(0, 20, 0));
-				}
-			}
+            if (zoneList.Count == 0)
+            {
+                cache.Remove($"SuburbZones_{suburbName}");
+                if (withDefaults)
+                {
+                    zoneList = cache.GetOrAdd($"SuburbZones_Defaults", () => GetDefaultZoneList(), new TimeSpan(0, 20, 0));
+                }
+            }
 
-			return zoneList;
-		}
+            return zoneList;
+        }
 
-		private static List<string> GetZoneList(string suburbName)
-		{
-			if (String.IsNullOrWhiteSpace(suburbName))
-			{
-				return null;
-			}
+        private static List<string> GetZoneList(string suburbName)
+        {
+            if (String.IsNullOrWhiteSpace(suburbName))
+            {
+                return null;
+            }
 
-			List<String> _zoneList = new List<String>();
-			using (DBManager db = new DBManager())
-			{
-				_zoneList = db.getConnection().Query<String>($"select concat(Zone, ',', LinkedZones) from SuburbZones where SuburbName like '%{suburbName}%' or PostCode = '{suburbName}'").ToList();
-			}
+            List<String> _zoneList = new List<String>();
+            using (DBManager db = new DBManager())
+            {
+                _zoneList = db.getConnection().Query<String>($"select concat(Zone, ',', LinkedZones) from SuburbZones where SuburbName like '%{suburbName}%' or PostCode = '{suburbName}'").ToList();
+            }
 
 
-			if (_zoneList.Count == 0)
-			{
-				return _zoneList;
-			}
+            if (_zoneList.Count == 0)
+            {
+                return _zoneList;
+            }
 
-			var _zoneCSV = String.Join(",", _zoneList);
-			_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
-						  .Distinct()
-						  .ToList();
+            var _zoneCSV = String.Join(",", _zoneList);
+            _zoneList = _zoneCSV.Split(new char[] { ',', ';' })
+                          .Distinct()
+                          .ToList();
 
-			_zoneList.Sort();
-			return _zoneList;
-		}
+            _zoneList.Sort();
+            return _zoneList;
+        }
 
-		private static List<string> GetDefaultZoneList()
-		{
-			List<String> _zoneList = new List<String>();
-			using (DBManager db = new DBManager())
-			{
-				_zoneList = db.getConnection().Query<String>($"select concat(Zone, ',', LinkedZones) from SuburbZones where FranchiseId is not null").ToList();
-			}
+        private static List<string> GetDefaultZoneList()
+        {
+            List<String> _zoneList = new List<String>();
+            using (DBManager db = new DBManager())
+            {
+                _zoneList = db.getConnection().Query<String>($"select concat(Zone, ',', LinkedZones) from SuburbZones where FranchiseId is not null").ToList();
+            }
 
-			if (_zoneList.Count == 0)
-			{
-				return _zoneList;
-			}
+            if (_zoneList.Count == 0)
+            {
+                return _zoneList;
+            }
 
-			var _zoneCSV = String.Join(",", _zoneList);
-			_zoneList = _zoneCSV.Split(new char[] { ',', ';' })
-						  .Distinct()
-						  .ToList();
+            var _zoneCSV = String.Join(",", _zoneList);
+            _zoneList = _zoneCSV.Split(new char[] { ',', ';' })
+                          .Distinct()
+                          .ToList();
 
-			_zoneList.Sort();
-			return _zoneList;
-		}
-	}
+            _zoneList.Sort();
+            return _zoneList;
+        }
+    }
 
 }
