@@ -114,18 +114,19 @@ namespace MagicMaids
 
             SuburbZone suburbDetails = new SuburbZone();
 
+            LogHelper log = new LogHelper();
+            log.Log(LogHelper.LogLevels.Info, "Suburb object: " + suburbName, nameof(GetSuburbDetails));
+
+
+
             using (DBManager db = new DBManager())
             {
                 suburbDetails = db.getConnection().QueryFirstOrDefault<SuburbZone>("Select * from suburbzones where SuburbName = @SuburbName", new { SuburbName = suburbName });
             }
 
-            string zone = "";
+           
 
-            if (suburbDetails.Zone == null) { zone = "Zone is null"; } else { zone = suburbDetails.Zone; };
-
-            LogHelper log = new LogHelper();
-            log.Log(LogHelper.LogLevels.Info, "Suburb object: " + zone , nameof(GetSuburbDetails));
-
+            
             return suburbDetails;
         }
 
