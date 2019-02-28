@@ -113,11 +113,11 @@ namespace MagicMaids
             }
 
             List<SuburbZone> suburbDetailsList = new List<SuburbZone>();
-            string sql = "Select * from suburbzones where SuburbName = @SuburbName";
+            string sql = "Select * from suburbzones where SuburbName = '" + suburbName + "'";
 
             using (DBManager db = new DBManager())
             {
-                suburbDetailsList = db.getConnection().Query<SuburbZone>(sql, new { SuburbName = suburbName }).ToList();
+                suburbDetailsList = db.getConnection().Query<SuburbZone>(sql).ToList();
             }
 
             SuburbZone suburbDetails = new SuburbZone();
