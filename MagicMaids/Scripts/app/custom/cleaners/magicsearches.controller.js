@@ -239,16 +239,8 @@
             } else {
                 object["on" + type] = callback;
             }
-        }
-               
-        const JOBTYPE = {
-            WEEKLY: 'W',
-            FORTNIGHTLY: 'F',
-            VACATE: 'V',
-            ONCEOFF: 'O',
-            AVAILABLE: 'A'
-        }
-
+        }              
+        
         const JOBCOLOR = {
             AVAILABLE: '#696969',
             NOTAVAILABLE: '#F47F7F'
