@@ -121,23 +121,33 @@ button.availableButton {
 }
 
 .colourMatch_Yellow {
-	background-color: #fffd38;
-	color: #000;
+	background-color: #fffd38 !important;
+	color: #000 !important;
 }
 
 .colourMatch_Blue {
-	background-color: #6efffe;
-	color: #000;
+    background-color: #6efffe !important;
+    color: #000 !important;
+}
+
+.colourMatch_Yellow_Week {
+    background-color: #fff693 !important;
+    color: #000 !important;
+}
+
+.colourMatch_Blue_Week {
+    background-color: #d3eaed !important;
+    color: #000 !important;
 }
 
 .colourMatch_Green {
-	background-color: #66ff66;
-	color: #000;
+    background-color: #66ff66 !important;
+    color: #000 !important;
 }
 
 .colourMatch_Orange {
-	background-color: #febc02;
-	color: #000;
+    background-color: #febc02 !important;
+    color: #000 !important;
 }
 
 /****** FLEXBOX ********/
@@ -331,5 +341,97 @@ td {
 
 table {
     font-size: 12px;
+}
+
+.Weekday_Table {
+    width: 100%;
+}
+
+.Schedule_Table td {
+    border-left: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+    width: 1.78%;
+    color: gray;
+}
+    
+   .Schedule_Table tr {
+        height: 20px;
+    }
+
+   /*.Schedule_Row td {
+       transition: all linear 0.2s;
+   }*/
+
+    .Schedule_Row td:hover {
+        background-color: cadetblue;
+    }
+
+
+.tableSchedule {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    color: #000000; /* #c4c4c4*/
+    border-spacing: 0px !important;
+}
+
+    /*.tableSchedule tr {
+        height: 25px;
+    }*/
+
+.trTimeline {
+    background-color: ghostwhite;
+}
+
+.calendarContainer {
+    position: relative;
+    margin-left: 2px;
+    transition: all 0.3s ease-in;
+    white-space: nowrap;
+    min-height: 10px;
+}
+
+.timelineContainer {
+    background-color: ghostwhite;
+    position: relative;
+    margin-left: 2px;
+    white-space: nowrap;
+}
+
+.jobDetails {
+    display: inline-block;
+    color: cornsilk;
+    opacity: 0.85;
+    /* transition: all 0.15s ease-in;     */
+    /*vertical-align: center;*/
+}
+
+    .jobDetails:hover {
+        /* transform: scale(1.03);  */
+        opacity: 1;
+    }
+
+.dayDate {
+    color: #a0a0a0;
+    /*min-width: 100px;*/
+}
+
+    .dayDate span {
+        margin-left: 3px;
+    }
+
+.timeLine {
+    color: #c4c4c4;
+}
+
+.weekOne {
+    background-color: #6EFFFE !important;
+}
+
+.weekTwo {
+    background-color: #FFFD38 !important;
+}
+
+.rosterDay {
+    min-width: 70px;
 }
 

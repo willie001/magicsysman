@@ -161,14 +161,13 @@
                         <tr>
                             <th class="text-left" style="width: 12%;">
                                 Cleaner Details
-                            </th>                            
+                            </th>
                             <th class="text-left" style="width: 12%;">
                                 Zones
                             </th>
                             <th class="text-left" style="width: 76%;">
-                                
+
                             </th>
-                           
                         </tr>
                     </thead>
                     <tbody style="padding: 0px; margin: 0px">
@@ -178,12 +177,12 @@
                                 <div class="ContactDetails">
                                     <a ui-sref="app.cleaner_details({ CleanerId: cleaner.Id })">
                                         <strong>{{cleaner.FirstName}} {{ cleaner.LastName }}</strong>
-                                    </a>                                    
+                                    </a>
                                 </div>
                                 <div class="ContactDetails">
                                     <strong>Team Size:</strong> {{cleaner.TeamSize}}
-                                </div>                               
-                            </td>                          
+                                </div>
+                            </td>
 
                             <td>
                                 <div class="{{cleaner.StyleHomeBase}} Zone">
@@ -200,9 +199,13 @@
                             </td>
 
                             <td class="text-left">
-                                <div class="row text-left Week_Job_Container {{cleaner.StyleWeekday}}">
 
-                                    <div class="Display_ServiceDate {{cleaner.StyleWeekday}}">
+                                
+                                <draw-schedule cleaner="cleaner" search-criteria="form.Search"></draw-schedule>
+
+                                @*<div class="row text-left Week_Job_Container" draw-schedule>*@
+
+                                    @*<div class="Display_ServiceDate {{cleaner.StyleWeekday}}">
                                         {{cleaner.DisplaySelectedRosterDay}} {{cleaner.DisplayServiceDate}}
                                     </div>
 
@@ -242,11 +245,11 @@
 
                                         </div>
 
-                                    </div>
+                                    </div>*@
 
-                                </div>
+                                @*</div>*@
 
-                                <div class="row text-left Week_Job_Container {{cleaner.StyleWeekdayNextWeek}}">
+                                @*<div class="row text-left Week_Job_Container {{cleaner.StyleWeekdayNextWeek}}">
 
                                     <div class="Display_ServiceDate {{cleaner.StyleWeekdayNextWeek}}">
                                         {{cleaner.DisplaySelectedRosterDay}} {{cleaner.DisplayServiceDateNextWeek}}
@@ -290,7 +293,7 @@
 
                                     </div>
 
-                                </div>
+                                </div>*@
 
                             </td>
                             @*<td class="text-left {{cleaner.StyleWeekdayNextWeek}}">

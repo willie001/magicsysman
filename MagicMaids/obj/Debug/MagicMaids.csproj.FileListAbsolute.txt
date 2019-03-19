@@ -206,4 +206,5 @@ C:\Development\magicsysman\MagicMaids\bin\Bugsnag.AspNet.Mvc.xml
 C:\Development\magicsysman\MagicMaids\obj\Debug\MagicMaids.csproj.CoreCompileInputs.cache
 C:\Development\magicsysman\MagicMaids\obj\Debug\MagicMaids.dll
 C:\Development\magicsysman\MagicMaids\obj\Debug\MagicMaids.pdb
-C:\Development\magicsysman\MagicMaids\obj\Debug\MagicMaids.csprojResolveAssemblyReference.cache
+C:\Development\magicsysman\MagicMaids\obj\Debug\MagicMaids.csprojAssemblyReference.cache
+C:\Development\magicsysman\MagicMaids\obj\Debug\MagicMaids.csproj.CopyComplete
