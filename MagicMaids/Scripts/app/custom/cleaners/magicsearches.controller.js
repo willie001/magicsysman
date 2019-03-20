@@ -71,7 +71,7 @@
                 setupTimeline(true, divRowTwo);
 
                 jobs.forEach((job, index, array) => {
-                    createJob(job.startTime, job.endTime, job.weekNo == 1 ? divRowOne : divRowTwo, job.jobType, job.suburb, job.jobColor, job.zoneColor);
+                    createJob(job.startTime, job.endTime, job.weekNo == 1 ? divRowOne : divRowTwo, job.jobType, job.suburb, job.jobColor, job.zoneColor, job.job, job.cleaner);
                 })
 
                 buildTable();
@@ -79,10 +79,11 @@
 
             draw();
 
-            function createJob(startTime, endTime, parentElement, jobType, suburbName, backGround, zoneColor) {
+            function createJob(startTime, endTime, parentElement, jobType, suburbName, backGround, zoneColor, job, cleaner) {
 
                 let divOuter = document.createElement('div');
                 divOuter.className = 'jobDetails';
+                
 
                 let divInner = document.createElement('div');
                 let divInnerZone = document.createElement('div');
@@ -140,16 +141,30 @@
                 divOuter.style.width = width + 'px';
                 divOuter.style.backgroundColor = backGround;
                 divOuter.style.position = 'absolute';
-                divOuter.style.left = position + 'px';
-                //divOuter.style.top = '-2px';
+                divOuter.style.left = position + 'px';                
 
                 if (jobType == 'A') { divInnerZone.style.backgroundColor = backGround; }
+
+                if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
+                    divOuter.style.cursor = 'pointer';
+                    addEvent(divOuter, 'click', function () {
+                        //console.log(job);
+
+                        var scope = angular.element(document.getElementById("mainWrap")).scope();
+                        scope.$apply(function () {
+                            scope.checkCustomerState(cleaner, job);
+                        });
+
+                    });
+                }
 
                 addEvent(divOuter, 'mouseover', function () {
                     //console.log('mouseover');
                     if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
                         divOuter.style.backgroundColor = '#53bc78';
+                       
                         divInnerZone.style.backgroundColor = '#53bc78';
+                        
                     }
 
                     if ((endTime - startTime) < searchMinutes && jobType == 'A') {
@@ -247,8 +262,8 @@
         }
 
         const ZONECOLOR = {
-            PRIMARY: '#6EFFFE',
-            SECONDARY: '#66ff66',
+            PRIMARY: '#35b5ff',
+            SECONDARY: '#32ff7d',
             APPROVED: '#febc02'
         }
 
@@ -257,14 +272,14 @@
 
             if (jobClass == 'colourMatch_Green') color = ZONECOLOR.SECONDARY;
             if (jobClass == 'colourMatch_Orange') color = ZONECOLOR.APPROVED;
-
+            console.log(color);
             return color
         }
 
         function init(cleaner, searchCriteria) {
 
-            console.log(cleaner);
-            console.log(searchCriteria)
+            //console.log(cleaner);
+            //console.log(searchCriteria)
             let rosterDay = cleaner.DisplaySelectedRosterDay;
             let dateWeek1 = cleaner.DisplayServiceDate;
             let dateWeek2 = cleaner.DisplayServiceDateNextWeek;
@@ -289,7 +304,9 @@
                         jobType: 'A',
                         suburb: '',
                         jobColor: JOBCOLOR.AVAILABLE,
-                        zoneColor: getJobColor(job.JobColourCode)
+                        zoneColor: getJobColor(job.JobColourCode),
+                        job: job,
+                        cleaner: cleaner
                     }
                 } else {
                     job1 = {
@@ -317,7 +334,9 @@
                         jobType: 'A',
                         suburb: '',
                         jobColor: JOBCOLOR.AVAILABLE,
-                        zoneColor: getJobColor(job.JobColourCode)
+                        zoneColor: getJobColor(job.JobColourCode),
+                        job: job,
+                        cleaner: cleaner
                     }
                 } else {
                     job2 = {
@@ -332,23 +351,7 @@
                 }
 
                 jobs.push(job2);
-            });
-
-            //let job1 = {
-            //    startTime: 570,
-            //    endTime: 720,
-            //    weekNo: 2,
-            //    jobType: JOBTYPE.VACATE,
-            //    suburb: 'Whitfords',
-            //    jobColor: JOBCOLOR.NOTAVAILABLE,
-            //    zoneColor: ZONECOLOR.PRIMARY
-            //}
-
-            
-
-
-            //jobs.push(job1);
-           
+            });          
 
             return myTimeLine(360, 1200, 15, 1000, minutes, rosterDay, dateWeek1, dateWeek2, jobs);
         }
@@ -356,13 +359,12 @@
         return {
             scope: {
                 cleaner: '=',
-                searchCriteria: '='
+                searchCriteria: '='                
             },
             
             link: function (scope, element) {
-                element.html(init(scope.cleaner, scope.searchCriteria));
-            },
-             
+                element.html(init(scope.cleaner, scope.searchCriteria));                
+            }
         };
     }
 
@@ -571,8 +573,8 @@
 
             //console.log(vm.Search);
             //console.log("<CLIENT Search> - " + angular.toJson(vm.Search));
-            console.log("1. Search Mins: " + vm.Search.ServiceLengthMins)
-            console.log("1. Search Control: " + vm.Search.ServiceLengthForControl)
+            //console.log("1. Search Mins: " + vm.Search.ServiceLengthMins)
+            //console.log("1. Search Control: " + vm.Search.ServiceLengthForControl)
 
             $http.post('/search/matchcleaners', vm.Search).success(function (response) {
                 //console.log("<MAIN Search Results> - " + angular.toJson(response));
@@ -586,8 +588,8 @@
                     vm.SearchResults = response.SearchResults;
                     HandleBusySpinner.stop($scope, panelName);
                     //console.log(vm.SearchResults);
-                    console.log("2. Search Mins: " + vm.Search.ServiceLengthMins)
-                    console.log("2. Search Control: " + vm.Search.ServiceLengthForControl)
+                    //console.log("2. Search Mins: " + vm.Search.ServiceLengthMins)
+                    //console.log("2. Search Control: " + vm.Search.ServiceLengthForControl)
                 }
 
             }).error(function (error) {
