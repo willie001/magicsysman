@@ -369,8 +369,6 @@ namespace MagicMaids
             long travelGap = 0;
             
             if (prevSuburb != "") { travelGap = CalculateTravelGap(prevSuburb); };
-            
-
 
             if (endTime != RosterDayEndTime)
             {

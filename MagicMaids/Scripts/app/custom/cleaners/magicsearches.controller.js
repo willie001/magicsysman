@@ -1,14 +1,14 @@
 ﻿
-  
 
-(function() {
+
+(function () {
     'use strict';
-	angular
+    angular
         .module("magicsearches", ['ngSanitize'])
         .controller('MainSearchController', MainSearchController)
         .directive("drawSchedule", drawSchedule);
 
-    	MainSearchController.$inject = ['$scope', '$http', '$state','HandleBusySpinner', 'ShowUserMessages','DTOptionsBuilder','editableOptions', 'editableThemes', '$cookies', 'moment','manageTimeZoneCookie','savedJobBookingFactory'];
+    MainSearchController.$inject = ['$scope', '$http', '$state', 'HandleBusySpinner', 'ShowUserMessages', 'DTOptionsBuilder', 'editableOptions', 'editableThemes', '$cookies', 'moment', 'manageTimeZoneCookie', 'savedJobBookingFactory'];
 
     function drawSchedule() {
 
@@ -83,7 +83,7 @@
 
                 let divOuter = document.createElement('div');
                 divOuter.className = 'jobDetails';
-                
+
 
                 let divInner = document.createElement('div');
                 let divInnerZone = document.createElement('div');
@@ -129,11 +129,12 @@
                 }
 
                 divInnerZone.style.backgroundColor = zoneColor;
-                divInnerZone.style.width = '15px';
-                divInnerZone.style.height = '15px';
+                divInnerZone.style.width = '13px';
+                divInnerZone.style.height = '13px';
                 divInnerZone.style.borderRadius = '50%';
                 divInnerZone.style.marginRight = '2px';
-                //divInnerZone.style.marginTop = '2px';
+                divInnerZone.style.border = '1px solid black';
+                divInnerZone.style.marginTop = '1px';
                 divInnerZone.style.float = 'right';
                 divInner.style.overflow = 'hidden';
                 divInner.style.textOverflow = 'ellipsis';
@@ -141,15 +142,17 @@
                 divOuter.style.width = width + 'px';
                 divOuter.style.backgroundColor = backGround;
                 divOuter.style.position = 'absolute';
-                divOuter.style.left = position + 'px';                
+                divOuter.style.left = position + 'px';
 
-                if (jobType == 'A') { divInnerZone.style.backgroundColor = backGround; }
+                if (jobType == 'A') {
+                    divInnerZone.style.backgroundColor = backGround;
+                    divInnerZone.style.border = '';
+                }
 
                 if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
                     divOuter.style.cursor = 'pointer';
-                    addEvent(divOuter, 'click', function () {
-                        //console.log(job);
 
+                    addEvent(divOuter, 'click', function () {
                         var scope = angular.element(document.getElementById("mainWrap")).scope();
                         scope.$apply(function () {
                             scope.checkCustomerState(cleaner, job);
@@ -162,9 +165,9 @@
                     //console.log('mouseover');
                     if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
                         divOuter.style.backgroundColor = '#53bc78';
-                       
+
                         divInnerZone.style.backgroundColor = '#53bc78';
-                        
+
                     }
 
                     if ((endTime - startTime) < searchMinutes && jobType == 'A') {
@@ -254,8 +257,8 @@
             } else {
                 object["on" + type] = callback;
             }
-        }              
-        
+        }
+
         const JOBCOLOR = {
             AVAILABLE: '#696969',
             NOTAVAILABLE: '#F47F7F'
@@ -283,105 +286,108 @@
             let rosterDay = cleaner.DisplaySelectedRosterDay;
             let dateWeek1 = cleaner.DisplayServiceDate;
             let dateWeek2 = cleaner.DisplayServiceDateNextWeek;
-            
+
             let serviceLengthDate = new Date(searchCriteria.ServiceLengthForControl);
             let serviceHours = serviceLengthDate.getHours();
             let serviceMinutes = serviceLengthDate.getMinutes();
             let minutes = Math.floor(((serviceHours * 60) + serviceMinutes) / cleaner.TeamSize);
 
             //console.log("Service Length: " + minutes);
-            
+
             let jobs = [];
 
-            cleaner.ScheduledJobs.forEach(job => {
-                let job1 = {};
+            if (cleaner.ScheduledJobs) {
+                cleaner.ScheduledJobs.forEach(job => {
+                    let job1 = {};
 
-                if (job.JobStatus == 'AVAILABLE') {
-                    job1 = {
-                        startTime: job.StartTime,
-                        endTime: job.EndTime,
-                        weekNo: 1,
-                        jobType: 'A',
-                        suburb: '',
-                        jobColor: JOBCOLOR.AVAILABLE,
-                        zoneColor: getJobColor(job.JobColourCode),
-                        job: job,
-                        cleaner: cleaner
+                    if (job.JobStatus == 'AVAILABLE') {
+                        job1 = {
+                            startTime: job.StartTime,
+                            endTime: job.EndTime,
+                            weekNo: 1,
+                            jobType: 'A',
+                            suburb: '',
+                            jobColor: JOBCOLOR.AVAILABLE,
+                            zoneColor: getJobColor(job.JobColourCode),
+                            job: job,
+                            cleaner: cleaner
+                        }
+                    } else {
+                        job1 = {
+                            startTime: job.StartTime,
+                            endTime: job.EndTime,
+                            weekNo: 1,
+                            jobType: job.JobTypeName.charAt(0),
+                            suburb: job.JobSuburb,
+                            jobColor: JOBCOLOR.NOTAVAILABLE,
+                            zoneColor: getJobColor(job.JobColourCode)
+                        }
                     }
-                } else {
-                    job1 = {
-                        startTime: job.StartTime,
-                        endTime: job.EndTime,
-                        weekNo: 1,
-                        jobType: job.JobTypeName.charAt(0),
-                        suburb: job.JobSuburb,
-                        jobColor: JOBCOLOR.NOTAVAILABLE,
-                        zoneColor: getJobColor(job.JobColourCode)
+
+                    jobs.push(job1);
+                });
+            }
+
+            if (cleaner.ScheduledJobsNextWeek) {
+                cleaner.ScheduledJobsNextWeek.forEach(job => {
+                    let job2 = {};
+
+                    if (job.JobStatus == 'AVAILABLE') {
+                        job2 = {
+                            startTime: job.StartTime,
+                            endTime: job.EndTime,
+                            weekNo: 2,
+                            jobType: 'A',
+                            suburb: '',
+                            jobColor: JOBCOLOR.AVAILABLE,
+                            zoneColor: getJobColor(job.JobColourCode),
+                            job: job,
+                            cleaner: cleaner
+                        }
+                    } else {
+                        job2 = {
+                            startTime: job.StartTime,
+                            endTime: job.EndTime,
+                            weekNo: 2,
+                            jobType: job.JobTypeName.charAt(0),
+                            suburb: job.JobSuburb,
+                            jobColor: JOBCOLOR.NOTAVAILABLE,
+                            zoneColor: getJobColor(job.JobColourCode)
+                        }
                     }
-                }
 
-                jobs.push(job1);
-            });
-
-            cleaner.ScheduledJobsNextWeek.forEach(job => {
-                let job2 = {};
-
-                if (job.JobStatus == 'AVAILABLE') {
-                    job2 = {
-                        startTime: job.StartTime,
-                        endTime: job.EndTime,
-                        weekNo: 2,
-                        jobType: 'A',
-                        suburb: '',
-                        jobColor: JOBCOLOR.AVAILABLE,
-                        zoneColor: getJobColor(job.JobColourCode),
-                        job: job,
-                        cleaner: cleaner
-                    }
-                } else {
-                    job2 = {
-                        startTime: job.StartTime,
-                        endTime: job.EndTime,
-                        weekNo: 2,
-                        jobType: job.JobTypeName.charAt(0),
-                        suburb: job.JobSuburb,
-                        jobColor: JOBCOLOR.NOTAVAILABLE,
-                        zoneColor: getJobColor(job.JobColourCode)
-                    }
-                }
-
-                jobs.push(job2);
-            });          
-
+                    jobs.push(job2);
+                });
+            }
+            
             return myTimeLine(360, 1200, 15, 1000, minutes, rosterDay, dateWeek1, dateWeek2, jobs);
         }
 
         return {
             scope: {
                 cleaner: '=',
-                searchCriteria: '='                
+                searchCriteria: '='
             },
-            
+
             link: function (scope, element) {
-                element.html(init(scope.cleaner, scope.searchCriteria));                
+                element.html(init(scope.cleaner, scope.searchCriteria));
             }
         };
     }
 
     /***********************/
-	/***   MAIN SEARCH   ***/
-	/***********************/
-	function MainSearchController($scope, $http, $state, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies, moment, manageTimeZoneCookie, savedJobBookingFactory)
-	{
-		var vm = this;
-        var panelName = "panelMainResults";       
+    /***   MAIN SEARCH   ***/
+    /***********************/
+    function MainSearchController($scope, $http, $state, HandleBusySpinner, ShowUserMessages, DTOptionsBuilder, editableOptions, editableThemes, $cookies, moment, manageTimeZoneCookie, savedJobBookingFactory) {
+        var vm = this;
+        var panelName = "panelMainResults";
 
-		$scope.changeServiceType = function() {
-			vm.Search.WeeklyJob = (vm.Search.ServiceType=="W") ? true : false;
-			vm.Search.FortnightlyJob = (vm.Search.ServiceType=="F") ? true : false;
-			vm.Search.OneOffJob = (vm.Search.ServiceType=="O") ? true : false;
-			vm.Search.VacateClean = (vm.Search.ServiceType=="V") ? true : false;
-		}
+        $scope.changeServiceType = function () {
+            vm.Search.WeeklyJob = (vm.Search.ServiceType == "W") ? true : false;
+            vm.Search.FortnightlyJob = (vm.Search.ServiceType == "F") ? true : false;
+            vm.Search.OneOffJob = (vm.Search.ServiceType == "O") ? true : false;
+            vm.Search.VacateClean = (vm.Search.ServiceType == "V") ? true : false;
+        }
 
         $scope.changeZoneFilter = function () {
             if (vm.Search.FilterZonesNone == true) {
@@ -462,109 +468,109 @@
             }
         };
 
-		activate();
-			
-		function activate() {
-			vm.Search = {};
-			vm.SeachResults = {};
-			vm.Search.FilterZone = {};
-			vm.hasSearched = false;
-			vm.SuburbList = [];
+        activate();
 
-			$scope.getLocation();
+        function activate() {
+            vm.Search = {};
+            vm.SeachResults = {};
+            vm.Search.FilterZone = {};
+            vm.hasSearched = false;
+            vm.SuburbList = [];
 
-			$scope.userMessages = [];
-			$scope.userMessageType = [];
+            $scope.getLocation();
 
-			HandleBusySpinner.start($scope, panelName);
-			manageTimeZoneCookie.set($cookies, moment, location);
+            $scope.userMessages = [];
+            $scope.userMessageType = [];
 
-			$scope.dtOptions =  DTOptionsBuilder.newOptions().withOption('order', [1, 'desc']);
+            HandleBusySpinner.start($scope, panelName);
+            manageTimeZoneCookie.set($cookies, moment, location);
 
-			editableOptions.theme = 'bs3';
+            $scope.dtOptions = DTOptionsBuilder.newOptions().withOption('order', [1, 'desc']);
 
-          	editableThemes.bs3.inputClass = 'input-sm';
-          	editableThemes.bs3.buttonsClass = 'btn-sm';
-          	editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-success"><span class="fa fa-check"></span></button>';
-            editableThemes.bs3.cancelTpl = '<button type="button" class="btn btn-default" ng-click="$form.$cancel()">'+
-                                           '<span class="fa fa-times text-muted"></span>'+
-                                         '</button>';
-                                         
-			vm.Search.Ironing = false;
-			var _dfltGap = 2;
-			vm.Search.ServiceLengthMins = _dfltGap*60;
-			vm.Search.ServiceLengthForControl = new Date(2001, 1, 1, _dfltGap, 0);
-			vm.Search.ServiceDate = new Date();
-			vm.Search.ServiceType = "W"
-			vm.Search.ServiceDayValue = "1";
-			vm.Search.FilterZonesPrimary = true;
-			vm.Search.FilterZonesSecondary = true;
-			vm.Search.FilterZonesApproved = false;
-			vm.Search.FilterZonesOther = false;
-			vm.Search.RepeatCustomer = "Y";
+            editableOptions.theme = 'bs3';
 
-			vm.isMeridian = true;
-    		vm.hrStep = 1;
-    		vm.minStep = 5;
+            editableThemes.bs3.inputClass = 'input-sm';
+            editableThemes.bs3.buttonsClass = 'btn-sm';
+            editableThemes.bs3.submitTpl = '<button type="submit" class="btn btn-success"><span class="fa fa-check"></span></button>';
+            editableThemes.bs3.cancelTpl = '<button type="button" class="btn btn-default" ng-click="$form.$cancel()">' +
+                '<span class="fa fa-times text-muted"></span>' +
+                '</button>';
 
-			$scope.changeServiceType();
-			$scope.changeServiceDay();
+            vm.Search.Ironing = false;
+            var _dfltGap = 2;
+            vm.Search.ServiceLengthMins = _dfltGap * 60;
+            vm.Search.ServiceLengthForControl = new Date(2001, 1, 1, _dfltGap, 0);
+            vm.Search.ServiceDate = new Date();
+            vm.Search.ServiceType = "W"
+            vm.Search.ServiceDayValue = "1";
+            vm.Search.FilterZonesPrimary = true;
+            vm.Search.FilterZonesSecondary = true;
+            vm.Search.FilterZonesApproved = false;
+            vm.Search.FilterZonesOther = false;
+            vm.Search.RepeatCustomer = "Y";
 
-			vm.date = [];
-			vm.date.clear = function () {
-	            vm.Search.ServiceDate = null;
-          	};	
+            vm.isMeridian = true;
+            vm.hrStep = 1;
+            vm.minStep = 5;
 
-          	// Disable weekend selection
-	       	vm.date.disabled = function(date, mode) {
-	       		//return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-	       		return ( mode === 'day' && ( date.getDay() === 0 ) );
-	        };
+            $scope.changeServiceType();
+            $scope.changeServiceDay();
 
-          	vm.date.toggleDateRange = function() {
-	            vm.date.minDate = new Date();
-          		vm.date.maxDate = vm.date.minDate.setMonth(vm.date.minDate.getMonth() + 6);
-          	};
-          	vm.date.toggleDateRange();
+            vm.date = [];
+            vm.date.clear = function () {
+                vm.Search.ServiceDate = null;
+            };
 
-          	vm.date.open = function($event) {
-            	$event.preventDefault();
-            	$event.stopPropagation();
+            // Disable weekend selection
+            vm.date.disabled = function (date, mode) {
+                //return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+                return (mode === 'day' && (date.getDay() === 0));
+            };
 
-            	vm.date.opened = true;
-          	};
+            vm.date.toggleDateRange = function () {
+                vm.date.minDate = new Date();
+                vm.date.maxDate = vm.date.minDate.setMonth(vm.date.minDate.getMonth() + 6);
+            };
+            vm.date.toggleDateRange();
 
-          	vm.date.dateOptions = {
-            	formatYear: 'yyyy',
-	            startingDay: 1		
-          	};
+            vm.date.open = function ($event) {
+                $event.preventDefault();
+                $event.stopPropagation();
 
-      		vm.date.initDate = new Date();
-          	vm.date.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-          	vm.date.format = vm.date.formats[0];
+                vm.date.opened = true;
+            };
 
-			//var criteria = {};
-			//$http.get('/search/GetSearchCriteria/')
-   //             .success(function (data) {
-   //                 criteria = data.item;
-			//		if (criteria.HasCriteria == true)
-			//		{
-			//			vm.Search = criteria;
-			//			$scope.changeServiceType();
-			//			$scope.changeServiceDay();
-			//			vm.Search.FilterRating = vm.Search.FilterRating.toString();		// does not like it if the value is integer
-			//			vm.Search.ServiceDate = new Date(vm.Search.ServiceDate);		// uib-datepicker is blank when repopulated even if date is set
+            vm.date.dateOptions = {
+                formatYear: 'yyyy',
+                startingDay: 1
+            };
 
-			//			$scope.searchMatches();
-			//		}
-			//		//console.log("<SEARCH Criteria> - " + angular.toJson(data.item));
-			
-   //             }).error(function(err) {
-   //             }).finally(function() {
-			//	});
+            vm.date.initDate = new Date();
+            vm.date.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+            vm.date.format = vm.date.formats[0];
 
-			$scope.searchCriteria = false; // expand search panel on first load
-		}
+            //var criteria = {};
+            //$http.get('/search/GetSearchCriteria/')
+            //             .success(function (data) {
+            //                 criteria = data.item;
+            //		if (criteria.HasCriteria == true)
+            //		{
+            //			vm.Search = criteria;
+            //			$scope.changeServiceType();
+            //			$scope.changeServiceDay();
+            //			vm.Search.FilterRating = vm.Search.FilterRating.toString();		// does not like it if the value is integer
+            //			vm.Search.ServiceDate = new Date(vm.Search.ServiceDate);		// uib-datepicker is blank when repopulated even if date is set
+
+            //			$scope.searchMatches();
+            //		}
+            //		//console.log("<SEARCH Criteria> - " + angular.toJson(data.item));
+
+            //             }).error(function(err) {
+            //             }).finally(function() {
+            //	});
+
+            $scope.searchCriteria = false; // expand search panel on first load
+        }
 
         $scope.searchMatches = function () {
             ShowUserMessages.clear($scope);
@@ -602,12 +608,12 @@
 
         };
 
-		$scope.validateData = function(data, colName) {
-			//console.log("<MAIN Search validate> - " + angular.toJson(data));
-			if (data.length == 0) {
-              return colName + ' is mandatory';
+        $scope.validateData = function (data, colName) {
+            //console.log("<MAIN Search validate> - " + angular.toJson(data));
+            if (data.length == 0) {
+                return colName + ' is mandatory';
             }
-      	};
-	}
+        };
+    }
 
 })();

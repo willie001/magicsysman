@@ -411,21 +411,8 @@ namespace MagicMaids.ViewModels
 
         public String ZoneClass
         {
-            get
-            {
-                
-                if (StyleZoneClass == NamedColours.PrimaryJobColor)
-                {
-                    return "Primary";
-                }
-
-                if (StyleZoneClass == NamedColours.SecondaryJobColor)
-                {
-                    return "Secondary";
-                }
-
-                return "Approved";
-            }
+            get;
+            set;
         }
 
         public String StyleWeekday
