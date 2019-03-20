@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MagicMaids.ViewModels;
 using System.Runtime.CompilerServices;
+using MagicMaids.EntityModels;
 
 [assembly: InternalsVisibleTo("MagicMaidsTesting.BookingFactory_Tests")]
 namespace MagicMaids
@@ -80,6 +81,44 @@ namespace MagicMaids
             }
         }
 
+        private string CalculateSuburbColourCode(String suburb)
+        {
+            if (String.IsNullOrWhiteSpace(suburb))
+            {
+                return "";
+            }
+
+            SuburbZone searchSuburbDetails = criteria.Suburb.GetSuburbDetails();
+            SuburbZone comparisonSuburbDetails = suburb.GetSuburbDetails();
+
+            if (searchSuburbDetails.Zone == comparisonSuburbDetails.Zone)
+            {
+                return NamedColours.PrimaryJobColor;
+            }
+
+            if (searchSuburbDetails.LinkedZones.Contains(comparisonSuburbDetails.Zone) || comparisonSuburbDetails.LinkedZones.Contains(searchSuburbDetails.Zone))
+            {
+                return NamedColours.SecondaryJobColor;
+            }
+
+            return NamedColours.ApprovedJobColor;
+
+            //var suburbZone = suburb.GetZoneListBySuburb(false);
+
+            //if (Cleaner.PrimaryZoneList.Intersect(suburbZone).Any())
+            //{
+            //    return NamedColours.PrimaryJobColor;
+            //}
+
+            //if (Cleaner.SecondaryZoneList.Intersect(suburbZone).Any())
+            //{
+            //    return NamedColours.SecondaryJobColor;
+            //}
+
+            //return NamedColours.ApprovedJobColor;
+
+        }
+
         private CleanerMatchResultVM PopulateCleanerAvailability(CleanerMatchResultVM CleanerMatchResult)
         {
             if (!criteria.FilterZonesNone && !ApplyZoneFilter(CleanerMatchResult))
@@ -93,6 +132,7 @@ namespace MagicMaids
             // StyleHomebase should always be the primary zone colour
             //FormatStyleForHome(CleanerMatchResult);
             CleanerMatchResult.StyleHomeBase = NamedColours.PrimaryJobColor;
+            CleanerMatchResult.StyleZoneClass = CalculateSuburbColourCode(CleanerMatchResult.DisplayHomeBase);
             FormatStyleForWeekday(CleanerMatchResult);
 
             // All data loaded - calculate cleaner's current availability

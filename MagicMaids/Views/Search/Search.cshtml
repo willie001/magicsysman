@@ -27,7 +27,7 @@
                             <i class="glyphicon glyphicon-refresh" ng-show="loadingLocations"></i><br />
                             <div>
                                 <label class="checkbox checkbox-inline">
-                                    <input type="checkbox" checked="false" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning" />
+                                    <input type="checkbox" name="RequireIroning" id="RequireIroning" ng-model="form.Search.RequireIroning" />
                                     Requires Ironing?
                                 </label>
                             </div>
@@ -98,7 +98,7 @@
                         <label class="col-xs-2 control-label">Cleaner zones</label>
                         <div class="col-xs-4">
                             <label class="checkbox checkbox-inline">
-                                <input type="checkbox" checked="true" name="IsActive" ng-model="form.client.IsActive" />
+                                <input type="checkbox" checked name="IsActive" ng-model="form.client.IsActive" />
                                 <input id="chkZonePrimary" name="chkZonePrimary" type="checkbox" ng-model="form.Search.FilterZonesPrimary"
                                        ng-disabled="form.Search.FilterZonesNone == true" />
                                 <span ng-cloak data-ng-class="form.Search.FilterZonesNone == true && 'strikethrough' || 'null'">Primary</span>
@@ -185,11 +185,11 @@
                             </td>
 
                             <td>
-                                <div class="{{cleaner.StyleHomeBase}} Zone">
+                                <div class="{{cleaner.StyleHomeBase}}">
                                     <strong>Base Suburb:</strong> {{cleaner.DisplayHomeBase}}
                                 </div>
-                                <div class="Zone colourMatch_Green">
-                                    <strong>Zone Class:</strong> Secondary
+                                <div class="{{cleaner.StyleZoneClass}}">
+                                    <strong>Zone Class:</strong> {{cleaner.ZoneClass}}
                                 </div>
                                 <div class="ContactDetails">
                                     <a onclick="alert('Diary coming soon'); return false;" style="text-decoration: none; cursor: pointer;">
@@ -199,158 +199,9 @@
                             </td>
 
                             <td class="text-left">
-
-                                
                                 <draw-schedule cleaner="cleaner" search-criteria="form.Search"></draw-schedule>
-
-                                @*<div class="row text-left Week_Job_Container" draw-schedule>*@
-
-                                    @*<div class="Display_ServiceDate {{cleaner.StyleWeekday}}">
-                                        {{cleaner.DisplaySelectedRosterDay}} {{cleaner.DisplayServiceDate}}
-                                    </div>
-
-                                    <div ng-if="cleaner.CustomErrorMessage" style="padding-left: 5px;">
-                                        <i>{{ cleaner.CustomErrorMessage }}</i>
-                                    </div>
-
-                                    <div ng-if="!cleaner.CustomErrorMessage">
-
-                                        <div ng-if="cleaner.CleanerOnLeave" class="ClashDates_Leave">
-                                            Leave: {{cleaner.LeaveDates}}
-                                        </div>
-
-                                        <div ng-repeat="job in cleaner.ScheduledJobs" class="Job_Repeater">
-
-                                            <a ng-if="job.JobStatus == 'AVAILABLE'" ng-click="checkCustomerState(cleaner, job);">
-                                                <div class="Jobs_Available">
-                                                    {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}
-                                                </div>
-                                            </a>
-
-                                            <div ng-if="job.JobStatus != 'AVAILABLE'" class="Jobs_Not_Available {{job.JobColourCode}}">
-                                                <div class="" style="padding-left: 12px;">
-                                                    <div class="Jobs_Not_Available_Div  {{job.JobTypeClass}}">
-                                                        {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}&nbsp;
-                                                        <strong>
-                                                            <span ng-if="job.JobTypeName == 'Weekly'">W</span>
-                                                            <span ng-if="job.JobTypeName == 'Fortnighly'">F</span>
-                                                            <span ng-if="job.JobTypeName == 'OneOff'">O</span>
-                                                            <span ng-if="job.JobTypeName == 'Vacate'">V</span>
-                                                        </strong>&nbsp;
-                                                        <i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnighly'"></i>&nbsp;&nbsp;
-                                                        {{job.JobSuburb}}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>*@
-
-                                @*</div>*@
-
-                                @*<div class="row text-left Week_Job_Container {{cleaner.StyleWeekdayNextWeek}}">
-
-                                    <div class="Display_ServiceDate {{cleaner.StyleWeekdayNextWeek}}">
-                                        {{cleaner.DisplaySelectedRosterDay}} {{cleaner.DisplayServiceDateNextWeek}}
-                                    </div>
-
-                                    <div ng-if="cleaner.CustomErrorMessage" style="padding-left: 5px;">
-                                        <i>{{ cleaner.CustomErrorMessage }}</i>
-                                    </div>
-
-                                    <div ng-if="!cleaner.CustomErrorMessage">
-
-                                        <div ng-if="cleaner.CleanerOnLeave" class="ClashDates_Leave">
-                                            Leave: {{cleaner.LeaveDates}}
-                                        </div>
-
-                                        <div ng-repeat="job in cleaner.ScheduledJobsNextWeek" class="Job_Repeater">
-
-                                            <a ng-if="job.JobStatus == 'AVAILABLE'" ng-click="checkCustomerState(cleaner, job);">
-                                                <div class="Jobs_Available">
-                                                    {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}
-                                                </div>
-                                            </a>
-
-                                            <div ng-if="job.JobStatus != 'AVAILABLE'" class="Jobs_Not_Available {{job.JobColourCode}}">
-                                                <div class="" style="padding-left: 12px;">
-                                                    <div class="Jobs_Not_Available_Div  {{job.JobTypeClass}}">
-                                                        {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}&nbsp;
-                                                        <strong>
-                                                            <span ng-if="job.JobTypeName == 'Weekly'">W</span>
-                                                            <span ng-if="job.JobTypeName == 'Fortnighly'">F</span>
-                                                            <span ng-if="job.JobTypeName == 'OneOff'">O</span>
-                                                            <span ng-if="job.JobTypeName == 'Vacate'">V</span>
-                                                        </strong>&nbsp;
-                                                        <i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnighly'"></i>&nbsp;&nbsp;
-                                                        {{job.JobSuburb}}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-
-                                </div>*@
-
                             </td>
-                            @*<td class="text-left {{cleaner.StyleWeekdayNextWeek}}">
-                                <div class="row text-left Week_Job_Container">
 
-                                    <div class="Display_ServiceDate {{cleaner.StyleWeekdayNextWeek}}">
-                                        {{cleaner.DisplaySelectedRosterDay}} {{cleaner.DisplayServiceDateNextWeek}}
-                                    </div>
-
-                                    <div ng-if="cleaner.CustomErrorMessage" style="padding-left: 5px;">
-                                        <i>{{ cleaner.CustomErrorMessage }}</i>
-                                    </div>
-
-                                    <div ng-if="!cleaner.CustomErrorMessage">
-
-                                        <div ng-if="cleaner.CleanerOnLeave" class="ClashDates_Leave">
-                                            Leave: {{cleaner.LeaveDates}}
-                                        </div>*@
-
-                            @*<div ng-if="cleaner.SheduledClashCountNextWeek == 1  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffSingle btn btn-block">
-                                    One-Off: {{cleaner.ClashingJobsForServiceDayNextWeek[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDayNextWeek[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDayNextWeek[0].EndTimeOfDay}})
-                                </div>
-
-                                <div ng-if="cleaner.SheduledClashCountNextWeek == 2  && !(form.Search.OneOffJob || form.Search.VacateClean)" class="ClashDates_OneOffMultiple btn btn-block">
-                                    One-Off: {{cleaner.ClashingJobsForServiceDayNextWeek[0].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDayNextWeek[0].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDayNextWeek[0].EndTimeOfDay}})<br />
-                                    One-Off: {{cleaner.ClashingJobsForServiceDayNextWeek[1].JobDateFormatted}} ({{cleaner.ClashingJobsForServiceDayNextWeek[1].StartTimeOfDay}}-{{cleaner.ClashingJobsForServiceDayNextWeek[1].EndTimeOfDay}})
-                                </div>*@
-
-                            @*<div ng-repeat="job in cleaner.ScheduledJobsNextWeek" class="Job_Repeater">
-
-                                                <a ng-if="job.JobStatus == 'AVAILABLE'" ng-click="checkCustomerState(cleaner, job);">
-                                                    <div class="Jobs_Available" style="display: inline-block;">
-                                                        {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}
-                                                    </div>
-                                                </a>
-
-                                                <div ng-if="job.JobStatus != 'AVAILABLE'" class="Jobs_Not_Available {{job.JobColourCode}}">
-                                                    <div class="" style="padding-left: 12px;">
-                                                        <div class="Jobs_Not_Available_Div {{job.JobTypeClass}}">
-                                                            {{ job.StartTimeOfDay }} - {{ job.EndTimeOfDay }}<br />
-                                                            <strong>
-                                                                <span ng-if="job.JobTypeName == 'Weekly'">W</span>
-                                                                <span ng-if="job.JobTypeName == 'Fortnighly'">F</span>
-                                                                <span ng-if="job.JobTypeName == 'OneOff'">O</span>
-                                                                <span ng-if="job.JobTypeName == 'Vacate'">V</span>
-                                                            </strong>&nbsp;
-                                                            <i class="fa fa-repeat" ng-if="job.JobTypeName == 'Weekly' || job.JobTypeName == 'Fortnighly'"></i>&nbsp;&nbsp;
-                                                            {{job.JobSuburb}}
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </td>*@
                         </tr>
                     </tbody>
                 </table>

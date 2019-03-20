@@ -343,7 +343,7 @@ namespace MagicMaids
                 return travelGap + SystemSettings.GapSameZoneMinutes;
             }
 
-            if (searchSuburbDetails.LinkedZones.Contains(comparisonSuburbDetails.Zone))
+            if (searchSuburbDetails.LinkedZones.Contains(comparisonSuburbDetails.Zone) || comparisonSuburbDetails.LinkedZones.Contains(searchSuburbDetails.Zone))
             {
                 return travelGap + SystemSettings.GapSecondaryZoneMinutes;
             }           
@@ -424,19 +424,34 @@ namespace MagicMaids
                 return "";
             }
 
-            var suburbZone = suburb.GetZoneListBySuburb(false);
+            SuburbZone searchSuburbDetails = Cleaner.SearchSuburb.GetSuburbDetails();
+            SuburbZone comparisonSuburbDetails = suburb.GetSuburbDetails();
 
-            if (Cleaner.PrimaryZoneList.Intersect(suburbZone).Any())
+            if (searchSuburbDetails.Zone == comparisonSuburbDetails.Zone)
             {
                 return NamedColours.PrimaryJobColor;
             }
 
-            if (Cleaner.SecondaryZoneList.Intersect(suburbZone).Any())
+            if (searchSuburbDetails.LinkedZones.Contains(comparisonSuburbDetails.Zone) || comparisonSuburbDetails.LinkedZones.Contains(searchSuburbDetails.Zone))
             {
                 return NamedColours.SecondaryJobColor;
             }
 
             return NamedColours.ApprovedJobColor;
+
+            //var suburbZone = suburb.GetZoneListBySuburb(false);
+
+            //if (Cleaner.PrimaryZoneList.Intersect(suburbZone).Any())
+            //{
+            //    return NamedColours.PrimaryJobColor;
+            //}
+
+            //if (Cleaner.SecondaryZoneList.Intersect(suburbZone).Any())
+            //{
+            //    return NamedColours.SecondaryJobColor;
+            //}
+
+            //return NamedColours.ApprovedJobColor;
 
         }
 

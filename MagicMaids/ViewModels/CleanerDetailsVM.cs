@@ -403,6 +403,31 @@ namespace MagicMaids.ViewModels
             set;
         }
 
+        public String StyleZoneClass
+        {
+            get;
+            set;
+        }
+
+        public String ZoneClass
+        {
+            get
+            {
+                
+                if (StyleZoneClass == NamedColours.PrimaryJobColor)
+                {
+                    return "Primary";
+                }
+
+                if (StyleZoneClass == NamedColours.SecondaryJobColor)
+                {
+                    return "Secondary";
+                }
+
+                return "Approved";
+            }
+        }
+
         public String StyleWeekday
         {
             get;

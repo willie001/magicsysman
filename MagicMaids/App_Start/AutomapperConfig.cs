@@ -50,7 +50,9 @@ namespace MagicMaids
 
 				.ForMember(dest => dest.DisplayHomeBase, source => source.Ignore())
 				.ForMember(dest => dest.StyleHomeBase, source => source.Ignore())
-				.ForMember(dest => dest.StyleWeekday, source => source.Ignore())
+                .ForMember(dest => dest.StyleZoneClass, source => source.Ignore())
+                .ForMember(dest => dest.ZoneClass, source => source.Ignore())
+                .ForMember(dest => dest.StyleWeekday, source => source.Ignore())
                 .ForMember(dest => dest.StyleWeekdayNextWeek, source => source.Ignore())
                 .ForMember(dest => dest.StylePreviousJobLocation, source => source.Ignore())
 				.ForMember(dest => dest.PreviousJobLocation, source => source.Ignore())
