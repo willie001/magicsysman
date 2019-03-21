@@ -192,7 +192,15 @@
                     addEvent(divOuter, 'click', function () {
                         //console.log(job.StartTime);
                         //console.log(job.EndTime);
-                        //console.log(job); 
+                        console.log(job); 
+
+                        if ((job.JobDate != null) && (job.JobType == 2 || job.JobType == 3)) {
+                            job.JobDescription = job.WeekDay + ' on ' + job.JobDate + ' (' + job.StartTimeOfDay + ' - ' + job.EndTimeOfDay + ')';
+                        }
+                        else {                            
+                            job.JobDescription = job.WeekDay + ' (' + job.StartTimeOfDay + ' - ' + job.EndTimeOfDay + ')';
+                        }
+
                         var scope = angular.element(document.getElementById("mainWrap")).scope();
                         scope.$apply(function () {
                             scope.checkCustomerState(cleaner, job);
