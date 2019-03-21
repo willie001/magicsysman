@@ -79,10 +79,18 @@
 
             draw();
 
+            function offsetLeft(el) {
+                var rect = el.getBoundingClientRect(),
+                    scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+                return rect.left + scrollLeft
+            }
+
             function createJob(startTime, endTime, parentElement, jobType, suburbName, backGround, zoneColor, job, cleaner) {
 
                 let divOuter = document.createElement('div');
                 divOuter.className = 'jobDetails';
+
+                let divJob = document.createElement('div');
 
 
                 let divInner = document.createElement('div');
@@ -144,49 +152,80 @@
                 divOuter.style.position = 'absolute';
                 divOuter.style.left = position + 'px';
 
+
+
                 if (jobType == 'A') {
                     divInnerZone.style.backgroundColor = backGround;
                     divInnerZone.style.border = '';
                 }
 
                 if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
-                    divOuter.style.cursor = 'pointer';
+                    divOuter.style.cursor = 'pointer';                    
+
+                    divJob.style.width = (searchMinutes * displayWidthPerMinute) + 'px';
+                    divJob.style.height = '15px';
+                    divJob.style.backgroundColor = backGround;
+                    divJob.style.display = 'inline-block';
+                    divJob.style.position = 'absolute';
+                    divJob.style.textAlign = 'center';
+                    divOuter.appendChild(divJob);
+
+                    divJob.innerText = convertMinsToHrsMinsFull(startTime) + ' - ' + convertMinsToHrsMinsFull(startTime + searchMinutes);
+                    
+                    addEvent(divOuter, "mousemove", function (e) {                        
+
+                        if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
+                            let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
+                            let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+                            divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
+                            divJob.style.left = e.pageX - offsetLeft(divOuter) + 'px';
+                            job.StartTime = Math.floor(sTime);
+                            job.EndTime = Math.floor(eTime);
+                            job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
+                            job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
+                            job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
+                            job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
+                        }
+
+                    });
 
                     addEvent(divOuter, 'click', function () {
+                        //console.log(job.StartTime);
+                        //console.log(job.EndTime);
+                        //console.log(job); 
                         var scope = angular.element(document.getElementById("mainWrap")).scope();
                         scope.$apply(function () {
                             scope.checkCustomerState(cleaner, job);
                         });
 
                     });
+
                 }
 
-                addEvent(divOuter, 'mouseover', function () {
-                    //console.log('mouseover');
-                    if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
-                        divOuter.style.backgroundColor = '#53bc78';
+                //addEvent(divOuter, 'mouseover', function () {
+                //console.log('mouseover');
+                if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
+                    divOuter.style.backgroundColor = '#53bc78';
+                    divInnerZone.style.backgroundColor = '#53bc78';
+                }
 
-                        divInnerZone.style.backgroundColor = '#53bc78';
+                if ((endTime - startTime) < searchMinutes && jobType == 'A') {
+                    divOuter.style.backgroundColor = '#f46969';
+                    divInnerZone.style.backgroundColor = '#f46969';
+                }
+                //});
 
-                    }
+                //addEvent(divOuter, 'mouseout', function () {
+                //    if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
+                //        divOuter.style.backgroundColor = backGround;
+                //        divInnerZone.style.backgroundColor = backGround;
+                //    }
 
-                    if ((endTime - startTime) < searchMinutes && jobType == 'A') {
-                        divOuter.style.backgroundColor = '#f46969';
-                        divInnerZone.style.backgroundColor = '#f46969';
-                    }
-                });
-
-                addEvent(divOuter, 'mouseout', function () {
-                    if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
-                        divOuter.style.backgroundColor = backGround;
-                        divInnerZone.style.backgroundColor = backGround;
-                    }
-
-                    if ((endTime - startTime) < searchMinutes && jobType == 'A') {
-                        divOuter.style.backgroundColor = backGround;
-                        divInnerZone.style.backgroundColor = backGround;
-                    }
-                });
+                //    if ((endTime - startTime) < searchMinutes && jobType == 'A') {
+                //        divOuter.style.backgroundColor = backGround;
+                //        divInnerZone.style.backgroundColor = backGround;
+                //    }
+                //});
 
                 divOuter.appendChild(divInnerZone);
                 divOuter.appendChild(divInner);
@@ -201,7 +240,7 @@
                     let hour = '';
                     let gap = Math.floor(displayGapPerHour);
                     let width = timeLineWidth;
-                    let color = i % 60 == 0 ? '#999999' : '#c4c4c4';
+                    let color = i % 60 == 0 ? '#383838' : '#999999';
 
                     if (!noHours) hour = i % 60 == 0 ? convertMinsToHrsMins(i) : ''; //This is for the background markers in the row itself
 
@@ -222,6 +261,14 @@
                 let h = Math.floor(mins / 60);
                 h = h < 10 ? '0' + h : h;
                 return `${h}`;
+            }
+
+            function convertMinsToHrsMinsFull(mins) {
+                let h = Math.floor(mins / 60);
+                let m = mins % 60;
+                h = h < 10 ? '0' + h : h;
+                m = m < 10 ? '0' + m : m;
+                return `${h}:${m}`;
             }
 
             function buildTable() {
@@ -275,7 +322,7 @@
 
             if (jobClass == 'colourMatch_Green') color = ZONECOLOR.SECONDARY;
             if (jobClass == 'colourMatch_Orange') color = ZONECOLOR.APPROVED;
-            console.log(color);
+            //console.log(color);
             return color
         }
 
@@ -359,7 +406,7 @@
                     jobs.push(job2);
                 });
             }
-            
+
             return myTimeLine(360, 1200, 15, 1000, minutes, rosterDay, dateWeek1, dateWeek2, jobs);
         }
 
@@ -457,6 +504,8 @@
             //console.log("<JOB PICKED -  cleaner> - " + angular.toJson(selectedCleaner));
             //console.log("<JOB PICKED -  job> - " + angular.toJson(selectedJob));
 
+            //console.log(selectedJob.StartTime);
+            //console.log(selectedJob.EndTime);
             selectedJob.TeamSize = selectedCleaner.TeamSize;
             savedJobBookingFactory.set(selectedCleaner, selectedJob);
 

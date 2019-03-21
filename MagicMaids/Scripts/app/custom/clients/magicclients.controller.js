@@ -86,7 +86,7 @@
             vm.selectedCleaner = savedJobBookingFactory.getCleaner();
             vm.selectedCleanerJob = savedJobBookingFactory.getJob();
             //console.log("<Cleaner PICKED -  cleaner> - " + angular.toJson(vm.selectedCleaner));
-            //console.log("<JOB PICKED -  job> - " + angular.toJson(vm.selectedCleanerJob));
+            console.log(vm.selectedCleanerJob);
         }
 
         $scope.cancelJobBooking = function () {

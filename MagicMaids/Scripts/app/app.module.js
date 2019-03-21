@@ -84,8 +84,8 @@
 					$cookies.remove(keyJob);
 				}
 				else
-				{
-					$cookies.put(keyJob, JSON.stringify(job), {'expires' : expiresValue});
+				{                    
+                    $cookies.put(keyJob, JSON.stringify(job), { 'expires': expiresValue });
 				}
 			}
 
@@ -105,8 +105,8 @@
 			function getJob() {
 				var jobCookie = $cookies.get(keyJob);
 				if (jobCookie)
-				{
-					return JSON.parse(jobCookie);
+				{                    
+                    return JSON.parse(jobCookie);
 				}
 				else
 				{
