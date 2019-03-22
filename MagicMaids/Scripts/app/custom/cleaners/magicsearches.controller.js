@@ -160,7 +160,7 @@
                 }
 
                 if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
-                    divOuter.style.cursor = 'pointer';                    
+                    //divJob.style.cursor = 'pointer';                    
 
                     divJob.style.width = (searchMinutes * displayWidthPerMinute) + 'px';
                     divJob.style.height = '15px';
@@ -171,25 +171,39 @@
                     divOuter.appendChild(divJob);
 
                     divJob.innerText = convertMinsToHrsMinsFull(startTime) + ' - ' + convertMinsToHrsMinsFull(startTime + searchMinutes);
-                    
-                    addEvent(divOuter, "mousemove", function (e) {                        
 
-                        if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
-                            let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                            let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
-                            divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
-                            divJob.style.left = e.pageX - offsetLeft(divOuter) + 'px';
-                            job.StartTime = Math.floor(sTime);
-                            job.EndTime = Math.floor(eTime);
-                            job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
-                            job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
-                            job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
-                            job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
-                        }
+                    let isDown = false;                       
+
+                    addEvent(divJob, 'mousedown', function (e) {
+                        isDown = true;   
+                        divJob.style.cursor = 'w-resize';                        
+                    });
+
+                    addEvent(document, 'mouseup', function () {
+                        isDown = false;
+                        divJob.style.cursor = 'default';
+                    });
+                    
+                    addEvent(document, "mousemove", function (e) {                        
+                        e.preventDefault();
+                        if (isDown) {
+                            if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
+                                let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
+                                let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+                                divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
+                                divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
+                                job.StartTime = Math.floor(sTime);
+                                job.EndTime = Math.floor(eTime);
+                                job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
+                                job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
+                                job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
+                                job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
+                            }
+                        }      
 
                     });
 
-                    addEvent(divOuter, 'click', function () {
+                    addEvent(divJob, 'dblclick', function () {
                         //console.log(job.StartTime);
                         //console.log(job.EndTime);
                         console.log(job); 
