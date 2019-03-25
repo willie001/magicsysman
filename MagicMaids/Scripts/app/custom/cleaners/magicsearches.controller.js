@@ -85,6 +85,51 @@
                 return rect.left + scrollLeft
             }
 
+            function calculateWidth(startTime, endTime) {
+                if (startTime < 480 && endTime <= 480) {
+                    return (endTime - startTime) * displayWidthPerMinuteContracted;
+                }
+
+                if (startTime >= 1080 && endTime > 1080) {
+                    return (endTime - startTime) * displayWidthPerMinuteContracted;
+                }
+
+                if (startTime < 480 && (endTime > 480 && endTime <= 1080)) {
+                    return ((480 - startTime) * displayWidthPerMinuteContracted) + ((endTime - 480) * displayWidthPerMinute);
+                }
+
+                if (startTime >= 480 && endTime > 1080) {
+                    return ((1080 - startTime) * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
+                }
+
+                if (startTime < 480 && endTime > 1080) {
+                    return ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
+                }
+            }
+
+            function calculateTime(time, pageX, offset) {
+
+                let widthBeforeNormal = 120 * displayWidthPerMinuteContracted;
+                let widthAfterNormal = (120 * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute);
+                let width = pageX - offset;
+
+                //return (width / displayWidthPerMinuteContracted) + time;
+
+                if (width < widthBeforeNormal) { 
+                    console.log('Before: ' + width);
+                    console.log('Before Display width: ' + displayWidthPerMinuteContracted)
+                    console.log('Time: ' + ((width / displayWidthPerMinuteContracted) + time));
+                    return (width / displayWidthPerMinuteContracted) + time;
+                }
+
+                if (width >= widthBeforeNormal) {
+                    console.log('After: ' + width);
+                    console.log('After Display width: ' + displayWidthPerMinute)
+                    console.log('Time: ' + ((width / displayWidthPerMinute) + time));
+                    return (width / displayWidthPerMinute) + time;
+                }                                
+            }
+                        
             function createJob(startTime, endTime, parentElement, jobType, suburbName, backGround, zoneColor, job, cleaner) {
 
                 let divOuter = document.createElement('div');
@@ -132,9 +177,13 @@
                     width = ((1080 - startTime) * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
                 }
 
-                if (startTime < 480 && endTime > 1200) {
-                    width = ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1200) * displayWidthPerMinuteContracted);
+                if (startTime < 480 && endTime > 1080) {
+                    width = ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
                 }
+
+                console.log(displayWidthPerMinuteContracted);
+                console.log(displayWidthPerMinute);
+                console.log(width);
 
                 divInnerZone.style.backgroundColor = zoneColor;
                 divInnerZone.style.width = '13px';
@@ -171,6 +220,7 @@
                     divOuter.appendChild(divJob);
 
                     divJob.innerText = convertMinsToHrsMinsFull(startTime) + ' - ' + convertMinsToHrsMinsFull(startTime + searchMinutes);
+                    divJob.style.width = calculateWidth(startTime, startTime + searchMinutes) + 'px';
 
                     let isDown = false;                       
 
@@ -188,8 +238,13 @@
                         e.preventDefault();
                         if (isDown) {
                             if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
-                                let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                                let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+                                //let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
+                                //let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+
+                                let sTime = calculateTime(startTime, e.pageX, offsetLeft(divOuter));
+                                let eTime = calculateTime(startTime + searchMinutes, e.pageX, offsetLeft(divOuter));;
+
+                                divJob.style.width = calculateWidth(sTime, eTime) + 'px';
                                 divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
                                 divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 job.StartTime = Math.floor(sTime);
@@ -206,7 +261,7 @@
                     addEvent(divJob, 'dblclick', function () {
                         //console.log(job.StartTime);
                         //console.log(job.EndTime);
-                        console.log(job); 
+                        //console.log(job); 
 
                         if ((job.JobDate != null) && (job.JobType == 2 || job.JobType == 3)) {
                             job.JobDescription = job.WeekDay + ' on ' + job.JobDate + ' (' + job.StartTimeOfDay + ' - ' + job.EndTimeOfDay + ')';
