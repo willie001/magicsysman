@@ -216,6 +216,8 @@
                 if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
                     //divJob.style.cursor = 'pointer';                    
 
+                    console.log('divJob Width: ' + ((searchMinutes * displayWidthPerMinute)))
+
                     divJob.style.width = (searchMinutes * displayWidthPerMinute) + 'px';
                     divJob.style.height = '15px';
                     divJob.style.backgroundColor = backGround;
@@ -267,12 +269,36 @@
                                 }
                             }  
 
-                            //Early hours
-                            if (startTime < 480 && endTime <= 480) {
+                            //After hours
+                            if ((startTime < 480 && endTime <= 480) || (startTime >= 1080 && endTime > 1080)) {
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
 
                                     let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
                                     let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                    //let sTime = calculateTime(startTime, e.pageX, offsetLeft(divOuter));
+                                    //let eTime = calculateTime(startTime + searchMinutes, e.pageX, offsetLeft(divOuter));
+
+                                    divJob.style.width = calculateWidth(sTime, eTime) + 'px';
+                                    divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
+                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
+                                    job.StartTime = Math.floor(sTime);
+                                    job.EndTime = Math.floor(eTime);
+                                    job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
+                                    job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
+                                    job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
+                                    job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
+                                }
+                            }
+
+                            //Early hours + Office hours
+                            if (startTime < 480 && (endTime > 480 && endTime <= 1080)) {
+                                if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
+
+                                    console.log(divOuter.offsetWidth);
+
+                                    let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
+                                    let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
 
                                     //let sTime = calculateTime(startTime, e.pageX, offsetLeft(divOuter));
                                     //let eTime = calculateTime(startTime + searchMinutes, e.pageX, offsetLeft(divOuter));
