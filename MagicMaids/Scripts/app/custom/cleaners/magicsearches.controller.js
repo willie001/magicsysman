@@ -113,20 +113,25 @@
                 let widthAfterNormal = (120 * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute);
                 let width = pageX - offset;
 
+                console.log('=============================================')
+                console.log('pageX: ' + pageX);
+                console.log('offset: ' + offset);
                 //return (width / displayWidthPerMinuteContracted) + time;
 
                 if (width < widthBeforeNormal) { 
-                    console.log('Before: ' + width);
+                    console.log('Before width: ' + width);
                     console.log('Before Display width: ' + displayWidthPerMinuteContracted)
-                    console.log('Time: ' + ((width / displayWidthPerMinuteContracted) + time));
+                    console.log('Time before: ' + ((width / displayWidthPerMinuteContracted) + time));
                     return (width / displayWidthPerMinuteContracted) + time;
                 }
 
                 if (width >= widthBeforeNormal) {
-                    console.log('After: ' + width);
+                    console.log('After width: ' + width);
                     console.log('After Display width: ' + displayWidthPerMinute)
-                    console.log('Time: ' + ((width / displayWidthPerMinute) + time));
-                    return (width / displayWidthPerMinute) + time;
+                    let outputTime = (width / displayWidthPerMinute) + time;
+                    console.log('Time after: ' + outputTime);
+                    return outputTime;
+                    //return ((width + widthBeforeNormal) / displayWidthPerMinute) + time;
                 }                                
             }
                         
@@ -181,9 +186,9 @@
                     width = ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
                 }
 
-                console.log(displayWidthPerMinuteContracted);
-                console.log(displayWidthPerMinute);
-                console.log(width);
+                //console.log(displayWidthPerMinuteContracted);
+                //console.log(displayWidthPerMinute);
+                //console.log(width);
 
                 divInnerZone.style.backgroundColor = zoneColor;
                 divInnerZone.style.width = '13px';
@@ -217,6 +222,8 @@
                     divJob.style.display = 'inline-block';
                     divJob.style.position = 'absolute';
                     divJob.style.textAlign = 'center';
+                    divJob.style.overflow = 'hidden';
+                    divJob.style.textOverflow = 'ellipsis';
                     divOuter.appendChild(divJob);
 
                     divJob.innerText = convertMinsToHrsMinsFull(startTime) + ' - ' + convertMinsToHrsMinsFull(startTime + searchMinutes);
@@ -237,22 +244,49 @@
                     addEvent(document, "mousemove", function (e) {                        
                         e.preventDefault();
                         if (isDown) {
-                            if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
-                                //let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                                //let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
 
-                                let sTime = calculateTime(startTime, e.pageX, offsetLeft(divOuter));
-                                let eTime = calculateTime(startTime + searchMinutes, e.pageX, offsetLeft(divOuter));;
+                            //Office hours
+                            if (startTime >= 480 && endTime <= 1080) {
+                                if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
 
-                                divJob.style.width = calculateWidth(sTime, eTime) + 'px';
-                                divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
-                                divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
-                                job.StartTime = Math.floor(sTime);
-                                job.EndTime = Math.floor(eTime);
-                                job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
-                                job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
-                                job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
-                                job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
+                                    let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
+                                    let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+
+                                    //let sTime = calculateTime(startTime, e.pageX, offsetLeft(divOuter));
+                                    //let eTime = calculateTime(startTime + searchMinutes, e.pageX, offsetLeft(divOuter));
+
+                                    divJob.style.width = calculateWidth(sTime, eTime) + 'px';
+                                    divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
+                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
+                                    job.StartTime = Math.floor(sTime);
+                                    job.EndTime = Math.floor(eTime);
+                                    job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
+                                    job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
+                                    job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
+                                    job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
+                                }
+                            }  
+
+                            //Early hours
+                            if (startTime < 480 && endTime <= 480) {
+                                if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
+
+                                    let sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
+                                    let eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                    //let sTime = calculateTime(startTime, e.pageX, offsetLeft(divOuter));
+                                    //let eTime = calculateTime(startTime + searchMinutes, e.pageX, offsetLeft(divOuter));
+
+                                    divJob.style.width = calculateWidth(sTime, eTime) + 'px';
+                                    divJob.innerText = convertMinsToHrsMinsFull(Math.floor(sTime)) + ' - ' + convertMinsToHrsMinsFull(Math.floor(eTime));
+                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
+                                    job.StartTime = Math.floor(sTime);
+                                    job.EndTime = Math.floor(eTime);
+                                    job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
+                                    job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
+                                    job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
+                                    job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
+                                }
                             }
                         }      
 
