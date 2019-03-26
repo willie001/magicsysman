@@ -197,13 +197,11 @@
                     divJob.innerText = convertMinsToHrsMinsFull(sTime) + ' - ' + convertMinsToHrsMinsFull(eTime);
                     divJob.style.width = calculateWidth(startTime, startTime + searchMinutes) + 'px';
 
-                    let isDown = false;
-
-                    
+                    let isDown = false;                    
 
                     addEvent(divJob, 'mousedown', function (e) {
                         isDown = true;
-                        divJob.style.cursor = 'w-resize';
+                        divJob.style.cursor = 'w-resize';                        
                     });
 
                     addEvent(document, 'mouseup', function () {
@@ -213,7 +211,7 @@
 
                     addEvent(document, "mousemove", function (e) {
                         e.preventDefault();
-                        if (isDown) {
+                        if (isDown) {                            
 
                             //Office hours
                             if (startTime >= 480 && endTime <= 1080) {
@@ -260,8 +258,17 @@
 
                             //Office hours + Late hours
                             if ((startTime >= 480 && startTime < 1080) && endTime > 1080) {
-                                
-                                if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
+
+                                let offsetRight = searchMinutes * displayWidthPerMinuteContracted;
+                                let minutesContracted = endTime - 1080;
+                                let minutesNormal = 0;
+
+                                if (searchMinutes > minutesContracted) {
+                                    minutesNormal = searchMinutes - minutesContracted;
+                                    offsetRight = (minutesNormal * displayWidthPerMinute) + (minutesContracted * displayWidthPerMinuteContracted);
+                                }
+
+                                if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - offsetRight)) {
 
                                     sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
                                     eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
