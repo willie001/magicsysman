@@ -106,35 +106,7 @@
                     return ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
                 }
             }
-
-            function calculateTime(time, pageX, offset) {
-
-                let widthBeforeNormal = 120 * displayWidthPerMinuteContracted;
-                let widthAfterNormal = (120 * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute);
-                let width = pageX - offset;
-
-                console.log('=============================================')
-                console.log('pageX: ' + pageX);
-                console.log('offset: ' + offset);
-                //return (width / displayWidthPerMinuteContracted) + time;
-
-                if (width < widthBeforeNormal) {
-                    console.log('Before width: ' + width);
-                    console.log('Before Display width: ' + displayWidthPerMinuteContracted)
-                    console.log('Time before: ' + ((width / displayWidthPerMinuteContracted) + time));
-                    return (width / displayWidthPerMinuteContracted) + time;
-                }
-
-                if (width >= widthBeforeNormal) {
-                    console.log('After width: ' + width);
-                    console.log('After Display width: ' + displayWidthPerMinute)
-                    let outputTime = (width / displayWidthPerMinute) + time;
-                    console.log('Time after: ' + outputTime);
-                    return outputTime;
-                    //return ((width + widthBeforeNormal) / displayWidthPerMinute) + time;
-                }
-            }
-
+             
             function createJob(startTime, endTime, parentElement, jobType, suburbName, backGround, zoneColor, job, cleaner) {
 
                 let divOuter = document.createElement('div');
@@ -185,11 +157,7 @@
                 if (startTime < 480 && endTime > 1080) {
                     width = ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
                 }
-
-                //console.log(displayWidthPerMinuteContracted);
-                //console.log(displayWidthPerMinute);
-                //console.log(width);
-
+                                
                 divInnerZone.style.backgroundColor = zoneColor;
                 divInnerZone.style.width = '13px';
                 divInnerZone.style.height = '13px';
@@ -206,17 +174,12 @@
                 divOuter.style.position = 'absolute';
                 divOuter.style.left = position + 'px';
 
-
-
                 if (jobType == 'A') {
                     divInnerZone.style.backgroundColor = backGround;
                     divInnerZone.style.border = '';
                 }
 
-                if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
-                    //divJob.style.cursor = 'pointer';                    
-
-                    //console.log('divJob Width: ' + ((searchMinutes * displayWidthPerMinute)))
+                if ((endTime - startTime) >= searchMinutes && jobType == 'A') {                    
 
                     divJob.style.width = (searchMinutes * displayWidthPerMinute) + 'px';
                     divJob.style.height = '15px';
@@ -224,8 +187,8 @@
                     divJob.style.display = 'inline-block';
                     divJob.style.position = 'absolute';
                     divJob.style.textAlign = 'center';
-                    //divJob.style.overflow = 'hidden';
-                    //divJob.style.textOverflow = 'ellipsis';
+                    divJob.style.overflow = 'hidden';
+                    divJob.style.textOverflow = 'ellipsis';
                     divOuter.appendChild(divJob);
 
                     let sTime = startTime;
@@ -235,6 +198,8 @@
                     divJob.style.width = calculateWidth(startTime, startTime + searchMinutes) + 'px';
 
                     let isDown = false;
+
+                    
 
                     addEvent(divJob, 'mousedown', function (e) {
                         isDown = true;
@@ -255,9 +220,10 @@
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
 
                                     sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;                                    
+                                                                        
+                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';                                    
                                     
-                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 }
                             }
 
@@ -292,6 +258,7 @@
                                 }
                             }
 
+                            //Office hours + Late hours
                             if ((startTime >= 480 && startTime < 1080) && endTime > 1080) {
                                 
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
@@ -299,19 +266,52 @@
                                     sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
                                     eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
 
-                                    let bigWidth = (1080 - startTime) * displayWidthPerMinute;
-                                    let bigDiff = (displayWidthPerMinute - displayWidthPerMinuteContracted) * bigWidth;
-
-                                    console.log('bigWidth: ' + bigWidth);
-                                    console.log('bigDiff: ' + bigDiff);
+                                    let bigWidth1 = (1080 - startTime) * displayWidthPerMinute;  //1080
+                                    let smallWidth1 = (1080 - startTime) * displayWidthPerMinuteContracted //600
+                                    let bigDiff1 = smallWidth1 - bigWidth1
+                                                                       
 
                                     if (sTime >= 1080) {
-                                        sTime = (((e.pageX - offsetLeft(divOuter))) / displayWidthPerMinuteContracted) + startTime;
-                                        eTime = (((e.pageX - offsetLeft(divOuter))) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
-                                    }
 
-                                    console.log('sTime: ' + sTime);
-                                    console.log('eTime: ' + eTime);
+                                        console.log('pageX: ' + e.pageX);
+                                        console.log('offsetLeft: ' + offsetLeft(divOuter));
+
+
+                                        sTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime;
+                                        eTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+                                    }
+                                    
+                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
+                                }
+                            }
+
+                            //Early hours + Normal hours + Late hours
+                            if (startTime < 480 && endTime > 1080) {
+                                
+                                if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
+
+                                    sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
+                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                    let smallWidth2 = (480 - startTime) * displayWidthPerMinuteContracted;
+                                    let diff2 = (displayWidthPerMinute - displayWidthPerMinuteContracted) * smallWidth2;
+
+                                    if (sTime >= 480) {
+
+                                        sTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime;
+                                        eTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime + searchMinutes;
+
+                                        let bigWidth3 = (1080 - startTime) * displayWidthPerMinute;  //1080
+                                        let smallWidth3 = (1080 - startTime) * displayWidthPerMinuteContracted //600
+                                        let bigDiff3 = smallWidth3 - bigWidth3
+                                        let mainDiff = diff2 + bigDiff3; 
+
+                                        if (sTime >= 1080) {
+                                            sTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime;
+                                            eTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+                                        }
+
+                                    }                                    
 
                                     divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 }
