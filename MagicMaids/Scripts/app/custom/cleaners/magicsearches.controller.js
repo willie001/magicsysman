@@ -12,7 +12,7 @@
 
     function drawSchedule() {
 
-        var myTimeLine = (function (rosterStart, rosterEnd, timeLineWidth, scaleFactor, searchMinutes, rosterDay, weekOneDate, weekTwoDate, jobs) {
+        var myTimeLine = (function (rosterStart, rosterEnd, timeLineWidth, scaleFactor, searchMinutes, rosterDay, weekOneDate, weekTwoDate, jobs, timeIncrement) {
 
             // Time line calculations    
             let rosterDuration = rosterEnd - rosterStart;
@@ -105,6 +105,12 @@
                 if (startTime < 480 && endTime > 1080) {
                     return ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
                 }
+            }
+
+            function calculateTime(pageX, offsetLeft, pxPerMinute, offsetTime, previousTime, timeDiff) {
+                let myTime = Math.floor((((pageX - offsetLeft) + timeDiff) / pxPerMinute) + offsetTime);
+
+                return myTime % timeIncrement == 0 ? myTime : previousTime;
             }
              
             function createJob(startTime, endTime, parentElement, jobType, suburbName, backGround, zoneColor, job, cleaner) {
@@ -217,11 +223,16 @@
                             if (startTime >= 480 && endTime <= 1080) {
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
 
-                                    sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;                                    
+                                    //let sTimeNormal = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
+                                    //let eTimeNormal = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+
+                                    //sTime = sTimeNormal % 5 == 0 ? sTimeNormal : sTime;
+                                    //eTime = eTimeNormal % 5 == 0 ? eTimeNormal : eTime;     
+
+                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, 0);
+                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, 0);
                                                                         
-                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';                                    
-                                    
+                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';    
                                 }
                             }
 
@@ -229,8 +240,11 @@
                             if ((startTime < 480 && endTime <= 480) || (startTime >= 1080 && endTime > 1080)) {
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
 
-                                    sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
-                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
+                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
+                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);
                                     
                                     divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 }
@@ -240,8 +254,11 @@
                             if (startTime < 480 && (endTime > 480 && endTime <= 1080)) {
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
                                     
-                                    sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
-                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
+                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
+                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);
 
                                     let smallWidth = (480 - startTime) * displayWidthPerMinuteContracted;
                                     let diff = (displayWidthPerMinute - displayWidthPerMinuteContracted) * smallWidth;
@@ -249,7 +266,12 @@
                                     if (sTime >= 480) {                                      
 
                                         sTime = (((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime;
-                                        eTime = (((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes;                                        
+                                        eTime = (((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes;  
+
+                                        //sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, diff);
+                                        //eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff);
+
+
                                     }
                                     
                                     divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
@@ -270,8 +292,11 @@
 
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - offsetRight)) {
 
-                                    sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
+                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
+
+                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, 0);
+                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, 0);
 
                                     let bigWidth1 = (1080 - startTime) * displayWidthPerMinute;  //1080
                                     let smallWidth1 = (1080 - startTime) * displayWidthPerMinuteContracted //600
@@ -280,12 +305,15 @@
 
                                     if (sTime >= 1080) {
 
-                                        console.log('pageX: ' + e.pageX);
-                                        console.log('offsetLeft: ' + offsetLeft(divOuter));
+                                        //console.log('pageX: ' + e.pageX);
+                                        //console.log('offsetLeft: ' + offsetLeft(divOuter));
 
 
-                                        sTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime;
-                                        eTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+                                        //sTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime;
+                                        //eTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                        sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, bigDiff1);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, bigDiff1);
                                     }
                                     
                                     divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
@@ -297,16 +325,22 @@
                                 
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
 
-                                    sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
-                                    eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
+                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
+                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);
 
                                     let smallWidth2 = (480 - startTime) * displayWidthPerMinuteContracted;
                                     let diff2 = (displayWidthPerMinute - displayWidthPerMinuteContracted) * smallWidth2;
 
                                     if (sTime >= 480) {
 
-                                        sTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime;
-                                        eTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime + searchMinutes;
+                                        //sTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime;
+                                        //eTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime + searchMinutes;
+
+                                        sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, diff2);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff2);
 
                                         let bigWidth3 = (1080 - startTime) * displayWidthPerMinute;  //1080
                                         let smallWidth3 = (1080 - startTime) * displayWidthPerMinuteContracted //600
@@ -314,8 +348,11 @@
                                         let mainDiff = diff2 + bigDiff3; 
 
                                         if (sTime >= 1080) {
-                                            sTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime;
-                                            eTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+                                            //sTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime;
+                                            //eTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
+
+                                            sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, mainDiff);
+                                            eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, mainDiff);
                                         }
 
                                     }                                    
@@ -337,10 +374,7 @@
 
                     });
 
-                    addEvent(divJob, 'dblclick', function () {
-                        //console.log(job.StartTime);
-                        //console.log(job.EndTime);
-                        //console.log(job); 
+                    addEvent(divJob, 'dblclick', function () {                       
 
                         if ((job.JobDate != null) && (job.JobType == 2 || job.JobType == 3)) {
                             job.JobDescription = job.WeekDay + ' on ' + job.JobDate + ' (' + job.StartTimeOfDay + ' - ' + job.EndTimeOfDay + ')';
@@ -357,9 +391,7 @@
                     });
 
                 }
-
-                //addEvent(divOuter, 'mouseover', function () {
-                //console.log('mouseover');
+               
                 if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
                     divOuter.style.backgroundColor = '#53bc78';
                     divInnerZone.style.backgroundColor = '#53bc78';
@@ -368,20 +400,7 @@
                 if ((endTime - startTime) < searchMinutes && jobType == 'A') {
                     divOuter.style.backgroundColor = '#f46969';
                     divInnerZone.style.backgroundColor = '#f46969';
-                }
-                //});
-
-                //addEvent(divOuter, 'mouseout', function () {
-                //    if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
-                //        divOuter.style.backgroundColor = backGround;
-                //        divInnerZone.style.backgroundColor = backGround;
-                //    }
-
-                //    if ((endTime - startTime) < searchMinutes && jobType == 'A') {
-                //        divOuter.style.backgroundColor = backGround;
-                //        divInnerZone.style.backgroundColor = backGround;
-                //    }
-                //});
+                }                
 
                 divOuter.appendChild(divInnerZone);
                 divOuter.appendChild(divInner);
@@ -464,7 +483,7 @@
 
         const JOBCOLOR = {
             AVAILABLE: '#696969',
-            NOTAVAILABLE: '#F47F7F'
+            NOTAVAILABLE: '#af5903' //#F47F7F'
         }
 
         const ZONECOLOR = {
@@ -563,7 +582,7 @@
                 });
             }
 
-            return myTimeLine(360, 1200, 15, 1000, minutes, rosterDay, dateWeek1, dateWeek2, jobs);
+            return myTimeLine(360, 1200, 15, 1000, minutes, rosterDay, dateWeek1, dateWeek2, jobs, 5);
         }
 
         return {
