@@ -263,13 +263,24 @@
                                     let smallWidth = (480 - startTime) * displayWidthPerMinuteContracted;
                                     let diff = (displayWidthPerMinute - displayWidthPerMinuteContracted) * smallWidth;
 
+                                    
+
                                     if (sTime >= 480) {                                      
 
-                                        sTime = (((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime;
-                                        eTime = (((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes;  
+                                        //sTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime);
+                                        //eTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes);
 
-                                        //sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, diff);
-                                        //eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff);
+                                        //sTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime) % 5 == 0 ? ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime) : sTime;
+                                        //eTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes) % 5 == 0 ? ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes) : eTime;  
+
+                                        
+                                        //console.log(eTime);
+
+                                        sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, diff);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff);
+
+                                        console.log((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime);
+                                        console.log(sTime);
 
 
                                     }
