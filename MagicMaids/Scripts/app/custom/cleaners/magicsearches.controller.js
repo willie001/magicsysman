@@ -112,7 +112,7 @@
 
                 return myTime % timeIncrement == 0 ? myTime : previousTime;
             }
-             
+
             function createJob(startTime, endTime, parentElement, jobType, suburbName, backGround, zoneColor, job, cleaner) {
 
                 let divOuter = document.createElement('div');
@@ -163,7 +163,7 @@
                 if (startTime < 480 && endTime > 1080) {
                     width = ((480 - startTime) * displayWidthPerMinuteContracted) + (600 * displayWidthPerMinute) + ((endTime - 1080) * displayWidthPerMinuteContracted);
                 }
-                                
+
                 divInnerZone.style.backgroundColor = zoneColor;
                 divInnerZone.style.width = '13px';
                 divInnerZone.style.height = '13px';
@@ -185,7 +185,7 @@
                     divInnerZone.style.border = '';
                 }
 
-                if ((endTime - startTime) >= searchMinutes && jobType == 'A') {                    
+                if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
 
                     divJob.style.width = (searchMinutes * displayWidthPerMinute) + 'px';
                     divJob.style.height = '15px';
@@ -203,11 +203,11 @@
                     divJob.innerText = convertMinsToHrsMinsFull(sTime) + ' - ' + convertMinsToHrsMinsFull(eTime);
                     divJob.style.width = calculateWidth(startTime, startTime + searchMinutes) + 'px';
 
-                    let isDown = false;                    
+                    let isDown = false;
 
                     addEvent(divJob, 'mousedown', function (e) {
                         isDown = true;
-                        divJob.style.cursor = 'w-resize';                        
+                        divJob.style.cursor = 'w-resize';
                     });
 
                     addEvent(document, 'mouseup', function () {
@@ -217,32 +217,21 @@
 
                     addEvent(document, "mousemove", function (e) {
                         e.preventDefault();
-                        if (isDown) {                            
+                        if (isDown) {
 
                             //Office hours
                             if (startTime >= 480 && endTime <= 1080) {
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
-
-                                    //let sTimeNormal = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                                    //let eTimeNormal = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
-
-                                    //sTime = sTimeNormal % 5 == 0 ? sTimeNormal : sTime;
-                                    //eTime = eTimeNormal % 5 == 0 ? eTimeNormal : eTime;     
-
                                     sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, 0);
-                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, 0);
-                                                                        
-                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';    
+                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, 0);                                   
+
+                                    divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 }
                             }
 
                             //After hours
                             if ((startTime < 480 && endTime <= 480) || (startTime >= 1080 && endTime > 1080)) {
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
-
-                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
-                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
-
                                     sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
                                     eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);
                                     
@@ -253,38 +242,19 @@
                             //Early hours + Office hours
                             if (startTime < 480 && (endTime > 480 && endTime <= 1080)) {
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinute))) {
-                                    
-                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
-                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
-
-                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
-                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);
+                                    if (sTime < 480) {
+                                        sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);                                        
+                                    }
 
                                     let smallWidth = (480 - startTime) * displayWidthPerMinuteContracted;
                                     let diff = (displayWidthPerMinute - displayWidthPerMinuteContracted) * smallWidth;
 
-                                    
-
-                                    if (sTime >= 480) {                                      
-
-                                        //sTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime);
-                                        //eTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes);
-
-                                        //sTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime) % 5 == 0 ? ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime) : sTime;
-                                        //eTime = ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes) % 5 == 0 ? ((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime + searchMinutes) : eTime;  
-
-                                        
-                                        //console.log(eTime);
-
+                                    if (sTime >= 480) {
                                         sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, diff);
-                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff);
-
-                                        console.log((((e.pageX - offsetLeft(divOuter)) + diff) / displayWidthPerMinute) + startTime);
-                                        console.log(sTime);
-
-
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff);                                       
                                     }
-                                    
+
                                     divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 }
                             }
@@ -302,71 +272,52 @@
                                 }
 
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - offsetRight)) {
-
-                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime;
-                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinute) + startTime + searchMinutes;
-
-                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, 0);
-                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, 0);
+                                    if (sTime < 1080) {
+                                        sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, 0);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, 0);                                        
+                                    }
 
                                     let bigWidth1 = (1080 - startTime) * displayWidthPerMinute;  //1080
                                     let smallWidth1 = (1080 - startTime) * displayWidthPerMinuteContracted //600
                                     let bigDiff1 = smallWidth1 - bigWidth1
-                                                                       
 
-                                    if (sTime >= 1080) {
-
-                                        //console.log('pageX: ' + e.pageX);
-                                        //console.log('offsetLeft: ' + offsetLeft(divOuter));
-
-
-                                        //sTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime;
-                                        //eTime = (((e.pageX - offsetLeft(divOuter)) + bigDiff1) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
-
+                                    if (sTime >= 1080) {                                       
                                         sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, bigDiff1);
-                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, bigDiff1);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, bigDiff1);                                        
                                     }
-                                    
+
                                     divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 }
                             }
 
                             //Early hours + Normal hours + Late hours
                             if (startTime < 480 && endTime > 1080) {
-                                
+
                                 if (e.pageX >= offsetLeft(divOuter) && e.pageX <= (offsetLeft(divOuter) + divOuter.offsetWidth - (searchMinutes * displayWidthPerMinuteContracted))) {
 
-                                    //sTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime;
-                                    //eTime = ((e.pageX - offsetLeft(divOuter)) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
-
-                                    sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
-                                    eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);
+                                    if (sTime < 480) {
+                                        sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, 0);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, 0);
+                                    }
 
                                     let smallWidth2 = (480 - startTime) * displayWidthPerMinuteContracted;
                                     let diff2 = (displayWidthPerMinute - displayWidthPerMinuteContracted) * smallWidth2;
 
                                     if (sTime >= 480) {
-
-                                        //sTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime;
-                                        //eTime = (((e.pageX - offsetLeft(divOuter)) + diff2) / displayWidthPerMinute) + startTime + searchMinutes;
-
                                         sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime, sTime, diff2);
-                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff2);
+                                        eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinute, startTime + searchMinutes, eTime, diff2);                                        
 
-                                        let bigWidth3 = (1080 - startTime) * displayWidthPerMinute;  //1080
-                                        let smallWidth3 = (1080 - startTime) * displayWidthPerMinuteContracted //600
+                                        let bigWidth3 = (1080 - startTime) * displayWidthPerMinute;  
+                                        let smallWidth3 = (1080 - startTime) * displayWidthPerMinuteContracted 
                                         let bigDiff3 = smallWidth3 - bigWidth3
-                                        let mainDiff = diff2 + bigDiff3; 
+                                        let mainDiff = diff2 + bigDiff3;
 
                                         if (sTime >= 1080) {
-                                            //sTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime;
-                                            //eTime = (((e.pageX - offsetLeft(divOuter)) + mainDiff) / displayWidthPerMinuteContracted) + startTime + searchMinutes;
-
                                             sTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime, sTime, mainDiff);
                                             eTime = calculateTime(e.pageX, offsetLeft(divOuter), displayWidthPerMinuteContracted, startTime + searchMinutes, eTime, mainDiff);
                                         }
 
-                                    }                                    
+                                    }
 
                                     divJob.style.left = (e.pageX - offsetLeft(divOuter)) + 'px';
                                 }
@@ -385,7 +336,7 @@
 
                     });
 
-                    addEvent(divJob, 'dblclick', function () {                       
+                    addEvent(divJob, 'dblclick', function () {
 
                         if ((job.JobDate != null) && (job.JobType == 2 || job.JobType == 3)) {
                             job.JobDescription = job.WeekDay + ' on ' + job.JobDate + ' (' + job.StartTimeOfDay + ' - ' + job.EndTimeOfDay + ')';
@@ -402,7 +353,7 @@
                     });
 
                 }
-               
+
                 if ((endTime - startTime) >= searchMinutes && jobType == 'A') {
                     divOuter.style.backgroundColor = '#53bc78';
                     divInnerZone.style.backgroundColor = '#53bc78';
@@ -411,7 +362,7 @@
                 if ((endTime - startTime) < searchMinutes && jobType == 'A') {
                     divOuter.style.backgroundColor = '#f46969';
                     divInnerZone.style.backgroundColor = '#f46969';
-                }                
+                }
 
                 divOuter.appendChild(divInnerZone);
                 divOuter.appendChild(divInner);
