@@ -200,12 +200,12 @@
                     let sTime = startTime;
                     let eTime = startTime + searchMinutes;
 
-                    job.StartTime = Math.floor(sTime);
-                    job.EndTime = Math.floor(eTime);
-                    job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
-                    job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
-                    job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
-                    job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
+                    //job.StartTime = Math.floor(sTime);
+                    //job.EndTime = Math.floor(eTime);
+                    //job.StartTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(sTime)) + ':00'
+                    //job.EndTimeForControl = '2000-01-01T' + convertMinsToHrsMinsFull(Math.floor(eTime)) + ':00'
+                    //job.StartTimeOfDay = convertMinsToHrsMinsFull(Math.floor(sTime))
+                    //job.EndTimeOfDay = convertMinsToHrsMinsFull(Math.floor(eTime))
 
                     divJob.innerText = convertMinsToHrsMinsFull(sTime) + ' - ' + convertMinsToHrsMinsFull(eTime);
                     divJob.style.width = calculateWidth(startTime, startTime + searchMinutes) + 'px';
