@@ -52,13 +52,13 @@
                             <hr />
                             <div class="row">
                                 <div class="col-md-4">
-                                    <div>Adjust start time</div>
+                                    <div>Start time</div>
                                     <div>
                                         <div ng-if="!!timePickerData.startTime" readonly-input="true" uib-timepicker="uib-timepicker" min="timePickerData.minSelectionStart" max="timePickerData.maxSelectionStart" ng-model="timePickerData.startTime" show-meridian="false"></div>
                                     </div>
                                 </div>                                
                                 <div class="col-md-4">
-                                    <div>Adjust finish time</div>
+                                    <div>End time</div>
                                     <div>
                                         <div ng-if="!!timePickerData.endTime" ng-disabled="true" readonly-input="true" uib-timepicker="uib-timepicker" min="timePickerData.minSelectionEnd" max="timePickerData.maxSelectionEnd" ng-model="timePickerData.endTime" show-meridian="false"></div>
                                     </div>

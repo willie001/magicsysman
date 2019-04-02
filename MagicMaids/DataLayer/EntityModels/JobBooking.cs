@@ -35,6 +35,12 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
+        public DateTime EndDate //UTC
+        {
+            get;
+            set;
+        }
+
 		public String WeekDay
 		{
 			get;
