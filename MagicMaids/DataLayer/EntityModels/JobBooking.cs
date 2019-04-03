@@ -35,7 +35,7 @@ namespace MagicMaids.EntityModels
 			set;
 		}
 
-        public DateTime EndDate //UTC
+        public DateTime JobEndDate //UTC
         {
             get;
             set;

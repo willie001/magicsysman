@@ -1,6 +1,5 @@
 ﻿#region Using
 using System;
-
 using MagicMaids.EntityModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -95,6 +94,25 @@ namespace MagicMaids.ViewModels
             set;
         }
 
+        public DateTime JobEndDateUTC
+        {
+            get;
+            set;
+        }
+
+        private DateTime _jobEndDate;
+        public DateTime JobEndDate
+        {
+            get
+            {
+                return JobDate.AddDays(14);
+            }
+            set
+            {
+                _jobEndDate = value;
+            }
+        }
+
 		public String JobDateFormatted
 		{
             //get
@@ -113,6 +131,18 @@ namespace MagicMaids.ViewModels
                     return JobDate.FormatUserDate();
                 }
                 return JobDate.ToUTC().FormatUserDate();
+            }
+        }
+
+        public String JobEndDateFormatted
+        {
+            get
+            {
+                if (JobEndDate == DateTime.MinValue)
+                {
+                    return JobEndDate.FormatUserDate();
+                }
+                return JobEndDate.ToUTC().FormatUserDate();
             }
         }
 
@@ -388,6 +418,7 @@ namespace MagicMaids.ViewModels
 			JobDateUTC = entityModel.JobDate;
 			JobSuburb = entityModel.JobSuburb;
 			TeamSize = entityModel.TeamSize;
+            JobEndDateUTC = entityModel.JobEndDate;
 		}
 		#endregion
 	}

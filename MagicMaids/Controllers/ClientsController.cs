@@ -160,13 +160,15 @@ namespace MagicMaids.Controllers
 
 			if (ClientId == null)
 			{
-				// create new item
-				_dataItem = new ClientDetailsVM();
-				_dataItem.Id = Guid.NewGuid().ToString();
-				_dataItem.IsNewItem = true;
-				_dataItem.IsActive = true;
-				_dataItem.PhysicalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Physical };
-				_dataItem.PhysicalAddressRefId = _dataItem.PhysicalAddress.Id;
+                // create new item
+                _dataItem = new ClientDetailsVM
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    IsNewItem = true,
+                    IsActive = true,
+                    PhysicalAddress = new UpdateAddressViewModel() { Id = Guid.NewGuid().ToString(), AddressType = AddressTypeSetting.Physical }
+                };
+                _dataItem.PhysicalAddressRefId = _dataItem.PhysicalAddress.Id;
 			}
 			else
 			{
@@ -459,6 +461,7 @@ namespace MagicMaids.Controllers
 			_objToUpdate.IsActive = true;
             //_objToUpdate.JobDate = dataItem.JobDateUTC.Value;
             _objToUpdate.JobDate = dataItem.JobDate.ToUTC();
+            _objToUpdate.JobEndDate = dataItem.JobEndDate.ToUTC();
             _objToUpdate.JobStatus = BookingStatus.CONFIRMED;
 			_objToUpdate.JobSuburb = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(dataItem.JobSuburb.ToLower());
 			_objToUpdate.JobType = dataItem.JobType;
@@ -551,7 +554,7 @@ namespace MagicMaids.Controllers
 							StringBuilder _sql = new StringBuilder();
 
 							_sql.Append("Insert into JobBooking (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
-							_sql.Append("PrimaryCleanerRefId, ClientRefId, JobType, JobStatus, JobDate, WeekDay, StartTime, EndTime, JobSuburb, TeamSize)");
+							_sql.Append("PrimaryCleanerRefId, ClientRefId, JobType, JobStatus, JobDate, JobEndDate, WeekDay, StartTime, EndTime, JobSuburb, TeamSize)");
 							_sql.Append(" values (");
 							_sql.Append($"'{_objToUpdate.Id}',");
 							_sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
@@ -564,7 +567,8 @@ namespace MagicMaids.Controllers
 							_sql.Append($"'{_objToUpdate.JobType}',");
 							_sql.Append($"'{_objToUpdate.JobStatus}',");
 							_sql.Append($"'{_objToUpdate.JobDate.FormatDatabaseDate()}',");
-							_sql.Append($"'{_objToUpdate.WeekDay}',");
+                            _sql.Append($"'{_objToUpdate.JobEndDate.FormatDatabaseDate()}',");
+                            _sql.Append($"'{_objToUpdate.WeekDay}',");
 							_sql.Append($"{_objToUpdate.StartTime},");
 							_sql.Append($"{_objToUpdate.EndTime},");
 							_sql.Append($"'{_objToUpdate.JobSuburb}',");
@@ -970,12 +974,14 @@ namespace MagicMaids.Controllers
 					{
 						if (bIsNew)
 						{
-							_objToUpdate = new ClientLeave();
-							_objToUpdate.ClientRefId = formValues.ClientId;
-							_objToUpdate.StartDate = formValues.StartDate.ToUTC();
-							_objToUpdate.EndDate = formValues.EndDate.ToUTC();
+                            _objToUpdate = new ClientLeave
+                            {
+                                ClientRefId = formValues.ClientId,
+                                StartDate = formValues.StartDate.ToUTC(),
+                                EndDate = formValues.EndDate.ToUTC()
+                            };
 
-							_objToUpdate = UpdateAuditTracking(_objToUpdate);
+                            _objToUpdate = UpdateAuditTracking(_objToUpdate);
 
 							StringBuilder _sql = new StringBuilder();
 							_sql.Append("Insert into ClientLeave (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");

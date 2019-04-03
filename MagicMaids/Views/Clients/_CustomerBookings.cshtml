@@ -47,7 +47,10 @@
                             <div class="row">
                                 <div class="col-md-4 text-bold">Service Date</div>
                                 <div class="col-md-8">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
-
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 text-bold">End Date</div>
+                                <div class="col-md-8">{{form.selectedCleanerJob.JobEndDateFormatted}}</div>
                             </div>
                             <hr />
                             <div class="row">
@@ -56,7 +59,7 @@
                                     <div>
                                         <div ng-if="!!timePickerData.startTime" readonly-input="true" uib-timepicker="uib-timepicker" min="timePickerData.minSelectionStart" max="timePickerData.maxSelectionStart" ng-model="timePickerData.startTime" show-meridian="false"></div>
                                     </div>
-                                </div>                                
+                                </div>
                                 <div class="col-md-4">
                                     <div>End time</div>
                                     <div>
