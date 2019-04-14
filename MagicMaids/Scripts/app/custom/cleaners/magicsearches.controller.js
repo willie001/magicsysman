@@ -738,6 +738,7 @@
                 startingDay: 1
             };
 
+
             vm.date.initDate = new Date();
             vm.date.formats = ['dd-MM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
             vm.date.format = vm.date.formats[0];

@@ -531,7 +531,9 @@
         vm.selectedCleaner = savedJobBookingFactory.getCleaner();
         vm.selectedCleanerJob = savedJobBookingFactory.getJob();
         vm.searchCriteria = savedJobBookingFactory.getCriteria();
-        vm.listOfExistingBookings = [];        
+        vm.listOfExistingBookings = [];      
+
+        vm.selectedCleanerJob.JobEndDate = new Date(vm.selectedCleanerJob.JobEndDate);
 
         //*** START -- TIME PICKER ***//   
 
@@ -587,6 +589,42 @@
         function activate() {
             if (!ClientId)
                 return;
+
+            
+            //endDate config start
+
+            vm.endDate = [];
+            //vm.endDate.clear = function () {
+            //    vm.endDate = null;
+            //};            
+
+            //vm.endDate.toggleDateRange = function () {
+            //    vm.endDate.minDate = new Date();
+            //    vm.endDate.maxDate = vm.endDate.minDate.setMonth(vm.endDate.minDate.getMonth() + 6);
+            //};
+
+            //vm.endDate.toggleDateRange();            
+
+            vm.endDate.open = function () {                
+                vm.endDate.opened = true;
+            };
+
+            // Disable weekend selection
+            function disabled(data) {
+                var date = data.date,
+                    mode = data.mode;
+                return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
+            };
+
+            vm.endDate.dateOptions = {
+                dateDisabled: disabled,
+                formatYear: 'yy',
+                startingDay: 1
+            };
+                        
+            vm.endDate.format = 'dd-MM-yyyy';
+
+            //endDate config end
 
             HandleBusySpinner.start($scope, panelName);
 
@@ -724,6 +762,9 @@
         vm.selectedCleanerJob.EndTimeForControl = $scope.newEndTime;
 
         function activate() {
+
+            
+
             var config = {
                 params: vm.selectedCleanerJob,
                 headers: { 'Accept': 'application/json' }

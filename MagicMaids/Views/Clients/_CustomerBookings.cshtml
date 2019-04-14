@@ -48,9 +48,23 @@
                                 <div class="col-md-4 text-bold">Service Date</div>
                                 <div class="col-md-8">{{form.selectedCleanerJob.JobDateFormatted}} ({{form.selectedCleanerJob.WeekDay}})</div>
                             </div>
-                            <div class="row">
+                            <div class="row" ng-if="form.searchCriteria.WeeklyJob || form.searchCriteria.FortnightlyJob">
                                 <div class="col-md-4 text-bold">End Date</div>
-                                <div class="col-md-8">{{form.selectedCleanerJob.JobEndDateFormatted}}</div>
+                                <div class="col-md-5">
+                                    <p class="input-group">
+                                        <input class="form-control" type="text"
+                                               uib-datepicker-popup="{{form.endDate.format}}"
+                                               ng-model="form.selectedCleanerJob.JobEndDate"
+                                               is-open="form.endDate.opened"
+                                               datepicker-options="form.endDate.dateOptions"                                               
+                                               close-text="Close" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" ng-click="form.endDate.open($event)">
+                                                <em class="fa fa-calendar"></em>
+                                            </button>
+                                        </span>
+                                    </p>                                  
+                                </div>
                             </div>
                             <hr />
                             <div class="row">
