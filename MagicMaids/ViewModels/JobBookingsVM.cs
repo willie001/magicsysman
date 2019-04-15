@@ -99,18 +99,11 @@ namespace MagicMaids.ViewModels
             get;
             set;
         }
-
-        private DateTime _jobEndDate;
+                
         public DateTime JobEndDate
         {
-            get
-            {
-                return JobDate.AddDays(14);
-            }
-            set
-            {
-                _jobEndDate = value;
-            }
+            get;
+            set;           
         }
 
 		public String JobDateFormatted

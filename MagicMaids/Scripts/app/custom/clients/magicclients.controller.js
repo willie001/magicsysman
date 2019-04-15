@@ -86,7 +86,7 @@
             vm.selectedCleaner = savedJobBookingFactory.getCleaner();
             vm.selectedCleanerJob = savedJobBookingFactory.getJob();
             //console.log("<Cleaner PICKED -  cleaner> - " + angular.toJson(vm.selectedCleaner));
-            console.log(vm.selectedCleanerJob);
+            //console.log(vm.selectedCleanerJob);
         }
 
         $scope.cancelJobBooking = function () {
@@ -215,7 +215,7 @@
                     }
 
                 }).error(function (error) {
-                    console.log("<CLIENT ERROR> - " + angular.toJson(error));
+                    //console.log("<CLIENT ERROR> - " + angular.toJson(error));
                     HandleBusySpinner.stop($scope, panelName);
                     $scope.submitted = false;
                     ShowUserMessages.show($scope, error, "Error updating details.");
@@ -520,20 +520,22 @@
         var panelName = "panelClientDetails";
         var panelBookingInfo = "panelBookingInfo";
         vm.JobBookings = {};
-               
+
         if ($rootScope.childMessage) {
             ShowUserMessages.show($scope, $rootScope.childMessage, "Error updating details.");
             $rootScope.childMessage = null;
         }
 
-        activate();
-
         vm.selectedCleaner = savedJobBookingFactory.getCleaner();
         vm.selectedCleanerJob = savedJobBookingFactory.getJob();
         vm.searchCriteria = savedJobBookingFactory.getCriteria();
-        vm.listOfExistingBookings = [];      
+        vm.listOfExistingBookings = [];
 
-        vm.selectedCleanerJob.JobEndDate = new Date(vm.selectedCleanerJob.JobEndDate);
+        if (vm.selectedCleanerJob) {
+            vm.selectedCleanerJob.JobEndDate = new Date();
+        }
+
+        activate(vm.searchCriteria);
 
         //*** START -- TIME PICKER ***//   
 
@@ -548,7 +550,9 @@
         }
 
         function addMinutes(date, minutes) {
-            return new Date(date.getTime() + minutes * 60000);
+            if (date) {
+                return new Date(date.getTime() + minutes * 60000);
+            }
         }
 
         if (vm.selectedCleanerJob && vm.searchCriteria && vm.selectedCleaner) {
@@ -558,22 +562,20 @@
             $scope.timePickerData.maxSelectionStart = new Date(vm.selectedCleanerJob.EndTimeForControl).setMinutes(-$scope.timePickerData.actualJobDurationMin).toString();
             $scope.timePickerData.minSelectionEnd = new Date(vm.selectedCleanerJob.StartTimeForControl).setMinutes($scope.timePickerData.actualJobDurationMin).toString;
             $scope.timePickerData.maxSelectionEnd = new Date(vm.selectedCleanerJob.EndTimeForControl);
-            $scope.timePickerData.startTime = new Date(vm.selectedCleanerJob.StartTimeForControl);            
-            $scope.timePickerData.endTime = addMinutes($scope.timePickerData.startTime, $scope.timePickerData.actualJobDurationMin);            
+            $scope.timePickerData.startTime = new Date(vm.selectedCleanerJob.StartTimeForControl);
+            $scope.timePickerData.endTime = addMinutes($scope.timePickerData.startTime, $scope.timePickerData.actualJobDurationMin);
 
         }
 
-        //else {
-        //    //Some data is missing, show message
-        //    ShowUserMessages.show($scope, $rootScope.childMessage, "Could not load all job booking data. Please refresh the Booking.");
-        //}
-
         $scope.$watch('timePickerData.startTime', function (newVal, oldVal) {
             $scope.timePickerData.endTime = addMinutes(newVal, $scope.timePickerData.actualJobDurationMin);
-            vm.selectedCleanerJob.StartTimeForControl = $scope.timePickerData.startTime;
-            vm.selectedCleanerJob.EndTimeForControl = $scope.timePickerData.endTime;             
+            if (vm.selectedCleanerJob) {
+                vm.selectedCleanerJob.StartTimeForControl = $scope.timePickerData.startTime;
+                vm.selectedCleanerJob.EndTimeForControl = $scope.timePickerData.endTime;
+            }
+
         });
-                                  
+
         //console.log(vm.selectedCleaner);
         //console.log(vm.selectedCleanerJob);
         //console.log(vm.searchCriteria);
@@ -586,51 +588,43 @@
 
         removeDisabledInTimepicker();
 
-        function activate() {
+        function activate(searchCriteria) {
             if (!ClientId)
                 return;
 
-            
-            //endDate config start
+            // START ---- endDate config ---- 
 
             vm.endDate = [];
-            //vm.endDate.clear = function () {
-            //    vm.endDate = null;
-            //};            
 
-            //vm.endDate.toggleDateRange = function () {
-            //    vm.endDate.minDate = new Date();
-            //    vm.endDate.maxDate = vm.endDate.minDate.setMonth(vm.endDate.minDate.getMonth() + 6);
-            //};
-
-            //vm.endDate.toggleDateRange();            
-
-            vm.endDate.open = function () {                
+            vm.endDate.open = function () {
                 vm.endDate.opened = true;
             };
 
-            // Disable weekend selection
             function disabled(data) {
                 var date = data.date,
                     mode = data.mode;
-                return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
+                return (mode === 'day' && date.getDay() != searchCriteria.ServiceDayValue);
             };
 
             vm.endDate.dateOptions = {
                 dateDisabled: disabled,
                 formatYear: 'yy',
-                startingDay: 1
+                startingDay: 1,
+                minDate: new Date()
             };
-                        
+
             vm.endDate.format = 'dd-MM-yyyy';
 
-            //endDate config end
+            // END ---- endDate config ----
 
             HandleBusySpinner.start($scope, panelName);
 
             $scope.confirmBooking = function () {
                 $scope.newStartTime = vm.selectedCleanerJob.StartTimeForControl;
                 $scope.newEndTime = vm.selectedCleanerJob.EndTimeForControl;
+                $scope.newEndDate = vm.selectedCleanerJob.JobEndDate;
+                //console.log(vm.selectedCleanerJob.JobEndDate);
+
                 ngDialog.open({
                     templateUrl: 'static/BookingConfirmation.html',
                     controller: 'BookingConfirmationController',
@@ -641,7 +635,7 @@
                 });
             };
 
-            loadJobBookings();            
+            loadJobBookings();
         }
 
         function loadJobBookings() {
@@ -659,11 +653,11 @@
                 }).finally(function () {
 
                     //console.log("<LEAVE loaded PRE> - " + angular.toJson(vm.listOfLeave));
-                    angular.forEach(vm.listOfExistingBookings, function (value, key) {
-                        value.StartDate = new Date(value.StartDate);
-                        value.EndDate = new Date(value.EndDate);
+                    //angular.forEach(vm.listOfExistingBookings, function (value, key) {
+                    //    value.StartDate = new Date(value.StartDate);
+                    //    value.EndDate = new Date(value.EndDate);
 
-                    });
+                    //});
                     //console.log("<Cleaner JobList> - " + angular.toJson(vm.listOfExistingBookings));
                     HandleBusySpinner.stop($scope, panelName);
 
@@ -748,22 +742,22 @@
         vm.selectedCleanerJob = savedJobBookingFactory.getJob();
         vm.selectedCleaner = savedJobBookingFactory.getCleaner();
         vm.selectedCleanerJob.ClientId = ClientId;
-        //console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
-        //console.log("<CLEANER Data> - " + angular.toJson(vm.selectedCleaner));
+        vm.selectedCleanerJob.JobEndDate =
+            //console.log("<JOB Data> - " + angular.toJson(vm.selectedCleanerJob));
+            //console.log("<CLEANER Data> - " + angular.toJson(vm.selectedCleaner));
 
-        $scope.cancelJobBooking = function () {
-            savedJobBookingFactory.set(null, null);
-            location.reload();
-        };
+            $scope.cancelJobBooking = function () {
+                savedJobBookingFactory.set(null, null);
+                location.reload();
+            };
 
         activate();
 
         vm.selectedCleanerJob.StartTimeForControl = $scope.newStartTime;
         vm.selectedCleanerJob.EndTimeForControl = $scope.newEndTime;
+        vm.selectedCleanerJob.JobEndDate = $scope.newEndDate;
 
         function activate() {
-
-            
 
             var config = {
                 params: vm.selectedCleanerJob,
@@ -778,6 +772,9 @@
                 }).error(function (err) {
                 }).finally(function () {
                 });
+
+            console.log(vm.selectedCleanerJob);
+
 
             $http.get('/clients/getclient/?ClientId=' + ClientId)
                 .success(function (data) {
@@ -801,7 +798,7 @@
 
         $scope.saveBooking = function () {
             $scope.submitted = true;
-
+            //console.log(vm.selectedCleanerJob);
             $http.post('/clients/saveclientbooking/', vm.selectedCleanerJob).success(function (response) {
                 $scope.submitted = false;
                 if (response.IsValid) {
