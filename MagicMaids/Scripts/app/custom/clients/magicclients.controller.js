@@ -532,7 +532,7 @@
         vm.listOfExistingBookings = [];
 
         if (vm.selectedCleanerJob) {
-            vm.selectedCleanerJob.JobEndDate = new Date();
+            vm.selectedCleanerJob.JobEndDate = new Date(vm.selectedCleanerJob.JobDateUTC);
         }
 
         activate(vm.searchCriteria);
@@ -613,7 +613,7 @@
                 minDate: new Date()
             };
 
-            vm.endDate.format = 'dd-MM-yyyy';
+            vm.endDate.format = 'dd MMM yyyy';
 
             // END ---- endDate config ----
 
@@ -773,7 +773,7 @@
                 }).finally(function () {
                 });
 
-            console.log(vm.selectedCleanerJob);
+            //console.log(vm.selectedCleanerJob);
 
 
             $http.get('/clients/getclient/?ClientId=' + ClientId)

@@ -557,9 +557,9 @@ namespace MagicMaids.Controllers
 			var newStart = dataItem.StartTimeForControl.ToMinutes();
 			var newEnd = dataItem.EndTimeForControl.ToMinutes();
             var jobType = dataItem.JobType;
-            DateTime startDate = dataItem.JobDate;
+            DateTime startDate = Convert.ToDateTime(dataItem.JobDateUTC);
             DateTime endDate = dataItem.JobEndDate;
-            int jobDays = (endDate.ToUTC().Date - startDate.Date).Days;
+            int jobDays = (endDate.Date - startDate.Date).Days;
 
             if (originalStart > newStart || originalEnd < newEnd)
 			{
@@ -618,15 +618,16 @@ namespace MagicMaids.Controllers
                             if (jobType == JobTypeEnum.Weekly)
                             {
                                 int noOfWeeks = jobDays / 7;
+                                DateTime jobDate = Convert.ToDateTime(dataItem.JobDateUTC);
 
                                 for (int i = 0; i <= noOfWeeks; i++)
                                 {
                                     if (i > 0)
-                                    {
-                                        dataItem.JobDate.AddDays(7);
+                                    {                                        
+                                        jobDate = jobDate.AddDays(7);                                        
                                     }
 
-                                    InsertJobDetails(dataItem, db, _objToUpdate.Id);
+                                    InsertJobDetails(dataItem, db, _objToUpdate.Id, jobDate);
                                    
                                 }
                             }
@@ -634,15 +635,16 @@ namespace MagicMaids.Controllers
                             if (jobType == JobTypeEnum.Fortnighly)
                             {
                                 int noOfWeeks = jobDays / 14;
+                                DateTime jobDate = Convert.ToDateTime(dataItem.JobDateUTC); 
 
                                 for (int i = 0; i <= noOfWeeks; i++)
                                 {
                                     if (i > 0)
                                     {
-                                        dataItem.JobDate.AddDays(14);
+                                        jobDate = jobDate.AddDays(14);
                                     }
 
-                                    InsertJobDetails(dataItem, db, _objToUpdate.Id);
+                                    InsertJobDetails(dataItem, db, _objToUpdate.Id, jobDate);
                                 }
                             }
 
@@ -672,7 +674,7 @@ namespace MagicMaids.Controllers
 			return JsonFormResponse();
 		}
 
-       private void InsertJobDetails(JobBookingsVM dataItem, DBManager db, string id)
+       private void InsertJobDetails(JobBookingsVM dataItem, DBManager db, string id, DateTime jobDate)
         {
             JobBookingDetail _objToUpdateDetail = null;
             _objToUpdateDetail = UpdateBookingDetail(null, dataItem, id);
@@ -688,7 +690,7 @@ namespace MagicMaids.Controllers
             _sql.Append($"{_objToUpdateDetail.IsActive},");
             _sql.Append($"'{_objToUpdateDetail.RowVersion.FormatDatabaseDateTime()}',");
             _sql.Append($"'{_objToUpdateDetail.JobBookingRefId}',");            
-            _sql.Append($"'{_objToUpdateDetail.JobDate.FormatDatabaseDate()}',");           
+            _sql.Append($"'{jobDate.FormatDatabaseDate()}',");           
             _sql.Append($"{_objToUpdateDetail.StartTime},");
             _sql.Append($"{_objToUpdateDetail.EndTime}");           
             _sql.Append(")");
