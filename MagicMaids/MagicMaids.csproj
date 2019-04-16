@@ -345,6 +345,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\PartialsController.cs" />
+    <Compile Include="DataLayer\EntityModels\JobBookingDetail.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

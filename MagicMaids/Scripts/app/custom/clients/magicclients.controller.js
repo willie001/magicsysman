@@ -19,7 +19,7 @@
     ClientPaymentController.$inject = ['$scope', '$filter', '$http', '$q', '$location', '$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages'];
     ClientLeaveController.$inject = ['$scope', '$filter', '$http', 'HandleBusySpinner', 'ShowUserMessages', 'editableOptions', 'editableThemes'];
     ClientBookingController.$inject = ['$document', '$scope', '$filter', '$http', '$q', '$location', '$rootScope', '$state', 'HandleBusySpinner', 'ShowUserMessages', 'savedJobBookingFactory', '$timeout', 'ngDialog'];
-    BookingConfirmationController.$inject = ['$scope', '$http', 'savedJobBookingFactory'];
+    BookingConfirmationController.$inject = ['$scope', '$http', 'savedJobBookingFactory', 'ShowUserMessages'];
 
     function MasterClientController($scope, savedJobBookingFactory) {
         var vm = this;
@@ -736,7 +736,7 @@
         }
     }
 
-    function BookingConfirmationController($scope, $http, savedJobBookingFactory) {
+    function BookingConfirmationController($scope, $http, savedJobBookingFactory, ShowUserMessages) {
         var vm = this;
         var ClientId = $scope.ClientId;
         vm.selectedCleanerJob = savedJobBookingFactory.getJob();
@@ -807,9 +807,12 @@
                     savedJobBookingFactory.set(null, null);
                     $scope.closeThisDialog(0);
                     location.reload();
+                } else {                    
+                    $scope.closeThisDialog(0);
+                    ShowUserMessages.show($scope, response.Errors[0].Message, "Error saving job booking.");
                 }
 
-            }).error(function (error) {
+            }).error(function (error) {                
                 $scope.submitted = false;
 
             }).finally(function () {

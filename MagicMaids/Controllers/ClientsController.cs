@@ -458,8 +458,7 @@ namespace MagicMaids.Controllers
 			_objToUpdate.PrimaryCleanerRefId = dataItem.CleanerId;
 			_objToUpdate.StartTime = dataItem.StartTimeForControl.ToMinutes();
 			_objToUpdate.EndTime = dataItem.EndTimeForControl.ToMinutes();
-			_objToUpdate.IsActive = true;
-            //_objToUpdate.JobDate = dataItem.JobDateUTC.Value;
+			_objToUpdate.IsActive = true;            
             _objToUpdate.JobDate = dataItem.JobDate.ToUTC();
             _objToUpdate.JobEndDate = dataItem.JobEndDate.ToUTC();
             _objToUpdate.JobStatus = BookingStatus.CONFIRMED;
@@ -473,7 +472,31 @@ namespace MagicMaids.Controllers
 			return _objToUpdate;
 		}
 
-		public ActionResult GetJobBookings(Guid? ClientId)
+        private JobBookingDetail UpdateBookingDetail(JobBookingDetail _objToUpdate, JobBookingsVM dataItem, string id)
+        {
+
+            if (dataItem == null)
+            {
+                return _objToUpdate;
+            }
+
+            if (_objToUpdate == null)
+            {
+                _objToUpdate = new JobBookingDetail();
+            }
+
+            _objToUpdate.JobBookingRefId = id;
+            _objToUpdate.StartTime = dataItem.StartTimeForControl.ToMinutes();
+            _objToUpdate.EndTime = dataItem.EndTimeForControl.ToMinutes();
+            _objToUpdate.IsActive = true;
+            _objToUpdate.JobDate = dataItem.JobDate.ToUTC();
+            
+            _objToUpdate = UpdateAuditTracking(_objToUpdate);
+
+            return _objToUpdate;
+        }
+
+        public ActionResult GetJobBookings(Guid? ClientId)
 		{
 			if (ClientId == null)
 			{
@@ -533,11 +556,23 @@ namespace MagicMaids.Controllers
 			var originalEnd = dataItem.EndTime;
 			var newStart = dataItem.StartTimeForControl.ToMinutes();
 			var newEnd = dataItem.EndTimeForControl.ToMinutes();
+            var jobType = dataItem.JobType;
+            DateTime startDate = dataItem.JobDate;
+            DateTime endDate = dataItem.JobEndDate;
+            int jobDays = (endDate.ToUTC().Date - startDate.Date).Days;
 
-			if (originalStart > newStart || originalEnd < newEnd)
+            if (originalStart > newStart || originalEnd < newEnd)
 			{
 				ModelState.AddModelError(string.Empty, "Booking times do not fall within selected available gap for cleaner.");
 			}
+
+            if (jobType == JobTypeEnum.Fortnighly)
+            {                
+                if (jobDays % 14 != 0)
+                {
+                    ModelState.AddModelError(string.Empty, "The Job End Date is not in 2 week increments. Please select an End Date a week before or after the current End Date.");
+                }
+            }
 
 			if (ModelState.IsValid)
 			{
@@ -546,41 +581,73 @@ namespace MagicMaids.Controllers
 				try
 				{
 					JobBooking _objToUpdate = null;
-					using (DBManager db = new DBManager())
-					{
-						if (bIsNew)
-						{
-							_objToUpdate = UpdateBooking(null, dataItem);
-							StringBuilder _sql = new StringBuilder();
+                    using (DBManager db = new DBManager())
+                    {
+                        if (bIsNew)
+                        {
+                            _objToUpdate = UpdateBooking(null, dataItem);
+                            StringBuilder _sql = new StringBuilder();
 
-							_sql.Append("Insert into JobBooking (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
-							_sql.Append("PrimaryCleanerRefId, ClientRefId, JobType, JobStatus, JobDate, JobEndDate, WeekDay, StartTime, EndTime, JobSuburb, TeamSize)");
-							_sql.Append(" values (");
-							_sql.Append($"'{_objToUpdate.Id}',");
-							_sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_objToUpdate.UpdatedBy}',");
-							_sql.Append($"{_objToUpdate.IsActive},");
-							_sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
-							_sql.Append($"'{_objToUpdate.PrimaryCleanerRefId}',");
-							_sql.Append($"'{_objToUpdate.ClientRefId}',");
-							_sql.Append($"'{_objToUpdate.JobType}',");
-							_sql.Append($"'{_objToUpdate.JobStatus}',");
-							_sql.Append($"'{_objToUpdate.JobDate.FormatDatabaseDate()}',");
+                            _sql.Append("Insert into JobBooking (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+                            _sql.Append("PrimaryCleanerRefId, ClientRefId, JobType, JobStatus, JobDate, JobEndDate, WeekDay, StartTime, EndTime, JobSuburb, TeamSize)");
+                            _sql.Append(" values (");
+                            _sql.Append($"'{_objToUpdate.Id}',");
+                            _sql.Append($"'{_objToUpdate.CreatedAt.FormatDatabaseDateTime()}',");
+                            _sql.Append($"'{_objToUpdate.UpdatedAt.FormatDatabaseDateTime()}',");
+                            _sql.Append($"'{_objToUpdate.UpdatedBy}',");
+                            _sql.Append($"{_objToUpdate.IsActive},");
+                            _sql.Append($"'{_objToUpdate.RowVersion.FormatDatabaseDateTime()}',");
+                            _sql.Append($"'{_objToUpdate.PrimaryCleanerRefId}',");
+                            _sql.Append($"'{_objToUpdate.ClientRefId}',");
+                            _sql.Append($"'{_objToUpdate.JobType}',");
+                            _sql.Append($"'{_objToUpdate.JobStatus}',");
+                            _sql.Append($"'{_objToUpdate.JobDate.FormatDatabaseDate()}',");
                             _sql.Append($"'{_objToUpdate.JobEndDate.FormatDatabaseDate()}',");
                             _sql.Append($"'{_objToUpdate.WeekDay}',");
-							_sql.Append($"{_objToUpdate.StartTime},");
-							_sql.Append($"{_objToUpdate.EndTime},");
-							_sql.Append($"'{_objToUpdate.JobSuburb}',");
-							_sql.Append($"{_objToUpdate.TeamSize}");
-							_sql.Append(")");
+                            _sql.Append($"{_objToUpdate.StartTime},");
+                            _sql.Append($"{_objToUpdate.EndTime},");
+                            _sql.Append($"'{_objToUpdate.JobSuburb}',");
+                            _sql.Append($"{_objToUpdate.TeamSize}");
+                            _sql.Append(")");
 
-							db.getConnection().Execute(_sql.ToString());
-						}
-						else
-						{
+                            db.getConnection().Execute(_sql.ToString());             
 
-						}
+                   
+
+                            // Job details for weekly and fortnightly jobs
+                            if (jobType == JobTypeEnum.Weekly)
+                            {
+                                int noOfWeeks = jobDays / 7;
+
+                                for (int i = 0; i <= noOfWeeks; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        dataItem.JobDate.AddDays(7);
+                                    }
+
+                                    InsertJobDetails(dataItem, db, _objToUpdate.Id);
+                                   
+                                }
+                            }
+
+                            if (jobType == JobTypeEnum.Fortnighly)
+                            {
+                                int noOfWeeks = jobDays / 14;
+
+                                for (int i = 0; i <= noOfWeeks; i++)
+                                {
+                                    if (i > 0)
+                                    {
+                                        dataItem.JobDate.AddDays(14);
+                                    }
+
+                                    InsertJobDetails(dataItem, db, _objToUpdate.Id);
+                                }
+                            }
+
+                        }
+						
 					}
 
 					Extensions.ClearJobMatchCookies();
@@ -604,6 +671,30 @@ namespace MagicMaids.Controllers
 
 			return JsonFormResponse();
 		}
+
+       private void InsertJobDetails(JobBookingsVM dataItem, DBManager db, string id)
+        {
+            JobBookingDetail _objToUpdateDetail = null;
+            _objToUpdateDetail = UpdateBookingDetail(null, dataItem, id);
+            StringBuilder _sql = new StringBuilder();
+
+            _sql.Append("Insert into JobBookingDetail (Id, CreatedAt, UpdatedAt, UpdatedBy, IsActive, RowVersion, ");
+            _sql.Append("JobBookingRefId, JobDate, StartTime, EndTime)");
+            _sql.Append(" values (");
+            _sql.Append($"'{_objToUpdateDetail.Id}',");
+            _sql.Append($"'{_objToUpdateDetail.CreatedAt.FormatDatabaseDateTime()}',");
+            _sql.Append($"'{_objToUpdateDetail.UpdatedAt.FormatDatabaseDateTime()}',");
+            _sql.Append($"'{_objToUpdateDetail.UpdatedBy}',");
+            _sql.Append($"{_objToUpdateDetail.IsActive},");
+            _sql.Append($"'{_objToUpdateDetail.RowVersion.FormatDatabaseDateTime()}',");
+            _sql.Append($"'{_objToUpdateDetail.JobBookingRefId}',");            
+            _sql.Append($"'{_objToUpdateDetail.JobDate.FormatDatabaseDate()}',");           
+            _sql.Append($"{_objToUpdateDetail.StartTime},");
+            _sql.Append($"{_objToUpdateDetail.EndTime}");           
+            _sql.Append(")");
+
+            db.getConnection().Execute(_sql.ToString());
+        }
 
 		[HttpPost]
 		public ActionResult DeleteJobBooking(Guid? id)
