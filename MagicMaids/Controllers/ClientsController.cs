@@ -509,7 +509,7 @@ namespace MagicMaids.Controllers
 			using (DBManager db = new DBManager())
 			{
 				StringBuilder _sql = new StringBuilder();
-				_sql.Append("Select J.*, ClientRefId as ClientId, PrimaryCleanerRefId as CleanerId, JobDate as JobDateUTC, ");
+				_sql.Append("Select J.*, ClientRefId as ClientId, PrimaryCleanerRefId as CleanerId, J.JobDate as JobDateUTC, ");
 				_sql.Append("(");
 				_sql.Append("select group_concat(CleanerName) as TeamList from ( ");
 				_sql.Append("select concat(FirstName, ' ', LastName) as CleanerName, CR.PrimaryCleanerRefId, WeekDay ");
@@ -527,12 +527,36 @@ namespace MagicMaids.Controllers
 				_sql.Append("group by FirstName, LastName, CR.PrimaryCleanerRefId, WeekDay ");
 				_sql.Append(") as TeamList where TeamList.PrimaryCleanerRefId = J.PrimaryCleanerRefId ");
 				_sql.Append("and upper(TeamList.WeekDay) = upper(J.WeekDay) ");
-				_sql.Append(") as CleanerTeam ");
-				_sql.Append("from JobBooking J ");
-				_sql.Append($"where J.ClientRefId = '{ClientId}' ");
-				_sql.Append("order by JobDate desc, StartTime");
+				_sql.Append(") as CleanerTeam, ");
+                _sql.Append("JD.* ");
+                _sql.Append("from JobBooking J left join ");
+                _sql.Append("JobBookingDetail JD on J.Id = JD.JobBookingRefId ");
+                _sql.Append($"where J.ClientRefId = '{ClientId}' ");
+				_sql.Append("order by J.JobDate desc, J.StartTime");
 
-				_editList = db.getConnection().Query<JobBookingsVM>(_sql.ToString()).ToList();
+                var jobBookingDictionary = new Dictionary<string, JobBookingsVM>();
+
+                _editList = db.getConnection().Query<JobBookingsVM, JobBookingDetail, JobBookingsVM>(_sql.ToString(),
+                    (jobBooking, jobBookingDetail) => {
+
+                        JobBookingsVM jobBookingEntry;
+
+                        if (!jobBookingDictionary.TryGetValue(jobBooking.Id, out jobBookingEntry))
+                        {
+                            jobBookingEntry = jobBooking;
+                            jobBookingEntry.JobBookingDetails = new List<JobBookingDetail>();
+                            jobBookingDictionary.Add(jobBookingEntry.Id, jobBookingEntry);
+                        }
+
+                        jobBookingEntry.JobBookingDetails.Add(jobBookingDetail);
+
+
+                        return jobBookingEntry;
+
+                    },
+                    splitOn: "Id")
+                    .Distinct()
+                    .ToList();
 			}
 
 			return new JsonNetResult() { Data = new { list = _editList, nextGuid = Guid.NewGuid() }, JsonRequestBehavior = JsonRequestBehavior.AllowGet };

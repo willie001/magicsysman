@@ -253,12 +253,7 @@ namespace MagicMaids
         /// <returns>The cleaner future bookings.</returns>
         private IEnumerable<JobBookingsVM> GetCleanerFutureBookings(Boolean NextWeek = false)
         {
-            DateTime bookingDate;
-
-            //if (NextWeek)
-            //{ bookingDate = DateTime.Now.AddDays(7); }
-            //else
-            //{ bookingDate = DateTime.Now; }
+            DateTime bookingDate;   
 
             if (NextWeek)
             { bookingDate = ServiceDateUTC.ToUser().AddDays(7).Date; }
@@ -266,18 +261,41 @@ namespace MagicMaids
             { bookingDate = ServiceDateUTC.ToUser().Date; }
 
             List<JobBooking> _entityList = new List<JobBooking>();
-            StringBuilder _sql = new StringBuilder($"Select * from JobBooking where PrimaryCleanerRefId = '{Cleaner.Id}'");
-            _sql.Append($" and JobStatus in ('{BookingStatus.CONFIRMED}', '{BookingStatus.PENDING}')");
+            StringBuilder _sql = new StringBuilder($"Select * from JobBooking jb left join JobBookingDetail jbd on jb.Id = jbd.JobBookingRefId where jb.PrimaryCleanerRefId = '{Cleaner.Id}'");
+            _sql.Append($" and jb.JobStatus in ('{BookingStatus.CONFIRMED}', '{BookingStatus.PENDING}')");
             if (!String.IsNullOrWhiteSpace(ServiceDay.ToString()))
             {
-                _sql.Append($" and WeekDay = '{ServiceDay.ToString()}'");
+                _sql.Append($" and jb.WeekDay = '{ServiceDay.ToString()}'");
             }
-            _sql.Append($" and (JobDate = '{bookingDate.FormatDatabaseDate()}' or JobType in ('Fortnighly', 'Weekly'))");
-            _sql.Append(" order by StartTime, EndTime, JobDate, WeekDay");
+            _sql.Append($" and (jb.JobDate = '{bookingDate.FormatDatabaseDate()}' or jb.JobType in ('Fortnighly', 'Weekly'))");
+            _sql.Append($" and jb.JobEndDate >= '{bookingDate.FormatDatabaseDate()}'");
+            _sql.Append(" order by jb.StartTime, jb.EndTime, jb.JobDate, jb.WeekDay");
 
             using (DBManager db = new DBManager())
             {
-                _entityList = db.getConnection().Query<JobBooking>(_sql.ToString()).ToList();
+                var jobBookingDictionary = new Dictionary<string, JobBooking>();
+
+                _entityList = db.getConnection().Query<JobBooking, JobBookingDetail, JobBooking>(_sql.ToString(), 
+                    (jobBooking, jobBookingDetail) => {
+
+                        JobBooking jobBookingEntry;
+
+                        if (!jobBookingDictionary.TryGetValue(jobBooking.Id, out jobBookingEntry))
+                        {
+                            jobBookingEntry = jobBooking;
+                            jobBookingEntry.JobBookingDetails = new List<JobBookingDetail>();
+                            jobBookingDictionary.Add(jobBookingEntry.Id, jobBookingEntry);
+                        }
+
+                        jobBookingEntry.JobBookingDetails.Add(jobBookingDetail);
+
+
+                        return jobBookingEntry;
+
+                    },
+                    splitOn: "Id")
+                    .Distinct()
+                    .ToList();
             }
 
             foreach (JobBooking _item in _entityList)

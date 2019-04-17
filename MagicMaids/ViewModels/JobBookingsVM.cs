@@ -1,5 +1,6 @@
 ﻿#region Using
 using System;
+using System.Collections.Generic;
 using MagicMaids.EntityModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -388,6 +389,12 @@ namespace MagicMaids.ViewModels
             }
         }
 
+        public List<JobBookingDetail> JobBookingDetails
+        {
+            get;
+            set;
+        }
+
         #endregion
 
         #region Methods, Public
@@ -412,6 +419,7 @@ namespace MagicMaids.ViewModels
 			JobSuburb = entityModel.JobSuburb;
 			TeamSize = entityModel.TeamSize;
             JobEndDateUTC = entityModel.JobEndDate;
+            JobBookingDetails = entityModel.JobBookingDetails;
 		}
 		#endregion
 	}
