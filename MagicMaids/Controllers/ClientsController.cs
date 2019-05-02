@@ -498,6 +498,7 @@ namespace MagicMaids.Controllers
 
         public ActionResult GetJobBookings(Guid? ClientId)
 		{
+
 			if (ClientId == null)
 			{
 				ModelState.AddModelError(string.Empty, $"Client Id [{ClientId.ToString()}] not provided.  Please try again.");
